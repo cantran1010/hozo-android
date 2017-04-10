@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Hozo</string>
+    <string name="action_settings">Settings</string>
+    <string name="OK">Ok</string>
+    <string name="Cancel">Cancel</string>
+    <string name="retry">Retry</string>
+    <string name="network_error_msg">Error !</string>
+</resources>
