@@ -28,7 +28,7 @@ public class DialogUtils {
         builder.setCancelable(false);
 
         if (listener != null) {
-            builder.setPositiveButton(context.getString(R.string.OK),
+            builder.setPositiveButton(context.getString(R.string.all_ok),
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog,
@@ -50,7 +50,7 @@ public class DialogUtils {
         builder.setCancelable(false);
 
         if (listener != null) {
-            builder.setPositiveButton(context.getString(R.string.OK),
+            builder.setPositiveButton(context.getString(R.string.all_ok),
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog,
@@ -60,7 +60,7 @@ public class DialogUtils {
                         }
                     });
 
-            builder.setNegativeButton(context.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(context.getString(R.string.all_cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     listener.onCancelClick();
@@ -107,7 +107,7 @@ public class DialogUtils {
         builder.setMessage(msg);
         builder.setCancelable(false);
 
-        builder.setPositiveButton(context.getString(R.string.retry),
+        builder.setPositiveButton(context.getString(R.string.all_retry),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog,
@@ -116,7 +116,7 @@ public class DialogUtils {
                     }
                 });
 
-        builder.setNegativeButton(context.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(context.getString(R.string.all_cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 listener.onCancelClick();

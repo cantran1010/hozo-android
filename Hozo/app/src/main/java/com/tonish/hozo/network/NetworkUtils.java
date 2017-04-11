@@ -60,7 +60,7 @@ public class NetworkUtils {
 
                 if (isShowDialogError)
 
-                    DialogUtils.showRetryDialog(context, context.getString(R.string.network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
+                    DialogUtils.showRetryDialog(context, context.getString(R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
                         @Override
                         public void onOkClick() {
                             postVolley(isShowProgessDialog, isDismissProgessDialog, isShowDialogError, context, url, jsonRequest, networkListener);
@@ -137,7 +137,7 @@ public class NetworkUtils {
 //                        }
 //                    });
 
-                    DialogUtils.showRetryDialog(context, context.getString(R.string.network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
+                    DialogUtils.showRetryDialog(context, context.getString(R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
                         @Override
                         public void onOkClick() {
                             getRequestVolley(isShowProgressDialog, isDismissProgessDialog, isShowDialogError, context, url, jsonRequest, networkListener);
@@ -211,7 +211,7 @@ public class NetworkUtils {
 //                        }
 //                    });
 
-                    DialogUtils.showRetryDialog(context, context.getString(R.string.network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
+                    DialogUtils.showRetryDialog(context, context.getString(R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
                         @Override
                         public void onOkClick() {
                             deleteVolley(isShowProgessDialog, isDismissProgessDialog, isShowDialogError, context, url, jsonRequest, networkListener);
