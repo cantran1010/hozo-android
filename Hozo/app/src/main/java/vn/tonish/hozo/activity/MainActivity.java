@@ -3,11 +3,12 @@ package vn.tonish.hozo.activity;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import vn.tonish.hozo.fragment.SelectTaskFragment;
-import vn.tonish.hozo.fragment.MyTaskFragment;
-import vn.tonish.hozo.fragment.InboxFragment;
+import vn.tonish.hozo.R;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
 import vn.tonish.hozo.fragment.HelpFragment;
+import vn.tonish.hozo.fragment.InboxFragment;
+import vn.tonish.hozo.fragment.MyTaskFragment;
+import vn.tonish.hozo.fragment.SelectTaskFragment;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -48,23 +49,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case vn.tonish.hozo.R.id.home_layout:
-                openFragment(vn.tonish.hozo.R.id.layout_container, SelectTaskFragment.class, true);
+                openFragment(R.id.layout_container, SelectTaskFragment.class, true);
                 break;
 
             case vn.tonish.hozo.R.id.search_layout:
-                openFragment(vn.tonish.hozo.R.id.layout_container, BrowseTaskFragment.class, true);
+                openFragment(R.id.layout_container, BrowseTaskFragment.class, true);
                 break;
 
             case vn.tonish.hozo.R.id.my_layout:
-                openFragment(vn.tonish.hozo.R.id.layout_container, MyTaskFragment.class, true);
+                openFragment(R.id.layout_container, MyTaskFragment.class, true);
                 break;
 
             case vn.tonish.hozo.R.id.notifi_layout:
-                openFragment(vn.tonish.hozo.R.id.layout_container, InboxFragment.class, true);
+                openFragment(R.id.layout_container, InboxFragment.class, true);
                 break;
 
             case vn.tonish.hozo.R.id.setting_layout:
-                openFragment(vn.tonish.hozo.R.id.layout_container, HelpFragment.class, true);
+                openFragment(R.id.layout_container, HelpFragment.class, true);
                 break;
         }
     }
