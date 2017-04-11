@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "194889030293",
+    "firebase_url": "https://hozo-7db24.firebaseio.com",
+    "project_id": "hozo-7db24",
+    "storage_bucket": "hozo-7db24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:194889030293:android:98cfb2bdc5e958a8",
+        "android_client_info": {
+          "package_name": "vn.tonish.hozo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "194889030293-47b219cln9v0uf6u268em7kdkl67ldjv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.tonish.hozo",
+            "certificate_hash": "2be99de2a919a5c74f21d4cd331e535468ec6b68"
+          }
+        },
+        {
+          "client_id": "194889030293-vbcvfopiabq6nucq0jenanrs9gpntntr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBd1gcuFne-S58KsyZlQv-aVynl3jqQ1GE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "194889030293-vbcvfopiabq6nucq0jenanrs9gpntntr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
