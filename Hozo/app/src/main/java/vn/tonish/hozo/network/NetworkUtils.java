@@ -11,15 +11,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import vn.tonish.hozo.utils.DialogUtils;
-import vn.tonish.hozo.utils.LogUtils;
-import vn.tonish.hozo.utils.ProgressDialogUtils;
-import vn.tonish.hozo.utils.Utils;
-
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import vn.tonish.hozo.utils.DialogUtils;
+import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.Utils;
 
 public class NetworkUtils {
 
@@ -60,7 +60,7 @@ public class NetworkUtils {
 
                 if (isShowDialogError)
 
-                    DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
+                    DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
                         @Override
                         public void onOkClick() {
                             postVolley(isShowProgessDialog, isDismissProgessDialog, isShowDialogError, context, url, jsonRequest, networkListener);
@@ -137,7 +137,7 @@ public class NetworkUtils {
 //                        }
 //                    });
 
-                    DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
+                    DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
                         @Override
                         public void onOkClick() {
                             getRequestVolley(isShowProgressDialog, isDismissProgessDialog, isShowDialogError, context, url, jsonRequest, networkListener);
@@ -211,7 +211,7 @@ public class NetworkUtils {
 //                        }
 //                    });
 
-                    DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
+                    DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
                         @Override
                         public void onOkClick() {
                             deleteVolley(isShowProgessDialog, isDismissProgessDialog, isShowDialogError, context, url, jsonRequest, networkListener);

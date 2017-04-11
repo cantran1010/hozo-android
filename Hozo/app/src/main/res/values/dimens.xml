@@ -1,3 +1,23 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <!-- component size -->
+    <dimen name="margin_tiny">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_large">32dp</dimen>
+    <dimen name="margin_huge">64dp</dimen>
+    <dimen name="margin_fab">16dp</dimen>
+
+    <!-- fonts size -->
+    <dimen name="size_exsmall">8sp</dimen>
+    <dimen name="size_vsmall">10sp</dimen>
+    <dimen name="size_small">12sp</dimen>
+    <dimen name="size_xsmall">14sp</dimen>
+    <dimen name="size_xxsmall">15sp</dimen>
+    <dimen name="size_normal">16sp</dimen>
+    <dimen name="size_xnormal">18sp</dimen>
+    <dimen name="size_large">20sp</dimen>
+    <dimen name="size_xlarge">24sp</dimen>
+    <dimen name="size_xxlarge">27sp</dimen>
+    <dimen name="size_xxxlarge">30sp</dimen>
+    <dimen name="size_xxxxlarge">40sp</dimen>
 </resources>
