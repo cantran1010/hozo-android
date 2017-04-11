@@ -5,10 +5,6 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-/**
- * Created by TRAM-USER on 10/20/2016.
- */
-
 public class UIUtils {
 
     /**

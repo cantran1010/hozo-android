@@ -3,18 +3,14 @@ package vn.tonish.hozo.database.manager;
 import android.content.Context;
 import android.util.Base64;
 
-import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.utils.LogUtils;
-import vn.tonish.hozo.utils.PreferUtils;
-
 import java.util.Random;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PreferUtils;
 
-/**
- * Created by Administrator on 23/03/2016.
- */
 public class RealmDbHelper {
 
     private static final String TAG = RealmDbHelper.class.getName();

@@ -7,9 +7,6 @@ import vn.tonish.hozo.utils.LogUtils;
 
 import io.realm.Realm;
 
-/**
- * Created by Administrator on 23/03/2016.
- */
 public class UserManager {
 
     private static final String TAG = UserManager.class.getName();

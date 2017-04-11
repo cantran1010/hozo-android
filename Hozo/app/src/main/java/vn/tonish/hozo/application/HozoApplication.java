@@ -4,9 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
-/**
- * Created by Admin on 12/27/2016.
- */
 public class HozoApplication extends Application {
     @Override
     public void onCreate() {

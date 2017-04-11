@@ -6,9 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by LongBui on 7/25/16.
- */
 public class DateTimeUtils {
 
     private static final String DATE_FORMAT_IN = "yyyy-MM-dd HH:mm:ss";
@@ -26,7 +23,7 @@ public class DateTimeUtils {
     }
 
     private static final String DATE_FORMAT_IN2 = "yyyy-MM-dd";
-    private static final String DATE_FORMAT_OUT2 = "yyyy년 MM월 dd일";
+    private static final String DATE_FORMAT_OUT2 = "yyyy MM dd";
 
     public static String changeFormatDate2(String input) {
         Date date = null;
@@ -42,7 +39,7 @@ public class DateTimeUtils {
     public static String changeFormatDate2(Calendar newDate) {
 
 
-        String myFormat = "yyyy 년 MM 월 dd 일"; //In which you need put here
+        String myFormat = "yyyy MM dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         return sdf.format(newDate.getTime());
 

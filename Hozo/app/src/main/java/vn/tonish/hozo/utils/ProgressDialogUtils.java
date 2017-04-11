@@ -5,10 +5,6 @@ import android.content.Context;
 
 import vn.tonish.hozo.dialog.LoadingDialog;
 
-
-/**
- * Created by ADMIN on 11/6/2015.
- */
 public class ProgressDialogUtils {
 //    public static ProgressDialog progressDialog;
     public static final String TAG = ProgressDialogUtils.class.getName();

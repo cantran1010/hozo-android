@@ -13,9 +13,6 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
-/**
- * Created by Administrator on 10/12/2015.
- */
 public class DeviceUtils {
 
     public static String getUDID(Context context) {

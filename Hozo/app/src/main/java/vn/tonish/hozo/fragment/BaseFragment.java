@@ -12,9 +12,6 @@ import android.view.ViewGroup;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 
-/**
- * Created by Administrator on 21/03/2016.
- */
 public abstract class BaseFragment extends Fragment {
 
     protected abstract int getLayout();

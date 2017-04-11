@@ -6,10 +6,6 @@ import android.content.DialogInterface;
 
 import vn.tonish.hozo.R;
 
-
-/**
- * Created by ADMIN on 11/5/2015.
- */
 public class DialogUtils {
 
     public interface ConfirmDialogListener {
