@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--all screen-->
+    <string name="app_name">Hozo</string>
+    <string name="all_action_settings">Cài đặt</string>
+    <string name="all_ok">Đồng ý</string>
+    <string name="all_cancel">Hủy</string>
+    <string name="all_retry">Thử lại</string>
+    <string name="all_network_error_msg">Có lỗi! !</string>
+    <string name="all_post_a_task">Đăng việc</string>
+    <string name="all_browe_tasks">Tìm việc</string>
+    <string name="all_my_task">Việc của tôi</string>
+    <string name="all_notification">Thông báo</string>
+    <string name="all_other">Khác</string>
+    <!--home screen-->
+    <!--login screen-->
+    <!--setting screen-->
+
+</resources>
