@@ -25,6 +25,10 @@
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBPbEgWfBIyEQ-LPB28kM_BF_2urrGNqz8" />
+
         <service android:name="vn.tonish.hozo.fcm.MyFireBaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
