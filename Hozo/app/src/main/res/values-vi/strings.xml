@@ -12,6 +12,9 @@
     <string name="all_my_task">Việc của tôi</string>
     <string name="all_notification">Thông báo</string>
     <string name="all_other">Khác</string>
+    <string name="notification_name">Lâm voi</string>
+    <string name="notification_default">đã bình luận trong mục</string>
+    <string name="notification_more"><u>Chi tiết</u></string>
     <!--home screen-->
     <!--login screen-->
     <!--setting screen-->

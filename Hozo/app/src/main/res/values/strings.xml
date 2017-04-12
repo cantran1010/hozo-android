@@ -11,4 +11,8 @@
     <string name="all_my_task">My tasks</string>
     <string name="all_notification">Notifications</string>
     <string name="all_other">Other</string>
+    <string name="notification_name">Lâm voi lam voi</string>
+    <string name="notification_default">đã bình luận trong mục</string>
+    <string name="notification_time">cách đây 2 tuần</string>
+    <string name="notification_more"><u>Chi tiết</u></string>
 </resources>
