@@ -3,13 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF000"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search"
-        android:textSize="30sp" />
+        android:background="@color/black"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="TÌM VIỆC"
+        android:textColor="@color/white" />
+
+
+    <include layout="@layout/header_search" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="102 - Trường Chinh - Đống Đa - Hà Nội" />
 
 </LinearLayout>

@@ -7,16 +7,17 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
+        android:name=".application.HozoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name="vn.tonish.hozo.application.HozoApplication"
         android:theme="@style/AppTheme">
         <activity
-            android:name="vn.tonish.hozo.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,18 +26,25 @@
             </intent-filter>
         </activity>
 
-        <service android:name="vn.tonish.hozo.fcm.MyFireBaseMessagingService">
+        <service android:name=".fcm.MyFireBaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <service android:name="vn.tonish.hozo.fcm.MyFireBaseInstanceIDService">
+        <service android:name=".fcm.MyFireBaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
+        <activity android:name=".activity.LoginScreen" />
+
+        <activity android:name=".activity.PostATaskActivity" />
+        <activity
+            android:name=".activity.SplashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_splash"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

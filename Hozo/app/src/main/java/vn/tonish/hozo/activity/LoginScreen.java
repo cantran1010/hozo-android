@@ -1,16 +1,16 @@
-package vn.tonish.hozo.fragment;
+package vn.tonish.hozo.activity;
 
 import vn.tonish.hozo.R;
 
 /**
- * Created by Admin on 4/4/2017.
+ * Created by MAC2015 on 4/11/17.
  */
 
-public class BrowseTaskFragment extends BaseFragment {
+public class LoginScreen extends BaseActivity {
 
     @Override
     protected int getLayout() {
-        return R.layout.search_fragment;
+        return R.layout.activity_login;
     }
 
     @Override

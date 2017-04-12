@@ -1,16 +1,15 @@
-package vn.tonish.hozo.fragment;
+package vn.tonish.hozo.activity;
 
 import vn.tonish.hozo.R;
 
 /**
- * Created by Admin on 4/4/2017.
+ * Created by MAC2015 on 4/12/17.
  */
 
-public class BrowseTaskFragment extends BaseFragment {
-
+public class PostATaskActivity extends BaseActivity {
     @Override
     protected int getLayout() {
-        return R.layout.search_fragment;
+        return R.layout.activity_post_a_task;
     }
 
     @Override
