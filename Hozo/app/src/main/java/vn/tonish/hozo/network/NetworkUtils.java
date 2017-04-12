@@ -25,6 +25,7 @@ public class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getName();
 
+    // network listener
     public interface NetworkListener {
         public void onSuccess(JSONObject jsonResponse);
         public void onError();
