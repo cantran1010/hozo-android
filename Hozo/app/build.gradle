@@ -51,6 +51,7 @@ dependencies {
     compile 'org.apache.httpcomponents:httpclient-android:4.3.5'
     compile files('libs/org.apache.http.legacy.jar')
     compile 'com.google.firebase:firebase-messaging:10.2.1'
+    compile 'com.google.android.gms:play-services:10.2.1'
     compile('org.apache.httpcomponents:httpmime:4.3.6') {
         exclude module: 'httpclient'
     }
