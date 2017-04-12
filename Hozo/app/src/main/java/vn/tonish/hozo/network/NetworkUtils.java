@@ -27,13 +27,11 @@ public class NetworkUtils {
 
     public interface NetworkListener {
         public void onSuccess(JSONObject jsonResponse);
-
         public void onError();
     }
 
     public static void postVolley(final boolean isShowProgessDialog, final boolean isDismissProgessDialog, final boolean isShowDialogError, final Context context, final String url, final JSONObject jsonRequest, final NetworkListener networkListener) {
         LogUtils.d(TAG, "postVolley url : " + url + " /////// data request : " + jsonRequest.toString());
-
 
         if (context instanceof Activity) {
             Utils.hideKeyBoard((Activity) context);
