@@ -1,4 +1,4 @@
-package vn.tonish.hozo.database.entity;
+package vn.tonish.hozo.model;
 
 import java.io.Serializable;
 

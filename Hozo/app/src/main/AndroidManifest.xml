@@ -17,8 +17,9 @@
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,14 +38,43 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activity.LoginScreen" />
+        <activity
+            android:name=".activity.LoginScreen"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PostATaskActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.PostATaskActivity" />
+        <activity
+            android:name=".activity.other.AboutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.other.ConditionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.other.HistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.other.InfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.other.NADActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.other.PaymentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.other.ProfileActivity"
+            android:screenOrientation="portrait" />
+
+
         <activity
             android:name=".activity.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_splash"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme">
+
+        </activity>
     </application>
 
 </manifest>

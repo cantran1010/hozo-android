@@ -1,17 +1,17 @@
-package vn.tonish.hozo.activity;
+package vn.tonish.hozo.activity.other;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.BaseActivity;
 
 /**
  * Created by MAC2015 on 4/12/17.
  */
 
-public class PostATaskActivity extends BaseActivity {
-
+public class AboutActivity extends BaseActivity {
 
     @Override
     protected int getLayout() {
-        return R.layout.activity_post_a_task;
+        return R.layout.activity_about;
     }
 
     @Override
@@ -23,12 +23,11 @@ public class PostATaskActivity extends BaseActivity {
     @Override
     protected void initData() {
 
+
     }
 
     @Override
     protected void resumeData() {
 
     }
-
-
 }

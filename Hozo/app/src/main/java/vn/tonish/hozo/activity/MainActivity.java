@@ -4,6 +4,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.HomeTabsAdapter;
@@ -28,6 +32,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         homeTabsAdapter = new HomeTabsAdapter(getSupportFragmentManager());
         viewPager.setAdapter(homeTabsAdapter);
+        viewPager.setOffscreenPageLimit(5);
         tabLayout.setupWithViewPager(viewPager);
         initTabs();
     }
