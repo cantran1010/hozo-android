@@ -1,26 +1,23 @@
 language: android
+jdk: oraclejdk8
 android:
   components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
-    # - platform-tools
-    # - tools
-
-    # The BuildTools version used by your project
+    - tools # Update preinstalled tools from revision 24.0.2 to 24.4.1
+    - platform-tools
+    - tools # Update tools from revision 24.4.1 to 25.2.5
     - build-tools-25.0.2
-
-    # The SDK version used to compile your project
     - android-25
-
-    # Additional components
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
     - addon-google_apis-google-19
-
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
-    - sys-img-armeabi-v7a-android-22
-    - sys-img-armeabi-v7a-android-17
+    - sys-img-armeabi-v7a-android-25
+  licenses:
+    - .+
+before_install:
+  # A workaround to accept the Constraint Layout's licenses
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+  - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
 script:
-  - ./gradlew test
+  - ./gradlew test --stacktrace
