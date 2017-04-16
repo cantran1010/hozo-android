@@ -1,4 +1,5 @@
 # Android Lint
+android_lint.report_file = "app/build/reports/lint-results.xml"
 android_lint.lint
 
 # Make it more obvious that a PR is a work in progress and shouldn't be merged yet
