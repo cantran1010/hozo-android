@@ -1,43 +1,45 @@
 package vn.tonish.hozo.activity;
 
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.fragment.BrowseTaskFragment;
-import vn.tonish.hozo.fragment.HelpFragment;
-import vn.tonish.hozo.fragment.InboxFragment;
-import vn.tonish.hozo.fragment.MyTaskFragment;
-import vn.tonish.hozo.fragment.SelectTaskFragment;
+import vn.tonish.hozo.adapter.HomeTabsAdapter;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private LinearLayout homeLayout, searchLayout, myLayout, notifiLayout, settingLayout;
+
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+    private HomeTabsAdapter homeTabsAdapter;
 
     @Override
     protected int getLayout() {
-        return vn.tonish.hozo.R.layout.activity_main;
+        return R.layout.activity_main;
     }
 
     @Override
     protected void initView() {
-        homeLayout = (LinearLayout) findViewById(vn.tonish.hozo.R.id.home_layout);
-        searchLayout = (LinearLayout) findViewById(vn.tonish.hozo.R.id.search_layout);
-        myLayout = (LinearLayout) findViewById(vn.tonish.hozo.R.id.my_layout);
-        notifiLayout = (LinearLayout) findViewById(vn.tonish.hozo.R.id.notifi_layout);
-        settingLayout = (LinearLayout) findViewById(vn.tonish.hozo.R.id.setting_layout);
 
-        homeLayout.setOnClickListener(this);
-        searchLayout.setOnClickListener(this);
-        myLayout.setOnClickListener(this);
-        notifiLayout.setOnClickListener(this);
-        settingLayout.setOnClickListener(this);
+        viewPager = (ViewPager) findViewById(R.id.pagers);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        homeTabsAdapter = new HomeTabsAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(homeTabsAdapter);
+        viewPager.setOffscreenPageLimit(5);
+        tabLayout.setupWithViewPager(viewPager);
+        initTabs();
     }
 
     @Override
     protected void initData() {
-        openFragment(vn.tonish.hozo.R.id.layout_container, SelectTaskFragment.class, false);
+
     }
 
     @Override
@@ -47,26 +49,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case vn.tonish.hozo.R.id.home_layout:
-                openFragment(R.id.layout_container, SelectTaskFragment.class, true);
-                break;
 
-            case vn.tonish.hozo.R.id.search_layout:
-                openFragment(R.id.layout_container, BrowseTaskFragment.class, true);
-                break;
+    }
 
-            case vn.tonish.hozo.R.id.my_layout:
-                openFragment(R.id.layout_container, MyTaskFragment.class, true);
-                break;
+    public void initTabs() {
 
-            case vn.tonish.hozo.R.id.notifi_layout:
-                openFragment(R.id.layout_container, InboxFragment.class, true);
-                break;
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.getTabAt(0).setCustomView(R.layout.tab_1);
+        tabLayout.getTabAt(1).setCustomView(R.layout.tab_2);
+        tabLayout.getTabAt(2).setCustomView(R.layout.tab_3);
+        tabLayout.getTabAt(3).setCustomView(R.layout.tab_4);
+        tabLayout.getTabAt(3).setCustomView(R.layout.tab_5);
 
-            case vn.tonish.hozo.R.id.setting_layout:
-                openFragment(R.id.layout_container, HelpFragment.class, true);
-                break;
-        }
     }
 }

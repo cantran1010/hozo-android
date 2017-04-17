@@ -205,6 +205,7 @@ public final class GPSTracker implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
+
     }
 
 }
