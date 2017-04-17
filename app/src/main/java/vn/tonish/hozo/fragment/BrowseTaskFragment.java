@@ -28,8 +28,8 @@ public class BrowseTaskFragment extends BaseFragment implements OnMapReadyCallba
 
     @Override
     protected void initView() {
-        SupportMapFragment mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFrag.getMapAsync(this);
+//        SupportMapFragment mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+//        mapFrag.getMapAsync(this);
     }
 
     @Override
@@ -60,5 +60,5 @@ public class BrowseTaskFragment extends BaseFragment implements OnMapReadyCallba
 
             }
         });
-    }
+    }/**/
 }

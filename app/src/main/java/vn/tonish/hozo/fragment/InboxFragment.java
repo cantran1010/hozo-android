@@ -28,15 +28,14 @@ public class InboxFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        Notifications.add(new Notification(0,"1","xem hàng họ","hàng ngon vãi","24/10/2017"));
+/*        Notifications.add(new Notification(0,"1","xem hàng họ","hàng ngon vãi","24/10/2017"));
         Notifications.add(new NotificationMessage(1,"1","type","xem hàng họ","hàng ngon vãi","24/10/2017"));
         linearLayoutManager = new LinearLayoutManager(getActivity(), OrientationHelper.VERTICAL, false);
         recyclerView = (RecyclerView) findViewById(R.id.lv_notification);
         adapter = new NotificationRecyclerAdapter(getContext(),Notifications);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-
+        recyclerView.setAdapter(adapter);*/
 
     }
 
