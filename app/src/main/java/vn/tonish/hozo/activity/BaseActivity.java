@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -14,10 +15,12 @@ import android.widget.EditText;
 
 import vn.tonish.hozo.R;
 
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends FragmentActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = BaseActivity.class.getName();
     FragmentManager fragmentManager;
 
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     protected abstract int getLayout();
 
@@ -26,6 +29,26 @@ public abstract class BaseActivity extends FragmentActivity {
     protected abstract void initData();
 
     protected abstract void resumeData();
+
+    @Override
+    public void onRefresh() {
+
+    }
+
+    public void createSwipeToRefresh() {
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
+        swipeRefreshLayout.setOnRefreshListener(this);
+    }
+
+    public void setBackButton() {
+
+        findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +62,7 @@ public abstract class BaseActivity extends FragmentActivity {
 //            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 //            getWindow().setStatusBarColor(getResources().getColor(R.color.pink));
 //        }
+
         fragmentManager = getSupportFragmentManager();
         setContentView(getLayout());
         initView();
@@ -59,19 +83,19 @@ public abstract class BaseActivity extends FragmentActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        //overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         super.startActivityForResult(intent, requestCode);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     public void startActivityAndClearAllTask(Intent intent) {
