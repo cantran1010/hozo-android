@@ -1,5 +1,6 @@
 package vn.tonish.hozo.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +13,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import vn.tonish.hozo.R;
+
 
 public abstract class BaseActivity extends FragmentActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = BaseActivity.class.getName();
