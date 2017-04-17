@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".application.HozoApplication"
@@ -75,6 +76,9 @@
             android:theme="@style/FullscreenTheme">
 
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="a5706b90dc87e8fd7eb3b77dfb9f0ae4e43bc71d" />
     </application>
 
 </manifest>
