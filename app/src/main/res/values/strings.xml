@@ -11,16 +11,8 @@
     <string name="all_my_task">My tasks</string>
     <string name="all_notification">Notifications</string>
     <string name="all_other">Other</string>
-<<<<<<< HEAD:app/src/main/res/values/strings.xml
     <string name="notification_name">Lâm voi lam voi</string>
     <string name="notification_default">đã bình luận trong mục</string>
     <string name="notification_time">cách đây 2 tuần</string>
     <string name="notification_more"><u>Chi tiết</u></string>
-=======
-
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">Người Thật , Việc Thật</string>
-    <string name="loading">Loading...</string>
->>>>>>> 0fed82f272143996a671ea808881daf08c35d746:Hozo/app/src/main/res/values/strings.xml
 </resources>

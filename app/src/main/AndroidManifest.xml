@@ -5,22 +5,19 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".application.HozoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name="vn.tonish.hozo.application.HozoApplication"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name="vn.tonish.hozo.activity.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,65 +25,22 @@
             </intent-filter>
         </activity>
 
-<<<<<<< HEAD:app/src/main/AndroidManifest.xml
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBPbEgWfBIyEQ-LPB28kM_BF_2urrGNqz8" />
 
         <service android:name="vn.tonish.hozo.fcm.MyFireBaseMessagingService">
-=======
-        <service android:name=".fcm.MyFireBaseMessagingService">
->>>>>>> 0fed82f272143996a671ea808881daf08c35d746:Hozo/app/src/main/AndroidManifest.xml
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".fcm.MyFireBaseInstanceIDService">
+
+        <service android:name="vn.tonish.hozo.fcm.MyFireBaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-<<<<<<< HEAD:app/src/main/AndroidManifest.xml
-=======
-        <activity
-            android:name=".activity.LoginScreen"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.PostATaskActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activity.other.AboutActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.other.ConditionActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.other.HistoryActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.other.InfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.other.NADActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.other.PaymentActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.other.ProfileActivity"
-            android:screenOrientation="portrait" />
-
-
-        <activity
-            android:name=".activity.SplashActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_splash"
-            android:theme="@style/FullscreenTheme">
-
-        </activity>
->>>>>>> 0fed82f272143996a671ea808881daf08c35d746:Hozo/app/src/main/AndroidManifest.xml
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="a5706b90dc87e8fd7eb3b77dfb9f0ae4e43bc71d" />
