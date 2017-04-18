@@ -52,7 +52,7 @@ public class CategoryAdapter extends BaseAdapter<Category, CategoryHolder, Loadi
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof CategoryHolder) {
             ((CategoryHolder) holder).category = categories.get(position);
-            ((CategoryHolder) holder).tvName.setText(position + ") Work around young buffalo!");
+            ((CategoryHolder) holder).tvName.setText(categories.get(position).getName());
         } else {
 
         }

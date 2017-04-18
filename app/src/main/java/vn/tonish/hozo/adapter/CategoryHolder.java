@@ -23,7 +23,7 @@ public class CategoryHolder extends BaseHolder {
     public CategoryHolder(View itemView, final Context context) {
         super(itemView, context);
         view = itemView;
-        tvName = (TextView) itemView.findViewById(R.id.tvName);
+        tvName = (TextView) itemView.findViewById(R.id.tv_name);
         onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {

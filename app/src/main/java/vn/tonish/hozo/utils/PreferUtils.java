@@ -11,7 +11,7 @@ import vn.tonish.hozo.common.Constants;
  */
 public class PreferUtils {
 
-    private static final String PREFER_NAME = "veteran";
+    private static final String PREFER_NAME = "hozo";
 
     private static final String PREFER_USER_ID = "user_id";
     private static final String PREFER_HOME_LIST = "home_list";
@@ -124,7 +124,7 @@ public class PreferUtils {
     public static void setStoreDb(Context context, boolean isStore) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putBoolean(PREFER_STORE_DB, isStore);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean isPushChat(Context context) {

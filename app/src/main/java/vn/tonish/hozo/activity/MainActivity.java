@@ -1,19 +1,19 @@
 package vn.tonish.hozo.activity;
 
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.adapter.HomeTabsAdapter;
+import vn.tonish.hozo.fragment.BrowseTaskFragment;
+import vn.tonish.hozo.fragment.HelpFragment;
+import vn.tonish.hozo.fragment.InboxFragment;
+import vn.tonish.hozo.fragment.MyTaskFragment;
+import vn.tonish.hozo.fragment.SelectTaskFragment;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
-    private HomeTabsAdapter homeTabsAdapter;
+    private LinearLayout layoutPostTask,layoutBrowerTask,layoutMyTask,layoutInbox,layoutOther;
 
     @Override
     protected int getLayout() {
@@ -22,19 +22,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initView() {
-
-        viewPager = (ViewPager) findViewById(R.id.pagers);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        homeTabsAdapter = new HomeTabsAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(homeTabsAdapter);
-        viewPager.setOffscreenPageLimit(5);
-        tabLayout.setupWithViewPager(viewPager);
-        initTabs();
+        layoutPostTask = (LinearLayout) findViewById(R.id.layout_post_a_task);
+        layoutBrowerTask = (LinearLayout) findViewById(R.id.layout_brower_task);
+        layoutMyTask = (LinearLayout) findViewById(R.id.layout_my_task);
+        layoutInbox = (LinearLayout) findViewById(R.id.layout_inbox);
+        layoutOther = (LinearLayout) findViewById(R.id.layout_other);
     }
 
     @Override
     protected void initData() {
 
+        openFragment(R.id.layout_container, SelectTaskFragment.class, false);
+
+        layoutPostTask.setOnClickListener(this);
+        layoutBrowerTask.setOnClickListener(this);
+        layoutMyTask.setOnClickListener(this);
+        layoutInbox.setOnClickListener(this);
+        layoutOther.setOnClickListener(this);
     }
 
     @Override
@@ -44,17 +48,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.layout_post_a_task:
+                openFragment(R.id.layout_container, SelectTaskFragment.class, false);
+                break;
 
+            case R.id.layout_brower_task:
+                openFragment(R.id.layout_container, BrowseTaskFragment.class, false);
+                break;
+
+            case R.id.layout_my_task:
+                openFragment(R.id.layout_container, MyTaskFragment.class, false);
+                break;
+
+            case R.id.layout_inbox:
+                openFragment(R.id.layout_container, InboxFragment.class, false);
+                break;
+
+            case R.id.layout_other:
+                openFragment(R.id.layout_container, HelpFragment.class, false);
+                break;
+        }
     }
 
-    public void initTabs() {
-
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        tabLayout.getTabAt(0).setCustomView(R.layout.tab_1);
-        tabLayout.getTabAt(1).setCustomView(R.layout.tab_2);
-        tabLayout.getTabAt(2).setCustomView(R.layout.tab_3);
-        tabLayout.getTabAt(3).setCustomView(R.layout.tab_4);
-        tabLayout.getTabAt(3).setCustomView(R.layout.tab_5);
-
-    }
 }
