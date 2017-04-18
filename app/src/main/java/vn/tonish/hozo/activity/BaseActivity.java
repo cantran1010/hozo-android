@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import vn.tonish.hozo.R;
 
@@ -35,6 +36,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     public void onRefresh() {
 
     }
+
 
     public void createSwipeToRefresh() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
@@ -79,6 +81,12 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+
+    public void setTitleHeader(String text) {
+        TextView tv_title = (TextView) findViewById(R.id.tvTitleHeader);
+        tv_title.setText(text.trim());
     }
 
     @Override

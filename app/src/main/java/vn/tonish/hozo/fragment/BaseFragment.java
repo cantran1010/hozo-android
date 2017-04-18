@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 
-public abstract class BaseFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public abstract class BaseFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     protected abstract int getLayout();
 
@@ -40,9 +40,9 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
                 parent.removeView(view);
         }
 
-        try{
+        try {
             view = inflater.inflate(getLayout(), container, false);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

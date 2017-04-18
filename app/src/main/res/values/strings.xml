@@ -15,6 +15,8 @@
     <string name="notification_default">đã bình luận trong mục</string>
     <string name="notification_time">cách đây 2 tuần</string>
     <string name="notification_more"><u>Chi tiết</u></string>
+
+    <!--Edit profile Screen-->
     <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
     <string name="edt_proflie_tv_name">Ten</string>
     <string name="edt_proflie_tv_address">Dia chi</string>
@@ -24,4 +26,20 @@
     <string name="my_task_title">Viec cua toi</string>
     <string name="notifi_title">Thong bao</string>
     <string name="other_title">Khac</string>
+    <!--profile Screen-->
+    <string name="profile_tv_header">Hồ sơ cá nhân</string>
+    <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
+    <string name="btn_save">LƯU</string>
+    <string name="tv_type_of_work">Loại công việc</string>
+    <string name="tv_fee">Chi phí</string>
+
+    <!--advance setting screen -->
+    <string name="advance_setting_title">Cài đặt nâng cao</string>
+    <string name="tv_location">Địa điểm</string>
+    <string name="tv_time">Thời gian</string>
+    <string name="tv_sex">Giới tính</string>
+    <string name="tv_age">Độ tuổi</string>
+    <string name="tv_notification">Thông báo công việc</string>
+    <string name="vnd">(VND)</string>
+    >
 </resources>

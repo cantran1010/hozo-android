@@ -16,9 +16,11 @@
 
 
     <TextView
+        android:id="@+id/tvTitleHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="TIEU DE" />
+        android:text="TIEU DE"
+        android:textStyle="bold" />
 
 </RelativeLayout>

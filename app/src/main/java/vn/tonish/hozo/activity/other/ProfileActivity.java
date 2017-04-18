@@ -18,6 +18,7 @@ public class ProfileActivity extends BaseActivity {
     @Override
     protected void initView() {
         setBackButton();
+        setTitleHeader(getString(R.string.profile_tv_header));
     }
 
     @Override
