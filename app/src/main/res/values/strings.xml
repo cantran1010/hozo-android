@@ -15,4 +15,13 @@
     <string name="notification_default">đã bình luận trong mục</string>
     <string name="notification_time">cách đây 2 tuần</string>
     <string name="notification_more"><u>Chi tiết</u></string>
+    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
+    <string name="edt_proflie_tv_name">Ten</string>
+    <string name="edt_proflie_tv_address">Dia chi</string>
+    <string name="edit_profile_btn_save">Save</string>
+    <string name="select_task_title">Dang viec</string>
+    <string name="browse_task_title">Tim Viec</string>
+    <string name="my_task_title">Viec cua toi</string>
+    <string name="notifi_title">Thong bao</string>
+    <string name="other_title">Khac</string>
 </resources>

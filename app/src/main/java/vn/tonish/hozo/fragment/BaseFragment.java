@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,7 @@ import android.view.ViewGroup;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     protected abstract int getLayout();
 
@@ -23,6 +24,7 @@ public abstract class BaseFragment extends Fragment {
     protected abstract void resumeData();
 
     private View view;
+    public SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +59,20 @@ public abstract class BaseFragment extends Fragment {
 
     protected View findViewById(int id) {
         return view.findViewById(id);
+    }
+
+    public void createSwipeToRefresh() {
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
+        swipeRefreshLayout.setOnRefreshListener(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    public void onStopRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     protected void startActivity(Class<?> cls, Bundle bundle) {
