@@ -28,7 +28,7 @@
     <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản và chính sách của chúng tôi</string>
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
     <!--all screen-->
-    <!--<string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>-->
+    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
     <string name="edt_proflie_tv_name">Ten</string>
     <string name="edt_proflie_tv_address">Dia chi</string>
     <string name="edit_profile_btn_save">Save</string>
