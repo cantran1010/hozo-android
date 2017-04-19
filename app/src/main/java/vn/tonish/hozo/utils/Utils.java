@@ -3,6 +3,7 @@ package vn.tonish.hozo.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -89,6 +90,19 @@ public class Utils {
         DecimalFormat myFormatter = new DecimalFormat("###,###.###");
         String output = myFormatter.format(input);
         return output;
+    }
+
+    public static boolean isNullOrEmpty(Object obj) {
+        String inputString = String.valueOf(obj);
+        return obj == null ? true : (inputString.isEmpty() ? true : inputString.equals("null"));
+    }
+
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getScreenHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
 }
