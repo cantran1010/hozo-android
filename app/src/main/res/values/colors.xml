@@ -24,4 +24,5 @@
     <!-- common-->
     <color name="hozo_bg">#42A5F5</color>
     <color name="btn_selector">#A1A5F5</color>
+    <color name="transparent2">#66000000</color>
 </resources>

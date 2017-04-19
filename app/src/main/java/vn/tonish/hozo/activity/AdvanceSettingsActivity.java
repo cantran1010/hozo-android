@@ -18,9 +18,7 @@ import vn.tonish.hozo.R;
 
 public class AdvanceSettingsActivity extends BaseActivity implements View.OnClickListener {
 
-
     private Button btn_save;
-
     private TextView tv_fee;
 
     @Override

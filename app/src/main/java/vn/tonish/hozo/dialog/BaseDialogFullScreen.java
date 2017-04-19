@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Window;
 
+import vn.tonish.hozo.R;
 
-abstract class BaseDialog extends Dialog {
 
-    public BaseDialog(@NonNull Context context) {
-        super(context);
+abstract class BaseDialogFullScreen extends Dialog {
+
+    public BaseDialogFullScreen(@NonNull Context context) {
+        super(context, R.style.DialogSlideAnimFullScreen);
     }
 
     @Override
