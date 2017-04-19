@@ -23,9 +23,6 @@
 
 
     <string name="notification_notify">Thông báo chưa đọc</string>
-
-    <!--Edit profile Screen-->
-    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
     <!--profile Screen-->
     <string name="profile_tv_header">Hồ sơ cá nhân</string>
     <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
@@ -66,6 +63,7 @@
     <!--all screen-->
 
     <!--<string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>-->
+    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
     <string name="edt_proflie_tv_name">Ten</string>
     <string name="edt_proflie_tv_address">Dia chi</string>
     <string name="edit_profile_btn_save">Save</string>
