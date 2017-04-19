@@ -12,7 +12,7 @@ import vn.tonish.hozo.R;
  * Created by ADMIN on 4/18/2017.
  */
 
-public class TimePickerDialog extends BaseDialog implements View.OnClickListener{
+public class TimePickerHozoDialog extends BaseDialog implements View.OnClickListener{
 
     private NumberPicker npTime;
     private Button btnOk;
@@ -31,7 +31,7 @@ public class TimePickerDialog extends BaseDialog implements View.OnClickListener
         this.onPickLister = onPickLister;
     }
 
-    public TimePickerDialog(@NonNull Context context) {
+    public TimePickerHozoDialog(@NonNull Context context) {
         super(context);
     }
 
