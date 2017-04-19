@@ -1,8 +1,7 @@
 package vn.tonish.hozo.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -14,6 +13,8 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.customview.NameView;
 import vn.tonish.hozo.customview.OtpView;
 
+import static android.support.v4.view.ViewCompat.animate;
+import static vn.tonish.hozo.common.Constants.OTP_VIEW;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 
 /**
@@ -24,9 +25,11 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
     private Context context;
     private EditText edtPhone;
     private TextView tvContinue;
-    private FrameLayout frLogin, FrName;
+    private FrameLayout viewLevel1, viewLevel2, viewLevel3;
     public NameView nameView;
     public OtpView otpView;
+    public int viewLevel = 0;
+    public int duration = 200;
 
     @Override
     protected int getLayout() {
@@ -38,8 +41,9 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
         context = LoginScreen.this;
         edtPhone = (EditText) findViewById(R.id.edt_phone);
         tvContinue = (TextView) findViewById(R.id.tv_continue);
-        frLogin = (FrameLayout) findViewById(R.id.fr_login);
-        FrName = (FrameLayout) findViewById(R.id.fr_otp);
+        viewLevel2 = (FrameLayout) findViewById(R.id.view_Level2);
+        viewLevel3 = (FrameLayout) findViewById(R.id.view_Level3);
+        viewLevel1 = (FrameLayout) findViewById(R.id.view_level1);
         tvContinue.setOnClickListener(this);
         hideKeyBoard(this);
 
@@ -77,6 +81,19 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
 
     }
 
+    public OtpView getOtpView() {
+        if (otpView == null) {
+            otpView = new OtpView(context);
+        }
+        return otpView;
+    }
+
+    public NameView getNameView() {
+        if (nameView == null) {
+            nameView = new NameView(context);
+        }
+        return nameView;
+    }
 
     @Override
     public void onClick(View view) {
@@ -89,62 +106,81 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
 
     }
 
-    public void toOtpView(String phone) {
-        showViewFromRight(context, frLogin, 500, false);
-        frLogin.setVisibility(View.GONE);
-        if (otpView == null) {
-            otpView = new OtpView(context, phone);
+    public void showExtendView(String TAG_VIEW) {
+        hideKeyBoard(this);
+        View view = null;
+        if (TAG_VIEW.equalsIgnoreCase(OTP_VIEW)) {
+            view = getOtpView();
+        } else {
+            view = getNameView();
         }
-        FrName.removeAllViews();
-        FrName.addView(otpView);
-        showViewFromRight(context, FrName, 1000, true);
+        try {
+            viewLevel++;
+            if (viewLevel == 1) {
+                showViewFromRight(context, viewLevel1, duration, false);
+                viewLevel2.removeAllViews();
+                viewLevel2.addView(view);
+                showViewFromRight(context, viewLevel2, duration, true);
+            } else if (viewLevel == 2) {
+                showViewFromRight(context, viewLevel2, duration, false);
+                viewLevel3.removeAllViews();
+                viewLevel3.addView(view);
+                showViewFromRight(context, viewLevel3, duration, true);
+            }
+
+        } catch (Exception e) {
+
+        }
+    }
+
+
+    public void closeExtendView() {
+
+        hideKeyBoard(this);
+
+        if (viewLevel == 0) {
+            return;
+        }
+        if (viewLevel == 1) {
+            showViewFromRight(context, viewLevel2, duration, false);
+            showViewFromRight(context, viewLevel1, duration, true);
+            tvContinue.setEnabled(true);
+        } else if (viewLevel == 2) {
+            showViewFromRight(context, viewLevel3, duration, false);
+            showViewFromRight(context, viewLevel2, duration, true);
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (viewLevel == 1) {
+                    viewLevel2.removeAllViews();
+                } else if (viewLevel == 2) {
+                    viewLevel3.removeAllViews();
+                }
+                viewLevel--;
+            }
+        }, duration);
     }
 
     public void showViewFromRight(Context context, final View view, int duration, boolean isShow) {
         if (isShow) {
-            // Prepare the View for the animation
             view.setVisibility(View.VISIBLE);
-            view.setAlpha(0.0f);
-
-// Start the animation
-            view.animate()
-                    .translationY(view.getHeight())
-                    .alpha(1.0f);
-//            view.setVisibility(View.VISIBLE);
-//            view.animate()
-//                    .translationXBy(120)
-//                    .translationX(0)
-//                    .setDuration(duration);
-//            animate(view).setDuration(duration).x(0);
+            animate(view).setDuration(duration).x(0);
         } else {
-            view.animate()
-                    .translationY(0)
-                    .alpha(0.0f)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            view.setVisibility(View.GONE);
-                        }
-                    });
-//            view.animate()
-//                    .translationXBy(0)
-//                    .translationX(120)
-//                    .setDuration(duration);
-////            animate(view).setDuration(duration).x(getScreenWidth());
-//            new Handler().post(new Runnable() {
-//
-//                @Override
-//                public void run() {
-//                    view.setVisibility(View.GONE);
-//                }
-//            });
+            animate(view).setDuration(duration).x(view.getWidth());
+            new Handler().post(new Runnable() {
+
+                @Override
+                public void run() {
+                    view.setVisibility(View.GONE);
+                }
+            });
         }
     }
 
 
     private void login() {
-        toOtpView(edtPhone.getText().toString().trim());
+        showExtendView(OTP_VIEW);
 
 //        JSONObject jsonRequest = new JSONObject();
 //        try {

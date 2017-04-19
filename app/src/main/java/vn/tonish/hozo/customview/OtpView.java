@@ -10,29 +10,30 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.LoginScreen;
+
+import static vn.tonish.hozo.common.Constants.NAME_VIEW;
 
 /**
  * Created by CanTran on 18/04/2017.
  */
 
-public class OtpView extends FrameLayout implements View.OnFocusChangeListener, View.OnKeyListener, TextWatcher {
+public class OtpView extends FrameLayout implements View.OnFocusChangeListener, View.OnKeyListener, TextWatcher, View.OnClickListener {
     private Context context;
     private View rootView;
-    private String phone;
     private EditText mPinFirstDigitEditText;
     private EditText mPinSecondDigitEditText;
     private EditText mPinThirdDigitEditText;
     private EditText mPinForthDigitEditText;
     private EditText mPinHiddenEditText;
+    private TextView btnSigin;
+    private FrameLayout btnBack;
 
-    private LinearLayout btnBack;
-
-    public OtpView(Context context, String phone) {
+    public OtpView(Context context) {
         super(context);
-        this.phone = phone;
         this.context = context;
         initView();
         initData();
@@ -47,7 +48,10 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         rootView = LayoutInflater.from(context).inflate(R.layout.view_otp, null);
         addView(rootView);
         init();
-        btnBack = (LinearLayout) rootView.findViewById(R.id.btn_back);
+        btnBack = (FrameLayout) rootView.findViewById(R.id.btn_back);
+        btnSigin = (TextView) rootView.findViewById(R.id.btn_sigin);
+        btnBack.setOnClickListener(this);
+        btnSigin.setOnClickListener(this);
 
     }
 
@@ -56,7 +60,6 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
      */
     private void setPINListeners() {
         mPinHiddenEditText.addTextChangedListener(this);
-
         mPinFirstDigitEditText.setOnFocusChangeListener(this);
         mPinSecondDigitEditText.setOnFocusChangeListener(this);
         mPinThirdDigitEditText.setOnFocusChangeListener(this);
@@ -100,6 +103,9 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         } else if (s.length() == 4) {
             mPinForthDigitEditText.setText(s.charAt(3) + "");
             hideSoftKeyboard(mPinForthDigitEditText);
+            btnSigin.setEnabled(true);
+            btnSigin.setTextColor(getResources().getColor(R.color.black));
+
 
         }
     }
@@ -226,4 +232,16 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     }
 
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_back:
+                ((LoginScreen) context).closeExtendView();
+                break;
+            case R.id.btn_sigin:
+                ((LoginScreen) context).showExtendView(NAME_VIEW);
+                break;
+        }
+
+    }
 }

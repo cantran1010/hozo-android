@@ -8,7 +8,7 @@
     tools:context="vn.tonish.hozo.activity.LoginScreen">
 
     <FrameLayout
-        android:id="@+id/fr_login"
+        android:id="@+id/view_level1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -107,7 +107,12 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/fr_otp"
+        android:id="@+id/view_Level2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"></FrameLayout>
+    <FrameLayout
+        android:id="@+id/view_Level3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"></FrameLayout>
