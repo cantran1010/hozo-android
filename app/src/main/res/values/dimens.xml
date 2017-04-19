@@ -20,8 +20,7 @@
     <dimen name="size_xxlarge">27sp</dimen>
     <dimen name="size_xxxlarge">30sp</dimen>
     <dimen name="size_xxxxlarge">40sp</dimen>
-
-    <!-- common-->
-    <dimen name="header_height">45dp</dimen>
-
+    <dimen name="pin_content_layout_padding">40dp</dimen>
+    <dimen name="pin_label_margin">10dp</dimen>
+    <dimen name="pin_min_width">32dp</dimen>
 </resources>

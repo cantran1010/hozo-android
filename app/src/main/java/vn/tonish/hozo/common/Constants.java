@@ -11,5 +11,8 @@ public class Constants {
     public static final String EXTRA_PRODUCT_DETAIL = "product_detail";
     public static final String USER_EXTRA = "user_extra";
     public static final String EXTRA_CONTACT_DETAIL = "extra_contact";
+    public static final String OTP_VIEW = "otp_view";
+    public static final String NAME_VIEW = "name_view";
+
 
 }
