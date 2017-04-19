@@ -63,7 +63,8 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/border_gray"
                     android:hint="Lau don nha bep"
-                    android:padding="5dp" />
+                    android:padding="5dp"
+                    android:textColorHint="@color/gray" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -72,13 +73,18 @@
                     android:text="Thoi gian lam viec" />
 
                 <TextView
+                    android:id="@+id/tv_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/border_gray"
+                    android:padding="5dp"
+                    android:text="" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
 
                     <LinearLayout
                         android:id="@+id/layout_start_time"
@@ -90,7 +96,8 @@
                         android:padding="5dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/tv_start_time"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Thoi gian bat dau" />
 
@@ -107,13 +114,12 @@
                         android:padding="5dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/tv_end_time"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Thoi gian ket thuc" />
 
-
                     </LinearLayout>
-
 
                 </LinearLayout>
 
@@ -128,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/border_gray"
-                    android:hint="Dia diem"
+                    android:hint=""
                     android:padding="5dp" />
 
                 <TextView
@@ -152,10 +158,12 @@
                     android:layout_marginTop="10dp"
                     android:text="Dang hinh anh" />
 
-                <GridLayout
+                <vn.tonish.hozo.view.MyGridView
+                    android:id="@+id/gr_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="40dp" />
+                    android:minHeight="40dp"
+                    android:numColumns="4" />
 
                 <TextView
                     android:layout_width="wrap_content"
