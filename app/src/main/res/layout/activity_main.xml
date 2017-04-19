@@ -8,120 +8,97 @@
     <FrameLayout
         android:id="@+id/layout_container"
         android:layout_width="match_parent"
-        android:layout_above="@+id/layout_footer"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout_footer" />
+
 
     <LinearLayout
         android:id="@+id/layout_footer"
         android:layout_width="match_parent"
-        android:background="@color/gray"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true">
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray">
 
-        <LinearLayout
+
+        <TextView
             android:id="@+id/layout_post_a_task"
+            style="@style/TabStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/tab_selector"
+            android:drawableTop="@drawable/ic_tab"
             android:gravity="center"
-            android:orientation="vertical">
+            android:text="@string/select_task_title" />
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/loading" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dang viec" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_brower_task"
+        <TextView
+            android:id="@+id/layout_browser_task"
+            style="@style/TabStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/tab_selector"
+            android:drawableTop="@drawable/ic_tab"
             android:gravity="center"
-            android:orientation="vertical">
+            android:text="@string/browse_task_title" />
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/loading" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tim viec" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
             android:id="@+id/layout_my_task"
+            style="@style/TabStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/tab_selector"
+            android:drawableTop="@drawable/ic_tab"
             android:gravity="center"
-            android:orientation="vertical">
+            android:text="@string/my_task_title" />
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/loading" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vieccuatoi" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_inbox"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/loading" />
+            android:layout_weight="1">
 
             <TextView
+                android:id="@+id/layout_inbox"
+                style="@style/TabStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@drawable/tab_selector"
+                android:drawableTop="@drawable/ic_tab"
+                android:gravity="center"
+
+                android:text="@string/notify_title" />
+
+            <TextView
+                android:id="@+id/badge_notification_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thong Bao" />
+                android:layout_alignRight="@+id/layout_inbox"
+                android:layout_marginRight="10dp"
+                android:background="@android:drawable/ic_notification_overlay"
+                android:gravity="center"
+                android:text="8"
+                android:textColor="#FFF"
+                android:textSize="8sp"
+                android:textStyle="bold" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+
+        <TextView
             android:id="@+id/layout_other"
+            style="@style/TabStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/tab_selector"
+            android:drawableTop="@drawable/ic_tab"
             android:gravity="center"
-            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/loading" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Khac" />
-
-        </LinearLayout>
+            android:text="@string/other_title" />
 
     </LinearLayout>
 

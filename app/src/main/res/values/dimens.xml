@@ -23,5 +23,6 @@
 
     <!-- common-->
     <dimen name="header_height">45dp</dimen>
+    <dimen name="divider_height">5dp</dimen>
 
 </resources>

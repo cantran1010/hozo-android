@@ -2,6 +2,11 @@ package vn.tonish.hozo.common;
 
 public class Constants {
     public static final String DATA = "data";
+
+    // flag for badge change listener in MainActivity
+    //
+    public static final String BADGE = "badge____";
+
     public static boolean DEBUG = true;
     public static final int SPLASH_TIME = 1500;
     public static final String DB_NAME = "hozo";

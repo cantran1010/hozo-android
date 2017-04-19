@@ -17,7 +17,8 @@
         <activity
             android:name="vn.tonish.hozo.activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -35,6 +36,10 @@
 
         <activity
             android:name=".activity.other.ProfileActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.other.ShareActivity"
             android:screenOrientation="portrait" />
 
         <meta-data
