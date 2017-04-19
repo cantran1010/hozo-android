@@ -15,6 +15,18 @@
     <string name="notification_name">Lâm voi</string>
     <string name="notification_default">đã bình luận trong mục</string>
     <string name="notification_more"><u>Chi tiết</u></string>
+    <string name="ed_login_phone">Nhập số điện thoại của bạn vào</string>
+    <string name="login_label_phone">Đăng nhập với Hò zô</string>
+    <string name="login_zone">+84</string>
+    <string name="login_continue">Tiếp tục</string>
+    <string name="all_back">Quay lại</string>
+    <string name="login_enter_otp">Nhập 4 mã số được gửi tới điện thoại của bạn</string>
+    <string name="login_create_account">Tạo tài khoản</string>
+    <string name="login_resen_otp">Gửi lại mã code</string>
+    <string name="tv_label_name">Họ và tên của bạn là gì?</string>
+    <string name="tv_login_save">Lưu lại</string>
+    <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản và chính sách của chúng tôi</string>
+    <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
     <!--home screen-->
     <!--login screen-->
     <!--setting screen-->
