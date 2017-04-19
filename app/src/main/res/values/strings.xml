@@ -15,4 +15,33 @@
     <string name="notification_default">đã bình luận trong mục</string>
     <string name="notification_time">cách đây 2 tuần</string>
     <string name="notification_more"><u>Chi tiết</u></string>
+    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
+    <string name="edt_proflie_tv_name">Ten</string>
+    <string name="edt_proflie_tv_address">Dia chi</string>
+    <string name="edit_profile_btn_save">Save</string>
+    <string name="select_task_title">Dang viec</string>
+    <string name="browse_task_title">Tim Viec</string>
+    <string name="my_task_title">Viec cua toi</string>
+    <string name="notifi_title">Thong bao</string>
+    <string name="other_title">Khac</string>
+    <string name="post_task_title">Chi tiet dang viec</string>
+    <string name="post_a_task_title">Chi tiet dang viec</string>
+    <string name="tv_post_a_task_title">Chi tiet dang viec</string>
+
+    <string-array name="gender">
+        <item>Nam</item>
+        <item>Nu</item>
+    </string-array>
+
+    <string-array name="ages">
+        <item>Dưới 18</item>
+        <item>18 ~ 25</item>
+        <item>26 ~ 30</item>
+        <item>31 ~ 35</item>
+        <item>36 ~ 40</item>
+        <item>41 ~ 45</item>
+        <item>46 ~ 50</item>
+        <item> Trên 50</item>
+    </string-array>
+
 </resources>
