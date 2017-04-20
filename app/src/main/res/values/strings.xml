@@ -6,10 +6,28 @@
     <string name="all_retry">Retry</string>
     <string name="all_network_error_msg">Error !</string>
 
+    <string name="all_post_a_task">Post a task</string>
+    <string name="all_browe_tasks">Browse tasks</string>
+    <string name="all_my_task">My tasks</string>
+    <string name="all_notification">Notifications</string>
+    <string name="all_other">Other</string>
+
+
+    <!--notification Screen-->
+    <string name="all_back">Quay lại</string>
+    <string name="notification_name">Lâm voi lam voi</string>
+    <string name="notification_default">đã bình luận trong mục</string>
+    <string name="notification_time">cách đây 2 tuần</string>
+    <string name="notification_more">
+        <u>Chi tiết</u>
+    </string>
+
+
     <!--profile Screen-->
     <string name="profile_tv_header">Hồ sơ cá nhân</string>
     <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
     <string name="btn_save">LƯU LẠI</string>
+
     <string name="tv_type_of_work">Loại công việc</string>
     <string name="tv_fee">Chi phí</string>
 
@@ -21,7 +39,9 @@
     <string name="tv_age">Độ tuổi</string>
     <string name="tv_notification">Thông báo công việc</string>
     <string name="vnd">(VND)</string>
-    <string name="share_content">Hãy chia sẻ ứng dụng Hozo để tạo nên \n kết nối hữu ích cho mọi người</string>
+    <string name="share_content">Hãy chia sẻ ứng dụng Hozo để tạo nên \n kết nối hữu ích cho mọi
+        người
+    </string>
     <string name="share_title">Chia sẻ với bạn bè</string>
     <string name="other_profile">Hồ sơ cá nhân</string>
     <string name="other_history">Lịch sử giao dịch</string>
@@ -43,6 +63,7 @@
     <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản và chính sách của chúng tôi</string>
 
     <!--Edit profile Screen-->
+
     <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
 
     <string name="edit_profile_btn_save">Lưu lại</string>

@@ -28,8 +28,8 @@ import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.view.MyGridView;
 
-import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICKIMAGE;
-import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**
  * Created by MAC2015 on 4/12/17.
@@ -113,7 +113,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
                             case 1:
                                 Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
-                                startActivityForResult(intent, Constants.REQUEST_CODE_PICKIMAGE);
+                                startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE);
                                 break;
                         }
 
@@ -227,8 +227,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
         LogUtils.d(TAG, "onActivityResult requestCode : " + requestCode + " , resultCode : " + resultCode);
 
-        if (requestCode == REQUEST_CODE_PICKIMAGE
-                && resultCode == RESPONSE_CODE_PICKIMAGE
+        if (requestCode == REQUEST_CODE_PICK_IMAGE
+                && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
 
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);

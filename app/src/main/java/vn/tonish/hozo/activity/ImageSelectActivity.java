@@ -138,7 +138,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     private void sendIntent() {
         Intent intent = new Intent();
         intent.putParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES, getSelectedImage());
-        setResult(Constants.RESPONSE_CODE_PICKIMAGE, intent);
+        setResult(Constants.RESPONSE_CODE_PICK_IMAGE, intent);
         finish();
     }
 
