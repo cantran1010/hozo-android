@@ -16,6 +16,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.ImageSelectAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Image;
+import vn.tonish.hozo.utils.Utils;
 
 /**
  * Created by ADMIN on 4/19/2017.
@@ -29,7 +30,8 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     private ArrayList<Image> images;
     private final String[] projection = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA};
     private RelativeLayout layoutBack;
-    private TextView tvDone,tvAlbumName;
+    private TextView tvDone, tvAlbumName;
+    private boolean isOnlyImage = false;
 
     @Override
     protected int getLayout() {
@@ -55,6 +57,9 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
         if (intent == null) {
             finish();
         }
+        if (intent.hasExtra(Constants.EXTRA_ONLY_IMAGE))
+            isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
+
         album = intent.getStringExtra(Constants.INTENT_EXTRA_ALBUM);
         tvAlbumName.setText(album);
 
@@ -122,7 +127,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                imageSelectAdapter = new ImageSelectAdapter(ImageSelectActivity.this, images);
+                imageSelectAdapter = new ImageSelectAdapter(ImageSelectActivity.this, images, isOnlyImage);
                 grImage.setAdapter(imageSelectAdapter);
             }
         };
@@ -155,7 +160,11 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.tv_done:
-                sendIntent();
+                if(getSelectedImage().size() == 0){
+                    Utils.showLongToast(ImageSelectActivity.this,getString(R.string.err_pick_image));
+                }else{
+                    sendIntent();
+                }
                 break;
 
         }

@@ -23,13 +23,17 @@ import vn.tonish.hozo.utils.LogUtils;
 
 public class ImageSelectAdapter extends ArrayAdapter<Image> {
     private static final String TAG = ImageSelectAdapter.class.getName();
+    private boolean isOnlyImage = false;
+    private ArrayList<Image> images;
 
-    public ImageSelectAdapter(Context _context, ArrayList<Image> address) {
-        super(_context, R.layout.item_image_select, address);
+    public ImageSelectAdapter(Context _context, ArrayList<Image> images, boolean isOnlyImage) {
+        super(_context, R.layout.item_image_select, images);
+        this.isOnlyImage = isOnlyImage;
+        this.images = images;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final Image item = getItem(position);
 
         LogUtils.d(TAG, "getView , item : " + item.toString());
@@ -53,22 +57,41 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
             holder.imgCheck.setVisibility(View.GONE);
         }
 
-        holder.imgImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (item.isSelected) {
-                    holder.imgCheck.setVisibility(View.GONE);
-                    item.setSelected(false);
-                } else {
+        if (isOnlyImage) {
+            holder.imgImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
                     holder.imgCheck.setVisibility(View.VISIBLE);
                     item.setSelected(true);
+
+                    for(int i=0;i< images.size();i++){
+                        if(i != position){
+                            images.get(i).setSelected(false);
+                        }
+                    }
+
                 }
-            }
-        });
+            });
+        } else {
+            holder.imgImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (item.isSelected) {
+                        holder.imgCheck.setVisibility(View.GONE);
+                        item.setSelected(false);
+                    } else {
+                        holder.imgCheck.setVisibility(View.VISIBLE);
+                        item.setSelected(true);
+                    }
+                }
+            });
+        }
+
 
         DeviceUtils.DisplayInfo displayInfo = DeviceUtils.getDisplayInfo(getContext());
 
-        int whImage = displayInfo.getWidth() / 3 - 6;
+        int whImage = displayInfo.getWidth() / 3;
 
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.imgImage.getLayoutParams();
         params.width = whImage;
