@@ -91,19 +91,9 @@
     <string name="post_task_title">Chi tiet dang viec</string>
     <string name="post_a_task_title">Chi tiet dang viec</string>
     <string name="tv_post_a_task_title">Chi tiet dang viec</string>
-    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
-    <string name="edt_proflie_tv_name">Tên</string>
-    <string name="edt_proflie_tv_address">Địa chỉ</string>
-    <string name="edit_profile_btn_save">Lưu lại</string>
-    <string name="select_task_title">Đăng việc</string>
-    <string name="browse_task_title">Tìm việc</string>
-    <string name="my_task_title">Việc của tôi</string>
+
     <string name="notify_title">Thông báo</string>
 
-    <!-- post a task map-->
-    <string name="msg_err_gps">Yêu cầu bật GPS</string>
-    <string name="msg_err_address">Vui long nhap dia chi</string>
-
     <!-- post a task -->
     <string name="pick_image_take_picture">Chụp ảnh</string>
     <string name="pick_image_album">Album</string>
@@ -115,26 +105,6 @@
     <!-- post a task map-->
     <string name="msg_err_gps">Yêu cầu bật GPS</string>
     <string name="msg_err_address">Vui long nhap dia chi</string>
-
-    <!-- post a task -->
-    <string name="pick_image_take_picture">Chụp ảnh</string>
-    <string name="pick_image_album">Album</string>
-    <string name="pick_image_title">Đăng ảnh từ</string>
-
-    <!-- select image-->
-    <string name="err_pick_image">Vui lòng chọn ít nhất 1 ảnh</string>
-
-    <!-- post a task map-->
-    <string name="msg_err_gps">Yêu cầu bật GPS</string>
-    <string name="msg_err_address">Vui long nhap dia chi</string>
-
-    <!-- post a task -->
-    <string name="pick_image_take_picture">Chụp ảnh</string>
-    <string name="pick_image_album">Album</string>
-    <string name="pick_image_title">Đăng ảnh từ</string>
-
-    <!-- select image-->
-    <string name="err_pick_image">Vui lòng chọn ít nhất 1 ảnh</string>
 
 
     <string-array name="gender">
