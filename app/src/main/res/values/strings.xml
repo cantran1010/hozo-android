@@ -124,6 +124,18 @@
     <!-- select image-->
     <string name="err_pick_image">Vui lòng chọn ít nhất 1 ảnh</string>
 
+    <!-- post a task map-->
+    <string name="msg_err_gps">Yêu cầu bật GPS</string>
+    <string name="msg_err_address">Vui long nhap dia chi</string>
+
+    <!-- post a task -->
+    <string name="pick_image_take_picture">Chụp ảnh</string>
+    <string name="pick_image_album">Album</string>
+    <string name="pick_image_title">Đăng ảnh từ</string>
+
+    <!-- select image-->
+    <string name="err_pick_image">Vui lòng chọn ít nhất 1 ảnh</string>
+
 
     <string-array name="gender">
         <item>Nam</item>
