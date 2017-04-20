@@ -5,30 +5,21 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.customview.NameView;
 import vn.tonish.hozo.customview.OtpView;
-import vn.tonish.hozo.network.NetworkConfig;
-import vn.tonish.hozo.network.NetworkUtils;
 
 import static android.support.v4.view.ViewCompat.animate;
 import static vn.tonish.hozo.common.Constants.OTP_VIEW;
+import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
-import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 /**
  * Created by MAC2015 on 4/11/17.
@@ -68,7 +59,6 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
-
         edtPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -117,7 +107,6 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
         if (nameView == null) {
             nameView = new NameView(context);
         }
-
         return nameView;
     }
 
