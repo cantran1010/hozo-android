@@ -18,16 +18,12 @@
     <string name="notification_name">Lâm voi lam voi</string>
     <string name="notification_default">đã bình luận trong mục</string>
     <string name="notification_time">cách đây 2 tuần</string>
+    <string name="notification_more"><u>Chi tiết</u></string>
 
-    <string name="notification_more">
-        <u>Chi tiết</u>
-    </string>
-    >>>>>>> post a task layout
     <string name="notification_notify">Thông báo chưa đọc</string>
     <!--profile Screen-->
     <string name="profile_tv_header">Hồ sơ cá nhân</string>
-    <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn
-    </string>
+    <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
     <string name="btn_save">LƯU</string>
     <string name="tv_type_of_work">Loại công việc</string>
     <string name="tv_fee">Chi phí</string>
@@ -40,9 +36,7 @@
     <string name="tv_age">Độ tuổi</string>
     <string name="tv_notification">Thông báo công việc</string>
     <string name="vnd">(VND)</string>
-    <string name="share_content">Hãy chia sẻ ứng dụng Hozo để tạo nên \n kết nối hữu ích cho mọi
-        người
-    </string>
+    <string name="share_content">Hãy chia sẻ ứng dụng Hozo để tạo nên \n kết nối hữu ích cho mọi người</string>
     <string name="share_title">Chia sẻ với bạn bè</string>
     <string name="other_profile">Hồ sơ cá nhân</string>
     <string name="other_history">Lịch sử giao dịch</string>
@@ -61,10 +55,7 @@
     <string name="login_resend_otp">Gửi lại mã code</string>
     <string name="tv_label_name">Họ và tên của bạn là gì?</string>
     <string name="tv_login_save">Lưu lại</string>
-
-    <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều
-        khoản và chính sách của chúng tôi
-    </string>
+    <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản và chính sách của chúng tôi</string>
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
     <!--all screen-->
     <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
@@ -121,7 +112,7 @@
         <item>36 ~ 40</item>
         <item>41 ~ 45</item>
         <item>46 ~ 50</item>
-        <item>Trên 50</item>
+        <item> Trên 50</item>
     </string-array>
 
 </resources>
