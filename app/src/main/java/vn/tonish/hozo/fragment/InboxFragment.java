@@ -13,7 +13,6 @@ import vn.tonish.hozo.customview.DividerItemDecoration;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 
-
 /**
  * Created by Admin on 4/4/2017.
  */
