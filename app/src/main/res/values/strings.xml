@@ -84,7 +84,13 @@
     <string name="post_task_title">Chi tiet dang viec</string>
     <string name="post_a_task_title">Chi tiet dang viec</string>
     <string name="tv_post_a_task_title">Chi tiet dang viec</string>
-
+    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
+    <string name="edt_proflie_tv_name">Tên</string>
+    <string name="edt_proflie_tv_address">Địa chỉ</string>
+    <string name="edit_profile_btn_save">Lưu lại</string>
+    <string name="select_task_title">Đăng việc</string>
+    <string name="browse_task_title">Tìm việc</string>
+    <string name="my_task_title">Việc của tôi</string>
     <string name="notify_title">Thông báo</string>
 
     <!-- post a task -->
