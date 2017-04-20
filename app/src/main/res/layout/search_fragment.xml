@@ -9,29 +9,62 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/hozo_bg">
+        android:background="@color/hozo_bg"
+        android:padding="8dp">
+
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/ic_launcher"
+            android:gravity="center"
+            android:text="map" />
+
+        <TextView
+            android:id="@+id/tv_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/browse_task_title"
             android:textColor="@color/white" />
 
+        <TextView
+            android:id="@+id/tv_advance_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/ic_launcher"
+            android:gravity="center"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:text="setting" />
+
     </RelativeLayout>
 
 
-    <TextView
+    <EditText
+        android:id="@+id/et_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="8dp"
-        android:text="102 - Trường Chinh - Đống Đa - Hà Nội" />
+        android:hint="Search"
+        android:padding="8dp" />
+
+    <Spinner
+        android:id="@+id/spin_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"></Spinner>
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swpRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="8dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lvList"

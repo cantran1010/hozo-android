@@ -8,10 +8,10 @@ import io.realm.RealmObject;
  * Created by CanTran on 12/04/2017.
  */
 
-public class Notification extends RealmObject  implements Serializable {
+public class Notification extends RealmObject implements Serializable {
 
     private int status;
-    private String id;
+    private int id;
     private String title;
     private String content;
     private String created_date;
@@ -19,7 +19,7 @@ public class Notification extends RealmObject  implements Serializable {
     public Notification() {
     }
 
-    public Notification(int status, String id, String title, String content, String created_date) {
+    public Notification(int status, int id, String title, String content, String created_date) {
         this.status = status;
         this.id = id;
         this.title = title;
@@ -35,11 +35,11 @@ public class Notification extends RealmObject  implements Serializable {
         this.status = status;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

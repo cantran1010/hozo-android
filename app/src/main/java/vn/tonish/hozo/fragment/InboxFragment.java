@@ -1,43 +1,73 @@
 package vn.tonish.hozo.fragment;
 
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.adapter.NotificationRecyclerAdapter;
+import vn.tonish.hozo.adapter.NotificationAdapter;
+import vn.tonish.hozo.customview.DividerItemDecoration;
 import vn.tonish.hozo.model.Notification;
-import vn.tonish.hozo.model.NotificationMessage;
+import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 
 /**
  * Created by Admin on 4/4/2017.
  */
 
 public class InboxFragment extends BaseFragment {
-    LinearLayoutManager linearLayoutManager;
-    private  ArrayList<Object> Notifications = new ArrayList<>();
-    private NotificationRecyclerAdapter adapter;
-    private RecyclerView  recyclerView;
+
+    private LinearLayoutManager linearLayoutManager;
+    private NotificationAdapter adapter;
+    private RecyclerView lvList;
+    private List<Notification> notifications;
+
+
+    private TextView tv_notify;
+
     @Override
     protected int getLayout() {
-        return vn.tonish.hozo.R.layout.notifi_fragment;
+        return vn.tonish.hozo.R.layout.fragment_notify;
     }
 
     @Override
     protected void initView() {
-/*        Notifications.add(new Notification(0,"1","xem hàng họ","hàng ngon vãi","24/10/2017"));
-        Notifications.add(new NotificationMessage(1,"1","type","xem hàng họ","hàng ngon vãi","24/10/2017"));
-        linearLayoutManager = new LinearLayoutManager(getActivity(), OrientationHelper.VERTICAL, false);
-        recyclerView = (RecyclerView) findViewById(R.id.lv_notification);
-        adapter = new NotificationRecyclerAdapter(getContext(),Notifications);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);*/
+        tv_notify = (TextView) findViewById(R.id.tv_notify);
+
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        lvList = (RecyclerView) findViewById(R.id.lvList);
+        notifications = new ArrayList<>();
+        adapter = new NotificationAdapter(getActivity(), notifications);
+        lvList.setLayoutManager(linearLayoutManager);
+        lvList.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.divider));
+        lvList.setAdapter(adapter);
+        dummyData();
+
+        lvList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+
+            }
+        });
+        createSwipeToRefresh();
 
     }
+
+    public void dummyData() {
+
+        for (int i = 0; i < 10; i++) {
+            Notification notification = new Notification();
+            notification.setId(i);
+            notification.setContent("Bạn nhận được 1 tin nhắn từ Hozo");
+            notification.setCreated_date("2017-04-18T03:48:10+00:00");
+            notification.setTitle("Bạn nhận được 1 tin nhắn từ Hozo");
+            notifications.add(notification);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
 
     @Override
     protected void initData() {
@@ -49,4 +79,9 @@ public class InboxFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onRefresh() {
+        super.onRefresh();
+
+    }
 }

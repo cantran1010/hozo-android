@@ -11,11 +11,56 @@
     <string name="all_my_task">My tasks</string>
     <string name="all_notification">Notifications</string>
     <string name="all_other">Other</string>
+
+
+    <!--notification Screen-->
+    =======
     <string name="all_back">Quay lại</string>
     <string name="notification_name">Lâm voi lam voi</string>
     <string name="notification_default">đã bình luận trong mục</string>
     <string name="notification_time">cách đây 2 tuần</string>
     <string name="notification_more"><u>Chi tiết</u></string>
+
+
+    <string name="notification_notify">Thông báo chưa đọc</string>
+
+    <!--Edit profile Screen-->
+    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
+    <string name="edt_proflie_tv_name">Tên</string>
+    <string name="edt_proflie_tv_address">Địa chỉ</string>
+    <string name="edit_profile_btn_save">Lưu lại</string>
+    <string name="select_task_title">Đăng việc</string>
+    <string name="browse_task_title">Tìm việc</string>
+    <string name="my_task_title">Việc của tôi</string>
+    <string name="notify_title">Thông báo</string>
+    <string name="other_title">Tùy chỉnh</string>
+
+    <!--profile Screen-->
+    <string name="profile_tv_header">Hồ sơ cá nhân</string>
+    <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
+    <string name="btn_save">LƯU</string>
+    <string name="tv_type_of_work">Loại công việc</string>
+    <string name="tv_fee">Chi phí</string>
+
+    <!--advance setting screen -->
+    <string name="advance_setting_title">Cài đặt nâng cao</string>
+    <string name="tv_location">Địa điểm</string>
+    <string name="tv_time">Thời gian</string>
+    <string name="tv_sex">Giới tính</string>
+    <string name="tv_age">Độ tuổi</string>
+    <string name="tv_notification">Thông báo công việc</string>
+    <string name="vnd">(VND)</string>
+    <string name="share_content">Hãy chia sẻ ứng dụng Hozo để tạo nên \n kết nối hữu ích cho mọi người</string>
+    <string name="share_title">Chia sẻ với bạn bè</string>
+    <string name="other_profile">Hồ sơ cá nhân</string>
+    <string name="other_history">Lịch sử giao dịch</string>
+    <string name="other_menthod">Hình thức thanh toán</string>
+    <string name="other_condition">Điều khoản sử dụng</string>
+    <string name="other_nad">Chính sách bảo mật</string>
+    <string name="other_share">Chia sẻ</string>
+    <string name="other_about">Chúng tôi - Hozo</string>
+    <string name="other_info">Thông tin chung</string>
+
     <string name="ed_login_phone">Nhập số điện thoại của bạn vào</string>
     <string name="login_label_phone">Đăng nhập với Hò zô</string>
     <string name="login_zone">+84</string>
@@ -28,15 +73,7 @@
     <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản và chính sách của chúng tôi</string>
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
     <!--all screen-->
-    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
-    <string name="edt_proflie_tv_name">Ten</string>
-    <string name="edt_proflie_tv_address">Dia chi</string>
-    <string name="edit_profile_btn_save">Save</string>
-    <string name="select_task_title">Dang viec</string>
-    <string name="browse_task_title">Tim Viec</string>
-    <string name="my_task_title">Viec cua toi</string>
-    <string name="notifi_title">Thong bao</string>
-    <string name="other_title">Khac</string>
+
     <string name="post_task_title">Chi tiet dang viec</string>
     <string name="post_a_task_title">Chi tiet dang viec</string>
     <string name="tv_post_a_task_title">Chi tiet dang viec</string>

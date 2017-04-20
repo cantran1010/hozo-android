@@ -18,6 +18,7 @@ public abstract class BaseAdapter<T, H extends BaseHolder, L extends BaseHolder>
     public static final int VIEW_TYPE_ITEM = 0;
 
     public void stopLoadMore() {
+
         isLoad = false;
     }
 

@@ -1,9 +1,13 @@
 package vn.tonish.hozo.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
 import vn.tonish.hozo.fragment.HelpFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
@@ -13,7 +17,13 @@ import vn.tonish.hozo.fragment.SelectTaskFragment;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private LinearLayout layoutPostTask,layoutBrowerTask,layoutMyTask,layoutInbox,layoutOther;
+    private View layoutPostTask, layoutBrowerTask, layoutMyTask, layoutOther;
+    private View layoutInbox;
+
+
+    private BroadcastReceiver badgeChangeListener;
+
+    private IntentFilter intentFilter;
 
     @Override
     protected int getLayout() {
@@ -22,38 +32,57 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initView() {
-        layoutPostTask = (LinearLayout) findViewById(R.id.layout_post_a_task);
-        layoutBrowerTask = (LinearLayout) findViewById(R.id.layout_brower_task);
-        layoutMyTask = (LinearLayout) findViewById(R.id.layout_my_task);
-        layoutInbox = (LinearLayout) findViewById(R.id.layout_inbox);
-        layoutOther = (LinearLayout) findViewById(R.id.layout_other);
+        layoutPostTask = findViewById(R.id.layout_post_a_task);
+        layoutBrowerTask = findViewById(R.id.layout_browser_task);
+        layoutMyTask = findViewById(R.id.layout_my_task);
+        layoutInbox = findViewById(R.id.layout_inbox);
+        layoutOther = findViewById(R.id.layout_other);
+        badgeChangeListener = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+            }
+        };
+        intentFilter = new IntentFilter(Constants.BADGE);
+        registerReceiver(badgeChangeListener, intentFilter);
+
     }
 
     @Override
     protected void initData() {
 
         openFragment(R.id.layout_container, SelectTaskFragment.class, false);
-
         layoutPostTask.setOnClickListener(this);
         layoutBrowerTask.setOnClickListener(this);
         layoutMyTask.setOnClickListener(this);
         layoutInbox.setOnClickListener(this);
         layoutOther.setOnClickListener(this);
+
     }
 
     @Override
     protected void resumeData() {
+        if (badgeChangeListener != null)
+            registerReceiver(badgeChangeListener, intentFilter);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (badgeChangeListener != null)
+            unregisterReceiver(badgeChangeListener);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+
+        switch (v.getId()) {
             case R.id.layout_post_a_task:
                 openFragment(R.id.layout_container, SelectTaskFragment.class, false);
+                layoutPostTask.setSelected(true);
                 break;
 
-            case R.id.layout_brower_task:
+            case R.id.layout_browser_task:
                 openFragment(R.id.layout_container, BrowseTaskFragment.class, false);
                 break;
 

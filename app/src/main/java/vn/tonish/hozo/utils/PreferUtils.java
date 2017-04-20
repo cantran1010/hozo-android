@@ -28,6 +28,31 @@ public class PreferUtils {
     private static final String PREFER_PUSH_MESSAGE = "push_message";
     private static final String KEY_ENCRYPTION = "kenc";
 
+    public SharedPreferences preferences;
+
+    public static PreferUtils preferUtils;
+
+    public static Context context;
+
+    public PreferUtils(Context context) {
+        preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
+        this.context = context;
+    }
+
+    public static PreferUtils getInstance(Context context) {
+        if (preferUtils != null) {
+            return preferUtils;
+        } else {
+            preferUtils = new PreferUtils(context);
+            return preferUtils;
+        }
+    }
+
+    // just example method
+    public static void setMessage(String message) {
+
+    }
+
     public static boolean isPushMessage(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
         return preferences.getBoolean(PREFER_PUSH_MESSAGE, false);

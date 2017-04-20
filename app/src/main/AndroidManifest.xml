@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -18,10 +18,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        
         <activity
             android:name="vn.tonish.hozo.activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustNothing"></activity>
 
         <activity
             android:name="vn.tonish.hozo.activity.LoginScreen"
@@ -29,13 +31,26 @@
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".activity.PostATaskActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.AdvanceSettingsActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name=".activity.other.ProfileActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.other.ShareActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
@@ -59,9 +74,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBPbEgWfBIyEQ-LPB28kM_BF_2urrGNqz8" />
+
 
         <service android:name="vn.tonish.hozo.fcm.MyFireBaseMessagingService">
             <intent-filter>

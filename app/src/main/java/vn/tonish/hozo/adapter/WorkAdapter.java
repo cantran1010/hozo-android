@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -16,42 +17,72 @@ import vn.tonish.hozo.model.Work;
  * Created by MAC2015 on 4/12/17.
  */
 
-public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.WorkHolder> {
+public class WorkAdapter extends BaseAdapter<Work, WorkAdapter.WorkHolder, LoadingHolder> {
 
     private List<Work> works;
     private Context context;
 
     public WorkAdapter(Context context, List<Work> works) {
+        super(context, works);
         this.context = context;
         this.works = works;
     }
 
-    private View view;
+    @Override
+    public int getItemLayout() {
+        return R.layout.adapter_work;
+    }
 
     @Override
-    public WorkHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(context).inflate(R.layout.adapter_work, parent, false);
+    public int getLoadingLayout() {
+        return R.layout.bottom_loading;
+    }
+
+    @Override
+    public WorkHolder returnItemHolder(View view) {
         return new WorkHolder(view, context);
     }
 
     @Override
-    public void onBindViewHolder(WorkHolder holder, int position) {
-
+    public LoadingHolder returnLoadingHolder(View view) {
+        return new LoadingHolder(view, context);
     }
 
     @Override
-    public int getItemCount() {
-        return works == null ? 0 : works.size();
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof WorkHolder) {
+            WorkHolder workHolder = ((WorkHolder) holder);
+            workHolder.work = works.get(position);
+            workHolder.tvName.setText(workHolder.work.getName());
+            workHolder.tvDes.setText(workHolder.work.getDes());
+            workHolder.tvPrice.setText(workHolder.work.getPrice());
+        }
     }
-
-    class WorkHolder extends RecyclerView.ViewHolder {
+    
+    class WorkHolder extends BaseHolder {
 
         private Work work;
-        private TextView tvName;
-        private TextView tvDes;
+        private final TextView tvName;
+        private final TextView tvDes;
+        private final TextView tvPrice;
 
-        public WorkHolder(View itemView, Context context) {
+        private final View.OnClickListener onClickListener;
+
+        private final View view;
+
+        public WorkHolder(View itemView, final Context context) {
             super(itemView);
+            this.view = itemView;
+            this.tvName = (TextView) itemView.findViewById(R.id.tv_name);
+            this.tvDes = (TextView) itemView.findViewById(R.id.tv_des);
+            this.tvPrice = (TextView) itemView.findViewById(R.id.tv_price);
+            this.onClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, "Coming soon...!", Toast.LENGTH_SHORT).show();
+                }
+            };
+            this.view.setOnClickListener(onClickListener);
         }
 
     }

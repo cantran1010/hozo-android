@@ -4,21 +4,20 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 
 /**
- * Created by huyquynh on 4/12/17.
+ * Created by huyquynh on 4/19/17.
  */
 
-public class ProfileActivity extends BaseActivity {
-
-
+public class ShareActivity extends BaseActivity {
     @Override
     protected int getLayout() {
-        return R.layout.activity_profile;
+        return R.layout.activity_share;
     }
 
     @Override
     protected void initView() {
         setBackButton();
-        setTitleHeader(getString(R.string.profile_tv_header));
+        setTitleHeader(getString(R.string.share_title));
+
     }
 
     @Override
