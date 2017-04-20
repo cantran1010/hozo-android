@@ -232,14 +232,13 @@ public class NetworkUtils {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 LogUtils.e(TAG, "postVolley volleyError : " + volleyError.toString());
-                LogUtils.e(TAG, volleyError.networkResponse.statusCode + "");
 
                 if (isShowDialogError)
 
                     DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
                         @Override
                         public void onOkClick() {
-                            postVolleyRaw(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, jsonRequest, networkListener);
+                            postVolley(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, jsonRequest, networkListener);
                         }
 
                         @Override
