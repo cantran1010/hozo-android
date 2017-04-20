@@ -45,7 +45,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private ImageAdapter imageAdapter;
     private ArrayList<Image> images = new ArrayList<>();
     private String imgPath;
-    private TextView tvStartTime, tvEndTime, tvDate;
+    private TextView tvStartTime, tvEndTime, tvDate, tvAddress;
     private Date dateWork;
     private Calendar calendar = Calendar.getInstance();
     private Calendar calendarTimeStart = Calendar.getInstance();
@@ -77,6 +77,9 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
         tvDate = (TextView) findViewById(R.id.tv_date);
         tvDate.setOnClickListener(this);
+
+        tvAddress = (TextView) findViewById(R.id.tv_address);
+        tvAddress.setOnClickListener(this);
     }
 
     @Override
@@ -95,10 +98,10 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             public void onImageAdapterListener() {
 
 
-                final CharSequence[] items = {"Chụp ảnh", "Album",};
+                final CharSequence[] items = {getString(R.string.pick_image_take_picture), getString(R.string.pick_image_album),};
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(PostATaskActivity.this);
-                builder.setTitle("Chọn ảnh từ");
+                builder.setTitle(getString(R.string.pick_image_title));
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         switch (item) {
@@ -136,8 +139,13 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.btn_next:
+                Intent intentFinish = new Intent(this, PostATaskFinishActivity.class);
+                startActivity(intentFinish);
+                break;
+
+            case R.id.tv_address:
                 Intent intent = new Intent(this, PostATaskMapActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,Constants.REQUEST_CODE_ADDRESS);
                 break;
 
             case R.id.layout_start_time:
@@ -235,6 +243,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             image.setPath(selectedImagePath);
             images.add(0, image);
             imageAdapter.notifyDataSetChanged();
+        }else if(requestCode == Constants.REQUEST_CODE_ADDRESS && resultCode == Constants.RESPONSE_CODE_ADDRESS){
+            tvAddress.setText(data.getStringExtra(Constants.EXTRA_ADDRESS));
         }
     }
 

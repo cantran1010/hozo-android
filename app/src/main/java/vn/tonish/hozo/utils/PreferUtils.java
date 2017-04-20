@@ -36,7 +36,7 @@ public class PreferUtils {
     public static void setPushMessage(Context context, boolean isLogin) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putBoolean(PREFER_PUSH_MESSAGE, isLogin);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean isPushNoShow(Context context) {
@@ -47,7 +47,7 @@ public class PreferUtils {
     public static void setPushNoShow(Context context, boolean isLogin) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putBoolean(PREFER_PUSH_NOSHOW, isLogin);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean isPushShow(Context context) {
@@ -58,7 +58,7 @@ public class PreferUtils {
     public static void setPushShow(Context context, boolean isLogin) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putBoolean(PREFER_PUSH_SHOW, isLogin);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean isPushDeny(Context context) {
@@ -69,7 +69,7 @@ public class PreferUtils {
     public static void setPushDeny(Context context, boolean isLogin) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putBoolean(PREFER_PUSH_DENY, isLogin);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean isPushAccept(Context context) {
@@ -80,7 +80,7 @@ public class PreferUtils {
     public static void setPushAccept(Context context, boolean isLogin) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putBoolean(PREFER_PUSH_ACCEPT, isLogin);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean isAutoLogin(Context context) {
@@ -91,7 +91,7 @@ public class PreferUtils {
     public static void setIsAutoLogin(Context context, boolean isLogin) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putBoolean(PREFER_IS_AUTO_LOGIN, isLogin);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean isLogin(Context context) {
@@ -102,13 +102,13 @@ public class PreferUtils {
     public static void setIsLogin(Context context, boolean isLogin) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putBoolean(PREFER_IS_LOGIN, isLogin);
-        editor.commit();
+        editor.apply();
     }
 
     public static void setHomeList(Context context, boolean isList) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putBoolean(PREFER_HOME_LIST, isList);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean isHomeList(Context context) {
@@ -135,13 +135,13 @@ public class PreferUtils {
     public static void setPushChat(Context context, boolean isPush) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putBoolean(PREFER_PUSH_CHAT, isPush);
-        editor.commit();
+        editor.apply();
     }
 
     public static void setUserId(Context context, int userId) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putInt(PREFER_USER_ID, userId);
-        editor.commit();
+        editor.apply();
     }
 
     public static int getUserId(Context context) {
@@ -154,7 +154,7 @@ public class PreferUtils {
                 PREFER_NAME, Context.MODE_MULTI_PROCESS);
         Editor editor = prefs.edit();
         editor.putString(PREFER_SESSION, session);
-        editor.commit();
+        editor.apply();
     }
 
     public static String getSession(Context context) {
@@ -165,7 +165,7 @@ public class PreferUtils {
     public static void setKeyEncryption(Context context, String key) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putString(KEY_ENCRYPTION, key);
-        editor.commit();
+        editor.apply();
     }
 
     public static String getKeyEncryption(Context context) {

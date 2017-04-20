@@ -50,15 +50,20 @@
         android:layout_above="@id/btn_next"
         android:layout_margin="10dp"
         android:background="@drawable/border_gray"
-        android:hint="102 truong trinh"
+        android:hint="Nhập địa chỉ tại đây"
+        android:inputType="text"
         android:maxLines="1"
-        android:padding="5dp" />
+        android:padding="5dp"
+        android:textColorHint="@color/gray" />
 
     <TextView
         android:id="@+id/tv_des"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/edt_address"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:text="Nhap dia diem (hoac di chuyen pin tren ban do)" />
 
     <RelativeLayout

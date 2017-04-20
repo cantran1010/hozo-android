@@ -32,22 +32,21 @@ public class SelectTaskFragment extends BaseFragment {
     @Override
     protected void initView() {
         rcvTask = (RecyclerView) findViewById(R.id.rcv_task);
-
     }
 
     @Override
     protected void initData() {
 
-        createSwipeToRefresh();
-
         //fake data
         Category category1 = new Category();
         category1.setId(1);
         category1.setName("Viec Chan Tay");
+        category1.setPresentPath("http://palmcoastcomputerrepair.net/wp-content/uploads/2014/08/on-line-computer-repair-options.jpg");
 
         Category category2 = new Category();
         category2.setId(2);
         category2.setName("It");
+        category2.setPresentPath("https://cdn.pixabay.com/photo/2015/12/22/04/00/edit-1103598_960_720.png");
 
         categories.add(category1);
         categories.add(category2);
@@ -69,10 +68,11 @@ public class SelectTaskFragment extends BaseFragment {
                         for (int i = 0; i < 10; i++) {
                             Category category = new Category();
                             category.setName("Name " + i);
+                            category.setPresentPath("https://cdn.pixabay.com/photo/2015/12/22/04/00/edit-1103598_960_720.png");
                             categories.add(category);
                         }
                         categoryAdapter.notifyDataSetChanged();
-                        categoryAdapter.stopLoadMore();
+//                        categoryAdapter.stopLoadMore();
                     }
                 }, 2000);
             }
@@ -84,16 +84,4 @@ public class SelectTaskFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void onRefresh() {
-        super.onRefresh();
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                onStopRefresh();
-            }
-        }, 2000);
-    }
 }

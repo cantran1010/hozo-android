@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Album;
+import vn.tonish.hozo.utils.DeviceUtils;
 import vn.tonish.hozo.utils.LogUtils;
 
 /**
@@ -40,7 +42,7 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
             holder = new ViewHolder();
             holder.imgAlbum = (ImageView) convertView.findViewById(R.id.img_album);
             holder.tvName = (TextView) convertView.findViewById(R.id.tv_name);
-
+            holder.mainLayout = (RelativeLayout) convertView.findViewById(R.id.layout_main);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -53,12 +55,13 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
                 .load(item.getCoverPath())
                 .centerCrop().into(holder.imgAlbum);
 
-//        holder.imgAlbum.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        DeviceUtils.DisplayInfo displayInfo = DeviceUtils.getDisplayInfo(getContext());
+        int whImage = displayInfo.getWidth() / 3;
+
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.mainLayout.getLayoutParams();
+        params.width = whImage;
+        params.height = whImage;
+        holder.mainLayout.setLayoutParams(params);
 
         return convertView;
     }
@@ -66,5 +69,6 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
     public static class ViewHolder {
         ImageView imgAlbum;
         TextView tvName;
+        RelativeLayout mainLayout;
     }
 }
