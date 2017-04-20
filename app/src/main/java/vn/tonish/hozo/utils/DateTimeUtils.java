@@ -14,11 +14,11 @@ public class DateTimeUtils {
     public static String changeFormatDate(String input) {
         Date date = null;
         try {
-            date = new SimpleDateFormat(DATE_FORMAT_IN).parse(input);
+            date = new SimpleDateFormat(DATE_FORMAT_IN,Locale.getDefault()).parse(input);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String result = new SimpleDateFormat(DATE_FORMAT_OUT).format(date);
+        String result = new SimpleDateFormat(DATE_FORMAT_OUT,Locale.getDefault()).format(date);
         return result;
     }
 
@@ -28,16 +28,15 @@ public class DateTimeUtils {
     public static String changeFormatDate2(String input) {
         Date date = null;
         try {
-            date = new SimpleDateFormat(DATE_FORMAT_IN2).parse(input);
+            date = new SimpleDateFormat(DATE_FORMAT_IN2,Locale.getDefault()).parse(input);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String result = new SimpleDateFormat(DATE_FORMAT_OUT2).format(date);
+        String result = new SimpleDateFormat(DATE_FORMAT_OUT2,Locale.getDefault()).format(date);
         return result;
     }
 
     public static String changeFormatDate2(Calendar newDate) {
-
         String myFormat = "yyyy MM dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         return sdf.format(newDate.getTime());
@@ -49,7 +48,7 @@ public class DateTimeUtils {
     public static Date convertToDate(String input) {
         Date date = null;
         try {
-            date = new SimpleDateFormat(DATE_FORMAT).parse(input);
+            date = new SimpleDateFormat(DATE_FORMAT,Locale.getDefault()).parse(input);
         } catch (ParseException e) {
             e.printStackTrace();
         }

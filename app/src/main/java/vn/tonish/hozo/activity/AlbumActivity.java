@@ -36,6 +36,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private ArrayList<Album> albums = new ArrayList<>();
     private AlbumAdapter albumAdapter;
     private RelativeLayout layoutBack;
+    private boolean isOnlyImage = false;
 
 
     @Override
@@ -52,6 +53,11 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initData() {
+        Intent intent = getIntent();
+
+        if(intent.hasExtra(Constants.EXTRA_ONLY_IMAGE))
+            isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE,false);
+
         getAlbum();
     }
 
@@ -69,7 +75,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
 
                 Cursor cursor = getApplicationContext().getContentResolver()
                         .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
-                                null, null, MediaStore.Images.Media.DATE_ADDED);
+                                null, null, MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
 
                 ArrayList<Album> temp = new ArrayList<>(cursor.getCount());
                 HashSet<Long> albumSet = new HashSet<>();
@@ -123,6 +129,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent intent = new Intent(getApplicationContext(), ImageSelectActivity.class);
                         intent.putExtra(Constants.INTENT_EXTRA_ALBUM, albums.get(position).getName());
+                        intent.putExtra(Constants.EXTRA_ONLY_IMAGE,isOnlyImage);
                         startActivityForResult(intent, REQUEST_CODE_PICKIMAGE);
                     }
                 });
