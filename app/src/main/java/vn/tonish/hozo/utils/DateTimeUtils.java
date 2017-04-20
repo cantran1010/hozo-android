@@ -37,7 +37,6 @@ public class DateTimeUtils {
     }
 
     public static String changeFormatDate2(Calendar newDate) {
-
         String myFormat = "yyyy MM dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         return sdf.format(newDate.getTime());

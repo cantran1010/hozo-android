@@ -12,6 +12,10 @@ public class Constants {
     public static final int RESPONSE_CODE_PICKIMAGE = 345;
     public static final String INTENT_EXTRA_IMAGES = "extra_image";
     public static final int REQUEST_CODE_CAMERA = 567;
+    public static final int REQUEST_CODE_ADDRESS = 2345;
+    public static final int RESPONSE_CODE_ADDRESS = 1234;
+    public static final String EXTRA_ADDRESS = "extra_address";
+    public static final String EXTRA_ONLY_IMAGE = "extra_only_image";
 
     public static final int REQUEST_CODE_ADDRESS = 2345;
     public static final int RESPONSE_CODE_ADDRESS = 1234;
