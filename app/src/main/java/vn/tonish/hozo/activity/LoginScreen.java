@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.customview.NameView;
 import vn.tonish.hozo.customview.OtpView;
@@ -59,13 +62,14 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (edtPhone.getText().toString().trim().length() < 9 || edtPhone.getText().toString().trim().length() > 11 || !edtPhone.getText().toString().trim().substring(0, 1).equals("0")) {
+                if (!checkNumberPhone(edtPhone.getText().toString().trim())) {
                     tvContinue.setTextColor(getResources().getColor(R.color.white));
                     tvContinue.setEnabled(false);
                 } else {
                     tvContinue.setTextColor(getResources().getColor(R.color.black));
                     tvContinue.setEnabled(true);
                 }
+
             }
 
             @Override
@@ -178,6 +182,23 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    public boolean checkNumberPhone(String number) {
+        Pattern pattern = Pattern.compile("^[0-9]*$");
+        Matcher matcher = pattern.matcher(number);
+        if (!matcher.matches()) {
+            return false;
+        } else if (number.length() == 10 && number.substring(0, 2).equals("09")) {
+            return true;
+        } else if (number.length() == 10 && number.substring(0, 1).equals("1")) {
+            return true;
+        } else if (number.length() == 11 && number.substring(0, 2).equals("01")) {
+            return true;
+        } else if (number.length() == 9 && number.substring(0, 1).equals("9")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     private void login() {
         showExtendView(OTP_VIEW);

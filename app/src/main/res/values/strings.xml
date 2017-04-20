@@ -48,7 +48,6 @@
     <string name="other_share">Chia sẻ</string>
     <string name="other_about">Chúng tôi - Hozo</string>
     <string name="other_info">Thông tin chung</string>
-
     <string name="ed_login_phone">Nhập số điện thoại của bạn vào</string>
     <string name="login_label_phone">Đăng nhập với Hò zô</string>
     <string name="login_zone">+84</string>
@@ -62,19 +61,19 @@
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
     <!--all screen-->
 
-    <!--<string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>-->
-    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
-    <string name="edt_proflie_tv_name">Ten</string>
-    <string name="edt_proflie_tv_address">Dia chi</string>
-    <string name="edit_profile_btn_save">Save</string>
-    <string name="select_task_title">Dang viec</string>
-    <string name="browse_task_title">Tim Viec</string>
-    <string name="my_task_title">Viec cua toi</string>
-    <string name="notifi_title">Thong bao</string>
-    <string name="other_title">Khac</string>
+    <!--Edit profile Screen-->
     <string name="post_task_title">Chi tiet dang viec</string>
     <string name="post_a_task_title">Chi tiet dang viec</string>
     <string name="tv_post_a_task_title">Chi tiet dang viec</string>
+    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
+    <string name="edt_proflie_tv_name">Tên</string>
+    <string name="edt_proflie_tv_address">Địa chỉ</string>
+    <string name="edit_profile_btn_save">Lưu lại</string>
+    <string name="select_task_title">Đăng việc</string>
+    <string name="browse_task_title">Tìm việc</string>
+    <string name="my_task_title">Việc của tôi</string>
+    <string name="notify_title">Thông báo</string>
+    <string name="other_title">Tùy chỉnh</string>
 
 
     <string-array name="gender">

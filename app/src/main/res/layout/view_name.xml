@@ -1,98 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/btn_back"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+    <include layout="@layout/header" />
 
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center_vertical"
-            android:src="@mipmap/ic_launcher" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="30dp"
-            android:text="@string/all_back"
-            android:textColor="@color/black" />
-    </FrameLayout>
-
-    <ScrollView
+    <TextView
+        style="@style/Base.TextAppearance.AppCompat.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:text="@string/tv_label_name"
-                android:textColor="@color/black"
-                android:textSize="@dimen/size_normal" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
-
-                <EditText
-                    android:id="@+id/edt_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:minHeight="50dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_gravity="bottom"
-                    android:background="@color/gray" />
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:ellipsize="end"
-                android:maxHeight="100dp"
-                android:maxLines="3"
-                android:text="@string/tv_login_policy"
-                android:textSize="@dimen/size_xsmall" />
-
-            <TextView
-                android:id="@+id/btn_save"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:background="@color/white"
-                android:gravity="center"
-                android:maxHeight="100dp"
-                android:padding="10dp"
-                android:text="@string/tv_login_save"
-                android:textColor="@color/black"
-                android:textSize="@dimen/size_large" />
-        </LinearLayout>
-    </ScrollView>
+        android:layout_margin="20dp"
+        android:maxLines="2"
+        android:text="@string/tv_label_name"
+        android:textColor="@color/black" />
 
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/edt_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:maxLines="2"
+        android:textColorHighlight="@color/red"
+        android:minHeight="40dp" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text="@string/tv_login_policy" />
+
+    <TextView
+        android:id="@+id/btn_save"
+        style="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/tv_login_save"
+        android:textColor="@color/black" />
+
+
+</LinearLayout>
