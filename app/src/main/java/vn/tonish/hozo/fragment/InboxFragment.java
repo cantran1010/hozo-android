@@ -1,16 +1,11 @@
 package vn.tonish.hozo.fragment;
 
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.NotificationRecyclerAdapter;
-import vn.tonish.hozo.model.Notification;
-import vn.tonish.hozo.model.NotificationMessage;
 
 /**
  * Created by Admin on 4/4/2017.

@@ -30,7 +30,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     private EditText mPinForthDigitEditText;
     private EditText mPinHiddenEditText;
     private TextView btnSigin;
-    private FrameLayout btnBack;
+    private TextView btnBack;
 
     public OtpView(Context context) {
         super(context);
@@ -48,7 +48,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         rootView = LayoutInflater.from(context).inflate(R.layout.view_otp, null);
         addView(rootView);
         init();
-        btnBack = (FrameLayout) rootView.findViewById(R.id.btn_back);
+        btnBack = (TextView) rootView.findViewById(R.id.btnBack);
         btnSigin = (TextView) rootView.findViewById(R.id.btn_sigin);
         btnBack.setOnClickListener(this);
         btnSigin.setOnClickListener(this);
@@ -235,7 +235,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_back:
+            case R.id.btnBack:
                 ((LoginScreen) context).closeExtendView();
                 break;
             case R.id.btn_sigin:
