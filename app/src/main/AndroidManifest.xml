@@ -18,29 +18,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        
         <activity
             android:name="vn.tonish.hozo.activity.LoginScreen"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+            android:windowSoftInputMode="adjustNothing"></activity>
 
         <activity
             android:name="vn.tonish.hozo.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
             android:name=".activity.PostATaskActivity"
-            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
 
         <activity
@@ -78,10 +74,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
-        <!--<activity-->
-            <!--android:name=".activity.MakeAnOfferActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="stateHidden" />-->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
