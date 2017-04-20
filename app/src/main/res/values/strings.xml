@@ -22,7 +22,7 @@
         <u>Chi tiết</u>
     </string>
 
-
+    <string name="notification_notify">Thông báo chưa đọc</string>
     <!--profile Screen-->
     <string name="profile_tv_header">Hồ sơ cá nhân</string>
     <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
@@ -65,6 +65,8 @@
         khoản và chính sách của chúng tôi
     </string>
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
+
+  
     <!--Edit profile Screen-->
 
     <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
@@ -109,7 +111,6 @@
     <string name="et_min">Min</string>
     <string name="btn_reset">RESET</string>
     <string name="just_image">Just Image</string>
-    <string name="notification_notify">Số thông báo chưa đọc</string>
     <string-array name="gender">
         <item>Nam</item>
         <item>Nu</item>
