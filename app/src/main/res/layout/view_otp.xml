@@ -1,31 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/btn_back"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_gravity="center_vertical"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/ic_launcher" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="30dp"
-            android:text="@string/all_back"
-            android:textColor="@color/black" />
-    </FrameLayout>
+    <include layout="@layout/header" />
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -43,8 +21,7 @@
                 android:layout_gravity="center"
                 android:maxLines="2"
                 android:text="@string/login_enter_otp"
-                android:textColor="@color/black"
-                android:textSize="@dimen/size_normal" />
+                android:textColor="@color/black" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -103,27 +80,27 @@
 
             <TextView
                 android:id="@+id/btn_sigin"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/white"
-                android:gravity="center"
-                android:maxHeight="100dp"
                 android:enabled="false"
+                android:gravity="center"
                 android:padding="10dp"
                 android:text="@string/login_create_account"
-                android:textColor="@color/white"
-                android:textSize="@dimen/size_large" />
+                android:textColor="@color/white" />
 
             <TextView
-                android:layout_width="wrap_content"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:maxHeight="100dp"
-                android:text="@string/login_resen_otp"
-                android:textSize="@dimen/size_large" />
+                android:padding="10dp"
+                android:text="@string/login_resen_otp" />
         </LinearLayout>
     </ScrollView>
 

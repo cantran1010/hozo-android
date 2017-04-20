@@ -31,13 +31,13 @@
                     android:src="@mipmap/ic_launcher_round" />
 
                 <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:text="@string/login_label_phone"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/size_large" />
+                    android:textColor="@android:color/black" />
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
 
                     <EditText
                         android:id="@+id/edt_phone"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
                         android:gravity="center_vertical"
@@ -56,21 +56,19 @@
                         android:inputType="phone"
                         android:maxLines="1"
                         android:paddingLeft="40dp"
-                        android:textColorHint="@color/gray"
-                        android:textSize="@dimen/size_normal" />
+                        android:textColorHint="@color/gray" />
 
                     <requestFocus />
 
 
                     <TextView
+                        style="@style/Base.TextAppearance.AppCompat.Medium"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="@string/login_zone"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/size_normal"
-                        android:textStyle="bold" />
+                        android:textColor="@color/black" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -81,6 +79,7 @@
 
                 <TextView
                     android:id="@+id/tv_continue"
+                    style="@style/Base.TextAppearance.AppCompat.Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -89,8 +88,7 @@
                     android:gravity="center"
                     android:minHeight="40dp"
                     android:text="@string/login_continue"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white" />
             </LinearLayout>
         </ScrollView>
 
@@ -102,8 +100,7 @@
             android:gravity="center"
             android:minHeight="50dp"
             android:text="Hotline 19009696"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textColor="@color/black" />
     </FrameLayout>
 
     <FrameLayout
@@ -111,6 +108,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"></FrameLayout>
+
     <FrameLayout
         android:id="@+id/view_Level3"
         android:layout_width="match_parent"
