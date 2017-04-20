@@ -8,3 +8,6 @@
 /captures
 .externalNativeBuild
 /.idea
+mv.exe.stackdump
+/.idea/modules.xml
+/.idea/vcs.xml
