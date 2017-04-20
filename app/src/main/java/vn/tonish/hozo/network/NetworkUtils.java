@@ -9,8 +9,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -32,7 +34,80 @@ public class NetworkUtils {
         public void onError();
     }
 
-    public static void postVolley(final boolean isShowProgressDialog, final boolean isDismissProgressDialog, final boolean isShowDialogError, final Context context, final String url, final JSONObject jsonRequest, final NetworkListener networkListener) {
+    public static void postVolleyFormData(final boolean isShowProgressDialog, final boolean isDismissProgressDialog, final boolean isShowDialogError, final Context context, final String url, final HashMap<String, String> dataRequest, final NetworkListener networkListener) {
+        LogUtils.d(TAG, "postVolley url : " + url + " /////// data request : " + dataRequest.toString());
+
+        if (context instanceof Activity) {
+            Utils.hideKeyBoard((Activity) context);
+        }
+
+        if (isShowProgressDialog)
+            ProgressDialogUtils.showProgressDialog(context);
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        LogUtils.d(TAG, "postVolley onResponse : " + response);
+                        try {
+                            networkListener.onSuccess(new JSONObject(response));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (isDismissProgressDialog)
+                            ProgressDialogUtils.dismissProgressDialog();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        LogUtils.e(TAG, "postVolley volleyError : " + error.toString());
+
+                        if (isShowDialogError)
+
+                            DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
+                                @Override
+                                public void onOkClick() {
+                                    postVolleyFormData(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, dataRequest, networkListener);
+                                }
+
+                                @Override
+                                public void onCancelClick() {
+
+                                }
+                            });
+                        if (isDismissProgressDialog)
+                            ProgressDialogUtils.dismissProgressDialog();
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                return dataRequest;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+//                headers.put("Authorization", "Bearer " + PreferUtils.getTokenUser(context));
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+
+                return headers;
+            }
+        };
+
+        postRequest.setRetryPolicy(
+                new DefaultRetryPolicy(
+                        NetworkConfig.NETWORK_TIME_OUT,
+                        1,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        Volley.newRequestQueue(context).add(postRequest);
+
+    }
+
+    public static void postVolleyRaw(final boolean isShowProgressDialog, final boolean isDismissProgressDialog, final boolean isShowDialogError, final Context context, final String url, final JSONObject jsonRequest, final NetworkListener networkListener) {
         LogUtils.d(TAG, "postVolley url : " + url + " /////// data request : " + jsonRequest.toString());
 
         if (context instanceof Activity) {
@@ -63,7 +138,7 @@ public class NetworkUtils {
                     DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
                         @Override
                         public void onOkClick() {
-                            postVolley(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, jsonRequest, networkListener);
+                            postVolleyRaw(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, jsonRequest, networkListener);
                         }
 
                         @Override

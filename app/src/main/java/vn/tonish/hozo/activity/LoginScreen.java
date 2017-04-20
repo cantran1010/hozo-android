@@ -8,16 +8,25 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.customview.NameView;
 import vn.tonish.hozo.customview.OtpView;
+import vn.tonish.hozo.network.NetworkConfig;
+import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.utils.LogUtils;
 
 import static android.support.v4.view.ViewCompat.animate;
 import static vn.tonish.hozo.common.Constants.OTP_VIEW;
+import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 
 /**
@@ -25,12 +34,15 @@ import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
  */
 
 public class LoginScreen extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = LoginScreen.class.getName();
     private Context context;
     private EditText edtPhone;
     private TextView tvContinue;
     private FrameLayout viewLevel1, viewLevel2, viewLevel3;
     public NameView nameView;
     public OtpView otpView;
+    public boolean registed = false;
+    public String phone = "";
     public int viewLevel = 0;
     public int duration = 200;
 
@@ -49,7 +61,6 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
         viewLevel1 = (FrameLayout) findViewById(R.id.view_level1);
         tvContinue.setOnClickListener(this);
         hideKeyBoard(this);
-
     }
 
     @Override
@@ -87,7 +98,7 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
 
     public OtpView getOtpView() {
         if (otpView == null) {
-            otpView = new OtpView(context);
+            otpView = new OtpView(context, registed, phone);
         }
         return otpView;
     }
@@ -201,26 +212,39 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
     }
 
     private void login() {
-        showExtendView(OTP_VIEW);
+        phone = edtPhone.getText().toString().trim();
+        HashMap<String, String> dataRequest = new HashMap<>();
+        dataRequest.put("mobile", phone);
+        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_OTP, dataRequest, new NetworkUtils.NetworkListener() {
+            @Override
+            public void onSuccess(JSONObject jsonResponse) {
+                try {
+                    if (jsonResponse.getInt("code") == 0) {
+                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
+                        if (getStringInJsonObj(object, "registed").equalsIgnoreCase("true")) {
+                            LogUtils.d(TAG, jsonResponse.toString());
+                            registed = true;
+                        } else {
+                            registed = false;
+                        }
+                        showExtendView(OTP_VIEW);
+                    } else if (jsonResponse.getInt("code") == 1) {
+                        Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
 
-//        JSONObject jsonRequest = new JSONObject();
-//        try {
-//            jsonRequest.put("mobile", edtPhone.getText().toString());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        NetworkUtils.postVolley(true, true, true, this, NetworkConfig.API_OTP, jsonRequest, new NetworkUtils.NetworkListener() {
-//            @Override
-//            public void onSuccess(JSONObject jsonResponse) {
-//                //
-//            }
-//
-//            @Override
-//            public void onError() {
-//
-//            }
-//        });
+                    } else {
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            @Override
+            public void onError() {
+
+            }
+        });
 
 
     }

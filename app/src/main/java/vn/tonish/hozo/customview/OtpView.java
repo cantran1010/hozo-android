@@ -2,6 +2,7 @@ package vn.tonish.hozo.customview;
 
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -11,17 +12,30 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.LoginScreen;
+import vn.tonish.hozo.activity.MainActivity;
+import vn.tonish.hozo.network.NetworkConfig;
+import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.utils.LogUtils;
 
 import static vn.tonish.hozo.common.Constants.NAME_VIEW;
+import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 
 /**
  * Created by CanTran on 18/04/2017.
  */
 
 public class OtpView extends FrameLayout implements View.OnFocusChangeListener, View.OnKeyListener, TextWatcher, View.OnClickListener {
+    private static final String TAG = OtpView.class.getName();
+
     private Context context;
     private View rootView;
     private EditText mPinFirstDigitEditText;
@@ -31,10 +45,14 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     private EditText mPinHiddenEditText;
     private TextView btnSigin;
     private TextView btnBack;
+    private boolean registed;
+    private String phone;
 
-    public OtpView(Context context) {
+    public OtpView(Context context, boolean registed, String phone) {
         super(context);
         this.context = context;
+        this.registed = registed;
+        this.phone = phone;
         initView();
         initData();
     }
@@ -239,9 +257,58 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                 ((LoginScreen) context).closeExtendView();
                 break;
             case R.id.btn_sigin:
-                ((LoginScreen) context).showExtendView(NAME_VIEW);
+                if (registed) {
+                    login();
+                } else {
+                    registe();
+                }
                 break;
         }
 
+    }
+
+    private void registe() {
+        ((LoginScreen) context).showExtendView(NAME_VIEW);
+    }
+
+    private void login() {
+        String otpcode = mPinHiddenEditText.getText().toString().trim();
+        LogUtils.d(TAG, otpcode);
+        HashMap<String, String> dataRequest = new HashMap<>();
+        dataRequest.put("mobile", phone);
+        dataRequest.put("otpcode", otpcode);
+        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_LOGIN, dataRequest, new NetworkUtils.NetworkListener() {
+            @Override
+            public void onSuccess(JSONObject jsonResponse) {
+                try {
+                    if (jsonResponse.getInt("code") == 0) {
+                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
+                        if (getStringInJsonObj(object, "registed").equalsIgnoreCase("true")) {
+                            LogUtils.d(TAG, jsonResponse.toString());
+                            registed = true;
+                        } else {
+                            registed = false;
+                        }
+
+                    } else if (jsonResponse.getInt("code") == 1) {
+                        Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            @Override
+            public void onError() {
+
+            }
+        });
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 }
