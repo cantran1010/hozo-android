@@ -1,5 +1,6 @@
 package vn.tonish.hozo.customview;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
@@ -7,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -28,8 +30,6 @@ import vn.tonish.hozo.utils.LogUtils;
 
 import static vn.tonish.hozo.common.Constants.NAME_VIEW;
 import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
-import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
-import static vn.tonish.hozo.utils.Utils.showSoftKeyboard;
 
 /**
  * Created by CanTran on 18/04/2017.
@@ -124,10 +124,10 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
             mPinForthDigitEditText.setText("");
         } else if (s.length() == 4) {
             mPinForthDigitEditText.setText(s.charAt(3) + "");
-            hideSoftKeyboard(context, mPinForthDigitEditText);
+
+            hideSoftKeyboard(mPinForthDigitEditText);
             btnSigIn.setEnabled(true);
             btnSigIn.setTextColor(getResources().getColor(R.color.black));
-
 
         }
     }
@@ -151,28 +151,28 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
             case R.id.pin_first_edittext:
                 if (hasFocus) {
                     setFocus(mPinHiddenEditText);
-                    showSoftKeyboard(context, mPinHiddenEditText);
+                    showSoftKeyboard(mPinHiddenEditText);
                 }
                 break;
 
             case R.id.pin_second_edittext:
                 if (hasFocus) {
                     setFocus(mPinHiddenEditText);
-                    showSoftKeyboard(context, mPinHiddenEditText);
+                    showSoftKeyboard(mPinHiddenEditText);
                 }
                 break;
 
             case R.id.pin_third_edittext:
                 if (hasFocus) {
                     setFocus(mPinHiddenEditText);
-                    showSoftKeyboard(context, mPinHiddenEditText);
+                    showSoftKeyboard(mPinHiddenEditText);
                 }
                 break;
 
             case R.id.pin_forth_edittext:
                 if (hasFocus) {
                     setFocus(mPinHiddenEditText);
-                    showSoftKeyboard(context, mPinHiddenEditText);
+                    showSoftKeyboard(mPinHiddenEditText);
                 }
                 break;
 
@@ -193,6 +193,33 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         editText.setFocusable(true);
         editText.setFocusableInTouchMode(true);
         editText.requestFocus();
+    }
+
+
+    /**
+     * Shows soft keyboard.
+     *
+     * @param editText EditText which has focus
+     */
+    public void showSoftKeyboard(EditText editText) {
+        if (editText == null)
+            return;
+
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(editText, 0);
+    }
+
+    /**
+     * Hides soft keyboard.
+     *
+     * @param editText EditText which has focus
+     */
+    public void hideSoftKeyboard(EditText editText) {
+        if (editText == null)
+            return;
+
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
     @Override
@@ -242,6 +269,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
 
     private void login() {
         String otpcode = mPinHiddenEditText.getText().toString().trim();
+        LogUtils.d(TAG, otpcode + phone);
         HashMap<String, String> dataRequest = new HashMap<>();
         dataRequest.put("mobile", phone);
         dataRequest.put("otpcode", otpcode);
@@ -252,6 +280,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                 try {
                     UserEntity userEntity = new UserEntity();
                     if (jsonResponse.getInt("code") == 0) {
+<<<<<<<3 c832e801f84b7d77046a1799d122047d5c31715
                         JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
                         JSONObject mObject = new JSONObject(getStringInJsonObj(object, "user"));
                         userEntity.setId(Integer.parseInt(getStringInJsonObj(mObject, "id")));
@@ -261,6 +290,12 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                         userEntity.setToken(getStringInJsonObj(jsonToken, "access_token"));
                         userEntity.setRefreshToken(getStringInJsonObj(jsonToken, "refresh_token"));
 
+=======
+                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
+                        JSONObject mObject = new JSONObject(getStringInJsonObj(object, "user"));
+                        userEntity.setId(Integer.parseInt(getStringInJsonObj(mObject, "id")));
+                        userEntity.setToken(getStringInJsonObj(object, "token"));
+>>>>>>>commit 21 - 1
                         userEntity.setTokenExp(getStringInJsonObj(object, "token_exp"));
                         userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
                         userEntity.setPhoneNumber(getStringInJsonObj(mObject, "mobile"));
