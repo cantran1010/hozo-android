@@ -95,6 +95,13 @@
     <string name="msg_err_gps">Yêu cầu bật GPS</string>
     <string name="msg_err_address">Vui long nhap dia chi</string>
 
+<<<<<<< HEAD
+=======
+    <!-- make an offer-->
+    <string name="make_an_offer_title">Chi tiết</string>
+
+
+>>>>>>> e0851ad3defd740085861473e3420648f8b47752
     <string-array name="gender">
         <item>Nam</item>
         <item>Nu</item>

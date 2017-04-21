@@ -8,14 +8,77 @@ import java.io.Serializable;
 
 public class Work implements Serializable {
 
-    int id;
-    String name;
-    String time;
-    String type;
-    String price;
-    String des;
-    boolean isNew;
+    private int id;
+    private String name;
+    private String time;
+    private String type;
+    private String price;
+    private String des;
+    private boolean isNew;
+    private String date;
+    private String address;
+    private String timeAgo;
+    private String workType;
+    // this is user post work
+    private User user;
+    private Double lat;
+    private Double lon;
 
+    public String getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
+    }
+
+    public String getWorkType() {
+        return workType;
+    }
+
+    public void setWorkType(String workType) {
+        this.workType = workType;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLon() {
+        return lon;
+    }
+
+    public void setLon(Double lon) {
+        this.lon = lon;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public String getDes() {
         return des;
