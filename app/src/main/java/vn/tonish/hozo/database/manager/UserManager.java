@@ -36,20 +36,16 @@ public class UserManager {
     }
 
     public static String getUserToken(Context context) {
-        String result = "";
         LogUtils.d(TAG, "getUserLogin start ");
         Realm realm = RealmDbHelper.getInstance().getRealm(context);
         // get last update
 
         UserEntity userEntity = null;
-        if(realm.where(UserEntity.class) != null){
-            userEntity = realm.where(UserEntity.class).findFirst();
-            if (userEntity != null) {
-                result = userEntity.getToken() ;
-            }
-        }
-        return result;
+        if(userEntity == null)
+        userEntity = realm.where(UserEntity.class).findFirst();
+        if (userEntity != null) LogUtils.d(TAG, "getUserLogin : " + userEntity.toString());
 
+        return userEntity.getToken();
     }
 
     public static void insertUserLogin(UserEntity userEntity, Context context) {
@@ -66,6 +62,5 @@ public class UserManager {
         realm.where(UserEntity.class).findAll().clear();
         realm.commitTransaction();
     }
-
 
 }
