@@ -23,7 +23,7 @@
             android:name="vn.tonish.hozo.activity.LoginScreen"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:windowSoftInputMode="adjustNothing" />
 
 
         <activity
@@ -77,6 +77,15 @@
             android:name=".activity.ImageSelectActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+
+
+        <activity
+            android:name=".activity.setting.TimeSettingActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.setting.AgeSettingActivity"
+            android:screenOrientation="portrait" />
 
 
         <meta-data

@@ -1,5 +1,6 @@
 package vn.tonish.hozo.activity;
 
+import android.content.Intent;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.setting.AgeSettingActivity;
+import vn.tonish.hozo.activity.setting.TimeSettingActivity;
 
 /**
  * Created by huyquynh on 4/18/17.
@@ -20,6 +23,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     private Button btn_save;
     private TextView tv_fee;
+
 
     @Override
     protected int getLayout() {
@@ -64,23 +68,46 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     }
 
+    private final int OPEN_TIME_SETTING = 111;
+
+    private final int OPEN_AGE_SETTING = 222;
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
         switch (id) {
             case R.id.tv_type:
+
                 break;
             case R.id.tv_fee:
+
                 break;
             case R.id.tv_location:
+
                 break;
             case R.id.tv_time:
+                startActivityForResult(new Intent(getApplicationContext(), TimeSettingActivity.class), OPEN_TIME_SETTING);
                 break;
             case R.id.tv_sex:
                 break;
             case R.id.tv_age:
+                startActivityForResult(new Intent(getApplicationContext(), AgeSettingActivity.class), OPEN_AGE_SETTING);
+
                 break;
             case R.id.tv_notification:
+
+                break;
+
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case OPEN_TIME_SETTING:
                 break;
         }
     }
