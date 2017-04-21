@@ -23,11 +23,9 @@ import vn.tonish.hozo.customview.NameView;
 import vn.tonish.hozo.customview.OtpView;
 import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
-import vn.tonish.hozo.utils.LogUtils;
 
 import static android.support.v4.view.ViewCompat.animate;
 import static vn.tonish.hozo.common.Constants.OTP_VIEW;
-import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 
 /**
@@ -108,6 +106,7 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
         if (nameView == null) {
             nameView = new NameView(context);
         }
+
         return nameView;
     }
 
@@ -216,13 +215,6 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
             public void onSuccess(JSONObject jsonResponse) {
                 try {
                     if (jsonResponse.getInt("code") == 0) {
-                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
-                        if (getStringInJsonObj(object, "registed").equalsIgnoreCase("true")) {
-                            LogUtils.d(TAG, jsonResponse.toString());
-                            registed = true;
-                        } else {
-                            registed = false;
-                        }
                         showExtendView(OTP_VIEW);
                     } else if (jsonResponse.getInt("code") == 1) {
                         Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();

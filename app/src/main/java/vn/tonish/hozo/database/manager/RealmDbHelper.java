@@ -30,7 +30,7 @@ public class RealmDbHelper {
     private static String key = null;
 
     public Realm getRealm(Context context) {
-
+        Realm.init(context);
         if (key == null) {
             if (PreferUtils.getKeyEncryption(context).equals(Constants.KEY_ENCRYPTION_DEFAULT)) {
                 byte[] b = new byte[64];

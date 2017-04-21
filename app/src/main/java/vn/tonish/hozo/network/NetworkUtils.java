@@ -40,7 +40,6 @@ public class NetworkUtils {
         if (context instanceof Activity) {
             Utils.hideKeyBoard((Activity) context);
         }
-
         if (isShowProgressDialog)
             ProgressDialogUtils.showProgressDialog(context);
 

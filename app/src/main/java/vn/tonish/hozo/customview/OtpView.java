@@ -26,6 +26,8 @@ import java.util.HashMap;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.LoginScreen;
 import vn.tonish.hozo.activity.MainActivity;
+import vn.tonish.hozo.database.entity.UserEntity;
+import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -38,7 +40,7 @@ import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
  */
 
 public class OtpView extends FrameLayout implements View.OnFocusChangeListener, View.OnKeyListener, TextWatcher, View.OnClickListener {
-    private static final String TAG = OtpView.class.getName();
+    private static final String TAG = "OtpView";
 
     private Context context;
     protected View rootView;
@@ -262,44 +264,46 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                 ((LoginScreen) context).closeExtendView();
                 break;
             case R.id.btn_sigin:
-                if (registed) {
-                    login();
-                } else {
-                    registe();
-                }
+                login();
                 break;
         }
 
     }
 
-    private void registe() {
-        ((LoginScreen) context).showExtendView(NAME_VIEW);
-    }
-
     private void login() {
         String otpcode = mPinHiddenEditText.getText().toString().trim();
-        LogUtils.d(TAG, otpcode);
+        LogUtils.d(TAG,otpcode + phone);
         HashMap<String, String> dataRequest = new HashMap<>();
         dataRequest.put("mobile", phone);
         dataRequest.put("otpcode", otpcode);
         NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_LOGIN, dataRequest, new NetworkUtils.NetworkListener() {
             @Override
             public void onSuccess(JSONObject jsonResponse) {
+                LogUtils.d(TAG,"dataRequest" + jsonResponse.toString());
                 try {
+                    UserEntity userEntity = new UserEntity();
                     if (jsonResponse.getInt("code") == 0) {
-                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
-                        if (getStringInJsonObj(object, "registed").equalsIgnoreCase("true")) {
-                            LogUtils.d(TAG, jsonResponse.toString());
-                            registed = true;
+                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse,"data"));
+                        JSONObject mObject = new JSONObject(getStringInJsonObj(object,"user"));
+                        userEntity.setId(Integer.parseInt(getStringInJsonObj(mObject,"id")));
+                        userEntity.setToken(getStringInJsonObj(object,"token"));
+                        userEntity.setTokenExp(getStringInJsonObj(object, "token_exp"));
+                        userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
+                        userEntity.setPhoneNumber(getStringInJsonObj(mObject, "mobile"));
+                        userEntity.setLoginAt(getStringInJsonObj(mObject, "login_at"));
+                        UserManager.insertUserLogin(userEntity, getContext());
+                        if ((getStringInJsonObj(mObject, "full_name").trim()).equalsIgnoreCase("")||getStringInJsonObj(mObject, "full_name").trim()==null) {
+                            LogUtils.d(TAG, "name_check" + getStringInJsonObj(mObject, "full_name").trim());
+                            ((LoginScreen) context).showExtendView(NAME_VIEW);
                         } else {
-                            registed = false;
+                            Intent intent = new Intent(context, MainActivity.class);
+                            ((LoginScreen) context).startActivityAndClearAllTask(intent);
                         }
-
                     } else if (jsonResponse.getInt("code") == 1) {
                         Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
 
                     } else {
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Otp code is invalid", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -312,8 +316,5 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
 
             }
         });
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
     }
 }
