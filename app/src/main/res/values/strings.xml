@@ -85,8 +85,6 @@
     <string name="btn_reset">RESET</string>
     <string name="just_image">Just Image</string>
     <string name="notification_notify">Số thông báo chưa đọc</string>
-
-
     <string-array name="gender">
         <item>Nam</item>
         <item>Nu</item>
