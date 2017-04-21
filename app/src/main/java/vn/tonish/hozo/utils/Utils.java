@@ -66,7 +66,7 @@ public class Utils {
     public static void displayImageAvatar(Context context, ImageView img, String url) {
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(img);
+                .placeholder(R.drawable.avatar_default).into(img);
     }
 
     public static void displayImageHolder(Context context, ImageView img, String url) {
@@ -89,7 +89,8 @@ public class Utils {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-    public static void hideSoftKeyboard(Context context,EditText editText) {
+
+    public static void hideSoftKeyboard(Context context, EditText editText) {
         if (editText == null)
             return;
 
@@ -98,7 +99,7 @@ public class Utils {
     }
 
 
-    public static void showSoftKeyboard(Context context,EditText editText) {
+    public static void showSoftKeyboard(Context context, EditText editText) {
         if (editText == null)
             return;
 

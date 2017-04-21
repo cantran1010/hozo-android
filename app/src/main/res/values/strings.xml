@@ -91,12 +91,6 @@
 
     <!-- make an offer-->
     <string name="make_an_offer_title">Chi tiết</string>
-    <string name="tv_start_time">Chọn ngày bắt đầu</string>
-    <string name="tv_end_time">Chọn ngày kết thúc</string>
-    <string name="tv_amount">Số tiền</string>
-    <string name="et_max">Max</string>
-    <string name="et_min">Min</string>
-    <string name="btn_reset">RESET</string>
     <string name="just_image">Just Image</string>
     <string-array name="gender">
         <item>Nam</item>
