@@ -8,7 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
     <style name="TabStyle">
         <item name="android:textSize">11sp</item>
     </style>
@@ -53,6 +52,22 @@
         <item name="android:inputType">number</item>
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">true</item>
+    </style>
+
+    <style name="StarRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingbar_selector_images</item>
+        <item name="android:minHeight">18dip</item>
+        <item name="android:maxHeight">18dip</item>
+    </style>
+
+    <style name="tv_style_nomal_black">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="tv_style_nomal_gray">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gray</item>
     </style>
 
 </resources>
