@@ -63,11 +63,4 @@ public class UserManager {
         realm.commitTransaction();
     }
 
-    public static String getToken(Context context) {
-        if (userManager == null) {
-            userManager = new UserManager(context);
-        }
-        return userManager.getUserLogin(context).getToken();
-    }
-
 }
