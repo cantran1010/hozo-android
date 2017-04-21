@@ -125,6 +125,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             });
 
         } else {
+            LogUtils.d(TAG, "onMapReady !!!!!! canGetLocation");
             mLocationProvider.connect();
             LogUtils.d(TAG, "onMapReady !!!!!! canGetLocation");
             DialogUtils.showConfirmAlertDialog(this, getString(R.string.msg_err_gps), new DialogUtils.ConfirmDialogListener() {
