@@ -18,7 +18,6 @@ public abstract class BaseAdapter<T, H extends BaseHolder, L extends BaseHolder>
     public static final int VIEW_TYPE_ITEM = 0;
 
     public void stopLoadMore() {
-
         isLoad = false;
     }
 
@@ -58,12 +57,11 @@ public abstract class BaseAdapter<T, H extends BaseHolder, L extends BaseHolder>
         if (isLoad) {
             return list == null ? 0 : list.size() + 1;
         } else return list == null ? 0 : list.size();
-
     }
 
     @Override
     public int getItemViewType(int position) {
         return position >= list.size() ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
-
+    
 }
