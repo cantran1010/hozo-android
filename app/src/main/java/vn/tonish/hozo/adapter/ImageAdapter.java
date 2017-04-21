@@ -22,8 +22,8 @@ import vn.tonish.hozo.utils.LogUtils;
 public class ImageAdapter extends ArrayAdapter<Image> {
     private static final String TAG = ImageAdapter.class.getName();
 
-    public interface ImageAdapterListener{
-        public void onImageAdapterListener();
+    public interface ImageAdapterListener {
+        void onImageAdapterListener();
     }
 
     private ImageAdapterListener imageAdapterListener;
@@ -59,15 +59,15 @@ public class ImageAdapter extends ArrayAdapter<Image> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if(item.isAdd){
+        if (item.isAdd) {
             holder.imgAdd.setVisibility(View.VISIBLE);
             holder.imgAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                  if(imageAdapterListener != null) imageAdapterListener.onImageAdapterListener();
+                    if (imageAdapterListener != null) imageAdapterListener.onImageAdapterListener();
                 }
             });
-        }else{
+        } else {
             holder.imgAdd.setVisibility(View.GONE);
             holder.imgAdd.setOnClickListener(new View.OnClickListener() {
                 @Override

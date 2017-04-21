@@ -7,7 +7,7 @@ package vn.tonish.hozo.fragment;
 public class MyTaskFragment extends BaseFragment {
     @Override
     protected int getLayout() {
-        return vn.tonish.hozo.R.layout.my_fragment;
+        return vn.tonish.hozo.R.layout.fragment_my_work;
     }
 
     @Override

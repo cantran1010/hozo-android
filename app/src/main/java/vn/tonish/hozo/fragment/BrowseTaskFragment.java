@@ -38,6 +38,7 @@ import vn.tonish.hozo.utils.PreferUtils;
 
 /**
  * Created by Admin on 4/4/2017.
+ * Edited by huyquynh on 19/4/2017
  */
 
 public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.NetworkListener {

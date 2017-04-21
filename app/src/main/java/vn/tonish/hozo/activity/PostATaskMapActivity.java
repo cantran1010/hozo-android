@@ -73,12 +73,12 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LogUtils.d(TAG,"onMapReady start");
+        LogUtils.d(TAG, "onMapReady start");
         mMap = googleMap;
 
         GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
         if (gpsTracker.canGetLocation()) {
-            LogUtils.d(TAG,"onMapReady canGetLocation");
+            LogUtils.d(TAG, "onMapReady canGetLocation");
 
             latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
 
@@ -96,8 +96,8 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 }
             });
 
-        }else{
-            LogUtils.d(TAG,"onMapReady !!!!!! canGetLocation");
+        } else {
+            LogUtils.d(TAG, "onMapReady !!!!!! canGetLocation");
         }
 
     }

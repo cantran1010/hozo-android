@@ -33,6 +33,5 @@ public class CategoryHolder extends BaseHolder {
             }
         };
         view.setOnClickListener(onClickListener);
-
     }
 }

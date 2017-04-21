@@ -49,7 +49,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         addView(rootView);
         init();
         btnBack = (FrameLayout) rootView.findViewById(R.id.btn_back);
-        btnSigin = (TextView) rootView.findViewById(R.id.btn_sigin);
+        btnSigin = (TextView) rootView.findViewById(R.id.btn_sign_in);
         btnBack.setOnClickListener(this);
         btnSigin.setOnClickListener(this);
 
@@ -238,7 +238,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
             case R.id.btn_back:
                 ((LoginScreen) context).closeExtendView();
                 break;
-            case R.id.btn_sigin:
+            case R.id.btn_sign_in:
                 ((LoginScreen) context).showExtendView(NAME_VIEW);
                 break;
         }

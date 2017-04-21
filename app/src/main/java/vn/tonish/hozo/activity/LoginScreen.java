@@ -137,7 +137,6 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
     public void closeExtendView() {
 
         hideKeyBoard(this);
-
         if (viewLevel == 0) {
             return;
         }
@@ -177,7 +176,6 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
             });
         }
     }
-
 
     private void login() {
         showExtendView(OTP_VIEW);

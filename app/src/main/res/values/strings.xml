@@ -77,6 +77,13 @@
     <string name="post_task_title">Chi tiet dang viec</string>
     <string name="post_a_task_title">Chi tiet dang viec</string>
     <string name="tv_post_a_task_title">Chi tiet dang viec</string>
+    <string name="profile_verify">Đã xác thực</string>
+    <string name="profile_btn_verify">Xác thực thêm</string>
+    <string name="profile_address">Địa chỉ</string>
+    <string name="profile_phone">Điện thoại</string>
+    <string name="profile_worker">Nguời làm việc</string>
+    <string name="profile_hire">Người đăng việc</string>
+    <string name="profile_log_out">Thoát tài khoản</string>
 
 
     <string-array name="gender">
