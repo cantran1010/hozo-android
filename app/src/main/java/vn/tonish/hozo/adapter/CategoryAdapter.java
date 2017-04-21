@@ -8,6 +8,7 @@ import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.utils.Utils;
 
 /**
  * Created by MAC2015 on 4/12/17.
@@ -15,10 +16,8 @@ import vn.tonish.hozo.model.Category;
 
 public class CategoryAdapter extends BaseAdapter<Category, CategoryHolder, LoadingHolder> {
 
-
     private List<Category> categories;
     private Context context;
-
 
     public CategoryAdapter(Context context, List<Category> categories) {
         super(context, categories);
@@ -53,6 +52,7 @@ public class CategoryAdapter extends BaseAdapter<Category, CategoryHolder, Loadi
         if (holder instanceof CategoryHolder) {
             ((CategoryHolder) holder).category = categories.get(position);
             ((CategoryHolder) holder).tvName.setText(categories.get(position).getName());
+            Utils.displayImage(context, ((CategoryHolder) holder).imgPresent, categories.get(position).getPresentPath());
         } else {
 
         }

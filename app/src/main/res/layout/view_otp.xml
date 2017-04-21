@@ -1,110 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
+    <include layout="@layout/header" />
 
-    <TextView
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:drawableLeft="@mipmap/ic_launcher_round"
-        android:gravity="center"
-        android:text="@string/all_back"
-        android:textColor="@color/black" />
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:maxLines="2"
-        android:padding="8dp"
-        android:text="@string/login_enter_otp"
-        android:textColor="@color/black"
-        android:textStyle="bold" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_gravity="center">
 
         <LinearLayout
-            android:id="@+id/pin_layout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/pin_first_edittext"
-                style="@style/pin_edittext_style"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:layout_gravity="center"
+                android:maxLines="2"
+                android:text="@string/login_enter_otp"
+                android:textColor="@color/black" />
 
-            <EditText
-                android:id="@+id/pin_second_edittext"
-                style="@style/pin_edittext_style"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/pin_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/pin_first_edittext"
+                        style="@style/pin_edittext_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+
+                    <EditText
+                        android:id="@+id/pin_second_edittext"
+                        style="@style/pin_edittext_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+
+                    <EditText
+                        android:id="@+id/pin_third_edittext"
+                        style="@style/pin_edittext_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+
+                    <EditText
+                        android:id="@+id/pin_forth_edittext"
+                        style="@style/pin_edittext_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/pin_hidden_edittext"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@null"
+                    android:cursorVisible="false"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:maxLength="5"
+                    android:textColor="@color/transparent" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/btn_sigin"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:enabled="false"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/login_create_account"
+                android:textColor="@color/white" />
 
-            <EditText
-                android:id="@+id/pin_third_edittext"
-                style="@style/pin_edittext_style"
-                android:layout_width="wrap_content"
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
-
-            <EditText
-                android:id="@+id/pin_forth_edittext"
-                style="@style/pin_edittext_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
-
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/login_resen_otp" />
         </LinearLayout>
-
-        <EditText
-            android:id="@+id/pin_hidden_edittext"
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
-            android:cursorVisible="false"
-            android:gravity="center_horizontal"
-            android:inputType="number"
-            android:maxLength="5"
-            android:textColor="@color/transparent" />
-
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/btn_sign_in"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="20dp"
-        android:background="@color/white"
-        android:enabled="false"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="@string/login_create_account"
-        android:textColor="@color/white"
-        android:textSize="@dimen/size_large" />
+    </ScrollView>
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:maxHeight="100dp"
-        android:text="@string/login_resen_otp" />
-
-
-</LinearLayout>
+</FrameLayout>

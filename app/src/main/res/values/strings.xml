@@ -14,27 +14,13 @@
 
 
     <!--notification Screen-->
-    =======
     <string name="all_back">Quay lại</string>
     <string name="notification_name">Lâm voi lam voi</string>
     <string name="notification_default">đã bình luận trong mục</string>
     <string name="notification_time">cách đây 2 tuần</string>
     <string name="notification_more"><u>Chi tiết</u></string>
-
-
     <string name="notification_notify">Thông báo chưa đọc</string>
-
-    <!--Edit profile Screen-->
-    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
-    <string name="edt_proflie_tv_name">Tên</string>
-    <string name="edt_proflie_tv_address">Địa chỉ</string>
-    <string name="edit_profile_btn_save">Lưu lại</string>
-    <string name="select_task_title">Đăng việc</string>
-    <string name="browse_task_title">Tìm việc</string>
-    <string name="my_task_title">Việc của tôi</string>
-    <string name="notify_title">Thông báo</string>
-    <string name="other_title">Tùy chỉnh</string>
-
+	
     <!--profile Screen-->
     <string name="profile_tv_header">Hồ sơ cá nhân</string>
     <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
@@ -60,7 +46,6 @@
     <string name="other_share">Chia sẻ</string>
     <string name="other_about">Chúng tôi - Hozo</string>
     <string name="other_info">Thông tin chung</string>
-
     <string name="ed_login_phone">Nhập số điện thoại của bạn vào</string>
     <string name="login_label_phone">Đăng nhập với Hò zô</string>
     <string name="login_zone">+84</string>
@@ -72,8 +57,19 @@
     <string name="tv_login_save">Lưu lại</string>
     <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản và chính sách của chúng tôi</string>
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
-    <!--all screen-->
 
+    <!--Edit profile Screen-->
+    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
+    <string name="edt_proflie_tv_name">Ten</string>
+    <string name="edt_proflie_tv_address">Dia chi</string>
+    <string name="edit_profile_btn_save">Lưu lại</string>
+    <string name="select_task_title">Dang viec</string>
+    <string name="browse_task_title">Tim Viec</string>
+    <string name="my_task_title">Viec cua toi</string>
+    <string name="notifi_title">Thong bao</string>
+    <string name="other_title">Khac</string>
+
+    <!--  post a task layout-->
     <string name="post_task_title">Chi tiet dang viec</string>
     <string name="post_a_task_title">Chi tiet dang viec</string>
     <string name="tv_post_a_task_title">Chi tiet dang viec</string>
@@ -85,6 +81,19 @@
     <string name="profile_hire">Người đăng việc</string>
     <string name="profile_log_out">Thoát tài khoản</string>
 
+    <string name="notify_title">Thông báo</string>
+
+    <!-- post a task -->
+    <string name="pick_image_take_picture">Chụp ảnh</string>
+    <string name="pick_image_album">Album</string>
+    <string name="pick_image_title">Đăng ảnh từ</string>
+
+    <!-- select image-->
+    <string name="err_pick_image">Vui lòng chọn ít nhất 1 ảnh</string>
+
+    <!-- post a task map-->
+    <string name="msg_err_gps">Yêu cầu bật GPS</string>
+    <string name="msg_err_address">Vui long nhap dia chi</string>
 
     <string-array name="gender">
         <item>Nam</item>
@@ -99,7 +108,7 @@
         <item>36 ~ 40</item>
         <item>41 ~ 45</item>
         <item>46 ~ 50</item>
-        <item> Trên 50</item>
+        <item>Trên 50</item>
     </string-array>
 
 </resources>

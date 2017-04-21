@@ -9,8 +9,16 @@ import java.io.Serializable;
 public class Category implements Serializable {
     private int id;
     private String name;
+    private String presentPath;
     private String description;
 
+    public String getPresentPath() {
+        return presentPath;
+    }
+
+    public void setPresentPath(String presentPath) {
+        this.presentPath = presentPath;
+    }
 
     public int getId() {
         return id;

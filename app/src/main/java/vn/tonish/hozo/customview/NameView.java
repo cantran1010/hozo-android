@@ -21,8 +21,8 @@ public class NameView extends FrameLayout implements View.OnClickListener {
     private Context context;
     private View rootView;
     private EditText edtName;
-    private TextView btnSave;
-    private FrameLayout btnBack;
+    private TextView btnSave,btnBack;
+
 
     public NameView(Context context) {
         super(context);
@@ -40,7 +40,7 @@ public class NameView extends FrameLayout implements View.OnClickListener {
         addView(rootView);
         edtName = (EditText) rootView.findViewById(R.id.edt_name);
         btnSave = (TextView) rootView.findViewById(R.id.btn_save);
-        btnBack = (FrameLayout) rootView.findViewById(R.id.btn_back);
+        btnBack = (TextView) rootView.findViewById(R.id.btnBack);
         btnSave.setOnClickListener(this);
         btnBack.setOnClickListener(this);
     }
@@ -48,13 +48,16 @@ public class NameView extends FrameLayout implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_back:
+            case R.id.btnBack:
                 ((LoginScreen) context).closeExtendView();
                 break;
 
             case R.id.btn_save:
-                Toast.makeText(context, "wellcome "+edtName.getText().toString()+" to hozo", Toast.LENGTH_SHORT).show();
-                context.startActivity(new Intent(context, MainActivity.class));
+
+                Toast.makeText(context, "wellcome " + edtName.getText().toString() + " to hozo", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
                 break;
         }
 
