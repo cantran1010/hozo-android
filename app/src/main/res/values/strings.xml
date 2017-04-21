@@ -18,16 +18,12 @@
     <string name="notification_name">Lâm voi lam voi</string>
     <string name="notification_default">đã bình luận trong mục</string>
     <string name="notification_time">cách đây 2 tuần</string>
-    <string name="notification_more">
-        <u>Chi tiết</u>
-    </string>
-
-
+    <string name="notification_more"><u>Chi tiết</u></string>
     <string name="notification_notify">Thông báo chưa đọc</string>
+	
     <!--profile Screen-->
     <string name="profile_tv_header">Hồ sơ cá nhân</string>
-    <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn
-    </string>
+    <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
     <string name="btn_save">LƯU</string>
     <string name="tv_type_of_work">Loại công việc</string>
     <string name="tv_fee">Chi phí</string>
@@ -40,9 +36,7 @@
     <string name="tv_age">Độ tuổi</string>
     <string name="tv_notification">Thông báo công việc</string>
     <string name="vnd">(VND)</string>
-    <string name="share_content">Hãy chia sẻ ứng dụng Hozo để tạo nên \n kết nối hữu ích cho mọi
-        người
-    </string>
+    <string name="share_content">Hãy chia sẻ ứng dụng Hozo để tạo nên \n kết nối hữu ích cho mọi người</string>
     <string name="share_title">Chia sẻ với bạn bè</string>
     <string name="other_profile">Hồ sơ cá nhân</string>
     <string name="other_history">Lịch sử giao dịch</string>
@@ -61,11 +55,8 @@
     <string name="login_resen_otp">Gửi lại mã code</string>
     <string name="tv_label_name">Họ và tên của bạn là gì?</string>
     <string name="tv_login_save">Lưu lại</string>
-    <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều
-        khoản và chính sách của chúng tôi
-    </string>
+    <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản và chính sách của chúng tôi</string>
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
-    <!--all screen-->
 
     <!--Edit profile Screen-->
     <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
@@ -82,7 +73,6 @@
     <string name="post_task_title">Chi tiet dang viec</string>
     <string name="post_a_task_title">Chi tiet dang viec</string>
     <string name="tv_post_a_task_title">Chi tiet dang viec</string>
-
     <string name="notify_title">Thông báo</string>
 
     <!-- post a task -->
@@ -96,7 +86,6 @@
     <!-- post a task map-->
     <string name="msg_err_gps">Yêu cầu bật GPS</string>
     <string name="msg_err_address">Vui long nhap dia chi</string>
-
 
     <string-array name="gender">
         <item>Nam</item>
