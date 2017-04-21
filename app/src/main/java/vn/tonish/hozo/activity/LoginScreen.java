@@ -8,13 +8,21 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.customview.NameView;
 import vn.tonish.hozo.customview.OtpView;
+import vn.tonish.hozo.network.NetworkConfig;
+import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.utils.LogUtils;
 
 import static android.support.v4.view.ViewCompat.animate;
 import static vn.tonish.hozo.common.Constants.OTP_VIEW;
@@ -37,7 +45,6 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
     public String phone = "";
     public int viewLevel = 0;
     public int duration = 200;
-    public Animation mLoadAnimation;
 
     @Override
     protected int getLayout() {
@@ -47,7 +54,6 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initView() {
         context = LoginScreen.this;
-        mLoadAnimation = AnimationUtils.loadAnimation(this, R.anim.animation_edittext);
         edtPhone = (EditText) findViewById(R.id.edt_phone);
         tvContinue = (TextView) findViewById(R.id.tv_continue);
         viewLevel2 = (FrameLayout) findViewById(R.id.view_Level2);
@@ -62,23 +68,17 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
         edtPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String error = "";
                 if (!checkNumberPhone(edtPhone.getText().toString().trim())) {
                     tvContinue.setTextColor(getResources().getColor(R.color.white));
                     tvContinue.setEnabled(false);
-                    if (CheckErrorEditText(edtPhone.getText().toString().trim())) {
-                        error = getResources().getString(R.string.login_erro_phone);
-                        edtPhone.startAnimation(mLoadAnimation);
-                        edtPhone.setError(error);
-                    }
                 } else {
                     tvContinue.setTextColor(getResources().getColor(R.color.black));
                     tvContinue.setEnabled(true);
-                    hideSoftKeyboard(context, edtPhone);
                 }
 
             }
@@ -150,7 +150,9 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
 
 
     public void closeExtendView() {
+
         hideKeyBoard(this);
+
         if (viewLevel == 0) {
             return;
         }
@@ -209,29 +211,6 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    public boolean CheckErrorEditText(String number) {
-        boolean ck = false;
-        if (number.length() == 1 && !(number.substring(0, 1).equals("9") || number.substring(0, 1).equals("1") || number.substring(0, 1).equals("0"))) {
-            ck = true;
-        }
-        if (number.length() == 2 && number.substring(0, 1).equals("0")) {
-            if (!(number.substring(0, 2).equals("09") || number.substring(0, 2).equals("01"))) {
-                ck = true;
-            }
-        }
-        if (number.length() > 10 && !(number.substring(0, 2).equals("09") || number.substring(0, 1).equals("1"))) {
-            ck = true;
-        }
-        if (number.length() > 11 && !(number.substring(0, 2).equals("01"))) {
-            ck = true;
-        }
-        if (number.length() > 9 && !(number.substring(0, 2).equals("9"))) {
-            ck = true;
-        }
-        return ck;
-    }
-
-
     private void login() {
         phone = edtPhone.getText().toString().trim();
         HashMap<String, String> dataRequest = new HashMap<>();
@@ -241,9 +220,17 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
             public void onSuccess(JSONObject jsonResponse) {
                 try {
                     if (jsonResponse.getInt("code") == 0) {
+                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
+                        if (getStringInJsonObj(object, "registed").equalsIgnoreCase("true")) {
+                            LogUtils.d(TAG, jsonResponse.toString());
+                            registed = true;
+                        } else {
+                            registed = false;
+                        }
                         showExtendView(OTP_VIEW);
                     } else if (jsonResponse.getInt("code") == 1) {
                         Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
+
                     } else {
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                     }
