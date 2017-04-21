@@ -21,9 +21,9 @@ import vn.tonish.hozo.utils.Utils;
 
 public class CommentView extends RelativeLayout implements View.OnClickListener {
 
-    private CircleImageView imgAvata;
+    private CircleImageView imgAvatar;
     private TextView tvName, tvComment, tvTimeAgo;
-    protected ImageView imgSetting;
+    private ImageView imgSetting;
 
     public CommentView(Context context) {
         super(context);
@@ -49,7 +49,8 @@ public class CommentView extends RelativeLayout implements View.OnClickListener 
     private void initView() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.comment_view, this, true);
-        imgAvata = (CircleImageView) findViewById(R.id.img_avatar);
+        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
+
         tvName = (TextView) findViewById(R.id.tv_name);
         tvComment = (TextView) findViewById(R.id.tv_comment);
         tvTimeAgo = (TextView) findViewById(R.id.tv_time_ago);
@@ -59,7 +60,8 @@ public class CommentView extends RelativeLayout implements View.OnClickListener 
     }
 
     public void updateData(Comment comment) {
-        Utils.displayImageAvatar(getContext(), imgAvata, comment.getAvatar());
+        Utils.displayImageAvatar(getContext(), imgAvatar, comment.getAvatar());
+
         tvName.setText(comment.getFullName());
         tvComment.setText(comment.getBody());
         tvTimeAgo.setText(comment.getCreatedAt());

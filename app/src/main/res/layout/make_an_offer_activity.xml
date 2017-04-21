@@ -20,8 +20,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:contentDescription="@string/just_image"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/just_image"
                 android:src="@drawable/img_back" />
 
         </RelativeLayout>
@@ -57,10 +57,10 @@
         <EditText
             android:id="@+id/edt_comment"
             android:layout_width="match_parent"
-            android:inputType="text"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/tv_comment"
             android:background="@drawable/border_gray"
+            android:inputType="text"
             android:padding="5dp" />
 
     </RelativeLayout>
@@ -82,7 +82,7 @@
                 android:id="@+id/work_detail_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            
+
             <fragment
                 android:id="@+id/map"
                 android:name="com.google.android.gms.maps.SupportMapFragment"

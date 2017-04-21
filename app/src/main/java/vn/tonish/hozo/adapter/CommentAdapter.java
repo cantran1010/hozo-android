@@ -19,6 +19,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
     private final ArrayList<Comment> comments;
 
+
     public CommentAdapter(ArrayList<Comment> comments) {
         this.comments = comments;
     }
@@ -43,6 +44,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public final CommentView commentView;
+
 
         public MyViewHolder(View itemView) {
             super(itemView);

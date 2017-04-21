@@ -27,6 +27,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     private Work work;
 
     @Override
+
     protected int getLayout() {
         return R.layout.make_an_offer_activity;
     }
@@ -39,7 +40,6 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
     @Override
