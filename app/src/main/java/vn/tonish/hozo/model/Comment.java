@@ -10,22 +10,31 @@ import io.realm.RealmObject;
 
 public class Comment extends RealmObject implements Serializable {
     private String id;
-    private String author_id;
+    private String authorId;
+    private String fullName;
     private String avatar;
     private String body;
-    private String created_at;
-    private String task_id;
+    private String createdAt;
+    private String taskId;
 
     public Comment() {
     }
 
     public Comment(String id, String author_id, String avatar, String body, String created_at, String task_id) {
         this.id = id;
-        this.author_id = author_id;
+        this.authorId = author_id;
         this.avatar = avatar;
         this.body = body;
-        this.created_at = created_at;
-        this.task_id = task_id;
+        this.createdAt = created_at;
+        this.taskId = task_id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getId() {
@@ -36,12 +45,12 @@ public class Comment extends RealmObject implements Serializable {
         this.id = id;
     }
 
-    public String getAuthor_id() {
-        return author_id;
+    public String getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor_id(String author_id) {
-        this.author_id = author_id;
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 
     public String getAvatar() {
@@ -60,19 +69,19 @@ public class Comment extends RealmObject implements Serializable {
         this.body = body;
     }
 
-    public String getCreated_at() {
-        return created_at;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getTask_id() {
-        return task_id;
+    public String getTaskId() {
+        return taskId;
     }
 
-    public void setTask_id(String task_id) {
-        this.task_id = task_id;
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 }
