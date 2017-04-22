@@ -59,13 +59,6 @@
     <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản và chính sách của chúng tôi</string>
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
     <!--Edit profile Screen-->
-    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
-    <string name="edt_proflie_tv_name">Ten</string>
-    <string name="edt_proflie_tv_address">Dia chi</string>
-    <string name="edit_profile_btn_save">Lưu lại</string>
-    <string name="select_task_title">Dang viec</string>
-    <string name="browse_task_title">Tim Viec</string>
-    <string name="my_task_title">Viec cua toi</string>
     <string name="notifi_title">Thong bao</string>
     <string name="other_title">Khac</string>
 
@@ -93,6 +86,8 @@
     <!-- post a task map-->
     <string name="msg_err_gps">Yêu cầu bật GPS</string>
     <string name="msg_err_address">Vui long nhap dia chi</string>
+    <string name="my_task_worker">Việc của tôi</string>
+    <string name="my_task_poster">Việc đã đăng</string>
 
 
     <string-array name="gender">

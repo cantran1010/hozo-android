@@ -2,34 +2,42 @@ package vn.tonish.hozo.model;
 
 import java.io.Serializable;
 
+import io.realm.RealmObject;
+
 /**
  * Created by huyquynh on 4/12/17.
  */
 
-public class Work implements Serializable {
+public class Work extends RealmObject implements Serializable {
 
-    int id;
-    String name;
-    String time;
-    String type;
-    String price;
-    String des;
-    boolean isNew;
+    private String id;
+    private String name;
+    private String time;
+    private String type;
+    private String price;
+    private String des;
+    private boolean isNew;
+    private String status;
 
-
-    public String getDes() {
-        return des;
+    public Work() {
     }
 
-    public void setDes(String des) {
+    public Work(String id, String name, String time, String type, String price, String des, boolean isNew, String status) {
+        this.id = id;
+        this.name = name;
+        this.time = time;
+        this.type = type;
+        this.price = price;
         this.des = des;
+        this.isNew = isNew;
+        this.status = status;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -65,11 +73,27 @@ public class Work implements Serializable {
         this.price = price;
     }
 
+    public String getDes() {
+        return des;
+    }
+
+    public void setDes(String des) {
+        this.des = des;
+    }
+
     public boolean isNew() {
         return isNew;
     }
 
     public void setNew(boolean aNew) {
         isNew = aNew;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

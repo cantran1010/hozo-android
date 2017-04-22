@@ -1,25 +1,13 @@
 package vn.tonish.hozo.fragment;
 
 import android.os.Handler;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.vision.text.Line;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
@@ -30,7 +18,6 @@ import java.util.TimerTask;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AdvanceSettingsActivity;
 import vn.tonish.hozo.adapter.WorkAdapter;
-import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
@@ -74,7 +61,7 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
 
         for (int i = 0; i < 10; i++) {
             Work work = new Work();
-            work.setId(i);
+            work.setId(i+"");
             work.setName("Hey ! Are you free tonight!");
             work.setTime("2017-04-18T03:48:10+00:00");
             work.setNew(true);
@@ -112,7 +99,7 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
                     public void run() {
                         for (int i = 0; i < 10; i++) {
                             Work work = new Work();
-                            work.setId(i);
+                            work.setId(i+"");
                             work.setName("Hey ! Are you free tonight!");
                             work.setTime("2017-04-18T03:48:10+00:00");
                             work.setNew(true);
