@@ -269,7 +269,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
 
     private void login() {
         String otpcode = mPinHiddenEditText.getText().toString().trim();
-        LogUtils.d(TAG, otpcode + phone);
+
         HashMap<String, String> dataRequest = new HashMap<>();
         dataRequest.put("mobile", phone);
         dataRequest.put("otpcode", otpcode);
@@ -280,22 +280,11 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                 try {
                     UserEntity userEntity = new UserEntity();
                     if (jsonResponse.getInt("code") == 0) {
-<<<<<<<3 c832e801f84b7d77046a1799d122047d5c31715
-                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
-                        JSONObject mObject = new JSONObject(getStringInJsonObj(object, "user"));
-                        userEntity.setId(Integer.parseInt(getStringInJsonObj(mObject, "id")));
 
-
-                        JSONObject jsonToken = new JSONObject(getStringInJsonObj(object, "token"));
-                        userEntity.setToken(getStringInJsonObj(jsonToken, "access_token"));
-                        userEntity.setRefreshToken(getStringInJsonObj(jsonToken, "refresh_token"));
-
-=======
                         JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
                         JSONObject mObject = new JSONObject(getStringInJsonObj(object, "user"));
                         userEntity.setId(Integer.parseInt(getStringInJsonObj(mObject, "id")));
                         userEntity.setToken(getStringInJsonObj(object, "token"));
->>>>>>>commit 21 - 1
                         userEntity.setTokenExp(getStringInJsonObj(object, "token_exp"));
                         userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
                         userEntity.setPhoneNumber(getStringInJsonObj(mObject, "mobile"));
