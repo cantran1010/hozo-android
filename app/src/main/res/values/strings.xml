@@ -60,7 +60,6 @@
     <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản và chính sách của chúng tôi</string>
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
 
-
     <!--Edit profile Screen-->
 
     <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
