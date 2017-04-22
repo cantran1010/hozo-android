@@ -255,7 +255,12 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                         JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
                         JSONObject mObject = new JSONObject(getStringInJsonObj(object, "user"));
                         userEntity.setId(Integer.parseInt(getStringInJsonObj(mObject, "id")));
-                        userEntity.setToken(getStringInJsonObj(object, "token"));
+
+
+                        JSONObject jsonToken = new JSONObject(getStringInJsonObj(object, "token"));
+                        userEntity.setToken(getStringInJsonObj(jsonToken, "access_token"));
+                        userEntity.setRefreshToken(getStringInJsonObj(jsonToken, "refresh_token"));
+
                         userEntity.setTokenExp(getStringInJsonObj(object, "token_exp"));
                         userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
                         userEntity.setPhoneNumber(getStringInJsonObj(mObject, "mobile"));
