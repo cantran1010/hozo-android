@@ -57,7 +57,16 @@
     <string name="tv_login_save">Lưu lại</string>
     <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản và chính sách của chúng tôi</string>
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
-    <!--all screen-->
+
+    <!--Edit profile Screen-->
+    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
+    <string name="edt_proflie_tv_name">Ten</string>
+    <string name="edt_proflie_tv_address">Dia chi</string>
+    <string name="edit_profile_btn_save">Lưu lại</string>
+    <string name="select_task_title">Dang viec</string>
+    <string name="browse_task_title">Tim Viec</string>
+    <string name="my_task_title">Viec cua toi</string>
+
     <string name="notifi_title">Thong bao</string>
     <string name="other_title">Khac</string>
 
@@ -66,13 +75,6 @@
     <string name="post_task_title">Chi tiet dang viec</string>
     <string name="post_a_task_title">Chi tiet dang viec</string>
     <string name="tv_post_a_task_title">Chi tiet dang viec</string>
-    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
-    <string name="edt_proflie_tv_name">Tên</string>
-    <string name="edt_proflie_tv_address">Địa chỉ</string>
-    <string name="edit_profile_btn_save">Lưu lại</string>
-    <string name="select_task_title">Đăng việc</string>
-    <string name="browse_task_title">Tìm việc</string>
-    <string name="my_task_title">Việc của tôi</string>
     <string name="notify_title">Thông báo</string>
 
     <!-- post a task -->
