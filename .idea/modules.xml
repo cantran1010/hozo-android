@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HOZO_ANDROID.iml" filepath="$PROJECT_DIR$/HOZO_ANDROID.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Huynh_Profile.iml" filepath="$PROJECT_DIR$/Huynh_Profile.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
