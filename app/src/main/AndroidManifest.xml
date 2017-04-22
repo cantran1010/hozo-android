@@ -23,6 +23,7 @@
         <activity
             android:name="vn.tonish.hozo.activity.LoginScreen"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter android:label="@string/app_name">
@@ -49,6 +50,10 @@
             android:name="vn.tonish.hozo.activity.MakeAnOfferActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
 
         </activity>
@@ -116,8 +121,6 @@
         <activity android:name=".activity.SplashActivity" />
         <activity android:name=".activity.setting.WorkTypeActivity" />
 
-        =======
-        >>>>>>> post a task layout
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -1,7 +1,6 @@
 package vn.tonish.hozo.fragment;
 
 import android.view.View;
-import android.widget.TextView;
 
 import vn.tonish.hozo.R;
 
@@ -10,7 +9,7 @@ import vn.tonish.hozo.R;
  */
 
 public class MyTaskFragment extends BaseFragment implements View.OnClickListener {
-    private TextView layoutWorker, layoutPoster;
+    private View layoutWorker, layoutPoster;
 
     @Override
     protected int getLayout() {
@@ -19,14 +18,14 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     protected void initView() {
-        layoutWorker = (TextView) findViewById(R.id.layout_worker);
-        layoutPoster = (TextView) findViewById(R.id.layout_poster);
+        layoutWorker = findViewById(R.id.layout_worker);
+        layoutPoster = findViewById(R.id.layout_poster);
 
     }
 
     @Override
     protected void initData() {
-        openFragment(R.id.my_task_container, PosterFragment.class, false);
+        openFragment(R.id.my_task_container, SelectTaskFragment.class, false);
         layoutWorker.setOnClickListener(this);
         layoutPoster.setOnClickListener(this);
     }
@@ -36,23 +35,16 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
     }
 
-    private void selectedTab(int position) {
-        if (position == 1) {
-            layoutWorker.setTextColor(getResources().getColor(R.color.green));
-//            layoutPoster.setBackground(getResources().getDrawable(R.drawable.bg_border_green));
-        }
-    }
-
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
             case R.id.layout_worker:
-                openFragment(R.id.my_task_container, WorkerFragment.class, false);
+                openFragment(R.id.my_task_container, SelectTaskFragment.class, false);
                 break;
 
             case R.id.layout_poster:
-                openFragment(R.id.my_task_container, PosterFragment.class, false);
+                openFragment(R.id.my_task_container, BrowseTaskFragment.class, false);
                 break;
 
         }

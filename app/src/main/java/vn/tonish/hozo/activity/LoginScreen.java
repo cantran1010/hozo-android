@@ -27,6 +27,7 @@ import vn.tonish.hozo.network.NetworkUtils;
 import static android.support.v4.view.ViewCompat.animate;
 import static vn.tonish.hozo.common.Constants.OTP_VIEW;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
+import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 /**
  * Created by MAC2015 on 4/11/17.
@@ -67,7 +68,6 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
         edtPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -75,10 +75,15 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
                 if (!checkNumberPhone(edtPhone.getText().toString().trim())) {
 
                     tvContinue.setTextColor(ContextCompat.getColor(LoginScreen.this, R.color.white));
+                    if (edtPhone.getText().toString().trim().length() > 9) {
+                        edtPhone.setError("so dt khong dung dinh dang");
+                        edtPhone.setText("");
+                    }
                     tvContinue.setEnabled(false);
                 } else {
                     tvContinue.setTextColor(ContextCompat.getColor(LoginScreen.this, R.color.black));
                     tvContinue.setEnabled(true);
+                    hideSoftKeyboard(context, edtPhone);
                 }
 
 
