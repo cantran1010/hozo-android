@@ -141,6 +141,7 @@ public class NetworkUtils {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 LogUtils.e(TAG, "postVolley volleyError : " + volleyError.toString());
+                LogUtils.e(TAG, volleyError.networkResponse.statusCode + "");
 
                 if (isShowDialogError)
 
@@ -173,7 +174,7 @@ public class NetworkUtils {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-//                headers.put("Authorization", "Bearer " + PreferUtils.getTokenUser(context));
+                headers.put("Authorization", "Bearer " + UserManager.getUserToken(context));
                 headers.put("Accept", "application/json");
 
                 return headers;
