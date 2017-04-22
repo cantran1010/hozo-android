@@ -11,7 +11,7 @@
         android:layout_height="80dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:src="@drawable/avata_default" />
+        android:src="@drawable/avatar_default" />
 
     <ImageView
         android:id="@+id/img_setting"

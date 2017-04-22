@@ -26,7 +26,7 @@ public class Utils {
     private static final String TAG = Utils.class.getName();
 
     public static final String md5(String data) {
-        StringBuffer hexString = new StringBuffer();
+        StringBuilder hexString = new StringBuilder();
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("MD5");
@@ -35,12 +35,12 @@ public class Utils {
         }
         byte[] hash = md.digest();
 
-        for (int i = 0; i < hash.length; i++) {
-            if ((0xff & hash[i]) < 0x10) {
+        for (byte aHash : hash) {
+            if ((0xff & aHash) < 0x10) {
                 hexString.append("0"
-                        + Integer.toHexString((0xFF & hash[i])));
+                        + Integer.toHexString((0xFF & aHash)));
             } else {
-                hexString.append(Integer.toHexString(0xFF & hash[i]));
+                hexString.append(Integer.toHexString(0xFF & aHash));
             }
         }
         return hexString.toString();
@@ -52,10 +52,10 @@ public class Utils {
                 .into(img);
     }
 
-    public static void displayImageAvata(Context context, ImageView img, String url) {
+    public static void displayImageAvatar(Context context, ImageView img, String url) {
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.avata_default)
+                .placeholder(R.drawable.avatar_default)
                 .into(img);
     }
 
@@ -67,11 +67,7 @@ public class Utils {
     }
 
     public final static boolean isValidEmail(CharSequence target) {
-        if (target == null) {
-            return false;
-        } else {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-        }
+        return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
     public static void hideKeyBoard(Activity context) {
@@ -82,7 +78,6 @@ public class Utils {
             InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-
     }
 
     public static void showLongToast(Context context, String content) {
@@ -97,13 +92,12 @@ public class Utils {
 
     public static String formatNumber(int input) {
         DecimalFormat myFormatter = new DecimalFormat("###,###.###");
-        String output = myFormatter.format(input);
-        return output;
+        return myFormatter.format(input);
     }
 
     public static boolean isNullOrEmpty(Object obj) {
         String inputString = String.valueOf(obj);
-        return obj == null ? true : (inputString.isEmpty() ? true : inputString.equals("null"));
+        return obj == null || (inputString.isEmpty() || inputString.equals("null"));
     }
 
     public static int getScreenWidth() {
@@ -113,5 +107,4 @@ public class Utils {
     public static int getScreenHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
-
 }

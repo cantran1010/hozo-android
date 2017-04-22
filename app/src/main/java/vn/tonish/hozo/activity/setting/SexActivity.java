@@ -4,18 +4,19 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 
 /**
- * Created by MAC2015 on 4/21/17.
+ * Created by MAC2015 on 4/22/17.
  */
 
-public class AgeSettingActivity extends BaseActivity {
+public class SexActivity extends BaseActivity {
+
     @Override
     protected int getLayout() {
-        return R.layout.activity_age_setting;
+        return R.layout.activity_sex;
     }
 
     @Override
     protected void initView() {
-        setBackButton();
+
     }
 
     @Override
@@ -25,7 +26,6 @@ public class AgeSettingActivity extends BaseActivity {
 
     @Override
     protected void resumeData() {
-
 
     }
 }

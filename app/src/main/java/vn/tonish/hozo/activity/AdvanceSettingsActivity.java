@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.setting.AgeSettingActivity;
+import vn.tonish.hozo.activity.setting.FeeActivity;
 import vn.tonish.hozo.activity.setting.TimeSettingActivity;
 
 /**
@@ -72,6 +73,8 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     private final int OPEN_AGE_SETTING = 222;
 
+    private final int OPEN_FEE_SETTING = 322;
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -81,7 +84,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
                 break;
             case R.id.tv_fee:
-
+                startActivityForResult(new Intent(getApplicationContext(), FeeActivity.class), OPEN_FEE_SETTING);
                 break;
             case R.id.tv_location:
 
@@ -89,16 +92,16 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             case R.id.tv_time:
                 startActivityForResult(new Intent(getApplicationContext(), TimeSettingActivity.class), OPEN_TIME_SETTING);
                 break;
+
             case R.id.tv_sex:
                 break;
+
             case R.id.tv_age:
                 startActivityForResult(new Intent(getApplicationContext(), AgeSettingActivity.class), OPEN_AGE_SETTING);
-
                 break;
+
             case R.id.tv_notification:
-
                 break;
-
         }
     }
 

@@ -2,7 +2,7 @@
     <!--all screen-->
     <string name="app_name">Hozo</string>
     <string name="all_action_settings">Settings</string>
-    <string name="all_ok">Ok</string>
+    <string name="all_ok">OK</string>
     <string name="all_cancel">Cancel</string>
     <string name="all_retry">Retry</string>
     <string name="all_network_error_msg">Error !</string>
@@ -24,7 +24,7 @@
     <!--profile Screen-->
     <string name="profile_tv_header">Hồ sơ cá nhân</string>
     <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
-    <string name="btn_save">LƯU</string>
+    <string name="btn_save">LƯU LẠI</string>
     <string name="tv_type_of_work">Loại công việc</string>
     <string name="tv_fee">Chi phí</string>
 
@@ -60,19 +60,20 @@
 
     <!--Edit profile Screen-->
     <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
-    <string name="edt_proflie_tv_name">Ten</string>
-    <string name="edt_proflie_tv_address">Dia chi</string>
+
+    <string name="edt_proflie_tv_name">Tên</string>
+    <string name="edt_proflie_tv_address">Địa chỉ</string>
     <string name="edit_profile_btn_save">Lưu lại</string>
-    <string name="select_task_title">Dang viec</string>
-    <string name="browse_task_title">Tim Viec</string>
-    <string name="my_task_title">Viec cua toi</string>
-    <string name="notifi_title">Thong bao</string>
-    <string name="other_title">Khac</string>
+    <string name="select_task_title">Đăng việc</string>
+    <string name="browse_task_title">Tìm việc</string>
+    <string name="my_task_title">Việc của tôi</string>
+    <string name="notifi_title">Thông báo</string>
+    <string name="other_title">Khác</string>
 
     <!--  post a task layout-->
-    <string name="post_task_title">Chi tiet dang viec</string>
-    <string name="post_a_task_title">Chi tiet dang viec</string>
-    <string name="tv_post_a_task_title">Chi tiet dang viec</string>
+    <string name="post_task_title">Chi tiết đăng việc</string>
+    <string name="post_a_task_title">Chi tiết đăng việc</string>
+    <string name="tv_post_a_task_title">Chi tiết đăng việc</string>
     <string name="profile_verify">Đã xác thực</string>
     <string name="profile_btn_verify">Xác thực thêm</string>
     <string name="profile_address">Địa chỉ</string>
@@ -97,6 +98,12 @@
 
     <!-- make an offer-->
     <string name="make_an_offer_title">Chi tiết</string>
+    <string name="tv_start_time">Chọn ngày bắt đầu</string>
+    <string name="tv_end_time">Chọn ngày kết thúc</string>
+    <string name="tv_amount">Số tiền</string>
+    <string name="et_max">Max</string>
+    <string name="et_min">Min</string>
+    <string name="btn_reset">RESET</string>
 
     <string-array name="gender">
         <item>Nam</item>

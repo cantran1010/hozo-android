@@ -59,7 +59,7 @@ public class CommentView extends RelativeLayout implements View.OnClickListener 
     }
 
     public void updateData(Comment comment) {
-        Utils.displayImageAvata(getContext(), imgAvata, comment.getAvatar());
+        Utils.displayImageAvatar(getContext(), imgAvata, comment.getAvatar());
         tvName.setText(comment.getFullName());
         tvComment.setText(comment.getBody());
         tvTimeAgo.setText(comment.getCreatedAt());

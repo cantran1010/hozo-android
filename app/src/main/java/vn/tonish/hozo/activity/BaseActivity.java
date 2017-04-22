@@ -159,9 +159,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
                     transaction.addToBackStack(tag);
                 }
                 transaction.commitAllowingStateLoss();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         } catch (Exception e) {

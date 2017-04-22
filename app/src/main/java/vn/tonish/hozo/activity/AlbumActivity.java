@@ -55,9 +55,8 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     protected void initData() {
         Intent intent = getIntent();
 
-        if(intent.hasExtra(Constants.EXTRA_ONLY_IMAGE))
-            isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE,false);
-
+        if (intent.hasExtra(Constants.EXTRA_ONLY_IMAGE))
+            isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
         getAlbum();
     }
 
@@ -129,7 +128,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent intent = new Intent(getApplicationContext(), ImageSelectActivity.class);
                         intent.putExtra(Constants.INTENT_EXTRA_ALBUM, albums.get(position).getName());
-                        intent.putExtra(Constants.EXTRA_ONLY_IMAGE,isOnlyImage);
+                        intent.putExtra(Constants.EXTRA_ONLY_IMAGE, isOnlyImage);
                         startActivityForResult(intent, REQUEST_CODE_PICKIMAGE);
                     }
                 });
@@ -155,7 +154,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
             finish();
         }
     }
-
+    
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
