@@ -273,20 +273,24 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_LOGIN, dataRequest, new NetworkUtils.NetworkListener() {
             @Override
             public void onSuccess(JSONObject jsonResponse) {
-                LogUtils.d(TAG,"dataRequest" + jsonResponse.toString());
+                LogUtils.d(TAG, "dataRequest" + jsonResponse.toString());
                 try {
                     UserEntity userEntity = new UserEntity();
                     if (jsonResponse.getInt("code") == 0) {
-                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse,"data"));
-                        JSONObject mObject = new JSONObject(getStringInJsonObj(object,"user"));
-                        userEntity.setId(Integer.parseInt(getStringInJsonObj(mObject,"id")));
-                        userEntity.setToken(getStringInJsonObj(object,"token"));
+                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
+                        JSONObject mObject = new JSONObject(getStringInJsonObj(object, "user"));
+                        userEntity.setId(Integer.parseInt(getStringInJsonObj(mObject, "id")));
+
+                        JSONObject jsonToken = new JSONObject(getStringInJsonObj(object, "token"));
+                        userEntity.setToken(getStringInJsonObj(jsonToken, "access_token"));
+                        userEntity.setRefreshToken(getStringInJsonObj(jsonToken, "refresh_token"));
+
                         userEntity.setTokenExp(getStringInJsonObj(object, "token_exp"));
                         userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
                         userEntity.setPhoneNumber(getStringInJsonObj(mObject, "mobile"));
                         userEntity.setLoginAt(getStringInJsonObj(mObject, "login_at"));
                         UserManager.insertUserLogin(userEntity, getContext());
-                        if ((getStringInJsonObj(mObject, "full_name").trim()).equalsIgnoreCase("")||getStringInJsonObj(mObject, "full_name").trim()==null) {
+                        if ((getStringInJsonObj(mObject, "full_name").trim()).equalsIgnoreCase("") || getStringInJsonObj(mObject, "full_name").trim() == null) {
                             LogUtils.d(TAG, "name_check" + getStringInJsonObj(mObject, "full_name").trim());
                             ((LoginScreen) context).showExtendView(NAME_VIEW);
                         } else {
