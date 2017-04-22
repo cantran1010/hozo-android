@@ -13,6 +13,7 @@
         android:layout_marginLeft="10dp"
         android:src="@drawable/avatar_default" />
 
+
     <ImageView
         android:id="@+id/img_setting"
         android:layout_width="wrap_content"
