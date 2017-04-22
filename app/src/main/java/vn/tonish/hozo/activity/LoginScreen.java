@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -44,6 +46,7 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
     public String phone = "";
     public int viewLevel = 0;
     public int duration = 200;
+    public Animation mLoadAnimation;
 
     @Override
     protected int getLayout() {
@@ -53,6 +56,7 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initView() {
         context = LoginScreen.this;
+        mLoadAnimation = AnimationUtils.loadAnimation(this, R.anim.animation_edittext);
         edtPhone = (EditText) findViewById(R.id.edt_phone);
         tvContinue = (TextView) findViewById(R.id.tv_continue);
         viewLevel2 = (FrameLayout) findViewById(R.id.view_Level2);
@@ -64,6 +68,7 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
+
         edtPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -71,17 +76,19 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String error = "";
                 if (!checkNumberPhone(edtPhone.getText().toString().trim())) {
-                    if (edtPhone.getText().toString().trim().length()>9){
-                        edtPhone.setError("so dt khong dung dinh dang");
-                        edtPhone.setText("");
-                    }
                     tvContinue.setTextColor(getResources().getColor(R.color.white));
                     tvContinue.setEnabled(false);
+                    if (CheckErrorEditText(edtPhone.getText().toString().trim())) {
+                        error = "So dien thoai khong dung dinh dang";
+                        edtPhone.startAnimation(mLoadAnimation);
+                        edtPhone.setError(error);
+                    }
                 } else {
                     tvContinue.setTextColor(getResources().getColor(R.color.black));
                     tvContinue.setEnabled(true);
-                    hideSoftKeyboard(context,edtPhone);
+                    hideSoftKeyboard(context, edtPhone);
                 }
 
             }
@@ -154,9 +161,7 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
 
 
     public void closeExtendView() {
-
         hideKeyBoard(this);
-
         if (viewLevel == 0) {
             return;
         }
@@ -214,6 +219,29 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
             return false;
         }
     }
+
+    public boolean CheckErrorEditText(String number) {
+        boolean ck = false;
+        if (number.length() == 1 && !(number.substring(0, 1).equals("9") || number.substring(0, 1).equals("1") || number.substring(0, 1).equals("0"))) {
+            ck = true;
+        }
+        if (number.length() == 2 && number.substring(0, 1).equals("0")) {
+            if (!(number.substring(0, 2).equals("09") || number.substring(0, 2).equals("01"))) {
+                ck = true;
+            }
+        }
+        if (number.length() > 10 && !(number.substring(0, 2).equals("09") || number.substring(0, 1).equals("1"))) {
+            ck = true;
+        }
+        if (number.length() > 11 && !(number.substring(0, 2).equals("01"))) {
+            ck = true;
+        }
+        if (number.length() > 9 && !(number.substring(0, 2).equals("9"))) {
+            ck = true;
+        }
+        return ck;
+    }
+
 
     private void login() {
         phone = edtPhone.getText().toString().trim();
