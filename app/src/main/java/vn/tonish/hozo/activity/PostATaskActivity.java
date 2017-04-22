@@ -60,7 +60,6 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     protected void initView() {
         layoutBack = (RelativeLayout) findViewById(R.id.layout_back);
         btnNext = (Button) findViewById(R.id.btn_next);
-
         layoutBack.setOnClickListener(this);
         btnNext.setOnClickListener(this);
 

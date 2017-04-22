@@ -62,12 +62,8 @@
 
     <!--Edit profile Screen-->
 
-    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
-    <string name="edit_profile_btn_save">Lưu lại</string>
-    <string name="select_task_title">Đăng việc</string>
-    <string name="browse_task_title">Tìm việc</string>
-    <string name="my_task_title">Việc của tôi</string>
-    <string name="other_title">Khác</string>
+    <string name="notifi_title">Thong bao</string>
+    <string name="other_title">Khac</string>
 
     <!--  post a task layout-->
 
@@ -89,6 +85,8 @@
     <!-- post a task map-->
     <string name="msg_err_gps">Yêu cầu bật GPS</string>
     <string name="msg_err_address">Vui long nhap dia chi</string>
+    <string name="my_task_worker">Việc của tôi</string>
+    <string name="my_task_poster">Việc đã đăng</string>
 
 
     <!-- make an offer-->
