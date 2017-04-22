@@ -18,6 +18,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import vn.tonish.hozo.activity.MainActivity;
+import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
@@ -88,8 +90,16 @@ public class NetworkUtils {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-//                headers.put("Authorization", "Bearer " + PreferUtils.getTokenUser(context));
+                final HashMap<String, String> headers = new HashMap<String, String>();
+                if (context instanceof MainActivity) {
+                    ((MainActivity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            headers.put("Authorization", "Bearer " + UserManager.getUserToken(context));
+                        }
+                    });
+                }
+                LogUtils.d(TAG, "token: " + UserManager.getUserToken(context));
                 headers.put("Content-Type", "application/x-www-form-urlencoded");
 
                 return headers;
