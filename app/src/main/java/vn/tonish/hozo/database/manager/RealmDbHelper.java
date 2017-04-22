@@ -1,5 +1,6 @@
 package vn.tonish.hozo.database.manager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Base64;
 
@@ -53,8 +54,17 @@ public class RealmDbHelper {
                     .encryptionKey(Base64.decode(key, Base64.DEFAULT))
                     .build();
 
-        if (realm == null)
-            realm = Realm.getInstance(realmConfiguration);
+        if(context instanceof Activity){
+            ((Activity) context).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    LogUtils.d(TAG,"main thread");
+                        realm = Realm.getInstance(realmConfiguration);
+                }
+            });
+        }else {
+            LogUtils.d(TAG,"!!!!!!!!! main thread");
+        }
 
         return realm;
     }

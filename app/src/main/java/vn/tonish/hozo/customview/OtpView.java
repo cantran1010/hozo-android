@@ -245,4 +245,54 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         }
 
     }
+<<<<<<< 519fab5951f53437f2b1e71ce6013e0a178ad247
+=======
+
+    private void login() {
+        String otpcode = mPinHiddenEditText.getText().toString().trim();
+        HashMap<String, String> dataRequest = new HashMap<>();
+        dataRequest.put("mobile", phone);
+        dataRequest.put("otpcode", otpcode);
+        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_LOGIN, dataRequest, new NetworkUtils.NetworkListener() {
+            @Override
+            public void onSuccess(JSONObject jsonResponse) {
+                LogUtils.d(TAG,"dataRequest" + jsonResponse.toString());
+                try {
+                    UserEntity userEntity = new UserEntity();
+                    if (jsonResponse.getInt("code") == 0) {
+                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse,"data"));
+                        JSONObject mObject = new JSONObject(getStringInJsonObj(object,"user"));
+                        userEntity.setId(Integer.parseInt(getStringInJsonObj(mObject,"id")));
+                        userEntity.setToken(getStringInJsonObj(object,"token"));
+                        userEntity.setTokenExp(getStringInJsonObj(object, "token_exp"));
+                        userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
+                        userEntity.setPhoneNumber(getStringInJsonObj(mObject, "mobile"));
+                        userEntity.setLoginAt(getStringInJsonObj(mObject, "login_at"));
+                        UserManager.insertUserLogin(userEntity, getContext());
+                        if ((getStringInJsonObj(mObject, "full_name").trim()).equalsIgnoreCase("")||getStringInJsonObj(mObject, "full_name").trim()==null) {
+                            LogUtils.d(TAG, "name_check" + getStringInJsonObj(mObject, "full_name").trim());
+                            ((LoginScreen) context).showExtendView(NAME_VIEW);
+                        } else {
+                            Intent intent = new Intent(context, MainActivity.class);
+                            ((LoginScreen) context).startActivityAndClearAllTask(intent);
+                        }
+                    } else if (jsonResponse.getInt("code") == 1) {
+                        Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(context, "Otp code is invalid", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            @Override
+            public void onError() {
+
+            }
+        });
+    }
+>>>>>>> commit 22-1
 }
