@@ -272,7 +272,6 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
 
     private void login() {
         String otpcode = mPinHiddenEditText.getText().toString().trim();
-        LogUtils.d(TAG,otpcode + phone);
         HashMap<String, String> dataRequest = new HashMap<>();
         dataRequest.put("mobile", phone);
         dataRequest.put("otpcode", otpcode);
