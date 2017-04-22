@@ -35,12 +35,8 @@ public class NameView extends FrameLayout implements View.OnClickListener {
     private Context context;
     protected View rootView;
     private EditText edtName;
-<<<<<<<de3c6c78832644bf22dcec726a6254ef9fab3229
-    protected TextView btnSave, btnBack;
-=======
-    private TextView btnSave, btnBack;
->>>>>>>commit 22-1
 
+    private TextView btnSave, btnBack;
 
     public NameView(Context context) {
         super(context);
