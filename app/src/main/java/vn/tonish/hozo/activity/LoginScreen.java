@@ -81,7 +81,7 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
                     tvContinue.setTextColor(getResources().getColor(R.color.white));
                     tvContinue.setEnabled(false);
                     if (CheckErrorEditText(edtPhone.getText().toString().trim())) {
-                        error = "So dien thoai khong dung dinh dang";
+                        error = getResources().getString(R.string.login_erro_phone);
                         edtPhone.startAnimation(mLoadAnimation);
                         edtPhone.setError(error);
                     }
@@ -255,7 +255,6 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
                         showExtendView(OTP_VIEW);
                     } else if (jsonResponse.getInt("code") == 1) {
                         Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
-
                     } else {
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                     }
