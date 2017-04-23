@@ -52,7 +52,7 @@
 
 
         <activity
-            android:name="vn.tonish.hozo.activity.MakeAnOfferActivity"
+            android:name="vn.tonish.hozo.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
 
@@ -64,10 +64,14 @@
 
         </activity>
 
+        <activity
+            android:name="vn.tonish.hozo.activity.MakeAnOfferActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"></activity>
+
 
         <activity
             android:name=".activity.PostATaskActivity"
-
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 

@@ -207,6 +207,174 @@ public class NetworkUtils {
 
     }
 
+    public static void postVolleyFormData(final boolean isShowProgressDialog, final boolean isDismissProgressDialog, final boolean isShowDialogError, final Context context, final String url, final HashMap<String, String> dataRequest, final NetworkListener networkListener) {
+        LogUtils.d(TAG, "postVolley url : " + url + " /////// data request : " + dataRequest.toString());
+
+        if (context instanceof Activity) {
+            Utils.hideKeyBoard((Activity) context);
+        }
+        if (isShowProgressDialog)
+            ProgressDialogUtils.showProgressDialog(context);
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        LogUtils.d(TAG, "postVolley onResponse : " + response);
+                        try {
+                            networkListener.onSuccess(new JSONObject(response));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (isDismissProgressDialog)
+                            ProgressDialogUtils.dismissProgressDialog();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        LogUtils.e(TAG, "postVolley volleyError : " + error.toString());
+                        LogUtils.e(TAG, "postVolley volleyError message : " + error.getMessage());
+
+//                        //stupid volley ,can't catch exception
+//                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+//                            Utils.showLongToast(context, "TimeoutError err ...");
+//                        } else if (error instanceof AuthFailureError) {
+//                            Utils.showLongToast(context, "AuthFailureError ...");
+//                        } else if (error instanceof ServerError) {
+//                            Utils.showLongToast(context, "ServerError ...");
+//                        } else if (error instanceof NetworkError) {
+//                            Utils.showLongToast(context, "NetworkError ...");
+//                        } else if (error instanceof ParseError) {
+//                            Utils.showLongToast(context, "ParseError ...");
+//                        }else{
+//                            Utils.showLongToast(context, "ParseError ...");
+//                        }
+
+//                        NetworkResponse response = error.networkResponse;
+//                        if (response != null && response.data != null) {
+//                            LogUtils.d(TAG, "postVolley response.statusCode : " + response.statusCode);
+//                        }
+
+                        if (error.getMessage().equals(Constants.ERROR_AUTHEN)) {
+                            // HTTP Status Code: 401 Unauthorized
+                            // Refresh token
+
+                            HashMap<String, String> dataRequestToken = new HashMap<>();
+                            dataRequestToken.put("mobile", UserManager.getUserLogin(context).getPhoneNumber());
+                            dataRequestToken.put("refresh_token", UserManager.getUserToken(context));
+
+                            postVolleyFormData(true, true, true, context, NetworkConfig.API_REFRESH_TOKEN, dataRequestToken, new NetworkListener() {
+                                @Override
+                                public void onSuccess(JSONObject jsonResponse) {
+                                    // save new token
+                                    UserEntity userEntity = new UserEntity();
+                                    try {
+
+                                        if (jsonResponse.getInt("code") == 0) {
+                                            JSONObject object = null;
+
+                                            object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
+
+                                            JSONObject mObject = new JSONObject(getStringInJsonObj(object, "user"));
+                                            userEntity.setId(Integer.parseInt(getStringInJsonObj(mObject, "id")));
+
+                                            JSONObject jsonToken = new JSONObject(getStringInJsonObj(object, "token"));
+                                            userEntity.setToken(getStringInJsonObj(jsonToken, "access_token"));
+                                            userEntity.setRefreshToken(getStringInJsonObj(jsonToken, "refresh_token"));
+
+                                            userEntity.setTokenExp(getStringInJsonObj(object, "token_exp"));
+                                            userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
+                                            userEntity.setPhoneNumber(getStringInJsonObj(mObject, "mobile"));
+                                            userEntity.setLoginAt(getStringInJsonObj(mObject, "login_at"));
+                                            UserManager.insertUserLogin(userEntity, context);
+
+                                            // retry try call api
+                                            postVolleyFormData(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, dataRequest, networkListener);
+
+                                        } else {
+                                            //logout
+
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onError() {
+
+                                }
+                            });
+
+                        } else {
+                            if (isShowDialogError)
+
+                                DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
+                                    @Override
+                                    public void onOkClick() {
+                                        postVolleyFormData(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, dataRequest, networkListener);
+                                    }
+
+                                    @Override
+                                    public void onCancelClick() {
+
+                                    }
+                                });
+                        }
+
+                        if (isDismissProgressDialog)
+                            ProgressDialogUtils.dismissProgressDialog();
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                return dataRequest;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                final HashMap<String, String> headers = new HashMap<String, String>();
+
+                headers.put("Authorization", "Bearer " + UserManager.getUserToken(context));
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                LogUtils.d(TAG, "postVolley getHeaders token: " + UserManager.getUserToken(context));
+
+                return headers;
+            }
+
+//            @Override
+//            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+//                int mStatusCode = response.statusCode;
+//                LogUtils.d(TAG,"postVolley parseNetworkResponse , mStatusCode : " + mStatusCode);
+//                return super.parseNetworkResponse(response);
+//            }
+
+//            @Override
+//            protected VolleyError parseNetworkError(VolleyError volleyError) {
+//                if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
+//                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
+//                    volleyError = error;
+//                    LogUtils.d(TAG, "parseNetworkError networkResponse");
+//                }
+//                return volleyError;
+//            }
+
+        };
+
+        postRequest.setRetryPolicy(
+                new DefaultRetryPolicy(
+                        NetworkConfig.NETWORK_TIME_OUT,
+                        1,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        Volley.newRequestQueue(context).add(postRequest);
+
+    }
+
     public static void postVolleyRaw(final boolean isShowProgressDialog, final boolean isDismissProgressDialog, final boolean isShowDialogError, final Context context, final String url, final JSONObject jsonRequest, final NetworkListener networkListener) {
         LogUtils.d(TAG, "postVolley url : " + url + " /////// data request : " + jsonRequest.toString());
 

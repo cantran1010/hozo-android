@@ -25,7 +25,6 @@ import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 
-
 public class Utils {
 
     private static final String TAG = Utils.class.getName();

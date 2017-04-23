@@ -29,6 +29,7 @@ public class Constants {
     public static final String NAME_VIEW = "name_view";
 
 
+<<<<<<< 2fb293afa7f3f2a53379060e54b2ed4105aa2f16
     public static final int OPEN_TIME_SETTING = 111;
 
     public static final int OPEN_AGE_SETTING = 222;
@@ -37,3 +38,6 @@ public class Constants {
 
 
 }
+=======
+}
+>>>>>>> commit-1
