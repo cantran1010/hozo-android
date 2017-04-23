@@ -10,6 +10,8 @@ public class UserEntity extends RealmObject implements Serializable {
     @PrimaryKey
     private int id;
     private String token;
+    private String refreshToken;
+    private String tokenExp;
     private String phoneNumber;
     private String email;
     private String fullName;
@@ -29,6 +31,31 @@ public class UserEntity extends RealmObject implements Serializable {
     private String description;
     private boolean isApproved = false;
     private String images;
+    private String loginAt;
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public String getLoginAt() {
+        return loginAt;
+    }
+
+    public void setLoginAt(String loginAt) {
+        this.loginAt = loginAt;
+    }
+
+    public String getTokenExp() {
+        return tokenExp;
+    }
+
+    public void setTokenExp(String tokenExp) {
+        this.tokenExp = tokenExp;
+    }
 
     public int getId() {
         return id;
