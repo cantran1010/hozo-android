@@ -73,8 +73,7 @@ public class NameView extends FrameLayout implements View.OnClickListener {
                 saveUser();
                 Toast.makeText(context, "wellcome " + edtName.getText().toString() + " to hozo", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                ((LoginScreen) context).startActivityAndClearAllTask(intent);
                 break;
         }
 
