@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -114,4 +117,16 @@ public class Utils {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
+    public static String getStringInJsonObj(JSONObject jsonObject, String key) {
+        if (jsonObject.has(key)) {
+            try {
+                String e = String.valueOf(jsonObject.get(key));
+                return e.equalsIgnoreCase("null") ? "" : e;
+            } catch (JSONException var3) {
+                return "";
+            }
+        } else {
+            return "";
+        }
+    }
 }
