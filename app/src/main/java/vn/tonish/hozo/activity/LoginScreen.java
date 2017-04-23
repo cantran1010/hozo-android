@@ -229,13 +229,13 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
                 ck = true;
             }
         }
-        if (number.length() > 10 && !(number.substring(0, 2).equals("09") || number.substring(0, 1).equals("1"))) {
+        if (number.length() > 10 && (number.substring(0, 2).equals("09") || number.substring(0, 1).equals("1"))) {
             ck = true;
         }
-        if (number.length() > 11 && !(number.substring(0, 2).equals("01"))) {
+        if (number.length() > 11 && (number.substring(0, 2).equals("01"))) {
             ck = true;
         }
-        if (number.length() > 9 && !(number.substring(0, 2).equals("9"))) {
+        if (number.length() > 9 && (number.substring(0, 2).equals("9"))) {
             ck = true;
         }
         return ck;
