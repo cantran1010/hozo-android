@@ -22,14 +22,14 @@
         <activity
             android:name="vn.tonish.hozo.activity.LoginScreen"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustNothing" />
+            android:windowSoftInputMode="adjustResize"/>
 
         <activity
             android:name="vn.tonish.hozo.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -84,6 +84,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
+        <!--<activity-->
+            <!--android:name=".activity.MakeAnOfferActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:windowSoftInputMode="stateHidden" />-->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -2,11 +2,13 @@ package vn.tonish.hozo.utils;
 
 
 import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 import android.content.res.Resources;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -87,6 +89,23 @@ public class Utils {
         }
 
     }
+    public static void hideSoftKeyboard(Context context,EditText editText) {
+        if (editText == null)
+            return;
+
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
+
+
+    public static void showSoftKeyboard(Context context,EditText editText) {
+        if (editText == null)
+            return;
+
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(editText, 0);
+    }
+
 
     public static void showLongToast(Context context, String content) {
         Toast.makeText(context, content, Toast.LENGTH_LONG).show();
@@ -129,4 +148,5 @@ public class Utils {
             return "";
         }
     }
+
 }

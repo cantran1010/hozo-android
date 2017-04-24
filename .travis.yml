@@ -25,3 +25,8 @@ install:
 script:
   - bundle exec danger
   - ./gradlew test --stacktrace
+notifications:
+  slack:
+    secure: TiiDiGcREuGyrN03ncqC5YgWpP/OJSh/YMbdBkV6k6X8Svz+T1CkaPpCifkHDqOYRrZ99xATb6hLbmTtZ9UJv10aAK2Edoz5bLc+klbOth7b3h/jLS4mUGpHZacJq6IuFJNyfy5eyHICG9LWrRvtI2VGmUONj/PItROVRqP1sWd5YBCt6A7R1NTkx1iJJzfE9TBiXzcGMVd+dajj4MRv7D6D117/MC9MZc2vNuwTdOsr5THyu9ayk3SjA4FzjM8DjB1Sqe/sKRXJO2S/bBIj6F4Popg8J74rFyj/grzqvXRhFUwWvD2yar6tD32XmyVgXx3zWTU76FPqNmrhKZxr6LMHpdFUUvTth7Gd97FT4WWhQ+ijIVZAArkvvridg6YK99YMrmznWbfLXRvqRH+3p5kXh6xdo1oPgIpz/2AWU5th3HgtQDM4tnTvktCSCEphp8zFjcw1vvIUsjtS1kRMvnNfhy1rOfuG+kkblCn4t/MFXnxa3ZtSLGVkiRhOE24wFFKspDPHVXZd2ISf/V1fY2V0Rml1Lojf6OoFickaFzyqOzN3jp1phKNTDha1z3LAJhFhZV6r1yS8cTzxvMitigdJMByJBpmJ0EGQEbAT+m5kNg+C0Z6d3otr4TlW0PHu6iKzD2C1BOPSw8CnaOj51ve+zZYtztJvw3+xfEynPCk=
+    on_success: never
+    on_failure: always

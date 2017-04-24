@@ -19,7 +19,7 @@ public class UserManager {
     public static UserManager userManager;
 
     public static boolean checkLogin(Context context) {
-        Realm realm = RealmDbHelper.getInstance().getRealm(context);
+        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         // get last update
         UserEntity userEntity = realm.where(UserEntity.class).findFirst();
 
@@ -29,7 +29,7 @@ public class UserManager {
 
     public static UserEntity getUserLogin(Context context) {
         LogUtils.d(TAG, "getUserLogin start ");
-        Realm realm = RealmDbHelper.getInstance().getRealm(context);
+        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         // get last update
         UserEntity userEntity = realm.where(UserEntity.class).findFirst();
         if (userEntity != null) LogUtils.d(TAG, "getUserLogin : " + userEntity.toString());
@@ -37,37 +37,38 @@ public class UserManager {
     }
 
     public static String getUserToken(Context context) {
+        String result = "";
         LogUtils.d(TAG, "getUserLogin start ");
-        Realm realm = RealmDbHelper.getInstance().getRealm(context);
+        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         // get last update
         UserEntity userEntity = null;
-        if(userEntity == null)
-        userEntity = realm.where(UserEntity.class).findFirst();
-        if (userEntity != null) LogUtils.d(TAG, "getUserLogin : " + userEntity.toString());
+        if (realm.where(UserEntity.class) != null) {
+            userEntity = realm.where(UserEntity.class).findFirst();
+            if (userEntity != null) {
+                result = userEntity.getToken();
+            }
+        }
+        return result;
 
-        return userEntity.getToken();
     }
 
     public static void insertUserLogin(UserEntity userEntity, Context context) {
         LogUtils.d(TAG, "insertUserLogin : " + userEntity.toString());
-        Realm realm = RealmDbHelper.getInstance().getRealm(context);
+
+        deleteAll();
+
+        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(userEntity);
         realm.commitTransaction();
     }
 
     public static void deleteAll() {
-        Realm realm = RealmDbHelper.getInstance().getRealm(context);
+        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         realm.beginTransaction();
-        realm.where(UserEntity.class).findAll().clear();
+        realm.where(UserEntity.class).findAll().deleteAllFromRealm();
         realm.commitTransaction();
     }
 
-    public static String getToken(Context context) {
-        if (userManager == null) {
-            userManager = new UserManager(context);
-        }
-        return userManager.getUserLogin(context).getToken();
-    }
 
 }

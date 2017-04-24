@@ -50,7 +50,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
-
         openFragment(R.id.layout_container, SelectTaskFragment.class, false);
         layoutPostTask.setOnClickListener(this);
         layoutBrowerTask.setOnClickListener(this);
