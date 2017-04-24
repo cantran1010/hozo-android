@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 import io.realm.Realm;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.LoginScreen;
+import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.RealmDbHelper;
@@ -65,14 +65,14 @@ public class NameView extends FrameLayout implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnBack:
-                ((LoginScreen) context).closeExtendView();
+                ((LoginActivity) context).closeExtendView();
                 break;
 
             case R.id.btn_save:
                 saveUser();
                 Toast.makeText(context, "wellcome " + edtName.getText().toString() + " to hozo", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, MainActivity.class);
-                ((LoginScreen) context).startActivityAndClearAllTask(intent);
+                ((LoginActivity) context).startActivityAndClearAllTask(intent);
                 break;
         }
 
@@ -114,10 +114,10 @@ public class NameView extends FrameLayout implements View.OnClickListener {
 
                         if ((getStringInJsonObj(mObject, "full_name").trim()).equalsIgnoreCase("") || getStringInJsonObj(mObject, "full_name").trim() == null) {
                             LogUtils.d(TAG, "name_check" + getStringInJsonObj(mObject, "full_name").trim());
-                            ((LoginScreen) context).showExtendView(NAME_VIEW);
+                            ((LoginActivity) context).showExtendView(NAME_VIEW);
                         } else {
                             Intent intent = new Intent(context, MainActivity.class);
-                            ((LoginScreen) context).startActivityAndClearAllTask(intent);
+                            ((LoginActivity) context).startActivityAndClearAllTask(intent);
                         }
                     } else if (jsonResponse.getInt("code") == 1) {
                         Toast.makeText(context, "FullName is empty", Toast.LENGTH_SHORT).show();

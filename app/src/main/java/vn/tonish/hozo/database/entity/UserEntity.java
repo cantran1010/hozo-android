@@ -17,20 +17,11 @@ public class UserEntity extends RealmObject implements Serializable {
     private String fullName;
     private String password;
     private String tokenDevice;
-    private String uuid;
-    private String os;
     private String profileImage;
-    private String sessionToken;
     private String birthday;
     private int gender;
-    private String uriCard;
-    private String uriAttacks;
-    private String height;
-    private String style;
     private String job;
     private String description;
-    private boolean isApproved = false;
-    private String images;
     private String loginAt;
 
     public String getRefreshToken() {
@@ -105,36 +96,12 @@ public class UserEntity extends RealmObject implements Serializable {
         this.tokenDevice = tokenDevice;
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public String getOs() {
-        return os;
-    }
-
-    public void setOs(String os) {
-        this.os = os;
-    }
-
     public String getProfileImage() {
         return profileImage;
     }
 
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
-    }
-
-    public String getSessionToken() {
-        return sessionToken;
-    }
-
-    public void setSessionToken(String sessionToken) {
-        this.sessionToken = sessionToken;
     }
 
     public String getBirthday() {
@@ -153,30 +120,6 @@ public class UserEntity extends RealmObject implements Serializable {
         this.gender = gender;
     }
 
-    public String getUriCard() {
-        return uriCard;
-    }
-
-    public void setUriCard(String uriCard) {
-        this.uriCard = uriCard;
-    }
-
-    public String getHeight() {
-        return height;
-    }
-
-    public void setHeight(String height) {
-        this.height = height;
-    }
-
-    public String getStyle() {
-        return style;
-    }
-
-    public void setStyle(String style) {
-        this.style = style;
-    }
-
     public String getJob() {
         return job;
     }
@@ -193,14 +136,6 @@ public class UserEntity extends RealmObject implements Serializable {
         this.description = description;
     }
 
-    public boolean isApproved() {
-        return isApproved;
-    }
-
-    public void setApproved(boolean approved) {
-        isApproved = approved;
-    }
-
     public String getToken() {
         return token;
     }
@@ -209,20 +144,5 @@ public class UserEntity extends RealmObject implements Serializable {
         this.token = token;
     }
 
-    public String getUriAttacks() {
-        return uriAttacks;
-    }
-
-    public void setUriAttacks(String uriAttacks) {
-        this.uriAttacks = uriAttacks;
-    }
-
-    public String getImages() {
-        return images;
-    }
-
-    public void setImages(String images) {
-        this.images = images;
-    }
 
 }
