@@ -1,6 +1,8 @@
 package vn.tonish.hozo.activity;
 
 import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,6 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.adapter.PosterAssignedAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
@@ -32,9 +35,9 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
  * Created by ADMIN on 4/21/2017.
  */
 
-public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener {
+public class PosterAssignedTaskActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener {
 
-    private static final String TAG = MakeAnOfferActivity.class.getSimpleName();
+    private static final String TAG = PosterAssignedTaskActivity.class.getSimpleName();
     private CommentViewFull commentViewFull;
     private WorkDetailView workDetailView;
     private ArrayList<Comment> comments = new ArrayList<>();
@@ -42,6 +45,9 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     private ImageView imgAttach, imgAttached, imgDelete;
     private RelativeLayout imgLayout;
     private String imgAttachPath;
+    private RecyclerView rcvUser;
+    private PosterAssignedAdapter posterAssignedAdapter;
+    private ArrayList<User> users = new ArrayList<>();
 
     @Override
     protected int getLayout() {
@@ -62,6 +68,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         imgDelete.setOnClickListener(this);
 
         imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
+        rcvUser = (RecyclerView) findViewById(R.id.rcv_user);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -90,6 +97,22 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         work.setUser(user);
 
         workDetailView.updateWork(work);
+
+        //fake list user assigned
+        User user1 = new User();
+        user1.setFull_name("Tristan");
+        users.add(user1);
+        users.add(user1);
+        users.add(user1);
+        users.add(user1);
+        users.add(user1);
+        users.add(user1);
+        users.add(user1);
+
+        posterAssignedAdapter = new PosterAssignedAdapter(users);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        rcvUser.setLayoutManager(layoutManager);
+        rcvUser.setAdapter(posterAssignedAdapter);
 
         //fake  comment data
         Comment comment = new Comment();
@@ -126,7 +149,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_attach:
-                Intent intent = new Intent(MakeAnOfferActivity.this, AlbumActivity.class);
+                Intent intent = new Intent(PosterAssignedTaskActivity.this, AlbumActivity.class);
                 intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
                 startActivityForResult(intent, REQUEST_CODE_PICKIMAGE);
                 break;
@@ -148,7 +171,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
 
             imgAttachPath = imagesSelected.get(0).getPath();
-            Utils.displayImage(MakeAnOfferActivity.this, imgAttached, imgAttachPath);
+            Utils.displayImage(PosterAssignedTaskActivity.this, imgAttached, imgAttachPath);
             imgLayout.setVisibility(View.VISIBLE);
         }
 

@@ -4,19 +4,16 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.model.Image;
+import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 
@@ -82,13 +79,16 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         if (requestCode == REQUEST_CODE_PICKIMAGE
                 && resultCode == RESPONSE_CODE_PICKIMAGE
                 && data != null) {
-
-            ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
-            Utils.displayImage(EditProfileActivity.this, imgAvata, imagesSelected.get(0).getPath());
+            String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
+            Utils.displayImage(EditProfileActivity.this, imgAvata, imgPath);
 
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA) {
-            String selectedImagePath = getImagePath();
-            Utils.displayImage(EditProfileActivity.this, imgAvata, selectedImagePath);
+            Intent intent = new Intent(EditProfileActivity.this, CropImageActivity.class);
+            intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
+            startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE);
+        } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE) {
+            String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
+            Utils.displayImage(EditProfileActivity.this, imgAvata, imgPath);
         }
 
     }
@@ -110,6 +110,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     case 1:
                         Intent intent = new Intent(EditProfileActivity.this, AlbumActivity.class);
                         intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
+                        intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
                         startActivityForResult(intent, REQUEST_CODE_PICKIMAGE);
                         break;
                 }
@@ -121,8 +122,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     public Uri setImageUri() {
-        // Store image in dcim
-        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/", "image" + new Date().getTime() + ".png");
+        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".png");
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
         return imgUri;

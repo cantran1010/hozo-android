@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,6 +19,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -89,7 +92,8 @@ public class Utils {
         }
 
     }
-    public static void hideSoftKeyboard(Context context,EditText editText) {
+
+    public static void hideSoftKeyboard(Context context, EditText editText) {
         if (editText == null)
             return;
 
@@ -98,7 +102,7 @@ public class Utils {
     }
 
 
-    public static void showSoftKeyboard(Context context,EditText editText) {
+    public static void showSoftKeyboard(Context context, EditText editText) {
         if (editText == null)
             return;
 
@@ -146,6 +150,25 @@ public class Utils {
             }
         } else {
             return "";
+        }
+    }
+
+    public static void compressBitmapToFile(Bitmap bmp, String path) {
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(path);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+            // PNG is a lossless format, the compression factor (100) is ignored
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

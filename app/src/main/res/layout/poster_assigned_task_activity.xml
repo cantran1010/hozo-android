@@ -64,18 +64,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Người làm" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rcv_user"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                style="@style/tv_style_nomal_black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:text="Hỏi đáp" />
 
             <vn.tonish.hozo.view.CommentViewFull
@@ -98,10 +86,10 @@
 
         <RelativeLayout
             android:id="@+id/img_layout"
+            android:visibility="gone"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginLeft="50dp"
-            android:visibility="gone">
+            android:layout_marginLeft="50dp">
 
             <ImageView
                 android:id="@+id/img_attached"
