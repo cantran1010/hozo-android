@@ -35,8 +35,8 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
  * Created by MAC2015 on 4/11/17.
  */
 
-public class LoginScreen extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = LoginScreen.class.getName();
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = LoginActivity.class.getName();
     private Context context;
     private EditText edtPhone;
     private TextView tvContinue;
@@ -56,7 +56,7 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initView() {
-        context = LoginScreen.this;
+        context = LoginActivity.this;
         mLoadAnimation = AnimationUtils.loadAnimation(this, R.anim.animation_edittext);
         edtPhone = (EditText) findViewById(R.id.edt_phone);
         tvContinue = (TextView) findViewById(R.id.tv_continue);

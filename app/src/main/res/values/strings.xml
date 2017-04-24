@@ -94,6 +94,7 @@
 
     <!-- make an offer-->
     <string name="make_an_offer_title">Chi tiết</string>
+    <string name="network_error_msg">Kết nối máy chủ không thành công, vui lòng kiểm tra cài đặt mạng!</string>
 
     <string name="tv_start_time">Chọn ngày bắt đầu</string>
     <string name="tv_end_time">Chọn ngày kết thúc</string>
@@ -101,6 +102,7 @@
     <string name="et_max">Max</string>
     <string name="et_min">Min</string>
     <string name="btn_reset">RESET</string>
+    <string name="just_image">just image</string>
     <string-array name="gender">
         <item>Nam</item>
         <item>Nu</item>

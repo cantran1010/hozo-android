@@ -12,10 +12,8 @@ public class NetworkConfig {
     public static final String API_OTP = DOMAIN + "auth/otp_code";
     public static final String API_NAME = DOMAIN + "user/verify_name";
     public static final String API_REFRESH_TOKEN = DOMAIN + "auth/refresh_token";
-<<<<<<< 2fb293afa7f3f2a53379060e54b2ed4105aa2f16
-=======
 
->>>>>>> commit-1
+    public static final String API_LOGOUT = DOMAIN + "user/logout";
 
 
 }

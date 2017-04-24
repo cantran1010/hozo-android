@@ -20,16 +20,15 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.LoginScreen;
+import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.activity.MainActivity;
-import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.LogUtils;
 
 import static vn.tonish.hozo.common.Constants.NAME_VIEW;
-import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 
 /**
  * Created by CanTran on 18/04/2017.
@@ -125,8 +124,8 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         } else if (s.length() == 4) {
             mPinForthDigitEditText.setText(s.charAt(3) + "");
             hideSoftKeyboard(mPinForthDigitEditText);
-            btnSigin.setEnabled(true);
-            btnSigin.setTextColor(getResources().getColor(R.color.black));
+            btnSigIn.setEnabled(true);
+            btnSigIn.setTextColor(getResources().getColor(R.color.black));
 
             hideSoftKeyboard(mPinForthDigitEditText);
             btnSigIn.setEnabled(true);
@@ -261,7 +260,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnBack:
-                ((LoginScreen) context).closeExtendView();
+                ((LoginActivity) context).closeExtendView();
                 break;
             case R.id.btn_sigin:
                 login();
@@ -281,35 +280,22 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
             public void onSuccess(JSONObject jsonResponse) {
                 LogUtils.d(TAG, "dataRequest" + jsonResponse.toString());
                 try {
-                    UserEntity userEntity = new UserEntity();
                     if (jsonResponse.getInt("code") == 0) {
-<<<<<<<626142 b6264ded0d8e97e956cd661d89b8892956
 
-                                =======
->>>>>>>commit 22 - 1
-                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
-                        JSONObject mObject = new JSONObject(getStringInJsonObj(object, "user"));
-                        userEntity.setId(Integer.parseInt(getStringInJsonObj(mObject, "id")));
+                        UserManager.insertUserLogin(new DataParse().getUserEntiny(context, jsonResponse), context);
+                        LogUtils.d(TAG, "check User :" + UserManager.getUserLogin(context).toString());
+                        String name = "";
+                        name = UserManager.getUserLogin(context).getFullName().trim();
+                        if ((name.isEmpty())) {
+                            LogUtils.d(TAG, "name_check" + name + jsonResponse.toString());
+                            ((LoginActivity) context).showExtendView(NAME_VIEW);
 
-                        JSONObject jsonToken = new JSONObject(getStringInJsonObj(object, "token"));
-                        userEntity.setToken(getStringInJsonObj(jsonToken, "access_token"));
-                        userEntity.setRefreshToken(getStringInJsonObj(jsonToken, "refresh_token"));
-
-                        userEntity.setTokenExp(getStringInJsonObj(object, "token_exp"));
-                        userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
-                        userEntity.setPhoneNumber(getStringInJsonObj(mObject, "mobile"));
-                        userEntity.setLoginAt(getStringInJsonObj(mObject, "login_at"));
-                        UserManager.insertUserLogin(userEntity, getContext());
-                        if ((getStringInJsonObj(mObject, "full_name").trim()).equalsIgnoreCase("") || getStringInJsonObj(mObject, "full_name").trim() == null) {
-                            LogUtils.d(TAG, "name_check" + getStringInJsonObj(mObject, "full_name").trim());
-                            ((LoginScreen) context).showExtendView(NAME_VIEW);
                         } else {
                             Intent intent = new Intent(context, MainActivity.class);
-                            ((LoginScreen) context).startActivityAndClearAllTask(intent);
+                            ((LoginActivity) context).startActivityAndClearAllTask(intent);
                         }
                     } else if (jsonResponse.getInt("code") == 1) {
                         Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
-
                     } else {
                         Toast.makeText(context, "Otp code is invalid", Toast.LENGTH_SHORT).show();
                     }

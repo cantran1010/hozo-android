@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="vn.tonish.hozo.activity.LoginScreen">
+    android:background="@android:color/white"
+    tools:context="vn.tonish.hozo.activity.LoginActivity">
 
     <FrameLayout
         android:id="@+id/view_level1"

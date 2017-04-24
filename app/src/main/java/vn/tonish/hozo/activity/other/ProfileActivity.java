@@ -1,32 +1,49 @@
 package vn.tonish.hozo.activity.other;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+<<<<<<<67ad3b8596f47ae935be1a8967337e1517b9c82e
+        =======
+import org.json.JSONException;
+import org.json.JSONObject;
+
+>>>>>>>myTask-2
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.LoginActivity;
+import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.fragment.FeedBackFragment;
 import vn.tonish.hozo.model.FeedBack;
+
+import vn.tonish.hozo.network.NetworkConfig;
+import vn.tonish.hozo.network.NetworkUtils;
 
 /**
  * Created by huy_quynh on 4/12/17.
  */
 
-public class ProfileActivity extends BaseActivity {
+public class ProfileActivity extends BaseActivity implements View.OnClickListener {
+    private Context context;
 
 
-    // info for user's profile
-    protected ImageView img_avatar;
-    protected TextView tv_name;
-    protected TextView tv_birthday;
-    protected TextView tv_address;
-    protected TextView tv_phone;
+    private ImageView img_avatar;
+    private TextView tv_name;
+    private TextView tv_birthday;
+    private TextView tv_address;
+    private TextView tv_phone;
+    private TextView btnLogOut;
 
     // pager for tab feedback
     protected ViewPager viewPager;
@@ -48,15 +65,18 @@ public class ProfileActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        context = ProfileActivity.this;
         setBackButton();
         setTitleHeader(getString(R.string.profile_tv_header));
         img_avatar = (ImageView) findViewById(R.id.img_avatar);
+        btnLogOut = (TextView) findViewById(R.id.btn_logout);
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_birthday = (TextView) findViewById(R.id.tv_birthday);
         tv_address = (TextView) findViewById(R.id.tv_address);
         tv_phone = (TextView) findViewById(R.id.tv_phone);
         viewPager = (ViewPager) findViewById(R.id.pagers);
         tab_1 = (TextView) findViewById(R.id.tab_1);
+        tab_2 = (TextView) findViewById(R.id.tab_2);
         tab_2 = (TextView) findViewById(R.id.tab_2);
 
         tab1Data = new ArrayList<>();
@@ -70,6 +90,7 @@ public class ProfileActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        btnLogOut.setOnClickListener(this);
 
     }
 
@@ -77,6 +98,43 @@ public class ProfileActivity extends BaseActivity {
     protected void resumeData() {
 
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_logout:
+                logOut();
+                break;
+        }
+
+    }
+
+    private void logOut() {
+        NetworkUtils.getRequestVolleyFormData(true, true, true, this, NetworkConfig.API_LOGOUT, new HashMap<String, String>(), new NetworkUtils.NetworkListener() {
+            @Override
+            public void onSuccess(JSONObject jsonResponse) {
+                try {
+                    if (jsonResponse.getInt("code") == 0) {
+                        UserManager.deleteAll();
+                        startActivity(new Intent(context, LoginActivity.class));
+                    } else if (jsonResponse.getInt("code") == 1) {
+                        Toast.makeText(context, " Account is not exist", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
+
+    }
+
 
     public class FeedBackPagerAdapter extends FragmentPagerAdapter {
 
