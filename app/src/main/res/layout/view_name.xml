@@ -20,6 +20,7 @@
         android:id="@+id/edt_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="text"
         android:layout_margin="20dp"
         android:maxLines="2"
         android:textColorHighlight="@color/red"

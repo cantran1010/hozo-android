@@ -29,8 +29,8 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     private ImageSelectAdapter imageSelectAdapter;
     private ArrayList<Image> images;
     private final String[] projection = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA};
-    private RelativeLayout layoutBack;
-    private TextView tvDone, tvAlbumName;
+    protected RelativeLayout layoutBack;
+    protected TextView tvDone, tvAlbumName;
     private boolean isOnlyImage = false;
 
     @Override
@@ -57,7 +57,9 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
         if (intent == null) {
             finish();
         }
-        if (intent.hasExtra(Constants.EXTRA_ONLY_IMAGE))
+
+        boolean isExtra = intent.hasExtra(Constants.EXTRA_ONLY_IMAGE);
+        if (isExtra)
             isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
 
         album = intent.getStringExtra(Constants.INTENT_EXTRA_ALBUM);
@@ -90,7 +92,6 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
             tempCountSelected keeps track of number of selected images. On handling
             FETCH_COMPLETED message, countSelected is assigned value of tempCountSelected.
              */
-                int tempCountSelected = 0;
                 ArrayList<Image> temp = new ArrayList<>(cursor.getCount());
                 if (cursor.moveToLast()) {
                     do {
@@ -160,9 +161,9 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.tv_done:
-                if(getSelectedImage().size() == 0){
-                    Utils.showLongToast(ImageSelectActivity.this,getString(R.string.err_pick_image));
-                }else{
+                if (getSelectedImage().size() == 0) {
+                    Utils.showLongToast(ImageSelectActivity.this, getString(R.string.err_pick_image));
+                } else {
                     sendIntent();
                 }
                 break;

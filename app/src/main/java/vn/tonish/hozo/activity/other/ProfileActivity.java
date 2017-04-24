@@ -7,15 +7,12 @@ import android.support.v4.view.ViewPager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.fragment.FeedBackFragment;
 import vn.tonish.hozo.model.FeedBack;
-import vn.tonish.hozo.model.Image;
 
 /**
  * Created by huyquynh on 4/12/17.
@@ -25,24 +22,24 @@ public class ProfileActivity extends BaseActivity {
 
 
     // info for user's profile
-    private ImageView img_avatar;
-    private TextView tv_name;
-    private TextView tv_birthday;
-    private TextView tv_address;
-    private TextView tv_phone;
+    protected ImageView img_avatar;
+    protected TextView tv_name;
+    protected TextView tv_birthday;
+    protected TextView tv_address;
+    protected TextView tv_phone;
 
     // pager for tab feedback
-    private ViewPager viewPager;
+    protected ViewPager viewPager;
 
     // tab1 and tab 2 in viewpager
-    private TextView tab_1, tab_2;
+    protected TextView tab_1, tab_2;
 
     // adapter for feedback pager
-    private FeedBackPagerAdapter feedBackPagerAdapter;
+    protected FeedBackPagerAdapter feedBackPagerAdapter;
 
     // data for feedback tab1 _ tab2 ;
-    private ArrayList<FeedBack> tab1Data;
-    private ArrayList<FeedBack> tab2Data;
+    protected ArrayList<FeedBack> tab1Data;
+    protected ArrayList<FeedBack> tab2Data;
 
     @Override
     protected int getLayout() {

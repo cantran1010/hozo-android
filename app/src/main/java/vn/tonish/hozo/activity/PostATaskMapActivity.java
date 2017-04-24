@@ -37,9 +37,9 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
     private static final String TAG = PostATaskMapActivity.class.getSimpleName();
     private GoogleMap mMap;
-    private RelativeLayout layoutBack;
-    private Button btnNext;
-    private ImageView imgCurrentLocation, imgZoomIn, imgZoomOut;
+    protected RelativeLayout layoutBack;
+    protected Button btnNext;
+    protected ImageView imgCurrentLocation, imgZoomIn, imgZoomOut;
 
     private static double lat = 21.000030;
     private static double lon = 105.837400;

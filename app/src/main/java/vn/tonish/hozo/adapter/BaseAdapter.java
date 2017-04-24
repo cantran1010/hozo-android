@@ -23,10 +23,10 @@ public abstract class BaseAdapter<T, H extends BaseHolder, L extends BaseHolder>
 
     public boolean isLoad = true;
 
-    public Context context;
+    public final Context context;
     public View view, loading;
 
-    public List<T> list;
+    public final List<T> list;
 
     public BaseAdapter(Context context, List<T> list) {
         this.context = context;

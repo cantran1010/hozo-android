@@ -2,6 +2,7 @@ package vn.tonish.hozo.activity;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -63,10 +64,10 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (!checkNumberPhone(edtPhone.getText().toString().trim())) {
-                    tvContinue.setTextColor(getResources().getColor(R.color.white));
+                    tvContinue.setTextColor(ContextCompat.getColor(LoginScreen.this, R.color.white));
                     tvContinue.setEnabled(false);
                 } else {
-                    tvContinue.setTextColor(getResources().getColor(R.color.black));
+                    tvContinue.setTextColor(ContextCompat.getColor(LoginScreen.this, R.color.black));
                     tvContinue.setEnabled(true);
                 }
 
@@ -112,7 +113,7 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
 
     public void showExtendView(String TAG_VIEW) {
         hideKeyBoard(this);
-        View view = null;
+        View view;
         if (TAG_VIEW.equalsIgnoreCase(OTP_VIEW)) {
             view = getOtpView();
         } else {
@@ -192,12 +193,9 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
             return true;
         } else if (number.length() == 11 && number.substring(0, 2).equals("01")) {
             return true;
-        } else if (number.length() == 9 && number.substring(0, 1).equals("9")) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return number.length() == 9 && number.substring(0, 1).equals("9");
     }
+
     private void login() {
         showExtendView(OTP_VIEW);
 

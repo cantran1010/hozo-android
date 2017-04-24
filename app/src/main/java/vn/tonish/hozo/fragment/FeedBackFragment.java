@@ -18,10 +18,10 @@ import vn.tonish.hozo.model.FeedBack;
 
 public class FeedBackFragment extends BaseFragment {
 
-    private RecyclerView lvList;
-    private FeedBackAdapter feedBackAdapter;
-    private LinearLayoutManager linearLayoutManager;
-    private List<FeedBack> feedBacks;
+    protected RecyclerView lvList;
+    protected FeedBackAdapter feedBackAdapter;
+    protected LinearLayoutManager linearLayoutManager;
+    protected List<FeedBack> feedBacks;
 
 
     public static FeedBackFragment instance(ArrayList<FeedBack> feedBacks) {

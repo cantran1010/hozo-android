@@ -33,7 +33,7 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
     public View getView(int position, View convertView, ViewGroup parent) {
         final Album item = getItem(position);
 
-        LogUtils.d(TAG, "getView , item : " + item.toString());
+        //LogUtils.d(TAG, "getView , item : " + item.toString());
 
         final ViewHolder holder;
         if (convertView == null) {

@@ -174,7 +174,7 @@ public class PreferUtils {
         return preferences.getInt(PREFER_USER_ID, 0);
     }
 
-    public static final void setSession(Context context, String session) {
+    public static void setSession(Context context, String session) {
         SharedPreferences prefs = context.getSharedPreferences(
                 PREFER_NAME, Context.MODE_MULTI_PROCESS);
         Editor editor = prefs.edit();

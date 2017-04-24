@@ -2,9 +2,7 @@ package vn.tonish.hozo.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +56,7 @@ public class WorkAdapter extends BaseAdapter<Work, WorkAdapter.WorkHolder, Loadi
             workHolder.tvPrice.setText(workHolder.work.getPrice());
         }
     }
-    
+
     class WorkHolder extends BaseHolder {
 
         private Work work;

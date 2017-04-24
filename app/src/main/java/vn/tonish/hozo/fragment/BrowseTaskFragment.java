@@ -1,25 +1,13 @@
 package vn.tonish.hozo.fragment;
 
 import android.os.Handler;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.vision.text.Line;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
@@ -30,11 +18,9 @@ import java.util.TimerTask;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AdvanceSettingsActivity;
 import vn.tonish.hozo.adapter.WorkAdapter;
-import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
-import vn.tonish.hozo.utils.PreferUtils;
 
 /**
  * Created by Admin on 4/4/2017.
@@ -47,15 +33,15 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
     private static double lon = 105.837400;
 
 
-    private RecyclerView lvList;
-    private WorkAdapter workAdapter;
-    private LinearLayoutManager lvManager;
-    private List<Work> workList;
+    protected RecyclerView lvList;
+    protected WorkAdapter workAdapter;
+    protected LinearLayoutManager lvManager;
+    protected List<Work> workList;
 
 
-    private EditText et_search;
+    protected EditText et_search;
 
-    private Spinner spinner;
+    protected Spinner spinner;
 
     @Override
     protected int getLayout() {
@@ -85,7 +71,6 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
         }
         workAdapter = new WorkAdapter(getActivity(), workList);
         lvList.setAdapter(workAdapter);
-        PreferUtils.getInstance(getActivity()).setMessage("Hey ! Dom. Watch out!");
 
 
         findViewById(R.id.tv_advance_setting).setOnClickListener(new View.OnClickListener() {

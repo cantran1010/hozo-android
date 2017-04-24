@@ -8,6 +8,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import vn.tonish.hozo.R;
+
 /**
  * Created by huyquynh on 4/19/17.
  */
@@ -16,22 +18,14 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
 
-    private Drawable divider;
+    private final Drawable divider;
 
-    /**
-     * Default divider will be used
-     */
-    public DividerItemDecoration(Context context) {
-        final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
-        divider = styledAttributes.getDrawable(0);
-        styledAttributes.recycle();
-    }
 
     /**
      * Custom divider will be used
      */
-    public DividerItemDecoration(Context context, int resId) {
-        divider = ContextCompat.getDrawable(context, resId);
+    public DividerItemDecoration(Context context) {
+        divider = ContextCompat.getDrawable(context, R.drawable.divider);
     }
 
     @Override

@@ -38,9 +38,9 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
 public class PostATaskActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = PostATaskActivity.class.getSimpleName();
-    private RelativeLayout layoutBack;
-    private Button btnNext;
-    private LinearLayout layoutStartTime, layoutEndTime;
+    protected RelativeLayout layoutBack;
+    protected Button btnNext;
+    protected LinearLayout layoutStartTime, layoutEndTime;
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private ArrayList<Image> images = new ArrayList<>();

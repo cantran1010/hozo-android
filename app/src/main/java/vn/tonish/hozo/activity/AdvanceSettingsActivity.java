@@ -2,10 +2,7 @@ package vn.tonish.hozo.activity;
 
 import android.content.Intent;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,7 +21,6 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     private Button btn_save;
     private TextView tv_fee;
-
 
     @Override
     protected int getLayout() {
@@ -48,6 +44,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         String titleFee = getString(R.string.tv_fee);
         String currency = getString(R.string.vnd);
         Spanned text = Html.fromHtml(titleFee + "<i>" + currency + "</i>");
+
         tv_fee.setText(text);
 
         findViewById(R.id.tv_type).setOnClickListener(this);

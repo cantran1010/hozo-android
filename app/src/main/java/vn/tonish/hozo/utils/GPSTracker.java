@@ -64,12 +64,12 @@ public final class GPSTracker implements LocationListener {
 
             Log.v("isNetworkEnabled", "=" + isNetworkEnabled);
 
-            if (isGPSEnabled == false && isNetworkEnabled == false) {
+            if (!isGPSEnabled && isNetworkEnabled == false) {
                 // no network provider is enabled
             } else {
                 this.canGetLocation = true;
                 if (isNetworkEnabled) {
-                    location=null;
+                    location = null;
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
                             MIN_TIME_BW_UPDATES,
@@ -86,21 +86,20 @@ public final class GPSTracker implements LocationListener {
                 }
                 // if GPS Enabled get lat/long using GPS Services
                 if (isGPSEnabled) {
-                    location=null;
-                    if (location == null) {
-                        locationManager.requestLocationUpdates(
-                                LocationManager.GPS_PROVIDER,
-                                MIN_TIME_BW_UPDATES,
-                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                        Log.d("GPS Enabled", "GPS Enabled");
-                        if (locationManager != null) {
-                            location = locationManager
-                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            if (location != null) {
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
-                            }
+                    location = null;
+                    locationManager.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
+                            MIN_TIME_BW_UPDATES,
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                    Log.d("GPS Enabled", "GPS Enabled");
+                    if (locationManager != null) {
+                        location = locationManager
+                                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
                         }
+
                     }
                 }
             }
@@ -115,7 +114,7 @@ public final class GPSTracker implements LocationListener {
     /**
      * Stop using GPS listener Calling this function will stop using GPS in your
      * app
-     * */
+     */
     public void stopUsingGPS() {
         if (locationManager != null) {
             locationManager.removeUpdates(GPSTracker.this);
@@ -124,7 +123,7 @@ public final class GPSTracker implements LocationListener {
 
     /**
      * Function to get latitude
-     * */
+     */
     public double getLatitude() {
         if (location != null) {
             latitude = location.getLatitude();
@@ -136,7 +135,7 @@ public final class GPSTracker implements LocationListener {
 
     /**
      * Function to get longitude
-     * */
+     */
     public double getLongitude() {
         if (location != null) {
             longitude = location.getLongitude();
@@ -150,7 +149,7 @@ public final class GPSTracker implements LocationListener {
      * Function to check GPS/wifi enabled
      *
      * @return boolean
-     * */
+     */
     public boolean canGetLocation() {
         return this.canGetLocation;
     }
@@ -158,7 +157,7 @@ public final class GPSTracker implements LocationListener {
     /**
      * Function to show settings alert dialog On pressing Settings button will
      * lauch Settings Options
-     * */
+     */
     public void showSettingsAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 

@@ -16,8 +16,8 @@ import vn.tonish.hozo.utils.Utils;
 
 public class CategoryAdapter extends BaseAdapter<Category, CategoryHolder, LoadingHolder> {
 
-    private List<Category> categories;
-    private Context context;
+    private final List<Category> categories;
+    private final Context context;
 
     public CategoryAdapter(Context context, List<Category> categories) {
         super(context, categories);
@@ -53,9 +53,8 @@ public class CategoryAdapter extends BaseAdapter<Category, CategoryHolder, Loadi
             ((CategoryHolder) holder).category = categories.get(position);
             ((CategoryHolder) holder).tvName.setText(categories.get(position).getName());
             Utils.displayImage(context, ((CategoryHolder) holder).imgPresent, categories.get(position).getPresentPath());
-        } else {
-
         }
+
     }
 
 }

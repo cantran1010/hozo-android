@@ -19,7 +19,7 @@ import vn.tonish.hozo.R;
 
 public abstract class BaseActivity extends FragmentActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = BaseActivity.class.getName();
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
 
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -43,7 +43,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
-    public void setBackButton() {
+    protected void setBackButton() {
 
         findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +84,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     }
 
 
-    public void setTitleHeader(String text) {
+    protected void setTitleHeader(String text) {
         TextView tv_title = (TextView) findViewById(R.id.tvTitleHeader);
         tv_title.setText(text.trim());
     }
@@ -107,7 +107,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    public void startActivityAndClearAllTask(Intent intent) {
+    private void startActivityAndClearAllTask(Intent intent) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         super.startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -133,7 +133,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         startActivity(intent);
     }
 
-    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack) {
+    private void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack) {
         openFragment(resId, fragmentClazz, null, addBackStack);
     }
 
@@ -141,7 +141,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         openFragment(resId, fragmentClazz, bundle, addBackStack);
     }
 
-    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack) {
+    private void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack) {
         FragmentManager manager = getSupportFragmentManager();
         String tag = fragmentClazz.getName();
         try {
@@ -159,7 +159,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
                     transaction.addToBackStack(tag);
                 }
                 transaction.commitAllowingStateLoss();
-            } catch (InstantiationException | IllegalAccessException e) {
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         } catch (Exception e) {

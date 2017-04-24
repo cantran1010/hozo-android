@@ -10,6 +10,7 @@
     <ImageView
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:contentDescription="@string/just_image"
         android:src="@mipmap/ic_launcher_round" />
 
     <TextView
@@ -29,18 +30,21 @@
             android:id="@+id/tv_facebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/just_image"
             android:src="@mipmap/ic_launcher_round" />
 
         <ImageView
             android:id="@+id/tv_sms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/just_image"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:src="@mipmap/ic_launcher_round" />
 
         <ImageView
             android:id="@+id/tv_email"
+            android:contentDescription="@string/just_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher_round" />

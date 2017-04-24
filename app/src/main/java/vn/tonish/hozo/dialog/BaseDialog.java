@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 import android.view.Window;
 
 
-abstract class BaseDialog extends Dialog {
+public abstract class BaseDialog extends Dialog {
 
     public BaseDialog(@NonNull Context context) {
         super(context);

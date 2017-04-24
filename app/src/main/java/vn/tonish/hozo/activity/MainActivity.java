@@ -20,7 +20,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private View layoutPostTask, layoutBrowerTask, layoutMyTask, layoutOther;
     private View layoutInbox;
 
-
     private BroadcastReceiver badgeChangeListener;
 
     private IntentFilter intentFilter;
@@ -45,7 +44,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         };
         intentFilter = new IntentFilter(Constants.BADGE);
         registerReceiver(badgeChangeListener, intentFilter);
-
     }
 
     @Override
@@ -57,7 +55,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         layoutMyTask.setOnClickListener(this);
         layoutInbox.setOnClickListener(this);
         layoutOther.setOnClickListener(this);
-
     }
 
     @Override
@@ -79,7 +76,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.layout_post_a_task:
                 openFragment(R.id.layout_container, SelectTaskFragment.class, false);
-                layoutPostTask.setSelected(true);
                 break;
 
             case R.id.layout_browser_task:

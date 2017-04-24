@@ -1,7 +1,6 @@
 package vn.tonish.hozo.fragment;
 
 import android.view.View;
-import android.widget.TextView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.other.ProfileActivity;

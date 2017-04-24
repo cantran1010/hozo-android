@@ -22,7 +22,7 @@ public class SelectTaskFragment extends BaseFragment {
     private RecyclerView rcvTask;
     private CategoryAdapter categoryAdapter;
     private ArrayList<Category> categories = new ArrayList<>();
-    private LinearLayoutManager linearLayoutManager;
+    protected LinearLayoutManager linearLayoutManager;
 
     @Override
     protected int getLayout() {

@@ -27,9 +27,9 @@ public class NetworkUtils {
 
     // network listener
     public interface NetworkListener {
-        public void onSuccess(JSONObject jsonResponse);
+        void onSuccess(JSONObject jsonResponse);
 
-        public void onError();
+        void onError();
     }
 
     public static void postVolley(final boolean isShowProgressDialog, final boolean isDismissProgressDialog, final boolean isShowDialogError, final Context context, final String url, final JSONObject jsonRequest, final NetworkListener networkListener) {

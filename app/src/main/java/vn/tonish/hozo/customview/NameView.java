@@ -19,9 +19,9 @@ import vn.tonish.hozo.activity.MainActivity;
 
 public class NameView extends FrameLayout implements View.OnClickListener {
     private Context context;
-    private View rootView;
+    protected View rootView;
     private EditText edtName;
-    private TextView btnSave,btnBack;
+    protected TextView btnSave, btnBack;
 
 
     public NameView(Context context) {

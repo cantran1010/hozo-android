@@ -12,13 +12,13 @@ import vn.tonish.hozo.R;
  * Created by ADMIN on 4/18/2017.
  */
 
-public class TimePickerHozoDialog extends BaseDialog implements View.OnClickListener{
+public class TimePickerHozoDialog extends BaseDialog implements View.OnClickListener {
 
     private NumberPicker npTime;
-    private Button btnOk;
+    protected Button btnOk;
 
-    public interface OnPickLister{
-        public void onPick(int time);
+    public interface OnPickLister {
+        void onPick(int time);
     }
 
     private OnPickLister onPickLister;
@@ -54,9 +54,9 @@ public class TimePickerHozoDialog extends BaseDialog implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.btn_ok:
-                if(onPickLister != null) {
+                if (onPickLister != null) {
                     onPickLister.onPick(npTime.getValue());
                     hideView();
                 }

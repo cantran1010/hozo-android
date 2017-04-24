@@ -25,6 +25,7 @@ abstract class BaseDialogFullScreen extends Dialog {
         this.setCanceledOnTouchOutside(false);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         setContentView(getLayout());

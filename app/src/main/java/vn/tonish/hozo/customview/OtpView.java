@@ -2,6 +2,7 @@ package vn.tonish.hozo.customview;
 
 import android.app.Service;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -23,14 +24,14 @@ import static vn.tonish.hozo.common.Constants.NAME_VIEW;
 
 public class OtpView extends FrameLayout implements View.OnFocusChangeListener, View.OnKeyListener, TextWatcher, View.OnClickListener {
     private Context context;
-    private View rootView;
+    protected View rootView;
     private EditText mPinFirstDigitEditText;
     private EditText mPinSecondDigitEditText;
     private EditText mPinThirdDigitEditText;
     private EditText mPinForthDigitEditText;
     private EditText mPinHiddenEditText;
     private TextView btnSigin;
-    private TextView btnBack;
+    protected TextView btnBack;
 
     public OtpView(Context context) {
         super(context);
@@ -105,8 +106,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
             mPinForthDigitEditText.setText(s.charAt(3) + "");
             hideSoftKeyboard(mPinForthDigitEditText);
             btnSigin.setEnabled(true);
-            btnSigin.setTextColor(getResources().getColor(R.color.black));
-
+            btnSigin.setTextColor(ContextCompat.getColor(context, R.color.black));
 
         }
     }

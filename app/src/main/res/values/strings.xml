@@ -1,25 +1,11 @@
 <resources>
-    <!--all screen-->
+
     <string name="app_name">Hozo</string>
     <string name="all_action_settings">Settings</string>
     <string name="all_ok">OK</string>
     <string name="all_cancel">Cancel</string>
     <string name="all_retry">Retry</string>
     <string name="all_network_error_msg">Error !</string>
-    <string name="all_post_a_task">Post a task</string>
-    <string name="all_browe_tasks">Browse tasks</string>
-    <string name="all_my_task">My tasks</string>
-    <string name="all_notification">Notifications</string>
-    <string name="all_other">Other</string>
-
-
-    <!--notification Screen-->
-    <string name="all_back">Quay lại</string>
-    <string name="notification_name">Lâm voi lam voi</string>
-    <string name="notification_default">đã bình luận trong mục</string>
-    <string name="notification_time">cách đây 2 tuần</string>
-    <string name="notification_more"><u>Chi tiết</u></string>
-    <string name="notification_notify">Thông báo chưa đọc</string>
 
     <!--profile Screen-->
     <string name="profile_tv_header">Hồ sơ cá nhân</string>
@@ -104,6 +90,8 @@
     <string name="et_max">Max</string>
     <string name="et_min">Min</string>
     <string name="btn_reset">RESET</string>
+    <string name="just_image">Just Image</string>
+    <string name="notification_notify">Số thông báo chưa đọc</string>
 
     <string-array name="gender">
         <item>Nam</item>

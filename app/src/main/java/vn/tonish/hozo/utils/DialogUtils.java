@@ -9,16 +9,16 @@ import vn.tonish.hozo.R;
 public class DialogUtils {
 
     public interface ConfirmDialogListener {
-        public void onConfirmClick();
+        void onConfirmClick();
     }
 
     public interface ConfirmDialogOkCancelListener {
-        public void onOkClick();
+        void onOkClick();
 
-        public void onCancelClick();
+        void onCancelClick();
     }
 
-    public static final AlertDialog showConfirmAlertDialog(final Context context, final String msg, final ConfirmDialogListener listener) {
+    public static AlertDialog showConfirmAlertDialog(final Context context, final String msg, final ConfirmDialogListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(msg);
         builder.setCancelable(false);
@@ -40,7 +40,7 @@ public class DialogUtils {
         return alertDialog;
     }
 
-    public static final AlertDialog showConfirmAndCancelAlertDialog(final Context context, final String msg, final ConfirmDialogOkCancelListener listener) {
+    public static AlertDialog showConfirmAndCancelAlertDialog(final Context context, final String msg, final ConfirmDialogOkCancelListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(msg);
         builder.setCancelable(false);
@@ -69,7 +69,7 @@ public class DialogUtils {
         return alertDialog;
     }
 
-    public static final AlertDialog showConfirmAndCancelAlertDialogNew(final Context context, final String msg, final ConfirmDialogOkCancelListener listener) {
+    public static AlertDialog showConfirmAndCancelAlertDialogNew(final Context context, final String msg, final ConfirmDialogOkCancelListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(msg);
         builder.setCancelable(false);
@@ -98,7 +98,7 @@ public class DialogUtils {
         return alertDialog;
     }
 
-    public static final AlertDialog showRetryDialog(final Context context, final String msg, final ConfirmDialogOkCancelListener listener) {
+    public static AlertDialog showRetryDialog(final Context context, final String msg, final ConfirmDialogOkCancelListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(msg);
         builder.setCancelable(false);

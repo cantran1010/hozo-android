@@ -23,8 +23,7 @@ public class UserManager {
         // get last update
         UserEntity userEntity = realm.where(UserEntity.class).findFirst();
 
-        if (userEntity == null) return false;
-        else return true;
+        return userEntity != null;
     }
 
     public static UserEntity getUserLogin(Context context) {
@@ -40,8 +39,7 @@ public class UserManager {
         LogUtils.d(TAG, "getUserLogin start ");
         Realm realm = RealmDbHelper.getInstance().getRealm(context);
         // get last update
-        UserEntity userEntity = null;
-        if(userEntity == null)
+        UserEntity userEntity;
         userEntity = realm.where(UserEntity.class).findFirst();
         if (userEntity != null) LogUtils.d(TAG, "getUserLogin : " + userEntity.toString());
 
@@ -67,7 +65,7 @@ public class UserManager {
         if (userManager == null) {
             userManager = new UserManager(context);
         }
-        return userManager.getUserLogin(context).getToken();
+        return getUserLogin(context).getToken();
     }
 
 }

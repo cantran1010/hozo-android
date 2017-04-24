@@ -25,7 +25,7 @@ public class Utils {
 
     private static final String TAG = Utils.class.getName();
 
-    public static final String md5(String data) {
+    public static String md5(String data) {
         StringBuilder hexString = new StringBuilder();
         MessageDigest md = null;
         try {
@@ -33,17 +33,23 @@ public class Utils {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        byte[] hash = md.digest();
-
-        for (byte aHash : hash) {
-            if ((0xff & aHash) < 0x10) {
-                hexString.append("0"
-                        + Integer.toHexString((0xFF & aHash)));
-            } else {
-                hexString.append(Integer.toHexString(0xFF & aHash));
+        byte[] hash = new byte[0];
+        try {
+            hash = md.digest();
+            for (byte aHash : hash) {
+                if ((0xff & aHash) < 0x10) {
+                    hexString.append("0"
+                            + Integer.toHexString((0xFF & aHash)));
+                } else {
+                    hexString.append(Integer.toHexString(0xFF & aHash));
+                }
             }
+            return hexString.toString();
+        } catch (NullPointerException e) {
+
         }
-        return hexString.toString();
+        return null;
+
     }
 
     public static void displayImage(Context context, ImageView img, String url) {
@@ -66,7 +72,7 @@ public class Utils {
                 .into(img);
     }
 
-    public final static boolean isValidEmail(CharSequence target) {
+    public static boolean isValidEmail(CharSequence target) {
         return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 

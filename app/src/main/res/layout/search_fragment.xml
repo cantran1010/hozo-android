@@ -36,8 +36,6 @@
             android:layout_centerVertical="true"
             android:drawableLeft="@mipmap/ic_launcher"
             android:gravity="center"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
             android:text="setting" />
 
     </RelativeLayout>

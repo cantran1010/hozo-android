@@ -11,8 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.customview.CircleImageView;
 import vn.tonish.hozo.model.Work;
 
 /**
@@ -21,11 +21,11 @@ import vn.tonish.hozo.model.Work;
 
 public class WorkDetailView extends LinearLayout {
 
-    private CircleImageView imgAvata;
-    private TextView tvName, tvTitle, tvTimeAgo, tvWorkType, tvDescription;
-    private RatingBar rbRate;
-    private ImageView imgMobile, imgEmail, imgFacebook;
-    private TextView tvPrice, tvDate, tvTime, tvAddress;
+    protected CircleImageView imgAvata;
+    protected TextView tvName, tvTitle, tvTimeAgo, tvWorkType, tvDescription;
+    protected RatingBar rbRate;
+    protected ImageView imgMobile, imgEmail, imgFacebook;
+    protected TextView tvPrice, tvDate, tvTime, tvAddress;
 
     public WorkDetailView(Context context) {
         super(context);

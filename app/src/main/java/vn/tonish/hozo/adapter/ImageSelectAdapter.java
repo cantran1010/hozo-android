@@ -1,6 +1,7 @@
 package vn.tonish.hozo.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ import vn.tonish.hozo.utils.LogUtils;
 public class ImageSelectAdapter extends ArrayAdapter<Image> {
     private static final String TAG = ImageSelectAdapter.class.getName();
     private boolean isOnlyImage = false;
-    private ArrayList<Image> images;
+    private final ArrayList<Image> images;
 
     public ImageSelectAdapter(Context _context, ArrayList<Image> images, boolean isOnlyImage) {
         super(_context, R.layout.item_image_select, images);
@@ -33,10 +34,10 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(@NonNull final int position, View convertView, ViewGroup parent) {
         final Image item = getItem(position);
 
-        LogUtils.d(TAG, "getView , item : " + item.toString());
+        //LogUtils.d(TAG, "getView , item : " + item.toString());
 
         final ViewHolder holder;
         if (convertView == null) {
@@ -65,8 +66,8 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
                     holder.imgCheck.setVisibility(View.VISIBLE);
                     item.setSelected(true);
 
-                    for(int i=0;i< images.size();i++){
-                        if(i != position){
+                    for (int i = 0; i < images.size(); i++) {
+                        if (i != position) {
                             images.get(i).setSelected(false);
                         }
                     }

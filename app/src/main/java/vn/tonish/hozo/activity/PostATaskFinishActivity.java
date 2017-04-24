@@ -18,8 +18,8 @@ import vn.tonish.hozo.R;
 
 public class PostATaskFinishActivity extends BaseActivity implements View.OnClickListener {
 
-    private RelativeLayout layoutBack;
-    private Button btnDone;
+    protected RelativeLayout layoutBack;
+    protected Button btnDone;
     private EditText edtBudget, edtNumberWorker;
     private TextView tvTotal;
 

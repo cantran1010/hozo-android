@@ -46,18 +46,21 @@
                     android:id="@+id/img_mobile_verify"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:contentDescription="@string/just_image"
                     android:src="@drawable/img_mobile" />
 
                 <ImageView
                     android:id="@+id/img_email_verify"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:contentDescription="@string/just_image"
                     android:src="@drawable/img_mobile" />
 
                 <ImageView
                     android:id="@+id/img_facebook_verify"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:contentDescription="@string/just_image"
                     android:src="@drawable/img_facebook" />
 
             </LinearLayout>

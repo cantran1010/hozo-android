@@ -13,9 +13,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.customview.CircleImageView;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
@@ -29,7 +29,7 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
 
 public class EditProfileActivity extends BaseActivity implements View.OnClickListener {
 
-    private Button btnSave;
+    protected Button btnSave;
     private CircleImageView imgAvata;
     private String imgPath;
     private static final String TAG = EditProfileActivity.class.getSimpleName();

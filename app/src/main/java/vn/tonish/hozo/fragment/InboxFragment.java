@@ -19,13 +19,13 @@ import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 
 public class InboxFragment extends BaseFragment {
 
-    private LinearLayoutManager linearLayoutManager;
+    protected LinearLayoutManager linearLayoutManager;
     private NotificationAdapter adapter;
-    private RecyclerView lvList;
+    protected RecyclerView lvList;
     private List<Notification> notifications;
 
 
-    private TextView tv_notify;
+    protected TextView tv_notify;
 
     @Override
     protected int getLayout() {

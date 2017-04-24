@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.customview.CircleImageView;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.utils.Utils;
 
@@ -23,7 +23,7 @@ public class CommentView extends RelativeLayout implements View.OnClickListener 
 
     private CircleImageView imgAvata;
     private TextView tvName, tvComment, tvTimeAgo;
-    private ImageView imgSetting;
+    protected ImageView imgSetting;
 
     public CommentView(Context context) {
         super(context);
