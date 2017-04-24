@@ -22,8 +22,9 @@ public class UserManager {
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         // get last update
         UserEntity userEntity = realm.where(UserEntity.class).findFirst();
-
-        return userEntity != null;
+        if (userEntity == null || userEntity.getFullName().equals("") || userEntity.getFullName() == null)
+            return false;
+        else return true;
     }
 
     public static UserEntity getUserLogin(Context context) {
