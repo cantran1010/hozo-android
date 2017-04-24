@@ -241,7 +241,6 @@ public class LoginScreen extends BaseActivity implements View.OnClickListener {
         return ck;
     }
 
-
     private void login() {
         phone = edtPhone.getText().toString().trim();
         HashMap<String, String> dataRequest = new HashMap<>();

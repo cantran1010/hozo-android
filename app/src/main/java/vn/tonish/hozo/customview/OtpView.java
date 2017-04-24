@@ -70,6 +70,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         init();
         btnBack = (TextView) rootView.findViewById(R.id.btnBack);
         btnSigin = (TextView) rootView.findViewById(R.id.btn_sigin);
+
         btnBack.setOnClickListener(this);
         btnSigin.setOnClickListener(this);
 

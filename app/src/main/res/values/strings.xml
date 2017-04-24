@@ -19,9 +19,8 @@
     <string name="notification_default">đã bình luận trong mục</string>
     <string name="notification_time">cách đây 2 tuần</string>
     <string name="notification_more"><u>Chi tiết</u></string>
-
-
     <string name="notification_notify">Thông báo chưa đọc</string>
+
     <!--profile Screen-->
     <string name="profile_tv_header">Hồ sơ cá nhân</string>
     <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
@@ -58,7 +57,15 @@
     <string name="tv_login_save">Lưu lại</string>
     <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản và chính sách của chúng tôi</string>
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
+
     <!--Edit profile Screen-->
+    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
+    <string name="edt_proflie_tv_name">Ten</string>
+    <string name="edt_proflie_tv_address">Dia chi</string>
+    <string name="edit_profile_btn_save">Lưu lại</string>
+    <string name="select_task_title">Dang viec</string>
+    <string name="browse_task_title">Tim Viec</string>
+    <string name="my_task_title">Viec cua toi</string>
     <string name="notifi_title">Thong bao</string>
     <string name="other_title">Khac</string>
 
@@ -66,13 +73,14 @@
     <string name="post_task_title">Chi tiet dang viec</string>
     <string name="post_a_task_title">Chi tiet dang viec</string>
     <string name="tv_post_a_task_title">Chi tiet dang viec</string>
-    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
-    <string name="edt_proflie_tv_name">Tên</string>
-    <string name="edt_proflie_tv_address">Địa chỉ</string>
-    <string name="edit_profile_btn_save">Lưu lại</string>
-    <string name="select_task_title">Đăng việc</string>
-    <string name="browse_task_title">Tìm việc</string>
-    <string name="my_task_title">Việc của tôi</string>
+    <string name="profile_verify">Đã xác thực</string>
+    <string name="profile_btn_verify">Xác thực thêm</string>
+    <string name="profile_address">Địa chỉ</string>
+    <string name="profile_phone">Điện thoại</string>
+    <string name="profile_worker">Nguời làm việc</string>
+    <string name="profile_hire">Người đăng việc</string>
+    <string name="profile_log_out">Thoát tài khoản</string>
+
     <string name="notify_title">Thông báo</string>
 
     <!-- post a task -->
@@ -89,6 +97,8 @@
     <string name="my_task_worker">Việc của tôi</string>
     <string name="my_task_poster">Việc đã đăng</string>
 
+    <!-- make an offer-->
+    <string name="make_an_offer_title">Chi tiết</string>
 
     <string-array name="gender">
         <item>Nam</item>
@@ -103,7 +113,7 @@
         <item>36 ~ 40</item>
         <item>41 ~ 45</item>
         <item>46 ~ 50</item>
-        <item> Trên 50</item>
+        <item>Trên 50</item>
     </string-array>
 
 </resources>

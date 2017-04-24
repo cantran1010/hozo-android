@@ -23,6 +23,8 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import vn.tonish.hozo.R;
+
 
 public class Utils {
 
@@ -52,6 +54,13 @@ public class Utils {
     public static void displayImage(Context context, ImageView img, String url) {
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(img);
+    }
+
+    public static void displayImageAvata(Context context, ImageView img, String url) {
+        Glide.with(context).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.avata_default)
                 .into(img);
     }
 
