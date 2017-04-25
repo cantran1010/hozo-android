@@ -2,6 +2,8 @@ package vn.tonish.hozo.customview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -56,9 +58,30 @@ public class NameView extends FrameLayout implements View.OnClickListener {
         addView(rootView);
         edtName = (EditText) rootView.findViewById(R.id.edt_name);
         btnSave = (TextView) rootView.findViewById(R.id.btn_save);
-        btnBack = (TextView) rootView.findViewById(R.id.btnBack);
         btnSave.setOnClickListener(this);
-        btnBack.setOnClickListener(this);
+        edtName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (edtName.getText().toString().trim().length() > 5 && (edtName.getText().toString().trim().length() < 50)) {
+                    btnSave.setBackgroundColor(getResources().getColor(R.color.white));
+                    btnSave.setEnabled(true);
+                } else {
+                    btnSave.setBackgroundColor(getResources().getColor(R.color.blue));
+                    btnSave.setEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     @Override
@@ -90,18 +113,6 @@ public class NameView extends FrameLayout implements View.OnClickListener {
                     if (jsonResponse.getInt("code") == 0) {
                         JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
                         JSONObject mObject = new JSONObject(getStringInJsonObj(object, "user"));
-
-//                        userEntity.setId(Integer.parseInt(getStringInJsonObj(mObject, "id")));
-//
-//                        JSONObject jsonToken = new JSONObject(getStringInJsonObj(object, "token"));
-//                        userEntity.setToken(getStringInJsonObj(jsonToken, "access_token"));
-//                        userEntity.setRefreshToken(getStringInJsonObj(jsonToken, "refresh_token"));
-//
-//                        userEntity.setTokenExp(getStringInJsonObj(object, "token_exp"));
-//                        userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
-//                        userEntity.setPhoneNumber(getStringInJsonObj(mObject, "mobile"));
-//                        userEntity.setLoginAt(getStringInJsonObj(mObject, "login_at"));
-//                        UserManager.insertUserLogin(userEntity, getContext());
 
                         UserEntity userEntity = UserManager.getUserLogin(getContext());
 
