@@ -18,9 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
-            android:name="vn.tonish.hozo.activity.WorkerOfferMadeActivity"
+            android:name="vn.tonish.hozo.activity.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -31,22 +31,22 @@
         </activity>
 
         <activity
-            android:name="vn.tonish.hozo.activity.LoginScreen"
+            android:name="vn.tonish.hozo.activity.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateHidden" />
 
-        <!--<activity-->
-        <!--android:name="vn.tonish.hozo.activity.MakeAnOfferActivity"-->
-        <!--android:theme="@style/AppTheme.NoActionBar"-->
-        <!--android:windowSoftInputMode="stateHidden">-->
-        <!--</activity>-->
+        <activity
+            android:name="vn.tonish.hozo.activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
 
-        <!--<activity-->
-        <!--android:name=".activity.PostATaskActivity"-->
-        <!--android:screenOrientation="portrait"-->
-        <!--android:windowSoftInputMode="stateHidden" />-->
+        <activity
+            android:name=".activity.PostATaskActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".activity.AdvanceSettingsActivity"
@@ -73,10 +73,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
-        <!--<activity-->
-            <!--android:name=".activity.PosterCompletedTaskActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="stateHidden" />-->
+        <activity
+            android:name=".activity.PosterCompletedTaskActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".activity.AlbumActivity"
@@ -113,20 +113,20 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
-        <!--<activity-->
-            <!--android:name=".activity.WorkerOfferMadeActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="stateHidden" />-->
+        <activity
+            android:name=".activity.WorkerOfferMadeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
 
-        <!--<activity-->
-        <!--android:name=".activity.PosterAssignedTaskActivity"-->
-        <!--android:screenOrientation="portrait"-->
-        <!--android:windowSoftInputMode="stateHidden" />-->
+        <activity
+            android:name=".activity.PosterAssignedTaskActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
 
-        <!--<activity-->
-        <!--android:name=".activity.MakeAnOfferActivity"-->
-        <!--android:screenOrientation="portrait"-->
-        <!--android:windowSoftInputMode="stateHidden" />-->
+        <activity
+            android:name=".activity.MakeAnOfferActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

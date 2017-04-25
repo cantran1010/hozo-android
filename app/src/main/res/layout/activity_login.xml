@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    tools:context="vn.tonish.hozo.activity.LoginScreen">
+    android:background="@color/blue"
+    tools:context="vn.tonish.hozo.activity.LoginActivity">
 
     <FrameLayout
         android:id="@+id/view_level1"
@@ -21,23 +21,12 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/ic_launcher_round" />
-
-                <TextView
-                    style="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/login_label_phone"
-                    android:textColor="@android:color/black" />
+                    android:layout_width="300dp"
+                    android:layout_height="110dp"
+                    android:src="@drawable/hozo_logo" />
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -54,9 +43,10 @@
                         android:gravity="center_vertical"
                         android:hint="@string/ed_login_phone"
                         android:inputType="phone"
+                        android:textColorHint="@color/very_light_gray"
                         android:maxLines="1"
                         android:paddingLeft="40dp"
-                        android:textColorHint="@color/gray" />
+                        android:textColor="@color/white" />
 
                     <requestFocus />
 
@@ -68,13 +58,13 @@
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="@string/login_zone"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/white" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_gravity="bottom"
-                        android:background="@color/gray" />
+                        android:background="@color/white" />
                 </FrameLayout>
 
                 <TextView
@@ -83,12 +73,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@color/very_light_gray"
+                    android:background="@color/blue"
                     android:enabled="false"
                     android:gravity="center"
                     android:minHeight="40dp"
                     android:text="@string/login_continue"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/blue"
+                    android:textStyle="bold" />
             </LinearLayout>
         </ScrollView>
 
@@ -100,7 +91,7 @@
             android:gravity="center"
             android:minHeight="50dp"
             android:text="Hotline 19009696"
-            android:textColor="@color/black" />
+            android:textColor="@color/white" />
     </FrameLayout>
 
     <FrameLayout

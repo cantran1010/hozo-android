@@ -2,6 +2,8 @@ package vn.tonish.hozo.customview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -16,7 +18,7 @@ import java.util.HashMap;
 
 import io.realm.Realm;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.LoginScreen;
+import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.RealmDbHelper;
@@ -56,23 +58,44 @@ public class NameView extends FrameLayout implements View.OnClickListener {
         addView(rootView);
         edtName = (EditText) rootView.findViewById(R.id.edt_name);
         btnSave = (TextView) rootView.findViewById(R.id.btn_save);
-        btnBack = (TextView) rootView.findViewById(R.id.btnBack);
         btnSave.setOnClickListener(this);
-        btnBack.setOnClickListener(this);
+        edtName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (edtName.getText().toString().trim().length() > 5 && (edtName.getText().toString().trim().length() < 50)) {
+                    btnSave.setBackgroundColor(getResources().getColor(R.color.white));
+                    btnSave.setEnabled(true);
+                } else {
+                    btnSave.setBackgroundColor(getResources().getColor(R.color.blue));
+                    btnSave.setEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnBack:
-                ((LoginScreen) context).closeExtendView();
+                ((LoginActivity) context).closeExtendView();
                 break;
 
             case R.id.btn_save:
                 saveUser();
                 Toast.makeText(context, "wellcome " + edtName.getText().toString() + " to hozo", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, MainActivity.class);
-                ((LoginScreen) context).startActivityAndClearAllTask(intent);
+                ((LoginActivity) context).startActivityAndClearAllTask(intent);
                 break;
         }
 
@@ -91,18 +114,6 @@ public class NameView extends FrameLayout implements View.OnClickListener {
                         JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
                         JSONObject mObject = new JSONObject(getStringInJsonObj(object, "user"));
 
-//                        userEntity.setId(Integer.parseInt(getStringInJsonObj(mObject, "id")));
-//
-//                        JSONObject jsonToken = new JSONObject(getStringInJsonObj(object, "token"));
-//                        userEntity.setToken(getStringInJsonObj(jsonToken, "access_token"));
-//                        userEntity.setRefreshToken(getStringInJsonObj(jsonToken, "refresh_token"));
-//
-//                        userEntity.setTokenExp(getStringInJsonObj(object, "token_exp"));
-//                        userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
-//                        userEntity.setPhoneNumber(getStringInJsonObj(mObject, "mobile"));
-//                        userEntity.setLoginAt(getStringInJsonObj(mObject, "login_at"));
-//                        UserManager.insertUserLogin(userEntity, getContext());
-
                         UserEntity userEntity = UserManager.getUserLogin(getContext());
 
                         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
@@ -114,10 +125,10 @@ public class NameView extends FrameLayout implements View.OnClickListener {
 
                         if ((getStringInJsonObj(mObject, "full_name").trim()).equalsIgnoreCase("") || getStringInJsonObj(mObject, "full_name").trim() == null) {
                             LogUtils.d(TAG, "name_check" + getStringInJsonObj(mObject, "full_name").trim());
-                            ((LoginScreen) context).showExtendView(NAME_VIEW);
+                            ((LoginActivity) context).showExtendView(NAME_VIEW);
                         } else {
                             Intent intent = new Intent(context, MainActivity.class);
-                            ((LoginScreen) context).startActivityAndClearAllTask(intent);
+                            ((LoginActivity) context).startActivityAndClearAllTask(intent);
                         }
                     } else if (jsonResponse.getInt("code") == 1) {
                         Toast.makeText(context, "FullName is empty", Toast.LENGTH_SHORT).show();

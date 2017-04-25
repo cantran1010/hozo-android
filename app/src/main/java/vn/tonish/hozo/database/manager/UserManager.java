@@ -25,7 +25,8 @@ public class UserManager {
         // get last update
         UserEntity userEntity = realm.where(UserEntity.class).findFirst();
 
-        if (userEntity == null) return false;
+        if (userEntity == null || userEntity.getFullName().equals("") || userEntity.getFullName() == null)
+            return false;
         else return true;
     }
 
