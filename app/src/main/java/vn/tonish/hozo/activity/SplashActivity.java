@@ -36,12 +36,13 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                finish();
                 if (UserManager.checkLogin(SplashActivity.this)) {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 } else {
-                    startActivity(new Intent(SplashActivity.this, LoginScreen.class));
-                }
-            }
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+              }
+           }
         }, SPLASH_TIME);
     }
 
