@@ -1,22 +1,19 @@
 package vn.tonish.hozo.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.model.Image;
+import vn.tonish.hozo.dialog.PickImageDialog;
+import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 
@@ -24,7 +21,7 @@ import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICKIMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
 
 /**
- * Created by ADMIN on 4/17/2017.
+ * Created by LongBD on 4/21/2017.
  */
 
 public class EditProfileActivity extends BaseActivity implements View.OnClickListener {
@@ -82,47 +79,43 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         if (requestCode == REQUEST_CODE_PICKIMAGE
                 && resultCode == RESPONSE_CODE_PICKIMAGE
                 && data != null) {
+            String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
+            Utils.displayImage(EditProfileActivity.this, imgAvata, imgPath);
 
-            ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
-            Utils.displayImage(EditProfileActivity.this, imgAvata, imagesSelected.get(0).getPath());
-
-        } else if (requestCode == Constants.REQUEST_CODE_CAMERA) {
-            String selectedImagePath = getImagePath();
-            Utils.displayImage(EditProfileActivity.this, imgAvata, selectedImagePath);
+        } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+            Intent intent = new Intent(EditProfileActivity.this, CropImageActivity.class);
+            intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
+            startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE);
+        } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
+            String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
+            Utils.displayImage(EditProfileActivity.this, imgAvata, imgPath);
         }
 
     }
 
     private void doPickImage() {
-        final CharSequence[] items = {getString(R.string.pick_image_take_picture), getString(R.string.pick_image_album),};
+        PickImageDialog pickImageDialog = new PickImageDialog(EditProfileActivity.this);
+        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+            @Override
+            public void onCamera() {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+            }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(EditProfileActivity.this);
-        builder.setTitle(getString(R.string.pick_image_title));
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                switch (item) {
-                    case 0:
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
-                        break;
-
-                    case 1:
-                        Intent intent = new Intent(EditProfileActivity.this, AlbumActivity.class);
-                        intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
-                        startActivityForResult(intent, REQUEST_CODE_PICKIMAGE);
-                        break;
-                }
-
+            @Override
+            public void onGallery() {
+                Intent intent = new Intent(EditProfileActivity.this, AlbumActivity.class);
+                intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
+                intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
+                startActivityForResult(intent, REQUEST_CODE_PICKIMAGE);
             }
         });
-        AlertDialog alert = builder.create();
-        alert.show();
+        pickImageDialog.showView();
     }
 
     public Uri setImageUri() {
-        // Store image in dcim
-        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/", "image" + new Date().getTime() + ".png");
+        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".png");
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
         return imgUri;

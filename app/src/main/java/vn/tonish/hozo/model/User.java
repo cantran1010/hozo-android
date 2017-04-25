@@ -31,6 +31,7 @@ public class User extends RealmObject implements Serializable {
     private String review_counts;
     private String updated_at;
     private Comment review;
+    private String priceBit;
 
     public User() {
     }
@@ -58,6 +59,14 @@ public class User extends RealmObject implements Serializable {
         this.review_counts = review_counts;
         this.updated_at = updated_at;
         this.review = review;
+    }
+
+    public String getPriceBit() {
+        return priceBit;
+    }
+
+    public void setPriceBit(String priceBit) {
+        this.priceBit = priceBit;
     }
 
     public String getId() {

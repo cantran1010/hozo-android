@@ -17,7 +17,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-// Complete
+/**
+ * Created by LongBui.
+ */
 public class MultipartRequest extends Request<String> {
 
     MultipartEntityBuilder entity = MultipartEntityBuilder.create();

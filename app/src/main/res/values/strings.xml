@@ -103,6 +103,33 @@
     <string name="msg_logOut">Bạn muốn thoát ?</string>
     <string name="login_account">Đăng nhập</string>
 
+    <!-- pick image dialog -->
+    <string name="attach_img_title">Chọn ảnh đính kèm</string>
+    <string name="attach_img_source"> Chọn nguồn </string>
+    <string name="attach_img_camera">Camera</string>
+    <string name="attach_img_gallery">Gallery</string>
+
+    <!-- preview image -->
+    <string name="preview_image_title">Xem ảnh</string>
+
+    <!-- report task -->
+    <string name="report_task_title">Báo sai phạm</string>
+    <string name="btn_report">Báo xấu</string>
+
+    <!-- comment -->
+    <string name="btn_comment">Bình luận</string>
+    <string name="comment_title">Bình luận</string>
+
+    <!-- report dialog -->
+    <string name="btn_reply_report">Trả lời tin nhắn</string>
+    <string name="btn_report_report">Thông báo tin nhắn xấu</string>
+    <string name="btn_cancel">Hủy</string>
+
+    <!-- rate screen -->
+    <string name="rate"> Bình Chọn </string>
+    <string name="rate_title" > Mức độ hài lòng của bạn </string>
+    <string name="rate_des">Totally Awesome</string>
+
     <string-array name="gender">
         <item>Nam</item>
         <item>Nu</item>
@@ -117,6 +144,13 @@
         <item>41 ~ 45</item>
         <item>46 ~ 50</item>
         <item>Trên 50</item>
+    </string-array>
+
+    <string-array name="rates">
+        <item>Professional</item>
+        <item>Good Attiude</item>
+        <item>Hard Working</item>
+        <item>Other</item>
     </string-array>
 
 </resources>

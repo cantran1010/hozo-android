@@ -22,7 +22,7 @@ import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICKIMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
 
 /**
- * Created by ADMIN on 4/19/2017.
+ * Created by LongBD on 4/19/2017.
  */
 
 public class AlbumActivity extends BaseActivity implements View.OnClickListener {
@@ -37,6 +37,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private AlbumAdapter albumAdapter;
     private RelativeLayout layoutBack;
     private boolean isOnlyImage = false;
+    private boolean isCropProfile = false;
 
 
     @Override
@@ -55,8 +56,11 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     protected void initData() {
         Intent intent = getIntent();
 
-        if(intent.hasExtra(Constants.EXTRA_ONLY_IMAGE))
-            isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE,false);
+        if (intent.hasExtra(Constants.EXTRA_ONLY_IMAGE))
+            isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
+
+        if (intent.hasExtra(Constants.EXTRA_IS_CROP_PROFILE))
+            isCropProfile = intent.getBooleanExtra(Constants.EXTRA_IS_CROP_PROFILE, false);
 
         getAlbum();
     }
@@ -129,7 +133,8 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent intent = new Intent(getApplicationContext(), ImageSelectActivity.class);
                         intent.putExtra(Constants.INTENT_EXTRA_ALBUM, albums.get(position).getName());
-                        intent.putExtra(Constants.EXTRA_ONLY_IMAGE,isOnlyImage);
+                        intent.putExtra(Constants.EXTRA_ONLY_IMAGE, isOnlyImage);
+                        intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, isCropProfile);
                         startActivityForResult(intent, REQUEST_CODE_PICKIMAGE);
                     }
                 });

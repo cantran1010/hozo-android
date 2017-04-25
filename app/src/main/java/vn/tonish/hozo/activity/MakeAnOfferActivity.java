@@ -1,30 +1,53 @@
 package vn.tonish.hozo.activity;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
+import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.model.Work;
+import vn.tonish.hozo.utils.FileUtils;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
 import vn.tonish.hozo.view.WorkDetailView;
+
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICKIMAGE;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
 
 /**
  * Created by ADMIN on 4/21/2017.
  */
 
-public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallback {
+public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener {
 
+    private static final String TAG = MakeAnOfferActivity.class.getSimpleName();
     private CommentViewFull commentViewFull;
     private WorkDetailView workDetailView;
     private ArrayList<Comment> comments = new ArrayList<>();
-    private  Work work;
+    private Work work;
+    private ImageView imgAttach, imgAttached, imgDelete;
+    private RelativeLayout imgLayout;
+    private String imgPath;
 
     @Override
     protected int getLayout() {
@@ -35,6 +58,17 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     protected void initView() {
         workDetailView = (WorkDetailView) findViewById(R.id.work_detail_view);
         commentViewFull = (CommentViewFull) findViewById(R.id.comment_view_full);
+
+        imgAttach = (ImageView) findViewById(R.id.img_attach);
+        imgAttach.setOnClickListener(this);
+
+        imgAttached = (ImageView) findViewById(R.id.img_attached);
+        imgAttached.setOnClickListener(this);
+
+        imgDelete = (ImageView) findViewById(R.id.img_delete);
+        imgDelete.setOnClickListener(this);
+
+        imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -87,7 +121,73 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng latLng = new LatLng(work.getLat(),work.getLon());
+        LatLng latLng = new LatLng(work.getLat(), work.getLon());
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f));
+
+        // create marker
+        MarkerOptions marker = new MarkerOptions().position(new LatLng(work.getLat(), work.getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
+        googleMap.addMarker(marker);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.img_attach:
+
+                PickImageDialog pickImageDialog = new PickImageDialog(MakeAnOfferActivity.this);
+                pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+                    @Override
+                    public void onCamera() {
+                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+                    }
+
+                    @Override
+                    public void onGallery() {
+                        Intent intent = new Intent(MakeAnOfferActivity.this, AlbumActivity.class);
+                        intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
+                        startActivityForResult(intent, REQUEST_CODE_PICKIMAGE);
+                    }
+                });
+                pickImageDialog.showView();
+                break;
+
+            case R.id.img_delete:
+                imgLayout.setVisibility(View.GONE);
+                imgPath = null;
+                break;
+
+            case R.id.img_attached:
+                Intent intent = new Intent(MakeAnOfferActivity.this, PreviewImageActivity.class);
+                intent.putExtra(Constants.EXTRA_IMAGE_PATH, imgPath);
+                startActivity(intent);
+                break;
+
+        }
+    }
+
+    public Uri setImageUri() {
+        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".png");
+        Uri imgUri = Uri.fromFile(file);
+        this.imgPath = file.getAbsolutePath();
+        return imgUri;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_PICKIMAGE
+                && resultCode == RESPONSE_CODE_PICKIMAGE
+                && data != null) {
+            ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+            imgPath = imagesSelected.get(0).getPath();
+            Utils.displayImage(MakeAnOfferActivity.this, imgAttached, imgPath);
+            imgLayout.setVisibility(View.VISIBLE);
+        } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+            Utils.displayImage(MakeAnOfferActivity.this, imgAttached, imgPath);
+            imgLayout.setVisibility(View.VISIBLE);
+        }
+
     }
 }
