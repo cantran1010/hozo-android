@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import vn.tonish.hozo.R;
-
+/**
+ * Created by LongBui.
+ */
 public class DialogUtils {
 
     public interface ConfirmDialogListener {

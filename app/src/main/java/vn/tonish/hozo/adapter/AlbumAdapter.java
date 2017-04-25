@@ -19,7 +19,7 @@ import vn.tonish.hozo.utils.DeviceUtils;
 import vn.tonish.hozo.utils.LogUtils;
 
 /**
- * Created by ADMIN on 4/19/2017.
+ * Created by LongBui on 4/19/2017.
  */
 
 public class AlbumAdapter extends ArrayAdapter<Album> {

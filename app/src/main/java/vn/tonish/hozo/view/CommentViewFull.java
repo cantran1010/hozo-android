@@ -16,7 +16,7 @@ import vn.tonish.hozo.adapter.CommentAdapter;
 import vn.tonish.hozo.model.Comment;
 
 /**
- * Created by ADMIN on 4/21/2017.
+ * Created by LongBui on 4/21/2017.
  */
 
 public class CommentViewFull extends RelativeLayout {

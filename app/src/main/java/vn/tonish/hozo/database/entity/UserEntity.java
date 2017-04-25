@@ -5,6 +5,9 @@ import java.io.Serializable;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+/**
+ * Created by LongBui.
+ */
 public class UserEntity extends RealmObject implements Serializable {
 
     @PrimaryKey

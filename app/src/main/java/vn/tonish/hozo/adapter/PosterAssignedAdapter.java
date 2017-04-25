@@ -18,7 +18,7 @@ import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.utils.Utils;
 
 /**
- * Created by ADMIN on 4/24/2017.
+ * Created by LongBui on 4/19/2017.
  */
 
 public class PosterAssignedAdapter extends RecyclerView.Adapter<PosterAssignedAdapter.MyViewHolder> {

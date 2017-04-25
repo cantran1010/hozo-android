@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Window;
 
-
+/**
+ * Created by LongBui on 4/20/2017.
+ */
 abstract class BaseDialog extends Dialog {
 
     public BaseDialog(@NonNull Context context) {

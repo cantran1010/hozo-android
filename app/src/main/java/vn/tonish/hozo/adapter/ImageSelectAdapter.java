@@ -1,6 +1,10 @@
 package vn.tonish.hozo.adapter;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +20,10 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.DeviceUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PxUtils;
 
 /**
- * Created by ADMIN on 4/19/2017.
+ * Created by LongBui on 4/19/2017.
  */
 
 public class ImageSelectAdapter extends ArrayAdapter<Image> {
@@ -32,6 +37,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
         this.images = images;
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Image item = getItem(position);
@@ -45,6 +51,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
             holder = new ViewHolder();
             holder.imgImage = (ImageView) convertView.findViewById(R.id.img_image);
             holder.imgCheck = (ImageView) convertView.findViewById(R.id.img_check);
+            holder.mainLayout = (RelativeLayout) convertView.findViewById(R.id.layout_main);
 
             convertView.setTag(holder);
         } else {
@@ -53,37 +60,55 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
 
         if (item.isSelected) {
             holder.imgCheck.setVisibility(View.VISIBLE);
+            final int sdk = android.os.Build.VERSION.SDK_INT;
+            if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                holder.imgImage.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.img_selected_bg));
+            } else {
+                holder.imgImage.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.img_selected_bg));
+            }
+
+            int padding = (int) PxUtils.pxFromDp(getContext(),5);
+            holder.imgImage.setPadding(padding,padding,padding,padding);
         } else {
             holder.imgCheck.setVisibility(View.GONE);
+            final int sdk = android.os.Build.VERSION.SDK_INT;
+            if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                holder.imgImage.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.img_non_selected_bg));
+            } else {
+                holder.imgImage.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.img_non_selected_bg));
+            }
+
+            holder.imgImage.setPadding(0,0,0,0);
         }
 
         if (isOnlyImage) {
             holder.imgImage.setOnClickListener(new View.OnClickListener() {
+                @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                 @Override
                 public void onClick(View v) {
 
                     holder.imgCheck.setVisibility(View.VISIBLE);
                     item.setSelected(true);
 
-                    for(int i=0;i< images.size();i++){
-                        if(i != position){
+                    for (int i = 0; i < images.size(); i++) {
+                        if (i != position) {
                             images.get(i).setSelected(false);
                         }
                     }
-
+                    notifyDataSetChanged();
                 }
             });
         } else {
             holder.imgImage.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                 @Override
                 public void onClick(View v) {
                     if (item.isSelected) {
-                        holder.imgCheck.setVisibility(View.GONE);
                         item.setSelected(false);
                     } else {
-                        holder.imgCheck.setVisibility(View.VISIBLE);
                         item.setSelected(true);
                     }
+                    notifyDataSetChanged();
                 }
             });
         }
@@ -107,5 +132,6 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
 
     public static class ViewHolder {
         ImageView imgImage, imgCheck;
+        RelativeLayout mainLayout;
     }
 }

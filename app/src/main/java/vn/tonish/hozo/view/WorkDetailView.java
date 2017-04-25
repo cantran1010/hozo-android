@@ -6,6 +6,8 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -16,16 +18,17 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Work;
 
 /**
- * Created by ADMIN on 4/21/2017.
+ * Created by LongBui on 4/21/2017.
  */
 
-public class WorkDetailView extends LinearLayout {
+public class WorkDetailView extends LinearLayout implements View.OnClickListener {
 
     private CircleImageView imgAvata;
     private TextView tvName, tvTitle, tvTimeAgo, tvWorkType, tvDescription;
     private RatingBar rbRate;
     private ImageView imgMobile, imgEmail, imgFacebook;
     private TextView tvPrice, tvDate, tvTime, tvAddress;
+    private Button btnOffer;
 
     public WorkDetailView(Context context) {
         super(context);
@@ -70,6 +73,9 @@ public class WorkDetailView extends LinearLayout {
         tvTime = (TextView) findViewById(R.id.tv_time);
         tvAddress = (TextView) findViewById(R.id.tv_address);
 
+        btnOffer = (Button) findViewById(R.id.btn_offer);
+        btnOffer.setOnClickListener(this);
+
     }
 
     public void updateWork(Work work) {
@@ -87,4 +93,15 @@ public class WorkDetailView extends LinearLayout {
 
     }
 
+    public void updateBtnOffer(boolean isShow) {
+        if
+                (isShow) btnOffer.setVisibility(View.VISIBLE);
+        else
+            btnOffer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
 }

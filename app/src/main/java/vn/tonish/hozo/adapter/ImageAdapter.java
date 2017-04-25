@@ -16,11 +16,12 @@ import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.LogUtils;
 
 /**
- * Created by ADMIN on 4/19/2017.
+ * Created by LongBui on 4/19/2017.
  */
 
 public class ImageAdapter extends ArrayAdapter<Image> {
     private static final String TAG = ImageAdapter.class.getName();
+    private ArrayList<Image> images;
 
     public interface ImageAdapterListener {
         void onImageAdapterListener();
@@ -36,12 +37,13 @@ public class ImageAdapter extends ArrayAdapter<Image> {
         this.imageAdapterListener = imageAdapterListener;
     }
 
-    public ImageAdapter(Context _context, ArrayList<Image> address) {
-        super(_context, R.layout.item_image, address);
+    public ImageAdapter(Context _context, ArrayList<Image> images) {
+        super(_context, R.layout.item_image, images);
+        this.images = images;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final Image item = getItem(position);
 
         LogUtils.d(TAG, "getView , item : " + item.toString());
@@ -53,6 +55,7 @@ public class ImageAdapter extends ArrayAdapter<Image> {
             holder = new ViewHolder();
             holder.imgImage = (ImageView) convertView.findViewById(R.id.img_image);
             holder.imgAdd = (ImageView) convertView.findViewById(R.id.img_add);
+            holder.imgRemove = (ImageView) convertView.findViewById(R.id.img_remove);
 
             convertView.setTag(holder);
         } else {
@@ -61,21 +64,25 @@ public class ImageAdapter extends ArrayAdapter<Image> {
 
         if (item.isAdd) {
             holder.imgAdd.setVisibility(View.VISIBLE);
-            holder.imgAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (imageAdapterListener != null) imageAdapterListener.onImageAdapterListener();
-                }
-            });
+            holder.imgRemove.setVisibility(View.GONE);
+//            holder.imgAdd.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (imageAdapterListener != null) imageAdapterListener.onImageAdapterListener();
+//                }
+//            });
         } else {
             holder.imgAdd.setVisibility(View.GONE);
-            holder.imgAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
+            holder.imgRemove.setVisibility(View.VISIBLE);
         }
+
+        holder.imgRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                images.remove(position);
+                notifyDataSetChanged();
+            }
+        });
 
         Glide.with(getContext())
                 .load(item.getPath())
@@ -85,6 +92,6 @@ public class ImageAdapter extends ArrayAdapter<Image> {
     }
 
     public static class ViewHolder {
-        ImageView imgImage, imgAdd;
+        ImageView imgImage, imgAdd, imgRemove;
     }
 }

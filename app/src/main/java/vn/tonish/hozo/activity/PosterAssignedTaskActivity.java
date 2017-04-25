@@ -32,7 +32,7 @@ import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICKIMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
 
 /**
- * Created by ADMIN on 4/21/2017.
+ * Created by LongBD on 4/21/2017.
  */
 
 public class PosterAssignedTaskActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener {
@@ -77,6 +77,7 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
 
     @Override
     protected void initData() {
+        workDetailView.updateBtnOffer(false);
 
         //fake work detail
         work = new Work();

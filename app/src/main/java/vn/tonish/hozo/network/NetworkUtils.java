@@ -27,7 +27,9 @@ import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 
 import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
-
+/**
+ * Created by LongBui.
+ */
 public class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getName();

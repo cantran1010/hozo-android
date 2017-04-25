@@ -6,7 +6,9 @@ import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.utils.LogUtils;
 
 import io.realm.Realm;
-
+/**
+ * Created by LongBui.
+ */
 public class UserManager {
 
     private static final String TAG = UserManager.class.getName();

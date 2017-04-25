@@ -30,7 +30,7 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 
 /**
- * Created by ADMIN on 4/18/2017.
+ * Created by LongBD on 4/18/2017.
  */
 
 public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener, LocationProvider.LocationCallback {

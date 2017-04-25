@@ -22,7 +22,7 @@ import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICKIMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
 
 /**
- * Created by ADMIN on 4/19/2017.
+ * Created by LongBD on 4/19/2017.
  */
 
 public class AlbumActivity extends BaseActivity implements View.OnClickListener {

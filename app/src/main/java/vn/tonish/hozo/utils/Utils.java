@@ -28,7 +28,9 @@ import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 
-
+/**
+ * Created by LongBui.
+ */
 public class Utils {
 
     private static final String TAG = Utils.class.getName();

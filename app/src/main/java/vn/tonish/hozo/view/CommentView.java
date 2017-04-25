@@ -12,11 +12,12 @@ import android.widget.TextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.dialog.ReportDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.utils.Utils;
 
 /**
- * Created by ADMIN on 4/21/2017.
+ * Created by LongBui on 4/21/2017.
  */
 
 public class CommentView extends RelativeLayout implements View.OnClickListener {
@@ -69,7 +70,8 @@ public class CommentView extends RelativeLayout implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_setting:
-
+                ReportDialog reportDialog = new ReportDialog(getContext());
+                reportDialog.showView();
                 break;
         }
     }

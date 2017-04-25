@@ -1,5 +1,7 @@
 package vn.tonish.hozo.network;
-
+/**
+ * Created by LongBui.
+ */
 public class NetworkConfig {
 
     public static int NETWORK_TIME_OUT = 10000;
