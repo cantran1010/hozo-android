@@ -3,6 +3,7 @@ package vn.tonish.hozo.customview;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -46,6 +47,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     private EditText mPinHiddenEditText;
     private TextView btnSigin;
     private TextView btnBack;
+    private TextView btnResetOtp;
     private boolean registed;
     private String phone;
 
@@ -62,16 +64,23 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         setPINListeners();
     }
 
-
     private void initView() {
         rootView = LayoutInflater.from(context).inflate(R.layout.view_otp, null);
         addView(rootView);
         init();
         btnBack = (TextView) rootView.findViewById(R.id.btnBack);
         btnSigin = (TextView) rootView.findViewById(R.id.btn_sigin);
+        btnResetOtp = (TextView) rootView.findViewById(R.id.btn_reset_otp);
 
         btnBack.setOnClickListener(this);
         btnSigin.setOnClickListener(this);
+        btnResetOtp.setOnClickListener(this);
+
+        if (registed) {
+            btnSigin.setText(getResources().getString(R.string.login_account));
+        } else {
+            btnSigin.setText(getResources().getString(R.string.login_create_account));
+        }
 
     }
 
@@ -123,11 +132,18 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         } else if (s.length() == 4) {
             mPinForthDigitEditText.setText(s.charAt(3) + "");
             hideSoftKeyboard(mPinForthDigitEditText);
-            btnSigin.setEnabled(true);
-            btnSigin.setTextColor(getResources().getColor(R.color.black));
-
-
+            btnSigin.setTextColor(getResources().getColor(R.color.white));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    login();
+                }
+            }, 200);
+        } else {
+            btnSigin.setTextColor(getResources().getColor(R.color.blue));
         }
+
+
     }
 
 
@@ -261,8 +277,42 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
             case R.id.btn_sigin:
                 login();
                 break;
+            case R.id.btn_reset_otp:
+                resetOtp();
+                break;
         }
 
+    }
+
+    private void resetOtp() {
+        HashMap<String, String> dataRequest = new HashMap<>();
+        dataRequest.put("mobile", phone);
+        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_OTP, dataRequest, new NetworkUtils.NetworkListener() {
+            @Override
+            public void onSuccess(JSONObject jsonResponse) {
+                try {
+                    if (jsonResponse.getInt("code") == 0) {
+                        mPinForthDigitEditText.setText("");
+                        mPinThirdDigitEditText.setText("");
+                        mPinSecondDigitEditText.setText("");
+                        mPinFirstDigitEditText.setText("");
+                        mPinHiddenEditText.setText("");
+                    } else if (jsonResponse.getInt("code") == 1) {
+                        Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            @Override
+            public void onError() {
+
+            }
+        });
     }
 
     private void login() {
@@ -277,11 +327,11 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                 try {
                     if (jsonResponse.getInt("code") == 0) {
                         UserManager.insertUserLogin(new DataParse().getUserEntiny(context, jsonResponse), context);
-                        LogUtils.d(TAG,"check User :"+UserManager.getUserLogin(context).toString());
+                        LogUtils.d(TAG, "check User :" + UserManager.getUserLogin(context).toString());
                         String name = "";
                         name = UserManager.getUserLogin(context).getFullName().trim();
                         if ((name.isEmpty())) {
-                            LogUtils.d(TAG, "name_check" + name+jsonResponse.toString());
+                            LogUtils.d(TAG, "name_check" + name + jsonResponse.toString());
                             ((LoginActivity) context).showExtendView(NAME_VIEW);
                         } else {
                             Intent intent = new Intent(context, MainActivity.class);

@@ -2,6 +2,8 @@ package vn.tonish.hozo.network;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -19,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.utils.DialogUtils;
@@ -57,7 +60,30 @@ public class NetworkUtils {
                     if (jsonResponse.getInt("code") == 0) {
                         if (refreshListener != null) refreshListener.onRefreshFinish(jsonResponse);
                     } else {
-                        //logout
+                        // logout
+                        NetworkUtils.getRequestVolleyFormData(true, true, true, context, NetworkConfig.API_LOGOUT, new HashMap<String, String>(), new NetworkUtils.NetworkListener() {
+                            @Override
+                            public void onSuccess(JSONObject jsonResponse) {
+                                try {
+                                    if (jsonResponse.getInt("code") == 0) {
+                                        UserManager.deleteAll();
+                                        Intent intent = new Intent(context, LoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        context.startActivity(intent);
+                                    } else if (jsonResponse.getInt("code") == 1) {
+                                        Toast.makeText(context, " Account is not exist", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
+
                     }
 
                 } catch (JSONException e) {

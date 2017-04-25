@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -146,6 +148,17 @@ public class Utils {
             }
         } else {
             return "";
+        }
+    }
+    @SuppressWarnings("deprecation")
+    public static void setViewBackground(View view, Drawable background) {
+        if (view == null || background == null)
+            return;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.setBackground(background);
+        } else {
+            view.setBackgroundDrawable(background);
         }
     }
 
