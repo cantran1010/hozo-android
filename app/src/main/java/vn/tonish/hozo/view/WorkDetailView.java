@@ -21,7 +21,7 @@ import vn.tonish.hozo.model.Work;
 
 public class WorkDetailView extends LinearLayout {
 
-    protected CircleImageView imgAvata;
+    protected CircleImageView imgAvatar;
     protected TextView tvName, tvTitle, tvTimeAgo, tvWorkType, tvDescription;
     protected RatingBar rbRate;
     protected ImageView imgMobile, imgEmail, imgFacebook;
@@ -52,7 +52,7 @@ public class WorkDetailView extends LinearLayout {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.work_detail_view, this, true);
 
-        imgAvata = (CircleImageView) findViewById(R.id.img_avata);
+        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         tvName = (TextView) findViewById(R.id.tv_name);
 
         tvTitle = (TextView) findViewById(R.id.tv_title);

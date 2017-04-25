@@ -30,7 +30,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     private EditText mPinThirdDigitEditText;
     private EditText mPinForthDigitEditText;
     private EditText mPinHiddenEditText;
-    private TextView btnSigin;
+    private TextView btnSigIn;
     protected TextView btnBack;
 
     public OtpView(Context context) {
@@ -50,10 +50,10 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         addView(rootView);
         init();
         btnBack = (TextView) rootView.findViewById(R.id.btnBack);
-        btnSigin = (TextView) rootView.findViewById(R.id.btn_sigin);
+        btnSigIn = (TextView) rootView.findViewById(R.id.btn_sigin);
 
         btnBack.setOnClickListener(this);
-        btnSigin.setOnClickListener(this);
+        btnSigIn.setOnClickListener(this);
 
     }
 
@@ -105,8 +105,8 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         } else if (s.length() == 4) {
             mPinForthDigitEditText.setText(s.charAt(3) + "");
             hideSoftKeyboard(mPinForthDigitEditText);
-            btnSigin.setEnabled(true);
-            btnSigin.setTextColor(ContextCompat.getColor(context, R.color.black));
+            btnSigIn.setEnabled(true);
+            btnSigIn.setTextColor(ContextCompat.getColor(context, R.color.black));
 
         }
     }

@@ -6,7 +6,7 @@
     android:paddingTop="5dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_avata"
+        android:id="@+id/img_avatar"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerVertical="true"
@@ -30,7 +30,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/img_setting"
-        android:layout_toRightOf="@id/img_avata"
+        android:layout_toRightOf="@id/img_avatar"
         android:orientation="vertical">
 
         <TextView

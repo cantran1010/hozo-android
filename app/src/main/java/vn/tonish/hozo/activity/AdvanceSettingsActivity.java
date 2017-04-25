@@ -12,6 +12,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.setting.AgeSettingActivity;
 import vn.tonish.hozo.activity.setting.FeeActivity;
 import vn.tonish.hozo.activity.setting.TimeSettingActivity;
+import vn.tonish.hozo.common.Constants;
 
 /**
  * Created by huyquynh on 4/18/17.
@@ -19,8 +20,6 @@ import vn.tonish.hozo.activity.setting.TimeSettingActivity;
 
 public class AdvanceSettingsActivity extends BaseActivity implements View.OnClickListener {
 
-    private Button btn_save;
-    private TextView tv_fee;
 
     @Override
     protected int getLayout() {
@@ -31,8 +30,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     protected void initView() {
         setBackButton();
         setTitleHeader(getString(R.string.advance_setting_title));
-        btn_save = (Button) findViewById(R.id.btn_save);
-        btn_save.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(AdvanceSettingsActivity.this, "Just Demo!", Toast.LENGTH_SHORT).show();
@@ -40,7 +38,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             }
         });
 
-        tv_fee = (TextView) findViewById(R.id.tv_fee_text);
+        TextView tv_fee = (TextView) findViewById(R.id.tv_fee_text);
         String titleFee = getString(R.string.tv_fee);
         String currency = getString(R.string.vnd);
         Spanned text = Html.fromHtml(titleFee + "<i>" + currency + "</i>");
@@ -66,11 +64,6 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     }
 
-    private final int OPEN_TIME_SETTING = 111;
-
-    private final int OPEN_AGE_SETTING = 222;
-
-    private final int OPEN_FEE_SETTING = 322;
 
     @Override
     public void onClick(View view) {
@@ -81,20 +74,20 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
                 break;
             case R.id.tv_fee:
-                startActivityForResult(new Intent(getApplicationContext(), FeeActivity.class), OPEN_FEE_SETTING);
+                startActivityForResult(new Intent(getApplicationContext(), FeeActivity.class), Constants.OPEN_FEE_SETTING);
                 break;
             case R.id.tv_location:
 
                 break;
             case R.id.tv_time:
-                startActivityForResult(new Intent(getApplicationContext(), TimeSettingActivity.class), OPEN_TIME_SETTING);
+                startActivityForResult(new Intent(getApplicationContext(), TimeSettingActivity.class), Constants.OPEN_TIME_SETTING);
                 break;
 
             case R.id.tv_sex:
                 break;
 
             case R.id.tv_age:
-                startActivityForResult(new Intent(getApplicationContext(), AgeSettingActivity.class), OPEN_AGE_SETTING);
+                startActivityForResult(new Intent(getApplicationContext(), AgeSettingActivity.class), Constants.OPEN_AGE_SETTING);
                 break;
 
             case R.id.tv_notification:
@@ -107,8 +100,13 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case OPEN_TIME_SETTING:
+            case Constants.OPEN_TIME_SETTING:
                 break;
+            case Constants.OPEN_FEE_SETTING:
+                break;
+            case Constants.OPEN_AGE_SETTING:
+                break;
+
         }
     }
 }

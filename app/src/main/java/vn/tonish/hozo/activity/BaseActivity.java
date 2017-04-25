@@ -22,8 +22,6 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     private FragmentManager fragmentManager;
 
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-
     protected abstract int getLayout();
 
     protected abstract void initView();
@@ -37,9 +35,9 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
 
     }
 
-
     public void createSwipeToRefresh() {
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
+        SwipeRefreshLayout
+                swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
@@ -171,10 +169,10 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     public boolean dispatchTouchEvent(MotionEvent ev) {
         View view = getCurrentFocus();
         if (view != null && (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) && view instanceof EditText && !view.getClass().getName().startsWith("android.webkit.")) {
-            int scrcoords[] = new int[2];
-            view.getLocationOnScreen(scrcoords);
-            float x = ev.getRawX() + view.getLeft() - scrcoords[0];
-            float y = ev.getRawY() + view.getTop() - scrcoords[1];
+            int scr_coord[] = new int[2];
+            view.getLocationOnScreen(scr_coord);
+            float x = ev.getRawX() + view.getLeft() - scr_coord[0];
+            float y = ev.getRawY() + view.getTop() - scr_coord[1];
             if (x < view.getLeft() || x > view.getRight() || y < view.getTop() || y > view.getBottom())
                 ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
         }

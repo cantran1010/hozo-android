@@ -49,7 +49,7 @@ public class CommentView extends RelativeLayout implements View.OnClickListener 
     private void initView() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.comment_view, this, true);
-        imgAvata = (CircleImageView) findViewById(R.id.img_avata);
+        imgAvata = (CircleImageView) findViewById(R.id.img_avatar);
         tvName = (TextView) findViewById(R.id.tv_name);
         tvComment = (TextView) findViewById(R.id.tv_comment);
         tvTimeAgo = (TextView) findViewById(R.id.tv_time_ago);

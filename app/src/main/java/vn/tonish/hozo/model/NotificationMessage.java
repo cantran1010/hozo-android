@@ -12,18 +12,18 @@ public class NotificationMessage extends RealmObject implements Serializable {
     private int status;
     private String id;
     private String type;
-    private String avata;
+    private String avatar;
     private String name;
     private String created_date;
 
     public NotificationMessage() {
     }
 
-    public NotificationMessage(int status, String id, String type, String avata, String name, String created_date) {
+    public NotificationMessage(int status, String id, String type, String avatar, String name, String created_date) {
         this.status = status;
         this.id = id;
         this.type = type;
-        this.avata = avata;
+        this.avatar = avatar;
         this.name = name;
         this.created_date = created_date;
     }
@@ -52,12 +52,12 @@ public class NotificationMessage extends RealmObject implements Serializable {
         this.type = type;
     }
 
-    public String getAvata() {
-        return avata;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setAvata(String avata) {
-        this.avata = avata;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getName() {

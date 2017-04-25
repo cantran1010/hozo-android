@@ -15,7 +15,7 @@ import vn.tonish.hozo.fragment.FeedBackFragment;
 import vn.tonish.hozo.model.FeedBack;
 
 /**
- * Created by huyquynh on 4/12/17.
+ * Created by huy_quynh on 4/12/17.
  */
 
 public class ProfileActivity extends BaseActivity {

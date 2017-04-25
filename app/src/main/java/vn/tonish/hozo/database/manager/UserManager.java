@@ -56,9 +56,7 @@ public class UserManager {
 
     public static void deleteAll() {
         Realm realm = RealmDbHelper.getInstance().getRealm(context);
-        realm.beginTransaction();
-        realm.where(UserEntity.class).findAll().clear();
-        realm.commitTransaction();
+        realm.deleteAll();
     }
 
     public static String getToken(Context context) {

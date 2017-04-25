@@ -41,7 +41,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
-        imgAvata = (CircleImageView) findViewById(R.id.img_avata);
+        imgAvata = (CircleImageView) findViewById(R.id.img_avatar);
         imgAvata.setOnClickListener(this);
         btnSave = (Button) findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
@@ -65,7 +65,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
                 break;
 
-            case R.id.img_avata:
+            case R.id.img_avatar:
                 doPickImage();
                 break;
 

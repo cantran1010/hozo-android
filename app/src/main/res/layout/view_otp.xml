@@ -37,28 +37,28 @@
 
                     <EditText
                         android:id="@+id/pin_first_edittext"
-                        style="@style/pin_edittext_style"
+                        style="@style/pin_edit_text_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:inputType="number" />
 
                     <EditText
                         android:id="@+id/pin_second_edittext"
-                        style="@style/pin_edittext_style"
+                        style="@style/pin_edit_text_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:inputType="number" />
 
                     <EditText
                         android:id="@+id/pin_third_edittext"
-                        style="@style/pin_edittext_style"
+                        style="@style/pin_edit_text_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:inputType="number" />
 
                     <EditText
                         android:id="@+id/pin_forth_edittext"
-                        style="@style/pin_edittext_style"
+                        style="@style/pin_edit_text_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:inputType="number" />
@@ -74,8 +74,7 @@
                     android:cursorVisible="false"
                     android:gravity="center_horizontal"
                     android:inputType="number"
-                    android:maxLength="5"
-                    android:textColor="@color/transparent" />
+                    android:maxLength="5" />
             </FrameLayout>
 
             <TextView
@@ -100,7 +99,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="@string/login_resen_otp" />
+                android:text="@string/login_resend_otp" />
         </LinearLayout>
     </ScrollView>
 

@@ -16,8 +16,7 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/img_avatar"
         android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingLeft="8dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_name"

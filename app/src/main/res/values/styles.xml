@@ -44,7 +44,7 @@
         <item name="android:windowEnterAnimation">@anim/fadein</item>
         <item name="android:windowExitAnimation">@anim/fadeout</item>
     </style>
-    <style name="pin_edittext_style">
+    <style name="pin_edit_text_style">
         <item name="android:gravity">center</item>
         <item name="android:cursorVisible">false</item>
         <item name="android:maxLength">1</item>

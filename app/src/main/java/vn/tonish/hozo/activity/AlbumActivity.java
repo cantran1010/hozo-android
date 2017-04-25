@@ -35,7 +35,6 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private GridView grAlbum;
     private ArrayList<Album> albums = new ArrayList<>();
     private AlbumAdapter albumAdapter;
-    private RelativeLayout layoutBack;
     private boolean isOnlyImage = false;
 
 
@@ -47,8 +46,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void initView() {
         grAlbum = (GridView) findViewById(R.id.gr_album);
-        layoutBack = (RelativeLayout) findViewById(R.id.layout_back);
-        layoutBack.setOnClickListener(this);
+        findViewById(R.id.layout_back).setOnClickListener(this);
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
 
 public class TypefaceUtil {
 
-    private static final String FONT_NOMAL = "NanumGothic-Regular.ttf";
+    private static final String FONT_NORMAL = "NanumGothic-Regular.ttf";
     private static Typeface nanumBarumTf;
 
     private static final String FONT_BOLD = "Noto-KR-Medium.otf";
@@ -40,7 +40,7 @@ public class TypefaceUtil {
 //    public static void setFontTvNomal(Context context, TextView... tvs) {
 //        if (nanumBarumTf == null) {
 //            nanumBarumTf = Typeface.createFromAsset(context.getAssets(),
-//                    "fonts/" + FONT_NOMAL);
+//                    "fonts/" + FONT_NORMAL);
 //        }
 //
 //        for (TextView tv : tvs) {
@@ -66,7 +66,7 @@ public class TypefaceUtil {
     public static void setFontEdtNomal(Context context, EditText... edts) {
         if (nanumBarumTf == null) {
             nanumBarumTf = Typeface.createFromAsset(context.getAssets(),
-                    "fonts/" + FONT_NOMAL);
+                    "fonts/" + FONT_NORMAL);
         }
 
         for (EditText edt : edts) {
@@ -92,7 +92,7 @@ public class TypefaceUtil {
     public static void setFontBtnNomal(Context context, Button... btns) {
         if (nanumBarumTf == null) {
             nanumBarumTf = Typeface.createFromAsset(context.getAssets(),
-                    "fonts/" + FONT_NOMAL);
+                    "fonts/" + FONT_NORMAL);
         }
 
         for (Button btn : btns) {
@@ -113,10 +113,10 @@ public class TypefaceUtil {
         }
     }
 
-    public static Typeface getFontNomal(Context context) {
+    public static Typeface getFontNormal(Context context) {
         if (nanumBarumTf == null) {
             nanumBarumTf = Typeface.createFromAsset(context.getAssets(),
-                    "fonts/" + FONT_NOMAL);
+                    "fonts/" + FONT_NORMAL);
         }
 
         return nanumBarumTf;

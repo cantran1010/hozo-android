@@ -106,7 +106,7 @@ public class NetworkUtils {
 
     }
 
-    public static void getRequestVolley(final boolean isShowProgressDialog, final boolean isDismissProgessDialog, final boolean isShowDialogError, final Context context, final String url, final JSONObject jsonRequest, final NetworkListener networkListener) {
+    public static void getRequestVolley(final boolean isShowProgressDialog, final boolean isDismissProgressDialog, final boolean isShowDialogError, final Context context, final String url, final JSONObject jsonRequest, final NetworkListener networkListener) {
         if (isShowProgressDialog)
             ProgressDialogUtils.showProgressDialog(context);
 
@@ -120,7 +120,7 @@ public class NetworkUtils {
                 LogUtils.d(TAG, "getRequestVolley onResponse : " + jsonObject.toString());
                 networkListener.onSuccess(jsonObject);
 
-                if (isDismissProgessDialog) ProgressDialogUtils.dismissProgressDialog();
+                if (isDismissProgressDialog) ProgressDialogUtils.dismissProgressDialog();
 
             }
 
@@ -140,7 +140,7 @@ public class NetworkUtils {
                     DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
                         @Override
                         public void onOkClick() {
-                            getRequestVolley(isShowProgressDialog, isDismissProgessDialog, isShowDialogError, context, url, jsonRequest, networkListener);
+                            getRequestVolley(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, jsonRequest, networkListener);
                         }
 
                         @Override
@@ -149,7 +149,7 @@ public class NetworkUtils {
                         }
                     });
 
-                if (isDismissProgessDialog) ProgressDialogUtils.dismissProgressDialog();
+                if (isDismissProgressDialog) ProgressDialogUtils.dismissProgressDialog();
             }
 
         }) {
@@ -165,7 +165,7 @@ public class NetworkUtils {
 //                new DefaultRetryPolicy(
 //                        NetworkConfig.NETWORK_TIME_OUT,
 //                        1,
-//                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULTI));
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
                 NetworkConfig.NETWORK_TIME_OUT,
@@ -176,7 +176,7 @@ public class NetworkUtils {
 
     }
 
-    public static void deleteVolley(final boolean isShowProgessDialog, final boolean isDismissProgessDialog, final boolean isShowDialogError, final Context context, final String url, final JSONObject jsonRequest, final NetworkListener networkListener) {
+    public static void deleteVolley(final boolean isShowProgressDialog, final boolean isDismissProgressDialog, final boolean isShowDialogError, final Context context, final String url, final JSONObject jsonRequest, final NetworkListener networkListener) {
         LogUtils.d(TAG, "deleteVolley url : " + url + " /////// data request : " + jsonRequest.toString());
 
 
@@ -184,7 +184,7 @@ public class NetworkUtils {
             Utils.hideKeyBoard((Activity) context);
         }
 
-        if (isShowProgessDialog)
+        if (isShowProgressDialog)
             ProgressDialogUtils.showProgressDialog(context);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, jsonRequest, new Response.Listener<JSONObject>() {
@@ -194,7 +194,7 @@ public class NetworkUtils {
                 LogUtils.d(TAG, "postVolley onResponse : " + jsonObject.toString());
                 networkListener.onSuccess(jsonObject);
 
-                if (isDismissProgessDialog)
+                if (isDismissProgressDialog)
                     ProgressDialogUtils.dismissProgressDialog();
             }
 
@@ -214,7 +214,7 @@ public class NetworkUtils {
                     DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
                         @Override
                         public void onOkClick() {
-                            deleteVolley(isShowProgessDialog, isDismissProgessDialog, isShowDialogError, context, url, jsonRequest, networkListener);
+                            deleteVolley(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, jsonRequest, networkListener);
                         }
 
                         @Override
@@ -223,7 +223,7 @@ public class NetworkUtils {
                         }
                     });
 
-                if (isDismissProgessDialog)
+                if (isDismissProgressDialog)
                     ProgressDialogUtils.dismissProgressDialog();
             }
 
@@ -242,7 +242,7 @@ public class NetworkUtils {
 //                new DefaultRetryPolicy(
 //                        NetworkConfig.NETWORK_TIME_OUT,
 //                        1,
-//                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULTI));
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
                 NetworkConfig.NETWORK_TIME_OUT,

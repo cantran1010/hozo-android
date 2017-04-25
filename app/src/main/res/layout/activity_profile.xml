@@ -98,7 +98,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
                 android:text="@string/profile_address"
                 android:textStyle="bold" />
 
@@ -106,7 +105,6 @@
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
                 android:text="102 Truong Chinh , Quan Dong Da , Ha Noi" />
 
             <include layout="@layout/line" />
@@ -114,7 +112,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
                 android:text="@string/profile_phone"
                 android:textStyle="bold" />
 
@@ -122,7 +119,6 @@
                 android:id="@+id/tv_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
                 android:text="0919030190" />
 
 
@@ -166,7 +162,7 @@
                 android:padding="16dp"
                 android:text="@string/profile_log_out"
                 android:textStyle="bold" />
-            
+
         </LinearLayout>
     </ScrollView>
 
