@@ -43,7 +43,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     protected void initView() {
         imgAvata = (CircleImageView) findViewById(R.id.img_avata);
         imgAvata.setOnClickListener(this);
-
         btnSave = (Button) findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
     }

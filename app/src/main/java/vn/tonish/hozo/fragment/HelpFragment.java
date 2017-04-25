@@ -3,6 +3,12 @@ package vn.tonish.hozo.fragment;
 import android.view.View;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.other.AboutActivity;
+import vn.tonish.hozo.activity.other.ConditionActivity;
+import vn.tonish.hozo.activity.other.HistoryActivity;
+import vn.tonish.hozo.activity.other.InfoActivity;
+import vn.tonish.hozo.activity.other.NADActivity;
+import vn.tonish.hozo.activity.other.PaymentActivity;
 import vn.tonish.hozo.activity.other.ProfileActivity;
 import vn.tonish.hozo.activity.other.ShareActivity;
 
@@ -25,9 +31,18 @@ public class HelpFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(ProfileActivity.class);
             }
         });
-        findViewById(R.id.tvShare).setOnClickListener(this);
-
+        findViewById(R.id.tv_share).setOnClickListener(this);
+        findViewById(R.id.tv_history).setOnClickListener(this);
+        findViewById(R.id.tv_share).setOnClickListener(this);
+        findViewById(R.id.tv_payment).setOnClickListener(this);
+        findViewById(R.id.tv_condition).setOnClickListener(this);
+        findViewById(R.id.tv_nda).setOnClickListener(this);
+        findViewById(R.id.tv_nda).setOnClickListener(this);
+        findViewById(R.id.tv_info).setOnClickListener(this);
+        findViewById(R.id.tv_about).setOnClickListener(this);
+        
     }
+
 
     @Override
     protected void initData() {
@@ -43,9 +58,41 @@ public class HelpFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
-            case R.id.tvShare:
+            case R.id.tv_share:
+
                 startActivity(ShareActivity.class);
                 break;
+
+            case R.id.tv_history:
+
+                startActivity(HistoryActivity.class);
+                break;
+
+            case R.id.tv_payment:
+
+                startActivity(PaymentActivity.class);
+                break;
+
+            case R.id.tv_condition:
+
+                startActivity(ConditionActivity.class);
+                break;
+
+            case R.id.tv_nda:
+
+                startActivity(NADActivity.class);
+                break;
+
+            case R.id.tv_info:
+
+                startActivity(InfoActivity.class);
+                break;
+
+            case R.id.tv_about:
+
+                startActivity(AboutActivity.class);
+                break;
+
         }
     }
 }

@@ -133,7 +133,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         startActivity(intent);
     }
 
-    private void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack) {
+    protected void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack) {
         openFragment(resId, fragmentClazz, null, addBackStack);
     }
 
