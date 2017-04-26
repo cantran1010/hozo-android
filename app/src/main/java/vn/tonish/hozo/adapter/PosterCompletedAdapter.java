@@ -77,7 +77,7 @@ public class PosterCompletedAdapter extends RecyclerView.Adapter<PosterCompleted
             tvPrice = (TextView) itemView.findViewById(R.id.tv_price);
             rbRate = (RatingBar) itemView.findViewById(R.id.rb_rate);
             imgMobile = (ImageView) itemView.findViewById(R.id.img_mobile_verify);
-            imgEmail = (ImageView) itemView.findViewById(R.id.img_mobile_verify);
+            imgEmail = (ImageView) itemView.findViewById(R.id.img_email_verify);
             imgFacebook = (ImageView) itemView.findViewById(R.id.img_facebook_verify);
             btnRate = (Button) itemView.findViewById(R.id.btn_rate);
         }

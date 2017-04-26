@@ -2,8 +2,8 @@ package vn.tonish.hozo.customview;
 
 import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -132,7 +132,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         } else if (s.length() == 4) {
             mPinForthDigitEditText.setText(s.charAt(3) + "");
             hideSoftKeyboard(mPinForthDigitEditText);
-            btnSigin.setTextColor(getResources().getColor(R.color.white));
+            btnSigin.setTextColor(ContextCompat.getColor(getContext(),R.color.white));
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -140,7 +140,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                 }
             }, 200);
         } else {
-            btnSigin.setTextColor(getResources().getColor(R.color.blue));
+            btnSigin.setTextColor(ContextCompat.getColor(getContext(),R.color.blue));
         }
 
 

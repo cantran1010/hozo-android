@@ -28,7 +28,6 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
-import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 
 /**
  * Created by LongBui.
@@ -171,7 +170,7 @@ public class NetworkUtils {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                final HashMap<String, String> headers = new HashMap<String, String>();
+                final HashMap<String, String> headers = new HashMap<>();
 
                 headers.put("Authorization", "Bearer " + UserManager.getUserToken(context));
                 headers.put("Content-Type", "application/x-www-form-urlencoded");
@@ -248,7 +247,7 @@ public class NetworkUtils {
         {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + UserManager.getUserToken(context));
                 headers.put("Accept", "application/json");
 
@@ -328,7 +327,7 @@ public class NetworkUtils {
         ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + UserManager.getUserToken(context));
                 headers.put("Content-Type", "application/x-www-form-urlencoded");
                 LogUtils.d(TAG, "getVolley getHeaders token: " + UserManager.getUserToken(context));
@@ -395,7 +394,7 @@ public class NetworkUtils {
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Accept", "application/json");
                 return headers;
             }
@@ -467,7 +466,7 @@ public class NetworkUtils {
         {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
                 return headers;
             }

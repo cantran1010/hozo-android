@@ -4,15 +4,10 @@ import android.content.Intent;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.setting.AgeSettingActivity;
-import vn.tonish.hozo.activity.setting.FeeActivity;
-import vn.tonish.hozo.activity.setting.TimeSettingActivity;
-import vn.tonish.hozo.common.Constants;
 
 /**
  * Created by huyquynh on 4/18/17.

@@ -87,7 +87,7 @@
         <item name="android:maxHeight">18dip</item>
     </style>
 
-    <style name="tv_style_nomal_black">
+    <style name="tv_style_normal_black">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/black</item>
     </style>

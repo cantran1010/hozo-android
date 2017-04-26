@@ -1,7 +1,7 @@
 package vn.tonish.hozo.customview;
 
 import android.content.Context;
-import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -68,10 +68,10 @@ public class NameView extends FrameLayout implements View.OnClickListener {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (edtName.getText().toString().trim().length() > 5 && (edtName.getText().toString().trim().length() < 50)) {
-                    btnSave.setBackgroundColor(getResources().getColor(R.color.white));
+                    btnSave.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.white));
                     btnSave.setEnabled(true);
                 } else {
-                    btnSave.setBackgroundColor(getResources().getColor(R.color.blue));
+                    btnSave.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.blue));
                     btnSave.setEnabled(false);
                 }
 

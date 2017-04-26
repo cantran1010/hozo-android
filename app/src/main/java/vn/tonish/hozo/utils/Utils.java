@@ -50,15 +50,14 @@ public class Utils {
             hash = md != null ? md.digest() : new byte[0];
             for (byte aHash : hash) {
                 if ((0xff & aHash) < 0x10) {
-                    hexString.append("0"
-                            + Integer.toHexString((0xFF & aHash)));
+                    hexString.append("0").append(Integer.toHexString((0xFF & aHash)));
                 } else {
                     hexString.append(Integer.toHexString(0xFF & aHash));
                 }
             }
             return hexString.toString();
-        } catch (NullPointerException e) {
-
+        } catch (NullPointerException ignored) {
+        
         }
         return null;
 

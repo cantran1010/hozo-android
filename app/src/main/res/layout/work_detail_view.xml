@@ -121,7 +121,7 @@
         android:orientation="horizontal">
 
         <TextView
-            style="@style/tv_style_nomal_black"
+            style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Giá tiền : " />
@@ -143,7 +143,7 @@
         android:orientation="horizontal">
 
         <TextView
-            style="@style/tv_style_nomal_black"
+            style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ngày : " />
@@ -166,7 +166,7 @@
         android:orientation="horizontal">
 
         <TextView
-            style="@style/tv_style_nomal_black"
+            style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thời gian : " />
@@ -188,7 +188,7 @@
         android:orientation="horizontal">
 
         <TextView
-            style="@style/tv_style_nomal_black"
+            style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Địa điểm : " />

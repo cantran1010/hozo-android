@@ -162,6 +162,7 @@
     <string name="et_max">Max</string>
     <string name="et_min">Min</string>
     <string name="btn_reset">RESET</string>
+    <string name="adjust_image">adjust_image</string>
 
 
 </resources>

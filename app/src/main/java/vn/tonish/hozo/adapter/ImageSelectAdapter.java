@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.DeviceUtils;
-import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PxUtils;
 
 /**

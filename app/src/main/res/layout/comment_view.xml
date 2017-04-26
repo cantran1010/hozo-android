@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:contentDescription="@string/adjust_image"
         android:layout_marginRight="10dp"
         android:src="@drawable/img_comment_setting" />
 
@@ -34,7 +35,7 @@
 
         <TextView
             android:id="@+id/tv_name"
-            style="@style/tv_style_nomal_black"
+            style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bui Duc Long" />

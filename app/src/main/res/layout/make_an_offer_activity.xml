@@ -43,7 +43,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:orientation="vertical">
@@ -61,7 +61,7 @@
                 android:layout_marginTop="10dp" />
 
             <TextView
-                style="@style/tv_style_nomal_black"
+                style="@style/tv_style_normal_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                style="@style/tv_style_nomal_black"
+                style="@style/tv_style_normal_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -109,11 +109,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
+                android:contentDescription="@string/adjust_image"
                 android:src="@drawable/avatar_default" />
 
             <ImageView
                 android:id="@+id/img_delete"
                 android:layout_width="wrap_content"
+                android:contentDescription="@string/adjust_image"
                 android:layout_height="wrap_content"
                 android:background="#66000000"
                 android:layout_alignParentRight="true"
@@ -129,6 +131,7 @@
 
             <ImageView
                 android:id="@+id/img_attach"
+                android:contentDescription="@string/adjust_image"
                 android:layout_width="40dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"

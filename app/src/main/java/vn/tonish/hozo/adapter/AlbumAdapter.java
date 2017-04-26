@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Album;
 import vn.tonish.hozo.utils.DeviceUtils;
-import vn.tonish.hozo.utils.LogUtils;
 
 /**
  * Created by LongBui on 4/19/2017.

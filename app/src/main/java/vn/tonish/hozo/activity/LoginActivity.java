@@ -2,6 +2,7 @@ package vn.tonish.hozo.activity;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -78,8 +79,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String error;
                 if (!checkNumberPhone(edtPhone.getText().toString().trim())) {
-                    tvContinue.setTextColor(getResources().getColor(R.color.blue));
-                    tvContinue.setBackgroundColor(getResources().getColor(R.color.blue));
+                    tvContinue.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.blue));
+                    tvContinue.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.blue));
                     tvContinue.setEnabled(false);
                     if (CheckErrorEditText(edtPhone.getText().toString().trim())) {
                         error = getResources().getString(R.string.login_erro_phone);
@@ -87,8 +88,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         edtPhone.setError(error);
                     }
                 } else {
-                    tvContinue.setTextColor(getResources().getColor(R.color.blue));
-                    tvContinue.setBackgroundColor(getResources().getColor(R.color.white));
+                    tvContinue.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.blue));
+                    tvContinue.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
                     tvContinue.setEnabled(true);
                     hideSoftKeyboard(context, edtPhone);
                 }
@@ -106,7 +107,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void resumeData() {
         if (checkNumberPhone(edtPhone.getText().toString().trim()))
-            tvContinue.setTextColor(getResources().getColor(R.color.white));
+            tvContinue.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
         tvContinue.setEnabled(true);
     }
 
@@ -151,7 +152,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 showViewFromRight(context, viewLevel3, duration, true);
             }
 
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }

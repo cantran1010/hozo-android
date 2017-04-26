@@ -2,8 +2,6 @@ package vn.tonish.hozo.model;
 
 import java.io.Serializable;
 
-import io.realm.RealmObject;
-
 /**
  * Created by huy_quynh on 4/12/17.
  */
