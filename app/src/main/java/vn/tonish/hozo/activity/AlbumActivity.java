@@ -7,7 +7,6 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.RelativeLayout;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,8 +17,8 @@ import vn.tonish.hozo.adapter.AlbumAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Album;
 
-import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICKIMAGE;
-import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**
  * Created by LongBD on 4/19/2017.
@@ -35,7 +34,6 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private GridView grAlbum;
     private ArrayList<Album> albums = new ArrayList<>();
     private AlbumAdapter albumAdapter;
-    private RelativeLayout layoutBack;
     private boolean isOnlyImage = false;
     private boolean isCropProfile = false;
 
@@ -48,8 +46,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void initView() {
         grAlbum = (GridView) findViewById(R.id.gr_album);
-        layoutBack = (RelativeLayout) findViewById(R.id.layout_back);
-        layoutBack.setOnClickListener(this);
+        findViewById(R.id.layout_back).setOnClickListener(this);
     }
 
     @Override
@@ -59,10 +56,8 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
         if (intent.hasExtra(Constants.EXTRA_ONLY_IMAGE))
             isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
 
-        if (intent.hasExtra(Constants.EXTRA_IS_CROP_PROFILE))
-            isCropProfile = intent.getBooleanExtra(Constants.EXTRA_IS_CROP_PROFILE, false);
-
         getAlbum();
+
     }
 
     private void getAlbum() {
@@ -135,7 +130,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                         intent.putExtra(Constants.INTENT_EXTRA_ALBUM, albums.get(position).getName());
                         intent.putExtra(Constants.EXTRA_ONLY_IMAGE, isOnlyImage);
                         intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, isCropProfile);
-                        startActivityForResult(intent, REQUEST_CODE_PICKIMAGE);
+                        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
                     }
                 });
             }
@@ -153,10 +148,10 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_PICKIMAGE
-                && resultCode == RESPONSE_CODE_PICKIMAGE
+        if (requestCode == REQUEST_CODE_PICK_IMAGE
+                && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
-            setResult(RESPONSE_CODE_PICKIMAGE, data);
+            setResult(RESPONSE_CODE_PICK_IMAGE, data);
             finish();
         }
     }

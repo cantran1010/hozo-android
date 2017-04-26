@@ -29,8 +29,8 @@ import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.view.MyGridView;
 
-import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICKIMAGE;
-import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**
  * Created by MAC2015 on 4/12/17.
@@ -39,9 +39,9 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
 public class PostATaskActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = PostATaskActivity.class.getSimpleName();
-    private RelativeLayout layoutBack;
-    private Button btnNext;
-    private LinearLayout layoutStartTime, layoutEndTime;
+    protected RelativeLayout layoutBack;
+    protected Button btnNext;
+    protected LinearLayout layoutStartTime, layoutEndTime;
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private ArrayList<Image> images = new ArrayList<>();
@@ -109,7 +109,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                         @Override
                         public void onGallery() {
                             Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
-                            startActivityForResult(intent, Constants.REQUEST_CODE_PICKIMAGE);
+                            startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE);
                         }
                     });
                     pickImageDialog.showView();
@@ -125,6 +125,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onImageAdapterListener() {
 
+
                 PickImageDialog pickImageDialog = new PickImageDialog(PostATaskActivity.this);
                 pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
                     @Override
@@ -134,10 +135,11 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                         startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
                     }
 
+
                     @Override
                     public void onGallery() {
                         Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
-                        startActivityForResult(intent, Constants.REQUEST_CODE_PICKIMAGE);
+                        startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE);
                     }
                 });
                 pickImageDialog.showView();
@@ -247,8 +249,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
         LogUtils.d(TAG, "onActivityResult requestCode : " + requestCode + " , resultCode : " + resultCode);
 
-        if (requestCode == REQUEST_CODE_PICKIMAGE
-                && resultCode == RESPONSE_CODE_PICKIMAGE
+        if (requestCode == REQUEST_CODE_PICK_IMAGE
+                && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
 
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);

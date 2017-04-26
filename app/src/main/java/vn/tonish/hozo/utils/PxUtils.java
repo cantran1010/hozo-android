@@ -22,7 +22,7 @@ public class PxUtils {
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
-        int height = size.y;
+        //int height = size.y;
         LogUtils.d(TAG, "getWidhtScreen : " + width);
         return width;
     }

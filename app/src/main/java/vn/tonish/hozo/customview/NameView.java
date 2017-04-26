@@ -1,7 +1,7 @@
 package vn.tonish.hozo.customview;
 
 import android.content.Context;
-import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -68,10 +68,10 @@ public class NameView extends FrameLayout implements View.OnClickListener {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (edtName.getText().toString().trim().length() > 5 && (edtName.getText().toString().trim().length() < 50)) {
-                    btnSave.setBackgroundColor(getResources().getColor(R.color.white));
+                    btnSave.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.white));
                     btnSave.setEnabled(true);
                 } else {
-                    btnSave.setBackgroundColor(getResources().getColor(R.color.blue));
+                    btnSave.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.blue));
                     btnSave.setEnabled(false);
                 }
 
@@ -94,8 +94,7 @@ public class NameView extends FrameLayout implements View.OnClickListener {
             case R.id.btn_save:
                 saveUser();
                 Toast.makeText(context, "wellcome " + edtName.getText().toString() + " to hozo", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, MainActivity.class);
-                ((LoginActivity) context).startActivityAndClearAllTask(intent);
+                ((LoginActivity) context).startActivityAndClearAllTask(MainActivity.class);
                 break;
         }
 
@@ -123,12 +122,11 @@ public class NameView extends FrameLayout implements View.OnClickListener {
 
                         UserManager.insertUserLogin(userEntity, getContext());
 
-                        if ((getStringInJsonObj(mObject, "full_name").trim()).equalsIgnoreCase("") || getStringInJsonObj(mObject, "full_name").trim() == null) {
+                        if (getStringInJsonObj(mObject, "full_name").trim().equalsIgnoreCase("")) {
                             LogUtils.d(TAG, "name_check" + getStringInJsonObj(mObject, "full_name").trim());
                             ((LoginActivity) context).showExtendView(NAME_VIEW);
                         } else {
-                            Intent intent = new Intent(context, MainActivity.class);
-                            ((LoginActivity) context).startActivityAndClearAllTask(intent);
+                            ((LoginActivity) context).startActivityAndClearAllTask(MainActivity.class);
                         }
                     } else if (jsonResponse.getInt("code") == 1) {
                         Toast.makeText(context, "FullName is empty", Toast.LENGTH_SHORT).show();

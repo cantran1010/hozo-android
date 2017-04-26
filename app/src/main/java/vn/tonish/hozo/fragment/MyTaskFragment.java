@@ -1,5 +1,6 @@
 package vn.tonish.hozo.fragment;
 
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -38,7 +39,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
     private void selectedTab(int position) {
         if (position == 1) {
-            layoutWorker.setTextColor(getResources().getColor(R.color.green));
+            layoutWorker.setTextColor(ContextCompat.getColor(getActivity(),R.color.green));
 //            layoutPoster.setBackground(getResources().getDrawable(R.drawable.bg_border_green));
         }
     }

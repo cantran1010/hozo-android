@@ -9,16 +9,18 @@ import android.widget.Button;
 
 import java.io.File;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+
+import vn.tonish.hozo.customview.CircleImageView;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 
-import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICKIMAGE;
-import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
+
 
 /**
  * Created by LongBD on 4/21/2017.
@@ -26,7 +28,7 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
 
 public class EditProfileActivity extends BaseActivity implements View.OnClickListener {
 
-    private Button btnSave;
+    protected Button btnSave;
     private CircleImageView imgAvata;
     private String imgPath;
     private static final String TAG = EditProfileActivity.class.getSimpleName();
@@ -38,9 +40,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
-        imgAvata = (CircleImageView) findViewById(R.id.img_avata);
+        imgAvata = (CircleImageView) findViewById(R.id.img_avatar);
         imgAvata.setOnClickListener(this);
-
         btnSave = (Button) findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
     }
@@ -63,7 +64,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
                 break;
 
-            case R.id.img_avata:
+            case R.id.img_avatar:
                 doPickImage();
                 break;
 
@@ -76,8 +77,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         LogUtils.d(TAG, "onActivityResult requestCode : " + requestCode + " , resultCode : " + resultCode);
 
-        if (requestCode == REQUEST_CODE_PICKIMAGE
-                && resultCode == RESPONSE_CODE_PICKIMAGE
+        if (requestCode == REQUEST_CODE_PICK_IMAGE
+                && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
             String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
             Utils.displayImage(EditProfileActivity.this, imgAvata, imgPath);
@@ -94,6 +95,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void doPickImage() {
+
         PickImageDialog pickImageDialog = new PickImageDialog(EditProfileActivity.this);
         pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
             @Override
@@ -108,7 +110,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 Intent intent = new Intent(EditProfileActivity.this, AlbumActivity.class);
                 intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
                 intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
-                startActivityForResult(intent, REQUEST_CODE_PICKIMAGE);
+                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
             }
         });
         pickImageDialog.showView();

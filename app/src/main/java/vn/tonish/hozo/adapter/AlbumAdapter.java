@@ -1,6 +1,7 @@
 package vn.tonish.hozo.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Album;
 import vn.tonish.hozo.utils.DeviceUtils;
-import vn.tonish.hozo.utils.LogUtils;
 
 /**
  * Created by LongBui on 4/19/2017.
@@ -29,11 +29,12 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
         super(_context, R.layout.item_album, address);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final Album item = getItem(position);
 
-        LogUtils.d(TAG, "getView , item : " + item.toString());
+        //LogUtils.d(TAG, "getView , item : " + item.toString());
 
         final ViewHolder holder;
         if (convertView == null) {

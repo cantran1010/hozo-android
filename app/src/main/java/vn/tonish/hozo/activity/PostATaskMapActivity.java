@@ -37,9 +37,9 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
     private static final String TAG = PostATaskMapActivity.class.getSimpleName();
     private GoogleMap mMap;
-    private RelativeLayout layoutBack;
-    private Button btnNext;
-    private ImageView imgCurrentLocation, imgZoomIn, imgZoomOut;
+    protected RelativeLayout layoutBack;
+    protected Button btnNext;
+    protected ImageView imgCurrentLocation, imgZoomIn, imgZoomOut;
 
     private static double lat = 21.000030;
     private static double lon = 105.837400;
@@ -141,13 +141,13 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     private void getAddress() {
         try {
             Geocoder geocoder;
-            ArrayList<Address> addResses = new ArrayList<>();
+            ArrayList<Address> addresses;
             geocoder = new Geocoder(this, Locale.getDefault());
 
-            addResses = (ArrayList<Address>) geocoder.getFromLocation(lat, lon, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            addresses = (ArrayList<Address>) geocoder.getFromLocation(lat, lon, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
-            Address addRess = addResses.get(0);
-            LogUtils.d(TAG, "getAddress addRess : " + addRess.toString());
+            Address addRess = addresses.get(0);
+            LogUtils.d(TAG, "getAddress address : " + addRess.toString());
 
 //        String address = addRess.getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 //        String city = addRess.getLocality();

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Window;
 
+
 /**
  * Created by LongBui on 4/20/2017.
  */

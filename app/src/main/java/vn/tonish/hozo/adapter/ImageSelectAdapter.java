@@ -2,7 +2,9 @@ package vn.tonish.hozo.adapter;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -19,7 +21,6 @@ import java.util.ArrayList;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.DeviceUtils;
-import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PxUtils;
 
 /**
@@ -29,7 +30,7 @@ import vn.tonish.hozo.utils.PxUtils;
 public class ImageSelectAdapter extends ArrayAdapter<Image> {
     private static final String TAG = ImageSelectAdapter.class.getName();
     private boolean isOnlyImage = false;
-    private ArrayList<Image> images;
+    private final ArrayList<Image> images;
 
     public ImageSelectAdapter(Context _context, ArrayList<Image> images, boolean isOnlyImage) {
         super(_context, R.layout.item_image_select, images);
@@ -37,12 +38,13 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
         this.images = images;
     }
 
+    @NonNull
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         final Image item = getItem(position);
 
-        LogUtils.d(TAG, "getView , item : " + item.toString());
+        //LogUtils.d(TAG, "getView , item : " + item.toString());
 
         final ViewHolder holder;
         if (convertView == null) {
@@ -58,7 +60,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (item.isSelected) {
+        if (item != null ? item.isSelected : false) {
             holder.imgCheck.setVisibility(View.VISIBLE);
             final int sdk = android.os.Build.VERSION.SDK_INT;
             if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -67,8 +69,8 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
                 holder.imgImage.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.img_selected_bg));
             }
 
-            int padding = (int) PxUtils.pxFromDp(getContext(),5);
-            holder.imgImage.setPadding(padding,padding,padding,padding);
+            int padding = (int) PxUtils.pxFromDp(getContext(), 5);
+            holder.imgImage.setPadding(padding, padding, padding, padding);
         } else {
             holder.imgCheck.setVisibility(View.GONE);
             final int sdk = android.os.Build.VERSION.SDK_INT;
@@ -78,7 +80,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
                 holder.imgImage.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.img_non_selected_bg));
             }
 
-            holder.imgImage.setPadding(0,0,0,0);
+            holder.imgImage.setPadding(0, 0, 0, 0);
         }
 
         if (isOnlyImage) {

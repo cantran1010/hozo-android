@@ -20,9 +20,8 @@ import vn.tonish.hozo.fragment.SelectTaskFragment;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private View layoutPostTask, layoutBrowerTask, layoutMyTask, layoutOther;
+    private View layoutPostTask, layoutBrowserTask, layoutMyTask, layoutOther;
     private View layoutInbox;
-
 
     private BroadcastReceiver badgeChangeListener;
 
@@ -36,7 +35,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initView() {
         layoutPostTask = findViewById(R.id.layout_post_a_task);
-        layoutBrowerTask = findViewById(R.id.layout_browser_task);
+        layoutBrowserTask = findViewById(R.id.layout_browser_task);
         layoutMyTask = findViewById(R.id.layout_my_task);
         layoutInbox = findViewById(R.id.layout_inbox);
         layoutOther = findViewById(R.id.layout_other);
@@ -48,18 +47,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         };
         intentFilter = new IntentFilter(Constants.BADGE);
         registerReceiver(badgeChangeListener, intentFilter);
-
     }
 
     @Override
     protected void initData() {
         openFragment(R.id.layout_container, SelectTaskFragment.class, false);
         layoutPostTask.setOnClickListener(this);
-        layoutBrowerTask.setOnClickListener(this);
+        layoutBrowserTask.setOnClickListener(this);
         layoutMyTask.setOnClickListener(this);
         layoutInbox.setOnClickListener(this);
         layoutOther.setOnClickListener(this);
-
     }
 
     @Override
@@ -70,6 +67,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onPause() {
+
         super.onPause();
         if (badgeChangeListener != null)
             unregisterReceiver(badgeChangeListener);
@@ -81,7 +79,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.layout_post_a_task:
                 openFragment(R.id.layout_container, SelectTaskFragment.class, false);
-                layoutPostTask.setSelected(true);
                 break;
 
             case R.id.layout_browser_task:
@@ -99,6 +96,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.layout_other:
                 openFragment(R.id.layout_container, HelpFragment.class, false);
                 break;
+            
         }
     }
 

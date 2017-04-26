@@ -21,7 +21,6 @@ import vn.tonish.hozo.adapter.WorkAdapter;
 import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
-import vn.tonish.hozo.utils.PreferUtils;
 
 /**
  * Created by Admin on 4/4/2017.
@@ -39,9 +38,9 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
     private List<Work> workList;
 
 
-    private EditText et_search;
+    protected EditText et_search;
 
-    private Spinner spinner;
+    protected Spinner spinner;
 
     @Override
     protected int getLayout() {
@@ -71,7 +70,6 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
         }
         workAdapter = new WorkAdapter(getActivity(), workList);
         lvList.setAdapter(workAdapter);
-        PreferUtils.getInstance(getActivity()).setMessage("Hey ! Dom. Watch out!");
 
 
         findViewById(R.id.tv_advance_setting).setOnClickListener(new View.OnClickListener() {
@@ -139,7 +137,7 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
     @Override
     public void onSuccess(JSONObject jsonResponse) {
         if (jsonResponse != null) {
-            String json = jsonResponse.toString();
+           // String json = jsonResponse.toString();
         }
     }
 

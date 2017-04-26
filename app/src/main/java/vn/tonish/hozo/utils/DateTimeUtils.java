@@ -20,8 +20,7 @@ public class DateTimeUtils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String result = new SimpleDateFormat(DATE_FORMAT_OUT,Locale.getDefault()).format(date);
-        return result;
+        return new SimpleDateFormat(DATE_FORMAT_OUT,Locale.getDefault()).format(date);
     }
 
     private static final String DATE_FORMAT_IN2 = "yyyy-MM-dd";
@@ -34,8 +33,7 @@ public class DateTimeUtils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String result = new SimpleDateFormat(DATE_FORMAT_OUT2,Locale.getDefault()).format(date);
-        return result;
+        return new SimpleDateFormat(DATE_FORMAT_OUT2,Locale.getDefault()).format(date);
     }
 
     public static String changeFormatDate2(Calendar newDate) {

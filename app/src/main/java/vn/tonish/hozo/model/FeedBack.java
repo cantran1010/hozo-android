@@ -3,8 +3,6 @@ package vn.tonish.hozo.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
 /**
  * Created by huyquynh on 4/20/17.
  */

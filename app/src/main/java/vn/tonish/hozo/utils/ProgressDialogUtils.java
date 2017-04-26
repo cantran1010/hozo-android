@@ -36,7 +36,6 @@ public class ProgressDialogUtils {
             e.printStackTrace();
             mLoadingDialog = null;
             showProgressDialog(context);
-            return;
         }
 //        progressDialog.setContentView(R.layout.progress_dialog);
 //        progressDialog.setCancelable(false);

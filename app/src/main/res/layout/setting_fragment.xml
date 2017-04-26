@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -53,7 +52,7 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/tvHistory"
+                    android:id="@+id/tv_history"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -68,7 +67,7 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/tvPayment"
+                    android:id="@+id/tv_payment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -84,7 +83,7 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/tvCondition"
+                    android:id="@+id/tv_condition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -99,7 +98,7 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/tvNDA"
+                    android:id="@+id/tv_nda"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -114,7 +113,7 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/tvInfo"
+                    android:id="@+id/tv_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -130,7 +129,7 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/tvShare"
+                    android:id="@+id/tv_share"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -144,13 +143,14 @@
             <TableRow>
 
                 <TextView
-                    android:id="@+id/tvAbout"
+                    android:id="@+id/tv_about"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:text="@string/other_about" />
 
                 <include layout="@layout/arrow" />
+
 
             </TableRow>
 

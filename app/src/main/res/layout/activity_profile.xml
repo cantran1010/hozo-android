@@ -14,7 +14,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <vn.tonish.hozo.customview.CircleImageView
@@ -53,15 +53,12 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/profile_verify" />
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/profile_btn_verify" />
+                    android:layout_alignParentRight="true" />
 
             </RelativeLayout>
 
@@ -76,17 +73,19 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:contentDescription="@string/just_image"
                     android:src="@mipmap/ic_launcher_round" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/just_image"
                     android:src="@mipmap/ic_launcher_round" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/just_image"
                     android:src="@mipmap/ic_launcher_round" />
 
             </LinearLayout>
@@ -97,15 +96,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:text="@string/profile_address"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
                 android:text="102 Truong Chinh , Quan Dong Da , Ha Noi" />
 
             <include layout="@layout/line" />
@@ -113,15 +109,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:text="@string/profile_phone"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
                 android:text="0919030190" />
 
 
@@ -140,14 +133,12 @@
                 <TextView
                     android:id="@+id/tab_1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/profile_worker" />
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/tab_2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/profile_hire" />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -164,14 +155,8 @@
                 android:background="@color/black_alpha"
                 android:gravity="center"
                 android:padding="16dp"
-                android:text="@string/profile_log_out"
                 android:textStyle="bold" />
 
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </TableLayout>
         </LinearLayout>
     </ScrollView>
 

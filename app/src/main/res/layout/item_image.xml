@@ -8,10 +8,13 @@
         android:id="@+id/img_image"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:contentDescription="@string/just_image"
         android:padding="1dp" />
 
     <ImageView
         android:id="@+id/img_add"
+
+        android:contentDescription="@string/adjust_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -22,6 +25,7 @@
         android:id="@+id/img_remove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/adjust_image"
         android:layout_alignParentRight="true"
         android:layout_margin="2dp"
         android:background="#44000000"

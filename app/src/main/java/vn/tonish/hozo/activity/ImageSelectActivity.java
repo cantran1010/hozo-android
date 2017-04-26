@@ -19,7 +19,7 @@ import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.Utils;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_CROP_IMAGE;
-import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**
  * Created by LongBD on 4/21/2017.
@@ -32,8 +32,8 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     private ImageSelectAdapter imageSelectAdapter;
     private ArrayList<Image> images;
     private final String[] projection = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA};
-    private RelativeLayout layoutBack;
-    private TextView tvDone, tvAlbumName;
+    protected RelativeLayout layoutBack;
+    protected TextView tvDone, tvAlbumName;
     private boolean isOnlyImage = false;
     private boolean isCropProfile = false;
 
@@ -61,7 +61,9 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
         if (intent == null) {
             finish();
         }
-        if (intent.hasExtra(Constants.EXTRA_ONLY_IMAGE))
+
+        boolean isExtra = intent != null ? intent.hasExtra(Constants.EXTRA_ONLY_IMAGE) : false;
+        if (isExtra)
             isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
 
         if (intent.hasExtra(Constants.EXTRA_IS_CROP_PROFILE))
@@ -97,7 +99,6 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
             tempCountSelected keeps track of number of selected images. On handling
             FETCH_COMPLETED message, countSelected is assigned value of tempCountSelected.
              */
-                int tempCountSelected = 0;
                 ArrayList<Image> temp = new ArrayList<>(cursor.getCount());
                 if (cursor.moveToLast()) {
                     do {
@@ -144,7 +145,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     private void sendIntent() {
         Intent intent = new Intent();
         intent.putParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES, getSelectedImage());
-        setResult(RESPONSE_CODE_PICKIMAGE, intent);
+        setResult(RESPONSE_CODE_PICK_IMAGE, intent);
         finish();
     }
 
@@ -164,7 +165,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
         if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE
                 && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE
                 && data != null) {
-            setResult(RESPONSE_CODE_PICKIMAGE, data);
+            setResult(RESPONSE_CODE_PICK_IMAGE, data);
             finish();
         }
     }

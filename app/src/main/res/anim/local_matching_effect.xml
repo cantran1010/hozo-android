@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android"
-  >
+<set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <rotate xmlns:android="http://schemas.android.com/apk/res/android"
         android:duration="500"
         android:fromDegrees="0"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:toDegrees="360"></rotate>
+        android:toDegrees="360" />
 
     <!--<rotate xmlns:android="http://schemas.android.com/apk/res/android"-->
     <!--android:duration="1000"-->
@@ -28,15 +27,15 @@
         android:toYScale="0.4" />
 
     <!--<scale-->
-        <!--android:duration="250"-->
-        <!--android:fromXScale="0.5"-->
-        <!--android:fromYScale="0.5"-->
-        <!--android:interpolator="@android:anim/linear_interpolator"-->
-        <!--android:pivotX="50%"-->
-        <!--android:pivotY="50%"-->
-        <!--android:startOffset="250"-->
-        <!--android:toXScale="1.0"-->
-        <!--android:toYScale="1.0" />-->
+    <!--android:duration="250"-->
+    <!--android:fromXScale="0.5"-->
+    <!--android:fromYScale="0.5"-->
+    <!--android:interpolator="@android:anim/linear_interpolator"-->
+    <!--android:pivotX="50%"-->
+    <!--android:pivotY="50%"-->
+    <!--android:startOffset="250"-->
+    <!--android:toXScale="1.0"-->
+    <!--android:toYScale="1.0" />-->
 
     <translate
         android:duration="500"

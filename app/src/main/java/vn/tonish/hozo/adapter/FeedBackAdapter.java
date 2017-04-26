@@ -16,8 +16,8 @@ import vn.tonish.hozo.model.FeedBack;
 public class FeedBackAdapter extends BaseAdapter<
         FeedBack, FeedBackAdapter.FeedBackHolder, LoadingHolder> {
 
-    private Context context;
-    private List<FeedBack> list;
+    private final Context context;
+    protected final List<FeedBack> list;
 
     public FeedBackAdapter(Context context, List<FeedBack> list) {
         super(context, list);
@@ -47,9 +47,6 @@ public class FeedBackAdapter extends BaseAdapter<
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof FeedBackHolder) {
-
-        }
     }
 
     public class FeedBackHolder extends BaseHolder {

@@ -10,12 +10,12 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_avata"
+        <vn.tonish.hozo.customview.CircleImageView
+            android:id="@+id/img_avatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/avata_default" />
+            android:src="@drawable/avatar_default" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,18 +46,23 @@
                     android:id="@+id/img_mobile_verify"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+
+                    android:contentDescription="@string/just_image"
                     android:src="@drawable/img_mobile" />
 
                 <ImageView
                     android:id="@+id/img_email_verify"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+
+                    android:contentDescription="@string/just_image"
                     android:src="@drawable/img_mobile" />
 
                 <ImageView
                     android:id="@+id/img_facebook_verify"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:contentDescription="@string/just_image"
                     android:src="@drawable/img_facebook" />
 
             </LinearLayout>
@@ -116,7 +121,7 @@
         android:orientation="horizontal">
 
         <TextView
-            style="@style/tv_style_nomal_black"
+            style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Giá tiền : " />
@@ -138,7 +143,7 @@
         android:orientation="horizontal">
 
         <TextView
-            style="@style/tv_style_nomal_black"
+            style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ngày : " />
@@ -161,7 +166,7 @@
         android:orientation="horizontal">
 
         <TextView
-            style="@style/tv_style_nomal_black"
+            style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thời gian : " />
@@ -183,7 +188,7 @@
         android:orientation="horizontal">
 
         <TextView
-            style="@style/tv_style_nomal_black"
+            style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Địa điểm : " />

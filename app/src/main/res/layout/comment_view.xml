@@ -5,13 +5,13 @@
     android:paddingBottom="5dp"
     android:paddingTop="5dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_avata"
+    <vn.tonish.hozo.customview.CircleImageView
+        android:id="@+id/img_avatar"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:src="@drawable/avata_default" />
+        android:src="@drawable/avatar_default" />
 
     <ImageView
         android:id="@+id/img_setting"
@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:contentDescription="@string/adjust_image"
         android:layout_marginRight="10dp"
         android:src="@drawable/img_comment_setting" />
 
@@ -29,12 +30,12 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/img_setting"
-        android:layout_toRightOf="@id/img_avata"
+        android:layout_toRightOf="@id/img_avatar"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_name"
-            style="@style/tv_style_nomal_black"
+            style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bui Duc Long" />

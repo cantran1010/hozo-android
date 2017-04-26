@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:background="@color/black_alpha"
     android:orientation="vertical">
 
     <TextView
@@ -32,6 +31,7 @@
     <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:contentDescription="@string/just_image"
         android:layout_alignParentRight="true"
         android:gravity="center"
         android:src="@mipmap/ic_launcher_round" />

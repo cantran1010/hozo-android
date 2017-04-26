@@ -2,7 +2,6 @@ package vn.tonish.hozo.application;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDex;
 
 import io.realm.Realm;
 
@@ -26,6 +25,6 @@ public class HozoApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        MultiDex.install(this);
     }
+
 }

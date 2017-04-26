@@ -27,6 +27,7 @@ abstract class BaseDialogFullScreenAnimDownUp extends Dialog {
         this.setCanceledOnTouchOutside(true);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         setContentView(getLayout());

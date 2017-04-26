@@ -103,9 +103,8 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
             BaseActivity baseActivity = (BaseActivity) activity;
             baseActivity.openFragmentBundle(resId, fragmentClazz, args, true);
         }
-
     }
-
+    
     public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack) {
         openFragment(resId, fragmentClazz, null, addBackStack);
     }

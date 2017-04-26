@@ -21,10 +21,8 @@ import vn.tonish.hozo.R;
  */
 public abstract class BaseActivity extends FragmentActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = BaseActivity.class.getName();
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
 
-
-    private SwipeRefreshLayout swipeRefreshLayout;
 
     protected abstract int getLayout();
 
@@ -39,13 +37,13 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
 
     }
 
-
     public void createSwipeToRefresh() {
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
+        SwipeRefreshLayout
+                swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
-    public void setBackButton() {
+    protected void setBackButton() {
 
         findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +84,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     }
 
 
-    public void setTitleHeader(String text) {
+    protected void setTitleHeader(String text) {
         TextView tv_title = (TextView) findViewById(R.id.tvTitleHeader);
         tv_title.setText(text.trim());
     }
@@ -109,7 +107,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    public void startActivityAndClearAllTask(Intent intent) {
+    private void startActivityAndClearAllTask(Intent intent) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         super.startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -135,7 +133,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         startActivity(intent);
     }
 
-    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack) {
+    protected void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack) {
         openFragment(resId, fragmentClazz, null, addBackStack);
     }
 
@@ -143,7 +141,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         openFragment(resId, fragmentClazz, bundle, addBackStack);
     }
 
-    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack) {
+    private void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack) {
         FragmentManager manager = getSupportFragmentManager();
         String tag = fragmentClazz.getName();
         try {
@@ -161,8 +159,6 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
                     transaction.addToBackStack(tag);
                 }
                 transaction.commitAllowingStateLoss();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -176,10 +172,10 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     public boolean dispatchTouchEvent(MotionEvent ev) {
         View view = getCurrentFocus();
         if (view != null && (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) && view instanceof EditText && !view.getClass().getName().startsWith("android.webkit.")) {
-            int scrcoords[] = new int[2];
-            view.getLocationOnScreen(scrcoords);
-            float x = ev.getRawX() + view.getLeft() - scrcoords[0];
-            float y = ev.getRawY() + view.getTop() - scrcoords[1];
+            int scr_coord[] = new int[2];
+            view.getLocationOnScreen(scr_coord);
+            float x = ev.getRawX() + view.getLeft() - scr_coord[0];
+            float y = ev.getRawY() + view.getTop() - scr_coord[1];
             if (x < view.getLeft() || x > view.getRight() || y < view.getTop() || y > view.getBottom())
                 ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
         }

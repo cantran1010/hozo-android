@@ -23,19 +23,19 @@ import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.fragment.FeedBackFragment;
 import vn.tonish.hozo.model.FeedBack;
+
 import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 
 /**
- * Created by huyquynh on 4/12/17.
+ * Created by huy_quynh on 4/12/17.
  */
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
     private Context context;
 
 
-    // info for user's profile
     private ImageView img_avatar;
     private TextView tv_name;
     private TextView tv_birthday;
@@ -44,17 +44,17 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private TextView btnLogOut;
 
     // pager for tab feedback
-    private ViewPager viewPager;
+    protected ViewPager viewPager;
 
     // tab1 and tab 2 in viewpager
-    private TextView tab_1, tab_2;
+    protected TextView tab_1, tab_2;
 
     // adapter for feedback pager
-    private FeedBackPagerAdapter feedBackPagerAdapter;
+    protected FeedBackPagerAdapter feedBackPagerAdapter;
 
     // data for feedback tab1 _ tab2 ;
-    private ArrayList<FeedBack> tab1Data;
-    private ArrayList<FeedBack> tab2Data;
+    protected ArrayList<FeedBack> tab1Data;
+    protected ArrayList<FeedBack> tab2Data;
 
     @Override
     protected int getLayout() {
@@ -101,6 +101,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_logout:
+
                 DialogUtils.showConfirmAndCancelAlertDialog(this, getString(R.string.msg_logOut), new DialogUtils.ConfirmDialogOkCancelListener() {
                     @Override
                     public void onOkClick() {
@@ -125,6 +126,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 try {
                     if (jsonResponse.getInt("code") == 0) {
                         UserManager.deleteAll();
+
                         Intent intent = new Intent(context, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);

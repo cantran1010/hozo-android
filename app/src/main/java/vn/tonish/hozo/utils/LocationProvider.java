@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
@@ -31,8 +32,8 @@ public class LocationProvider implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    public abstract interface LocationCallback {
-        public void handleNewLocation(Location location);
+    public interface LocationCallback {
+        void handleNewLocation(Location location);
     }
 
     public static final String TAG = LocationProvider.class.getSimpleName();
@@ -43,10 +44,10 @@ public class LocationProvider implements
      */
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
-    private LocationCallback mLocationCallback;
-    private Context mContext;
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
+    private final LocationCallback mLocationCallback;
+    private final Context mContext;
+    private final GoogleApiClient mGoogleApiClient;
+    private final LocationRequest mLocationRequest;
 
     public LocationProvider(Context context, LocationCallback callback) {
         mGoogleApiClient = new GoogleApiClient.Builder(context)
@@ -61,7 +62,7 @@ public class LocationProvider implements
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+                .setFastestInterval(1000); // 1 second, in milliseconds
 
         mContext = context;
     }
@@ -101,7 +102,7 @@ public class LocationProvider implements
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         /*
          * Google Play services can resolve some errors it detects.
          * If the error has a resolution, try sending an Intent to

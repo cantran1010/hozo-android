@@ -2,8 +2,8 @@ package vn.tonish.hozo.customview;
 
 import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -132,7 +132,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         } else if (s.length() == 4) {
             mPinForthDigitEditText.setText(s.charAt(3) + "");
             hideSoftKeyboard(mPinForthDigitEditText);
-            btnSigin.setTextColor(getResources().getColor(R.color.white));
+            btnSigin.setTextColor(ContextCompat.getColor(getContext(),R.color.white));
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -140,7 +140,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                 }
             }, 200);
         } else {
-            btnSigin.setTextColor(getResources().getColor(R.color.blue));
+            btnSigin.setTextColor(ContextCompat.getColor(getContext(),R.color.blue));
         }
 
 
@@ -328,14 +328,13 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                     if (jsonResponse.getInt("code") == 0) {
                         UserManager.insertUserLogin(new DataParse().getUserEntiny(context, jsonResponse), context);
                         LogUtils.d(TAG, "check User :" + UserManager.getUserLogin(context).toString());
-                        String name = "";
+                        String name;
                         name = UserManager.getUserLogin(context).getFullName().trim();
                         if ((name.isEmpty())) {
                             LogUtils.d(TAG, "name_check" + name + jsonResponse.toString());
                             ((LoginActivity) context).showExtendView(NAME_VIEW);
                         } else {
-                            Intent intent = new Intent(context, MainActivity.class);
-                            ((LoginActivity) context).startActivityAndClearAllTask(intent);
+                            ((LoginActivity) context).startActivityAndClearAllTask(MainActivity.class);
                         }
                     } else if (jsonResponse.getInt("code") == 1) {
                         Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();

@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.RateActivity;
+import vn.tonish.hozo.customview.CircleImageView;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.utils.Utils;
 
@@ -42,7 +42,7 @@ public class PosterCompletedAdapter extends RecyclerView.Adapter<PosterCompleted
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Utils.displayImage(context,holder.imgAvata,users.get(position).getAvatar());
+        Utils.displayImage(context, holder.imgAvatar, users.get(position).getAvatar());
         holder.tvName.setText(users.get(position).getFull_name());
         holder.tvPrice.setText(users.get(position).getPriceBit());
 
@@ -63,7 +63,7 @@ public class PosterCompletedAdapter extends RecyclerView.Adapter<PosterCompleted
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private CircleImageView imgAvata;
+        private CircleImageView imgAvatar;
         private TextView tvName, tvPrice;
         private RatingBar rbRate;
         private ImageView imgMobile, imgEmail, imgFacebook;
@@ -72,12 +72,12 @@ public class PosterCompletedAdapter extends RecyclerView.Adapter<PosterCompleted
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            imgAvata = (CircleImageView) itemView.findViewById(R.id.img_avata);
+            imgAvatar = (CircleImageView) itemView.findViewById(R.id.img_avatar);
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
             tvPrice = (TextView) itemView.findViewById(R.id.tv_price);
             rbRate = (RatingBar) itemView.findViewById(R.id.rb_rate);
             imgMobile = (ImageView) itemView.findViewById(R.id.img_mobile_verify);
-            imgEmail = (ImageView) itemView.findViewById(R.id.img_mobile_verify);
+            imgEmail = (ImageView) itemView.findViewById(R.id.img_email_verify);
             imgFacebook = (ImageView) itemView.findViewById(R.id.img_facebook_verify);
             btnRate = (Button) itemView.findViewById(R.id.btn_rate);
         }

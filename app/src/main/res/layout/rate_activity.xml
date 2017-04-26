@@ -20,6 +20,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/adjust_image"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/img_back" />
@@ -49,11 +50,11 @@
             android:orientation="vertical">
 
             <vn.tonish.hozo.customview.CircleImageView
-                android:id="@+id/img_avata"
+                android:id="@+id/img_avatar"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/avata_default" />
+                android:src="@drawable/avatar_default" />
 
             <TextView
                 android:layout_width="wrap_content"

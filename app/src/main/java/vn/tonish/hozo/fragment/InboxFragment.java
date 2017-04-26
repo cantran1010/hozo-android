@@ -19,13 +19,13 @@ import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 
 public class InboxFragment extends BaseFragment {
 
-    private LinearLayoutManager linearLayoutManager;
+    protected LinearLayoutManager linearLayoutManager;
     private NotificationAdapter adapter;
-    private RecyclerView lvList;
+    protected RecyclerView lvList;
     private List<Notification> notifications;
 
 
-    private TextView tv_notify;
+    protected TextView tv_notify;
 
     @Override
     protected int getLayout() {
@@ -41,7 +41,7 @@ public class InboxFragment extends BaseFragment {
         notifications = new ArrayList<>();
         adapter = new NotificationAdapter(getActivity(), notifications);
         lvList.setLayoutManager(linearLayoutManager);
-        lvList.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.divider));
+        lvList.addItemDecoration(new DividerItemDecoration(getActivity()));
         lvList.setAdapter(adapter);
         dummyData();
 
@@ -52,11 +52,10 @@ public class InboxFragment extends BaseFragment {
             }
         });
         createSwipeToRefresh();
-
     }
 
-    public void dummyData() {
 
+    public void dummyData() {
         for (int i = 0; i < 10; i++) {
             Notification notification = new Notification();
             notification.setId(i);
@@ -67,7 +66,6 @@ public class InboxFragment extends BaseFragment {
         }
         adapter.notifyDataSetChanged();
     }
-
 
     @Override
     protected void initData() {

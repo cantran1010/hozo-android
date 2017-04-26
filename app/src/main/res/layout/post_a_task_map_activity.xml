@@ -21,6 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/just_image"
                 android:src="@drawable/img_back" />
 
         </RelativeLayout>
@@ -81,6 +82,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/just_image"
             android:layout_centerInParent="true"
             android:src="@drawable/maker" />
 
@@ -95,12 +97,14 @@
             <ImageView
                 android:id="@+id/img_current_location"
                 android:layout_width="wrap_content"
+                android:contentDescription="@string/just_image"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_map_current" />
 
             <ImageView
                 android:id="@+id/img_map_zoom_out"
                 android:layout_width="wrap_content"
+                android:contentDescription="@string/just_image"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/icon_map_zoom_out" />
@@ -108,6 +112,7 @@
             <ImageView
                 android:id="@+id/img_map_zoom_in"
                 android:layout_width="wrap_content"
+                android:contentDescription="@string/just_image"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_map_zoom_in" />
 

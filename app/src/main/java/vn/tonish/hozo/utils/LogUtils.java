@@ -1,6 +1,4 @@
-/**
- *
- */
+
 package vn.tonish.hozo.utils;
 
 import vn.tonish.hozo.common.Constants;

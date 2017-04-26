@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.customview.CircleImageView;
 import vn.tonish.hozo.model.Work;
 
 /**
@@ -23,7 +23,8 @@ import vn.tonish.hozo.model.Work;
 
 public class WorkDetailView extends LinearLayout implements View.OnClickListener {
 
-    private CircleImageView imgAvata;
+    protected CircleImageView imgAvatar;
+
     private TextView tvName, tvTitle, tvTimeAgo, tvWorkType, tvDescription;
     private RatingBar rbRate;
     private ImageView imgMobile, imgEmail, imgFacebook;
@@ -55,7 +56,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.work_detail_view, this, true);
 
-        imgAvata = (CircleImageView) findViewById(R.id.img_avata);
+        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         tvName = (TextView) findViewById(R.id.tv_name);
 
         tvTitle = (TextView) findViewById(R.id.tv_title);

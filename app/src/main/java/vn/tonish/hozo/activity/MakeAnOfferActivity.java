@@ -31,8 +31,8 @@ import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
 import vn.tonish.hozo.view.WorkDetailView;
 
-import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICKIMAGE;
-import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**
  * Created by ADMIN on 4/21/2017.
@@ -45,9 +45,11 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     private WorkDetailView workDetailView;
     private ArrayList<Comment> comments = new ArrayList<>();
     private Work work;
+
     private ImageView imgAttach, imgAttached, imgDelete;
     private RelativeLayout imgLayout;
     private String imgPath;
+
 
     @Override
     protected int getLayout() {
@@ -73,6 +75,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
     @Override
@@ -121,6 +124,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         LatLng latLng = new LatLng(work.getLat(), work.getLon());
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f));
 
@@ -147,7 +151,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                     public void onGallery() {
                         Intent intent = new Intent(MakeAnOfferActivity.this, AlbumActivity.class);
                         intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
-                        startActivityForResult(intent, REQUEST_CODE_PICKIMAGE);
+                        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
                     }
                 });
                 pickImageDialog.showView();
@@ -177,8 +181,8 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_PICKIMAGE
-                && resultCode == RESPONSE_CODE_PICKIMAGE
+        if (requestCode == REQUEST_CODE_PICK_IMAGE
+                && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
             imgPath = imagesSelected.get(0).getPath();

@@ -1,12 +1,9 @@
 package vn.tonish.hozo.activity;
 
+import android.content.Intent;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.style.TextAppearanceSpan;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +15,6 @@ import vn.tonish.hozo.R;
 
 public class AdvanceSettingsActivity extends BaseActivity implements View.OnClickListener {
 
-    private Button btn_save;
-    private TextView tv_fee;
 
     @Override
     protected int getLayout() {
@@ -30,8 +25,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     protected void initView() {
         setBackButton();
         setTitleHeader(getString(R.string.advance_setting_title));
-        btn_save = (Button) findViewById(R.id.btn_save);
-        btn_save.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(AdvanceSettingsActivity.this, "Just Demo!", Toast.LENGTH_SHORT).show();
@@ -39,10 +33,11 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             }
         });
 
-        tv_fee = (TextView) findViewById(R.id.tv_fee_text);
+        TextView tv_fee = (TextView) findViewById(R.id.tv_fee_text);
         String titleFee = getString(R.string.tv_fee);
         String currency = getString(R.string.vnd);
         Spanned text = Html.fromHtml(titleFee + "<i>" + currency + "</i>");
+
         tv_fee.setText(text);
 
         findViewById(R.id.tv_type).setOnClickListener(this);
@@ -64,24 +59,41 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     }
 
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
         switch (id) {
             case R.id.tv_type:
+
                 break;
             case R.id.tv_fee:
                 break;
             case R.id.tv_location:
+
                 break;
             case R.id.tv_time:
                 break;
+
             case R.id.tv_sex:
                 break;
+
             case R.id.tv_age:
                 break;
+
             case R.id.tv_notification:
                 break;
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+
+
         }
     }
 }

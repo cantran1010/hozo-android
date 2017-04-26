@@ -20,6 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:contentDescription="@string/adjust_image"
                 android:layout_centerVertical="true"
                 android:src="@drawable/img_back" />
 
@@ -42,7 +43,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:orientation="vertical">
@@ -60,7 +61,7 @@
                 android:layout_marginTop="10dp" />
 
             <TextView
-                style="@style/tv_style_nomal_black"
+                style="@style/tv_style_normal_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -95,14 +96,16 @@
                 android:id="@+id/img_attached"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/adjust_image"
                 android:scaleType="centerCrop"
-                android:src="@drawable/avata_default" />
+                android:src="@drawable/avatar_default" />
 
             <ImageView
                 android:id="@+id/img_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:contentDescription="@string/adjust_image"
                 android:padding="5dp"
                 android:src="@drawable/img_close" />
 
@@ -116,6 +119,7 @@
             <ImageView
                 android:id="@+id/img_attach"
                 android:layout_width="40dp"
+                android:contentDescription="@string/adjust_image"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/icon_camera" />

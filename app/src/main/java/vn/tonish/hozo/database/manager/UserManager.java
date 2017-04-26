@@ -44,7 +44,7 @@ public class UserManager {
         LogUtils.d(TAG, "getUserLogin start ");
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         // get last update
-        UserEntity userEntity = null;
+        UserEntity userEntity;
         if (realm.where(UserEntity.class) != null) {
             userEntity = realm.where(UserEntity.class).findFirst();
             if (userEntity != null) {

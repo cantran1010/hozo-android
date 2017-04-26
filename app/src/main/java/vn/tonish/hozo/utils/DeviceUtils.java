@@ -42,8 +42,7 @@ public class DeviceUtils {
     }
 
     public static String getSerialNumber() {
-        String serial_number = Build.SERIAL;
-        return serial_number;
+        return Build.SERIAL;
     }
 
     public static AppVersionInfo getVersionInfo(Context context) {
@@ -152,9 +151,8 @@ public class DeviceUtils {
     public static float getBatteryTemp(Context context) {
         Intent intent = context.registerReceiver(null, new IntentFilter(
                 Intent.ACTION_BATTERY_CHANGED));
-        float temp = ((float) intent.getIntExtra(
-                BatteryManager.EXTRA_TEMPERATURE, 0)) / 10;
-        return temp;
+        return ((float) (intent != null ? intent.getIntExtra(
+                BatteryManager.EXTRA_TEMPERATURE, 0) : 0)) / 10;
     }
 
     public static String getManufacturer() {
@@ -169,8 +167,7 @@ public class DeviceUtils {
 
     public static String getPhoneNumber(Context context) {
         TelephonyManager tMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String mPhoneNumber = tMgr.getLine1Number();
-        return mPhoneNumber;
+        return tMgr.getLine1Number();
 
 //        TelephonyManager telemamanger = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
 //        String getSimSerialNumber = telemamanger.getSimSerialNumber();

@@ -20,7 +20,7 @@
     <dimen name="size_xxlarge">27sp</dimen>
     <dimen name="size_xxxlarge">30sp</dimen>
     <dimen name="size_xxxxlarge">40sp</dimen>
-    
+
     <!-- common-->
     <dimen name="header_height">45dp</dimen>
     <dimen name="divider_height">5dp</dimen>

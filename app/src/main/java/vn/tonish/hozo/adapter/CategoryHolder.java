@@ -17,9 +17,9 @@ import vn.tonish.hozo.model.Category;
 
 public class CategoryHolder extends BaseHolder {
     public final TextView tvName;
-    public ImageView imgPresent;
+    public final ImageView imgPresent;
     public final View.OnClickListener onClickListener;
-    public View view;
+    public final View view;
     public Category category;
 
     public CategoryHolder(View itemView, final Context context) {

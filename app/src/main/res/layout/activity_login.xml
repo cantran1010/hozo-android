@@ -26,6 +26,7 @@
                 <ImageView
                     android:layout_width="300dp"
                     android:layout_height="110dp"
+                    android:contentDescription="@string/adjust_image"
                     android:src="@drawable/hozo_logo" />
 
                 <FrameLayout
@@ -43,10 +44,10 @@
                         android:gravity="center_vertical"
                         android:hint="@string/ed_login_phone"
                         android:inputType="phone"
-                        android:textColorHint="@color/very_light_gray"
                         android:maxLines="1"
                         android:paddingLeft="40dp"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/very_light_gray" />
 
                     <requestFocus />
 

@@ -24,7 +24,7 @@ public class PreferUtils {
     private static final String PREFER_PUSH_ACCEPT = "push_accept";
     private static final String PREFER_PUSH_DENY = "push_deny";
     private static final String PREFER_PUSH_SHOW = "push_show";
-    private static final String PREFER_PUSH_NOSHOW = "push_noshow";
+    private static final String PREFER_PUSH_NOSHOW = "push_no_show";
     private static final String PREFER_PUSH_MESSAGE = "push_message";
     private static final String KEY_ENCRYPTION = "kenc";
 
@@ -174,9 +174,9 @@ public class PreferUtils {
         return preferences.getInt(PREFER_USER_ID, 0);
     }
 
-    public static final void setSession(Context context, String session) {
+    public static void setSession(Context context, String session) {
         SharedPreferences prefs = context.getSharedPreferences(
-                PREFER_NAME, Context.MODE_MULTI_PROCESS);
+                PREFER_NAME, Context.MODE_PRIVATE);
         Editor editor = prefs.edit();
         editor.putString(PREFER_SESSION, session);
         editor.apply();

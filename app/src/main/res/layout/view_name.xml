@@ -14,8 +14,7 @@
         android:maxLines="2"
         android:text="@string/tv_label_name"
         android:textColor="@color/white"
-        android:textColorHighlight="@color/white"
-        android:textSize="@dimen/size_large" />
+        android:textColorHighlight="@color/white" />
 
 
     <EditText
@@ -23,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:inputType="text"
         android:maxLines="2"
         android:minHeight="40dp"
         android:textColor="@color/white" />
