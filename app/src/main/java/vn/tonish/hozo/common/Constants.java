@@ -21,6 +21,8 @@ public class Constants {
     public static final String EXTRA_IMAGE_PATH = "extra_image_path";
     public static final int REQUEST_CODE_CROP_IMAGE = 321;
     public static final int RESPONSE_CODE_CROP_IMAGE = 432;
+    public static final String EXTRA_CATEGORY = "extra_category";
+    public static final String EXTRA_WORK = "etra_work";
     public static boolean DEBUG = true;
     public static final int SPLASH_TIME = 1500;
     public static final String DB_NAME = "hozo";

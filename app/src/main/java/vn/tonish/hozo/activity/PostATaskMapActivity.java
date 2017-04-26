@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +22,9 @@ import java.util.Locale;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.model.HozoLocation;
+import vn.tonish.hozo.model.Image;
+import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.GPSTracker;
 import vn.tonish.hozo.utils.LocationProvider;
@@ -37,7 +39,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
     private static final String TAG = PostATaskMapActivity.class.getSimpleName();
     private GoogleMap mMap;
-    protected RelativeLayout layoutBack;
+    protected ImageView imgBack;
     protected Button btnNext;
     protected ImageView imgCurrentLocation, imgZoomIn, imgZoomOut;
 
@@ -47,6 +49,10 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     private LocationProvider mLocationProvider;
     private EditText edtAddress;
 
+    private Work work;
+    private ArrayList<Image> images = new ArrayList<>();
+    private HozoLocation location = new HozoLocation();
+
     @Override
     protected int getLayout() {
         return R.layout.post_a_task_map_activity;
@@ -55,8 +61,8 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     @Override
     protected void initView() {
 
-        layoutBack = (RelativeLayout) findViewById(R.id.layout_back);
-        layoutBack.setOnClickListener(this);
+        imgBack = (ImageView) findViewById(R.id.img_back);
+        imgBack.setOnClickListener(this);
 
         btnNext = (Button) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
@@ -79,8 +85,11 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
     @Override
     protected void initData() {
-        mLocationProvider = new LocationProvider(this, this);
 
+        work = (Work) getIntent().getSerializableExtra(Constants.EXTRA_WORK);
+        images = getIntent().getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+
+        mLocationProvider = new LocationProvider(this, this);
     }
 
     @Override
@@ -171,7 +180,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.layout_back:
+            case R.id.img_back:
                 finish();
                 break;
 
@@ -205,10 +214,14 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             return;
         }
 
-        Intent intent = new Intent();
-        intent.putExtra(Constants.EXTRA_ADDRESS, edtAddress.getText().toString());
-        setResult(Constants.RESPONSE_CODE_ADDRESS, intent);
-        finish();
+        location.setAddress(edtAddress.getText().toString());
+        location.setLat(latLng.latitude);
+        location.setLon(latLng.longitude);
+
+        Intent intent = new Intent(PostATaskMapActivity.this, PostATaskFinishActivity.class);
+        intent.putExtra(Constants.EXTRA_ADDRESS, location);
+        intent.putExtra(Constants.EXTRA_WORK, work);
+        startActivity(intent);
     }
 
     @Override

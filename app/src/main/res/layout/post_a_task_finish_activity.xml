@@ -2,35 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/layout_header"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/hozo_bg">
+        android:layout_height="?android:attr/actionBarSize">
 
-        <RelativeLayout
-            android:id="@+id/layout_back"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@drawable/btn_selector">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:contentDescription="@string/just_image"
-                android:layout_centerVertical="true"
-                android:src="@drawable/img_back" />
-
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@drawable/back" />
 
         <TextView
+            style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Chi phi"
-            android:textColor="@color/white" />
+            android:text="@string/post_a_task_finish_title" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/gray" />
 
     </RelativeLayout>
 
@@ -48,24 +46,48 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="So tien can cho mot nguoi" />
+                android:text="@string/post_task_finish_offer"
+                android:textColor="@color/black" />
 
-            <EditText
-                android:id="@+id/edt_budget"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/border_gray"
-                android:hint=""
-                android:inputType="number"
-                android:padding="5dp"
-                android:textColorHint="@color/gray" />
+                android:background="@drawable/border_gray">
+
+                <EditText
+                    android:id="@+id/edt_budget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tv_unit"
+                    android:background="@null"
+                    android:hint=""
+                    android:inputType="number"
+                    android:minHeight="@dimen/edt_min_height"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray" />
+
+                <TextView
+                    android:id="@+id/tv_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dp"
+                    android:text="@string/vn_dong"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="So nguoi can thue" />
+                android:text="@string/post_task_finish_number"
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/edt_number_worker"
@@ -75,21 +97,49 @@
                 android:background="@drawable/border_gray"
                 android:hint=""
                 android:inputType="number"
-                android:padding="5dp" />
+                android:minHeight="40dp"
+                android:padding="5dp"
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="tong chi phi" />
+                android:text="@string/post_task_finish_total"
+                android:textColor="@color/black" />
 
-            <TextView
-                android:id="@+id/tv_total"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/border_gray"
-                android:padding="5dp" />
+                android:background="@drawable/border_gray">
+
+                <TextView
+                    android:id="@+id/tv_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tv_unit2"
+                    android:minHeight="40dp"
+                    android:layout_centerVertical="true"
+                    android:padding="5dp"
+                    android:text=""
+                    android:textSize="18sp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_unit2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dp"
+                    android:text="@string/vn_dong"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
+
 
         </LinearLayout>
 
@@ -99,7 +149,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@drawable/btn_selector"
-            android:text="Hoan tat"
+            android:text="@string/post_a_task_finish"
             android:textColor="@color/white" />
 
     </RelativeLayout>

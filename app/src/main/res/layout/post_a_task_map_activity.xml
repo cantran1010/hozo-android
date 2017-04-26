@@ -2,36 +2,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/hozo_bg">
+        android:layout_height="?android:attr/actionBarSize">
 
-        <RelativeLayout
-            android:id="@+id/layout_back"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@drawable/btn_selector">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
-                android:contentDescription="@string/just_image"
-                android:src="@drawable/img_back" />
-
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@drawable/back" />
 
         <TextView
+            style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Dia diem lam viec"
-            android:textColor="@color/white" />
+            android:text="@string/post_a_task_map_title" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/gray" />
 
     </RelativeLayout>
 
@@ -41,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/btn_selector"
-        android:text="HOAN TAT CHON DIA DIEM"
+        android:text="@string/continue_up_case"
         android:textColor="@color/white" />
 
     <EditText
@@ -51,26 +48,44 @@
         android:layout_above="@id/btn_next"
         android:layout_margin="10dp"
         android:background="@drawable/border_gray"
-        android:hint="Nhập địa chỉ tại đây"
         android:inputType="text"
         android:maxLines="1"
+        android:minHeight="@dimen/edt_min_height"
         android:padding="5dp"
         android:textColorHint="@color/gray" />
 
-    <TextView
-        android:id="@+id/tv_des"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout_des"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/edt_address"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:text="Nhap dia diem (hoac di chuyen pin tren ban do)" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/map_hint_input1"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/map_hint_input2"
+            android:textColor="@color/gray" />
+
+    </LinearLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/tv_des"
+        android:layout_above="@id/layout_des"
         android:layout_below="@id/layout_header">
 
         <fragment
@@ -79,12 +94,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/just_image"
-            android:layout_centerInParent="true"
-            android:src="@drawable/maker" />
+        <RelativeLayout
+            android:layout_width="16dp"
+            android:layout_height="64dp"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="34dp"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/just_image"
+                android:src="@drawable/current_pin" />
+
+        </RelativeLayout>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -97,23 +120,23 @@
             <ImageView
                 android:id="@+id/img_current_location"
                 android:layout_width="wrap_content"
-                android:contentDescription="@string/just_image"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/just_image"
                 android:src="@drawable/icon_map_current" />
 
             <ImageView
                 android:id="@+id/img_map_zoom_out"
                 android:layout_width="wrap_content"
-                android:contentDescription="@string/just_image"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:contentDescription="@string/just_image"
                 android:src="@drawable/icon_map_zoom_out" />
 
             <ImageView
                 android:id="@+id/img_map_zoom_in"
                 android:layout_width="wrap_content"
-                android:contentDescription="@string/just_image"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/just_image"
                 android:src="@drawable/icon_map_zoom_in" />
 
         </LinearLayout>

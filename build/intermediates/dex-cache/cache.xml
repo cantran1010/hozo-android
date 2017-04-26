@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="D:\PROJECT\TONISH\HOZO_ANDROID\app\libs\library-1.0.19.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a8f23f65fc1e522ee4a1a697ee569901a46741fa">
+        <dex dex="D:\PROJECT\TONISH\HOZO_ANDROID\app\build\intermediates\pre-dexed\debug\library-1.0.19_0127fbe0494438b1ab549378fd54cfdac19643f0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\PROJECT\TONISH\HOZO_ANDROID\app\libs\gson-2.8.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c4ba5371a29ac9b2ad6129b1d39ea38750043eff">
+        <dex dex="D:\PROJECT\TONISH\HOZO_ANDROID\app\build\intermediates\pre-dexed\debug\gson-2.8.0_5c61240d4265341a5ebfa8527308805884ba9df2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\PROJECT\TONISH\HOZO_ANDROID\app\libs\org.apache.http.legacy.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5320fd78dd7f154e586970d4f02befc9b58432aa">
+        <dex dex="D:\PROJECT\TONISH\HOZO_ANDROID\app\build\intermediates\pre-dexed\debug\org.apache.http.legacy_75ce37e8325ca77bd3abfacad06bd1fc8dbaada9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\PROJECT\TONISH\HOZO_ANDROID\app\libs\glide-3.7.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="D:\PROJECT\TONISH\HOZO_ANDROID\app\build\intermediates\pre-dexed\debug\glide-3.7.0_a3a33eb8f4bc61ee888944228b41aa46a0ab376e.jar" />
+    </item>
+
+</items>

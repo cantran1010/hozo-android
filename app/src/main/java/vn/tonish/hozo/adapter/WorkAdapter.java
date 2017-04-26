@@ -52,7 +52,7 @@ public class WorkAdapter extends BaseAdapter<Work, WorkAdapter.WorkHolder, Loadi
             WorkHolder workHolder = ((WorkHolder) holder);
             workHolder.work = works.get(position);
             workHolder.tvName.setText(workHolder.work.getName());
-            workHolder.tvDes.setText(workHolder.work.getDes());
+            workHolder.tvDes.setText(workHolder.work.getDescription());
             workHolder.tvPrice.setText(workHolder.work.getPrice());
         }
     }

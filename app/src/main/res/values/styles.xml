@@ -97,4 +97,17 @@
         <item name="android:textColor">@color/gray</item>
     </style>
 
+    <!-- style title -->
+    <style name="tv_title">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/hozo_bg</item>
+    </style>
+
+    <style name="tv_title_cancel">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
+
 </resources>
