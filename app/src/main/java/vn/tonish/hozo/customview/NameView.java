@@ -68,10 +68,10 @@ public class NameView extends FrameLayout implements View.OnClickListener {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (edtName.getText().toString().trim().length() > 5 && (edtName.getText().toString().trim().length() < 50)) {
-                    btnSave.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.white));
+                    btnSave.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
                     btnSave.setEnabled(true);
                 } else {
-                    btnSave.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.blue));
+                    btnSave.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
                     btnSave.setEnabled(false);
                 }
 
@@ -112,16 +112,12 @@ public class NameView extends FrameLayout implements View.OnClickListener {
                     if (jsonResponse.getInt("code") == 0) {
                         JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
                         JSONObject mObject = new JSONObject(getStringInJsonObj(object, "user"));
-
                         UserEntity userEntity = UserManager.getUserLogin(getContext());
-
                         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
                         realm.beginTransaction();
                         userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
                         realm.commitTransaction();
-
-                        UserManager.insertUserLogin(userEntity, getContext());
-
+                        LogUtils.d(TAG, "token name " + UserManager.getUserToken(context));
                         if (getStringInJsonObj(mObject, "full_name").trim().equalsIgnoreCase("")) {
                             LogUtils.d(TAG, "name_check" + getStringInJsonObj(mObject, "full_name").trim());
                             ((LoginActivity) context).showExtendView(NAME_VIEW);
