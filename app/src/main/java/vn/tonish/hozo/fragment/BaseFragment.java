@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 
+/**
+ * Created by LongBD.
+ */
 public abstract class BaseFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     protected abstract int getLayout();

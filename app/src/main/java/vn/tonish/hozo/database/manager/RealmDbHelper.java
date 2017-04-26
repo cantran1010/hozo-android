@@ -10,6 +10,9 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
 
+/**
+ * Created by LongBui.
+ */
 public class RealmDbHelper {
 
     private static final String TAG = RealmDbHelper.class.getName();

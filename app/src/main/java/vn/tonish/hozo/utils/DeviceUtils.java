@@ -12,7 +12,9 @@ import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
-
+/**
+ * Created by LongBui.
+ */
 public class DeviceUtils {
 
     public static String getUDID(Context context) {

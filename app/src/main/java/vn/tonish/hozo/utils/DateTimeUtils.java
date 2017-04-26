@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
+/**
+ * Created by LongBui.
+ */
 public class DateTimeUtils {
 
     private static final String DATE_FORMAT_IN = "yyyy-MM-dd HH:mm:ss";

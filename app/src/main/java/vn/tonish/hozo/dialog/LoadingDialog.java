@@ -3,6 +3,9 @@ package vn.tonish.hozo.dialog;
 import android.app.Dialog;
 import android.content.Context;
 
+/**
+ * Created by LongBui.
+ */
 public class LoadingDialog extends Dialog {
     /**
      * �R���X�g���N�^

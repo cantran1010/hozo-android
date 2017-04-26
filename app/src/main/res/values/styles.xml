@@ -26,12 +26,10 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-    <style name="DialogSlideAnimFullScreen" parent="@android:style/Theme.Dialog">
-        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
-
+    <style name="DialogSlideAnimFullScreenFadeInOut" parent="@android:style/Theme.Dialog">
+        <item name="android:windowAnimationStyle">@style/DialogAnimationFadeInOut</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-
         <!-- No backgrounds, titles or window float -->
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
@@ -40,9 +38,36 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="DialogAnimation">
+    <style name="DialogSlideAnimFullScreenAnimDownUp" parent="@android:style/Theme.Dialog">
+        <item name="android:windowAnimationStyle">@style/DialogAnimationDownUp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <!-- No backgrounds, titles or window float -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <!-- Just to prove it's working -->
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="DialogTheme" parent="android:Theme.Dialog">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <!-- No backgrounds, titles or window float -->
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="DialogAnimationFadeInOut">
         <item name="android:windowEnterAnimation">@anim/fadein</item>
         <item name="android:windowExitAnimation">@anim/fadeout</item>
+    </style>
+
+
+    <style name="DialogAnimationDownUp">
+        <item name="android:windowEnterAnimation">@anim/from_down_to_up</item>
+        <item name="android:windowExitAnimation">@anim/from_up_to_down</item>
     </style>
 
     <style name="pin_edit_text_style">

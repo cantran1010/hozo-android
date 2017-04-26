@@ -10,7 +10,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-
+/**
+ * Created by LongBui.
+ */
 public final class GPSTracker implements LocationListener {
 
     private final Context mContext;

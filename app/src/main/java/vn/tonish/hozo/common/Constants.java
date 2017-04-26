@@ -19,6 +19,10 @@ public class Constants {
     public static final String EXTRA_ADDRESS = "extra_address";
     public static final String EXTRA_ONLY_IMAGE = "extra_only_image";
     public static final String ERROR_AUTHEN = "java.io.IOException: No authentication challenges found";
+    public static final String EXTRA_IS_CROP_PROFILE = "extra_is_crop_profile";
+    public static final String EXTRA_IMAGE_PATH = "extra_image_path";
+    public static final int REQUEST_CODE_CROP_IMAGE = 321;
+    public static final int RESPONSE_CODE_CROP_IMAGE = 432;
     public static boolean DEBUG = true;
     public static final int SPLASH_TIME = 1500;
     public static final String DB_NAME = "hozo";

@@ -21,7 +21,7 @@ import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**
- * Created by ADMIN on 4/19/2017.
+ * Created by LongBD on 4/19/2017.
  */
 
 public class AlbumActivity extends BaseActivity implements View.OnClickListener {
@@ -35,6 +35,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private ArrayList<Album> albums = new ArrayList<>();
     private AlbumAdapter albumAdapter;
     private boolean isOnlyImage = false;
+    private boolean isCropProfile = false;
 
 
     @Override
@@ -54,7 +55,9 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
 
         if (intent.hasExtra(Constants.EXTRA_ONLY_IMAGE))
             isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
+
         getAlbum();
+
     }
 
     private void getAlbum() {
@@ -126,7 +129,8 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                         Intent intent = new Intent(getApplicationContext(), ImageSelectActivity.class);
                         intent.putExtra(Constants.INTENT_EXTRA_ALBUM, albums.get(position).getName());
                         intent.putExtra(Constants.EXTRA_ONLY_IMAGE, isOnlyImage);
-                        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
+                        intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, isCropProfile);
+                        startActivityForResult(intent, REQUEST_CODE_PICKIMAGE);
                     }
                 });
             }
