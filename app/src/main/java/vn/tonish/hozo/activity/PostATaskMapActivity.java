@@ -30,7 +30,7 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 
 /**
- * Created by ADMIN on 4/18/2017.
+ * Created by LongBD on 4/18/2017.
  */
 
 public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener, LocationProvider.LocationCallback {
@@ -125,7 +125,6 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             });
 
         } else {
-            LogUtils.d(TAG, "onMapReady !!!!!! canGetLocation");
             mLocationProvider.connect();
             LogUtils.d(TAG, "onMapReady !!!!!! canGetLocation");
             DialogUtils.showConfirmAlertDialog(this, getString(R.string.msg_err_gps), new DialogUtils.ConfirmDialogListener() {

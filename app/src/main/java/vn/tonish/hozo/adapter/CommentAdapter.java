@@ -17,6 +17,7 @@ import vn.tonish.hozo.view.CommentView;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHolder> {
 
+
     private final ArrayList<Comment> comments;
 
     public CommentAdapter(ArrayList<Comment> comments) {
@@ -43,6 +44,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public final CommentView commentView;
+
 
         public MyViewHolder(View itemView) {
             super(itemView);

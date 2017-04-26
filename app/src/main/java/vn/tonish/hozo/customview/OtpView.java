@@ -2,7 +2,8 @@ package vn.tonish.hozo.customview;
 
 import android.app.Service;
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import android.content.Intent;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -12,9 +13,21 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.LoginScreen;
+import vn.tonish.hozo.activity.LoginActivity;
+import vn.tonish.hozo.activity.MainActivity;
+import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.network.DataParse;
+import vn.tonish.hozo.network.NetworkConfig;
+import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.utils.LogUtils;
 
 import static vn.tonish.hozo.common.Constants.NAME_VIEW;
 
@@ -23,19 +36,26 @@ import static vn.tonish.hozo.common.Constants.NAME_VIEW;
  */
 
 public class OtpView extends FrameLayout implements View.OnFocusChangeListener, View.OnKeyListener, TextWatcher, View.OnClickListener {
+    private static final String TAG = "OtpView";
+
     private Context context;
-    protected View rootView;
+    private View rootView;
     private EditText mPinFirstDigitEditText;
     private EditText mPinSecondDigitEditText;
     private EditText mPinThirdDigitEditText;
     private EditText mPinForthDigitEditText;
     private EditText mPinHiddenEditText;
-    private TextView btnSigIn;
-    protected TextView btnBack;
+    private TextView btnSigin;
+    private TextView btnBack;
+    private TextView btnResetOtp;
+    private boolean registed;
+    private String phone;
 
-    public OtpView(Context context) {
+    public OtpView(Context context, boolean registed, String phone) {
         super(context);
         this.context = context;
+        this.registed = registed;
+        this.phone = phone;
         initView();
         initData();
     }
@@ -44,16 +64,23 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         setPINListeners();
     }
 
-
     private void initView() {
         rootView = LayoutInflater.from(context).inflate(R.layout.view_otp, null);
         addView(rootView);
         init();
         btnBack = (TextView) rootView.findViewById(R.id.btnBack);
-        btnSigIn = (TextView) rootView.findViewById(R.id.btn_sigin);
+        btnSigin = (TextView) rootView.findViewById(R.id.btn_sigin);
+        btnResetOtp = (TextView) rootView.findViewById(R.id.btn_reset_otp);
 
         btnBack.setOnClickListener(this);
-        btnSigIn.setOnClickListener(this);
+        btnSigin.setOnClickListener(this);
+        btnResetOtp.setOnClickListener(this);
+
+        if (registed) {
+            btnSigin.setText(getResources().getString(R.string.login_account));
+        } else {
+            btnSigin.setText(getResources().getString(R.string.login_create_account));
+        }
 
     }
 
@@ -105,10 +132,18 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         } else if (s.length() == 4) {
             mPinForthDigitEditText.setText(s.charAt(3) + "");
             hideSoftKeyboard(mPinForthDigitEditText);
-            btnSigIn.setEnabled(true);
-            btnSigIn.setTextColor(ContextCompat.getColor(context, R.color.black));
-
+            btnSigin.setTextColor(getResources().getColor(R.color.white));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    login();
+                }
+            }, 200);
+        } else {
+            btnSigin.setTextColor(getResources().getColor(R.color.blue));
         }
+
+
     }
 
 
@@ -237,16 +272,48 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnBack:
-                ((LoginScreen) context).closeExtendView();
+                ((LoginActivity) context).closeExtendView();
                 break;
             case R.id.btn_sigin:
-                ((LoginScreen) context).showExtendView(NAME_VIEW);
+                login();
+                break;
+            case R.id.btn_reset_otp:
+                resetOtp();
                 break;
         }
 
     }
-<<<<<<< 519fab5951f53437f2b1e71ce6013e0a178ad247
-=======
+
+    private void resetOtp() {
+        HashMap<String, String> dataRequest = new HashMap<>();
+        dataRequest.put("mobile", phone);
+        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_OTP, dataRequest, new NetworkUtils.NetworkListener() {
+            @Override
+            public void onSuccess(JSONObject jsonResponse) {
+                try {
+                    if (jsonResponse.getInt("code") == 0) {
+                        mPinForthDigitEditText.setText("");
+                        mPinThirdDigitEditText.setText("");
+                        mPinSecondDigitEditText.setText("");
+                        mPinFirstDigitEditText.setText("");
+                        mPinHiddenEditText.setText("");
+                    } else if (jsonResponse.getInt("code") == 1) {
+                        Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            @Override
+            public void onError() {
+
+            }
+        });
+    }
 
     private void login() {
         String otpcode = mPinHiddenEditText.getText().toString().trim();
@@ -256,29 +323,22 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_LOGIN, dataRequest, new NetworkUtils.NetworkListener() {
             @Override
             public void onSuccess(JSONObject jsonResponse) {
-                LogUtils.d(TAG,"dataRequest" + jsonResponse.toString());
+                LogUtils.d(TAG, "dataRequest" + jsonResponse.toString());
                 try {
-                    UserEntity userEntity = new UserEntity();
                     if (jsonResponse.getInt("code") == 0) {
-                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse,"data"));
-                        JSONObject mObject = new JSONObject(getStringInJsonObj(object,"user"));
-                        userEntity.setId(Integer.parseInt(getStringInJsonObj(mObject,"id")));
-                        userEntity.setToken(getStringInJsonObj(object,"token"));
-                        userEntity.setTokenExp(getStringInJsonObj(object, "token_exp"));
-                        userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
-                        userEntity.setPhoneNumber(getStringInJsonObj(mObject, "mobile"));
-                        userEntity.setLoginAt(getStringInJsonObj(mObject, "login_at"));
-                        UserManager.insertUserLogin(userEntity, getContext());
-                        if ((getStringInJsonObj(mObject, "full_name").trim()).equalsIgnoreCase("")||getStringInJsonObj(mObject, "full_name").trim()==null) {
-                            LogUtils.d(TAG, "name_check" + getStringInJsonObj(mObject, "full_name").trim());
-                            ((LoginScreen) context).showExtendView(NAME_VIEW);
+                        UserManager.insertUserLogin(new DataParse().getUserEntiny(context, jsonResponse), context);
+                        LogUtils.d(TAG, "check User :" + UserManager.getUserLogin(context).toString());
+                        String name = "";
+                        name = UserManager.getUserLogin(context).getFullName().trim();
+                        if ((name.isEmpty())) {
+                            LogUtils.d(TAG, "name_check" + name + jsonResponse.toString());
+                            ((LoginActivity) context).showExtendView(NAME_VIEW);
                         } else {
                             Intent intent = new Intent(context, MainActivity.class);
-                            ((LoginScreen) context).startActivityAndClearAllTask(intent);
+                            ((LoginActivity) context).startActivityAndClearAllTask(intent);
                         }
                     } else if (jsonResponse.getInt("code") == 1) {
                         Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
-
                     } else {
                         Toast.makeText(context, "Otp code is invalid", Toast.LENGTH_SHORT).show();
                     }
@@ -294,5 +354,4 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
             }
         });
     }
->>>>>>> commit 22-1
 }

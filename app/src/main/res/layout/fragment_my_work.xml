@@ -5,24 +5,62 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <include layout="@layout/header" />
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/hozo_bg">
+        android:layout_height="35dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28.5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/layout_worker"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_border_green"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="2dp"
+                android:text="@string/my_task_worker"
+                android:textColor="@color/green"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/layout_poster"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="2dp"
+                android:text="@string/my_task_poster"
+                android:textColor="@color/very_light_gray"
+                android:textStyle="normal" />
+
+        </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/my_task_title"
-            android:textColor="@color/white" />
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_gravity="bottom"
+            android:background="@color/gray" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="My"
-        android:textSize="30sp" />
+    <FrameLayout
+        android:id="@+id/my_task_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+    </FrameLayout>
+
 
 </LinearLayout>

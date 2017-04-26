@@ -1,14 +1,13 @@
 package vn.tonish.hozo.activity;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -24,12 +23,14 @@ import java.util.Date;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Image;
+import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.view.MyGridView;
 
-import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICKIMAGE;
-import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**
  * Created by MAC2015 on 4/12/17.
@@ -60,7 +61,6 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     protected void initView() {
         layoutBack = (RelativeLayout) findViewById(R.id.layout_back);
         btnNext = (Button) findViewById(R.id.btn_next);
-
         layoutBack.setOnClickListener(this);
         btnNext.setOnClickListener(this);
 
@@ -93,34 +93,56 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         imageAdapter = new ImageAdapter(this, images);
         grImage.setAdapter(imageAdapter);
 
+        grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (images.get(position).isAdd) {
+                    PickImageDialog pickImageDialog = new PickImageDialog(PostATaskActivity.this);
+                    pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+                        @Override
+                        public void onCamera() {
+                            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                            startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+                        }
+
+                        @Override
+                        public void onGallery() {
+                            Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
+                            startActivityForResult(intent, Constants.REQUEST_CODE_PICKIMAGE);
+                        }
+                    });
+                    pickImageDialog.showView();
+                } else {
+                    Intent intent = new Intent(PostATaskActivity.this, PreviewImageActivity.class);
+                    intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
+                    startActivity(intent);
+                }
+            }
+        });
+
         imageAdapter.setImageAdapterListener(new ImageAdapter.ImageAdapterListener() {
             @Override
             public void onImageAdapterListener() {
 
 
-                final CharSequence[] items = {getString(R.string.pick_image_take_picture), getString(R.string.pick_image_album),};
+                PickImageDialog pickImageDialog = new PickImageDialog(PostATaskActivity.this);
+                pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+                    @Override
+                    public void onCamera() {
+                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+                    }
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(PostATaskActivity.this);
-                builder.setTitle(getString(R.string.pick_image_title));
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        switch (item) {
-                            case 0:
-                                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
-                                break;
 
-                            case 1:
-                                Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
-                                startActivityForResult(intent, Constants.REQUEST_CODE_PICKIMAGE);
-                                break;
-                        }
-
+                    @Override
+                    public void onGallery() {
+                        Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
+                        startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE);
                     }
                 });
-                AlertDialog alert = builder.create();
-                alert.show();
+                pickImageDialog.showView();
             }
         });
     }
@@ -145,7 +167,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.tv_address:
                 Intent intent = new Intent(this, PostATaskMapActivity.class);
-                startActivityForResult(intent,Constants.REQUEST_CODE_ADDRESS);
+                startActivityForResult(intent, Constants.REQUEST_CODE_ADDRESS);
                 break;
 
             case R.id.layout_start_time:
@@ -227,15 +249,15 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
         LogUtils.d(TAG, "onActivityResult requestCode : " + requestCode + " , resultCode : " + resultCode);
 
-        if (requestCode == REQUEST_CODE_PICKIMAGE
-                && resultCode == RESPONSE_CODE_PICKIMAGE
+        if (requestCode == REQUEST_CODE_PICK_IMAGE
+                && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
 
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
             images.addAll(0, imagesSelected);
             imageAdapter.notifyDataSetChanged();
 
-        } else if (requestCode == Constants.REQUEST_CODE_CAMERA) {
+        } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
 
             String selectedImagePath = getImagePath();
             Image image = new Image();
@@ -243,14 +265,13 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             image.setPath(selectedImagePath);
             images.add(0, image);
             imageAdapter.notifyDataSetChanged();
-        }else if(requestCode == Constants.REQUEST_CODE_ADDRESS && resultCode == Constants.RESPONSE_CODE_ADDRESS){
+        } else if (requestCode == Constants.REQUEST_CODE_ADDRESS && resultCode == Constants.RESPONSE_CODE_ADDRESS) {
             tvAddress.setText(data.getStringExtra(Constants.EXTRA_ADDRESS));
         }
     }
 
     public Uri setImageUri() {
-        // Store image in dcim
-        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/", "image" + new Date().getTime() + ".png");
+        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".png");
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
         return imgUri;

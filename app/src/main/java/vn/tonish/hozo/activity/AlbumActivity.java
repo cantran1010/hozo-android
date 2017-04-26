@@ -7,7 +7,6 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.RelativeLayout;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,11 +17,11 @@ import vn.tonish.hozo.adapter.AlbumAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Album;
 
-import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICKIMAGE;
-import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**
- * Created by ADMIN on 4/19/2017.
+ * Created by LongBD on 4/19/2017.
  */
 
 public class AlbumActivity extends BaseActivity implements View.OnClickListener {
@@ -36,6 +35,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private ArrayList<Album> albums = new ArrayList<>();
     private AlbumAdapter albumAdapter;
     private boolean isOnlyImage = false;
+    private boolean isCropProfile = false;
 
 
     @Override
@@ -55,7 +55,9 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
 
         if (intent.hasExtra(Constants.EXTRA_ONLY_IMAGE))
             isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
+
         getAlbum();
+
     }
 
     private void getAlbum() {
@@ -127,6 +129,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                         Intent intent = new Intent(getApplicationContext(), ImageSelectActivity.class);
                         intent.putExtra(Constants.INTENT_EXTRA_ALBUM, albums.get(position).getName());
                         intent.putExtra(Constants.EXTRA_ONLY_IMAGE, isOnlyImage);
+                        intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, isCropProfile);
                         startActivityForResult(intent, REQUEST_CODE_PICKIMAGE);
                     }
                 });
@@ -145,10 +148,10 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_PICKIMAGE
-                && resultCode == RESPONSE_CODE_PICKIMAGE
+        if (requestCode == REQUEST_CODE_PICK_IMAGE
+                && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
-            setResult(RESPONSE_CODE_PICKIMAGE, data);
+            setResult(RESPONSE_CODE_PICK_IMAGE, data);
             finish();
         }
     }

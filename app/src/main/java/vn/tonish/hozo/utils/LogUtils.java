@@ -7,6 +7,8 @@ import vn.tonish.hozo.common.Constants;
  * Custom Log class write log to file using for testing purpose<br>
  * <br>
  * Will remove when release
+ *
+ * Created by LongBui.
  */
 public class LogUtils {
 

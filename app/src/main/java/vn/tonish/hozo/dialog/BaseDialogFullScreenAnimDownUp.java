@@ -10,11 +10,13 @@ import android.view.Window;
 
 import vn.tonish.hozo.R;
 
+/**
+ * Created by LongBui on 4/25/2017.
+ */
+abstract class BaseDialogFullScreenAnimDownUp extends Dialog {
 
-abstract class BaseDialogFullScreen extends Dialog {
-
-    public BaseDialogFullScreen(@NonNull Context context) {
-        super(context, R.style.DialogSlideAnimFullScreen);
+    public BaseDialogFullScreenAnimDownUp(@NonNull Context context) {
+        super(context, R.style.DialogSlideAnimFullScreenAnimDownUp);
     }
 
     @Override
@@ -22,7 +24,7 @@ abstract class BaseDialogFullScreen extends Dialog {
         super.onCreate(savedInstanceState);
 
         this.setCancelable(true);
-        this.setCanceledOnTouchOutside(false);
+        this.setCanceledOnTouchOutside(true);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 

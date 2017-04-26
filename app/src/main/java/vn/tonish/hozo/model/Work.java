@@ -2,6 +2,8 @@ package vn.tonish.hozo.model;
 
 import java.io.Serializable;
 
+import io.realm.RealmObject;
+
 /**
  * Created by huy_quynh on 4/12/17.
  */
@@ -23,6 +25,23 @@ public class Work implements Serializable {
     private User user;
     private Double lat;
     private Double lon;
+    private String status;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getTimeAgo() {
         return timeAgo;
@@ -80,20 +99,7 @@ public class Work implements Serializable {
         this.user = user;
     }
 
-    public String getDes() {
-        return des;
-    }
-
-    public void setDes(String des) {
-        this.des = des;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public Work() {
     }
 
     public String getName() {
@@ -128,6 +134,14 @@ public class Work implements Serializable {
         this.price = price;
     }
 
+    public String getDes() {
+        return des;
+    }
+
+    public void setDes(String des) {
+        this.des = des;
+    }
+
     public boolean isNew() {
         return isNew;
     }
@@ -135,4 +149,5 @@ public class Work implements Serializable {
     public void setNew(boolean aNew) {
         isNew = aNew;
     }
+
 }

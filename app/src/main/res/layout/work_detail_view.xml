@@ -10,7 +10,7 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <vn.tonish.hozo.customview.CircleImageView
             android:id="@+id/img_avatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -46,6 +46,7 @@
                     android:id="@+id/img_mobile_verify"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+
                     android:contentDescription="@string/just_image"
                     android:src="@drawable/img_mobile" />
 
@@ -53,6 +54,7 @@
                     android:id="@+id/img_email_verify"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+
                     android:contentDescription="@string/just_image"
                     android:src="@drawable/img_mobile" />
 

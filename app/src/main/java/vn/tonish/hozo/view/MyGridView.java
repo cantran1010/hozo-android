@@ -3,7 +3,9 @@ package vn.tonish.hozo.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.GridView;
-
+/**
+ * Created by LongBui on 4/21/2017.
+ */
 public class MyGridView extends GridView {
 
     private static final String TAG = MyGridView.class.getName();

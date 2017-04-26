@@ -16,7 +16,9 @@ import android.widget.TextView;
 
 import vn.tonish.hozo.R;
 
-
+/**
+ * Created by LongBD
+ */
 public abstract class BaseActivity extends FragmentActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = BaseActivity.class.getName();
     private FragmentManager fragmentManager;
@@ -165,6 +167,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         }
     }
 
+    // hide keyboard when touch outside edittext
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         View view = getCurrentFocus();

@@ -7,7 +7,7 @@ import android.content.SharedPreferences.Editor;
 import vn.tonish.hozo.common.Constants;
 
 /**
- *
+ * Created by LongBui.
  */
 public class PreferUtils {
 

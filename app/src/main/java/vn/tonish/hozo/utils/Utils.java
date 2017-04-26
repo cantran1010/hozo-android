@@ -2,17 +2,27 @@ package vn.tonish.hozo.utils;
 
 
 import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -20,7 +30,9 @@ import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 
-
+/**
+ * Created by LongBui.
+ */
 public class Utils {
 
     private static final String TAG = Utils.class.getName();
@@ -58,10 +70,11 @@ public class Utils {
                 .into(img);
     }
 
+
     public static void displayImageAvatar(Context context, ImageView img, String url) {
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.avatar_default)
+                .placeholder(R.drawable.avata_default)
                 .into(img);
     }
 
@@ -85,6 +98,24 @@ public class Utils {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+    public static void hideSoftKeyboard(Context context, EditText editText) {
+        if (editText == null)
+            return;
+
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
+
+
+    public static void showSoftKeyboard(Context context, EditText editText) {
+        if (editText == null)
+            return;
+
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(editText, 0);
+    }
+
 
     public static void showLongToast(Context context, String content) {
         Toast.makeText(context, content, Toast.LENGTH_LONG).show();
@@ -113,4 +144,49 @@ public class Utils {
     public static int getScreenHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
+
+    public static String getStringInJsonObj(JSONObject jsonObject, String key) {
+        if (jsonObject.has(key)) {
+            try {
+                String e = String.valueOf(jsonObject.get(key));
+                return e.equalsIgnoreCase("null") ? "" : e;
+            } catch (JSONException var3) {
+                return "";
+            }
+        } else {
+            return "";
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public static void setViewBackground(View view, Drawable background) {
+        if (view == null || background == null)
+            return;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.setBackground(background);
+        } else {
+            view.setBackgroundDrawable(background);
+        }
+    }
+
+    public static void compressBitmapToFile(Bitmap bmp, String path) {
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(path);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+            // PNG is a lossless format, the compression factor (100) is ignored
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

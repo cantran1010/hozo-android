@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import vn.tonish.hozo.R;
-
+/**
+ * Created by LongBui.
+ */
 public class DialogUtils {
 
     public interface ConfirmDialogListener {
@@ -75,7 +77,7 @@ public class DialogUtils {
         builder.setCancelable(false);
 
         if (listener != null) {
-            builder.setPositiveButton("네",
+            builder.setPositiveButton("Oke",
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog,
@@ -85,7 +87,7 @@ public class DialogUtils {
                         }
                     });
 
-            builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     listener.onCancelClick();

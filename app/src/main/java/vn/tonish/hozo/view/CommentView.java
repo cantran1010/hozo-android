@@ -12,18 +12,20 @@ import android.widget.TextView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.customview.CircleImageView;
+
+import vn.tonish.hozo.dialog.ReportDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.utils.Utils;
 
 /**
- * Created by ADMIN on 4/21/2017.
+ * Created by LongBui on 4/21/2017.
  */
 
 public class CommentView extends RelativeLayout implements View.OnClickListener {
 
-    private CircleImageView imgAvata;
+    private CircleImageView imgAvatar;
     private TextView tvName, tvComment, tvTimeAgo;
-    protected ImageView imgSetting;
+    private ImageView imgSetting;
 
     public CommentView(Context context) {
         super(context);
@@ -49,7 +51,9 @@ public class CommentView extends RelativeLayout implements View.OnClickListener 
     private void initView() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.comment_view, this, true);
-        imgAvata = (CircleImageView) findViewById(R.id.img_avatar);
+        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
+
+
         tvName = (TextView) findViewById(R.id.tv_name);
         tvComment = (TextView) findViewById(R.id.tv_comment);
         tvTimeAgo = (TextView) findViewById(R.id.tv_time_ago);
@@ -59,7 +63,8 @@ public class CommentView extends RelativeLayout implements View.OnClickListener 
     }
 
     public void updateData(Comment comment) {
-        Utils.displayImageAvatar(getContext(), imgAvata, comment.getAvatar());
+
+        Utils.displayImageAvatar(getContext(), imgAvatar, comment.getAvatar());
         tvName.setText(comment.getFullName());
         tvComment.setText(comment.getBody());
         tvTimeAgo.setText(comment.getCreatedAt());
@@ -69,7 +74,8 @@ public class CommentView extends RelativeLayout implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_setting:
-
+                ReportDialog reportDialog = new ReportDialog(getContext());
+                reportDialog.showView();
                 break;
         }
     }

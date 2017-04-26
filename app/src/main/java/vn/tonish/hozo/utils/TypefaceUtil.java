@@ -7,7 +7,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
-
+/**
+ * Created by LongBui.
+ */
 public class TypefaceUtil {
 
     private static final String FONT_NORMAL = "NanumGothic-Regular.ttf";

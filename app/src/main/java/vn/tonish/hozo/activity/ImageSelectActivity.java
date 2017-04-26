@@ -18,8 +18,11 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.Utils;
 
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_CROP_IMAGE;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
+
 /**
- * Created by ADMIN on 4/19/2017.
+ * Created by LongBD on 4/21/2017.
  */
 
 public class ImageSelectActivity extends BaseActivity implements View.OnClickListener {
@@ -32,6 +35,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     protected RelativeLayout layoutBack;
     protected TextView tvDone, tvAlbumName;
     private boolean isOnlyImage = false;
+    private boolean isCropProfile = false;
 
     @Override
     protected int getLayout() {
@@ -61,6 +65,9 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
         boolean isExtra = intent.hasExtra(Constants.EXTRA_ONLY_IMAGE);
         if (isExtra)
             isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
+
+        if (intent.hasExtra(Constants.EXTRA_IS_CROP_PROFILE))
+            isCropProfile = intent.getBooleanExtra(Constants.EXTRA_IS_CROP_PROFILE, false);
 
         album = intent.getStringExtra(Constants.INTENT_EXTRA_ALBUM);
         tvAlbumName.setText(album);
@@ -138,7 +145,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     private void sendIntent() {
         Intent intent = new Intent();
         intent.putParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES, getSelectedImage());
-        setResult(Constants.RESPONSE_CODE_PICKIMAGE, intent);
+        setResult(Constants.RESPONSE_CODE_PICK_IMAGE, intent);
         finish();
     }
 
@@ -153,6 +160,17 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE
+                && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE
+                && data != null) {
+            setResult(RESPONSE_CODE_PICK_IMAGE, data);
+            finish();
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
 
@@ -164,7 +182,16 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
                 if (getSelectedImage().size() == 0) {
                     Utils.showLongToast(ImageSelectActivity.this, getString(R.string.err_pick_image));
                 } else {
-                    sendIntent();
+
+                    if (isCropProfile) {
+                        Image imageCrop = getSelectedImage().get(0);
+                        Intent intent = new Intent(ImageSelectActivity.this, CropImageActivity.class);
+                        intent.putExtra(Constants.EXTRA_IMAGE_PATH, imageCrop.getPath());
+                        startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
+                    } else {
+                        sendIntent();
+                    }
+
                 }
                 break;
 

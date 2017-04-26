@@ -1,15 +1,11 @@
 package vn.tonish.hozo.customview;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -20,253 +16,73 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import io.realm.Realm;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.activity.MainActivity;
+import vn.tonish.hozo.database.entity.UserEntity;
+import vn.tonish.hozo.database.manager.RealmDbHelper;
 import vn.tonish.hozo.database.manager.UserManager;
-import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.LogUtils;
 
 import static vn.tonish.hozo.common.Constants.NAME_VIEW;
+import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 
 /**
  * Created by CanTran on 18/04/2017.
  */
 
-public class OtpView extends FrameLayout implements View.OnFocusChangeListener, View.OnKeyListener, TextWatcher, View.OnClickListener {
-    private static final String TAG = "OtpView";
-
+public class NameView extends FrameLayout implements View.OnClickListener {
+    private final static String TAG = "NameView";
     private Context context;
     private View rootView;
-    private EditText mPinFirstDigitEditText;
-    private EditText mPinSecondDigitEditText;
-    private EditText mPinThirdDigitEditText;
-    private EditText mPinForthDigitEditText;
-    private EditText mPinHiddenEditText;
-    private TextView btnSigin;
-    private TextView btnBack;
-    private TextView btnResetOtp;
-    private boolean registed;
-    private String phone;
+    private EditText edtName;
+    private TextView btnSave, btnBack;
 
-    public OtpView(Context context, boolean registed, String phone) {
+
+    public NameView(Context context) {
         super(context);
         this.context = context;
-        this.registed = registed;
-        this.phone = phone;
         initView();
         initData();
     }
 
     private void initData() {
-        setPINListeners();
     }
+
 
     private void initView() {
-        rootView = LayoutInflater.from(context).inflate(R.layout.view_otp, null);
+        rootView = LayoutInflater.from(context).inflate(R.layout.view_name, null);
         addView(rootView);
-        init();
-        btnBack = (TextView) rootView.findViewById(R.id.btnBack);
-        btnSigin = (TextView) rootView.findViewById(R.id.btn_sigin);
-        btnResetOtp = (TextView) rootView.findViewById(R.id.btn_reset_otp);
+        edtName = (EditText) rootView.findViewById(R.id.edt_name);
+        btnSave = (TextView) rootView.findViewById(R.id.btn_save);
+        btnSave.setOnClickListener(this);
+        edtName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        btnBack.setOnClickListener(this);
-        btnSigin.setOnClickListener(this);
-        btnResetOtp.setOnClickListener(this);
-
-        if (registed) {
-            btnSigin.setText(getResources().getString(R.string.login_account));
-        } else {
-            btnSigin.setText(getResources().getString(R.string.login_create_account));
-        }
-
-    }
-
-    /**
-     * Sets listeners for EditText fields.
-     */
-    private void setPINListeners() {
-        mPinHiddenEditText.addTextChangedListener(this);
-        mPinFirstDigitEditText.setOnFocusChangeListener(this);
-        mPinSecondDigitEditText.setOnFocusChangeListener(this);
-        mPinThirdDigitEditText.setOnFocusChangeListener(this);
-        mPinForthDigitEditText.setOnFocusChangeListener(this);
-
-
-        mPinFirstDigitEditText.setOnKeyListener(this);
-        mPinSecondDigitEditText.setOnKeyListener(this);
-        mPinThirdDigitEditText.setOnKeyListener(this);
-        mPinForthDigitEditText.setOnKeyListener(this);
-
-        mPinHiddenEditText.setOnKeyListener(this);
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (s.length() == 0) {
-            mPinFirstDigitEditText.setText("");
-        } else if (s.length() == 1) {
-            mPinFirstDigitEditText.setText(s.charAt(0) + "");
-            mPinSecondDigitEditText.setText("");
-            mPinThirdDigitEditText.setText("");
-            mPinForthDigitEditText.setText("");
-
-        } else if (s.length() == 2) {
-            mPinSecondDigitEditText.setText(s.charAt(1) + "");
-            mPinThirdDigitEditText.setText("");
-            mPinForthDigitEditText.setText("");
-
-        } else if (s.length() == 3) {
-            mPinThirdDigitEditText.setText(s.charAt(2) + "");
-            mPinForthDigitEditText.setText("");
-        } else if (s.length() == 4) {
-            mPinForthDigitEditText.setText(s.charAt(3) + "");
-            hideSoftKeyboard(mPinForthDigitEditText);
-            btnSigin.setTextColor(getResources().getColor(R.color.white));
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    login();
-                }
-            }, 200);
-        } else {
-            btnSigin.setTextColor(getResources().getColor(R.color.blue));
-        }
-
-
-    }
-
-
-    /**
-     * Initialize EditText fields.
-     */
-    private void init() {
-        mPinFirstDigitEditText = (EditText) findViewById(R.id.pin_first_edittext);
-        mPinSecondDigitEditText = (EditText) findViewById(R.id.pin_second_edittext);
-        mPinThirdDigitEditText = (EditText) findViewById(R.id.pin_third_edittext);
-        mPinForthDigitEditText = (EditText) findViewById(R.id.pin_forth_edittext);
-        mPinHiddenEditText = (EditText) findViewById(R.id.pin_hidden_edittext);
-    }
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        final int id = v.getId();
-        switch (id) {
-            case R.id.pin_first_edittext:
-                if (hasFocus) {
-                    setFocus(mPinHiddenEditText);
-                    showSoftKeyboard(mPinHiddenEditText);
-                }
-                break;
-
-            case R.id.pin_second_edittext:
-                if (hasFocus) {
-                    setFocus(mPinHiddenEditText);
-                    showSoftKeyboard(mPinHiddenEditText);
-                }
-                break;
-
-            case R.id.pin_third_edittext:
-                if (hasFocus) {
-                    setFocus(mPinHiddenEditText);
-                    showSoftKeyboard(mPinHiddenEditText);
-                }
-                break;
-
-            case R.id.pin_forth_edittext:
-                if (hasFocus) {
-                    setFocus(mPinHiddenEditText);
-                    showSoftKeyboard(mPinHiddenEditText);
-                }
-                break;
-
-
-            default:
-                break;
-        }
-    }
-
-    /**
-     * Sets focus on a specific EditText field.
-     *
-     * @param editText EditText to set focus on
-     */
-    public static void setFocus(EditText editText) {
-        if (editText == null)
-            return;
-        editText.setFocusable(true);
-        editText.setFocusableInTouchMode(true);
-        editText.requestFocus();
-    }
-
-
-    /**
-     * Shows soft keyboard.
-     *
-     * @param editText EditText which has focus
-     */
-    public void showSoftKeyboard(EditText editText) {
-        if (editText == null)
-            return;
-
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(editText, 0);
-    }
-
-    /**
-     * Hides soft keyboard.
-     *
-     * @param editText EditText which has focus
-     */
-    public void hideSoftKeyboard(EditText editText) {
-        if (editText == null)
-            return;
-
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-    }
-
-    @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            final int id = v.getId();
-            switch (id) {
-                case R.id.pin_hidden_edittext:
-                    if (keyCode == KeyEvent.KEYCODE_DEL) {
-                        if (mPinHiddenEditText.getText().length() == 4)
-                            mPinForthDigitEditText.setText("");
-                        else if (mPinHiddenEditText.getText().length() == 3)
-                            mPinThirdDigitEditText.setText("");
-                        else if (mPinHiddenEditText.getText().length() == 2)
-                            mPinSecondDigitEditText.setText("");
-                        else if (mPinHiddenEditText.getText().length() == 1)
-                            mPinFirstDigitEditText.setText("");
-                        if (mPinHiddenEditText.length() > 0)
-                            mPinHiddenEditText.setText(mPinHiddenEditText.getText().subSequence(0, mPinHiddenEditText.length() - 1));
-
-                        return true;
-                    }
-
-                    break;
-
-                default:
-                    return false;
             }
-        }
 
-        return false;
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (edtName.getText().toString().trim().length() > 5 && (edtName.getText().toString().trim().length() < 50)) {
+                    btnSave.setBackgroundColor(getResources().getColor(R.color.white));
+                    btnSave.setEnabled(true);
+                } else {
+                    btnSave.setBackgroundColor(getResources().getColor(R.color.blue));
+                    btnSave.setEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
-
 
     @Override
     public void onClick(View view) {
@@ -274,73 +90,53 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
             case R.id.btnBack:
                 ((LoginActivity) context).closeExtendView();
                 break;
-            case R.id.btn_sigin:
-                login();
-                break;
-            case R.id.btn_reset_otp:
-                resetOtp();
+
+            case R.id.btn_save:
+                saveUser();
+                Toast.makeText(context, "wellcome " + edtName.getText().toString() + " to hozo", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, MainActivity.class);
+                ((LoginActivity) context).startActivityAndClearAllTask(intent);
                 break;
         }
 
     }
 
-    private void resetOtp() {
+    private void saveUser() {
+        String name = edtName.getText().toString();
         HashMap<String, String> dataRequest = new HashMap<>();
-        dataRequest.put("mobile", phone);
-        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_OTP, dataRequest, new NetworkUtils.NetworkListener() {
-            @Override
-            public void onSuccess(JSONObject jsonResponse) {
-                try {
-                    if (jsonResponse.getInt("code") == 0) {
-                        mPinForthDigitEditText.setText("");
-                        mPinThirdDigitEditText.setText("");
-                        mPinSecondDigitEditText.setText("");
-                        mPinFirstDigitEditText.setText("");
-                        mPinHiddenEditText.setText("");
-                    } else if (jsonResponse.getInt("code") == 1) {
-                        Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-
-            @Override
-            public void onError() {
-
-            }
-        });
-    }
-
-    private void login() {
-        String otpcode = mPinHiddenEditText.getText().toString().trim();
-        HashMap<String, String> dataRequest = new HashMap<>();
-        dataRequest.put("mobile", phone);
-        dataRequest.put("otpcode", otpcode);
-        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_LOGIN, dataRequest, new NetworkUtils.NetworkListener() {
+        dataRequest.put("full_name", name);
+        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_NAME, dataRequest, new NetworkUtils.NetworkListener() {
             @Override
             public void onSuccess(JSONObject jsonResponse) {
                 LogUtils.d(TAG, "dataRequest" + jsonResponse.toString());
                 try {
                     if (jsonResponse.getInt("code") == 0) {
-                        UserManager.insertUserLogin(new DataParse().getUserEntiny(context, jsonResponse), context);
-                        LogUtils.d(TAG, "check User :" + UserManager.getUserLogin(context).toString());
-                        String name = "";
-                        name = UserManager.getUserLogin(context).getFullName().trim();
-                        if ((name.isEmpty())) {
-                            LogUtils.d(TAG, "name_check" + name + jsonResponse.toString());
+                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
+                        JSONObject mObject = new JSONObject(getStringInJsonObj(object, "user"));
+
+                        UserEntity userEntity = UserManager.getUserLogin(getContext());
+
+                        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
+                        realm.beginTransaction();
+                        userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
+                        realm.commitTransaction();
+
+                        UserManager.insertUserLogin(userEntity, getContext());
+
+                        if ((getStringInJsonObj(mObject, "full_name").trim()).equalsIgnoreCase("") || getStringInJsonObj(mObject, "full_name").trim() == null) {
+                            LogUtils.d(TAG, "name_check" + getStringInJsonObj(mObject, "full_name").trim());
                             ((LoginActivity) context).showExtendView(NAME_VIEW);
                         } else {
                             Intent intent = new Intent(context, MainActivity.class);
                             ((LoginActivity) context).startActivityAndClearAllTask(intent);
                         }
                     } else if (jsonResponse.getInt("code") == 1) {
-                        Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "FullName is empty", Toast.LENGTH_SHORT).show();
+
+                    } else if (jsonResponse.getInt("code") == 2) {
+                        Toast.makeText(context, "Account is not exist", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(context, "Otp code is invalid", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, " Not update full name", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -354,3 +150,5 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
             }
         });
     }
+
+}
