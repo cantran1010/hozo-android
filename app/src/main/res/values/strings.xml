@@ -52,7 +52,7 @@
     <string name="login_continue">Tiếp tục</string>
     <string name="login_enter_otp">Nhập 4 mã số được gửi tới điện thoại</string>
     <string name="login_create_account">Tạo tài khoản</string>
-    <string name="login_resen_otp">Gửi lại mã code</string>
+    <string name="login_resend_otp">Gửi lại mã code</string>
     <string name="tv_label_name">Họ và tên của bạn là gì?</string>
     <string name="tv_login_save">Lưu lại</string>
     <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản và chính sách của chúng tôi</string>
@@ -127,8 +127,9 @@
 
     <!-- rate screen -->
     <string name="rate"> Bình Chọn </string>
-    <string name="rate_title" > Mức độ hài lòng của bạn </string>
+    <string name="rate_title"> Mức độ hài lòng của bạn </string>
     <string name="rate_des">Totally Awesome</string>
+    <string name="just_image">just_image</string>
 
     <string-array name="gender">
         <item>Nam</item>
@@ -152,5 +153,15 @@
         <item>Hard Working</item>
         <item>Other</item>
     </string-array>
+
+
+    <!-- make an offer-->
+    <string name="tv_start_time">Chọn ngày bắt đầu</string>
+    <string name="tv_end_time">Chọn ngày kết thúc</string>
+    <string name="tv_amount">Số tiền</string>
+    <string name="et_max">Max</string>
+    <string name="et_min">Min</string>
+    <string name="btn_reset">RESET</string>
+
 
 </resources>

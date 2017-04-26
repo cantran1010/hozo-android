@@ -334,8 +334,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                             LogUtils.d(TAG, "name_check" + name + jsonResponse.toString());
                             ((LoginActivity) context).showExtendView(NAME_VIEW);
                         } else {
-                            Intent intent = new Intent(context, MainActivity.class);
-                            ((LoginActivity) context).startActivityAndClearAllTask(intent);
+                            ((LoginActivity) context).startActivityAndClearAllTask(MainActivity.class);
                         }
                     } else if (jsonResponse.getInt("code") == 1) {
                         Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();

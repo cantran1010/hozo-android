@@ -8,8 +8,8 @@ public class Constants {
     public static final String BADGE = "badge____";
 
     public static final String INTENT_EXTRA_ALBUM = "album_name";
-    public static final int REQUEST_CODE_PICKIMAGE = 123;
-    public static final int RESPONSE_CODE_PICKIMAGE = 345;
+    public static final int REQUEST_CODE_PICK_IMAGE = 123;
+    public static final int RESPONSE_CODE_PICK_IMAGE = 345;
     public static final String INTENT_EXTRA_IMAGES = "extra_image";
     public static final int REQUEST_CODE_CAMERA = 567;
     public static final int REQUEST_CODE_ADDRESS = 2345;

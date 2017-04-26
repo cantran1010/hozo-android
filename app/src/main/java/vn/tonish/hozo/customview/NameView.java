@@ -94,8 +94,7 @@ public class NameView extends FrameLayout implements View.OnClickListener {
             case R.id.btn_save:
                 saveUser();
                 Toast.makeText(context, "wellcome " + edtName.getText().toString() + " to hozo", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, MainActivity.class);
-                ((LoginActivity) context).startActivityAndClearAllTask(intent);
+                ((LoginActivity) context).startActivityAndClearAllTask(MainActivity.class);
                 break;
         }
 
@@ -127,8 +126,7 @@ public class NameView extends FrameLayout implements View.OnClickListener {
                             LogUtils.d(TAG, "name_check" + getStringInJsonObj(mObject, "full_name").trim());
                             ((LoginActivity) context).showExtendView(NAME_VIEW);
                         } else {
-                            Intent intent = new Intent(context, MainActivity.class);
-                            ((LoginActivity) context).startActivityAndClearAllTask(intent);
+                            ((LoginActivity) context).startActivityAndClearAllTask(MainActivity.class);
                         }
                     } else if (jsonResponse.getInt("code") == 1) {
                         Toast.makeText(context, "FullName is empty", Toast.LENGTH_SHORT).show();

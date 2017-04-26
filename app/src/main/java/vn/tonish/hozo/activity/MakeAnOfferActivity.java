@@ -31,9 +31,7 @@ import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
 import vn.tonish.hozo.view.WorkDetailView;
 
-import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICKIMAGE;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
-import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**

@@ -74,7 +74,7 @@ public class Utils {
     public static void displayImageAvatar(Context context, ImageView img, String url) {
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.avata_default)
+                .placeholder(R.drawable.avatar_default)
                 .into(img);
     }
 

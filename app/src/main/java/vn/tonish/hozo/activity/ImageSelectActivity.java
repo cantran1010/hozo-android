@@ -19,7 +19,7 @@ import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.Utils;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_CROP_IMAGE;
-import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**
  * Created by LongBD on 4/21/2017.
@@ -145,7 +145,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     private void sendIntent() {
         Intent intent = new Intent();
         intent.putParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES, getSelectedImage());
-        setResult(Constants.RESPONSE_CODE_PICK_IMAGE, intent);
+        setResult(RESPONSE_CODE_PICK_IMAGE, intent);
         finish();
     }
 

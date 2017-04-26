@@ -96,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/avata_default" />
+                android:src="@drawable/avatar_default" />
 
             <ImageView
                 android:id="@+id/img_delete"

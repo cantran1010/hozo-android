@@ -109,7 +109,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                         @Override
                         public void onGallery() {
                             Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
-                            startActivityForResult(intent, Constants.REQUEST_CODE_PICKIMAGE);
+                            startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE);
                         }
                     });
                     pickImageDialog.showView();
