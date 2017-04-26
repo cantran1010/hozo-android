@@ -151,8 +151,8 @@ public class DeviceUtils {
     public static float getBatteryTemp(Context context) {
         Intent intent = context.registerReceiver(null, new IntentFilter(
                 Intent.ACTION_BATTERY_CHANGED));
-        return ((float) intent.getIntExtra(
-                BatteryManager.EXTRA_TEMPERATURE, 0)) / 10;
+        return ((float) (intent != null ? intent.getIntExtra(
+                BatteryManager.EXTRA_TEMPERATURE, 0) : 0)) / 10;
     }
 
     public static String getManufacturer() {

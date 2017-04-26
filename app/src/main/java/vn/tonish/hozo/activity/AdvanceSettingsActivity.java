@@ -74,20 +74,17 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
                 break;
             case R.id.tv_fee:
-                startActivityForResult(new Intent(getApplicationContext(), FeeActivity.class), Constants.OPEN_FEE_SETTING);
                 break;
             case R.id.tv_location:
 
                 break;
             case R.id.tv_time:
-                startActivityForResult(new Intent(getApplicationContext(), TimeSettingActivity.class), Constants.OPEN_TIME_SETTING);
                 break;
 
             case R.id.tv_sex:
                 break;
 
             case R.id.tv_age:
-                startActivityForResult(new Intent(getApplicationContext(), AgeSettingActivity.class), Constants.OPEN_AGE_SETTING);
                 break;
 
             case R.id.tv_notification:
@@ -100,12 +97,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case Constants.OPEN_TIME_SETTING:
-                break;
-            case Constants.OPEN_FEE_SETTING:
-                break;
-            case Constants.OPEN_AGE_SETTING:
-                break;
+
 
         }
     }

@@ -11,7 +11,7 @@
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_avata"
+            android:id="@+id/img_avatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center_vertical"
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toLeftOf="@+id/right_layout"
-            android:layout_toRightOf="@id/img_avata"
+            android:layout_toRightOf="@id/img_avatar"
             android:orientation="vertical">
 
             <TextView

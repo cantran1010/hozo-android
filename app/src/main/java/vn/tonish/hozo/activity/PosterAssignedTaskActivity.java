@@ -28,8 +28,9 @@ import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
 import vn.tonish.hozo.view.WorkDetailView;
 
-import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICKIMAGE;
-import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICKIMAGE;
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
+
 
 /**
  * Created by LongBD on 4/21/2017.
@@ -152,7 +153,7 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
             case R.id.img_attach:
                 Intent intent = new Intent(PosterAssignedTaskActivity.this, AlbumActivity.class);
                 intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
-                startActivityForResult(intent, REQUEST_CODE_PICKIMAGE);
+                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
                 break;
 
             case R.id.img_delete:
@@ -166,8 +167,8 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_PICKIMAGE
-                && resultCode == RESPONSE_CODE_PICKIMAGE
+        if (requestCode == REQUEST_CODE_PICK_IMAGE
+                && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
 

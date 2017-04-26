@@ -39,9 +39,10 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
         this.images = images;
     }
 
+    @NonNull
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public View getView(@NonNull final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         final Image item = getItem(position);
 
         //LogUtils.d(TAG, "getView , item : " + item.toString());
@@ -60,7 +61,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (item.isSelected) {
+        if (item != null ? item.isSelected : false) {
             holder.imgCheck.setVisibility(View.VISIBLE);
             final int sdk = android.os.Build.VERSION.SDK_INT;
             if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {

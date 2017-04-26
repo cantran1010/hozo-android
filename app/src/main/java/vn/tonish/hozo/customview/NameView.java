@@ -122,7 +122,7 @@ public class NameView extends FrameLayout implements View.OnClickListener {
 
                         UserManager.insertUserLogin(userEntity, getContext());
 
-                        if ((getStringInJsonObj(mObject, "full_name").trim()).equalsIgnoreCase("") || getStringInJsonObj(mObject, "full_name").trim() == null) {
+                        if (getStringInJsonObj(mObject, "full_name").trim().equalsIgnoreCase("")) {
                             LogUtils.d(TAG, "name_check" + getStringInJsonObj(mObject, "full_name").trim());
                             ((LoginActivity) context).showExtendView(NAME_VIEW);
                         } else {

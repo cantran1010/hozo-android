@@ -62,7 +62,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
             finish();
         }
 
-        boolean isExtra = intent.hasExtra(Constants.EXTRA_ONLY_IMAGE);
+        boolean isExtra = intent != null ? intent.hasExtra(Constants.EXTRA_ONLY_IMAGE) : false;
         if (isExtra)
             isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
 

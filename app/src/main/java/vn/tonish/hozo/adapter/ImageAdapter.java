@@ -1,6 +1,7 @@
 package vn.tonish.hozo.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,11 +43,12 @@ public class ImageAdapter extends ArrayAdapter<Image> {
         this.images = images;
     }
 
+    @NonNull
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         final Image item = getItem(position);
 
-        LogUtils.d(TAG, "getView , item : " + item.toString());
+        LogUtils.d(TAG, "getView , item : " + (item != null ? item.toString() : null));
 
         final ViewHolder holder;
         if (convertView == null) {

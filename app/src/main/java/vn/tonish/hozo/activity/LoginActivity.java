@@ -2,7 +2,6 @@ package vn.tonish.hozo.activity;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -41,20 +40,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private EditText edtPhone;
     private TextView tvContinue;
     private FrameLayout viewLevel1, viewLevel2, viewLevel3;
-<<<<<<< HEAD:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
-    public NameView nameView;
-    public OtpView otpView;
-=======
->>>>>>> 2451b3b36fee55de52e5229807530cd28cc33332:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
     public boolean registed = false;
     public String phone = "";
     public int viewLevel = 0;
     public int duration = 200;
-<<<<<<< HEAD:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
-    public Animation mLoadAnimation;
-=======
     public Animation mLoadAnimation, rtAnimation, lanimation;
->>>>>>> 2451b3b36fee55de52e5229807530cd28cc33332:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
 
     @Override
     protected int getLayout() {
@@ -65,11 +55,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void initView() {
         context = LoginActivity.this;
         mLoadAnimation = AnimationUtils.loadAnimation(this, R.anim.animation_edittext);
-<<<<<<< HEAD:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
-=======
         rtAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
         lanimation = AnimationUtils.loadAnimation(this, R.anim.slide_out_left);
->>>>>>> 2451b3b36fee55de52e5229807530cd28cc33332:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
         edtPhone = (EditText) findViewById(R.id.edt_phone);
         tvContinue = (TextView) findViewById(R.id.tv_continue);
         viewLevel2 = (FrameLayout) findViewById(R.id.view_Level2);
@@ -91,17 +78,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String error = "";
                 if (!checkNumberPhone(edtPhone.getText().toString().trim())) {
-<<<<<<< HEAD:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
-
-                    tvContinue.setTextColor(ContextCompat.getColor(LoginScreen.this, R.color.white));
-                    if (edtPhone.getText().toString().trim().length() > 9) {
-                        edtPhone.setError("so dt khong dung dinh dang");
-                        edtPhone.setText("");
-                    }
-=======
                     tvContinue.setTextColor(getResources().getColor(R.color.blue));
                     tvContinue.setBackgroundColor(getResources().getColor(R.color.blue));
->>>>>>> 2451b3b36fee55de52e5229807530cd28cc33332:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
                     tvContinue.setEnabled(false);
                     if (CheckErrorEditText(edtPhone.getText().toString().trim())) {
                         error = getResources().getString(R.string.login_erro_phone);
@@ -109,16 +87,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         edtPhone.setError(error);
                     }
                 } else {
-<<<<<<< HEAD:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
-                    tvContinue.setTextColor(ContextCompat.getColor(LoginScreen.this, R.color.black));
-=======
                     tvContinue.setTextColor(getResources().getColor(R.color.blue));
                     tvContinue.setBackgroundColor(getResources().getColor(R.color.white));
->>>>>>> 2451b3b36fee55de52e5229807530cd28cc33332:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
                     tvContinue.setEnabled(true);
                     hideSoftKeyboard(context, edtPhone);
                 }
-
 
             }
 
@@ -138,14 +111,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     public OtpView getOtpView() {
-<<<<<<< HEAD:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
-        if (otpView == null) {
-            otpView = new OtpView(context, registed, phone);
-        }
-        return otpView;
-=======
         return new OtpView(context, registed, phone);
->>>>>>> 2451b3b36fee55de52e5229807530cd28cc33332:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
     }
 
     public NameView getNameView() {
@@ -165,7 +131,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     public void showExtendView(String TAG_VIEW) {
         hideKeyBoard(this);
-        View view;
+        View view = null;
         if (TAG_VIEW.equalsIgnoreCase(OTP_VIEW)) {
             view = getOtpView();
         } else {
@@ -244,35 +210,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             return true;
         } else if (number.length() == 11 && number.substring(0, 2).equals("01")) {
             return true;
-        } else return number.length() == 9 && number.substring(0, 1).equals("9");
+        } else if (number.length() == 9 && number.substring(0, 1).equals("9")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public boolean CheckErrorEditText(String number) {
-        boolean ck = false;
-        if (number.length() == 1 && !(number.substring(0, 1).equals("9") || number.substring(0, 1).equals("1") || number.substring(0, 1).equals("0"))) {
-            ck = true;
-        }
-        if (number.length() == 2 && number.substring(0, 1).equals("0")) {
-            if (!(number.substring(0, 2).equals("09") || number.substring(0, 2).equals("01"))) {
-                ck = true;
-            }
-        }
-        if (number.length() > 10 && (number.substring(0, 2).equals("09") || number.substring(0, 1).equals("1"))) {
-            ck = true;
-        }
-        if (number.length() > 11 && (number.substring(0, 2).equals("01"))) {
-            ck = true;
-        }
-        if (number.length() > 9 && (number.substring(0, 2).equals("9"))) {
-            ck = true;
-        }
-        return ck;
-    }
-
-<<<<<<< HEAD:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
-
-    private void login() {
-=======
     public boolean CheckErrorEditText(String number) {
         boolean ck = false;
         if (number.length() == 1 && !(number.substring(0, 1).equals("9") || number.substring(0, 1).equals("1") || number.substring(0, 1).equals("0"))) {
@@ -296,7 +240,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     public void login() {
->>>>>>> 2451b3b36fee55de52e5229807530cd28cc33332:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
         phone = edtPhone.getText().toString().trim();
         HashMap<String, String> dataRequest = new HashMap<>();
         dataRequest.put("mobile", phone);
@@ -305,15 +248,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onSuccess(JSONObject jsonResponse) {
                 try {
                     if (jsonResponse.getInt("code") == 0) {
-<<<<<<< HEAD:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
-=======
                         JSONObject jData = jsonResponse.getJSONObject("data");
                         if (getStringInJsonObj(jData, "registed").equals("true")) {
                             registed = true;
                         } else {
                             registed = false;
                         }
->>>>>>> 2451b3b36fee55de52e5229807530cd28cc33332:app/src/main/java/vn/tonish/hozo/activity/LoginActivity.java
                         showExtendView(OTP_VIEW);
                     } else if (jsonResponse.getInt("code") == 1) {
                         Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();

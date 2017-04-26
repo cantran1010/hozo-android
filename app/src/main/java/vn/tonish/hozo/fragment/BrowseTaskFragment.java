@@ -60,7 +60,7 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
 
         for (int i = 0; i < 10; i++) {
             Work work = new Work();
-            work.setId(i+"");
+            work.setId(i);
             work.setName("Hey ! Are you free tonight!");
             work.setTime("2017-04-18T03:48:10+00:00");
             work.setNew(true);
@@ -97,7 +97,7 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
                     public void run() {
                         for (int i = 0; i < 10; i++) {
                             Work work = new Work();
-                            work.setId(i+"");
+                            work.setId(i);
                             work.setName("Hey ! Are you free tonight!");
                             work.setTime("2017-04-18T03:48:10+00:00");
                             work.setNew(true);

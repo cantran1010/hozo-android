@@ -47,7 +47,7 @@ public class Utils {
         }
         byte[] hash = new byte[0];
         try {
-            hash = md.digest();
+            hash = md != null ? md.digest() : new byte[0];
             for (byte aHash : hash) {
                 if ((0xff & aHash) < 0x10) {
                     hexString.append("0"
