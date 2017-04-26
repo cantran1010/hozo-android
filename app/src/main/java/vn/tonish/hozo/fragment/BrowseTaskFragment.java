@@ -137,7 +137,7 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
     @Override
     public void onSuccess(JSONObject jsonResponse) {
         if (jsonResponse != null) {
-            String json = jsonResponse.toString();
+           // String json = jsonResponse.toString();
         }
     }
 

@@ -45,7 +45,7 @@ public class Utils {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        byte[] hash = new byte[0];
+        byte[] hash;
         try {
             hash = md != null ? md.digest() : new byte[0];
             for (byte aHash : hash) {

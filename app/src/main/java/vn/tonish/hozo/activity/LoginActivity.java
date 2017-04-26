@@ -76,7 +76,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String error = "";
+                String error;
                 if (!checkNumberPhone(edtPhone.getText().toString().trim())) {
                     tvContinue.setTextColor(getResources().getColor(R.color.blue));
                     tvContinue.setBackgroundColor(getResources().getColor(R.color.blue));
@@ -131,7 +131,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     public void showExtendView(String TAG_VIEW) {
         hideKeyBoard(this);
-        View view = null;
+        View view;
         if (TAG_VIEW.equalsIgnoreCase(OTP_VIEW)) {
             view = getOtpView();
         } else {

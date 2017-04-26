@@ -328,7 +328,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                     if (jsonResponse.getInt("code") == 0) {
                         UserManager.insertUserLogin(new DataParse().getUserEntiny(context, jsonResponse), context);
                         LogUtils.d(TAG, "check User :" + UserManager.getUserLogin(context).toString());
-                        String name = "";
+                        String name;
                         name = UserManager.getUserLogin(context).getFullName().trim();
                         if ((name.isEmpty())) {
                             LogUtils.d(TAG, "name_check" + name + jsonResponse.toString());

@@ -46,7 +46,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NotificationHolder) {
-            NotificationHolder holder_ = (NotificationHolder) holder;
+            //NotificationHolder holder_ = (NotificationHolder) holder;
         }
     }
 
