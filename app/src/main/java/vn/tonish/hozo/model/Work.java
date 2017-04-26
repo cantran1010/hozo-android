@@ -8,38 +8,98 @@ import io.realm.RealmObject;
  * Created by huy_quynh on 4/12/17.
  */
 
+public class Work implements Serializable {
 
-public class Work extends RealmObject implements Serializable {
-
-    private String id;
+    private int id;
     private String name;
     private String time;
     private String type;
     private String price;
     private String des;
     private boolean isNew;
+    private String date;
+    private String address;
+    private String timeAgo;
+    private String workType;
+    // this is user post work
+    private User user;
+    private Double lat;
+    private Double lon;
     private String status;
 
-    public Work() {
-    }
-
-    public Work(String id, String name, String time, String type, String price, String des, boolean isNew, String status) {
-        this.id = id;
-        this.name = name;
-        this.time = time;
-        this.type = type;
-        this.price = price;
-        this.des = des;
-        this.isNew = isNew;
-        this.status = status;
-    }
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
+    }
+
+    public String getWorkType() {
+        return workType;
+    }
+
+    public void setWorkType(String workType) {
+        this.workType = workType;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLon() {
+        return lon;
+    }
+
+    public void setLon(Double lon) {
+        this.lon = lon;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Work() {
     }
 
     public String getName() {
@@ -90,11 +150,4 @@ public class Work extends RealmObject implements Serializable {
         isNew = aNew;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

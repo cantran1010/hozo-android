@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.customview.CircleImageView;
+
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.utils.Utils;
 
@@ -51,6 +52,7 @@ public class CommentView extends RelativeLayout implements View.OnClickListener 
         layoutInflater.inflate(R.layout.comment_view, this, true);
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
 
+
         tvName = (TextView) findViewById(R.id.tv_name);
         tvComment = (TextView) findViewById(R.id.tv_comment);
         tvTimeAgo = (TextView) findViewById(R.id.tv_time_ago);
@@ -60,8 +62,8 @@ public class CommentView extends RelativeLayout implements View.OnClickListener 
     }
 
     public void updateData(Comment comment) {
-        Utils.displayImageAvatar(getContext(), imgAvatar, comment.getAvatar());
 
+        Utils.displayImageAvatar(getContext(), imgAvatar, comment.getAvatar());
         tvName.setText(comment.getFullName());
         tvComment.setText(comment.getBody());
         tvTimeAgo.setText(comment.getCreatedAt());

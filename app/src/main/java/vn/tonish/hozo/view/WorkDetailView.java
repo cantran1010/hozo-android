@@ -27,6 +27,7 @@ public class WorkDetailView extends LinearLayout {
     protected ImageView imgMobile, imgEmail, imgFacebook;
     protected TextView tvPrice, tvDate, tvTime, tvAddress;
 
+
     public WorkDetailView(Context context) {
         super(context);
         init();

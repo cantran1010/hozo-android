@@ -26,8 +26,8 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     private ArrayList<Comment> comments = new ArrayList<>();
     private Work work;
 
-    @Override
 
+    @Override
     protected int getLayout() {
         return R.layout.make_an_offer_activity;
     }
@@ -89,6 +89,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         LatLng latLng = new LatLng(work.getLat(), work.getLon());
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f));
     }

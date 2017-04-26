@@ -1,8 +1,10 @@
 <resources>
 
     <string name="app_name">Hozo</string>
-    <string name="all_ok">OK</string>
-    <string name="all_cancel">Cancel</string>
+
+    <string name="all_action_settings">Settings</string>
+    <string name="all_ok">Đồng ý</string>
+    <string name="all_cancel">Hủy</string>
     <string name="all_retry">Retry</string>
     <string name="all_network_error_msg">Error !</string>
 
@@ -55,7 +57,7 @@
     <string name="login_label_phone">Đăng nhập với Hò zô</string>
     <string name="login_zone">+84</string>
     <string name="login_continue">Tiếp tục</string>
-    <string name="login_enter_otp">Nhập 4 mã số được gửi tới điện thoại của bạn</string>
+    <string name="login_enter_otp">Nhập 4 mã số được gửi tới điện thoại</string>
     <string name="login_create_account">Tạo tài khoản</string>
     <string name="login_resend_otp">Gửi lại mã code</string>
     <string name="tv_label_name">Họ và tên của bạn là gì?</string>
@@ -91,10 +93,12 @@
     <string name="my_task_worker">Việc của tôi</string>
     <string name="my_task_poster">Việc đã đăng</string>
 
-
     <!-- make an offer-->
     <string name="make_an_offer_title">Chi tiết</string>
     <string name="network_error_msg">Kết nối máy chủ không thành công, vui lòng kiểm tra cài đặt mạng!</string>
+    <string name="msg_logOut">Bạn muốn thoát ?</string>
+    <string name="login_account">Đăng nhập</string>
+
 
     <string name="tv_start_time">Chọn ngày bắt đầu</string>
     <string name="tv_end_time">Chọn ngày kết thúc</string>

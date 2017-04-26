@@ -11,12 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-<<<<<<<67ad3b8596f47ae935be1a8967337e1517b9c82e
-        =======
 import org.json.JSONException;
 import org.json.JSONObject;
 
->>>>>>>myTask-2
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,6 +26,7 @@ import vn.tonish.hozo.model.FeedBack;
 
 import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.utils.DialogUtils;
 
 /**
  * Created by huy_quynh on 4/12/17.
@@ -103,20 +101,35 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_logout:
-                logOut();
+
+                DialogUtils.showConfirmAndCancelAlertDialog(this, getString(R.string.msg_logOut), new DialogUtils.ConfirmDialogOkCancelListener() {
+                    @Override
+                    public void onOkClick() {
+                        logOut();
+                    }
+
+                    @Override
+                    public void onCancelClick() {
+
+                    }
+
+                });
                 break;
         }
 
     }
 
-    private void logOut() {
+    public void logOut() {
         NetworkUtils.getRequestVolleyFormData(true, true, true, this, NetworkConfig.API_LOGOUT, new HashMap<String, String>(), new NetworkUtils.NetworkListener() {
             @Override
             public void onSuccess(JSONObject jsonResponse) {
                 try {
                     if (jsonResponse.getInt("code") == 0) {
                         UserManager.deleteAll();
-                        startActivity(new Intent(context, LoginActivity.class));
+
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
                     } else if (jsonResponse.getInt("code") == 1) {
                         Toast.makeText(context, " Account is not exist", Toast.LENGTH_SHORT).show();
                     }

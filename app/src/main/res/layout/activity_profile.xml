@@ -53,14 +53,12 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/profile_verify" />
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/profile_btn_verify" />
+                    android:layout_alignParentRight="true" />
 
             </RelativeLayout>
 
@@ -98,7 +96,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_address"
                 android:textStyle="bold" />
 
             <TextView
@@ -112,7 +109,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_phone"
                 android:textStyle="bold" />
 
             <TextView
@@ -137,14 +133,12 @@
                 <TextView
                     android:id="@+id/tab_1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/profile_worker" />
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/tab_2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/profile_hire" />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -161,7 +155,6 @@
                 android:background="@color/black_alpha"
                 android:gravity="center"
                 android:padding="16dp"
-                android:text="@string/profile_log_out"
                 android:textStyle="bold" />
 
         </LinearLayout>

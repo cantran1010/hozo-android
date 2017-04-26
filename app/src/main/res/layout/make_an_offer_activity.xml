@@ -60,7 +60,6 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/tv_comment"
             android:background="@drawable/border_gray"
-            android:inputType="text"
             android:padding="5dp" />
 
     </RelativeLayout>

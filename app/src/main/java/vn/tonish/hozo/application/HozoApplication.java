@@ -5,6 +5,8 @@ import android.content.Context;
 
 import io.realm.Realm;
 
+import io.realm.Realm;
+
 public class HozoApplication extends Application {
     @Override
     public void onCreate() {

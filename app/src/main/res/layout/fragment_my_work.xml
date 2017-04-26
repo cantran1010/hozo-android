@@ -29,7 +29,6 @@
                 android:padding="2dp"
                 android:text="@string/my_task_worker"
                 android:textColor="@color/green"
-                android:textSize="@dimen/size_xxsmall"
                 android:textStyle="normal" />
 
             <TextView
@@ -43,7 +42,6 @@
                 android:padding="2dp"
                 android:text="@string/my_task_poster"
                 android:textColor="@color/very_light_gray"
-                android:textSize="@dimen/size_xxsmall"
                 android:textStyle="normal" />
 
         </LinearLayout>
