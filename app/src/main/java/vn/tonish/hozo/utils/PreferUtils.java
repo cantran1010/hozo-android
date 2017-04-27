@@ -36,7 +36,7 @@ public class PreferUtils {
 
     public PreferUtils(Context context) {
         preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
-        this.context = context;
+        PreferUtils.context = context;
     }
 
     public static PreferUtils getInstance(Context context) {

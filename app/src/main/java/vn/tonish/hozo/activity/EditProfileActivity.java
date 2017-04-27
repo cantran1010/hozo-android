@@ -12,7 +12,7 @@ import java.io.File;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 
-import vn.tonish.hozo.customview.CircleImageView;
+import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;

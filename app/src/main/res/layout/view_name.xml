@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="Overdraw">
 
 
     <TextView
@@ -14,7 +16,8 @@
         android:maxLines="2"
         android:text="@string/tv_label_name"
         android:textColor="@color/white"
-        android:textColorHighlight="@color/white" />
+        android:textColorHighlight="@color/white"
+        tools:ignore="RtlHardcoded" />
 
 
     <EditText

@@ -1,8 +1,10 @@
 package vn.tonish.hozo.common;
 
 public class Constants {
+    public static final String CODE = "code";
+    public static final String MESSAGE = "message";
     public static final String DATA = "data";
-
+    public static final String USER = "user";
     // flag for badge change listener in MainActivity
     //
     public static final String BADGE = "badge____";
@@ -26,12 +28,18 @@ public class Constants {
     public static final String DB_NAME = "hozo";
     public static final String KEY_ENCRYPTION_DEFAULT = "abcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefgh";
 
-    public static final String EXTRA_PRODUCT_ID = "product_id";
-    public static final String EXTRA_PRODUCT_DETAIL = "product_detail";
-    public static final String USER_EXTRA = "user_extra";
-    public static final String EXTRA_CONTACT_DETAIL = "extra_contact";
     public static final String OTP_VIEW = "otp_view";
     public static final String NAME_VIEW = "name_view";
+
+    public static final String REGISTER = "extra_address";
+    public static final String TOCKEN = "token";
+    public static final String ACCESS_TOCKEN = "access_token";
+    public static final String REFRESH_TOCKEN = "refresh_token";
+    public static final String EXP_TOCKEN = "token_exp";
+    public static final String USER_ID = "id";
+    public static final String USER_FULL_NAME = "full_name";
+    public static final String USER_MOBILE = "mobile";
+    public static final String USER_LOGIN_AT = "login_at";
 
 
 }

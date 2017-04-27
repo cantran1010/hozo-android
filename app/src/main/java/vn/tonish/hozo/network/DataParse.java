@@ -7,10 +7,20 @@ import org.json.JSONObject;
 
 import vn.tonish.hozo.database.entity.UserEntity;
 
+import static vn.tonish.hozo.common.Constants.ACCESS_TOCKEN;
+import static vn.tonish.hozo.common.Constants.DATA;
+import static vn.tonish.hozo.common.Constants.EXP_TOCKEN;
+import static vn.tonish.hozo.common.Constants.USER_FULL_NAME;
+import static vn.tonish.hozo.common.Constants.USER_LOGIN_AT;
+import static vn.tonish.hozo.common.Constants.USER_MOBILE;
+import static vn.tonish.hozo.common.Constants.REFRESH_TOCKEN;
+import static vn.tonish.hozo.common.Constants.TOCKEN;
+import static vn.tonish.hozo.common.Constants.USER;
+import static vn.tonish.hozo.common.Constants.USER_ID;
 import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 
 /**
- * Created by CanTran on 24/04/2017.
+ * Created by Can Tran on 24/04/2017.
  */
 
 public class DataParse {
@@ -19,19 +29,19 @@ public class DataParse {
         // save new token
         UserEntity userEntity = new UserEntity();
         try {
-            if (!object.equals(null)) {
-                JSONObject jData = object.getJSONObject("data");
-                JSONObject jToken = jData.getJSONObject("token");
-                JSONObject jUser = jData.getJSONObject("user");
+            if (!(object == null)) {
+                JSONObject jData = object.getJSONObject(DATA);
+                JSONObject jToken = jData.getJSONObject(TOCKEN);
+                JSONObject jUser = jData.getJSONObject(USER);
 
-                userEntity.setToken(getStringInJsonObj(jToken, "access_token"));
-                userEntity.setRefreshToken(getStringInJsonObj(jToken, "refresh_token"));
-                userEntity.setTokenExp(getStringInJsonObj(jToken, "token_exp"));
+                userEntity.setToken(getStringInJsonObj(jToken, ACCESS_TOCKEN));
+                userEntity.setRefreshToken(getStringInJsonObj(jToken, REFRESH_TOCKEN));
+                userEntity.setTokenExp(getStringInJsonObj(jToken, EXP_TOCKEN));
 
-                userEntity.setId(Integer.parseInt(getStringInJsonObj(jUser, "id")));
-                userEntity.setFullName(getStringInJsonObj(jUser, "full_name"));
-                userEntity.setPhoneNumber(getStringInJsonObj(jUser, "mobile"));
-                userEntity.setLoginAt(getStringInJsonObj(jUser, "login_at"));
+                userEntity.setId(Integer.parseInt(getStringInJsonObj(jUser, USER_ID)));
+                userEntity.setFullName(getStringInJsonObj(jUser, USER_FULL_NAME));
+                userEntity.setPhoneNumber(getStringInJsonObj(jUser, USER_MOBILE));
+                userEntity.setLoginAt(getStringInJsonObj(jUser, USER_LOGIN_AT));
             }
         } catch (JSONException e) {
             e.printStackTrace();

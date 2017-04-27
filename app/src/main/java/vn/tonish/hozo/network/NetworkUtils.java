@@ -39,14 +39,14 @@ public class NetworkUtils {
 
     // network listener
     public interface NetworkListener {
-        public void onSuccess(JSONObject jsonResponse);
+        void onSuccess(JSONObject jsonResponse);
 
-        public void onError();
+        void onError();
     }
 
     // callback refresh listener
     public interface RefreshListener {
-        public void onRefreshFinish(JSONObject jsonResponse);
+        void onRefreshFinish(JSONObject jsonResponse);
     }
 
     //refresh token
@@ -292,7 +292,7 @@ public class NetworkUtils {
                 LogUtils.e(TAG, "postVolley volleyError : " + error.toString());
                 LogUtils.e(TAG, "postVolley volleyError message : " + error.getMessage());
 
-                if (!error.equals(null) || error.getMessage().equals(Constants.ERROR_AUTHEN)) {
+                if ((!(error==null))|| error.getMessage().equals(Constants.ERROR_AUTHEN)) {
                     // HTTP Status Code: 401 Unauthorized
                     // Refresh token
                     RefreshToken(context, new RefreshListener() {

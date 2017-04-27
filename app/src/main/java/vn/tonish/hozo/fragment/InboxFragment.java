@@ -9,7 +9,7 @@ import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.NotificationAdapter;
-import vn.tonish.hozo.customview.DividerItemDecoration;
+import vn.tonish.hozo.view.DividerItemDecoration;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 

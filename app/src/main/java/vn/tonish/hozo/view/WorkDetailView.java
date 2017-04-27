@@ -14,7 +14,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.customview.CircleImageView;
 import vn.tonish.hozo.model.Work;
 
 /**

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <vn.tonish.hozo.customview.CircleImageView
+    <vn.tonish.hozo.view.CircleImageView
         android:id="@+id/img_avatar"
         android:layout_width="50dp"
         android:layout_height="50dp"

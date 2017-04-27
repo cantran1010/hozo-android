@@ -15,7 +15,7 @@ public class UserManager {
     public static Context context;
 
     public UserManager(Context context) {
-        this.context = context;
+        UserManager.context = context;
     }
 
     public static UserManager userManager;
@@ -25,9 +25,7 @@ public class UserManager {
         // get last update
         UserEntity userEntity = realm.where(UserEntity.class).findFirst();
 
-        if (userEntity == null || userEntity.getFullName().equals("") || userEntity.getFullName() == null)
-            return false;
-        else return true;
+        return !(userEntity == null || userEntity.getFullName().equals("") || userEntity.getFullName() == null);
     }
 
     public static UserEntity getUserLogin(Context context) {

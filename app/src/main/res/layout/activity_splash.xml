@@ -2,36 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="vn.tonish.hozo.activity.SplashActivity">
-    
-    <LinearLayout
-        android:id="@+id/ll_logo"
+    android:background="@color/blue"
+    tools:context="vn.tonish.hozo.activity.SplashActivity"
+    tools:ignore="Overdraw">
+
+    <ImageView
+        android:id="@+id/img_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/imgIcon"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_centerHorizontal="true"
-            android:contentDescription="@string/adjust_image"
-            android:src="@mipmap/ic_launcher_round" />
-
-        <TextView
-            android:id="@+id/fullscreen_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imgIcon"
-            android:layout_centerHorizontal="true"
-            android:keepScreenOn="true"
-            android:padding="8dp"
-            android:text="@string/app_name"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
+        android:padding="8dp"
+        android:src="@drawable/hozo_logo"
+        tools:ignore="ContentDescription" />
 
 </FrameLayout>

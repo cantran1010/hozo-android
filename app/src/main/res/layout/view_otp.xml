@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue">
+    android:background="@color/blue"
+    tools:ignore="Overdraw">
 
     <TextView
         android:id="@+id/btnBack"
@@ -11,7 +13,8 @@
         android:drawableLeft="@drawable/img_back"
         android:padding="16dp"
         android:text="@string/all_back"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        tools:ignore="RtlHardcoded" />
 
     <ScrollView
         android:layout_width="wrap_content"

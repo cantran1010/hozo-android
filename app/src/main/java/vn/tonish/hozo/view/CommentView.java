@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.customview.CircleImageView;
 
 import vn.tonish.hozo.dialog.ReportDialog;
 import vn.tonish.hozo.model.Comment;

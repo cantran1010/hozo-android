@@ -2,6 +2,8 @@ package vn.tonish.hozo.model;
 
 import java.io.Serializable;
 
+import vn.tonish.hozo.view.User;
+
 /**
  * Created by huy_quynh on 4/12/17.
  */

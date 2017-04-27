@@ -14,9 +14,9 @@ import vn.tonish.hozo.R;
 public class PickImageDialog extends BaseDialogFullScreenAnimFadeInOut implements View.OnClickListener {
 
     public interface PickImageListener {
-        public void onCamera();
+        void onCamera();
 
-        public void onGallery();
+        void onGallery();
     }
 
     private PickImageListener pickImageListener;
