@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.View;
+import android.widget.TextView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
@@ -20,11 +21,8 @@ import vn.tonish.hozo.fragment.SelectTaskFragment;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private View layoutPostTask, layoutBrowserTask, layoutMyTask, layoutOther;
-    private View layoutInbox;
-
+    private TextView layoutPostTask, layoutBrowserTask, layoutMyTask, layoutOther, layoutInbox;
     private BroadcastReceiver badgeChangeListener;
-
     private IntentFilter intentFilter;
 
     @Override
@@ -34,11 +32,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initView() {
-        layoutPostTask = findViewById(R.id.layout_post_a_task);
-        layoutBrowserTask = findViewById(R.id.layout_browser_task);
-        layoutMyTask = findViewById(R.id.layout_my_task);
-        layoutInbox = findViewById(R.id.layout_inbox);
-        layoutOther = findViewById(R.id.layout_other);
+        layoutPostTask = (TextView) findViewById(R.id.layout_post_a_task);
+        layoutBrowserTask = (TextView) findViewById(R.id.layout_browser_task);
+        layoutMyTask = (TextView) findViewById(R.id.layout_my_task);
+        layoutInbox = (TextView) findViewById(R.id.layout_inbox);
+        layoutOther = (TextView) findViewById(R.id.layout_other);
         badgeChangeListener = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -96,7 +94,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.layout_other:
                 openFragment(R.id.layout_container, HelpFragment.class, false);
                 break;
-            
+
         }
     }
 

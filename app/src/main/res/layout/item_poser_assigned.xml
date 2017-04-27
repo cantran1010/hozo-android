@@ -28,8 +28,7 @@
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bui Duc Long" />
+                android:layout_height="wrap_content" />
 
             <RatingBar
                 android:id="@+id/rb_rate"
@@ -47,8 +46,8 @@
                 <ImageView
                     android:id="@+id/img_mobile_verify"
                     android:layout_width="40dp"
-                    android:contentDescription="@string/adjust_image"
                     android:layout_height="40dp"
+                    android:contentDescription="@string/adjust_image"
                     android:src="@drawable/img_mobile" />
 
                 <ImageView
@@ -60,9 +59,9 @@
 
                 <ImageView
                     android:id="@+id/img_facebook_verify"
-                    android:contentDescription="@string/adjust_image"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:contentDescription="@string/adjust_image"
                     android:src="@drawable/img_facebook" />
 
             </LinearLayout>
@@ -70,8 +69,7 @@
             <TextView
                 android:id="@+id/tv_time_ago"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2 days ago" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -86,8 +84,7 @@
             <TextView
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10.000 d" />
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btn_call"
@@ -95,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/btn_selector"
-                android:text="Gọi" />
+                android:text="@string/call" />
         </LinearLayout>
 
     </RelativeLayout>

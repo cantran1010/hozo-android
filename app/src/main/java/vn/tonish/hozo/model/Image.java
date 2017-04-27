@@ -3,8 +3,10 @@ package vn.tonish.hozo.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
- * Created by ADMIN on 4/19/2017.
+ * Created by LongBui on 4/19/2017.
  */
 
 public class Image implements Parcelable {
@@ -15,8 +17,18 @@ public class Image implements Parcelable {
     public boolean isSelected;
     public boolean isAdd;
 
+    private ArrayList<Image> images;
+
     public Image() {
 
+    }
+
+    public ArrayList<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<Image> images) {
+        this.images = images;
     }
 
     private Image(Parcel in) {

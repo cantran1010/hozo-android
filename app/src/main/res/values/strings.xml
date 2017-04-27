@@ -11,6 +11,7 @@
     <string name="all_my_task">My tasks</string>
     <string name="all_notification">Notifications</string>
     <string name="all_other">Other</string>
+    <string name="continue_up_case">TIẾP TỤC</string>
 
 
     <!--notification Screen-->
@@ -59,7 +60,7 @@
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
 
     <!--Edit profile Screen-->
-    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
+    <string name="edit_profile_tv_header">Chỉnh sửa thông tin</string>
     <string name="edt_proflie_tv_name">Ten</string>
     <string name="edt_proflie_tv_address">Dia chi</string>
     <string name="edit_profile_btn_save">Lưu lại</string>
@@ -80,6 +81,8 @@
     <string name="profile_worker">Nguời làm việc</string>
     <string name="profile_hire">Người đăng việc</string>
     <string name="profile_log_out">Thoát tài khoản</string>
+    <string name="tv_task_title">Tiêu đề công việc</string>
+    <string name="task_title_hint">Lau dọn nhà bếp</string>
 
     <string name="notify_title">Thông báo</string>
 
@@ -93,7 +96,7 @@
 
     <!-- post a task map-->
     <string name="msg_err_gps">Yêu cầu bật GPS</string>
-    <string name="msg_err_address">Vui long nhap dia chi</string>
+    <string name="msg_err_address">Vui lòng nhập địa chỉ</string>
     <string name="my_task_worker">Việc của tôi</string>
     <string name="my_task_poster">Việc đã đăng</string>
 
@@ -133,7 +136,7 @@
 
     <string-array name="gender">
         <item>Nam</item>
-        <item>Nu</item>
+        <item>Nữ</item>
     </string-array>
 
     <string-array name="ages">
@@ -154,7 +157,6 @@
         <item>Other</item>
     </string-array>
 
-
     <!-- make an offer-->
     <string name="tv_start_time">Chọn ngày bắt đầu</string>
     <string name="tv_end_time">Chọn ngày kết thúc</string>
@@ -164,5 +166,55 @@
     <string name="btn_reset">RESET</string>
     <string name="adjust_image">adjust_image</string>
 
+    <!-- post a task -->
+    <string name="tv_time_task">Thời gian làm việc</string>
+    <string name="date_hint">Chọn ngày tháng làm việc</string>
+    <string name="edt_number_day_hint">Số ngày làm việc</string>
+    <string name="start_time_hint">Thời gian bắt đầu</string>
+    <string name="end_time_hint">Thời gian kết thúc</string>
+    <string name="task_description_hint">Mô tả công việc</string>
+    <string name="attach_image_hint">Đăng hình ảnh</string>
+    <string name="more_detail">Tùy chọn thêm</string>
+    <string name="date_pick_hint">Chọn ngày tháng</string>
+    <string name="btn_next">TIẾP TỤC</string>
+    <string name="age_from_hint">Từ 20 tuổi</string>
+    <string name="age_to_hint">Đến 60 tuổi</string>
+    <string name="map_hint_input1">Nhập địa điểm</string>
+    <string name="map_hint_input2">(hoặc di chuyển pin trên bản đồ)</string>
+    <string name="post_a_task_map_title">Địa điểm làm việc</string>
+    <string name="err_input_data">Vui lòng điền đủ thông tin</string>
+    <string name="post_a_task_finish_title">Chi phí</string>
+    <string name="post_task_finish_offer">Số tiền cho một người</string>
+    <string name="post_task_finish_number">Số người cần thuê</string>
+    <string name="post_task_finish_total">Tổng chi phí</string>
+    <string name="vn_dong">đ</string>
+    <string name="post_a_task_finish">ĐĂNG VIỆC</string>
+
+    <!-- edit profile -->
+    <string name="edit_profile_name">Họ và Tên</string>
+    <string name="edit_profile_address">Địa điểm</string>
+    <string name="edit_profile_birth">Ngày tháng năm sinh</string>
+    <string name="drop_down">Drop down</string>
+    <string name="camera">take picture</string>
+    <string name="content_description_back">Trở lại</string>
+    <string name="crop_image_title">Chỉnh sửa</string>
+    <string name="crop_image_done">Tiếp tục</string>
+    <string name="report_task_title_hint">Nhập tiêu đề</string>
+    <string name="report_task_content_hint">Nhập nội dung</string>
+    <string name="next">Tiếp tục</string>
+    <string name="call">Gọi</string>
+    <string name="make_an_offer_worker">Người làm</string>
+    <string name="make_an_offer_question">Hỏi đáp</string>
+    <string name="comment">Bình luận</string>
+    <string name="rate_content_hint">Nhập nội dung</string>
+    <string name="reply_title_hint">Nhập tiêu đề</string>
+    <string name="reply_content_hint">Nhập nội dung</string>
+    <string name="time_picker_title">Chọn thời gian</string>
+    <string name="done">Hoàn thành</string>
+    <string name="work_detail_view_bit">Ứng Tuyển</string>
+    <string name="work_detail_view_price">Giá tiền :</string>
+    <string name="work_detail_view_date">Ngày :</string>
+    <string name="work_detail_view_time">Thời gian :</string>
+    <string name="work_detail_view_address">Địa điểm :</string>
 
 </resources>

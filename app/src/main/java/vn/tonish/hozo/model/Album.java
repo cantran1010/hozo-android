@@ -1,7 +1,7 @@
 package vn.tonish.hozo.model;
 
 /**
- * Created by ADMIN on 4/19/2017.
+ * Created by LongBui on 4/19/2017.
  */
 
 public class Album {

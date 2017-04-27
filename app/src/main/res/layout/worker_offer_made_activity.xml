@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Hỏi đáp" />
+                android:text="@string/make_an_offer_question" />
 
             <vn.tonish.hozo.view.CommentViewFull
                 android:id="@+id/comment_view_full"
@@ -131,7 +131,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@color/hozo_bg"
-                android:text="Comment" />
+                android:text="@string/comment" />
 
 
             <EditText

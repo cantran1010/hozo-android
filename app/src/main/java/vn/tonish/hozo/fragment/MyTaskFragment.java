@@ -9,7 +9,7 @@ import vn.tonish.hozo.R;
 import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
 /**
- * Created by Admin on 4/4/2017.
+ * Created by LongBui on 4/4/2017.
  */
 
 public class MyTaskFragment extends BaseFragment implements View.OnClickListener {

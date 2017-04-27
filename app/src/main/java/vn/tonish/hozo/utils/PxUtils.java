@@ -16,14 +16,14 @@ public class PxUtils {
         return dp * context.getResources().getDisplayMetrics().density;
     }
 
-    public static int getWidhtScreen(Context context) {
+    public static int getWidthScreen(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
         //int height = size.y;
-        LogUtils.d(TAG, "getWidhtScreen : " + width);
+        LogUtils.d(TAG, "getWidthScreen : " + width);
         return width;
     }
 

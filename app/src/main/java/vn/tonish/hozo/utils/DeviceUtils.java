@@ -142,12 +142,6 @@ public class DeviceUtils {
         return Build.MODEL;
     }
 
-    /**
-     * return temperature of battery
-     *
-     * @param context
-     * @return
-     */
     public static float getBatteryTemp(Context context) {
         Intent intent = context.registerReceiver(null, new IntentFilter(
                 Intent.ACTION_BATTERY_CHANGED));

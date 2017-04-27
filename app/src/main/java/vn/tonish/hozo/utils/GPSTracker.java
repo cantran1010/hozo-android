@@ -10,11 +10,13 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+
 /**
  * Created by LongBui.
  */
 public final class GPSTracker implements LocationListener {
 
+    private static final String TAG = GPSTracker.class.getSimpleName();
     private final Context mContext;
 
     // flag for GPS status
@@ -44,11 +46,6 @@ public final class GPSTracker implements LocationListener {
         getLocation();
     }
 
-    /**
-     * Function to get the user's current location
-     *
-     * @return
-     */
     public Location getLocation() {
         try {
             locationManager = (LocationManager) mContext
@@ -66,9 +63,7 @@ public final class GPSTracker implements LocationListener {
 
             Log.v("isNetworkEnabled", "=" + isNetworkEnabled);
 
-            if (!isGPSEnabled && !isNetworkEnabled) {
-                // no network provider is enabled
-            } else {
+            if (isGPSEnabled || isNetworkEnabled) {
                 this.canGetLocation = true;
                 if (isNetworkEnabled) {
                     location = null;

@@ -9,7 +9,7 @@ import android.widget.NumberPicker;
 import vn.tonish.hozo.R;
 
 /**
- * Created by ADMIN on 4/18/2017.
+ * Created by LongBui on 4/18/2017.
  */
 
 public class TimePickerHozoDialog extends BaseDialog implements View.OnClickListener {

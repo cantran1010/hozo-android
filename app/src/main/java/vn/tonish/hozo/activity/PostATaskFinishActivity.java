@@ -5,23 +5,31 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.model.HozoLocation;
+import vn.tonish.hozo.model.Image;
+import vn.tonish.hozo.model.Work;
 
 /**
- * Created by LongBD on 4/18/2017.
+ * Created by LongBui on 4/18/2017.
  */
 
 public class PostATaskFinishActivity extends BaseActivity implements View.OnClickListener {
 
-    protected RelativeLayout layoutBack;
     protected Button btnDone;
     private EditText edtBudget, edtNumberWorker;
     private TextView tvTotal;
+    private Work work;
+    private HozoLocation location;
+    private ArrayList<Image> images;
+    private ImageView imgBack;
 
     @Override
     protected int getLayout() {
@@ -30,8 +38,8 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initView() {
-        layoutBack = (RelativeLayout) findViewById(R.id.layout_back);
-        layoutBack.setOnClickListener(this);
+        imgBack = (ImageView) findViewById(R.id.img_back);
+        imgBack.setOnClickListener(this);
 
         edtBudget = (EditText) findViewById(R.id.edt_budget);
         edtNumberWorker = (EditText) findViewById(R.id.edt_number_worker);
@@ -43,6 +51,11 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initData() {
+
+        work = (Work) getIntent().getSerializableExtra(Constants.EXTRA_WORK);
+        location = (HozoLocation) getIntent().getSerializableExtra(Constants.EXTRA_ADDRESS);
+        images = getIntent().getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+
         edtBudget.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -102,14 +115,18 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.layout_back:
+            case R.id.img_back:
                 finish();
                 break;
 
             case R.id.btn_done:
-
+                doDone();
                 break;
 
         }
+    }
+
+    private void doDone() {
+
     }
 }

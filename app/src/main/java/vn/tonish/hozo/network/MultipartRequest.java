@@ -63,7 +63,6 @@ public class MultipartRequest extends Request<String> {
 //            entity.addPart("district_id", new StringBody(user.getDistrictId() + "", chars));
 //            entity.addPart("gender", new StringBody("1", chars));
 //            entity.addPart("bank_account", new StringBody(user.getBankAccount(), chars));
-//            entity.addPart("bank_account_number", new StringBody(user.getBankAccoutNumber(), chars));
 //            entity.addPart("password", new StringBody(user.getPassword(), chars));
 //        } catch (UnsupportedEncodingException e) {
 //            e.printStackTrace();

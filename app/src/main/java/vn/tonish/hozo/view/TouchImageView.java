@@ -17,7 +17,7 @@ public class TouchImageView extends ImageView {
     static final int DRAG = 1;
     static int ZOOM = 2;
     static int mode = NONE;
-    public int isundo = 0;
+    public int iSunDo = 0;
     PointF last = new PointF();
     PointF start = new PointF();
     float minScale = 0f;
@@ -34,14 +34,14 @@ public class TouchImageView extends ImageView {
 
     public TouchImageView(Context context) {
         super(context);
-        if (isundo == 0) {
+        if (iSunDo == 0) {
             sharedConstructing(context);
         }
     }
 
     public TouchImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        if (isundo == 0) {
+        if (iSunDo == 0) {
             sharedConstructing(context);
         }
     }
@@ -60,7 +60,7 @@ public class TouchImageView extends ImageView {
             public boolean onTouch(View v, MotionEvent event) {
                 mScaleDetector.onTouchEvent(event);
                 PointF curr = new PointF(event.getX(), event.getY());
-                if (isundo == 0) {
+                if (iSunDo == 0) {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
                             last.set(curr);

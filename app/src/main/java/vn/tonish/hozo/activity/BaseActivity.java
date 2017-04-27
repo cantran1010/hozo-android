@@ -167,7 +167,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         }
     }
 
-    // hide keyboard when touch outside edittext
+    // hide keyboard when touch outside edit_text
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         View view = getCurrentFocus();

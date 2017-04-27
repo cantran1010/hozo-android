@@ -10,8 +10,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -24,33 +25,38 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.dialog.PickImageDialog;
+import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Image;
+import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.MyGridView;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**
- * Created by MAC2015 on 4/12/17.
+ * Created by LongBui on 4/12/17.
  */
 
 public class PostATaskActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = PostATaskActivity.class.getSimpleName();
-    protected RelativeLayout layoutBack;
+    private TextView tvCancel, tvTitle;
     protected Button btnNext;
-    protected LinearLayout layoutStartTime, layoutEndTime;
+    protected RelativeLayout layoutStartTime, layoutEndTime, layoutDate;
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private ArrayList<Image> images = new ArrayList<>();
     private String imgPath;
-    private TextView tvStartTime, tvEndTime, tvDate, tvAddress;
+    private TextView tvStartTime, tvEndTime, tvDate;
     private Date dateWork;
     private Calendar calendar = Calendar.getInstance();
     private Calendar calendarTimeStart = Calendar.getInstance();
     private Calendar calendarTimeEnd = Calendar.getInstance();
+    private EditText edtDayWork, edtWorkName, edtDescription, edtAgeFrom, edtAgeTo;
+    private Spinner spGender;
 
     @Override
     protected int getLayout() {
@@ -59,31 +65,47 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initView() {
-        layoutBack = (RelativeLayout) findViewById(R.id.layout_back);
+
+        tvCancel = (TextView) findViewById(R.id.tv_cancel);
+        tvCancel.setOnClickListener(this);
+
+        tvTitle = (TextView) findViewById(R.id.tv_title);
+        tvTitle.setOnClickListener(this);
+
         btnNext = (Button) findViewById(R.id.btn_next);
-        layoutBack.setOnClickListener(this);
         btnNext.setOnClickListener(this);
+
+        tvDate = (TextView) findViewById(R.id.tv_date);
+        edtWorkName = (EditText) findViewById(R.id.edt_task_name);
+
+        edtDayWork = (EditText) findViewById(R.id.edt_number_day);
+
+        edtDescription = (EditText) findViewById(R.id.edt_description);
+        edtAgeFrom = (EditText) findViewById(R.id.edt_age_from);
+        edtAgeTo = (EditText) findViewById(R.id.edt_age_to);
 
         grImage = (MyGridView) findViewById(R.id.gr_image);
 
-        layoutStartTime = (LinearLayout) findViewById(R.id.layout_start_time);
+        spGender = (Spinner) findViewById(R.id.sp_gender);
+
+        layoutStartTime = (RelativeLayout) findViewById(R.id.layout_start_time);
         layoutStartTime.setOnClickListener(this);
 
-        layoutEndTime = (LinearLayout) findViewById(R.id.layout_end_time);
+        layoutEndTime = (RelativeLayout) findViewById(R.id.layout_end_time);
         layoutEndTime.setOnClickListener(this);
 
         tvStartTime = (TextView) findViewById(R.id.tv_start_time);
         tvEndTime = (TextView) findViewById(R.id.tv_end_time);
 
-        tvDate = (TextView) findViewById(R.id.tv_date);
-        tvDate.setOnClickListener(this);
-
-        tvAddress = (TextView) findViewById(R.id.tv_address);
-        tvAddress.setOnClickListener(this);
+        layoutDate = (RelativeLayout) findViewById(R.id.date_layout);
+        layoutDate.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
+
+        Category category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
+        tvTitle.setText(category.getName());
 
         Image image = new Image();
         image.setAdd(true);
@@ -152,17 +174,15 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.layout_back:
+            case R.id.tv_cancel:
                 finish();
                 break;
 
             case R.id.btn_next:
-                Intent intentFinish = new Intent(this, PostATaskFinishActivity.class);
-                startActivity(intentFinish);
+                doNext();
                 break;
 
             case R.id.tv_address:
@@ -171,8 +191,6 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.layout_start_time:
-
-                // Launch Time Picker Dialog
                 TimePickerDialog timeStartPickerDialog = new TimePickerDialog(this,
                         new TimePickerDialog.OnTimeSetListener() {
 
@@ -186,19 +204,9 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                             }
                         }, calendarTimeStart.get((Calendar.HOUR_OF_DAY)), calendarTimeStart.get(Calendar.MINUTE), false);
                 timeStartPickerDialog.show();
-
-//                TimePickerHozoDialog timePickerStartDialog = new TimePickerHozoDialog(this);
-//                timePickerStartDialog.setOnPickLister(new TimePickerHozoDialog.OnPickLister() {
-//                    @Override
-//                    public void onPick(int time) {
-//                        tvStartTime.setText(time + "");
-//                    }
-//                });
-//                timePickerStartDialog.showView();
                 break;
 
             case R.id.layout_end_time:
-
                 TimePickerDialog timeEndPickerDialog = new TimePickerDialog(this,
                         new TimePickerDialog.OnTimeSetListener() {
 
@@ -212,21 +220,59 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                             }
                         }, calendarTimeEnd.get((Calendar.HOUR_OF_DAY)), calendarTimeEnd.get(Calendar.MINUTE), false);
                 timeEndPickerDialog.show();
-
-//                TimePickerHozoDialog timePickerEndDialog = new TimePickerHozoDialog(this);
-//                timePickerEndDialog.setOnPickLister(new TimePickerHozoDialog.OnPickLister() {
-//                    @Override
-//                    public void onPick(int time) {
-//                        tvEndTime.setText(time + "");
-//                    }
-//                });
-//                timePickerEndDialog.showView();
                 break;
 
-            case R.id.tv_date:
+            case R.id.date_layout:
                 openDatePicker();
                 break;
         }
+    }
+
+    private void doNext() {
+
+        if (edtWorkName.getText().toString().equals("")) {
+            Utils.showLongToast(this, getString(R.string.err_input_data));
+            return;
+        } else if (tvDate.toString().equals("")) {
+            Utils.showLongToast(this, getString(R.string.err_input_data));
+            return;
+        } else if (edtDayWork.getText().toString().equals("")) {
+            Utils.showLongToast(this, getString(R.string.err_input_data));
+            return;
+        } else if (tvStartTime.getText().toString().equals("")) {
+            Utils.showLongToast(this, getString(R.string.err_input_data));
+            return;
+        }
+        if (tvEndTime.getText().toString().equals("")) {
+            Utils.showLongToast(this, getString(R.string.err_input_data));
+            return;
+        } else if (edtDescription.getText().toString().equals("")) {
+            Utils.showLongToast(this, getString(R.string.err_input_data));
+            return;
+        } else if (edtAgeFrom.getText().toString().equals("")) {
+            Utils.showLongToast(this, getString(R.string.err_input_data));
+            return;
+        } else if (edtAgeTo.getText().toString().equals("")) {
+            Utils.showLongToast(this, getString(R.string.err_input_data));
+            return;
+        }
+
+        Work work = new Work();
+        work.setName(edtWorkName.getText().toString());
+        work.setDate(tvDate.toString());
+        work.setNumberDays(Integer.valueOf(edtDayWork.getText().toString()));
+        work.setStartTime(tvStartTime.getText().toString());
+        work.setEndTime(tvEndTime.getText().toString());
+        work.setDescription(edtDescription.getText().toString());
+        work.setGenderWorker(spGender.getSelectedItemPosition());
+        work.setAgeFromWorker(Integer.valueOf(edtAgeFrom.getText().toString()));
+        work.setAgeToWorker(Integer.valueOf(edtAgeTo.getText().toString()));
+
+        Intent intent = new Intent(this, PostATaskMapActivity.class);
+        intent.putExtra(Constants.EXTRA_WORK, work);
+        intent.putParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES, images);
+
+        startActivity(intent);
     }
 
     private void openDatePicker() {
@@ -235,7 +281,6 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                     @Override
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
-
                         tvDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                         calendar.set(year, monthOfYear, dayOfMonth);
                     }
@@ -265,9 +310,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             image.setPath(selectedImagePath);
             images.add(0, image);
             imageAdapter.notifyDataSetChanged();
-        } else if (requestCode == Constants.REQUEST_CODE_ADDRESS && resultCode == Constants.RESPONSE_CODE_ADDRESS) {
-            tvAddress.setText(data.getStringExtra(Constants.EXTRA_ADDRESS));
         }
+
     }
 
     public Uri setImageUri() {
