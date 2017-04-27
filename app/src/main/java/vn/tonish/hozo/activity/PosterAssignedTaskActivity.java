@@ -182,5 +182,6 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
 //            Utils.displayImage(EditProfileActivity.this, imgAvata, selectedImagePath);
 //        }
 
+
     }
 }

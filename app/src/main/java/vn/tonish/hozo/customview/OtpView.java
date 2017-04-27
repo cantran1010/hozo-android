@@ -132,7 +132,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         } else if (s.length() == 4) {
             mPinForthDigitEditText.setText(s.charAt(3) + "");
             hideSoftKeyboard(mPinForthDigitEditText);
-            btnSigin.setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+            btnSigin.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -140,7 +140,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                 }
             }, 200);
         } else {
-            btnSigin.setTextColor(ContextCompat.getColor(getContext(),R.color.blue));
+            btnSigin.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
         }
 
 
@@ -326,8 +326,12 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                 LogUtils.d(TAG, "dataRequest" + jsonResponse.toString());
                 try {
                     if (jsonResponse.getInt("code") == 0) {
+
                         UserManager.insertUserLogin(new DataParse().getUserEntiny(context, jsonResponse), context);
                         LogUtils.d(TAG, "check User :" + UserManager.getUserLogin(context).toString());
+
+                        LogUtils.e(TAG, UserManager.getUserLogin(context).getId() + "");
+
                         String name;
                         name = UserManager.getUserLogin(context).getFullName().trim();
                         if ((name.isEmpty())) {
@@ -345,7 +349,6 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                     e.printStackTrace();
                 }
             }
-
 
             @Override
             public void onError() {

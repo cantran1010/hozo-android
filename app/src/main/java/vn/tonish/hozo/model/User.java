@@ -1,5 +1,7 @@
 package vn.tonish.hozo.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 import io.realm.RealmObject;
@@ -9,20 +11,44 @@ import io.realm.RealmObject;
  */
 
 public class User extends RealmObject implements Serializable {
+
+    @SerializedName("id")
     private String id;
+
+    @SerializedName("mobile")
     private String mobile;
+
+    @SerializedName("")
     private String token_key;
+
+    @SerializedName("full_name")
     private String full_name;
+
     private String created_at;
+
+    @SerializedName("avatar")
     private String avatar;
+
+    @SerializedName("address")
     private String address;
+
+    @SerializedName("facebook_id")
     private String facebook_id;
+
+    @SerializedName("date_of_birth")
     private String date_of_birth;
+
     private String gender;
+
+    @SerializedName("verified")
     private String verify;
+
     private String average_rating;
     private String average_stars;
+
+    @SerializedName("description")
     private String description;
+
     private String education;
     private String email;
     private String languages;
