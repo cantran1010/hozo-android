@@ -32,10 +32,12 @@ public class DataParse {
                 userEntity.setFullName(getStringInJsonObj(jUser, "full_name"));
                 userEntity.setPhoneNumber(getStringInJsonObj(jUser, "mobile"));
                 userEntity.setLoginAt(getStringInJsonObj(jUser, "login_at"));
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return userEntity;
     }
+    
 }

@@ -22,10 +22,12 @@ public class TimeSettingActivity extends BaseActivity {
     @Override
     protected void initData() {
 
+
     }
 
     @Override
     protected void resumeData() {
+
 
     }
 }
