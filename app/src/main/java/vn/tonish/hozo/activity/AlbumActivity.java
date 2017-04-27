@@ -21,7 +21,7 @@ import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**
- * Created by LongBD on 4/19/2017.
+ * Created by LongBui on 4/19/2017.
  */
 
 public class AlbumActivity extends BaseActivity implements View.OnClickListener {
@@ -55,6 +55,9 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
 
         if (intent.hasExtra(Constants.EXTRA_ONLY_IMAGE))
             isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
+
+        if (intent.hasExtra(Constants.EXTRA_IS_CROP_PROFILE))
+            isCropProfile = intent.getBooleanExtra(Constants.EXTRA_IS_CROP_PROFILE, false);
 
         getAlbum();
 

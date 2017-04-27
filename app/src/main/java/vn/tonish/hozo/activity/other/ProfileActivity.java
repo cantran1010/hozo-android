@@ -26,11 +26,14 @@ import vn.tonish.hozo.activity.EditProfileActivity;
 import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.RealmDbHelper;
-import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.fragment.FeedBackFragment;
 import vn.tonish.hozo.model.FeedBack;
 
 import vn.tonish.hozo.model.User;
+import vn.tonish.hozo.database.entity.UserEntity;
+import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.fragment.FeedBackFragment;
+
 import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.DialogUtils;
@@ -149,6 +152,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     public void logOut() {
+
+        UserEntity userEntity = UserManager.getUserLogin(this);
+        LogUtils.d("", "user logout " + userEntity.toString());
+
         NetworkUtils.getRequestVolleyFormData(true, true, true, this, NetworkConfig.API_LOGOUT, new HashMap<String, String>(), new NetworkUtils.NetworkListener() {
             @Override
             public void onSuccess(JSONObject jsonResponse) {

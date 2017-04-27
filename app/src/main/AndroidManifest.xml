@@ -30,20 +30,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-        </activity>
-
-        <activity
-            android:name="vn.tonish.hozo.activity.LoginActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustNothing">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
                 <data
                     android:host="www.tonish.vn"
                     android:pathPrefix="/hozo"
@@ -61,7 +52,19 @@
             android:name="vn.tonish.hozo.activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden" >
+
+
+      
+
+        </activity>
+
+        <activity
+            android:name="vn.tonish.hozo.activity.LoginActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustNothing" />
 
 
         <activity
@@ -71,7 +74,10 @@
 
         <activity
             android:name=".activity.AdvanceSettingsActivity"
-            android:screenOrientation="portrait"></activity>
+
+            android:screenOrientation="portrait">
+
+        </activity>
 
         <activity
             android:name=".activity.other.ProfileActivity"
@@ -158,7 +164,7 @@
 
         <activity android:name=".activity.other.AboutActivity" />
         <activity android:name=".activity.other.ConditionActivity" />
-        <activity android:name=".activity.EditProfileActivity" />
+        <!--<activity android:name=".activity.EditProfileActivity" />-->
         <activity android:name=".activity.setting.FeeActivity" />
         <activity android:name=".activity.other.HistoryActivity" />
         <activity android:name=".activity.other.InfoActivity" />

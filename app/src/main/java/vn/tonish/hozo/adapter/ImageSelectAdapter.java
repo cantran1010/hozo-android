@@ -38,6 +38,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
         this.images = images;
     }
 
+    @SuppressWarnings("deprecation")
     @NonNull
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -60,10 +61,11 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (item != null ? item.isSelected : false) {
+        if (item.isSelected) {
             holder.imgCheck.setVisibility(View.VISIBLE);
             final int sdk = android.os.Build.VERSION.SDK_INT;
             if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                //noinspection deprecation
                 holder.imgImage.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.img_selected_bg));
             } else {
                 holder.imgImage.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.img_selected_bg));
@@ -105,7 +107,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
                 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                 @Override
                 public void onClick(View v) {
-                    if (item.isSelected) {
+                    if (item != null ? item.isSelected : false) {
                         item.setSelected(false);
                     } else {
                         item.setSelected(true);
@@ -126,7 +128,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
         holder.imgImage.setLayoutParams(params);
 
         Glide.with(getContext())
-                .load(item.getPath())
+                .load(item != null ? item.getPath() : null)
                 .centerCrop().into(holder.imgImage);
 
         return convertView;

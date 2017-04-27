@@ -58,15 +58,11 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initData() {
         Intent intent = getIntent();
-        if (intent == null) {
-            finish();
-        }
 
-        boolean isExtra = intent != null ? intent.hasExtra(Constants.EXTRA_ONLY_IMAGE) : false;
-        if (isExtra)
+        if (intent != null ? intent.hasExtra(Constants.EXTRA_ONLY_IMAGE) : false)
             isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
 
-        if (intent.hasExtra(Constants.EXTRA_IS_CROP_PROFILE))
+        if (intent != null ? intent.hasExtra(Constants.EXTRA_IS_CROP_PROFILE) : false)
             isCropProfile = intent.getBooleanExtra(Constants.EXTRA_IS_CROP_PROFILE, false);
 
         album = intent.getStringExtra(Constants.INTENT_EXTRA_ALBUM);
@@ -184,6 +180,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
                 } else {
 
                     if (isCropProfile) {
+
                         Image imageCrop = getSelectedImage().get(0);
                         Intent intent = new Intent(ImageSelectActivity.this, CropImageActivity.class);
                         intent.putExtra(Constants.EXTRA_IMAGE_PATH, imageCrop.getPath());

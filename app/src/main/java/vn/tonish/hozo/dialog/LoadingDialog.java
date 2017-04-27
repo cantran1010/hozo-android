@@ -7,11 +7,6 @@ import android.content.Context;
  * Created by LongBui.
  */
 public class LoadingDialog extends Dialog {
-    /**
-     * �R���X�g���N�^
-     *
-     * @param context
-     */
     public LoadingDialog(Context context) {
         super(context, vn.tonish.hozo.R.style.Theme_CustomProgressDialog);
 

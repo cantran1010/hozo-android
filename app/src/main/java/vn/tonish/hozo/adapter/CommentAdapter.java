@@ -12,7 +12,7 @@ import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.view.CommentView;
 
 /**
- * Created by ADMIN on 4/21/2017.
+ * Created by LongBui on 4/21/2017.
  */
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHolder> {

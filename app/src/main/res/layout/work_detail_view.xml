@@ -26,8 +26,7 @@
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bui Duc Long" />
+                android:layout_height="wrap_content" />
 
             <RatingBar
                 android:id="@+id/rb_rate"
@@ -76,7 +75,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Sua chua may tinh"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
@@ -88,22 +86,19 @@
         <TextView
             android:id="@+id/tv_time_ago"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="15 phut truoc" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tv_work_type"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Loai cong viec : lap rap" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_description"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Đầu giờ chiều 20/4, đoàn công tác khoảng 30 người gồm Chủ tịch Nguyễn Đức Chung, ông Đỗ Văn Đương (Phó trưởng ban Dân nguyện của Quốc hội), đại diện Cục Cảnh sát hình sự... về làm việc tại xã Đồng Tâm (huyện Mỹ Đức) nhằm tháo gỡ những vướng mắc liên quan đất đai tại địa phương này." />
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btn_offer"
@@ -111,7 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_selector"
-        android:text="Ứng tuyển"
+        android:text="@string/work_detail_view_bit"
         android:textColor="@color/white" />
 
     <LinearLayout
@@ -124,15 +119,14 @@
             style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Giá tiền : " />
+            android:text="@string/work_detail_view_price" />
 
         <TextView
             android:id="@+id/tv_price"
-            style="@style/tv_style_nomal_gray"
+            style="@style/tv_style_normal_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="30000" />
+            android:layout_marginLeft="10dp" />
 
     </LinearLayout>
 
@@ -146,15 +140,14 @@
             style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ngày : " />
+            android:text="@string/work_detail_view_date" />
 
         <TextView
             android:id="@+id/tv_date"
-            style="@style/tv_style_nomal_gray"
+            style="@style/tv_style_normal_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="15/04/2017" />
+            android:layout_marginLeft="10dp" />
 
     </LinearLayout>
 
@@ -169,15 +162,14 @@
             style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thời gian : " />
+            android:text="@string/work_detail_view_time" />
 
         <TextView
             android:id="@+id/tv_time"
-            style="@style/tv_style_nomal_gray"
+            style="@style/tv_style_normal_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="14:00 - 16:00" />
+            android:layout_marginLeft="10dp" />
 
     </LinearLayout>
 
@@ -191,15 +183,14 @@
             style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Địa điểm : " />
+            android:text="@string/work_detail_view_address" />
 
         <TextView
             android:id="@+id/tv_address"
-            style="@style/tv_style_nomal_gray"
+            style="@style/tv_style_normal_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Ngõ 102 Trường Trinh" />
+            android:layout_marginLeft="10dp" />
 
     </LinearLayout>
 

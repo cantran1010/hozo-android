@@ -8,8 +8,9 @@
         android:id="@+id/layout_footer"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/gray">
-
+        android:layout_gravity="center"
+        android:background="@color/gray"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/layout_post_a_task"
@@ -18,10 +19,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/tab_selector"
-            android:drawableTop="@drawable/ic_tab"
+            android:drawableTop="@drawable/menu_post_task_selected"
             android:gravity="center"
             android:text="@string/select_task_title" />
-
 
         <TextView
             android:id="@+id/layout_browser_task"
@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/tab_selector"
-            android:drawableTop="@drawable/ic_tab"
+            android:drawableTop="@drawable/menu_browser_task"
             android:gravity="center"
             android:text="@string/browse_task_title" />
 
@@ -41,7 +41,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/tab_selector"
-            android:drawableTop="@drawable/ic_tab"
+            android:drawableTop="@drawable/menu_my_task"
             android:gravity="center"
             android:text="@string/my_task_title" />
 
@@ -58,9 +58,8 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:background="@drawable/tab_selector"
-                android:drawableTop="@drawable/ic_tab"
+                android:drawableTop="@drawable/menu_inbox"
                 android:gravity="center"
-
                 android:text="@string/notify_title" />
 
             <TextView
@@ -71,13 +70,11 @@
                 android:layout_marginRight="10dp"
                 android:background="@android:drawable/ic_notification_overlay"
                 android:gravity="center"
-                android:text="8"
                 android:textColor="#FFF"
                 android:textSize="8sp"
                 android:textStyle="bold" />
 
         </RelativeLayout>
-
 
         <TextView
             android:id="@+id/layout_other"
@@ -86,9 +83,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/tab_selector"
-            android:drawableTop="@drawable/ic_tab"
+            android:drawableTop="@drawable/menu_other"
             android:gravity="center"
-
             android:text="@string/other_title" />
 
     </LinearLayout>

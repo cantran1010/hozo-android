@@ -5,7 +5,7 @@ import java.io.Serializable;
 import io.realm.RealmObject;
 
 /**
- * Created by CanTran on 20/04/2017.
+ * Created by LongBui on 20/04/2017.
  */
 
 public class Comment extends RealmObject implements Serializable {

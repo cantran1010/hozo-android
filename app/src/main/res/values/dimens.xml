@@ -28,5 +28,8 @@
     <dimen name="pin_content_layout_padding">40dp</dimen>
     <dimen name="pin_label_margin">10dp</dimen>
     <dimen name="pin_min_width">32dp</dimen>
+    <dimen name="edt_min_height">40dp</dimen>
+    <dimen name="tv_size_nomal">14sp</dimen>
+    <dimen name="edt_size_nomal">14sp</dimen>
 
 </resources>

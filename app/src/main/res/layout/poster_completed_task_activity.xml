@@ -20,6 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:contentDescription="@string/content_description_back"
                 android:layout_centerVertical="true"
                 android:src="@drawable/img_back" />
 
@@ -63,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Người làm" />
+                android:text="@string/make_an_offer_worker" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rcv_user"
