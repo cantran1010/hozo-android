@@ -57,7 +57,7 @@ public class Utils {
             }
             return hexString.toString();
         } catch (NullPointerException ignored) {
-        
+            ignored.printStackTrace();
         }
         return null;
 
@@ -149,7 +149,8 @@ public class Utils {
             try {
                 String e = String.valueOf(jsonObject.get(key));
                 return e.equalsIgnoreCase("null") ? "" : e;
-            } catch (JSONException var3) {
+            } catch (JSONException e) {
+                e.printStackTrace();
                 return "";
             }
         } else {
@@ -174,7 +175,6 @@ public class Utils {
         try {
             out = new FileOutputStream(path);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
-            // PNG is a lossless format, the compression factor (100) is ignored
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

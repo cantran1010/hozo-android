@@ -21,7 +21,7 @@ import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.view.WorkDetailView;
 
 /**
- * Created by LongBD on 4/25/2017.
+ * Created by LongBui on 4/25/2017.
  */
 
 public class PosterCompletedTaskActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener {

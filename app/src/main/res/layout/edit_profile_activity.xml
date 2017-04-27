@@ -1,27 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/hozo_bg">
-
-        <ImageView
-            android:id="@+id/img_back"
-            android:layout_width="wrap_content"
-            android:contentDescription="@string/just_image"
-            android:layout_height="wrap_content" />
+        android:layout_height="?android:attr/actionBarSize">
 
         <TextView
+            android:id="@+id/tv_cancel"
+            style="@style/tv_title_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:text="@string/btn_cancel" />
+
+        <TextView
+            style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/edit_profile_tv_header"
-            android:textColor="@color/white" />
+            android:text="@string/edit_profile_tv_header" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray" />
 
     </RelativeLayout>
 
@@ -48,35 +58,58 @@
             android:layout_marginRight="10dp"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/img_avatar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+            <RelativeLayout
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/avatar_default" />
+                android:layout_marginTop="20dp">
+
+                <vn.tonish.hozo.customview.CircleImageView
+                    android:id="@+id/img_avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/avatar_default"
+                    app:civ_border_color="@color/hozo_bg"
+                    app:civ_border_width="1dp" />
+
+                <ImageView
+                    android:id="@+id/img_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:contentDescription="@string/camera"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_camera_circle" />
+
+            </RelativeLayout>
 
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Ho va ten" />
+                android:layout_marginTop="20dp"
+                android:text="@string/edit_profile_name"
+                android:textColor="@color/black" />
 
             <EditText
-                android:inputType="text"
                 android:id="@+id/edt_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/border_gray"
+                android:inputType="text"
                 android:maxLines="1"
-                android:padding="5dp" />
+                android:minHeight="@dimen/edt_min_height"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/edt_size_nomal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Dia diem" />
+                android:text="@string/edit_profile_address"
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/edt_address"
@@ -86,13 +119,17 @@
                 android:background="@drawable/border_gray"
                 android:inputType="text"
                 android:maxLines="1"
-                android:padding="5dp" />
+                android:minHeight="@dimen/edt_min_height"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/edt_size_nomal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Ngay thang nam sinh" />
+                android:text="@string/edit_profile_birth"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tv_birthday"
@@ -100,7 +137,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/border_gray"
-                android:padding="5dp" />
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/edt_min_height"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/tv_size_nomal" />
 
         </LinearLayout>
 

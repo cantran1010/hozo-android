@@ -33,7 +33,7 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 
 /**
- * Created by LongBD on 4/21/2017.
+ * Created by LongBui on 4/21/2017.
  */
 
 public class PosterAssignedTaskActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener {

@@ -95,8 +95,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:padding="5dp"
-                        android:textColor="@color/black"
-                        android:text="@string/date_pick_hint" />
+                        android:text="@string/date_pick_hint"
+                        android:textColor="@color/black" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -104,6 +104,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
+                        android:contentDescription="@string/drop_down"
                         android:src="@drawable/dropdown" />
 
                 </RelativeLayout>
@@ -124,8 +125,9 @@
                         android:background="@null"
                         android:hint="@string/edt_number_day_hint"
                         android:inputType="number"
-                        android:padding="5dp" android:textColor="@color/black"
+                        android:padding="5dp"
                         android:text=""
+                        android:textColor="@color/black"
                         android:textColorHint="@color/gray" />
 
                 </RelativeLayout>
@@ -152,8 +154,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:padding="5dp" android:textColor="@color/black"
-                        android:text="@string/start_time_hint" />
+                        android:padding="5dp"
+                        android:text="@string/start_time_hint"
+                        android:textColor="@color/black" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -161,6 +164,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
+                        android:contentDescription="@string/drop_down"
                         android:src="@drawable/dropdown" />
 
                 </RelativeLayout>
@@ -179,8 +183,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:padding="5dp" android:textColor="@color/black"
-                        android:text="@string/end_time_hint" />
+                        android:padding="5dp"
+                        android:text="@string/end_time_hint"
+                        android:textColor="@color/black" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -188,6 +193,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
+                        android:contentDescription="@string/drop_down"
                         android:src="@drawable/dropdown" />
 
                 </RelativeLayout>

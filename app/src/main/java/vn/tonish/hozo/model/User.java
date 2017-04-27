@@ -5,7 +5,7 @@ import java.io.Serializable;
 import io.realm.RealmObject;
 
 /**
- * Created by CanTran on 12/04/2017.
+ * Created by LongBui on 12/04/2017.
  */
 
 public class User extends RealmObject implements Serializable {

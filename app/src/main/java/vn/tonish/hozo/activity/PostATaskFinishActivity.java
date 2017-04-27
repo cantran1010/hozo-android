@@ -18,7 +18,7 @@ import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.model.Work;
 
 /**
- * Created by LongBD on 4/18/2017.
+ * Created by LongBui on 4/18/2017.
  */
 
 public class PostATaskFinishActivity extends BaseActivity implements View.OnClickListener {

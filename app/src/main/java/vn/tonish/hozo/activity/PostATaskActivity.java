@@ -37,7 +37,7 @@ import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**
- * Created by MAC2015 on 4/12/17.
+ * Created by LongBui on 4/12/17.
  */
 
 public class PostATaskActivity extends BaseActivity implements View.OnClickListener {

@@ -60,7 +60,7 @@
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
 
     <!--Edit profile Screen-->
-    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
+    <string name="edit_profile_tv_header">Chỉnh sửa thông tin</string>
     <string name="edt_proflie_tv_name">Ten</string>
     <string name="edt_proflie_tv_address">Dia chi</string>
     <string name="edit_profile_btn_save">Lưu lại</string>
@@ -189,5 +189,32 @@
     <string name="post_task_finish_total">Tổng chi phí</string>
     <string name="vn_dong">đ</string>
     <string name="post_a_task_finish">ĐĂNG VIỆC</string>
+
+    <!-- edit profile -->
+    <string name="edit_profile_name">Họ và Tên</string>
+    <string name="edit_profile_address">Địa điểm</string>
+    <string name="edit_profile_birth">Ngày tháng năm sinh</string>
+    <string name="drop_down">Drop down</string>
+    <string name="camera">take picture</string>
+    <string name="content_description_back">Trở lại</string>
+    <string name="crop_image_title">Chỉnh sửa</string>
+    <string name="crop_image_done">Tiếp tục</string>
+    <string name="report_task_title_hint">Nhập tiêu đề</string>
+    <string name="report_task_content_hint">Nhập nội dung</string>
+    <string name="next">Tiếp tục</string>
+    <string name="call">Gọi</string>
+    <string name="make_an_offer_worker">Người làm</string>
+    <string name="make_an_offer_question">Hỏi đáp</string>
+    <string name="comment">Bình luận</string>
+    <string name="rate_content_hint">Nhập nội dung</string>
+    <string name="reply_title_hint">Nhập tiêu đề</string>
+    <string name="reply_content_hint">Nhập nội dung</string>
+    <string name="time_picker_title">Chọn thời gian</string>
+    <string name="done">Hoàn thành</string>
+    <string name="work_detail_view_bit">Ứng Tuyển</string>
+    <string name="work_detail_view_price">Giá tiền :</string>
+    <string name="work_detail_view_date">Ngày :</string>
+    <string name="work_detail_view_time">Thời gian :</string>
+    <string name="work_detail_view_address">Địa điểm :</string>
 
 </resources>

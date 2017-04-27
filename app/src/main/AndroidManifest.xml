@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="vn.tonish.hozo.activity.SplashActivity"
+            android:name="vn.tonish.hozo.activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
@@ -50,12 +50,11 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustNothing" />
 
-        <activity
-            android:name="vn.tonish.hozo.activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
-
+        <!--<activity-->
+            <!--android:name="vn.tonish.hozo.activity.MainActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/AppTheme.NoActionBar"-->
+            <!--android:windowSoftInputMode="stateHidden" />-->
 
         <activity
             android:name=".activity.PostATaskActivity"
@@ -153,7 +152,7 @@
 
         <activity android:name=".activity.other.AboutActivity" />
         <activity android:name=".activity.other.ConditionActivity" />
-        <activity android:name=".activity.EditProfileActivity" />
+        <!--<activity android:name=".activity.EditProfileActivity" />-->
         <activity android:name=".activity.setting.FeeActivity" />
         <activity android:name=".activity.other.HistoryActivity" />
         <activity android:name=".activity.other.InfoActivity" />

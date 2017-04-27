@@ -3,7 +3,7 @@ package vn.tonish.hozo.model;
 import java.io.Serializable;
 
 /**
- * Created by huy_quynh on 4/12/17.
+ * Created by LongBui on 4/12/17.
  */
 
 public class Work implements Serializable {

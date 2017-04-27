@@ -92,7 +92,7 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="tv_style_nomal_gray">
+    <style name="tv_style_normal_gray">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/gray</item>
     </style>

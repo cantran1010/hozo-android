@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/tab_selector"
-            android:drawableTop="@drawable/menu_brower_task"
+            android:drawableTop="@drawable/menu_browser_task"
             android:gravity="center"
             android:text="@string/browse_task_title" />
 
@@ -70,7 +70,6 @@
                 android:layout_marginRight="10dp"
                 android:background="@android:drawable/ic_notification_overlay"
                 android:gravity="center"
-                android:text="8"
                 android:textColor="#FFF"
                 android:textSize="8sp"
                 android:textStyle="bold" />

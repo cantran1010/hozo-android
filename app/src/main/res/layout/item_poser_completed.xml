@@ -29,7 +29,7 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bui Duc Long" />
+              />
 
             <RatingBar
                 android:id="@+id/rb_rate"
@@ -71,7 +71,7 @@
                 android:id="@+id/tv_time_ago"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2 days ago" />
+               />
 
         </LinearLayout>
 
@@ -87,7 +87,7 @@
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10.000 d" />
+              />
 
             <Button
                 android:id="@+id/btn_rate"
@@ -96,7 +96,7 @@
                 android:layout_marginTop="10dp"
                 android:textColor="@color/white"
                 android:background="@drawable/btn_selector"
-                android:text="Rate" />
+                android:text="@string/rate" />
         </LinearLayout>
 
     </RelativeLayout>

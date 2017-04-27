@@ -1,21 +1,25 @@
 package vn.tonish.hozo.activity;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.File;
+import java.util.Calendar;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
-
 import vn.tonish.hozo.customview.CircleImageView;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.utils.FileUtils;
-import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
@@ -23,15 +27,20 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 
 /**
- * Created by LongBD on 4/21/2017.
+ * Created by LongBui on 4/21/2017.
  */
 
 public class EditProfileActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = EditProfileActivity.class.getSimpleName();
 
     protected Button btnSave;
-    private CircleImageView imgAvata;
+    private CircleImageView imgAvatar;
     private String imgPath;
-    private static final String TAG = EditProfileActivity.class.getSimpleName();
+    private TextView tvCancel;
+    private ImageView imgCamera;
+    private EditText edtName, edtAddress;
+    private TextView tvBirthday;
+    private Calendar calendar = Calendar.getInstance();
 
     @Override
     protected int getLayout() {
@@ -40,10 +49,23 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
-        imgAvata = (CircleImageView) findViewById(R.id.img_avatar);
-        imgAvata.setOnClickListener(this);
+        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
+        imgAvatar.setOnClickListener(this);
+
         btnSave = (Button) findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
+
+        tvCancel = (TextView) findViewById(R.id.tv_cancel);
+        tvCancel.setOnClickListener(this);
+
+        imgCamera = (ImageView) findViewById(R.id.img_camera);
+        imgCamera.setOnClickListener(this);
+
+        edtName = (EditText) findViewById(R.id.edt_name);
+        edtAddress = (EditText) findViewById(R.id.edt_address);
+
+        tvBirthday = (TextView) findViewById(R.id.tv_birthday);
+        tvBirthday.setOnClickListener(this);
     }
 
     @Override
@@ -61,35 +83,56 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         switch (v.getId()) {
 
             case R.id.btn_save:
-
+                doSave();
                 break;
 
-            case R.id.img_avatar:
+            case R.id.img_camera:
                 doPickImage();
+                break;
+
+            case R.id.tv_cancel:
+                finish();
+                break;
+
+            case R.id.tv_birthday:
+                openDatePicker();
                 break;
 
         }
     }
 
+    private void doSave() {
+
+    }
+
+    private void openDatePicker() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+                        tvBirthday.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                        calendar.set(year, monthOfYear, dayOfMonth);
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        LogUtils.d(TAG, "onActivityResult requestCode : " + requestCode + " , resultCode : " + resultCode);
-
         if (requestCode == REQUEST_CODE_PICK_IMAGE
                 && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
             String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
-            Utils.displayImage(EditProfileActivity.this, imgAvata, imgPath);
-
+            Utils.displayImage(EditProfileActivity.this, imgAvatar, imgPath);
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
             Intent intent = new Intent(EditProfileActivity.this, CropImageActivity.class);
             intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
             startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE);
         } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
             String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
-            Utils.displayImage(EditProfileActivity.this, imgAvata, imgPath);
+            Utils.displayImage(EditProfileActivity.this, imgAvatar, imgPath);
         }
 
     }

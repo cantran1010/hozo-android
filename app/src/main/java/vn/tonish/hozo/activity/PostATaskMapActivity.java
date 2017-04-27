@@ -14,7 +14,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 
 /**
- * Created by LongBD on 4/18/2017.
+ * Created by LongBui on 4/18/2017.
  */
 
 public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener, LocationProvider.LocationCallback {
@@ -119,16 +118,15 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
 
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
-            googleMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+
+            googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
                 @Override
-                public void onCameraChange(CameraPosition cameraPosition) {
-
-                    latLng = new LatLng(cameraPosition.target.latitude, cameraPosition.target.longitude);
-
-                    lat = cameraPosition.target.latitude;
-                    lon = cameraPosition.target.longitude;
-                    LogUtils.i("centerLat", "center lat : " + cameraPosition.target.latitude);
-                    LogUtils.i("centerLong", "center lon : " + cameraPosition.target.longitude);
+                public void onCameraIdle() {
+                    latLng = new LatLng(mMap.getCameraPosition().target.latitude, mMap.getCameraPosition().target.longitude);
+                    lat = mMap.getCameraPosition().target.latitude;
+                    lon = mMap.getCameraPosition().target.longitude;
+                    LogUtils.i("centerLat", "center lat : " + mMap.getCameraPosition().target.latitude);
+                    LogUtils.i("centerLong", "center lon : " + mMap.getCameraPosition().target.longitude);
                     getAddress();
                 }
             });
@@ -157,13 +155,6 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
             Address addRess = addresses.get(0);
             LogUtils.d(TAG, "getAddress address : " + addRess.toString());
-
-//        String address = addRess.getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-//        String city = addRess.getLocality();
-//        String state = addRess.getAdminArea();
-//        String country = addRess.getCountryName();
-//        String postalCode = addRess.getPostalCode();
-//        String knownName = addRess.getFeatureName(); // Only if available else return NULL
 
             String strReturnedAddress = "";
             for (int i = 0; i < addRess.getMaxAddressLineIndex(); i++) {

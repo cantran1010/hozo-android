@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Người làm" />
+                android:text="@string/make_an_offer_worker" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rcv_user"
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Hỏi đáp" />
+                android:text="@string/make_an_offer_question" />
 
             <vn.tonish.hozo.view.CommentViewFull
                 android:id="@+id/comment_view_full"
@@ -108,17 +108,17 @@
                 android:id="@+id/img_attached"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
                 android:contentDescription="@string/adjust_image"
+                android:scaleType="centerCrop"
                 android:src="@drawable/avatar_default" />
 
             <ImageView
                 android:id="@+id/img_delete"
                 android:layout_width="wrap_content"
-                android:contentDescription="@string/adjust_image"
                 android:layout_height="wrap_content"
-                android:background="#66000000"
                 android:layout_alignParentRight="true"
+                android:background="#66000000"
+                android:contentDescription="@string/adjust_image"
                 android:padding="5dp"
                 android:src="@drawable/img_close" />
 
@@ -131,10 +131,10 @@
 
             <ImageView
                 android:id="@+id/img_attach"
-                android:contentDescription="@string/adjust_image"
                 android:layout_width="40dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/adjust_image"
                 android:src="@drawable/icon_camera" />
 
             <TextView
@@ -144,8 +144,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@color/hozo_bg"
-                android:text="Comment" />
-
+                android:text="@string/comment" />
 
             <EditText
                 android:id="@+id/edt_comment"
