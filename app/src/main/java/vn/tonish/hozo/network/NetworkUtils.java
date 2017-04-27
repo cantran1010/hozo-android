@@ -359,6 +359,7 @@ public class NetworkUtils {
                 LogUtils.d(TAG, "getRequestVolley onResponse : " + jsonObject.toString());
                 networkListener.onSuccess(jsonObject);
 
+
                 if (isDismissProgressDialog) ProgressDialogUtils.dismissProgressDialog();
 
             }
@@ -396,6 +397,7 @@ public class NetworkUtils {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Accept", "application/json");
+                headers.put("Authorization", "Bearer " + UserManager.getUserToken(context));
                 return headers;
             }
         };
@@ -405,14 +407,12 @@ public class NetworkUtils {
                 NetworkConfig.NETWORK_TIME_OUT,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
         Volley.newRequestQueue(context).add(jsonObjectRequest);
 
     }
 
     public static void deleteVolley(final boolean isShowProgressDialog, final boolean isDismissProgressDialog, final boolean isShowDialogError, final Context context, final String url, final JSONObject jsonRequest, final NetworkListener networkListener) {
         LogUtils.d(TAG, "deleteVolley url : " + url + " /////// data request : " + jsonRequest.toString());
-
 
         if (context instanceof Activity) {
             Utils.hideKeyBoard((Activity) context);
@@ -422,7 +422,6 @@ public class NetworkUtils {
             ProgressDialogUtils.showProgressDialog(context);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, jsonRequest, new Response.Listener<JSONObject>() {
-
             @Override
             public void onResponse(JSONObject jsonObject) {
                 LogUtils.d(TAG, "postVolley onResponse : " + jsonObject.toString());

@@ -12,8 +12,6 @@ import vn.tonish.hozo.activity.BaseActivity;
 public class WorkTypeActivity extends BaseActivity {
 
 
-    private RadioGroup rg_works;
-
     @Override
     protected int getLayout() {
         return R.layout.activity_work_type;
@@ -22,11 +20,11 @@ public class WorkTypeActivity extends BaseActivity {
     @Override
     protected void initView() {
 
-        
     }
 
     @Override
     protected void initData() {
+
 
     }
 
