@@ -5,7 +5,7 @@ import android.os.Environment;
 import java.io.File;
 
 /**
- * Created by LongBD on 4/24/2017.
+ * Created by LongBui on 4/24/2017.
  */
 
 public class FileUtils {
@@ -33,21 +33,22 @@ public class FileUtils {
 
     // maybe delete all temp file after used
     public static boolean deleteDirectory(File path) {
-        if( path.exists() ) {
+        if (path.exists()) {
             File[] files = path.listFiles();
             if (files == null) {
                 return true;
             }
-            for(int i=0; i<files.length; i++) {
-                if(files[i].isDirectory()) {
-                    deleteDirectory(files[i]);
-                }
-                else {
-                    files[i].delete();
+
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    deleteDirectory(file);
+                } else {
+                    file.delete();
                 }
             }
+
         }
-        return( path.delete() );
+        return (path.delete());
     }
 
     public static String getHozoDirectory() {

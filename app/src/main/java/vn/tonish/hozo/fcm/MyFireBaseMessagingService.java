@@ -22,7 +22,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import vn.tonish.hozo.utils.LogUtils;
 
 /**
- * When implement FCM, add project on firebase console, and change google-service.json
+ * When implement FCM, add project on fire base console, and change google-service.json
  */
 public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
@@ -31,7 +31,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
     /**
      * Called when message is received.
      *
-     * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
+     * @param remoteMessage Object representing the message received from Fire Base Cloud Messaging.
      */
     // [START receive_message]
     @Override

@@ -24,9 +24,7 @@ public class PreferUtils {
     private static final String PREFER_PUSH_ACCEPT = "push_accept";
     private static final String PREFER_PUSH_DENY = "push_deny";
     private static final String PREFER_PUSH_SHOW = "push_show";
-    private static final String PREFER_PUSH_NOSHOW = "push_no_show";
-    private static final String PREFER_PUSH_MESSAGE = "push_message";
-    private static final String KEY_ENCRYPTION = "kenc";
+    private static final String KEY_ENCRYPTION = "key";
 
     public SharedPreferences preferences;
 
@@ -51,28 +49,6 @@ public class PreferUtils {
     // just example method
     public static void setMessage(String message) {
 
-    }
-
-    public static boolean isPushMessage(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
-        return preferences.getBoolean(PREFER_PUSH_MESSAGE, false);
-    }
-
-    public static void setPushMessage(Context context, boolean isLogin) {
-        Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
-        editor.putBoolean(PREFER_PUSH_MESSAGE, isLogin);
-        editor.apply();
-    }
-
-    public static boolean isPushNoShow(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
-        return preferences.getBoolean(PREFER_PUSH_NOSHOW, false);
-    }
-
-    public static void setPushNoShow(Context context, boolean isLogin) {
-        Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
-        editor.putBoolean(PREFER_PUSH_NOSHOW, isLogin);
-        editor.apply();
     }
 
     public static boolean isPushShow(Context context) {

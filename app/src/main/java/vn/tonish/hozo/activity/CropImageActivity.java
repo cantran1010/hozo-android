@@ -32,13 +32,10 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
     private static final String TAG = CropImageActivity.class.getName();
     private CropImageView cropImageView;
     private Button btnCrop;
-    private String uriStr;
-    private Uri uri;
     public static Bitmap bitmapCrop;
     private RelativeLayout layoutBack;
     private CropImageViewOptions mCropImageViewOptions = new CropImageViewOptions();
     private ImageView imgRotate;
-    private File fileSave;
 
     @Override
     protected int getLayout() {
@@ -52,21 +49,21 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
         cropImageView.setOnCropImageCompleteListener(this);
 
         btnCrop = (Button) findViewById(R.id.btn_crop);
-        btnCrop.setOnClickListener(this);
 
         layoutBack = (RelativeLayout) findViewById(R.id.layout_back);
-        layoutBack.setOnClickListener(this);
 
         imgRotate = (ImageView) findViewById(R.id.img_rotate);
-        imgRotate.setOnClickListener(this);
 
     }
 
     @Override
     protected void initData() {
+        btnCrop.setOnClickListener(this);
+        layoutBack.setOnClickListener(this);
+        imgRotate.setOnClickListener(this);
 
         String uriStr = getIntent().getStringExtra(Constants.EXTRA_IMAGE_PATH);
-        uri = Uri.fromFile(new File(uriStr));
+        Uri uri = Uri.fromFile(new File(uriStr));
 
         cropImageView.setImageUriAsync(uri);
 
@@ -161,7 +158,7 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
 //                    bitmapCrop = Bitmap.createScaledBitmap(bitmapCrop, (int) (width / scale), expected, false);
 //                }
 
-                fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".png");
+                File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".png");
                 Utils.compressBitmapToFile(bitmapCrop, fileSave.getPath());
 
                 Intent intent = new Intent();

@@ -20,9 +20,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/adjust_image"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/adjust_image"
                 android:src="@drawable/img_back" />
 
         </RelativeLayout>
@@ -59,15 +59,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="Bui Duc Long" />
+                android:gravity="center_horizontal" />
 
             <RatingBar
                 android:id="@+id/rb_rate"
+                style="@style/StarRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                style="@style/StarRatingBar"
                 android:numStars="5"
                 android:stepSize="1.0" />
 
@@ -90,7 +89,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/border_gray"
                 android:gravity="top"
-                android:hint="Nhập nội dung"
+                android:hint="@string/rate_content_hint"
                 android:padding="5dp"
                 android:textColorHint="@color/gray" />
 

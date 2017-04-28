@@ -6,10 +6,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,11 +22,18 @@ import java.util.HashMap;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.EditProfileActivity;
 import vn.tonish.hozo.activity.LoginActivity;
+import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.RealmDbHelper;
+import vn.tonish.hozo.fragment.FeedBackFragment;
+import vn.tonish.hozo.model.FeedBack;
+
+import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.fragment.FeedBackFragment;
-import vn.tonish.hozo.model.FeedBack;
+
 import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.DialogUtils;
@@ -33,9 +43,8 @@ import vn.tonish.hozo.utils.LogUtils;
  * Created by huy_quynh on 4/12/17.
  */
 
-public class ProfileActivity extends BaseActivity implements View.OnClickListener {
+public class ProfileActivity extends BaseActivity implements View.OnClickListener, NetworkUtils.NetworkListener {
     private Context context;
-
 
     private ImageView img_avatar;
     private TextView tv_name;
@@ -56,6 +65,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     // data for feedback tab1 _ tab2 ;
     protected ArrayList<FeedBack> tab1Data;
     protected ArrayList<FeedBack> tab2Data;
+
+
+    // User data;
+    private User user;
+
+
+    private TextView btn_right;
 
     @Override
     protected int getLayout() {
@@ -84,13 +100,28 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         feedBackPagerAdapter = new FeedBackPagerAdapter(getSupportFragmentManager(), tab1Data, tab2Data);
         viewPager.setAdapter(feedBackPagerAdapter);
 
+        btn_right = (TextView) findViewById(R.id.btnRight);
+        btn_right.setText("EDIT");
+        btn_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                if (user == null) {
+                    Toast.makeText(ProfileActivity.this, getString(R.string.network_error_msg), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                intent.putExtra(Constants.DATA, user);
+                startActivity(intent);
+            }
+        });
 
     }
 
     @Override
     protected void initData() {
         btnLogOut.setOnClickListener(this);
-
+        int userID = UserManager.getUserLogin(context).getId();
+        NetworkUtils.getRequestVolley(true, true, true, ProfileActivity.this, NetworkConfig.API_GET_PROFILE + userID, new JSONObject(), this);
     }
 
     @Override
@@ -128,21 +159,20 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         NetworkUtils.getRequestVolleyFormData(true, true, true, this, NetworkConfig.API_LOGOUT, new HashMap<String, String>(), new NetworkUtils.NetworkListener() {
             @Override
             public void onSuccess(JSONObject jsonResponse) {
+                Log.e("ABC", jsonResponse.toString());
                 try {
-                    if (jsonResponse.getInt("code") == 0) {
+                    if (jsonResponse.getInt(Constants.CODE) == 0) {
                         UserManager.deleteAll();
-
                         Intent intent = new Intent(context, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                     } else if (jsonResponse.getInt("code") == 1) {
-                        Toast.makeText(context, " Account is not exist", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Account is not exist", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-
 
             @Override
             public void onError() {
@@ -153,6 +183,30 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     }
 
+    @Override
+    public void onSuccess(JSONObject jsonResponse) {
+        if (jsonResponse.toString() != null) {
+            try {
+                int code = jsonResponse.getInt(Constants.CODE);
+                String message = jsonResponse.getString(Constants.MESSAGE);
+                if (code == Constants.REQUEST_SUCCESSFUL) {
+                    JSONObject data = jsonResponse.getJSONObject(Constants.DATA);
+                    JSONObject user = data.getJSONObject(Constants.USER);
+                    this.user = new Gson().fromJson(user.toString(), User.class);
+                } else {
+                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onError() {
+
+
+    }
 
     public class FeedBackPagerAdapter extends FragmentPagerAdapter {
 
@@ -164,7 +218,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             this.tab1Data = tab1Data;
             this.tab2Data = tab2Data;
         }
-
 
         @Override
         public Fragment getItem(int position) {

@@ -19,8 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:contentDescription="@string/adjust_image"
         android:layout_marginRight="10dp"
+        android:contentDescription="@string/adjust_image"
         android:src="@drawable/img_comment_setting" />
 
     <LinearLayout
@@ -37,22 +37,19 @@
             android:id="@+id/tv_name"
             style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bui Duc Long" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tv_comment"
-            style="@style/tv_style_nomal_gray"
+            style="@style/tv_style_normal_gray"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="When I create my general (most common) API call with Volley, I save a reference to the call in case it fails, and pass it to my retry policy" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tv_time_ago"
-            style="@style/tv_style_nomal_gray"
+            style="@style/tv_style_normal_gray"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2 days ago" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

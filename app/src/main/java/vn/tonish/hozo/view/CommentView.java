@@ -24,7 +24,6 @@ public class CommentView extends RelativeLayout implements View.OnClickListener 
 
     private CircleImageView imgAvatar;
     private TextView tvName, tvComment, tvTimeAgo;
-    private ImageView imgSetting;
 
     public CommentView(Context context) {
         super(context);
@@ -56,7 +55,7 @@ public class CommentView extends RelativeLayout implements View.OnClickListener 
         tvName = (TextView) findViewById(R.id.tv_name);
         tvComment = (TextView) findViewById(R.id.tv_comment);
         tvTimeAgo = (TextView) findViewById(R.id.tv_time_ago);
-        imgSetting = (ImageView) findViewById(R.id.img_setting);
+        ImageView imgSetting = (ImageView) findViewById(R.id.img_setting);
 
         imgSetting.setOnClickListener(this);
     }

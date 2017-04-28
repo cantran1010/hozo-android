@@ -12,7 +12,7 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Category;
 
 /**
- * Created by MAC2015 on 4/13/17.
+ * Created by LongBui on 4/13/17.
  */
 
 public class CategoryHolder extends BaseHolder {

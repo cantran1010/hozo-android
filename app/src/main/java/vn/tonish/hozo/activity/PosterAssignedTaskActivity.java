@@ -33,7 +33,7 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 
 /**
- * Created by LongBD on 4/21/2017.
+ * Created by LongBui on 4/21/2017.
  */
 
 public class PosterAssignedTaskActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener {
@@ -85,7 +85,7 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
         work.setName("Sua Ti vi");
         work.setTimeAgo("20 phut truoc");
         work.setWorkType("Lắp đặt");
-        work.setDes("Tôi cần một người sửa ti si samsung OTX 24000,nhanh nhẹn,có năng lực,trung thực,nam giới ...");
+        work.setDescription("Tôi cần một người sửa ti si samsung OTX 24000,nhanh nhẹn,có năng lực,trung thực,nam giới ...");
         work.setPrice("350.000 Đồng");
         work.setDate("25/04/2017");
         work.setTime("14h:00 - 20h:00");
@@ -181,6 +181,7 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
 //            String selectedImagePath = getImagePath();
 //            Utils.displayImage(EditProfileActivity.this, imgAvata, selectedImagePath);
 //        }
+
 
     }
 }

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import vn.tonish.hozo.view.User;
 
 /**
- * Created by huy_quynh on 4/12/17.
+ * Created by LongBui on 4/12/17.
  */
 
 public class Work implements Serializable {
@@ -15,7 +15,7 @@ public class Work implements Serializable {
     private String time;
     private String type;
     private String price;
-    private String des;
+    private String description;
     private boolean isNew;
     private String date;
     private String address;
@@ -26,6 +26,60 @@ public class Work implements Serializable {
     private Double lat;
     private Double lon;
     private String status;
+    private int numberDays;
+    private String startTime;
+    private String endTime;
+    private int genderWorker;
+    private int ageFromWorker;
+    private int ageToWorker;
+
+    public int getGenderWorker() {
+        return genderWorker;
+    }
+
+    public void setGenderWorker(int genderWorker) {
+        this.genderWorker = genderWorker;
+    }
+
+    public int getAgeFromWorker() {
+        return ageFromWorker;
+    }
+
+    public void setAgeFromWorker(int ageFromWorker) {
+        this.ageFromWorker = ageFromWorker;
+    }
+
+    public int getAgeToWorker() {
+        return ageToWorker;
+    }
+
+    public void setAgeToWorker(int ageToWorker) {
+        this.ageToWorker = ageToWorker;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public int getNumberDays() {
+        return numberDays;
+    }
+
+    public void setNumberDays(int numberDays) {
+        this.numberDays = numberDays;
+    }
 
     public int getId() {
         return id;
@@ -134,12 +188,12 @@ public class Work implements Serializable {
         this.price = price;
     }
 
-    public String getDes() {
-        return des;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDes(String des) {
-        this.des = des;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isNew() {

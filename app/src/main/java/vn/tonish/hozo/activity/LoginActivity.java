@@ -78,6 +78,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         edtPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
@@ -261,7 +262,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     e.printStackTrace();
                 }
             }
-
 
             @Override
             public void onError() {

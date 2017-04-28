@@ -84,7 +84,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         tvTime.setText(work.getName());
         tvTimeAgo.setText(work.getTimeAgo());
         tvWorkType.setText(work.getWorkType());
-        tvDescription.setText(work.getDes());
+        tvDescription.setText(work.getDescription());
 
         tvPrice.setText(work.getPrice());
         tvDate.setText(work.getDate());
