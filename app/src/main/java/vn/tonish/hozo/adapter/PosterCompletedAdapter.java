@@ -15,9 +15,9 @@ import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.RateActivity;
-import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.CircleImageView;
 
 /**
  * Created by LongBui on 4/19/2017.

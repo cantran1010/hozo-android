@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PostATaskActivity;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.CircleImageView;
 
 /**
  * Created by LongBui on 4/12/17.
