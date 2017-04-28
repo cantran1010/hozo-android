@@ -22,7 +22,7 @@ import vn.tonish.hozo.adapter.PosterAssignedAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
-import vn.tonish.hozo.view.User;
+import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;

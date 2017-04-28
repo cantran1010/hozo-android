@@ -200,5 +200,6 @@
     <string name="work_detail_view_date">Ngày :</string>
     <string name="work_detail_view_time">Thời gian :</string>
     <string name="work_detail_view_address">Địa điểm :</string>
+    <string name="network_account_is_not_exist">Tài khoản không tồn tại</string>
 
 </resources>

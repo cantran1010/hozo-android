@@ -29,7 +29,9 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 
-import static com.android.volley.Request.Method.HEAD;
+import static vn.tonish.hozo.common.Constants.CODE;
+import static vn.tonish.hozo.common.Constants.REFRESH_TOCKEN;
+import static vn.tonish.hozo.common.Constants.USER_MOBILE;
 
 /**
  * Created by LongBui.
@@ -54,8 +56,8 @@ public class NetworkUtils {
     //refresh token
     public static void RefreshToken(final Context context, final RefreshListener refreshListener) {
         HashMap<String, String> dataRequestToken = new HashMap<>();
-        dataRequestToken.put("mobile", UserManager.getUserLogin(context).getPhoneNumber());
-        dataRequestToken.put("refresh_token", UserManager.getUserToken(context));
+        dataRequestToken.put(USER_MOBILE, UserManager.getUserLogin(context).getPhoneNumber());
+        dataRequestToken.put(REFRESH_TOCKEN, UserManager.getUserLogin(context).getRefreshToken());
 
         postVolleyFormData(true, true, true, context, NetworkConfig.API_REFRESH_TOKEN, dataRequestToken, new NetworkListener() {
             @Override
@@ -63,32 +65,15 @@ public class NetworkUtils {
                 // save new token
                 try {
 
-                    if (jsonResponse.getInt("code") == 0) {
+                    if (jsonResponse.getInt(CODE) == 0) {
                         if (refreshListener != null) refreshListener.onRefreshFinish(jsonResponse);
                     } else {
                         // logout
-                        NetworkUtils.getRequestVolleyFormData(true, true, true, context, NetworkConfig.API_LOGOUT, new HashMap<String, String>(), new NetworkUtils.NetworkListener() {
-                            @Override
-                            public void onSuccess(JSONObject jsonResponse) {
-                                try {
-                                    if (jsonResponse.getInt("code") == 0) {
-                                        UserManager.deleteAll();
-                                        Intent intent = new Intent(context, LoginActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        context.startActivity(intent);
-                                    } else if (jsonResponse.getInt("code") == 1) {
-                                        Toast.makeText(context, " Account is not exist", Toast.LENGTH_SHORT).show();
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onError() {
-
-                            }
-                        });
+                        Toast.makeText(context, context.getString(R.string.network_account_is_not_exist), Toast.LENGTH_SHORT).show();
+                        UserManager.deleteAll();
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
 
                     }
 
@@ -295,7 +280,7 @@ public class NetworkUtils {
                 LogUtils.e(TAG, "postVolley volleyError message : " + error.getMessage());
 
 
-                if ((!(error==null))|| error.getMessage().equals(Constants.ERROR_AUTHENTICATION)) {
+                if ((!(error == null)) || error.getMessage().equals(Constants.ERROR_AUTHENTICATION)) {
 
                     // HTTP Status Code: 401 Unauthorized
                     // Refresh token
