@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="vn.tonish.hozo.activity.SplashActivity"
+            android:name="vn.tonish.hozo.activity.MakeAnOfferActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
@@ -50,11 +50,11 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustNothing" />
 
-        <!--<activity-->
-        <!--android:name="vn.tonish.hozo.activity.MainActivity"-->
-        <!--android:screenOrientation="portrait"-->
-        <!--android:theme="@style/AppTheme.NoActionBar"-->
-        <!--android:windowSoftInputMode="stateHidden" />-->
+        <activity
+        android:name="vn.tonish.hozo.activity.MainActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.NoActionBar"
+        android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".activity.PostATaskActivity"
@@ -136,10 +136,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
-        <activity
-            android:name=".activity.MakeAnOfferActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+        <!--<activity-->
+            <!--android:name=".activity.MakeAnOfferActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:windowSoftInputMode="stateHidden" />-->
 
         <activity
             android:name=".activity.setting.TimeSettingActivity"

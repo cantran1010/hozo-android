@@ -117,7 +117,8 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
             latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
 
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+//            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
 
             googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
                 @Override

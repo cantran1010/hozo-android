@@ -28,7 +28,7 @@ public class DataParse {
                 userEntity.setRefreshToken(getStringInJsonObj(jToken, "refresh_token"));
                 userEntity.setTokenExp(getStringInJsonObj(jToken, "token_exp"));
 
-                userEntity.setId(Integer.parseInt(getStringInJsonObj(jUser, "Id")));
+                userEntity.setId(Integer.parseInt(getStringInJsonObj(jUser, "id")));
                 userEntity.setFullName(getStringInJsonObj(jUser, "full_name"));
                 userEntity.setPhoneNumber(getStringInJsonObj(jUser, "mobile"));
                 userEntity.setLoginAt(getStringInJsonObj(jUser, "login_at"));
