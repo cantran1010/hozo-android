@@ -58,7 +58,6 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initData() {
         Intent intent = getIntent();
-
         if (intent != null ? intent.hasExtra(Constants.EXTRA_ONLY_IMAGE) : false)
             isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
 

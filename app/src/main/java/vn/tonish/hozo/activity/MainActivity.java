@@ -9,11 +9,13 @@ import android.widget.TextView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
 import vn.tonish.hozo.fragment.HelpFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
 import vn.tonish.hozo.fragment.MyTaskFragment;
 import vn.tonish.hozo.fragment.SelectTaskFragment;
+import vn.tonish.hozo.utils.LogUtils;
 
 /**
  * Created by LongBD.
@@ -45,6 +47,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         };
         intentFilter = new IntentFilter(Constants.BADGE);
         registerReceiver(badgeChangeListener, intentFilter);
+
     }
 
     @Override
@@ -75,6 +78,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
 
         switch (v.getId()) {
+
             case R.id.layout_post_a_task:
                 openFragment(R.id.layout_container, SelectTaskFragment.class, false);
                 break;
@@ -97,5 +101,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         }
     }
-
 }

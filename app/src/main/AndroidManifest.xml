@@ -19,8 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name="vn.tonish.hozo.activity.MakeAnOfferActivity"
+            android:name="vn.tonish.hozo.activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
@@ -34,14 +35,24 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="www.tonish.vn"
                     android:pathPrefix="/hozo"
                     android:scheme="http" />
+                <!-- note that the leading "/" is required for pathPrefix-->
+                <!-- Accepts URIs that begin with "example://gizmos”
+                <data android:scheme="example"
+                      android:host="gizmos" />
+                -->
             </intent-filter>
 
         </activity>
+
+        <activity
+            android:name="vn.tonish.hozo.activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name="vn.tonish.hozo.activity.LoginActivity"
@@ -51,18 +62,13 @@
             android:windowSoftInputMode="adjustNothing" />
 
         <activity
-        android:name="vn.tonish.hozo.activity.MainActivity"
-        android:screenOrientation="portrait"
-        android:theme="@style/AppTheme.NoActionBar"
-        android:windowSoftInputMode="stateHidden" />
-
-        <activity
             android:name=".activity.PostATaskActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".activity.AdvanceSettingsActivity"
+
             android:screenOrientation="portrait">
 
         </activity>
@@ -181,6 +187,7 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="a5706b90dc87e8fd7eb3b77dfb9f0ae4e43bc71d" />
-    </application>
+
+</application>
 
 </manifest>

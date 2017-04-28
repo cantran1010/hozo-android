@@ -1,4 +1,4 @@
-package vn.tonish.hozo.customview;
+package vn.tonish.hozo.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

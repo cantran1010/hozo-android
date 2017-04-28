@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="TIEU DE"
+        android:textColor="@color/blue"
         android:textStyle="bold" />
 
     <TextView
@@ -27,6 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:maxLength="4" />
+        android:maxLength="4"
+        android:padding="16dp" />
+
 
 </RelativeLayout>

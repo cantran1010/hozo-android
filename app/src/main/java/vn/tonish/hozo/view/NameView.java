@@ -1,5 +1,6 @@
-package vn.tonish.hozo.customview;
+package vn.tonish.hozo.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -36,25 +37,21 @@ import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 
 public class NameView extends FrameLayout implements View.OnClickListener {
     private final static String TAG = "NameView";
-    private Context context;
-    private View rootView;
+    private final Context context;
     private EditText edtName;
-    private TextView btnSave, btnBack;
+    private TextView btnSave;
 
 
     public NameView(Context context) {
         super(context);
         this.context = context;
         initView();
-        initData();
-    }
-
-    private void initData() {
     }
 
 
+    @SuppressLint("InflateParams")
     private void initView() {
-        rootView = LayoutInflater.from(context).inflate(R.layout.view_name, null);
+        View rootView = LayoutInflater.from(context).inflate(R.layout.view_name, null);
         addView(rootView);
         edtName = (EditText) rootView.findViewById(R.id.edt_name);
         btnSave = (TextView) rootView.findViewById(R.id.btn_save);
@@ -93,7 +90,6 @@ public class NameView extends FrameLayout implements View.OnClickListener {
 
             case R.id.btn_save:
                 saveUser();
-                Toast.makeText(context, "wellcome " + edtName.getText().toString() + " to hozo", Toast.LENGTH_SHORT).show();
                 ((LoginActivity) context).startActivityAndClearAllTask(MainActivity.class);
                 break;
         }

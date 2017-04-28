@@ -25,6 +25,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     protected void initView() {
         setBackButton();
         setTitleHeader(getString(R.string.advance_setting_title));
+
         findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -36,8 +37,8 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         TextView tv_fee = (TextView) findViewById(R.id.tv_fee_text);
         String titleFee = getString(R.string.tv_fee);
         String currency = getString(R.string.vnd);
-        Spanned text = Html.fromHtml(titleFee + "<i>" + currency + "</i>");
 
+        Spanned text = Html.fromHtml(titleFee + "<i>" + currency + "</i>");
         tv_fee.setText(text);
 
         findViewById(R.id.tv_type).setOnClickListener(this);
@@ -47,6 +48,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         findViewById(R.id.tv_sex).setOnClickListener(this);
         findViewById(R.id.tv_age).setOnClickListener(this);
         findViewById(R.id.tv_notification).setOnClickListener(this);
+
     }
 
     @Override
@@ -57,8 +59,8 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     @Override
     protected void resumeData() {
 
-    }
 
+    }
 
     @Override
     public void onClick(View view) {
@@ -86,7 +88,6 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
                 break;
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

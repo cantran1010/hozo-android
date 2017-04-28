@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -16,7 +16,7 @@ import static vn.tonish.hozo.common.Constants.SPLASH_TIME;
  * status bar and navigation/system bar) with user interaction.
  */
 public class SplashActivity extends BaseActivity {
-    private LinearLayout llLogo;
+    private ImageView imgLogo;
     private Animation animation;
 
     @Override
@@ -26,13 +26,13 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        llLogo = (LinearLayout) findViewById(R.id.ll_logo);
+        imgLogo = (ImageView) findViewById(R.id.img_logo);
         animation = AnimationUtils.loadAnimation(this, R.anim.local_matching_effect);
     }
 
     @Override
     protected void initData() {
-        llLogo.setAnimation(animation);
+        imgLogo.setAnimation(animation);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

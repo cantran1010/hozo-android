@@ -1,5 +1,6 @@
-package vn.tonish.hozo.customview;
+package vn.tonish.hozo.view;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
 import android.os.Handler;
@@ -35,21 +36,20 @@ import static vn.tonish.hozo.common.Constants.NAME_VIEW;
  * Created by CanTran on 18/04/2017.
  */
 
+@SuppressWarnings("ALL")
+@SuppressLint("ViewConstructor")
 public class OtpView extends FrameLayout implements View.OnFocusChangeListener, View.OnKeyListener, TextWatcher, View.OnClickListener {
     private static final String TAG = "OtpView";
 
-    private Context context;
-    private View rootView;
+    private final Context context;
     private EditText mPinFirstDigitEditText;
     private EditText mPinSecondDigitEditText;
     private EditText mPinThirdDigitEditText;
     private EditText mPinForthDigitEditText;
     private EditText mPinHiddenEditText;
-    private TextView btnSigin;
-    private TextView btnBack;
-    private TextView btnResetOtp;
-    private boolean registed;
-    private String phone;
+    private TextView btnSigIn;
+    private final boolean registed;
+    private final String phone;
 
     public OtpView(Context context, boolean registed, String phone) {
         super(context);
@@ -64,22 +64,23 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         setPINListeners();
     }
 
+    @SuppressLint("InflateParams")
     private void initView() {
-        rootView = LayoutInflater.from(context).inflate(R.layout.view_otp, null);
+        View rootView = LayoutInflater.from(context).inflate(R.layout.view_otp, null);
         addView(rootView);
         init();
-        btnBack = (TextView) rootView.findViewById(R.id.btnBack);
-        btnSigin = (TextView) rootView.findViewById(R.id.btn_sigin);
-        btnResetOtp = (TextView) rootView.findViewById(R.id.btn_reset_otp);
+        TextView btnBack = (TextView) rootView.findViewById(R.id.btnBack);
+        btnSigIn = (TextView) rootView.findViewById(R.id.btn_sigin);
+        TextView btnResetOtp = (TextView) rootView.findViewById(R.id.btn_reset_otp);
 
         btnBack.setOnClickListener(this);
-        btnSigin.setOnClickListener(this);
+        btnSigIn.setOnClickListener(this);
         btnResetOtp.setOnClickListener(this);
 
         if (registed) {
-            btnSigin.setText(getResources().getString(R.string.login_account));
+            btnSigIn.setText(getResources().getString(R.string.login_account));
         } else {
-            btnSigin.setText(getResources().getString(R.string.login_create_account));
+            btnSigIn.setText(getResources().getString(R.string.login_create_account));
         }
 
     }
@@ -111,6 +112,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (s.length() == 0) {
@@ -132,7 +134,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         } else if (s.length() == 4) {
             mPinForthDigitEditText.setText(s.charAt(3) + "");
             hideSoftKeyboard(mPinForthDigitEditText);
-            btnSigin.setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+            btnSigIn.setTextColor(ContextCompat.getColor(getContext(),R.color.white));
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -140,9 +142,8 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                 }
             }, 200);
         } else {
-            btnSigin.setTextColor(ContextCompat.getColor(getContext(),R.color.blue));
+            btnSigIn.setTextColor(ContextCompat.getColor(getContext(),R.color.blue));
         }
-
 
     }
 
@@ -201,7 +202,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
      *
      * @param editText EditText to set focus on
      */
-    public static void setFocus(EditText editText) {
+    private static void setFocus(EditText editText) {
         if (editText == null)
             return;
         editText.setFocusable(true);
@@ -215,7 +216,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
      *
      * @param editText EditText which has focus
      */
-    public void showSoftKeyboard(EditText editText) {
+    private void showSoftKeyboard(EditText editText) {
         if (editText == null)
             return;
 
@@ -228,7 +229,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
      *
      * @param editText EditText which has focus
      */
-    public void hideSoftKeyboard(EditText editText) {
+    private void hideSoftKeyboard(EditText editText) {
         if (editText == null)
             return;
 
@@ -316,18 +317,22 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     }
 
     private void login() {
-        String otpcode = mPinHiddenEditText.getText().toString().trim();
+        String otpCode = mPinHiddenEditText.getText().toString().trim();
         HashMap<String, String> dataRequest = new HashMap<>();
         dataRequest.put("mobile", phone);
-        dataRequest.put("otpcode", otpcode);
+        dataRequest.put("otpcode", otpCode);
         NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_LOGIN, dataRequest, new NetworkUtils.NetworkListener() {
             @Override
             public void onSuccess(JSONObject jsonResponse) {
                 LogUtils.d(TAG, "dataRequest" + jsonResponse.toString());
                 try {
                     if (jsonResponse.getInt("code") == 0) {
+
                         UserManager.insertUserLogin(new DataParse().getUserEntiny(context, jsonResponse), context);
                         LogUtils.d(TAG, "check User :" + UserManager.getUserLogin(context).toString());
+
+                        LogUtils.e(TAG, UserManager.getUserLogin(context).getId() + "");
+
                         String name;
                         name = UserManager.getUserLogin(context).getFullName().trim();
                         if ((name.isEmpty())) {
@@ -345,7 +350,6 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                     e.printStackTrace();
                 }
             }
-
 
             @Override
             public void onError() {

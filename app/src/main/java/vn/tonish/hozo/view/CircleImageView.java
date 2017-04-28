@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package vn.tonish.hozo.customview;
+package vn.tonish.hozo.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
