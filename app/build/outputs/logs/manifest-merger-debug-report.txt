@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:2:1-199:12
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:2:1-193:12
 	package
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:3:5-29
 		INJECTED from D:\hozo\app\src\main\AndroidManifest.xml
@@ -55,7 +55,7 @@ MERGED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\
 	android:name
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:12:22-64
 application
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:14:5-197:19
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:14:5-191:19
 MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\CanTran\.android\build-cache\9cd881f2aac2271d2e5ecbc7369d05c50d2a91a4\output\AndroidManifest.xml:9:5-20
 MERGED from [com.android.support:design:25.3.1] C:\Users\CanTran\.android\build-cache\35d685e6a22cab5aec5f84d7e64f685a87c026ec\output\AndroidManifest.xml:29:5-20
 MERGED from [com.android.support:transition:25.3.1] C:\Users\CanTran\.android\build-cache\d19c14102b716104bdf4abd61c86fd5177a38df0\output\AndroidManifest.xml:26:5-20
@@ -100,7 +100,7 @@ MERGED from [com.android.support:support-compat:25.3.1] C:\Users\CanTran\.androi
 	android:name
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:15:9-66
 activity#vn.tonish.hozo.activity.SplashActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:23:9-49:20
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:23:9-44:20
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:25:13-49
 	android:windowSoftInputMode
@@ -120,7 +120,7 @@ ADDED from D:\hozo\app\src\main\AndroidManifest.xml:30:17-77
 	android:name
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:30:27-74
 intent-filter#android.intent.action.VIEW+android.intent.category.BROWSABLE+android.intent.category.DEFAULT
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:33:13-47:29
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:33:13-42:29
 	android:label
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:33:28-60
 action#android.intent.action.VIEW
@@ -144,239 +144,239 @@ ADDED from D:\hozo\app\src\main\AndroidManifest.xml:38:17-41:45
 	android:pathPrefix
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:40:21-47
 activity#vn.tonish.hozo.activity.MainActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:51:9-60:20
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:46:9-55:20
 	android:screenOrientation
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:53:13-49
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:48:13-49
 	android:windowSoftInputMode
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:55:13-54
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:50:13-54
 	android:theme
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:54:13-56
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:49:13-56
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:52:13-64
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:47:13-64
 activity#vn.tonish.hozo.activity.LoginActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:62:9-67:59
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:57:9-62:59
 	android:screenOrientation
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:65:13-49
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:60:13-49
 	android:label
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:64:13-45
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:59:13-45
 	android:windowSoftInputMode
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:67:13-56
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:62:13-56
 	android:theme
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:66:13-56
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:61:13-56
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:63:13-65
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:58:13-65
 activity#vn.tonish.hozo.activity.PostATaskActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:70:9-73:57
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:65:9-68:57
 	android:screenOrientation
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:72:13-49
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:67:13-49
 	android:windowSoftInputMode
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:73:13-54
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:68:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:71:13-55
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:66:13-55
 activity#vn.tonish.hozo.activity.AdvanceSettingsActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:75:9-80:20
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:70:9-75:20
 	android:screenOrientation
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:78:13-49
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:73:13-49
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:76:13-61
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:71:13-61
 activity#vn.tonish.hozo.activity.other.ProfileActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:82:9-84:52
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:77:9-79:52
 	android:screenOrientation
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:84:13-49
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:79:13-49
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:83:13-59
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:78:13-59
 activity#vn.tonish.hozo.activity.other.ShareActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:81:9-84:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:83:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:84:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:82:13-57
+activity#vn.tonish.hozo.activity.PostATaskMapActivity
 ADDED from D:\hozo\app\src\main\AndroidManifest.xml:86:9-89:57
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:88:13-49
 	android:windowSoftInputMode
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:89:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:87:13-57
-activity#vn.tonish.hozo.activity.PostATaskMapActivity
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:87:13-58
+activity#vn.tonish.hozo.activity.PostATaskFinishActivity
 ADDED from D:\hozo\app\src\main\AndroidManifest.xml:91:9-94:57
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:93:13-49
 	android:windowSoftInputMode
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:94:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:92:13-58
-activity#vn.tonish.hozo.activity.PostATaskFinishActivity
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:92:13-61
+activity#vn.tonish.hozo.activity.PosterCompletedTaskActivity
 ADDED from D:\hozo\app\src\main\AndroidManifest.xml:96:9-99:57
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:98:13-49
 	android:windowSoftInputMode
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:99:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:97:13-61
-activity#vn.tonish.hozo.activity.PosterCompletedTaskActivity
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:97:13-65
+activity#vn.tonish.hozo.activity.AlbumActivity
 ADDED from D:\hozo\app\src\main\AndroidManifest.xml:101:9-104:57
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:103:13-49
 	android:windowSoftInputMode
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:104:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:102:13-65
-activity#vn.tonish.hozo.activity.AlbumActivity
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:102:13-51
+activity#vn.tonish.hozo.activity.ImageSelectActivity
 ADDED from D:\hozo\app\src\main\AndroidManifest.xml:106:9-109:57
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:108:13-49
 	android:windowSoftInputMode
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:109:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:107:13-51
-activity#vn.tonish.hozo.activity.ImageSelectActivity
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:107:13-57
+activity#vn.tonish.hozo.activity.CropImageActivity
 ADDED from D:\hozo\app\src\main\AndroidManifest.xml:111:9-114:57
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:113:13-49
 	android:windowSoftInputMode
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:114:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:112:13-57
-activity#vn.tonish.hozo.activity.CropImageActivity
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:112:13-55
+activity#vn.tonish.hozo.activity.PreviewImageActivity
 ADDED from D:\hozo\app\src\main\AndroidManifest.xml:116:9-119:57
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:118:13-49
 	android:windowSoftInputMode
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:119:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:117:13-55
-activity#vn.tonish.hozo.activity.PreviewImageActivity
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:117:13-58
+activity#vn.tonish.hozo.activity.ReportTaskActivity
 ADDED from D:\hozo\app\src\main\AndroidManifest.xml:121:9-124:57
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:123:13-49
 	android:windowSoftInputMode
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:124:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:122:13-58
-activity#vn.tonish.hozo.activity.ReportTaskActivity
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:122:13-56
+activity#vn.tonish.hozo.activity.ReplyActivity
 ADDED from D:\hozo\app\src\main\AndroidManifest.xml:126:9-129:57
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:128:13-49
 	android:windowSoftInputMode
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:129:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:127:13-56
-activity#vn.tonish.hozo.activity.ReplyActivity
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:127:13-51
+activity#vn.tonish.hozo.activity.RateActivity
 ADDED from D:\hozo\app\src\main\AndroidManifest.xml:131:9-134:57
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:133:13-49
 	android:windowSoftInputMode
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:134:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:132:13-51
-activity#vn.tonish.hozo.activity.RateActivity
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:132:13-50
+activity#vn.tonish.hozo.activity.WorkerOfferMadeActivity
 ADDED from D:\hozo\app\src\main\AndroidManifest.xml:136:9-139:57
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:138:13-49
 	android:windowSoftInputMode
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:139:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:137:13-50
-activity#vn.tonish.hozo.activity.WorkerOfferMadeActivity
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:137:13-61
+activity#vn.tonish.hozo.activity.PosterAssignedTaskActivity
 ADDED from D:\hozo\app\src\main\AndroidManifest.xml:141:9-144:57
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:143:13-49
 	android:windowSoftInputMode
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:144:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:142:13-61
-activity#vn.tonish.hozo.activity.PosterAssignedTaskActivity
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:142:13-64
+activity#vn.tonish.hozo.activity.MakeAnOfferActivity
 ADDED from D:\hozo\app\src\main\AndroidManifest.xml:146:9-149:57
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:148:13-49
 	android:windowSoftInputMode
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:149:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:147:13-64
-activity#vn.tonish.hozo.activity.MakeAnOfferActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:151:9-154:57
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:147:13-57
+activity#vn.tonish.hozo.activity.setting.TimeSettingActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:151:9-153:52
 	android:screenOrientation
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:153:13-49
-	android:windowSoftInputMode
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:154:13-54
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:152:13-57
-activity#vn.tonish.hozo.activity.setting.TimeSettingActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:156:9-158:52
-	android:screenOrientation
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:158:13-49
-	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:157:13-65
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:152:13-65
 activity#vn.tonish.hozo.activity.setting.AgeSettingActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:160:9-162:52
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:155:9-157:52
 	android:screenOrientation
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:162:13-49
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:157:13-49
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:161:13-64
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:156:13-64
 activity#vn.tonish.hozo.activity.other.AboutActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:165:9-66
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:160:9-66
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:165:19-63
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:160:19-63
 activity#vn.tonish.hozo.activity.other.ConditionActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:166:9-70
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:161:9-70
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:166:19-67
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:161:19-67
 activity#vn.tonish.hozo.activity.setting.FeeActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:163:9-66
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:163:19-63
+activity#vn.tonish.hozo.activity.other.HistoryActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:164:9-68
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:164:19-65
+activity#vn.tonish.hozo.activity.other.InfoActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:165:9-65
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:165:19-62
+activity#vn.tonish.hozo.activity.other.NADActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:166:9-64
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:166:19-61
+activity#vn.tonish.hozo.activity.other.PaymentActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:167:9-68
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:167:19-65
+activity#vn.tonish.hozo.activity.setting.SexActivity
 ADDED from D:\hozo\app\src\main\AndroidManifest.xml:168:9-66
 	android:name
 		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:168:19-63
-activity#vn.tonish.hozo.activity.other.HistoryActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:169:9-68
-	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:169:19-65
-activity#vn.tonish.hozo.activity.other.InfoActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:170:9-65
-	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:170:19-62
-activity#vn.tonish.hozo.activity.other.NADActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:171:9-64
-	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:171:19-61
-activity#vn.tonish.hozo.activity.other.PaymentActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:172:9-68
-	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:172:19-65
-activity#vn.tonish.hozo.activity.setting.SexActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:173:9-66
-	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:173:19-63
 activity#vn.tonish.hozo.activity.setting.WorkTypeActivity
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:174:9-71
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:169:9-71
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:174:19-68
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:169:19-68
 meta-data#com.google.android.geo.API_KEY
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:177:9-179:71
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:172:9-174:71
 	android:value
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:179:13-68
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:174:13-68
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:178:13-58
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:173:13-58
 service#vn.tonish.hozo.fcm.MyFireBaseMessagingService
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:181:9-185:19
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:176:9-180:19
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:181:18-78
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:176:18-78
 intent-filter#com.google.firebase.MESSAGING_EVENT
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:182:13-184:29
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:177:13-179:29
 action#com.google.firebase.MESSAGING_EVENT
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:183:17-78
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:178:17-78
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:183:25-75
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:178:25-75
 service#vn.tonish.hozo.fcm.MyFireBaseInstanceIDService
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:187:9-191:19
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:182:9-186:19
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:187:18-79
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:182:18-79
 intent-filter#com.google.firebase.INSTANCE_ID_EVENT
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:188:13-190:29
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:183:13-185:29
 action#com.google.firebase.INSTANCE_ID_EVENT
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:189:17-80
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:184:17-80
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:189:25-77
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:184:25-77
 meta-data#io.fabric.ApiKey
-ADDED from D:\hozo\app\src\main\AndroidManifest.xml:193:9-195:72
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:188:9-190:72
 	android:value
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:195:13-69
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:190:13-69
 	android:name
-		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:194:13-44
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:189:13-44
 uses-sdk
 INJECTED from D:\hozo\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [io.realm:realm-android-library:3.1.1] C:\Users\CanTran\.android\build-cache\5d067a0813da5f4a78e56a49191b02d7f2bb4c3d\output\AndroidManifest.xml:7:5-9:41

@@ -63,12 +63,6 @@
                     android:host="www.tonish.vn"
                     android:pathPrefix="/hozo"
                     android:scheme="http" />
-                <!-- note that the leading "/" is required for pathPrefix -->
-                <!--
-                Accepts URIs that begin with "example://gizmos”
-                <data android:scheme="example"
-                      android:host="gizmos" />
-                -->
             </intent-filter>
         </activity>
         <activity

@@ -1,11 +1,11 @@
 [
     {
-        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_go_search_api_material.xml",
-        "source": "C:\\Users\\CanTran\\.android\\build-cache\\128a304320eaef0f4b20252ef1b2343e58ecba28\\output\\res\\drawable\\abc_ic_go_search_api_material.xml"
-    },
-    {
         "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\checkbox.xml",
         "source": "D:\\hozo\\app\\src\\main\\res\\drawable\\checkbox.xml"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_go_search_api_material.xml",
+        "source": "C:\\Users\\CanTran\\.android\\build-cache\\128a304320eaef0f4b20252ef1b2343e58ecba28\\output\\res\\drawable\\abc_ic_go_search_api_material.xml"
     },
     {
         "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_colored_material.xml",
@@ -28,12 +28,12 @@
         "source": "C:\\Users\\CanTran\\.android\\build-cache\\128a304320eaef0f4b20252ef1b2343e58ecba28\\output\\res\\drawable\\abc_ic_search_api_material.xml"
     },
     {
-        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\design_password_eye.xml",
-        "source": "C:\\Users\\CanTran\\.android\\build-cache\\35d685e6a22cab5aec5f84d7e64f685a87c026ec\\output\\res\\drawable\\design_password_eye.xml"
-    },
-    {
         "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\tab_selector.xml",
         "source": "D:\\hozo\\app\\src\\main\\res\\drawable\\tab_selector.xml"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\design_password_eye.xml",
+        "source": "C:\\Users\\CanTran\\.android\\build-cache\\35d685e6a22cab5aec5f84d7e64f685a87c026ec\\output\\res\\drawable\\design_password_eye.xml"
     },
     {
         "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\common_google_signin_btn_text_disabled.xml",
