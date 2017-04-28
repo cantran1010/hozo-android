@@ -2,11 +2,13 @@ package vn.tonish.hozo.model;
 
 import java.io.Serializable;
 
+import io.realm.RealmObject;
+
 /**
  * Created by LongBui on 12/04/2017.
  */
 
-public class User implements Serializable {
+public class User extends RealmObject implements Serializable {
     private String id;
     private String mobile;
     private String token_key;
@@ -30,6 +32,34 @@ public class User implements Serializable {
     private String updated_at;
     private Comment review;
     private String priceBit;
+
+    public User() {
+    }
+
+    public User(String id, String mobile, String token_key, String full_name, String created_at, String avatar, String address, String facebook_id, String date_of_birth, String gender, String verify, String average_rating, String average_stars, String description, String education, String email, String languages, String ranking, String rating_percentage, String review_counts, String updated_at, Comment review) {
+        this.id = id;
+        this.mobile = mobile;
+        this.token_key = token_key;
+        this.full_name = full_name;
+        this.created_at = created_at;
+        this.avatar = avatar;
+        this.address = address;
+        this.facebook_id = facebook_id;
+        this.date_of_birth = date_of_birth;
+        this.gender = gender;
+        this.verify = verify;
+        this.average_rating = average_rating;
+        this.average_stars = average_stars;
+        this.description = description;
+        this.education = education;
+        this.email = email;
+        this.languages = languages;
+        this.ranking = ranking;
+        this.rating_percentage = rating_percentage;
+        this.review_counts = review_counts;
+        this.updated_at = updated_at;
+        this.review = review;
+    }
 
     public String getPriceBit() {
         return priceBit;
