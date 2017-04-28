@@ -5,10 +5,10 @@ package vn.tonish.hozo.network;
  */
 public class NetworkConfig {
 
-    public static int NETWORK_TIME_OUT = 10000;
+    public static final int NETWORK_TIME_OUT = 10000;
 
     //==================== DOMAIN =====================
-    public static String DOMAIN = "http://104.198.92.15:8080/v1/";
+    public static final String DOMAIN = "http://104.198.92.15:8080/v1/";
 
     //==================== API=========================
     public static final String API_LOGIN = DOMAIN + "auth/login";

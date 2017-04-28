@@ -29,6 +29,8 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 
+import static com.android.volley.Request.Method.HEAD;
+
 /**
  * Created by LongBui.
  */
@@ -292,7 +294,9 @@ public class NetworkUtils {
                 LogUtils.e(TAG, "postVolley volleyError : " + error.toString());
                 LogUtils.e(TAG, "postVolley volleyError message : " + error.getMessage());
 
-                if (!error.equals(null) || error.getMessage().equals(Constants.ERROR_AUTHENTICATION)) {
+
+                if ((!(error==null))|| error.getMessage().equals(Constants.ERROR_AUTHENTICATION)) {
+
                     // HTTP Status Code: 401 Unauthorized
                     // Refresh token
                     RefreshToken(context, new RefreshListener() {

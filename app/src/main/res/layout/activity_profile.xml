@@ -18,7 +18,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <vn.tonish.hozo.customview.CircleImageView
+            <vn.tonish.hozo.view.CircleImageView
                 android:id="@+id/img_avatar"
                 android:layout_width="90dp"
                 android:layout_height="90dp"

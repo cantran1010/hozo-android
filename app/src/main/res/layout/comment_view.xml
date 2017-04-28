@@ -5,7 +5,7 @@
     android:paddingBottom="5dp"
     android:paddingTop="5dp">
 
-    <vn.tonish.hozo.customview.CircleImageView
+    <vn.tonish.hozo.view.CircleImageView
         android:id="@+id/img_avatar"
         android:layout_width="80dp"
         android:layout_height="80dp"

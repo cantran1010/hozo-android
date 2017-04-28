@@ -5,7 +5,7 @@ import java.io.Serializable;
 import io.realm.RealmObject;
 
 /**
- * Created by CanTran on 12/04/2017.
+ * Created by Can Tran on 12/04/2017.
  */
 
 public class NotificationMessage extends RealmObject implements Serializable {

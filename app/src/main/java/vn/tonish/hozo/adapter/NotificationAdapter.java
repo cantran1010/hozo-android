@@ -16,7 +16,6 @@ import vn.tonish.hozo.model.Notification;
 
 public class NotificationAdapter extends BaseAdapter<Notification, NotificationAdapter.NotificationHolder, LoadingHolder> {
 
-    public Context context;
     public List<Notification> list;
 
     public NotificationAdapter(Context context, List<Notification> list) {

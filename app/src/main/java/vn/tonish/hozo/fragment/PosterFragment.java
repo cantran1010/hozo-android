@@ -52,7 +52,7 @@ public class PosterFragment extends BaseFragment implements View.OnClickListener
             work.setName("Hey ! Are you free tonight!");
             work.setTime("2017-04-18T03:48:10+00:00");
             work.setNew(true);
-            work.setDes("15 phut truoc . Ha Noi . Phan loai : Cong nghe");
+            work.setDescription("15 phut truoc . Ha Noi . Phan loai : Cong nghe");
             work.setPrice("500000");
             workList.add(work);
         }
@@ -71,7 +71,7 @@ public class PosterFragment extends BaseFragment implements View.OnClickListener
                             work.setName("Hey ! Are you free tonight!");
                             work.setTime("2017-04-18T03:48:10+00:00");
                             work.setNew(true);
-                            work.setDes("15 phut truoc . Ha Noi . Phan loai : Cong nghe");
+                            work.setDescription("15 phut truoc . Ha Noi . Phan loai : Cong nghe");
                             work.setPrice("500000");
                             workList.add(work);
                         }

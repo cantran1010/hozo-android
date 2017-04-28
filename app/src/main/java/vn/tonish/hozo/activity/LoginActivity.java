@@ -21,31 +21,36 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.customview.NameView;
-import vn.tonish.hozo.customview.OtpView;
+import vn.tonish.hozo.view.NameView;
+import vn.tonish.hozo.view.OtpView;
 import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
 
+import static vn.tonish.hozo.common.Constants.CODE;
+import static vn.tonish.hozo.common.Constants.DATA;
 import static vn.tonish.hozo.common.Constants.OTP_VIEW;
+import static vn.tonish.hozo.common.Constants.REGISTER;
+import static vn.tonish.hozo.common.Constants.USER_MOBILE;
 import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 /**
- * Created by MAC2015 on 4/11/17.
+ * Created by Can Tran on 4/11/17.
  */
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = LoginActivity.class.getName();
     private Context context;
     private EditText edtPhone;
     private TextView tvContinue;
     private FrameLayout viewLevel1, viewLevel2, viewLevel3;
-    public boolean registed = false;
-    public String phone = "";
-    public int viewLevel = 0;
-    public int duration = 200;
-    public Animation mLoadAnimation, rtAnimation, lanimation;
+    private boolean registed = false;
+    private String phone = "";
+    private int viewLevel = 0;
+    private final int duration = 200;
+    private Animation mLoadAnimation;
+    private Animation rtAnimation;
+    private Animation lanimation;
 
     @Override
     protected int getLayout() {
@@ -112,11 +117,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tvContinue.setEnabled(true);
     }
 
-    public OtpView getOtpView() {
+    private OtpView getOtpView() {
         return new OtpView(context, registed, phone);
     }
 
-    public NameView getNameView() {
+    private NameView getNameView() {
         return new NameView(context);
     }
 
@@ -185,7 +190,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }, duration);
     }
 
-    public void showViewFromRight(Context context, final View view, int duration, boolean isShow) {
+    private void showViewFromRight(Context context, final View view, int duration, boolean isShow) {
         if (isShow) {
             view.setVisibility(View.VISIBLE);
             view.startAnimation(rtAnimation);
@@ -201,7 +206,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    public boolean checkNumberPhone(String number) {
+    private boolean checkNumberPhone(String number) {
         Pattern pattern = Pattern.compile("^[0-9]*$");
         Matcher matcher = pattern.matcher(number);
         if (!matcher.matches()) {
@@ -210,16 +215,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             return true;
         } else if (number.length() == 10 && number.substring(0, 1).equals("1")) {
             return true;
-        } else if (number.length() == 11 && number.substring(0, 2).equals("01")) {
-            return true;
-        } else if (number.length() == 9 && number.substring(0, 1).equals("9")) {
-            return true;
-        } else {
-            return false;
-        }
+        } else
+            return number.length() == 11 && number.substring(0, 2).equals("01") || number.length() == 9 && number.substring(0, 1).equals("9");
     }
 
-    public boolean CheckErrorEditText(String number) {
+    private boolean CheckErrorEditText(String number) {
         boolean ck = false;
         if (number.length() == 1 && !(number.substring(0, 1).equals("9") || number.substring(0, 1).equals("1") || number.substring(0, 1).equals("0"))) {
             ck = true;
@@ -241,26 +241,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         return ck;
     }
 
-    public void login() {
+    private void login() {
         phone = edtPhone.getText().toString().trim();
         HashMap<String, String> dataRequest = new HashMap<>();
-        dataRequest.put("mobile", phone);
+        dataRequest.put(USER_MOBILE, phone);
         NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_OTP, dataRequest, new NetworkUtils.NetworkListener() {
             @Override
             public void onSuccess(JSONObject jsonResponse) {
                 try {
-                    if (jsonResponse.getInt("code") == 0) {
-                        JSONObject jData = jsonResponse.getJSONObject("data");
-                        if (getStringInJsonObj(jData, "registed").equals("true")) {
-                            registed = true;
-                        } else {
-                            registed = false;
-                        }
+                    if (jsonResponse.getInt(CODE) == 0) {
+                        JSONObject jData = jsonResponse.getJSONObject(DATA);
+                        registed = getStringInJsonObj(jData, REGISTER).equals("true");
                         showExtendView(OTP_VIEW);
-                    } else if (jsonResponse.getInt("code") == 1) {
-                        Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
+                    } else if (jsonResponse.getInt(CODE) == 1) {
+                        Toast.makeText(context,getString(R.string.login_erro_phone), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,getString(R.string.login_erro), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
