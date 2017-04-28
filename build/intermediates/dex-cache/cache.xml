@@ -12,24 +12,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="D:\PROJECT\TONISH\HOZO_ANDROID\app\libs\glide-3.7.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
-        <dex dex="D:\PROJECT\TONISH\HOZO_ANDROID\app\build\intermediates\transforms\dex\debug\folders\1000\2\glide-3.7.0_a3a33eb8f4bc61ee888944228b41aa46a0ab376e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\PROJECT\TONISH\HOZO_ANDROID\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="8f08a5e70947726d5cb9cc7792711276a5024f1a">
-        <dex dex="D:\PROJECT\TONISH\HOZO_ANDROID\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_c62451ff1beaf14257fb66db266dc09bbbd8c89d\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="D:\PROJECT\TONISH\HOZO_ANDROID\app\libs\library-1.0.19.jar"
         jumboMode="true"
         optimize="true"
@@ -45,6 +27,24 @@
         revision="25.0.2"
         sha1="c4ba5371a29ac9b2ad6129b1d39ea38750043eff">
         <dex dex="D:\PROJECT\TONISH\HOZO_ANDROID\app\build\intermediates\transforms\dex\debug\folders\1000\2\gson-2.8.0_5c61240d4265341a5ebfa8527308805884ba9df2\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\PROJECT\TONISH\HOZO_ANDROID\app\libs\glide-3.7.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="D:\PROJECT\TONISH\HOZO_ANDROID\app\build\intermediates\transforms\dex\debug\folders\1000\2\glide-3.7.0_a3a33eb8f4bc61ee888944228b41aa46a0ab376e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\PROJECT\TONISH\HOZO_ANDROID\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1e547eeff2490e2f3e0a40d9334332ba86930955">
+        <dex dex="D:\PROJECT\TONISH\HOZO_ANDROID\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_c62451ff1beaf14257fb66db266dc09bbbd8c89d\classes.dex" />
     </item>
     <item
         is-multidex="true"

@@ -200,5 +200,9 @@
     <string name="work_detail_view_date">Ngày :</string>
     <string name="work_detail_view_time">Thời gian :</string>
     <string name="work_detail_view_address">Địa điểm :</string>
+    <string name="rate_professional">Profressional</string>
+    <string name="rate_hard_working">Hard Working</string>
+    <string name="rate_good_attitude">Good Attitude</string>
+    <string name="rate_other">Other</string>
 
 </resources>

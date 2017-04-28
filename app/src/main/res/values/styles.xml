@@ -87,6 +87,12 @@
         <item name="android:maxHeight">18dip</item>
     </style>
 
+    <style name="StarRatingBarBig" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingbar_selector_images_big</item>
+        <item name="android:minHeight">37dp</item>
+        <item name="android:maxHeight">37dp</item>
+    </style>
+
     <style name="tv_style_normal_black">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/black</item>
@@ -102,6 +108,13 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/hozo_bg</item>
+    </style>
+
+    <style name="btn_style_nomal">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/btn_selector</item>
     </style>
 
     <style name="tv_title_cancel">

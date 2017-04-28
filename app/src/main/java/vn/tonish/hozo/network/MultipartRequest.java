@@ -1,38 +1,77 @@
 package vn.tonish.hozo.network;
 
+import android.content.Context;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyLog;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.util.CharsetUtils;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
+import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.utils.LogUtils;
 
 /**
  * Created by LongBui.
  */
 public class MultipartRequest extends Request<String> {
 
-    MultipartEntityBuilder entity = MultipartEntityBuilder.create();
-    HttpEntity httpentity;
+    private static final String TAG = MultipartRequest.class.getSimpleName();
 
+    private MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+    private HttpEntity httpentity;
     private final Response.Listener<String> mListener;
+    private Context context;
 
-    public MultipartRequest(String url, Response.ErrorListener errorListener,
-                            Response.Listener<String> listener, File file,
-                            JSONObject jsonObject) {
+//    public interface MultipartRequestListener{
+//        public void onSuccess();
+//        public void onError();
+//    }
+//
+//    private MultipartRequestListener multipartRequestListener;
+//
+//    public MultipartRequestListener getMultipartRequestListener() {
+//        return multipartRequestListener;
+//    }
+//
+//    public void setMultipartRequestListener(MultipartRequestListener multipartRequestListener) {
+//        this.multipartRequestListener = multipartRequestListener;
+//    }
+//
+//    Response.ErrorListener err = new Response.ErrorListener() {
+//        @Override
+//        public void onErrorResponse(VolleyError volleyError) {
+//
+//        }
+//    };
+//
+//    Response.Listener<String> res =  new Response.Listener<String>() {
+//        @Override
+//        public void onResponse(String s) {
+//
+//        }
+//    };
+
+    public MultipartRequest(Context context, String url, Response.ErrorListener errorListener,
+                            Response.Listener<String> listener, File file) {
 
         super(Method.POST, url, errorListener);
+
+        LogUtils.d(TAG, "Volley MultipartRequest url : " + url + " , file path : " + file.getPath());
+
         this.mListener = listener;
+        this.context = context;
 
         entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
         try {
@@ -41,34 +80,13 @@ public class MultipartRequest extends Request<String> {
             e.printStackTrace();
         }
 
-//        buildMultipartEntity(file, user);
+        buildMultipartEntity(file);
         httpentity = entity.build();
     }
 
-//    private void buildMultipartEntity(File file, User user) {
-//
-//        Charset chars = Charset.forName("UTF-8");
-//
-//        String name = file.getName();
-//        entity.addBinaryBody("dealer_image", file, ContentType.create("image/jpeg"), name);
-//        try {
-//            entity.addPart("birthday", new StringBody(DateTimeUtils.changeFormatDate2(user.getBirthday()), chars));
-//            entity.addPart("bank_name", new StringBody(user.getBankName(), chars));
-//            entity.addPart("phone_number", new StringBody(user.getPhoneNumber(), chars));
-//            entity.addPart("address", new StringBody(user.getDetailAddress(), chars));
-//            entity.addPart("province_id", new StringBody(user.getProvinceId() + "", chars));
-//            entity.addPart("email", new StringBody(user.getEmail(), chars));
-//            entity.addPart("name", new StringBody(user.getName(), chars));
-//            entity.addPart("action", new StringBody("join", chars));
-//            entity.addPart("district_id", new StringBody(user.getDistrictId() + "", chars));
-//            entity.addPart("gender", new StringBody("1", chars));
-//            entity.addPart("bank_account", new StringBody(user.getBankAccount(), chars));
-//            entity.addPart("password", new StringBody(user.getPassword(), chars));
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
+    private void buildMultipartEntity(File file) {
+        entity.addBinaryBody("image", file);
+    }
 
     @Override
     public String getBodyContentType() {
@@ -82,7 +100,7 @@ public class MultipartRequest extends Request<String> {
         try {
             httpentity.writeTo(bos);
         } catch (IOException e) {
-            VolleyLog.e("IOException writing to ByteArrayOutputStream");
+            e.printStackTrace();
         }
         return bos.toByteArray();
     }
@@ -103,4 +121,14 @@ public class MultipartRequest extends Request<String> {
     protected void deliverResponse(String response) {
         mListener.onResponse(response);
     }
+
+
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + UserManager.getUserToken(context));
+        LogUtils.d(TAG, "Volley  MultipartRequest getHeaders token: " + UserManager.getUserToken(context));
+        return headers;
+    }
+
 }

@@ -48,5 +48,16 @@ public class DataParse {
         }
         return userEntity;
     }
-    
+
+    public static String getAvatarTempId(String response) {
+        String result = "";
+        try {
+            JSONObject jsonResponse = new JSONObject(response);
+            result = jsonResponse.getJSONObject("data").getString("tmp_id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }

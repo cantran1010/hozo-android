@@ -25,15 +25,11 @@ import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.EditProfileActivity;
 import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.database.manager.RealmDbHelper;
-import vn.tonish.hozo.fragment.FeedBackFragment;
-import vn.tonish.hozo.model.FeedBack;
-
-import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.fragment.FeedBackFragment;
-
+import vn.tonish.hozo.model.FeedBack;
+import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.DialogUtils;
@@ -65,7 +61,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     // data for feedback tab1 _ tab2 ;
     protected ArrayList<FeedBack> tab1Data;
     protected ArrayList<FeedBack> tab2Data;
-
 
     // User data;
     private User user;
@@ -121,7 +116,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void initData() {
         btnLogOut.setOnClickListener(this);
         int userID = UserManager.getUserLogin(context).getId();
-        NetworkUtils.getRequestVolley(true, true, true, ProfileActivity.this, NetworkConfig.API_GET_PROFILE + userID, new JSONObject(), this);
+        NetworkUtils.getRequestVolleyRawData(true, true, true, ProfileActivity.this, NetworkConfig.API_GET_PROFILE + userID, new JSONObject(), this);
     }
 
     @Override

@@ -9,30 +9,20 @@
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/hozo_bg">
-
-        <RelativeLayout
-            android:id="@+id/layout_back"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@drawable/btn_selector">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
-                android:contentDescription="@string/adjust_image"
-                android:src="@drawable/img_back" />
-
-        </RelativeLayout>
+        android:background="@color/white">
 
         <TextView
+            style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/rate_title"
-            android:textColor="@color/white" />
+            android:text="@string/rate_title" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray" />
 
     </RelativeLayout>
 
@@ -49,43 +39,125 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <vn.tonish.hozo.view.CircleImageView
-                android:id="@+id/img_avatar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/avatar_default" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal" />
-
-            <RatingBar
-                android:id="@+id/rb_rate"
-                style="@style/StarRatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:numStars="5"
-                android:stepSize="1.0" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/rate_des" />
+                android:background="@color/white"
+                android:orientation="vertical">
 
-            <Spinner
-                android:id="@+id/sp_age"
+                <vn.tonish.hozo.view.CircleImageView
+                    android:id="@+id/img_avatar"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/avatar_default" />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
-                android:entries="@array/rates" />
+                android:background="#F0F0F0"
+                android:orientation="vertical">
+
+                <RatingBar
+                    android:id="@+id/rb_rate"
+                    style="@style/StarRatingBarBig"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:numStars="5"
+                    android:stepSize="1.0" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:gravity="center"
+                    android:text="@string/rate_des"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_rate_profressional"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_rate_nomal"
+                        android:paddingBottom="30dp"
+                        android:paddingTop="30dp"
+                        android:text="@string/rate_professional"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/btn_rate_hard_working"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_rate_nomal"
+                        android:paddingBottom="30dp"
+                        android:paddingTop="30dp"
+                        android:text="@string/rate_hard_working"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_rate_good_attitude"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_rate_nomal"
+                        android:paddingBottom="30dp"
+                        android:paddingTop="30dp"
+                        android:text="@string/rate_good_attitude"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/btn_rate_other"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_rate_nomal"
+                        android:paddingBottom="30dp"
+                        android:paddingTop="30dp"
+                        android:text="@string/rate_other"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/border_gray"
                 android:gravity="top"
@@ -98,12 +170,11 @@
 
     <Button
         android:id="@+id/btn_rate"
+        style="@style/btn_style_nomal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:background="@drawable/btn_selector"
-        android:text="@string/rate"
-        android:textColor="@color/white" />
+        android:text="@string/rate" />
 
 </RelativeLayout>
