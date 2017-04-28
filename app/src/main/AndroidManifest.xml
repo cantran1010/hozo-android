@@ -52,12 +52,7 @@
             android:name="vn.tonish.hozo.activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" >
-
-
-      
-
-        </activity>
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name="vn.tonish.hozo.activity.LoginActivity"
@@ -65,7 +60,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustNothing" />
-
 
         <activity
             android:name=".activity.PostATaskActivity"
@@ -148,10 +142,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
-        <activity
-            android:name=".activity.MakeAnOfferActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+        <!--<activity-->
+            <!--android:name=".activity.MakeAnOfferActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:windowSoftInputMode="stateHidden" />-->
 
         <activity
             android:name=".activity.setting.TimeSettingActivity"
@@ -194,6 +188,6 @@
             android:name="io.fabric.ApiKey"
             android:value="a5706b90dc87e8fd7eb3b77dfb9f0ae4e43bc71d" />
 
-    </application>
+</application>
 
 </manifest>

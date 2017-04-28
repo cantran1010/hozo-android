@@ -29,10 +29,8 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 
-import static com.android.volley.Request.Method.HEAD;
-
 /**
- * Created by LongBui.
+ * Created by LongBui on 4/19/2017.
  */
 
 public class NetworkUtils {
