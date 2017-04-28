@@ -1,0 +1,66 @@
+[
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\img_comment_setting.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\img_comment_setting.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\maker.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\maker.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\img_add.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\img_add.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\rating_bar_normal.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\rating_bar_normal.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\icon_map_zoom_out.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\icon_map_zoom_out.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\img_back.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\img_back.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\img_mobile.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\img_mobile.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\img_check.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\img_check.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\icon_camera.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\icon_camera.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_tab.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\ic_tab.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\img_facebook.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\img_facebook.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\icon_map_zoom_in.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\icon_map_zoom_in.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\icon_map_current.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\icon_map_current.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\loading.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\loading.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\rating_bar_progress.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\rating_bar_progress.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\img_close.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-xhdpi\\img_close.png"
+    }
+]

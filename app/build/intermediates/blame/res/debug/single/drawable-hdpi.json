@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_tab.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-hdpi\\ic_tab.png"
+    },
+    {
+        "merged": "D:\\hozo\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\loading.png",
+        "source": "D:\\hozo\\app\\src\\main\\res\\drawable-hdpi\\loading.png"
+    }
+]

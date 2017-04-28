@@ -1,0 +1,565 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:2:1-199:12
+	package
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:3:5-29
+		INJECTED from D:\hozo\app\src\main\AndroidManifest.xml
+		INJECTED from D:\hozo\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from D:\hozo\app\src\main\AndroidManifest.xml
+		INJECTED from D:\hozo\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:2:11-69
+	android:versionCode
+		INJECTED from D:\hozo\app\src\main\AndroidManifest.xml
+		INJECTED from D:\hozo\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.CALL_PHONE
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:5:5-69
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:5:22-66
+uses-permission#android.permission.VIBRATE
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:6:5-66
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:6:22-63
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:7:5-81
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:7:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:8:5-80
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:8:22-77
+uses-permission#android.permission.CAMERA
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:9:5-65
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:9:22-62
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:10:5-81
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:10:22-78
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:11:5-79
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:11:22-76
+uses-permission#android.permission.INTERNET
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:12:5-67
+MERGED from [com.google.android.gms:play-services-maps:10.2.1] C:\Users\CanTran\.android\build-cache\3c92217bf21cacd1cd00340d2366682899bd89e0\output\AndroidManifest.xml:20:5-66
+MERGED from [com.crashlytics.sdk.android:crashlytics:2.6.7] C:\Users\CanTran\.android\build-cache\be21895a7ad60e9aab157dd00b3563613bccbbd1\output\AndroidManifest.xml:9:5-67
+MERGED from [com.crashlytics.sdk.android:beta:1.2.4] C:\Users\CanTran\.android\build-cache\3d9a8fac34e0e3224ad61adcd24022bf274050d8\output\AndroidManifest.xml:9:5-67
+MERGED from [com.crashlytics.sdk.android:crashlytics-core:2.3.16] C:\Users\CanTran\.android\build-cache\8cb74fc6e5b85a8c4b37c3b824769eb2b1f78bcf\output\AndroidManifest.xml:52:5-67
+MERGED from [com.crashlytics.sdk.android:answers:1.3.12] C:\Users\CanTran\.android\build-cache\3f187a00053b7bc898e22a46847975dcfec9010d\output\AndroidManifest.xml:9:5-67
+MERGED from [io.fabric.sdk.android:fabric:1.3.16] C:\Users\CanTran\.android\build-cache\040616cab08a453113bf6d485a24c3fe83a94029\output\AndroidManifest.xml:29:5-67
+MERGED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] C:\Users\CanTran\.android\build-cache\9647bbfe7241b56e712ee15b68c0360a4b963799\output\AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:20:5-66
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:12:22-64
+application
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:14:5-197:19
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\CanTran\.android\build-cache\9cd881f2aac2271d2e5ecbc7369d05c50d2a91a4\output\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:design:25.3.1] C:\Users\CanTran\.android\build-cache\35d685e6a22cab5aec5f84d7e64f685a87c026ec\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:transition:25.3.1] C:\Users\CanTran\.android\build-cache\d19c14102b716104bdf4abd61c86fd5177a38df0\output\AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:cardview-v7:25.3.1] C:\Users\CanTran\.android\build-cache\1f282b034a473df171881f144fef898b0a51b967\output\AndroidManifest.xml:26:5-20
+MERGED from [com.google.android.gms:play-services-maps:10.2.1] C:\Users\CanTran\.android\build-cache\3c92217bf21cacd1cd00340d2366682899bd89e0\output\AndroidManifest.xml:24:5-19
+MERGED from [com.google.android.gms:play-services-location:10.2.1] C:\Users\CanTran\.android\build-cache\ec6ff8190ce6e9184cd64e47555e88c177fd1a2e\output\AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-base:10.2.1] C:\Users\CanTran\.android\build-cache\5c0c0792ca4fea7e009ef05b66e483e32c814da6\output\AndroidManifest.xml:18:5-20:19
+MERGED from [com.google.firebase:firebase-messaging:10.2.1] C:\Users\CanTran\.android\build-cache\93188075b4b9c805b377e9b8c9edc59a87da3be4\output\AndroidManifest.xml:19:5-29:19
+MERGED from [com.crashlytics.sdk.android:crashlytics:2.6.7] C:\Users\CanTran\.android\build-cache\be21895a7ad60e9aab157dd00b3563613bccbbd1\output\AndroidManifest.xml:11:5-20
+MERGED from [com.crashlytics.sdk.android:beta:1.2.4] C:\Users\CanTran\.android\build-cache\3d9a8fac34e0e3224ad61adcd24022bf274050d8\output\AndroidManifest.xml:11:5-20
+MERGED from [com.crashlytics.sdk.android:crashlytics-core:2.3.16] C:\Users\CanTran\.android\build-cache\8cb74fc6e5b85a8c4b37c3b824769eb2b1f78bcf\output\AndroidManifest.xml:54:5-20
+MERGED from [com.crashlytics.sdk.android:answers:1.3.12] C:\Users\CanTran\.android\build-cache\3f187a00053b7bc898e22a46847975dcfec9010d\output\AndroidManifest.xml:11:5-20
+MERGED from [io.fabric.sdk.android:fabric:1.3.16] C:\Users\CanTran\.android\build-cache\040616cab08a453113bf6d485a24c3fe83a94029\output\AndroidManifest.xml:31:5-20
+MERGED from [com.android.support:appcompat-v7:25.3.1] C:\Users\CanTran\.android\build-cache\128a304320eaef0f4b20252ef1b2343e58ecba28\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] C:\Users\CanTran\.android\build-cache\ba77d3b4ba25a969dacd7f8eec42f5abde9a893b\output\AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-vector-drawable:25.3.1] C:\Users\CanTran\.android\build-cache\a036de09fe33f73afd83f22ff6b180ecf4efbaa6\output\AndroidManifest.xml:26:5-20
+MERGED from [com.google.firebase:firebase-core:10.2.1] C:\Users\CanTran\.android\build-cache\b911a4c36a68aa165e2efa665e468af82d8ba3ab\output\AndroidManifest.xml:5:5-20
+MERGED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:24:5-33:19
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] C:\Users\CanTran\.android\build-cache\9647bbfe7241b56e712ee15b68c0360a4b963799\output\AndroidManifest.xml:24:5-28:19
+MERGED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:28:5-49:19
+MERGED from [com.google.firebase:firebase-common:10.2.1] C:\Users\CanTran\.android\build-cache\2a2179e25393537e71edec92b0f13e4d502be283\output\AndroidManifest.xml:4:5-7:19
+MERGED from [com.google.android.gms:play-services-tasks:10.2.1] C:\Users\CanTran\.android\build-cache\a15f618958fb72ea957a3c7ab42faa9cfc8ad645\output\AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-basement:10.2.1] C:\Users\CanTran\.android\build-cache\f022bac51f1fc75b785a659e9393bb24f08d3fb7\output\AndroidManifest.xml:19:5-21:19
+MERGED from [com.android.support:support-v4:25.3.1] C:\Users\CanTran\.android\build-cache\5a6e7d7e54765d85acce1e31b373d8b668b468d8\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-fragment:25.3.1] C:\Users\CanTran\.android\build-cache\dd5a2668edeba87cc4222723d50af13369e3c0de\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-media-compat:25.3.1] C:\Users\CanTran\.android\build-cache\3ea557f070502e186c6a1eae53b99a3cb95e1ed7\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-ui:25.3.1] C:\Users\CanTran\.android\build-cache\d862961a6466d53fd114f73d349bff27e5a233ef\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-utils:25.3.1] C:\Users\CanTran\.android\build-cache\b1d67d7fa6234352e27f2ba487192d814c3a380d\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-compat:25.3.1] C:\Users\CanTran\.android\build-cache\ac4eb21c8f4dfc31c0e199468b711e822c4717b5\output\AndroidManifest.xml:29:5-20
+	android:label
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:18:9-41
+	android:supportsRtl
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:20:9-35
+	android:roundIcon
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:19:9-54
+	android:allowBackup
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:16:9-35
+	android:icon
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:17:9-43
+	android:theme
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:21:9-40
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:15:9-66
+activity#vn.tonish.hozo.activity.SplashActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:23:9-49:20
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:25:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:27:13-54
+	android:theme
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:26:13-56
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:24:13-66
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:28:13-31:29
+action#android.intent.action.MAIN
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:29:17-69
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:29:25-66
+category#android.intent.category.LAUNCHER
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:30:17-77
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:30:27-74
+intent-filter#android.intent.action.VIEW+android.intent.category.BROWSABLE+android.intent.category.DEFAULT
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:33:13-47:29
+	android:label
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:33:28-60
+action#android.intent.action.VIEW
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:34:17-69
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:34:25-66
+category#android.intent.category.DEFAULT
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:36:17-76
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:36:27-73
+category#android.intent.category.BROWSABLE
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:37:17-78
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:37:27-75
+data
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:38:17-41:45
+	android:host
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:39:21-49
+	android:scheme
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:41:21-42
+	android:pathPrefix
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:40:21-47
+activity#vn.tonish.hozo.activity.MainActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:51:9-60:20
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:53:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:55:13-54
+	android:theme
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:54:13-56
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:52:13-64
+activity#vn.tonish.hozo.activity.LoginActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:62:9-67:59
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:65:13-49
+	android:label
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:64:13-45
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:67:13-56
+	android:theme
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:66:13-56
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:63:13-65
+activity#vn.tonish.hozo.activity.PostATaskActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:70:9-73:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:72:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:73:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:71:13-55
+activity#vn.tonish.hozo.activity.AdvanceSettingsActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:75:9-80:20
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:78:13-49
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:76:13-61
+activity#vn.tonish.hozo.activity.other.ProfileActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:82:9-84:52
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:84:13-49
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:83:13-59
+activity#vn.tonish.hozo.activity.other.ShareActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:86:9-89:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:88:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:89:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:87:13-57
+activity#vn.tonish.hozo.activity.PostATaskMapActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:91:9-94:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:93:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:94:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:92:13-58
+activity#vn.tonish.hozo.activity.PostATaskFinishActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:96:9-99:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:98:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:99:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:97:13-61
+activity#vn.tonish.hozo.activity.PosterCompletedTaskActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:101:9-104:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:103:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:104:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:102:13-65
+activity#vn.tonish.hozo.activity.AlbumActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:106:9-109:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:108:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:109:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:107:13-51
+activity#vn.tonish.hozo.activity.ImageSelectActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:111:9-114:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:113:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:114:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:112:13-57
+activity#vn.tonish.hozo.activity.CropImageActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:116:9-119:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:118:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:119:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:117:13-55
+activity#vn.tonish.hozo.activity.PreviewImageActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:121:9-124:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:123:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:124:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:122:13-58
+activity#vn.tonish.hozo.activity.ReportTaskActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:126:9-129:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:128:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:129:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:127:13-56
+activity#vn.tonish.hozo.activity.ReplyActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:131:9-134:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:133:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:134:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:132:13-51
+activity#vn.tonish.hozo.activity.RateActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:136:9-139:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:138:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:139:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:137:13-50
+activity#vn.tonish.hozo.activity.WorkerOfferMadeActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:141:9-144:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:143:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:144:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:142:13-61
+activity#vn.tonish.hozo.activity.PosterAssignedTaskActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:146:9-149:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:148:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:149:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:147:13-64
+activity#vn.tonish.hozo.activity.MakeAnOfferActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:151:9-154:57
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:153:13-49
+	android:windowSoftInputMode
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:154:13-54
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:152:13-57
+activity#vn.tonish.hozo.activity.setting.TimeSettingActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:156:9-158:52
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:158:13-49
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:157:13-65
+activity#vn.tonish.hozo.activity.setting.AgeSettingActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:160:9-162:52
+	android:screenOrientation
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:162:13-49
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:161:13-64
+activity#vn.tonish.hozo.activity.other.AboutActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:165:9-66
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:165:19-63
+activity#vn.tonish.hozo.activity.other.ConditionActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:166:9-70
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:166:19-67
+activity#vn.tonish.hozo.activity.setting.FeeActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:168:9-66
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:168:19-63
+activity#vn.tonish.hozo.activity.other.HistoryActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:169:9-68
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:169:19-65
+activity#vn.tonish.hozo.activity.other.InfoActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:170:9-65
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:170:19-62
+activity#vn.tonish.hozo.activity.other.NADActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:171:9-64
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:171:19-61
+activity#vn.tonish.hozo.activity.other.PaymentActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:172:9-68
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:172:19-65
+activity#vn.tonish.hozo.activity.setting.SexActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:173:9-66
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:173:19-63
+activity#vn.tonish.hozo.activity.setting.WorkTypeActivity
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:174:9-71
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:174:19-68
+meta-data#com.google.android.geo.API_KEY
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:177:9-179:71
+	android:value
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:179:13-68
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:178:13-58
+service#vn.tonish.hozo.fcm.MyFireBaseMessagingService
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:181:9-185:19
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:181:18-78
+intent-filter#com.google.firebase.MESSAGING_EVENT
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:182:13-184:29
+action#com.google.firebase.MESSAGING_EVENT
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:183:17-78
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:183:25-75
+service#vn.tonish.hozo.fcm.MyFireBaseInstanceIDService
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:187:9-191:19
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:187:18-79
+intent-filter#com.google.firebase.INSTANCE_ID_EVENT
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:188:13-190:29
+action#com.google.firebase.INSTANCE_ID_EVENT
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:189:17-80
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:189:25-77
+meta-data#io.fabric.ApiKey
+ADDED from D:\hozo\app\src\main\AndroidManifest.xml:193:9-195:72
+	android:value
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:195:13-69
+	android:name
+		ADDED from D:\hozo\app\src\main\AndroidManifest.xml:194:13-44
+uses-sdk
+INJECTED from D:\hozo\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [io.realm:realm-android-library:3.1.1] C:\Users\CanTran\.android\build-cache\5d067a0813da5f4a78e56a49191b02d7f2bb4c3d\output\AndroidManifest.xml:7:5-9:41
+MERGED from [com.getkeepsafe.relinker:relinker:1.2.2] C:\Users\CanTran\.android\build-cache\5edd4af54ad475123c2da0402402f8c44c5cf0c3\output\AndroidManifest.xml:7:5-43
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\CanTran\.android\build-cache\9cd881f2aac2271d2e5ecbc7369d05c50d2a91a4\output\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:design:25.3.1] C:\Users\CanTran\.android\build-cache\35d685e6a22cab5aec5f84d7e64f685a87c026ec\output\AndroidManifest.xml:21:5-23:62
+MERGED from [com.android.support:transition:25.3.1] C:\Users\CanTran\.android\build-cache\d19c14102b716104bdf4abd61c86fd5177a38df0\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:25.3.1] C:\Users\CanTran\.android\build-cache\1f282b034a473df171881f144fef898b0a51b967\output\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:recyclerview-v7:25.3.1] C:\Users\CanTran\.android\build-cache\669bf7bcdf25fdc50828f6af60dd850c73571639\output\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-maps:10.2.1] C:\Users\CanTran\.android\build-cache\3c92217bf21cacd1cd00340d2366682899bd89e0\output\AndroidManifest.xml:23:5-43
+MERGED from [com.google.android.gms:play-services-location:10.2.1] C:\Users\CanTran\.android\build-cache\ec6ff8190ce6e9184cd64e47555e88c177fd1a2e\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-base:10.2.1] C:\Users\CanTran\.android\build-cache\5c0c0792ca4fea7e009ef05b66e483e32c814da6\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-messaging:10.2.1] C:\Users\CanTran\.android\build-cache\93188075b4b9c805b377e9b8c9edc59a87da3be4\output\AndroidManifest.xml:17:5-43
+MERGED from [com.crashlytics.sdk.android:crashlytics:2.6.7] C:\Users\CanTran\.android\build-cache\be21895a7ad60e9aab157dd00b3563613bccbbd1\output\AndroidManifest.xml:7:5-43
+MERGED from [com.crashlytics.sdk.android:beta:1.2.4] C:\Users\CanTran\.android\build-cache\3d9a8fac34e0e3224ad61adcd24022bf274050d8\output\AndroidManifest.xml:7:5-43
+MERGED from [com.crashlytics.sdk.android:crashlytics-core:2.3.16] C:\Users\CanTran\.android\build-cache\8cb74fc6e5b85a8c4b37c3b824769eb2b1f78bcf\output\AndroidManifest.xml:50:5-43
+MERGED from [com.crashlytics.sdk.android:answers:1.3.12] C:\Users\CanTran\.android\build-cache\3f187a00053b7bc898e22a46847975dcfec9010d\output\AndroidManifest.xml:7:5-43
+MERGED from [io.fabric.sdk.android:fabric:1.3.16] C:\Users\CanTran\.android\build-cache\040616cab08a453113bf6d485a24c3fe83a94029\output\AndroidManifest.xml:27:5-43
+MERGED from [com.theartofdev.edmodo:android-image-cropper:2.4.2] C:\Users\CanTran\.android\build-cache\44c2741e582a6a6d50bf1178a44999a7b344cc58\output\AndroidManifest.xml:8:5-10:41
+MERGED from [com.android.support:appcompat-v7:25.3.1] C:\Users\CanTran\.android\build-cache\128a304320eaef0f4b20252ef1b2343e58ecba28\output\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] C:\Users\CanTran\.android\build-cache\ba77d3b4ba25a969dacd7f8eec42f5abde9a893b\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.3.1] C:\Users\CanTran\.android\build-cache\a036de09fe33f73afd83f22ff6b180ecf4efbaa6\output\AndroidManifest.xml:20:5-43
+MERGED from [com.google.firebase:firebase-core:10.2.1] C:\Users\CanTran\.android\build-cache\b911a4c36a68aa165e2efa665e468af82d8ba3ab\output\AndroidManifest.xml:4:5-43
+MERGED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] C:\Users\CanTran\.android\build-cache\9647bbfe7241b56e712ee15b68c0360a4b963799\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-common:10.2.1] C:\Users\CanTran\.android\build-cache\2a2179e25393537e71edec92b0f13e4d502be283\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-tasks:10.2.1] C:\Users\CanTran\.android\build-cache\a15f618958fb72ea957a3c7ab42faa9cfc8ad645\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-basement:10.2.1] C:\Users\CanTran\.android\build-cache\f022bac51f1fc75b785a659e9393bb24f08d3fb7\output\AndroidManifest.xml:17:5-43
+MERGED from [com.android.support:support-v4:25.3.1] C:\Users\CanTran\.android\build-cache\5a6e7d7e54765d85acce1e31b373d8b668b468d8\output\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.3.1] C:\Users\CanTran\.android\build-cache\dd5a2668edeba87cc4222723d50af13369e3c0de\output\AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.3.1] C:\Users\CanTran\.android\build-cache\3ea557f070502e186c6a1eae53b99a3cb95e1ed7\output\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.3.1] C:\Users\CanTran\.android\build-cache\d862961a6466d53fd114f73d349bff27e5a233ef\output\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.3.1] C:\Users\CanTran\.android\build-cache\b1d67d7fa6234352e27f2ba487192d814c3a380d\output\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:25.3.1] C:\Users\CanTran\.android\build-cache\ac4eb21c8f4dfc31c0e199468b711e822c4717b5\output\AndroidManifest.xml:21:5-23:58
+	tools:overrideLibrary
+		ADDED from [com.android.support:design:25.3.1] C:\Users\CanTran\.android\build-cache\35d685e6a22cab5aec5f84d7e64f685a87c026ec\output\AndroidManifest.xml:23:9-59
+	android:targetSdkVersion
+		INJECTED from D:\hozo\app\src\main\AndroidManifest.xml
+		INJECTED from D:\hozo\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\hozo\app\src\main\AndroidManifest.xml
+		INJECTED from D:\hozo\app\src\main\AndroidManifest.xml
+meta-data#android.support.VERSION
+ADDED from [com.android.support:design:25.3.1] C:\Users\CanTran\.android\build-cache\35d685e6a22cab5aec5f84d7e64f685a87c026ec\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:transition:25.3.1] C:\Users\CanTran\.android\build-cache\d19c14102b716104bdf4abd61c86fd5177a38df0\output\AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:cardview-v7:25.3.1] C:\Users\CanTran\.android\build-cache\1f282b034a473df171881f144fef898b0a51b967\output\AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:recyclerview-v7:25.3.1] C:\Users\CanTran\.android\build-cache\669bf7bcdf25fdc50828f6af60dd850c73571639\output\AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:appcompat-v7:25.3.1] C:\Users\CanTran\.android\build-cache\128a304320eaef0f4b20252ef1b2343e58ecba28\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] C:\Users\CanTran\.android\build-cache\ba77d3b4ba25a969dacd7f8eec42f5abde9a893b\output\AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-vector-drawable:25.3.1] C:\Users\CanTran\.android\build-cache\a036de09fe33f73afd83f22ff6b180ecf4efbaa6\output\AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-v4:25.3.1] C:\Users\CanTran\.android\build-cache\5a6e7d7e54765d85acce1e31b373d8b668b468d8\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-fragment:25.3.1] C:\Users\CanTran\.android\build-cache\dd5a2668edeba87cc4222723d50af13369e3c0de\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-media-compat:25.3.1] C:\Users\CanTran\.android\build-cache\3ea557f070502e186c6a1eae53b99a3cb95e1ed7\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-ui:25.3.1] C:\Users\CanTran\.android\build-cache\d862961a6466d53fd114f73d349bff27e5a233ef\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-utils:25.3.1] C:\Users\CanTran\.android\build-cache\b1d67d7fa6234352e27f2ba487192d814c3a380d\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-compat:25.3.1] C:\Users\CanTran\.android\build-cache\ac4eb21c8f4dfc31c0e199468b711e822c4717b5\output\AndroidManifest.xml:25:5-27:34
+	android:value
+		ADDED from [com.android.support:design:25.3.1] C:\Users\CanTran\.android\build-cache\35d685e6a22cab5aec5f84d7e64f685a87c026ec\output\AndroidManifest.xml:27:9-31
+	android:name
+		ADDED from [com.android.support:design:25.3.1] C:\Users\CanTran\.android\build-cache\35d685e6a22cab5aec5f84d7e64f685a87c026ec\output\AndroidManifest.xml:26:9-47
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.android.gms:play-services-maps:10.2.1] C:\Users\CanTran\.android\build-cache\3c92217bf21cacd1cd00340d2366682899bd89e0\output\AndroidManifest.xml:19:5-78
+MERGED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] C:\Users\CanTran\.android\build-cache\9647bbfe7241b56e712ee15b68c0360a4b963799\output\AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:19:5-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:10.2.1] C:\Users\CanTran\.android\build-cache\3c92217bf21cacd1cd00340d2366682899bd89e0\output\AndroidManifest.xml:19:22-76
+uses-feature#0x00020000
+ADDED from [com.google.android.gms:play-services-maps:10.2.1] C:\Users\CanTran\.android\build-cache\3c92217bf21cacd1cd00340d2366682899bd89e0\output\AndroidManifest.xml:21:5-77
+	android:glEsVersion
+		ADDED from [com.google.android.gms:play-services-maps:10.2.1] C:\Users\CanTran\.android\build-cache\3c92217bf21cacd1cd00340d2366682899bd89e0\output\AndroidManifest.xml:21:19-51
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:10.2.1] C:\Users\CanTran\.android\build-cache\3c92217bf21cacd1cd00340d2366682899bd89e0\output\AndroidManifest.xml:21:52-75
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:10.2.1] C:\Users\CanTran\.android\build-cache\5c0c0792ca4fea7e009ef05b66e483e32c814da6\output\AndroidManifest.xml:19:9-172
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:10.2.1] C:\Users\CanTran\.android\build-cache\5c0c0792ca4fea7e009ef05b66e483e32c814da6\output\AndroidManifest.xml:19:146-170
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:10.2.1] C:\Users\CanTran\.android\build-cache\5c0c0792ca4fea7e009ef05b66e483e32c814da6\output\AndroidManifest.xml:19:86-145
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:10.2.1] C:\Users\CanTran\.android\build-cache\5c0c0792ca4fea7e009ef05b66e483e32c814da6\output\AndroidManifest.xml:19:19-85
+service#com.google.firebase.messaging.FirebaseMessagingService
+ADDED from [com.google.firebase:firebase-messaging:10.2.1] C:\Users\CanTran\.android\build-cache\93188075b4b9c805b377e9b8c9edc59a87da3be4\output\AndroidManifest.xml:23:9-27:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-messaging:10.2.1] C:\Users\CanTran\.android\build-cache\93188075b4b9c805b377e9b8c9edc59a87da3be4\output\AndroidManifest.xml:23:88-111
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:10.2.1] C:\Users\CanTran\.android\build-cache\93188075b4b9c805b377e9b8c9edc59a87da3be4\output\AndroidManifest.xml:23:18-87
+uses-permission#android.permission.WAKE_LOCK
+ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] C:\Users\CanTran\.android\build-cache\9647bbfe7241b56e712ee15b68c0360a4b963799\output\AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:21:5-67
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:22:22-65
+receiver#com.google.android.gms.measurement.AppMeasurementReceiver
+ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:25:7-26:18
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] C:\Users\CanTran\.android\build-cache\9647bbfe7241b56e712ee15b68c0360a4b963799\output\AndroidManifest.xml:25:7-26:18
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:25:90-112
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:25:113-137
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:25:17-89
+receiver#com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver
+ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:27:7-31:18
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:27:162-184
+	android:permission
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:27:105-161
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:27:17-104
+intent-filter#com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:28:11-30:27
+action#com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:29:15-76
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:29:23-74
+service#com.google.android.gms.measurement.AppMeasurementService
+ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:32:7-137
+MERGED from [com.google.firebase:firebase-analytics-impl:10.2.1] C:\Users\CanTran\.android\build-cache\9647bbfe7241b56e712ee15b68c0360a4b963799\output\AndroidManifest.xml:27:7-137
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:32:88-110
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:32:111-135
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:10.2.1] C:\Users\CanTran\.android\build-cache\cef9f677eafbc2f146ee865df8cdd420df6d70b0\output\AndroidManifest.xml:32:16-87
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:22:5-81
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:22:22-79
+permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:24:5-109
+	android:protectionLevel
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:24:72-107
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:24:17-71
+uses-permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:26:5-78
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:26:22-76
+receiver#com.google.firebase.iid.FirebaseInstanceIdReceiver
+ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:30:9-35:20
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:30:85-108
+	android:permission
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:30:109-169
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:30:19-84
+intent-filter#${applicationId}+com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:31:13-34:29
+action#com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:32:17-80
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:32:25-78
+category#${applicationId}
+ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:33:17-60
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:33:27-58
+receiver#com.google.firebase.iid.FirebaseInstanceIdInternalReceiver
+ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:39:9-119
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:39:93-117
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:39:19-92
+service#com.google.firebase.iid.FirebaseInstanceIdService
+ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:43:9-47:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:43:83-106
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:10.2.1] C:\Users\CanTran\.android\build-cache\f0368e709250ccfde02dc9da550b74753bc323b6\output\AndroidManifest.xml:43:18-82
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:10.2.1] C:\Users\CanTran\.android\build-cache\2a2179e25393537e71edec92b0f13e4d502be283\output\AndroidManifest.xml:6:9-194
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:10.2.1] C:\Users\CanTran\.android\build-cache\2a2179e25393537e71edec92b0f13e4d502be283\output\AndroidManifest.xml:6:19-78
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:10.2.1] C:\Users\CanTran\.android\build-cache\2a2179e25393537e71edec92b0f13e4d502be283\output\AndroidManifest.xml:6:144-168
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:10.2.1] C:\Users\CanTran\.android\build-cache\2a2179e25393537e71edec92b0f13e4d502be283\output\AndroidManifest.xml:6:169-192
+	android:name
+		ADDED from [com.google.firebase:firebase-common:10.2.1] C:\Users\CanTran\.android\build-cache\2a2179e25393537e71edec92b0f13e4d502be283\output\AndroidManifest.xml:6:79-143
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:10.2.1] C:\Users\CanTran\.android\build-cache\f022bac51f1fc75b785a659e9393bb24f08d3fb7\output\AndroidManifest.xml:20:9-121
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:10.2.1] C:\Users\CanTran\.android\build-cache\f022bac51f1fc75b785a659e9393bb24f08d3fb7\output\AndroidManifest.xml:20:66-119
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:10.2.1] C:\Users\CanTran\.android\build-cache\f022bac51f1fc75b785a659e9393bb24f08d3fb7\output\AndroidManifest.xml:20:20-65
