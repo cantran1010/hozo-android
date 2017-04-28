@@ -28,8 +28,8 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
     static {
         Set<Class<? extends RealmModel>> modelClasses = new HashSet<Class<? extends RealmModel>>();
         modelClasses.add(vn.tonish.hozo.model.Notification.class);
-        modelClasses.add(vn.tonish.hozo.model.NotificationMessage.class);
         modelClasses.add(vn.tonish.hozo.model.Comment.class);
+        modelClasses.add(vn.tonish.hozo.model.NotificationMessage.class);
         modelClasses.add(vn.tonish.hozo.database.entity.UserEntity.class);
         modelClasses.add(vn.tonish.hozo.model.User.class);
         MODEL_CLASSES = Collections.unmodifiableSet(modelClasses);
@@ -42,11 +42,11 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
         if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
             return io.realm.NotificationRealmProxy.createRealmObjectSchema(realmSchema);
         }
-        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-            return io.realm.NotificationMessageRealmProxy.createRealmObjectSchema(realmSchema);
-        }
         if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
             return io.realm.CommentRealmProxy.createRealmObjectSchema(realmSchema);
+        }
+        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+            return io.realm.NotificationMessageRealmProxy.createRealmObjectSchema(realmSchema);
         }
         if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
             return io.realm.UserEntityRealmProxy.createRealmObjectSchema(realmSchema);
@@ -64,11 +64,11 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
         if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
             return io.realm.NotificationRealmProxy.validateTable(sharedRealm, allowExtraColumns);
         }
-        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-            return io.realm.NotificationMessageRealmProxy.validateTable(sharedRealm, allowExtraColumns);
-        }
         if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
             return io.realm.CommentRealmProxy.validateTable(sharedRealm, allowExtraColumns);
+        }
+        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+            return io.realm.NotificationMessageRealmProxy.validateTable(sharedRealm, allowExtraColumns);
         }
         if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
             return io.realm.UserEntityRealmProxy.validateTable(sharedRealm, allowExtraColumns);
@@ -86,11 +86,11 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
         if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
             return io.realm.NotificationRealmProxy.getFieldNames();
         }
-        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-            return io.realm.NotificationMessageRealmProxy.getFieldNames();
-        }
         if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
             return io.realm.CommentRealmProxy.getFieldNames();
+        }
+        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+            return io.realm.NotificationMessageRealmProxy.getFieldNames();
         }
         if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
             return io.realm.UserEntityRealmProxy.getFieldNames();
@@ -108,11 +108,11 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
         if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
             return io.realm.NotificationRealmProxy.getTableName();
         }
-        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-            return io.realm.NotificationMessageRealmProxy.getTableName();
-        }
         if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
             return io.realm.CommentRealmProxy.getTableName();
+        }
+        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+            return io.realm.NotificationMessageRealmProxy.getTableName();
         }
         if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
             return io.realm.UserEntityRealmProxy.getTableName();
@@ -133,11 +133,11 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
             if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
                 return clazz.cast(new io.realm.NotificationRealmProxy());
             }
-            if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-                return clazz.cast(new io.realm.NotificationMessageRealmProxy());
-            }
             if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
                 return clazz.cast(new io.realm.CommentRealmProxy());
+            }
+            if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+                return clazz.cast(new io.realm.NotificationMessageRealmProxy());
             }
             if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
                 return clazz.cast(new io.realm.UserEntityRealmProxy());
@@ -165,11 +165,11 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
         if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
             return clazz.cast(io.realm.NotificationRealmProxy.copyOrUpdate(realm, (vn.tonish.hozo.model.Notification) obj, update, cache));
         }
-        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-            return clazz.cast(io.realm.NotificationMessageRealmProxy.copyOrUpdate(realm, (vn.tonish.hozo.model.NotificationMessage) obj, update, cache));
-        }
         if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
             return clazz.cast(io.realm.CommentRealmProxy.copyOrUpdate(realm, (vn.tonish.hozo.model.Comment) obj, update, cache));
+        }
+        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+            return clazz.cast(io.realm.NotificationMessageRealmProxy.copyOrUpdate(realm, (vn.tonish.hozo.model.NotificationMessage) obj, update, cache));
         }
         if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
             return clazz.cast(io.realm.UserEntityRealmProxy.copyOrUpdate(realm, (vn.tonish.hozo.database.entity.UserEntity) obj, update, cache));
@@ -188,10 +188,10 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
 
         if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
             io.realm.NotificationRealmProxy.insert(realm, (vn.tonish.hozo.model.Notification) object, cache);
-        } else if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-            io.realm.NotificationMessageRealmProxy.insert(realm, (vn.tonish.hozo.model.NotificationMessage) object, cache);
         } else if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
             io.realm.CommentRealmProxy.insert(realm, (vn.tonish.hozo.model.Comment) object, cache);
+        } else if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+            io.realm.NotificationMessageRealmProxy.insert(realm, (vn.tonish.hozo.model.NotificationMessage) object, cache);
         } else if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
             io.realm.UserEntityRealmProxy.insert(realm, (vn.tonish.hozo.database.entity.UserEntity) object, cache);
         } else if (clazz.equals(vn.tonish.hozo.model.User.class)) {
@@ -215,10 +215,10 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
 
             if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
                 io.realm.NotificationRealmProxy.insert(realm, (vn.tonish.hozo.model.Notification) object, cache);
-            } else if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-                io.realm.NotificationMessageRealmProxy.insert(realm, (vn.tonish.hozo.model.NotificationMessage) object, cache);
             } else if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
                 io.realm.CommentRealmProxy.insert(realm, (vn.tonish.hozo.model.Comment) object, cache);
+            } else if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+                io.realm.NotificationMessageRealmProxy.insert(realm, (vn.tonish.hozo.model.NotificationMessage) object, cache);
             } else if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
                 io.realm.UserEntityRealmProxy.insert(realm, (vn.tonish.hozo.database.entity.UserEntity) object, cache);
             } else if (clazz.equals(vn.tonish.hozo.model.User.class)) {
@@ -229,10 +229,10 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
             if (iterator.hasNext()) {
                 if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
                     io.realm.NotificationRealmProxy.insert(realm, iterator, cache);
-                } else if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-                    io.realm.NotificationMessageRealmProxy.insert(realm, iterator, cache);
                 } else if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
                     io.realm.CommentRealmProxy.insert(realm, iterator, cache);
+                } else if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+                    io.realm.NotificationMessageRealmProxy.insert(realm, iterator, cache);
                 } else if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
                     io.realm.UserEntityRealmProxy.insert(realm, iterator, cache);
                 } else if (clazz.equals(vn.tonish.hozo.model.User.class)) {
@@ -252,10 +252,10 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
 
         if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
             io.realm.NotificationRealmProxy.insertOrUpdate(realm, (vn.tonish.hozo.model.Notification) obj, cache);
-        } else if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-            io.realm.NotificationMessageRealmProxy.insertOrUpdate(realm, (vn.tonish.hozo.model.NotificationMessage) obj, cache);
         } else if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
             io.realm.CommentRealmProxy.insertOrUpdate(realm, (vn.tonish.hozo.model.Comment) obj, cache);
+        } else if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+            io.realm.NotificationMessageRealmProxy.insertOrUpdate(realm, (vn.tonish.hozo.model.NotificationMessage) obj, cache);
         } else if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
             io.realm.UserEntityRealmProxy.insertOrUpdate(realm, (vn.tonish.hozo.database.entity.UserEntity) obj, cache);
         } else if (clazz.equals(vn.tonish.hozo.model.User.class)) {
@@ -279,10 +279,10 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
 
             if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
                 io.realm.NotificationRealmProxy.insertOrUpdate(realm, (vn.tonish.hozo.model.Notification) object, cache);
-            } else if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-                io.realm.NotificationMessageRealmProxy.insertOrUpdate(realm, (vn.tonish.hozo.model.NotificationMessage) object, cache);
             } else if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
                 io.realm.CommentRealmProxy.insertOrUpdate(realm, (vn.tonish.hozo.model.Comment) object, cache);
+            } else if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+                io.realm.NotificationMessageRealmProxy.insertOrUpdate(realm, (vn.tonish.hozo.model.NotificationMessage) object, cache);
             } else if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
                 io.realm.UserEntityRealmProxy.insertOrUpdate(realm, (vn.tonish.hozo.database.entity.UserEntity) object, cache);
             } else if (clazz.equals(vn.tonish.hozo.model.User.class)) {
@@ -293,10 +293,10 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
             if (iterator.hasNext()) {
                 if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
                     io.realm.NotificationRealmProxy.insertOrUpdate(realm, iterator, cache);
-                } else if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-                    io.realm.NotificationMessageRealmProxy.insertOrUpdate(realm, iterator, cache);
                 } else if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
                     io.realm.CommentRealmProxy.insertOrUpdate(realm, iterator, cache);
+                } else if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+                    io.realm.NotificationMessageRealmProxy.insertOrUpdate(realm, iterator, cache);
                 } else if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
                     io.realm.UserEntityRealmProxy.insertOrUpdate(realm, iterator, cache);
                 } else if (clazz.equals(vn.tonish.hozo.model.User.class)) {
@@ -316,11 +316,11 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
         if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
             return clazz.cast(io.realm.NotificationRealmProxy.createOrUpdateUsingJsonObject(realm, json, update));
         }
-        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-            return clazz.cast(io.realm.NotificationMessageRealmProxy.createOrUpdateUsingJsonObject(realm, json, update));
-        }
         if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
             return clazz.cast(io.realm.CommentRealmProxy.createOrUpdateUsingJsonObject(realm, json, update));
+        }
+        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+            return clazz.cast(io.realm.NotificationMessageRealmProxy.createOrUpdateUsingJsonObject(realm, json, update));
         }
         if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
             return clazz.cast(io.realm.UserEntityRealmProxy.createOrUpdateUsingJsonObject(realm, json, update));
@@ -339,11 +339,11 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
         if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
             return clazz.cast(io.realm.NotificationRealmProxy.createUsingJsonStream(realm, reader));
         }
-        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-            return clazz.cast(io.realm.NotificationMessageRealmProxy.createUsingJsonStream(realm, reader));
-        }
         if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
             return clazz.cast(io.realm.CommentRealmProxy.createUsingJsonStream(realm, reader));
+        }
+        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+            return clazz.cast(io.realm.NotificationMessageRealmProxy.createUsingJsonStream(realm, reader));
         }
         if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
             return clazz.cast(io.realm.UserEntityRealmProxy.createUsingJsonStream(realm, reader));
@@ -363,11 +363,11 @@ class DefaultRealmModuleMediator extends RealmProxyMediator {
         if (clazz.equals(vn.tonish.hozo.model.Notification.class)) {
             return clazz.cast(io.realm.NotificationRealmProxy.createDetachedCopy((vn.tonish.hozo.model.Notification) realmObject, 0, maxDepth, cache));
         }
-        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
-            return clazz.cast(io.realm.NotificationMessageRealmProxy.createDetachedCopy((vn.tonish.hozo.model.NotificationMessage) realmObject, 0, maxDepth, cache));
-        }
         if (clazz.equals(vn.tonish.hozo.model.Comment.class)) {
             return clazz.cast(io.realm.CommentRealmProxy.createDetachedCopy((vn.tonish.hozo.model.Comment) realmObject, 0, maxDepth, cache));
+        }
+        if (clazz.equals(vn.tonish.hozo.model.NotificationMessage.class)) {
+            return clazz.cast(io.realm.NotificationMessageRealmProxy.createDetachedCopy((vn.tonish.hozo.model.NotificationMessage) realmObject, 0, maxDepth, cache));
         }
         if (clazz.equals(vn.tonish.hozo.database.entity.UserEntity.class)) {
             return clazz.cast(io.realm.UserEntityRealmProxy.createDetachedCopy((vn.tonish.hozo.database.entity.UserEntity) realmObject, 0, maxDepth, cache));

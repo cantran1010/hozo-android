@@ -47,7 +47,7 @@
             android:name="vn.tonish.hozo.activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden" >
 
         <activity
             android:name="vn.tonish.hozo.activity.LoginActivity"

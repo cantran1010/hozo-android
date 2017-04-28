@@ -30,7 +30,7 @@ public class Constants {
     public static final String OTP_VIEW = "otp_view";
     public static final String NAME_VIEW = "name_view";
 
-    public static final String REGISTER = "extra_address";
+    public static final String REGISTER = "register";
     public static final String TOCKEN = "token";
     public static final String ACCESS_TOCKEN = "access_token";
     public static final String REFRESH_TOCKEN = "refresh_token";
