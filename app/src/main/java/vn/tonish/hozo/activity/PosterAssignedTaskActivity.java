@@ -1,16 +1,17 @@
 package vn.tonish.hozo.activity;
 
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -18,7 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.adapter.PosterAssignedAdapter;
+import vn.tonish.hozo.adapter.UserAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
@@ -26,6 +27,7 @@ import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
+import vn.tonish.hozo.view.WorkAroundMapFragment;
 import vn.tonish.hozo.view.WorkDetailView;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
@@ -47,12 +49,14 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
     private RelativeLayout imgLayout;
     private String imgAttachPath;
     private RecyclerView rcvUser;
-    private PosterAssignedAdapter posterAssignedAdapter;
+//    private PosterAssignedAdapter posterAssignedAdapter;
     private ArrayList<User> users = new ArrayList<>();
+    private UserAdapter userAdapter;
+    private ScrollView scv;
 
     @Override
     protected int getLayout() {
-        return R.layout.make_an_offer_activity;
+        return R.layout.poster_assigned_task_activity;
     }
 
     @Override
@@ -71,14 +75,25 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
         imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
         rcvUser = (RecyclerView) findViewById(R.id.rcv_user);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        scv = (ScrollView) findViewById(R.id.scv);
+
+        WorkAroundMapFragment mapFragment = (WorkAroundMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mapFragment.setListener(new WorkAroundMapFragment.OnTouchListener() {
+            @Override
+            public void onTouch() {
+                scv.requestDisallowInterceptTouchEvent(true);
+            }
+        });
     }
 
     @Override
     protected void initData() {
         workDetailView.updateBtnOffer(false);
+        workDetailView.updateStatus(getString(R.string.delivered), ContextCompat.getDrawable(this,R.drawable.bg_border_received));
+        workDetailView.updateBtnCallRate(false, false, "");
 
         //fake work detail
         work = new Work();
@@ -111,10 +126,10 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
         users.add(user1);
         users.add(user1);
 
-        posterAssignedAdapter = new PosterAssignedAdapter(users);
+        userAdapter = new UserAdapter(users);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rcvUser.setLayoutManager(layoutManager);
-        rcvUser.setAdapter(posterAssignedAdapter);
+        rcvUser.setAdapter(userAdapter);
 
         //fake  comment data
         Comment comment = new Comment();
@@ -140,7 +155,7 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
     @Override
     public void onMapReady(GoogleMap googleMap) {
         LatLng latLng = new LatLng(work.getLat(), work.getLon());
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
 
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(work.getLat(), work.getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));

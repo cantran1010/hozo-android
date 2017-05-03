@@ -51,6 +51,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     private RelativeLayout imgLayout;
     private String imgPath;
     private ScrollView scv;
+    private ImageView imgBack;
 
 
     @Override
@@ -71,6 +72,9 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
         imgDelete = (ImageView) findViewById(R.id.img_delete);
         imgDelete.setOnClickListener(this);
+
+        imgBack = (ImageView) findViewById(R.id.img_back);
+        imgBack.setOnClickListener(this);
 
         imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
 
@@ -115,7 +119,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         //fake  comment data
         Comment comment = new Comment();
         comment.setFullName("Bui duc long");
-        comment.setBody(".....................................................................................................................................................................................................................................................................................................");
+        comment.setBody("Lorem ipsum dolor sit amet, consectetur adipiscing, se do eiusmod tempor incididunt");
         comment.setCreatedAt("2 days ago");
 
         comments.add(comment);
@@ -137,7 +141,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
 
         LatLng latLng = new LatLng(work.getLat(), work.getLon());
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
 
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(work.getLat(), work.getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
@@ -178,6 +182,10 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                 Intent intent = new Intent(MakeAnOfferActivity.this, PreviewImageActivity.class);
                 intent.putExtra(Constants.EXTRA_IMAGE_PATH, imgPath);
                 startActivity(intent);
+                break;
+
+            case R.id.img_back:
+                finish();
                 break;
 
         }

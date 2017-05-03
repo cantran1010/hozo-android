@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/tv_task_title"
-                android:textColor="@color/black" />
+                android:textColor="@color/tv_black" />
 
             <EditText
                 android:id="@+id/edt_task_name"
@@ -64,7 +64,7 @@
                 android:hint="@string/task_title_hint"
                 android:minHeight="@dimen/edt_min_height"
                 android:padding="5dp"
-                android:textColor="@color/black"
+                android:textColor="@color/tv_black"
                 android:textColorHint="@color/gray" />
 
             <TextView
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/tv_time_task"
-                android:textColor="@color/black" />
+                android:textColor="@color/tv_black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -96,7 +96,7 @@
                         android:layout_centerVertical="true"
                         android:padding="5dp"
                         android:text="@string/date_pick_hint"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/tv_gray" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -127,7 +127,7 @@
                         android:inputType="number"
                         android:padding="5dp"
                         android:text=""
-                        android:textColor="@color/black"
+                        android:textColor="@color/tv_black"
                         android:textColorHint="@color/gray" />
 
                 </RelativeLayout>
@@ -156,7 +156,7 @@
                         android:layout_centerVertical="true"
                         android:padding="5dp"
                         android:text="@string/start_time_hint"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/tv_gray" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -185,7 +185,7 @@
                         android:layout_centerVertical="true"
                         android:padding="5dp"
                         android:text="@string/end_time_hint"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/tv_gray" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -205,7 +205,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/task_description_hint"
-                android:textColor="@color/black" />
+                android:textColor="@color/tv_black" />
 
             <EditText
                 android:id="@+id/edt_description"
@@ -224,7 +224,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/attach_image_hint"
-                android:textColor="@color/black" />
+                android:textColor="@color/tv_black" />
 
             <vn.tonish.hozo.view.MyGridView
                 android:id="@+id/gr_image"
@@ -271,6 +271,7 @@
                     android:inputType="number"
                     android:minHeight="@dimen/edt_min_height"
                     android:padding="5dp"
+                    android:textColor="@color/tv_black"
                     android:textColorHint="@color/gray" />
 
                 <EditText
@@ -285,6 +286,7 @@
                     android:inputType="number"
                     android:minHeight="@dimen/edt_min_height"
                     android:padding="5dp"
+                    android:textColor="@color/tv_black"
                     android:textColorHint="@color/gray" />
 
             </LinearLayout>

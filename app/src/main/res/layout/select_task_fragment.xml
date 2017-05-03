@@ -6,17 +6,22 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/layout_back"
+        android:id="@+id/layout_header"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/hozo_bg">
+        android:layout_height="?android:attr/actionBarSize">
 
         <TextView
+            style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/select_task_title"
-            android:textColor="@color/white" />
+            android:text="@string/select_task_title" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray" />
 
     </RelativeLayout>
 

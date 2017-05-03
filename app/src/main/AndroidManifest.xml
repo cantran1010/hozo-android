@@ -64,10 +64,7 @@
 
         <activity
             android:name=".activity.AdvanceSettingsActivity"
-
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.other.ProfileActivity"
@@ -85,11 +82,6 @@
 
         <activity
             android:name=".activity.PostATaskFinishActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-
-        <activity
-            android:name=".activity.PosterCompletedTaskActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
@@ -129,7 +121,12 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".activity.WorkerOfferMadeActivity"
+            android:name=".activity.MakeAnOfferActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".activity.PosterOpenTaskActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
@@ -139,7 +136,22 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".activity.MakeAnOfferActivity"
+            android:name=".activity.PosterCompletedTaskActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".activity.WorkerOfferMadeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".activity.WorkerAcceptedTaskActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".activity.WorkerDoneTaskActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 

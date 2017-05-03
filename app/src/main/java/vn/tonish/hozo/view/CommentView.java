@@ -7,11 +7,10 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import vn.tonish.hozo.R;
-
 import vn.tonish.hozo.dialog.ReportDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.utils.Utils;
@@ -20,7 +19,7 @@ import vn.tonish.hozo.utils.Utils;
  * Created by LongBui on 4/21/2017.
  */
 
-public class CommentView extends RelativeLayout implements View.OnClickListener {
+public class CommentView extends LinearLayout implements View.OnClickListener {
 
     private CircleImageView imgAvatar;
     private TextView tvName, tvComment, tvTimeAgo;

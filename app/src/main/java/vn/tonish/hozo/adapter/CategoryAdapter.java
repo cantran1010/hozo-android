@@ -40,7 +40,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Utils.displayImageHolder(context,holder.imgPresent,categories.get(position).getPresentPath());
+        Utils.displayImage(context,holder.imgPresent,categories.get(position).getPresentPath());
         holder.tvName.setText(categories.get(position).getName());
         holder.tvDes.setText(categories.get(position).getDescription());
     }

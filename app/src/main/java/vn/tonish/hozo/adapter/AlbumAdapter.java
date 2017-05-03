@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,7 +60,7 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
         DeviceUtils.DisplayInfo displayInfo = DeviceUtils.getDisplayInfo(getContext());
         int whImage = displayInfo.getWidth() / 3;
 
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.mainLayout.getLayoutParams();
+        ListView.LayoutParams params = (ListView.LayoutParams) holder.mainLayout.getLayoutParams();
         params.width = whImage;
         params.height = whImage;
         holder.mainLayout.setLayoutParams(params);

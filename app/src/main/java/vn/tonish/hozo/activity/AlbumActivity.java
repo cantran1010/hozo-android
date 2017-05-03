@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private AlbumAdapter albumAdapter;
     private boolean isOnlyImage = false;
     private boolean isCropProfile = false;
+    private ImageView imgBack;
 
 
     @Override
@@ -46,7 +48,9 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void initView() {
         grAlbum = (GridView) findViewById(R.id.gr_album);
-        findViewById(R.id.layout_back).setOnClickListener(this);
+
+        imgBack = (ImageView) findViewById(R.id.img_back);
+        imgBack.setOnClickListener(this);
     }
 
     @Override
@@ -163,7 +167,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.layout_back:
+            case R.id.img_back:
                 finish();
                 break;
 

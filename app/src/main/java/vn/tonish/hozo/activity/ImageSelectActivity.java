@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.GridView;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
@@ -32,7 +32,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     private ImageSelectAdapter imageSelectAdapter;
     private ArrayList<Image> images;
     private final String[] projection = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA};
-    protected RelativeLayout layoutBack;
+    protected ImageView imgBack;
     protected TextView tvDone, tvAlbumName;
     private boolean isOnlyImage = false;
     private boolean isCropProfile = false;
@@ -44,8 +44,8 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
-        layoutBack = (RelativeLayout) findViewById(R.id.layout_back);
-        layoutBack.setOnClickListener(this);
+        imgBack = (ImageView) findViewById(R.id.img_back);
+        imgBack.setOnClickListener(this);
 
         tvDone = (TextView) findViewById(R.id.tv_done);
         tvDone.setOnClickListener(this);
@@ -169,7 +169,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.layout_back:
+            case R.id.img_back:
                 finish();
                 break;
 

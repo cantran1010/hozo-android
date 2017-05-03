@@ -5,42 +5,41 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/layout_header"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/hozo_bg">
+        android:layout_height="?android:attr/actionBarSize">
 
-        <RelativeLayout
-            android:id="@+id/layout_back"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@drawable/btn_selector">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:contentDescription="@string/just_image"
-                android:layout_centerVertical="true"
-                android:src="@drawable/img_back" />
-
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@drawable/back" />
 
         <TextView
             android:id="@+id/tv_album_name"
+            style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="@color/white" />
+            android:text="@string/gallery" />
 
         <TextView
             android:id="@+id/tv_done"
+            style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:padding="10dp"
-            android:text="@string/next"
-            android:textColor="@color/white" />
+            android:text="@string/next" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray" />
 
     </RelativeLayout>
 
@@ -50,5 +49,5 @@
         android:layout_height="match_parent"
         android:numColumns="3"
         android:stretchMode="columnWidth" />
-    
+
 </LinearLayout>
