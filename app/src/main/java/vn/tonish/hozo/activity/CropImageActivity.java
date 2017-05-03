@@ -7,9 +7,8 @@ import android.net.Uri;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -31,9 +30,9 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
 
     private static final String TAG = CropImageActivity.class.getName();
     private CropImageView cropImageView;
-    private Button btnCrop;
+    private TextView tvCrop;
     public static Bitmap bitmapCrop;
-    private RelativeLayout layoutBack;
+    private ImageView imgBack;
     private CropImageViewOptions mCropImageViewOptions = new CropImageViewOptions();
     private ImageView imgRotate;
 
@@ -48,9 +47,9 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
         cropImageView.setOnSetImageUriCompleteListener(this);
         cropImageView.setOnCropImageCompleteListener(this);
 
-        btnCrop = (Button) findViewById(R.id.btn_crop);
+        tvCrop = (TextView) findViewById(R.id.tv_crop);
 
-        layoutBack = (RelativeLayout) findViewById(R.id.layout_back);
+        imgBack = (ImageView) findViewById(R.id.img_back);
 
         imgRotate = (ImageView) findViewById(R.id.img_rotate);
 
@@ -58,8 +57,8 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initData() {
-        btnCrop.setOnClickListener(this);
-        layoutBack.setOnClickListener(this);
+        tvCrop.setOnClickListener(this);
+        imgBack.setOnClickListener(this);
         imgRotate.setOnClickListener(this);
 
         String uriStr = getIntent().getStringExtra(Constants.EXTRA_IMAGE_PATH);
@@ -83,11 +82,11 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.btn_crop:
+            case R.id.tv_crop:
                 cropImageView.getCroppedImageAsync();
                 break;
 
-            case R.id.layout_back:
+            case R.id.img_back:
                 finish();
                 break;
 

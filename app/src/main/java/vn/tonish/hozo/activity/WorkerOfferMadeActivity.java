@@ -4,14 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -29,6 +30,7 @@ import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
+import vn.tonish.hozo.view.WorkAroundMapFragment;
 import vn.tonish.hozo.view.WorkDetailView;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
@@ -49,6 +51,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
     private ImageView imgAttach, imgAttached, imgDelete;
     private RelativeLayout imgLayout;
     private String imgPath;
+    private ScrollView scv;
 
     @Override
     protected int getLayout() {
@@ -71,13 +74,25 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
 
         imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        scv = (ScrollView) findViewById(R.id.scv);
+
+        WorkAroundMapFragment mapFragment = (WorkAroundMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mapFragment.setListener(new WorkAroundMapFragment.OnTouchListener() {
+            @Override
+            public void onTouch() {
+                scv.requestDisallowInterceptTouchEvent(true);
+            }
+        });
     }
 
     @Override
     protected void initData() {
+        workDetailView.updateBtnOffer(false);
+        workDetailView.updateStatus(getString(R.string.recruitment), ContextCompat.getDrawable(this,R.drawable.bg_border_recruitment));
+        workDetailView.updateBtnCallRate(false, false, "");
 
         //fake work detail
         work = new Work();
@@ -123,7 +138,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         LatLng latLng = new LatLng(work.getLat(), work.getLon());
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
 
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(work.getLat(), work.getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));

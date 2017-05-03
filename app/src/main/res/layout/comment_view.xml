@@ -1,56 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="5dp"
-    android:paddingTop="5dp">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <vn.tonish.hozo.view.CircleImageView
-        android:id="@+id/img_avatar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/avatar_default" />
-
-    <ImageView
-        android:id="@+id/img_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:contentDescription="@string/adjust_image"
-        android:src="@drawable/img_comment_setting" />
-
-    <LinearLayout
-        android:id="@+id/tv_main"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/img_setting"
-        android:layout_toRightOf="@id/img_avatar"
-        android:orientation="vertical">
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
 
-        <TextView
-            android:id="@+id/tv_name"
-            style="@style/tv_style_normal_black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <vn.tonish.hozo.view.CircleImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="0dp"
+            android:src="@drawable/avatar_default" />
 
-        <TextView
-            android:id="@+id/tv_comment"
-            style="@style/tv_style_normal_gray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/tv_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/img_avatar"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_time_ago"
-            style="@style/tv_style_normal_gray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_name"
+                    style="@style/tv_style_normal_black"
+                    android:textSize="15sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-</RelativeLayout>
+                <ImageView
+                    android:id="@+id/img_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:contentDescription="@string/adjust_image"
+                    android:src="@drawable/img_comment_setting" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_comment"
+                style="@style/tv_style_normal_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_time_ago"
+                style="@style/tv_style_normal_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="@color/gray" />
+
+</LinearLayout>

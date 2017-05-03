@@ -285,7 +285,10 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                         calendar.set(year, monthOfYear, dayOfMonth);
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+
+//        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+        datePickerDialog.getDatePicker().setMinDate(new Date().getTime() - 10000);
+
         datePickerDialog.show();
     }
 

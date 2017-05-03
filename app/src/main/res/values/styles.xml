@@ -95,12 +95,12 @@
 
     <style name="tv_style_normal_black">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/tv_black</item>
     </style>
 
     <style name="tv_style_normal_gray">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColor">@color/tv_gray</item>
     </style>
 
     <!-- style title -->
@@ -117,10 +117,27 @@
         <item name="android:background">@drawable/btn_selector</item>
     </style>
 
+    <style name="btn_style_corners">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/btn_corners_selector</item>
+    </style>
+
     <style name="tv_title_cancel">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="sectionHeader"   parent="android:Widget.Holo.Light.TextView">
+        <item name="android:drawableBottom">@drawable/section_header</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/hozo_bg</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

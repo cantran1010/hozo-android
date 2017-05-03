@@ -14,12 +14,15 @@
     <color name="blue_sky">#00ae97</color>
     <color name="very_light_gray">#E5E5E5</color>
     <color name="black_alpha">#71000000</color>
-    <color name="gray">#D3D3D3</color>
-    <color name="green">#2dcc70</color>
+    <color name="gray">#979797</color>
+    <color name="green">#00B74A</color>
     <color name="red">#ff0000</color>
 
     <!-- common-->
     <color name="hozo_bg">#00A2E5</color>
     <color name="btn_selector">#A1A5F5</color>
+    <color name="tv_gray">#747474</color>
+    <color name="tv_black">#030303</color>
+    <color name="line_gay">#979797</color>
 
 </resources>

@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,22 +64,14 @@ public class Utils {
 
     public static void displayImage(Context context, ImageView img, String url) {
         Glide.with(context).load(url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(img);
     }
-
 
     public static void displayImageAvatar(Context context, ImageView img, String url) {
         Glide.with(context).load(url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.avatar_default)
-                .into(img);
-    }
-
-    public static void displayImageHolder(Context context, ImageView img, String url) {
-        Glide.with(context).load(url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(vn.tonish.hozo.R.drawable.loading)
                 .into(img);
     }
 

@@ -1,13 +1,14 @@
 package vn.tonish.hozo.activity;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ScrollView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -16,8 +17,10 @@ import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.PosterCompletedAdapter;
+import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.model.Work;
+import vn.tonish.hozo.view.WorkAroundMapFragment;
 import vn.tonish.hozo.view.WorkDetailView;
 
 /**
@@ -32,6 +35,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
     private RecyclerView rcvUser;
     private PosterCompletedAdapter posterCompletedAdapter;
     private ArrayList<User> users = new ArrayList<>();
+    private ScrollView scv;
 
     @Override
     protected int getLayout() {
@@ -44,15 +48,27 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
 
         rcvUser = (RecyclerView) findViewById(R.id.rcv_user);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        scv = (ScrollView) findViewById(R.id.scv);
+
+        WorkAroundMapFragment mapFragment = (WorkAroundMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mapFragment.setListener(new WorkAroundMapFragment.OnTouchListener() {
+            @Override
+            public void onTouch() {
+                scv.requestDisallowInterceptTouchEvent(true);
+            }
+        });
 
         workDetailView.updateBtnOffer(false);
     }
 
     @Override
     protected void initData() {
+        workDetailView.updateBtnOffer(false);
+        workDetailView.updateStatus(getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
+        workDetailView.updateBtnCallRate(false, false, "");
 
         //fake work detail
         work = new Work();
@@ -100,7 +116,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
     @Override
     public void onMapReady(GoogleMap googleMap) {
         LatLng latLng = new LatLng(work.getLat(), work.getLon());
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
 
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(work.getLat(), work.getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));

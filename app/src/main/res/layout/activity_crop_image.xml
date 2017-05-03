@@ -1,64 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/layout_header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/header_height"
-        android:background="@color/hozo_bg">
+        android:layout_height="?android:attr/actionBarSize">
 
-        <RelativeLayout
-            android:id="@+id/layout_back"
-            android:layout_width="@dimen/header_height"
-            android:layout_height="match_parent"
-            android:background="@drawable/btn_selector">
-
-            <ImageView
-                android:id="@+id/btn_close"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:contentDescription="@string/adjust_image"
-                android:src="@drawable/img_back" />
-
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@drawable/back" />
 
         <TextView
+            style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/crop_image_title"
-            android:textColor="#ffffff"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:text="@string/crop_image_title" />
 
         <ImageView
             android:id="@+id/img_rotate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/btn_crop"
+            android:layout_toLeftOf="@+id/tv_crop"
             android:contentDescription="@string/adjust_image"
             android:padding="5dp"
             android:src="@android:drawable/ic_menu_rotate" />
 
-        <Button
-            android:id="@+id/btn_crop"
+        <TextView
+            android:id="@+id/tv_crop"
+            style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/btn_selector"
+            android:gravity="center"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:text="@string/crop_image_done"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            tools:ignore="RtlHardcoded" />
+            android:text="@string/crop_image_done" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray" />
 
     </RelativeLayout>
 

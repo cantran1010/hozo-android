@@ -46,19 +46,19 @@
     <string name="login_resend_otp">Gửi lại mã code</string>
     <string name="tv_label_name">Họ và tên của bạn là gì?</string>
     <string name="tv_login_save">Lưu lại</string>
-    <string name="tv_login_policy">Nhấn nút ơ bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản và chính sách của chúng tôi</string>
+    <string name="tv_login_policy">Nhấn nút ở bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản và chính sách của chúng tôi</string>
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
 
     <!--Edit profile Screen-->
     <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
     <string name="edit_profile_btn_save">Lưu lại</string>
-    <string name="select_task_title">Dang viec</string>
-    <string name="browse_task_title">Tim Viec</string>
-    <string name="my_task_title">Viec cua toi</string>
-    <string name="other_title">Khac</string>
+    <string name="select_task_title">Đăng việc</string>
+    <string name="browse_task_title">Tìm việc</string>
+    <string name="my_task_title">Việc của tôi</string>
+    <string name="other_title">Khác</string>
 
     <!--  post a task layout-->
-    <string name="tv_post_a_task_title">Chi tiet dang viec</string>
+    <string name="tv_post_a_task_title">Chi tiết đăng việc</string>
     <string name="profile_phone">Điện thoại</string>
     <string name="profile_worker">Nguời làm việc</string>
     <string name="profile_hire">Người đăng việc</string>
@@ -205,5 +205,16 @@
     <string name="rate_good_attitude">Good Attitude</string>
     <string name="rate_other">Other</string>
     <string name="network_account_is_not_exist">Tài khoản không tồn tại</string>
+    <string name="type_your_text">Type your text ...</string>
+    <string name="assign_people">Người ứng tuyển</string>
+    <string name="assign">Chọn</string>
+    <string name="view_all">Xem tất cả</string>
+    <string name="worker">Người làm</string>
+    <string name="cancel_task">Hủy Việc</string>
+    <string name="recruitment">Ứng tuyển</string>
+    <string name="received">Đã nhận</string>
+    <string name="update_task">Đã đăng</string>
+    <string name="delivered">Đã giao</string>
+    <string name="gallery">Gallery</string>
 
 </resources>

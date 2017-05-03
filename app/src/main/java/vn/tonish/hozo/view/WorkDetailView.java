@@ -2,6 +2,7 @@ package vn.tonish.hozo.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -27,8 +28,8 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
     private TextView tvName, tvTitle, tvTimeAgo, tvWorkType, tvDescription;
     private RatingBar rbRate;
     private ImageView imgMobile, imgEmail, imgFacebook;
-    private TextView tvPrice, tvDate, tvTime, tvAddress;
-    private Button btnOffer;
+    private TextView tvPrice, tvDate, tvTime, tvAddress, tvStatus;
+    private Button btnOffer,btnCallRate;
 
     public WorkDetailView(Context context) {
         super(context);
@@ -76,6 +77,10 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         btnOffer = (Button) findViewById(R.id.btn_offer);
         btnOffer.setOnClickListener(this);
 
+        tvStatus = (TextView) findViewById(R.id.tv_status);
+
+        btnCallRate = (Button) findViewById(R.id.btn_call_rate);
+
     }
 
     public void updateWork(Work work) {
@@ -99,6 +104,44 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         else
             btnOffer.setVisibility(View.GONE);
     }
+
+    public void updateStatus(String status, Drawable drawable) {
+//        tvStatus.setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.bg_border_recruitment));
+
+        tvStatus.setText(status);
+        final int sdk = Build.VERSION.SDK_INT;
+        if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
+            tvStatus.setBackgroundDrawable(drawable);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            tvStatus.setBackground(drawable);
+        }
+    }
+
+    public void updateBtnCallRate(boolean isShow,boolean isCall,String text){
+        if(isShow){
+            btnCallRate.setVisibility(View.VISIBLE);
+            btnCallRate.setText(text);
+            if(isCall){
+                btnCallRate.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+            }else{
+                btnCallRate.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+            }
+        }else{
+            btnCallRate.setVisibility(View.GONE);
+        }
+    }
+
+
 
     @Override
     public void onClick(View v) {
