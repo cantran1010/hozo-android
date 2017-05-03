@@ -10,13 +10,13 @@ import vn.tonish.hozo.database.entity.UserEntity;
 import static vn.tonish.hozo.common.Constants.ACCESS_TOCKEN;
 import static vn.tonish.hozo.common.Constants.DATA;
 import static vn.tonish.hozo.common.Constants.EXP_TOCKEN;
-import static vn.tonish.hozo.common.Constants.USER_FULL_NAME;
-import static vn.tonish.hozo.common.Constants.USER_LOGIN_AT;
-import static vn.tonish.hozo.common.Constants.USER_MOBILE;
 import static vn.tonish.hozo.common.Constants.REFRESH_TOCKEN;
 import static vn.tonish.hozo.common.Constants.TOCKEN;
 import static vn.tonish.hozo.common.Constants.USER;
+import static vn.tonish.hozo.common.Constants.USER_FULL_NAME;
 import static vn.tonish.hozo.common.Constants.USER_ID;
+import static vn.tonish.hozo.common.Constants.USER_LOGIN_AT;
+import static vn.tonish.hozo.common.Constants.USER_MOBILE;
 import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 
 /**
