@@ -21,4 +21,6 @@ public class NetworkConfig {
     public static final String API_GET_PROFILE = DOMAIN + "user/";
 
 
+    public static final String API_UPDATE_AVATA = DOMAIN + "upload/image";
+    public static final String API_UPDATE_USER = DOMAIN + "user";
 }

@@ -16,8 +16,8 @@
             style="@style/tv_title_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/just_image" 
             android:layout_centerVertical="true"
+            android:contentDescription="@string/just_image"
             android:padding="5dp"
             android:text="@string/btn_cancel" />
 
@@ -38,13 +38,12 @@
 
     <Button
         android:id="@+id/btn_save"
+        style="@style/btn_style_nomal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:background="@drawable/btn_selector"
-        android:text="@string/edit_profile_btn_save"
-        android:textColor="@color/white" />
+        android:text="@string/edit_profile_btn_save" />
 
     <ScrollView
         android:layout_width="match_parent"

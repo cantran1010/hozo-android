@@ -90,7 +90,7 @@ public class NetworkUtils {
     }
 
     public static void postVolleyFormData(final boolean isShowProgressDialog, final boolean isDismissProgressDialog, final boolean isShowDialogError, final Context context, final String url, final HashMap<String, String> dataRequest, final NetworkListener networkListener) {
-        LogUtils.d(TAG, "postVolley url : " + url + " /////// data request : " + dataRequest.toString());
+        LogUtils.d(TAG, "postVolleyFormData url : " + url + " /////// data request : " + dataRequest.toString());
 
         if (context instanceof Activity) {
             Utils.hideKeyBoard((Activity) context);
@@ -102,7 +102,7 @@ public class NetworkUtils {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        LogUtils.d(TAG, "postVolley onResponse : " + response);
+                        LogUtils.d(TAG, "postVolleyFormData onResponse : " + response);
                         try {
                             networkListener.onSuccess(new JSONObject(response));
                         } catch (JSONException e) {
@@ -116,8 +116,8 @@ public class NetworkUtils {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        LogUtils.e(TAG, "postVolley volleyError : " + error.toString());
-                        LogUtils.e(TAG, "postVolley volleyError message : " + error.getMessage());
+                        LogUtils.e(TAG, "postVolleyFormData volleyError : " + error.toString());
+                        LogUtils.e(TAG, "postVolleyFormData volleyError message : " + error.getMessage());
 
                         if (error.getMessage().equals(Constants.ERROR_AUTHENTICATION)) {
                             // HTTP Status Code: 401 Unauthorized
@@ -161,7 +161,7 @@ public class NetworkUtils {
 
                 headers.put("Authorization", "Bearer " + UserManager.getUserToken(context));
                 headers.put("Content-Type", "application/x-www-form-urlencoded");
-                LogUtils.d(TAG, "postVolley getHeaders token: " + UserManager.getUserToken(context));
+                LogUtils.d(TAG, "postVolleyFormData getHeaders token: " + UserManager.getUserToken(context));
 
                 return headers;
             }
@@ -177,8 +177,8 @@ public class NetworkUtils {
 
     }
 
-    public static void postVolleyRaw(final boolean isShowProgressDialog, final boolean isDismissProgressDialog, final boolean isShowDialogError, final Context context, final String url, final JSONObject jsonRequest, final NetworkListener networkListener) {
-        LogUtils.d(TAG, "postVolley url : " + url + " /////// data request : " + jsonRequest.toString());
+    public static void postVolleyRawData(final boolean isShowProgressDialog, final boolean isDismissProgressDialog, final boolean isShowDialogError, final Context context, final String url, final JSONObject jsonRequest, final NetworkListener networkListener) {
+        LogUtils.d(TAG, "postVolleyRawData url : " + url + " /////// data request : " + jsonRequest.toString());
 
         if (context instanceof Activity) {
             Utils.hideKeyBoard((Activity) context);
@@ -191,7 +191,7 @@ public class NetworkUtils {
 
             @Override
             public void onResponse(JSONObject jsonObject) {
-                LogUtils.d(TAG, "postVolley onResponse : " + jsonObject.toString());
+                LogUtils.d(TAG, "postVolleyRawData onResponse : " + jsonObject.toString());
                 networkListener.onSuccess(jsonObject);
 
                 if (isDismissProgressDialog)
@@ -201,7 +201,7 @@ public class NetworkUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                LogUtils.e(TAG, "postVolley volleyError : " + volleyError.toString());
+                LogUtils.e(TAG, "postVolleyRawData volleyError : " + volleyError.toString());
                 LogUtils.e(TAG, volleyError.networkResponse.statusCode + "");
 
                 if (isShowDialogError)
@@ -209,7 +209,7 @@ public class NetworkUtils {
                     DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
                         @Override
                         public void onOkClick() {
-                            postVolleyRaw(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, jsonRequest, networkListener);
+                            postVolleyRawData(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, jsonRequest, networkListener);
                         }
 
                         @Override
@@ -237,6 +237,7 @@ public class NetworkUtils {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + UserManager.getUserToken(context));
                 headers.put("Accept", "application/json");
+                LogUtils.d(TAG, "postVolleyRawData getHeaders token: " + UserManager.getUserToken(context));
 
                 return headers;
             }
@@ -256,14 +257,14 @@ public class NetworkUtils {
         if (isShowProgressDialog)
             ProgressDialogUtils.showProgressDialog(context);
 
-        LogUtils.d(TAG, "getRequestVolley url : " + url);
-        LogUtils.d(TAG, "getRequestVolley jsonRequest : " + dataRequest.toString());
+        LogUtils.d(TAG, "getRequestVolleyFormData url : " + url);
+        LogUtils.d(TAG, "getRequestVolleyFormData jsonRequest : " + dataRequest.toString());
 
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        LogUtils.d(TAG, "getVolley onResponse : " + response);
+                        LogUtils.d(TAG, "getRequestVolleyFormData onResponse : " + response);
                         try {
                             networkListener.onSuccess(new JSONObject(response));
                         } catch (JSONException e) {
@@ -276,8 +277,8 @@ public class NetworkUtils {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                LogUtils.e(TAG, "postVolley volleyError : " + error.toString());
-                LogUtils.e(TAG, "postVolley volleyError message : " + error.getMessage());
+                LogUtils.e(TAG, "getRequestVolleyFormData volleyError : " + error.toString());
+                LogUtils.e(TAG, "getRequestVolleyFormData volleyError message : " + error.getMessage());
 
 
                 if ((!(error == null)) || error.getMessage().equals(Constants.ERROR_AUTHENTICATION)) {
@@ -319,7 +320,7 @@ public class NetworkUtils {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + UserManager.getUserToken(context));
                 headers.put("Content-Type", "application/x-www-form-urlencoded");
-                LogUtils.d(TAG, "getVolley getHeaders token: " + UserManager.getUserToken(context));
+                LogUtils.d(TAG, "getRequestVolleyFormData getHeaders token: " + UserManager.getUserToken(context));
                 return headers;
             }
         };
@@ -334,18 +335,18 @@ public class NetworkUtils {
 
     }
 
-    public static void getRequestVolley(final boolean isShowProgressDialog, final boolean isDismissProgressDialog, final boolean isShowDialogError, final Context context, final String url, final JSONObject jsonRequest, final NetworkListener networkListener) {
+    public static void getRequestVolleyRawData(final boolean isShowProgressDialog, final boolean isDismissProgressDialog, final boolean isShowDialogError, final Context context, final String url, final JSONObject jsonRequest, final NetworkListener networkListener) {
         if (isShowProgressDialog)
             ProgressDialogUtils.showProgressDialog(context);
 
-        LogUtils.d(TAG, "getRequestVolley url : " + url);
-        LogUtils.d(TAG, "getRequestVolley jsonRequest : " + jsonRequest.toString());
+        LogUtils.d(TAG, "getRequestVolleyRawData url : " + url);
+        LogUtils.d(TAG, "getRequestVolleyRawData jsonRequest : " + jsonRequest.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, jsonRequest, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject jsonObject) {
-                LogUtils.d(TAG, "getRequestVolley onResponse : " + jsonObject.toString());
+                LogUtils.d(TAG, "getRequestVolleyRawData onResponse : " + jsonObject.toString());
                 networkListener.onSuccess(jsonObject);
 
 
@@ -356,7 +357,7 @@ public class NetworkUtils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                LogUtils.e(TAG, "getRequestVolley volleyError : " + volleyError.toString());
+                LogUtils.e(TAG, "getRequestVolleyRawData volleyError : " + volleyError.toString());
 
                 if (isShowDialogError)
                     DialogUtils.showConfirmAlertDialog(context, context.getString(R.string.network_error_msg), new DialogUtils.ConfirmDialogListener() {
@@ -369,7 +370,7 @@ public class NetworkUtils {
                 DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
                     @Override
                     public void onOkClick() {
-                        getRequestVolley(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, jsonRequest, networkListener);
+                        getRequestVolleyRawData(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, jsonRequest, networkListener);
                     }
 
                     @Override
@@ -387,10 +388,10 @@ public class NetworkUtils {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Accept", "application/json");
                 headers.put("Authorization", "Bearer " + UserManager.getUserToken(context));
+                LogUtils.d(TAG, "getRequestVolleyRawData getHeaders token: " + UserManager.getUserToken(context));
                 return headers;
             }
         };
-
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
                 NetworkConfig.NETWORK_TIME_OUT,

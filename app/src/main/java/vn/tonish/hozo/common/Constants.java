@@ -21,6 +21,7 @@ public class Constants {
 
     public static final String EXTRA_CATEGORY = "extra_category";
     public static final String EXTRA_WORK = "extra_work";
+    public static final int RESULT_CODE_UPDATE_PROFILE = 678;
 
     public static boolean DEBUG = true;
     public static final int SPLASH_TIME = 1500;
