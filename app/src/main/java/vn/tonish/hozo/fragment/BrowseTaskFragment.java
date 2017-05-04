@@ -3,11 +3,6 @@ package vn.tonish.hozo.fragment;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
-import android.view.View;
-import vn.tonish.hozo.view.EdittextHozo;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.json.JSONObject;
 
@@ -16,7 +11,6 @@ import java.util.List;
 import java.util.TimerTask;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.AdvanceSettingsActivity;
 import vn.tonish.hozo.adapter.WorkAdapter;
 import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.network.NetworkUtils;
@@ -37,11 +31,6 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
     private LinearLayoutManager lvManager;
     private List<Work> workList;
 
-
-    protected EdittextHozo et_search;
-
-    protected Spinner spinner;
-
     @Override
     protected int getLayout() {
         return R.layout.search_fragment;
@@ -49,8 +38,6 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
 
     @Override
     protected void initView() {
-        spinner = (Spinner) findViewById(R.id.spin_type);
-        spinner.setPrompt("Phan loai cong viec!");
         lvList = (RecyclerView) findViewById(R.id.lvList);
         lvManager = new LinearLayoutManager(getActivity());
         workList = new ArrayList<>();
@@ -70,23 +57,6 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
         }
         workAdapter = new WorkAdapter(getActivity(), workList);
         lvList.setAdapter(workAdapter);
-
-
-        findViewById(R.id.tv_advance_setting).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(AdvanceSettingsActivity.class);
-            }
-        });
-
-
-        et_search = (EdittextHozo) findViewById(R.id.et_search);
-        et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                return false;
-            }
-        });
 
         lvList.addOnScrollListener(new EndlessRecyclerViewScrollListener(lvManager) {
             @Override
@@ -137,7 +107,7 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
     @Override
     public void onSuccess(JSONObject jsonResponse) {
         if (jsonResponse != null) {
-           // String json = jsonResponse.toString();
+            // String json = jsonResponse.toString();
         }
     }
 

@@ -10,7 +10,6 @@
 
 
     <!--notification Screen-->
-    <string name="all_back">Quay lại</string>
     <string name="notification_notify">Thông báo chưa đọc</string>
 
     <!--profile Screen-->
@@ -59,9 +58,6 @@
 
     <!--  post a task layout-->
     <string name="tv_post_a_task_title">Chi tiết đăng việc</string>
-    <string name="profile_phone">Điện thoại</string>
-    <string name="profile_worker">Nguời làm việc</string>
-    <string name="profile_hire">Người đăng việc</string>
     <string name="profile_log_out">Thoát tài khoản</string>
     <string name="tv_task_title">Tiêu đề công việc</string>
     <string name="task_title_hint">Lau dọn nhà bếp</string>
@@ -69,9 +65,6 @@
     <string name="notify_title">Thông báo</string>
 
     <!-- post a task -->
-    <string name="pick_image_take_picture">Chụp ảnh</string>
-    <string name="pick_image_album">Album</string>
-    <string name="pick_image_title">Đăng ảnh từ</string>
 
     <!-- select image-->
     <string name="err_pick_image">Vui lòng chọn ít nhất 1 ảnh</string>
@@ -121,24 +114,6 @@
         <item>Nữ</item>
     </string-array>
 
-    <string-array name="ages">
-        <item>Dưới 18</item>
-        <item>18 ~ 25</item>
-        <item>26 ~ 30</item>
-        <item>31 ~ 35</item>
-        <item>36 ~ 40</item>
-        <item>41 ~ 45</item>
-        <item>46 ~ 50</item>
-        <item>Trên 50</item>
-    </string-array>
-
-    <string-array name="rates">
-        <item>Professional</item>
-        <item>Good Attiude</item>
-        <item>Hard Working</item>
-        <item>Other</item>
-    </string-array>
-
     <!-- make an offer-->
     <string name="tv_start_time">Chọn ngày bắt đầu</string>
     <string name="tv_end_time">Chọn ngày kết thúc</string>
@@ -152,7 +127,6 @@
 
     <!-- post a task -->
     <string name="tv_time_task">Thời gian làm việc</string>
-    <string name="date_hint">Chọn ngày tháng làm việc</string>
     <string name="edt_number_day_hint">Số ngày làm việc</string>
     <string name="start_time_hint">Thời gian bắt đầu</string>
     <string name="end_time_hint">Thời gian kết thúc</string>
@@ -189,7 +163,6 @@
     <string name="call">Gọi</string>
     <string name="make_an_offer_worker">Người làm</string>
     <string name="make_an_offer_question">Hỏi đáp</string>
-    <string name="comment">Bình luận</string>
     <string name="rate_content_hint">Nhập nội dung</string>
     <string name="reply_title_hint">Nhập tiêu đề</string>
     <string name="reply_content_hint">Nhập nội dung</string>
@@ -205,7 +178,7 @@
     <string name="rate_good_attitude">Good Attitude</string>
     <string name="rate_other">Other</string>
     <string name="network_account_is_not_exist">Tài khoản không tồn tại</string>
-    <string name="type_your_text">Type your text ...</string>
+    <string name="type_your_text">Type your text …</string>
     <string name="assign_people">Người ứng tuyển</string>
     <string name="assign">Chọn</string>
     <string name="view_all">Xem tất cả</string>
@@ -216,5 +189,8 @@
     <string name="update_task">Đã đăng</string>
     <string name="delivered">Đã giao</string>
     <string name="gallery">Gallery</string>
+    <string name="share_task">TÌM VIỆC</string>
+    <string name="tv_type_of_task">Phân loại công việc</string>
+    <string name="img_content_des">Quay trở lại</string>
 
 </resources>

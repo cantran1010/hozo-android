@@ -1,7 +1,5 @@
 package vn.tonish.hozo.activity.setting;
 
-import android.widget.RadioGroup;
-
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 

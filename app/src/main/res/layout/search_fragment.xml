@@ -1,71 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/hozo_bg"
-        android:padding="8dp">
+        android:layout_height="56dp"
+        android:background="@drawable/background_bar">
 
 
         <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:drawableLeft="@mipmap/ic_launcher"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="map" />
+            android:padding="16dp"
+            android:text="@string/share_task"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/tv_size_title"
+            android:textStyle="bold" />
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_map"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginEnd="125dp"
+            android:padding="16dp"
+            android:src="@drawable/search"
+            tools:ignore="RtlCompat" />
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="@color/white" />
+            android:layout_gravity="end"
+            android:layout_marginEnd="65dp"
+            android:padding="17dp"
+            android:src="@drawable/location"
+            tools:ignore="RtlCompat" />
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_advance_setting"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:drawableLeft="@mipmap/ic_launcher"
-            android:gravity="center"
-            android:text="setting" />
+            android:layout_gravity="end"
+            android:padding="17dp"
+            android:src="@drawable/controls" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
-
-    <vn.tonish.hozo.view.EdittextHozo
-        android:id="@+id/et_search"
+    <vn.tonish.hozo.view.TextViewHozo
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/background_mytask_filter"
+        android:drawableEnd="@drawable/drop_spinner"
+        android:drawableStart="@drawable/filter"
         android:gravity="center"
-        android:hint="Search"
-        android:padding="8dp" />
+        android:paddingLeft="90dp"
+        android:paddingRight="90dp"
+        android:text="@string/tv_type_of_task"
+        tools:ignore="RtlCompat" />
 
-    <Spinner
-        android:id="@+id/spin_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="8dp" />
-
-    
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swpRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lvList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

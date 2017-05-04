@@ -24,7 +24,7 @@ public class Constants {
     public static final int RESULT_CODE_UPDATE_PROFILE = 678;
     public static final float DEFAULT_MAP_ZOOM_LEVEL = 16f;
 
-    public static boolean DEBUG = true;
+    public static final boolean DEBUG = true;
     public static final int SPLASH_TIME = 1500;
     public static final String DB_NAME = "hozo";
     public static final String KEY_ENCRYPTION_DEFAULT = "abcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefgh";

@@ -151,15 +151,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         try {
             viewLevel++;
             if (viewLevel == 1) {
-                showViewFromRight(context, viewLevel1, duration, false);
+                showViewFromRight(viewLevel1, duration, false);
                 viewLevel2.removeAllViews();
                 viewLevel2.addView(view);
-                showViewFromRight(context, viewLevel2, duration, true);
+                showViewFromRight(viewLevel2, duration, true);
             } else if (viewLevel == 2) {
-                showViewFromRight(context, viewLevel2, duration, false);
+                showViewFromRight(viewLevel2, duration, false);
                 viewLevel3.removeAllViews();
                 viewLevel3.addView(view);
-                showViewFromRight(context, viewLevel3, duration, true);
+                showViewFromRight(viewLevel3, duration, true);
             }
 
         } catch (Exception ignored) {
@@ -174,12 +174,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             return;
         }
         if (viewLevel == 1) {
-            showViewFromRight(context, viewLevel2, duration, false);
-            showViewFromRight(context, viewLevel1, duration, true);
+            showViewFromRight(viewLevel2, duration, false);
+            showViewFromRight(viewLevel1, duration, true);
             tvContinue.setEnabled(true);
         } else if (viewLevel == 2) {
-            showViewFromRight(context, viewLevel3, duration, false);
-            showViewFromRight(context, viewLevel2, duration, true);
+            showViewFromRight(viewLevel3, duration, false);
+            showViewFromRight(viewLevel2, duration, true);
         }
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -194,7 +194,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }, duration);
     }
 
-    private void showViewFromRight(Context context, final View view, int duration, boolean isShow) {
+    private void showViewFromRight(final View view, int duration, boolean isShow) {
         if (isShow) {
             view.setVisibility(View.VISIBLE);
             view.startAnimation(rtAnimation);
@@ -217,10 +217,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             return false;
         } else if (number.length() == 10 && number.substring(0, 2).equals("09")) {
             return true;
-        } else if (number.length() == 10 && number.substring(0, 1).equals("1")) {
-            return true;
         } else
-            return number.length() == 11 && number.substring(0, 2).equals("01") || number.length() == 9 && number.substring(0, 1).equals("9");
+            return number.length() == 10 && number.substring(0, 1).equals("1") || number.length() == 11 && number.substring(0, 2).equals("01") || number.length() == 9 && number.substring(0, 1).equals("9");
     }
 
     private boolean CheckErrorEditText(String number) {
