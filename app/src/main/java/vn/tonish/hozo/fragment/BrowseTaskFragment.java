@@ -12,6 +12,7 @@ import vn.tonish.hozo.R;
 
 public class BrowseTaskFragment extends BaseFragment implements View.OnClickListener {
     private ImageView imgSearch, imgLocation, imgControls;
+    private boolean checkView = true;
 
     @Override
     protected int getLayout() {
@@ -40,9 +41,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     public void getData() {
-        //        if (workList.size() == 0) {
-//            NetworkUtils.postVolley(true, true, true, getActivity(), "", new JSONObject(), this);
-//        }
     }
 
     @Override
@@ -53,6 +51,18 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_location:
+                if (checkView) {
+                    openFragment(R.id.find_task_container, MapTaskFragment.class, false);
+                    checkView = false;
+                } else {
+                    openFragment(R.id.find_task_container, ListTaskFragment.class, false);
+                    checkView = true;
+                }
+
+                break;
+        }
 
     }
 }

@@ -5,22 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <vn.tonish.hozo.view.TextViewHozo
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/background_mytask_filter"
-        android:drawableEnd="@drawable/drop_spinner"
-        android:drawableStart="@drawable/filter"
-        android:gravity="center"
-        android:paddingLeft="90dp"
-        android:paddingRight="90dp"
-        android:text="@string/tv_type_of_task"
-        tools:ignore="RtlCompat" />
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swpRefresh"
         android:layout_width="match_parent"
