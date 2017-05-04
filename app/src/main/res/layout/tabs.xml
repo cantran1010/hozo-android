@@ -29,6 +29,7 @@
                 android:id="@+id/img_post_a_task"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/select_task_title"
                 android:src="@drawable/menu_post_task" />
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -53,6 +54,7 @@
                 android:id="@+id/img_browser_task"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/browse_task_title"
                 android:src="@drawable/menu_browser_task_selected" />
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -77,6 +79,7 @@
                 android:id="@+id/img_my_task"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/my_task_title"
                 android:src="@drawable/menu_my_task" />
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -101,6 +104,7 @@
                 android:id="@+id/img_inbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/notify_title"
                 android:src="@drawable/menu_inbox" />
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -125,6 +129,7 @@
                 android:id="@+id/img_other"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/other_title"
                 android:src="@drawable/menu_other" />
 
             <vn.tonish.hozo.view.TextViewHozo

@@ -11,7 +11,6 @@ import android.os.Build;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import vn.tonish.hozo.view.EdittextHozo;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,6 +27,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.view.EdittextHozo;
 
 /**
  * Created by LongBui.

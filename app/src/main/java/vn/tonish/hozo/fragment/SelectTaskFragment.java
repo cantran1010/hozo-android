@@ -3,11 +3,18 @@ package vn.tonish.hozo.fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.CategoryAdapter;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.network.NetworkConfig;
+import vn.tonish.hozo.network.NetworkUtils;
 
 /**
  * Created by LongBui on 4/4/2017.
@@ -32,41 +39,53 @@ public class SelectTaskFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        getCategory();
+    }
 
-        //fake data
-        Category category1 = new Category();
-        category1.setId(1);
-        category1.setName("Việc công trình");
-        category1.setDescription("Các công việc như : Bốc dỡ,lắp đặt,thợ phụ");
-        category1.setPresentPath("http://palmcoastcomputerrepair.net/wp-content/uploads/2014/08/on-line-computer-repair-options.jpg");
+    private void getCategory() {
+        NetworkUtils.getRequestVolleyFormData(true, true, true, getActivity(), NetworkConfig.API_CATEGORY, new HashMap<String, String>(), new NetworkUtils.NetworkListener() {
+            @Override
+            public void onSuccess(JSONObject jsonResponse) {
+                try {
+                    JSONArray jsonArr = jsonResponse.getJSONObject("data").getJSONArray("categories");
+                    for (int i = 0; i < jsonArr.length(); i++) {
 
-        Category category2 = new Category();
-        category2.setId(2);
-        category2.setName("Việc công nghệ");
-        category2.setDescription("Các công việc như : Cài đặt máy tính,lắp máy in");
-        category2.setPresentPath("https://cdn.pixabay.com/photo/2015/12/22/04/00/edit-1103598_960_720.png");
+                        JSONObject jsonCategory = jsonArr.getJSONObject(i);
 
-        categories.add(category1);
-        categories.add(category2);
-        categories.add(category2);
-        categories.add(category2);
-        categories.add(category2);
-        categories.add(category2);
-        categories.add(category2);
-        categories.add(category2);
-        categories.add(category2);
-        categories.add(category2);
-        categories.add(category2);
+                        Category category = new Category();
+                        category.setId(jsonCategory.getInt("id"));
+                        category.setName(jsonCategory.getString("name"));
+                        category.setDescription(jsonCategory.getString("suggest_description"));
+                        category.setSuggestTitle(jsonCategory.getString("suggest_title"));
+                        category.setSuggestDescription(jsonCategory.getString("suggest_description"));
+                        category.setPresentPath(jsonCategory.getString("avatar"));
 
-        categoryAdapter = new CategoryAdapter(categories);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
-        rcvTask.setLayoutManager(linearLayoutManager);
-        rcvTask.setAdapter(categoryAdapter);
+                        categories.add(category);
+                    }
+                    refreshCategory();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
     }
 
     @Override
     protected void resumeData() {
 
+    }
+
+    private void refreshCategory() {
+        categoryAdapter = new CategoryAdapter(categories);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        rcvTask.setLayoutManager(linearLayoutManager);
+        rcvTask.setAdapter(categoryAdapter);
     }
 
 }

@@ -9,8 +9,26 @@ import java.io.Serializable;
 public class Category implements Serializable {
     private int id;
     private String name;
-    private String presentPath;
     private String description;
+    private String suggestTitle;
+    private String suggestDescription;
+    private String presentPath;
+
+    public String getSuggestTitle() {
+        return suggestTitle;
+    }
+
+    public void setSuggestTitle(String suggestTitle) {
+        this.suggestTitle = suggestTitle;
+    }
+
+    public String getSuggestDescription() {
+        return suggestDescription;
+    }
+
+    public void setSuggestDescription(String suggestDescription) {
+        this.suggestDescription = suggestDescription;
+    }
 
     public String getPresentPath() {
         return presentPath;
@@ -43,4 +61,17 @@ public class Category implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", suggestTitle='" + suggestTitle + '\'' +
+                ", suggestDescription='" + suggestDescription + '\'' +
+                ", presentPath='" + presentPath + '\'' +
+                '}';
+    }
+
 }

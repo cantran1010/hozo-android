@@ -216,5 +216,7 @@
     <string name="update_task">Đã đăng</string>
     <string name="delivered">Đã giao</string>
     <string name="gallery">Gallery</string>
+    <string name="content_description_send">Gửi</string>
+    <string name="content_description_verify">Đã xác thực</string>
 
 </resources>

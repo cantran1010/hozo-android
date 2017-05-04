@@ -6,8 +6,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.provider.Settings;
 import android.view.View;
-import vn.tonish.hozo.view.ButtonHozo;
-import vn.tonish.hozo.view.EdittextHozo;
 import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,6 +19,7 @@ import java.util.Locale;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.HozoLocation;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.model.Work;
@@ -29,6 +28,8 @@ import vn.tonish.hozo.utils.GPSTracker;
 import vn.tonish.hozo.utils.LocationProvider;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.EdittextHozo;
 
 /**
  * Created by LongBui on 4/18/2017.
@@ -51,6 +52,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     private Work work;
     private ArrayList<Image> images = new ArrayList<>();
     private HozoLocation location = new HozoLocation();
+    private Category category;
 
     @Override
     protected int getLayout() {
@@ -87,6 +89,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
         work = (Work) getIntent().getSerializableExtra(Constants.EXTRA_WORK);
         images = getIntent().getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+        category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
 
         mLocationProvider = new LocationProvider(this, this);
     }
@@ -163,6 +166,19 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             }
             strReturnedAddress = strReturnedAddress.substring(0, strReturnedAddress.length() - 2);
             edtAddress.setText(strReturnedAddress);
+
+            if (addRess.getMaxAddressLineIndex() > 1) {
+                location.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
+            }
+
+            if (addRess.getMaxAddressLineIndex() > 2) {
+                location.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
+            }
+
+            location.setAddress(edtAddress.getText().toString());
+            location.setLat(latLng.latitude);
+            location.setLon(latLng.longitude);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -206,13 +222,10 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             return;
         }
 
-        location.setAddress(edtAddress.getText().toString());
-        location.setLat(latLng.latitude);
-        location.setLon(latLng.longitude);
-
         Intent intent = new Intent(PostATaskMapActivity.this, PostATaskFinishActivity.class);
         intent.putExtra(Constants.EXTRA_ADDRESS, location);
         intent.putExtra(Constants.EXTRA_WORK, work);
+        intent.putExtra(Constants.EXTRA_CATEGORY,category);
         startActivity(intent);
     }
 
