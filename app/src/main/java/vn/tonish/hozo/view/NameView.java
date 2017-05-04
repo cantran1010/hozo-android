@@ -7,9 +7,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import vn.tonish.hozo.view.EdittextHozo;
+import android.widget.EditText;
 import android.widget.FrameLayout;
-import vn.tonish.hozo.view.TextViewHozo;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -38,8 +38,8 @@ import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 public class NameView extends FrameLayout implements View.OnClickListener {
     private final static String TAG = "NameView";
     private final Context context;
-    private EdittextHozo edtName;
-    private TextViewHozo btnSave;
+    private EditText edtName;
+    private TextView btnSave;
 
 
     public NameView(Context context) {
@@ -53,8 +53,8 @@ public class NameView extends FrameLayout implements View.OnClickListener {
     private void initView() {
         View rootView = LayoutInflater.from(context).inflate(R.layout.view_name, null);
         addView(rootView);
-        edtName = (EdittextHozo) rootView.findViewById(R.id.edt_name);
-        btnSave = (TextViewHozo) rootView.findViewById(R.id.btn_save);
+        edtName = (EditText) rootView.findViewById(R.id.edt_name);
+        btnSave = (TextView) rootView.findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
         edtName.addTextChangedListener(new TextWatcher() {
             @Override
