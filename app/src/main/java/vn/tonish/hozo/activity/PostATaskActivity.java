@@ -57,6 +57,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private Calendar calendarTimeEnd = Calendar.getInstance();
     private EdittextHozo edtDayWork, edtWorkName, edtDescription, edtAgeFrom, edtAgeTo;
     private Spinner spGender;
+    private Category category;
 
     @Override
     protected int getLayout() {
@@ -104,7 +105,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initData() {
 
-        Category category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
+        category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
         tvTitle.setText(category.getName());
 
         Image image = new Image();
@@ -259,7 +260,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
         Work work = new Work();
         work.setName(edtWorkName.getText().toString());
-        work.setDate(tvDate.toString());
+        work.setDate(tvDate.getText().toString());
         work.setNumberDays(Integer.valueOf(edtDayWork.getText().toString()));
         work.setStartTime(tvStartTime.getText().toString());
         work.setEndTime(tvEndTime.getText().toString());
@@ -271,6 +272,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         Intent intent = new Intent(this, PostATaskMapActivity.class);
         intent.putExtra(Constants.EXTRA_WORK, work);
         intent.putParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES, images);
+        intent.putExtra(Constants.EXTRA_CATEGORY,category);
 
         startActivity(intent);
     }

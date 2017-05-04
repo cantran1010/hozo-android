@@ -200,30 +200,35 @@ public class NetworkUtils {
 
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                LogUtils.e(TAG, "postVolleyRawData volleyError : " + volleyError.toString());
-                LogUtils.e(TAG, volleyError.networkResponse.statusCode + "");
+            public void onErrorResponse(VolleyError error) {
+                LogUtils.e(TAG, "postVolleyRawData volleyError : " + error.toString());
+                LogUtils.e(TAG, error.networkResponse.statusCode + "");
 
-                if (isShowDialogError)
-
-                    DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
+                if (error.getMessage().equals(Constants.ERROR_AUTHENTICATION)) {
+                    // HTTP Status Code: 401 Unauthorized
+                    // Refresh token
+                    RefreshToken(context, new RefreshListener() {
                         @Override
-                        public void onOkClick() {
+                        public void onRefreshFinish(JSONObject jsonResponse) {
+                            UserManager.insertUserLogin(new DataParse().getUserEntiny(context, jsonResponse), context);
                             postVolleyRawData(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, jsonRequest, networkListener);
                         }
-
-                        @Override
-                        public void onCancelClick() {
-
-                        }
                     });
+                } else {
+                    if (isShowDialogError)
 
-                DialogUtils.showConfirmAlertDialog(context, context.getString(R.string.network_error_msg), new DialogUtils.ConfirmDialogListener() {
-                    @Override
-                    public void onConfirmClick() {
-                        networkListener.onError();
-                    }
-                });
+                        DialogUtils.showRetryDialog(context, context.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
+                            @Override
+                            public void onOkClick() {
+                                postVolleyRawData(isShowProgressDialog, isDismissProgressDialog, isShowDialogError, context, url, jsonRequest, networkListener);
+                            }
+
+                            @Override
+                            public void onCancelClick() {
+
+                            }
+                        });
+                }
 
                 if (isDismissProgressDialog)
                     ProgressDialogUtils.dismissProgressDialog();

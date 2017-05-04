@@ -199,5 +199,7 @@
     <string name="profile_add_verify">Xác thực thêm</string>
     <string name="profile_address">Địa chỉ</string>
     <string name="profile_phone">Điện thoại</string>
+    <string name="content_description_send">Gửi</string>
+    <string name="content_description_verify">Đã xác thực</string>
 
 </resources>
