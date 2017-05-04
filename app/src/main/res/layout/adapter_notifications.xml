@@ -18,13 +18,13 @@
         android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ABC" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

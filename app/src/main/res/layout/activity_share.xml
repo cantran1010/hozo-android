@@ -13,7 +13,7 @@
         android:contentDescription="@string/just_image"
         android:src="@mipmap/ic_launcher_round" />
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

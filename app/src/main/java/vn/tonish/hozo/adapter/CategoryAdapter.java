@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import java.util.ArrayList;
 
@@ -53,14 +53,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private CircleImageView imgPresent;
-        private TextView tvName,tvDes;
+        private TextViewHozo tvName,tvDes;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             imgPresent = (CircleImageView) itemView.findViewById(R.id.img_present);
-            tvName = (TextView) itemView.findViewById(R.id.tv_name);
-            tvDes = (TextView) itemView.findViewById(R.id.tv_description);
+            tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
+            tvDes = (TextViewHozo) itemView.findViewById(R.id.tv_description);
         }
 
         @Override

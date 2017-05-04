@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="?android:attr/actionBarSize">
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -19,14 +19,14 @@
             android:layout_toLeftOf="@+id/et_min"
             android:text="@string/tv_amount" />
 
-        <EditText
+        <vn.tonish.hozo.view.EdittextHozo
             android:id="@+id/et_min"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/line"
             android:hint="@string/et_min" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/line"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
             android:text="-" />
 
 
-        <EditText
+        <vn.tonish.hozo.view.EdittextHozo
             android:id="@+id/et_max"
             android:layout_width="60dp"
             android:layout_height="wrap_content"

@@ -6,8 +6,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.provider.Settings;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.EdittextHozo;
 import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,14 +39,14 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     private static final String TAG = PostATaskMapActivity.class.getSimpleName();
     private GoogleMap mMap;
     protected ImageView imgBack;
-    protected Button btnNext;
+    protected ButtonHozo btnNext;
     protected ImageView imgCurrentLocation, imgZoomIn, imgZoomOut;
 
     private static double lat = 21.000030;
     private static double lon = 105.837400;
     private LatLng latLng;
     private LocationProvider mLocationProvider;
-    private EditText edtAddress;
+    private EdittextHozo edtAddress;
 
     private Work work;
     private ArrayList<Image> images = new ArrayList<>();
@@ -63,7 +63,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        btnNext = (Button) findViewById(R.id.btn_next);
+        btnNext = (ButtonHozo) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
 
         imgCurrentLocation = (ImageView) findViewById(R.id.img_current_location);
@@ -75,7 +75,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         imgZoomOut = (ImageView) findViewById(R.id.img_map_zoom_out);
         imgZoomOut.setOnClickListener(this);
 
-        edtAddress = (EditText) findViewById(R.id.edt_address);
+        edtAddress = (EdittextHozo) findViewById(R.id.edt_address);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

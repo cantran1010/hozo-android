@@ -27,7 +27,7 @@
 
         </RelativeLayout>
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -44,7 +44,7 @@
         android:layout_marginRight="10dp"
         android:orientation="vertical">
 
-        <EditText
+        <vn.tonish.hozo.view.EdittextHozo
             android:id="@+id/edt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
             android:hint="@string/reply_title_hint"
             android:padding="5dp" />
 
-        <EditText
+        <vn.tonish.hozo.view.EdittextHozo
             android:id="@+id/edt_content"
             android:layout_width="match_parent"
             android:layout_height="150dp"
@@ -65,7 +65,7 @@
 
     </LinearLayout>
 
-    <Button
+    <vn.tonish.hozo.view.ButtonHozo
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

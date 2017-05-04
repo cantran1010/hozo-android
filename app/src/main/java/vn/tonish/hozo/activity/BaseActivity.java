@@ -11,8 +11,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.TextView;
+import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import vn.tonish.hozo.R;
 
@@ -43,7 +43,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
-    protected void setBackButton() {
+    protected void setBackButtonHozo() {
 
         findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +85,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
 
 
     protected void setTitleHeader(String text) {
-        TextView tv_title = (TextView) findViewById(R.id.tvTitleHeader);
+        TextViewHozo tv_title = (TextViewHozo) findViewById(R.id.tvTitleHeader);
         tv_title.setText(text.trim());
     }
 
@@ -171,7 +171,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         View view = getCurrentFocus();
-        if (view != null && (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) && view instanceof EditText && !view.getClass().getName().startsWith("android.webkit.")) {
+        if (view != null && (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) && view instanceof EdittextHozo && !view.getClass().getName().startsWith("android.webkit.")) {
             int scr_coord[] = new int[2];
             view.getLocationOnScreen(scr_coord);
             float x = ev.getRawX() + view.getLeft() - scr_coord[0];

@@ -42,12 +42,12 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     private static final String TAG = "OtpView";
 
     private final Context context;
-    private EditText mPinFirstDigitEditText;
-    private EditText mPinSecondDigitEditText;
-    private EditText mPinThirdDigitEditText;
-    private EditText mPinForthDigitEditText;
-    private EditText mPinHiddenEditText;
-    private TextView btnSigIn;
+    private EdittextHozo mPinFirstDigitEditText;
+    private EdittextHozo mPinSecondDigitEditText;
+    private EdittextHozo mPinThirdDigitEditText;
+    private EdittextHozo mPinForthDigitEditText;
+    private EdittextHozo mPinHiddenEditText;
+    private TextViewHozo btnSigIn;
     private final boolean registed;
     private final String phone;
 
@@ -69,8 +69,8 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         View rootView = LayoutInflater.from(context).inflate(R.layout.view_otp, null);
         addView(rootView);
         init();
-        TextView btnBack = (TextView) rootView.findViewById(R.id.btnBack);
-        btnSigIn = (TextView) rootView.findViewById(R.id.btn_sigin);
+        TextView btnBack = (TextViewHozo) rootView.findViewById(R.id.btnBack);
+        btnSigIn = (TextViewHozo) rootView.findViewById(R.id.btn_sigin);
         TextView btnResetOtp = (TextView) rootView.findViewById(R.id.btn_reset_otp);
 
         btnBack.setOnClickListener(this);
@@ -152,11 +152,11 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
      * Initialize EditText fields.
      */
     private void init() {
-        mPinFirstDigitEditText = (EditText) findViewById(R.id.pin_first_edittext);
-        mPinSecondDigitEditText = (EditText) findViewById(R.id.pin_second_edittext);
-        mPinThirdDigitEditText = (EditText) findViewById(R.id.pin_third_edittext);
-        mPinForthDigitEditText = (EditText) findViewById(R.id.pin_forth_edittext);
-        mPinHiddenEditText = (EditText) findViewById(R.id.pin_hidden_edittext);
+        mPinFirstDigitEditText = (EdittextHozo) findViewById(R.id.pin_first_edittext);
+        mPinSecondDigitEditText = (EdittextHozo) findViewById(R.id.pin_second_edittext);
+        mPinThirdDigitEditText = (EdittextHozo) findViewById(R.id.pin_third_edittext);
+        mPinForthDigitEditText = (EdittextHozo) findViewById(R.id.pin_forth_edittext);
+        mPinHiddenEditText = (EdittextHozo) findViewById(R.id.pin_hidden_edittext);
     }
 
     @Override

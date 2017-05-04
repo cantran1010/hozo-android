@@ -3,7 +3,7 @@ package vn.tonish.hozo.dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.Button;
+import vn.tonish.hozo.view.ButtonHozo;
 import android.widget.NumberPicker;
 
 import vn.tonish.hozo.R;
@@ -15,7 +15,7 @@ import vn.tonish.hozo.R;
 public class TimePickerHozoDialog extends BaseDialog implements View.OnClickListener {
 
     private NumberPicker npTime;
-    protected Button btnOk;
+    protected ButtonHozo btnOk;
 
     public interface OnPickLister {
         void onPick(int time);
@@ -44,7 +44,7 @@ public class TimePickerHozoDialog extends BaseDialog implements View.OnClickList
     protected void initData() {
         npTime = (NumberPicker) findViewById(R.id.np_time);
 
-        btnOk = (Button) findViewById(R.id.btn_ok);
+        btnOk = (ButtonHozo) findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(this);
 
         npTime.setMinValue(0);

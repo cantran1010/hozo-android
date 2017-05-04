@@ -15,7 +15,7 @@ public class AgeSettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        setBackButton();
+        setBackButtonHozo();
     }
 
     @Override

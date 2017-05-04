@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
-import android.widget.TextView;
+import vn.tonish.hozo.view.TextViewHozo;
 import android.widget.Toast;
 
 import vn.tonish.hozo.R;
@@ -23,7 +23,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initView() {
-        setBackButton();
+        setBackButtonHozo();
         setTitleHeader(getString(R.string.advance_setting_title));
 
         findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
@@ -34,7 +34,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             }
         });
 
-        TextView tv_fee = (TextView) findViewById(R.id.tv_fee_text);
+        TextViewHozo tv_fee = (TextViewHozo) findViewById(R.id.tv_fee_text);
         String titleFee = getString(R.string.tv_fee);
         String currency = getString(R.string.vnd);
 

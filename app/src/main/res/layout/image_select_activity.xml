@@ -17,7 +17,7 @@
             android:padding="5dp"
             android:src="@drawable/back" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_album_name"
             style="@style/tv_title"
             android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
             android:layout_centerInParent="true"
             android:text="@string/gallery" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_done"
             style="@style/tv_title"
             android:layout_width="wrap_content"

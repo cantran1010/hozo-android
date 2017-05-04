@@ -3,10 +3,7 @@ package vn.tonish.hozo.activity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -16,6 +13,9 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.HozoLocation;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.model.Work;
+import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 4/18/2017.
@@ -23,9 +23,9 @@ import vn.tonish.hozo.model.Work;
 
 public class PostATaskFinishActivity extends BaseActivity implements View.OnClickListener {
 
-    protected Button btnDone;
-    private EditText edtBudget, edtNumberWorker;
-    private TextView tvTotal;
+    protected ButtonHozo btnDone;
+    private EdittextHozo edtBudget, edtNumberWorker;
+    private TextViewHozo tvTotal;
     private Work work;
     private HozoLocation location;
     private ArrayList<Image> images;
@@ -41,11 +41,11 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        edtBudget = (EditText) findViewById(R.id.edt_budget);
-        edtNumberWorker = (EditText) findViewById(R.id.edt_number_worker);
-        tvTotal = (TextView) findViewById(R.id.tv_total);
+        edtBudget = (EdittextHozo) findViewById(R.id.edt_budget);
+        edtNumberWorker = (EdittextHozo) findViewById(R.id.edt_number_worker);
+        tvTotal = (TextViewHozo) findViewById(R.id.tv_total);
 
-        btnDone = (Button) findViewById(R.id.btn_done);
+        btnDone = (ButtonHozo) findViewById(R.id.btn_done);
         btnDone.setOnClickListener(this);
     }
 

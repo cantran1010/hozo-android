@@ -1,21 +1,16 @@
 package vn.tonish.hozo.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.TextView;
-
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
 import vn.tonish.hozo.fragment.HelpFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
 import vn.tonish.hozo.fragment.MyTaskFragment;
 import vn.tonish.hozo.fragment.SelectTaskFragment;
-import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBD.
@@ -23,9 +18,9 @@ import vn.tonish.hozo.utils.LogUtils;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private TextView layoutPostTask, layoutBrowserTask, layoutMyTask, layoutOther, layoutInbox;
-    private BroadcastReceiver badgeChangeListener;
-    private IntentFilter intentFilter;
+    private LinearLayout layoutPostATask, layoutBrowserTask, layoutMyTask, layoutInBox, layoutOther;
+    private ImageView imgPostATask, imgBrowserTask, imgMyTask, imgInbox, imgOther;
+    private TextViewHozo tvPostATask, tvBrowserTask, tvMyTask, tvInbox, tvOther;
 
     @Override
     protected int getLayout() {
@@ -34,44 +29,39 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initView() {
-        layoutPostTask = (TextView) findViewById(R.id.layout_post_a_task);
-        layoutBrowserTask = (TextView) findViewById(R.id.layout_browser_task);
-        layoutMyTask = (TextView) findViewById(R.id.layout_my_task);
-        layoutInbox = (TextView) findViewById(R.id.layout_inbox);
-        layoutOther = (TextView) findViewById(R.id.layout_other);
-        badgeChangeListener = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
+        layoutPostATask = (LinearLayout) findViewById(R.id.layout_post_a_task);
+        layoutBrowserTask = (LinearLayout) findViewById(R.id.layout_browser_task);
+        layoutMyTask = (LinearLayout) findViewById(R.id.layout_my_task);
+        layoutInBox = (LinearLayout) findViewById(R.id.layout_inbox);
+        layoutOther = (LinearLayout) findViewById(R.id.layout_other);
 
-            }
-        };
-        intentFilter = new IntentFilter(Constants.BADGE);
-        registerReceiver(badgeChangeListener, intentFilter);
+        imgPostATask = (ImageView) findViewById(R.id.img_post_a_task);
+        imgBrowserTask = (ImageView) findViewById(R.id.img_browser_task);
+        imgMyTask = (ImageView) findViewById(R.id.img_my_task);
+        imgInbox = (ImageView) findViewById(R.id.img_inbox);
+        imgOther = (ImageView) findViewById(R.id.img_other);
 
+        tvPostATask = (TextViewHozo) findViewById(R.id.tv_post_a_task);
+        tvBrowserTask = (TextViewHozo) findViewById(R.id.tv_browser_task);
+        tvMyTask = (TextViewHozo) findViewById(R.id.tv_my_task);
+        tvInbox = (TextViewHozo) findViewById(R.id.tv_inbox);
+        tvOther = (TextViewHozo) findViewById(R.id.tv_other);
     }
 
     @Override
     protected void initData() {
         openFragment(R.id.layout_container, SelectTaskFragment.class, false);
-        layoutPostTask.setOnClickListener(this);
+
+        layoutPostATask.setOnClickListener(this);
         layoutBrowserTask.setOnClickListener(this);
         layoutMyTask.setOnClickListener(this);
-        layoutInbox.setOnClickListener(this);
+        layoutInBox.setOnClickListener(this);
         layoutOther.setOnClickListener(this);
     }
 
     @Override
     protected void resumeData() {
-        if (badgeChangeListener != null)
-            registerReceiver(badgeChangeListener, intentFilter);
-    }
 
-    @Override
-    protected void onPause() {
-
-        super.onPause();
-        if (badgeChangeListener != null)
-            unregisterReceiver(badgeChangeListener);
     }
 
     @Override
@@ -80,25 +70,64 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
 
             case R.id.layout_post_a_task:
+                updateMenuUi(1);
                 openFragment(R.id.layout_container, SelectTaskFragment.class, false);
                 break;
 
             case R.id.layout_browser_task:
+                updateMenuUi(2);
                 openFragment(R.id.layout_container, BrowseTaskFragment.class, false);
                 break;
 
             case R.id.layout_my_task:
+                updateMenuUi(3);
                 openFragment(R.id.layout_container, MyTaskFragment.class, false);
                 break;
 
             case R.id.layout_inbox:
+                updateMenuUi(4);
                 openFragment(R.id.layout_container, InboxFragment.class, false);
                 break;
 
             case R.id.layout_other:
+                updateMenuUi(5);
                 openFragment(R.id.layout_container, HelpFragment.class, false);
                 break;
 
         }
+    }
+
+    private void updateMenuUi(int positionMenu) {
+
+//        imgPostATask = (ImageView) findViewById(R.id.img_post_a_task);
+//        imgBrowserTask = (ImageView) findViewById(R.id.img_browser_task);
+//        imgMyTask = (ImageView) findViewById(R.id.img_my_task);
+//        imgInbox = (ImageView) findViewById(R.id.img_inbox);
+//        imgOther = (ImageView) findViewById(R.id.img_other);
+
+        tvPostATask.setTextColor(ContextCompat.getColor(this, R.color.menu_non_selected));
+        tvBrowserTask.setTextColor(ContextCompat.getColor(this, R.color.menu_non_selected));
+        tvMyTask.setTextColor(ContextCompat.getColor(this, R.color.menu_non_selected));
+        tvInbox.setTextColor(ContextCompat.getColor(this, R.color.menu_non_selected));
+        tvOther.setTextColor(ContextCompat.getColor(this, R.color.menu_non_selected));
+
+        switch (positionMenu) {
+            case 1:
+                tvPostATask.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+                break;
+            case 2:
+                tvBrowserTask.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+                break;
+            case 3:
+                tvMyTask.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+                break;
+            case 4:
+                tvInbox.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+                break;
+            case 5:
+                tvOther.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+                break;
+        }
+
     }
 }

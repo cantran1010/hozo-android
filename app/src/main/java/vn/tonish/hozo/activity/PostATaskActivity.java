@@ -8,12 +8,9 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.io.File;
@@ -31,7 +28,10 @@ import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.MyGridView;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
@@ -43,19 +43,19 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 public class PostATaskActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = PostATaskActivity.class.getSimpleName();
-    private TextView tvCancel, tvTitle;
-    protected Button btnNext;
+    private TextViewHozo tvCancel, tvTitle;
+    protected ButtonHozo btnNext;
     protected RelativeLayout layoutStartTime, layoutEndTime, layoutDate;
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private ArrayList<Image> images = new ArrayList<>();
     private String imgPath;
-    private TextView tvStartTime, tvEndTime, tvDate;
+    private TextViewHozo tvStartTime, tvEndTime, tvDate;
     private Date dateWork;
     private Calendar calendar = Calendar.getInstance();
     private Calendar calendarTimeStart = Calendar.getInstance();
     private Calendar calendarTimeEnd = Calendar.getInstance();
-    private EditText edtDayWork, edtWorkName, edtDescription, edtAgeFrom, edtAgeTo;
+    private EdittextHozo edtDayWork, edtWorkName, edtDescription, edtAgeFrom, edtAgeTo;
     private Spinner spGender;
 
     @Override
@@ -66,23 +66,23 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initView() {
 
-        tvCancel = (TextView) findViewById(R.id.tv_cancel);
+        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
         tvCancel.setOnClickListener(this);
 
-        tvTitle = (TextView) findViewById(R.id.tv_title);
+        tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         tvTitle.setOnClickListener(this);
 
-        btnNext = (Button) findViewById(R.id.btn_next);
+        btnNext = (ButtonHozo) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
 
-        tvDate = (TextView) findViewById(R.id.tv_date);
-        edtWorkName = (EditText) findViewById(R.id.edt_task_name);
+        tvDate = (TextViewHozo) findViewById(R.id.tv_date);
+        edtWorkName = (EdittextHozo) findViewById(R.id.edt_task_name);
 
-        edtDayWork = (EditText) findViewById(R.id.edt_number_day);
+        edtDayWork = (EdittextHozo) findViewById(R.id.edt_number_day);
 
-        edtDescription = (EditText) findViewById(R.id.edt_description);
-        edtAgeFrom = (EditText) findViewById(R.id.edt_age_from);
-        edtAgeTo = (EditText) findViewById(R.id.edt_age_to);
+        edtDescription = (EdittextHozo) findViewById(R.id.edt_description);
+        edtAgeFrom = (EdittextHozo) findViewById(R.id.edt_age_from);
+        edtAgeTo = (EdittextHozo) findViewById(R.id.edt_age_to);
 
         grImage = (MyGridView) findViewById(R.id.gr_image);
 
@@ -94,8 +94,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         layoutEndTime = (RelativeLayout) findViewById(R.id.layout_end_time);
         layoutEndTime.setOnClickListener(this);
 
-        tvStartTime = (TextView) findViewById(R.id.tv_start_time);
-        tvEndTime = (TextView) findViewById(R.id.tv_end_time);
+        tvStartTime = (TextViewHozo) findViewById(R.id.tv_start_time);
+        tvEndTime = (TextViewHozo) findViewById(R.id.tv_end_time);
 
         layoutDate = (RelativeLayout) findViewById(R.id.date_layout);
         layoutDate.setOnClickListener(this);

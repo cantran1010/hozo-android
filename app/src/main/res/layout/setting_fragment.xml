@@ -10,7 +10,7 @@
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/hozo_bg">
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_title"
 
             android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
 
             <TableRow>
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tvProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
 
             <TableRow>
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_history"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
 
             <TableRow>
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_payment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
 
             <TableRow>
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_condition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
 
             <TableRow>
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_nda"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
 
             <TableRow>
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
 
             <TableRow>
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_share"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
 
             <TableRow>
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_about"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

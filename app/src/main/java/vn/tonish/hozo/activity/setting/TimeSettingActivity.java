@@ -15,7 +15,7 @@ public class TimeSettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        setBackButton();
+        setBackButtonHozo();
 
     }
 

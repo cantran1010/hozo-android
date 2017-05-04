@@ -6,7 +6,7 @@
     android:background="@color/blue"
     tools:ignore="Overdraw">
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -50,7 +50,7 @@
                     android:orientation="horizontal"
                     android:weightSum="4">
 
-                    <EditText
+                    <vn.tonish.hozo.view.EdittextHozo
                         android:id="@+id/pin_first_edittext"
 
                         style="@style/pin_edit_text_style"
@@ -59,7 +59,7 @@
                         android:layout_weight="1"
                         android:inputType="number" />
 
-                    <EditText
+                    <vn.tonish.hozo.view.EdittextHozo
                         android:id="@+id/pin_second_edittext"
                         style="@style/pin_edit_text_style"
                         android:layout_width="0dp"
@@ -67,7 +67,7 @@
                         android:layout_weight="1"
                         android:inputType="number" />
 
-                    <EditText
+                    <vn.tonish.hozo.view.EdittextHozo
                         android:id="@+id/pin_third_edittext"
                         style="@style/pin_edit_text_style"
                         android:layout_width="0dp"
@@ -75,7 +75,7 @@
                         android:layout_weight="1"
                         android:inputType="number" />
 
-                    <EditText
+                    <vn.tonish.hozo.view.EdittextHozo
                         android:id="@+id/pin_forth_edittext"
                         style="@style/pin_edit_text_style"
                         android:layout_width="0dp"
@@ -85,7 +85,7 @@
 
                 </LinearLayout>
 
-                <EditText
+                <vn.tonish.hozo.view.EdittextHozo
                     android:id="@+id/pin_hidden_edittext"
                     android:layout_width="1dp"
                     android:layout_height="1dp"
@@ -97,7 +97,7 @@
                     android:maxLength="5" />
             </FrameLayout>
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/btn_sigin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                 android:textColor="@color/blue"
                 android:textStyle="bold" />
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/btn_reset_otp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

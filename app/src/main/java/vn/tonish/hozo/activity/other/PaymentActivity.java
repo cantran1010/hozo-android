@@ -15,7 +15,7 @@ public class PaymentActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        setBackButton();
+        setBackButtonHozo();
     }
 
     @Override

@@ -16,7 +16,7 @@ public class NADActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        setBackButton();
+        setBackButtonHozo();
     }
 
     @Override

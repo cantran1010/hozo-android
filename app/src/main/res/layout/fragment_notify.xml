@@ -10,7 +10,7 @@
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/hozo_bg">
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -26,12 +26,12 @@
         android:orientation="horizontal"
         android:padding="16dp">
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/notification_notify" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_notify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

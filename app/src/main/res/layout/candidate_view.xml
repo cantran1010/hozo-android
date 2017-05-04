@@ -25,7 +25,7 @@
             android:layout_toRightOf="@id/img_avatar"
             android:orientation="vertical">
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
 
             <include layout="@layout/verify_layout" />
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_time_ago"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
             android:layout_marginRight="10dp"
             android:orientation="vertical">
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                 android:text="1000 d"
                 android:textColor="@color/green" />
 
-            <Button
+            <vn.tonish.hozo.view.ButtonHozo
                 android:id="@+id/btn_assign"
                 style="@style/btn_style_corners"
                 android:layout_width="wrap_content"

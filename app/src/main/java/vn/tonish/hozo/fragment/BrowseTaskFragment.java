@@ -5,7 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
+import vn.tonish.hozo.view.EdittextHozo;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -38,7 +38,7 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
     private List<Work> workList;
 
 
-    protected EditText et_search;
+    protected EdittextHozo et_search;
 
     protected Spinner spinner;
 
@@ -80,7 +80,7 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
         });
 
 
-        et_search = (EditText) findViewById(R.id.et_search);
+        et_search = (EdittextHozo) findViewById(R.id.et_search);
         et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {

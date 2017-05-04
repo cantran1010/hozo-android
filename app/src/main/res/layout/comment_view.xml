@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_name"
                     style="@style/tv_style_normal_black"
                     android:textSize="15sp"
@@ -50,13 +50,13 @@
 
             </RelativeLayout>
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_comment"
                 style="@style/tv_style_normal_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_time_ago"
                 style="@style/tv_style_normal_gray"
                 android:layout_width="wrap_content"

@@ -25,14 +25,14 @@
                 android:src="@drawable/avatar_default" />
 
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="Nguyen Van A" />
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_birthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,11 +52,11 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp">
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true" />
@@ -94,12 +94,12 @@
             <include layout="@layout/line" />
 
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold" />
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,12 +107,12 @@
 
             <include layout="@layout/line" />
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold" />
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -131,12 +131,12 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tab_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tab_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -148,7 +148,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/btn_logout"
                 style="@style/Base.TextAppearance.AppCompat.Large"
                 android:layout_width="match_parent"

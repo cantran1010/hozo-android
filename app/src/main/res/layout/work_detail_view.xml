@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
 
             <include layout="@layout/verify_layout" />
 
-            <Button
+            <vn.tonish.hozo.view.ButtonHozo
                 android:id="@+id/btn_call_rate"
                 style="@style/btn_style_corners"
                 android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
             android:textColor="@color/tv_black"
             android:textSize="20sp" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -107,14 +107,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_time_ago"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="45 phut truoc"
             android:textColor="@color/tv_gray" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_work_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -123,13 +123,13 @@
 
     </LinearLayout>
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tv_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/tv_black" />
 
-    <Button
+    <vn.tonish.hozo.view.ButtonHozo
         android:id="@+id/btn_offer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
         android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -158,7 +158,7 @@
             android:textColor="@color/tv_black"
             android:textStyle="bold" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_price"
             style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
@@ -173,7 +173,7 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -181,7 +181,7 @@
             android:textColor="@color/tv_black"
             android:textStyle="bold" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_date"
             style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
@@ -197,7 +197,7 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -205,7 +205,7 @@
             android:textColor="@color/tv_black"
             android:textStyle="bold" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_time"
             style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
@@ -220,7 +220,7 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -228,7 +228,7 @@
             android:textColor="@color/tv_black"
             android:textStyle="bold" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_address"
             style="@style/tv_style_normal_black"
             android:layout_width="wrap_content"

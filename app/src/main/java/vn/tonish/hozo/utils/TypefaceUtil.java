@@ -2,21 +2,23 @@ package vn.tonish.hozo.utils;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import java.lang.reflect.Field;
+
+import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.TextViewHozo;
+
 /**
  * Created by LongBui.
  */
 public class TypefaceUtil {
 
-    private static final String FONT_NORMAL = "NanumGothic-Regular.ttf";
-    private static Typeface nanumBarumTf;
+    private static final String FONT_NORMAL = "Roboto-Medium.ttf";
+    private static Typeface robotoMediumTtf;
 
-    private static final String FONT_BOLD = "Noto-KR-Medium.otf";
-    private static Typeface nanumBarunBold;
+    private static final String FONT_BOLD = "Roboto-Bold.ttf";
+    private static Typeface robotoBoldTtf;
 
     /**
      * Using reflection to override default typeface
@@ -38,99 +40,99 @@ public class TypefaceUtil {
         }
     }
 
-//    //set tv font nomal
-//    public static void setFontTvNomal(Context context, TextView... tvs) {
-//        if (nanumBarumTf == null) {
-//            nanumBarumTf = Typeface.createFromAsset(context.getAssets(),
-//                    "fonts/" + FONT_NORMAL);
-//        }
-//
-//        for (TextView tv : tvs) {
-//            tv.setTypeface(nanumBarumTf);
-//        }
-//
-//    }
+    //set tv font nomal
+    public static void setFontTvNomal(Context context, TextViewHozo... tvs) {
+        if (robotoMediumTtf == null) {
+            robotoMediumTtf = Typeface.createFromAsset(context.getAssets(),
+                    "fonts/" + FONT_NORMAL);
+        }
+
+        for (TextViewHozo tv : tvs) {
+            tv.setTypeface(robotoMediumTtf);
+        }
+
+    }
 
     //set tv font bold
-    public static void setFontTvBold(Context context, TextView... tvs) {
-        if (nanumBarunBold == null) {
-            nanumBarunBold = Typeface.createFromAsset(context.getAssets(),
+    public static void setFontTvBold(Context context, TextViewHozo... tvs) {
+        if (robotoBoldTtf == null) {
+            robotoBoldTtf = Typeface.createFromAsset(context.getAssets(),
                     "fonts/" + FONT_BOLD);
         }
 
-        for (TextView tv : tvs) {
-            tv.setTypeface(nanumBarunBold);
+        for (TextViewHozo tv : tvs) {
+            tv.setTypeface(robotoBoldTtf);
         }
 
     }
 
     //set edt font nomal
-    public static void setFontEdtNomal(Context context, EditText... edts) {
-        if (nanumBarumTf == null) {
-            nanumBarumTf = Typeface.createFromAsset(context.getAssets(),
+    public static void setFontEdtNomal(Context context, EdittextHozo... edts) {
+        if (robotoMediumTtf == null) {
+            robotoMediumTtf = Typeface.createFromAsset(context.getAssets(),
                     "fonts/" + FONT_NORMAL);
         }
 
-        for (EditText edt : edts) {
-            edt.setTypeface(nanumBarumTf);
+        for (EdittextHozo edt : edts) {
+            edt.setTypeface(robotoMediumTtf);
         }
 
     }
 
     //set edt font bold
-    public static void setFontEdtBold(Context context, EditText... edts) {
-        if (nanumBarunBold == null) {
-            nanumBarunBold = Typeface.createFromAsset(context.getAssets(),
+    public static void setFontEdtBold(Context context, EdittextHozo... edts) {
+        if (robotoBoldTtf == null) {
+            robotoBoldTtf = Typeface.createFromAsset(context.getAssets(),
                     "fonts/" + FONT_BOLD);
         }
 
-        for (EditText edt : edts) {
-            edt.setTypeface(nanumBarunBold);
+        for (EdittextHozo edt : edts) {
+            edt.setTypeface(robotoBoldTtf);
         }
 
     }
 
     //set btn font nomal
-    public static void setFontBtnNomal(Context context, Button... btns) {
-        if (nanumBarumTf == null) {
-            nanumBarumTf = Typeface.createFromAsset(context.getAssets(),
+    public static void setFontBtnNomal(Context context, ButtonHozo... btns) {
+        if (robotoMediumTtf == null) {
+            robotoMediumTtf = Typeface.createFromAsset(context.getAssets(),
                     "fonts/" + FONT_NORMAL);
         }
 
-        for (Button btn : btns) {
-            btn.setTypeface(nanumBarumTf);
+        for (ButtonHozo btn : btns) {
+            btn.setTypeface(robotoMediumTtf);
         }
 
     }
 
     //set btn font bold
-    public static void setFontBtnBold(Context context, Button... btns) {
-        if (nanumBarunBold == null) {
-            nanumBarunBold = Typeface.createFromAsset(context.getAssets(),
+    public static void setFontBtnBold(Context context, ButtonHozo... btns) {
+        if (robotoBoldTtf == null) {
+            robotoBoldTtf = Typeface.createFromAsset(context.getAssets(),
                     "fonts/" + FONT_BOLD);
         }
 
-        for (Button btn : btns) {
-            btn.setTypeface(nanumBarunBold);
+        for (ButtonHozo btn : btns) {
+            btn.setTypeface(robotoBoldTtf);
         }
     }
 
     public static Typeface getFontNormal(Context context) {
-        if (nanumBarumTf == null) {
-            nanumBarumTf = Typeface.createFromAsset(context.getAssets(),
+        if (robotoMediumTtf == null) {
+            robotoMediumTtf = Typeface.createFromAsset(context.getAssets(),
                     "fonts/" + FONT_NORMAL);
         }
 
-        return nanumBarumTf;
+        return robotoMediumTtf;
     }
 
     public static Typeface getFontBold(Context context) {
-        if (nanumBarunBold == null) {
-            nanumBarunBold = Typeface.createFromAsset(context.getAssets(),
+        if (robotoBoldTtf == null) {
+            robotoBoldTtf = Typeface.createFromAsset(context.getAssets(),
                     "fonts/" + FONT_BOLD);
         }
 
-        return nanumBarunBold;
+        return robotoBoldTtf;
     }
 
 }

@@ -11,7 +11,7 @@ import android.os.Build;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import vn.tonish.hozo.view.EdittextHozo;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -89,21 +89,21 @@ public class Utils {
         }
     }
 
-    public static void hideSoftKeyboard(Context context, EditText editText) {
-        if (editText == null)
+    public static void hideSoftKeyboard(Context context, EdittextHozo EdittextHozo) {
+        if (EdittextHozo == null)
             return;
 
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(EdittextHozo.getWindowToken(), 0);
     }
 
 
-    public static void showSoftKeyboard(Context context, EditText editText) {
-        if (editText == null)
+    public static void showSoftKeyboard(Context context, EdittextHozo EdittextHozo) {
+        if (EdittextHozo == null)
             return;
 
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(editText, 0);
+        imm.showSoftInput(EdittextHozo, 0);
     }
 
 

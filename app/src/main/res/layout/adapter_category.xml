@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
                 android:textColor="@color/hozo_bg"
                 android:textSize="20sp" />
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

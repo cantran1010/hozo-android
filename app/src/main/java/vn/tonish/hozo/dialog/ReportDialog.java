@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.Button;
+import vn.tonish.hozo.view.ButtonHozo;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.ReplyActivity;
@@ -16,7 +16,7 @@ import vn.tonish.hozo.activity.ReportTaskActivity;
 
 public class ReportDialog extends BaseDialogFullScreenAnimDownUp implements View.OnClickListener {
 
-    private Button btnReply, btnReport, btnCancel;
+    private ButtonHozo btnReply, btnReport, btnCancel;
 
     public ReportDialog(@NonNull Context context) {
         super(context);
@@ -29,13 +29,13 @@ public class ReportDialog extends BaseDialogFullScreenAnimDownUp implements View
 
     @Override
     protected void initData() {
-        btnReply = (Button) findViewById(R.id.btn_reply);
+        btnReply = (ButtonHozo) findViewById(R.id.btn_reply);
         btnReply.setOnClickListener(this);
 
-        btnReport = (Button) findViewById(R.id.btn_report);
+        btnReport = (ButtonHozo) findViewById(R.id.btn_report);
         btnReport.setOnClickListener(this);
 
-        btnCancel = (Button) findViewById(R.id.btn_cancel);
+        btnCancel = (ButtonHozo) findViewById(R.id.btn_cancel);
         btnCancel.setOnClickListener(this);
     }
 

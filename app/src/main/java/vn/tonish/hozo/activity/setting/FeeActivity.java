@@ -1,7 +1,7 @@
 package vn.tonish.hozo.activity.setting;
 
-import android.widget.EditText;
-import android.widget.TextView;
+import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
@@ -13,10 +13,10 @@ import vn.tonish.hozo.activity.BaseActivity;
 public class FeeActivity extends BaseActivity {
 
 
-    EditText et_max, et_min;
+    EdittextHozo et_max, et_min;
 
-    // button in the right of header
-    TextView btn_right;
+    // ButtonHozo in the right of header
+    TextViewHozo btn_right;
 
     @Override
     protected int getLayout() {
@@ -26,11 +26,11 @@ public class FeeActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        setBackButton();
-        et_max = (EditText) findViewById(R.id.et_max);
-        et_min = (EditText) findViewById(R.id.et_min);
+        setBackButtonHozo();
+        et_max = (EdittextHozo) findViewById(R.id.et_max);
+        et_min = (EdittextHozo) findViewById(R.id.et_min);
 
-        btn_right = (TextView) findViewById(R.id.btnRight);
+        btn_right = (TextViewHozo) findViewById(R.id.btnRight);
         btn_right.setText(getString(R.string.btn_reset));
 
     }
