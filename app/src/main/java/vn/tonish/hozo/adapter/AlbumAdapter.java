@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import com.bumptech.glide.Glide;
 
@@ -43,7 +43,7 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
             convertView = layoutInflater.inflate(R.layout.item_album, parent, false);
             holder = new ViewHolder();
             holder.imgAlbum = (ImageView) convertView.findViewById(R.id.img_album);
-            holder.tvName = (TextView) convertView.findViewById(R.id.tv_name);
+            holder.tvName = (TextViewHozo) convertView.findViewById(R.id.tv_name);
             holder.mainLayout = (RelativeLayout) convertView.findViewById(R.id.layout_main);
             convertView.setTag(holder);
         } else {
@@ -70,7 +70,7 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
 
     public static class ViewHolder {
         ImageView imgAlbum;
-        TextView tvName;
+        TextViewHozo tvName;
         RelativeLayout mainLayout;
     }
 }

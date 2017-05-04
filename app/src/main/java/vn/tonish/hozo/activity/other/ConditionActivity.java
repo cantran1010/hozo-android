@@ -15,7 +15,7 @@ public class ConditionActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        setBackButton();
+        setBackButtonHozo();
     }
 
     @Override

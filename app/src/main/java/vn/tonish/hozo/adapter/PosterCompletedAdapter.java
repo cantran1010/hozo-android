@@ -6,10 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import vn.tonish.hozo.view.ButtonHozo;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.TextView;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import java.util.ArrayList;
 
@@ -64,22 +64,22 @@ public class PosterCompletedAdapter extends RecyclerView.Adapter<PosterCompleted
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView imgAvatar;
-        private TextView tvName, tvPrice;
+        private TextViewHozo tvName, tvPrice;
         private RatingBar rbRate;
         private ImageView imgMobile, imgEmail, imgFacebook;
-        private Button btnRate;
+        private ButtonHozo btnRate;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
             imgAvatar = (CircleImageView) itemView.findViewById(R.id.img_avatar);
-            tvName = (TextView) itemView.findViewById(R.id.tv_name);
-            tvPrice = (TextView) itemView.findViewById(R.id.tv_price);
+            tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
+            tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
             rbRate = (RatingBar) itemView.findViewById(R.id.rb_rate);
             imgMobile = (ImageView) itemView.findViewById(R.id.img_mobile_verify);
             imgEmail = (ImageView) itemView.findViewById(R.id.img_email_verify);
             imgFacebook = (ImageView) itemView.findViewById(R.id.img_facebook_verify);
-            btnRate = (Button) itemView.findViewById(R.id.btn_rate);
+            btnRate = (ButtonHozo) itemView.findViewById(R.id.btn_rate);
         }
     }
 

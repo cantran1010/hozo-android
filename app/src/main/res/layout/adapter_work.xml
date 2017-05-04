@@ -5,14 +5,14 @@
     android:layout_margin="8dp"
     android:orientation="vertical">
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:text="Cafe HotDog" />
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tv_des"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         android:padding="8dp"
         android:text="15 phut truoc . Ha Noi . Phan loai : Cong nghe" />
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tv_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

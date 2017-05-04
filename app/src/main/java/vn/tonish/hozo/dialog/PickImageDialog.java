@@ -3,7 +3,7 @@ package vn.tonish.hozo.dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.Button;
+import vn.tonish.hozo.view.ButtonHozo;
 
 import vn.tonish.hozo.R;
 
@@ -29,7 +29,7 @@ public class PickImageDialog extends BaseDialogFullScreenAnimFadeInOut implement
         this.pickImageListener = pickImageListener;
     }
 
-    private Button btnCamera, btnGallery;
+    private ButtonHozo btnCamera, btnGallery;
 
     public PickImageDialog(@NonNull Context context) {
         super(context);
@@ -42,10 +42,10 @@ public class PickImageDialog extends BaseDialogFullScreenAnimFadeInOut implement
 
     @Override
     protected void initData() {
-        btnCamera = (Button) findViewById(R.id.btn_camera);
+        btnCamera = (ButtonHozo) findViewById(R.id.btn_camera);
         btnCamera.setOnClickListener(this);
 
-        btnGallery = (Button) findViewById(R.id.btn_gallery);
+        btnGallery = (ButtonHozo) findViewById(R.id.btn_gallery);
         btnGallery.setOnClickListener(this);
     }
 

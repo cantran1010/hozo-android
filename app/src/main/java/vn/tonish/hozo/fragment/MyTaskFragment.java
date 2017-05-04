@@ -2,7 +2,7 @@ package vn.tonish.hozo.fragment;
 
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.TextView;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import vn.tonish.hozo.R;
 
@@ -13,7 +13,7 @@ import static vn.tonish.hozo.utils.Utils.setViewBackground;
  */
 
 public class MyTaskFragment extends BaseFragment implements View.OnClickListener {
-    private TextView layoutWorker, layoutPoster;
+    private TextViewHozo layoutWorker, layoutPoster;
 
     @Override
     protected int getLayout() {
@@ -22,8 +22,8 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     protected void initView() {
-        layoutWorker = (TextView) findViewById(R.id.layout_worker);
-        layoutPoster = (TextView) findViewById(R.id.layout_poster);
+        layoutWorker = (TextViewHozo) findViewById(R.id.layout_worker);
+        layoutPoster = (TextViewHozo) findViewById(R.id.layout_poster);
         selectedTab(1);
 
     }

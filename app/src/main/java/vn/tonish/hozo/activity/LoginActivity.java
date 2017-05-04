@@ -8,9 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -21,10 +19,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.view.NameView;
-import vn.tonish.hozo.view.OtpView;
 import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.NameView;
+import vn.tonish.hozo.view.OtpView;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.CODE;
 import static vn.tonish.hozo.common.Constants.DATA;
@@ -41,8 +41,8 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private Context context;
-    private EditText edtPhone;
-    private TextView tvContinue;
+    private EdittextHozo edtPhone;
+    private TextViewHozo tvContinue;
     private FrameLayout viewLevel1, viewLevel2, viewLevel3;
     private boolean registed = false;
     private String phone = "";
@@ -63,8 +63,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mLoadAnimation = AnimationUtils.loadAnimation(this, R.anim.animation_edittext);
         rtAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
         lanimation = AnimationUtils.loadAnimation(this, R.anim.slide_out_left);
-        edtPhone = (EditText) findViewById(R.id.edt_phone);
-        tvContinue = (TextView) findViewById(R.id.tv_continue);
+        edtPhone = (EdittextHozo) findViewById(R.id.edt_phone);
+        tvContinue = (TextViewHozo) findViewById(R.id.tv_continue);
         viewLevel2 = (FrameLayout) findViewById(R.id.view_Level2);
         viewLevel3 = (FrameLayout) findViewById(R.id.view_Level3);
         viewLevel1 = (FrameLayout) findViewById(R.id.view_level1);
@@ -88,7 +88,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     tvContinue.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
                     tvContinue.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
                     tvContinue.setEnabled(false);
-                    if (CheckErrorEditText(edtPhone.getText().toString().trim())) {
+                    if (CheckErrorEdittextHozo(edtPhone.getText().toString().trim())) {
                         error = getResources().getString(R.string.login_erro_phone);
                         edtPhone.startAnimation(mLoadAnimation);
                         edtPhone.setError(error);
@@ -219,7 +219,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             return number.length() == 11 && number.substring(0, 2).equals("01") || number.length() == 9 && number.substring(0, 1).equals("9");
     }
 
-    private boolean CheckErrorEditText(String number) {
+    private boolean CheckErrorEdittextHozo(String number) {
         boolean ck = false;
         if (number.length() == 1 && !(number.substring(0, 1).equals("9") || number.substring(0, 1).equals("1") || number.substring(0, 1).equals("0"))) {
             ck = true;

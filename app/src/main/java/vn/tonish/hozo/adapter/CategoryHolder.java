@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PostATaskActivity;
@@ -16,7 +16,7 @@ import vn.tonish.hozo.model.Category;
  */
 
 public class CategoryHolder extends BaseHolder {
-    public final TextView tvName;
+    public final TextViewHozo tvName;
     public final ImageView imgPresent;
     public final View.OnClickListener onClickListener;
     public final View view;
@@ -25,7 +25,7 @@ public class CategoryHolder extends BaseHolder {
     public CategoryHolder(View itemView, final Context context) {
         super(itemView, context);
         view = itemView;
-        tvName = (TextView) itemView.findViewById(R.id.tv_name);
+        tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
         imgPresent = (ImageView) itemView.findViewById(R.id.img_present);
         onClickListener = new View.OnClickListener() {
             @Override

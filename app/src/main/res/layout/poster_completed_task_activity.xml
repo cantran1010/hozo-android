@@ -17,14 +17,14 @@
             android:padding="5dp"
             android:src="@drawable/back" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/make_an_offer_title" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/btn_cancel"
             style="@style/tv_title_cancel"
             android:layout_width="wrap_content"
@@ -73,14 +73,14 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp">
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="@string/make_an_offer_worker"                     android:textColor="@color/tv_black"
                     android:textSize="15sp" />
 
-                <TextView
+                <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_view_all_candidate"
                     style="@style/sectionHeader"
                     android:layout_width="wrap_content"

@@ -2,7 +2,7 @@ package vn.tonish.hozo.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class InboxFragment extends BaseFragment {
     private List<Notification> notifications;
 
 
-    protected TextView tv_notify;
+    protected TextViewHozo tv_notify;
 
     @Override
     protected int getLayout() {
@@ -34,7 +34,7 @@ public class InboxFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        tv_notify = (TextView) findViewById(R.id.tv_notify);
+        tv_notify = (TextViewHozo) findViewById(R.id.tv_notify);
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
         lvList = (RecyclerView) findViewById(R.id.lvList);

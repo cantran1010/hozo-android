@@ -8,7 +8,7 @@
     tools:ignore="Overdraw">
 
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -20,7 +20,7 @@
         tools:ignore="RtlHardcoded" />
 
 
-    <EditText
+    <vn.tonish.hozo.view.EdittextHozo
         android:id="@+id/edt_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         android:textColor="@color/white" />
 
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         android:text="@string/tv_login_policy"
         android:textColor="@color/white" />
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/btn_save"
         style="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
         android:layout_width="match_parent"

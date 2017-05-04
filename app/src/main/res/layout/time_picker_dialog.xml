@@ -11,7 +11,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:background="@color/hozo_bg"
@@ -27,7 +27,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp" />
 
-        <Button
+        <vn.tonish.hozo.view.ButtonHozo
             android:id="@+id/btn_ok"
             android:layout_width="match_parent"
             android:layout_height="40dp"

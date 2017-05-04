@@ -14,7 +14,7 @@
         android:orientation="horizontal">
 
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -22,7 +22,7 @@
             android:padding="16dp"
             android:text="@string/tv_start_time" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -32,7 +32,7 @@
 
     </LinearLayout>
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/btn_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -4,7 +4,7 @@
     android:layout_height="?android:attr/actionBarSize"
     android:orientation="vertical">
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -13,7 +13,7 @@
         android:text="BACK"
         android:textSize="12sp" />
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tvTitleHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
         android:textColor="@color/blue"
         android:textStyle="bold" />
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/btnRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

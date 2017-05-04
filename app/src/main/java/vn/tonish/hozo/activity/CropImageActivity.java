@@ -8,7 +8,6 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -21,6 +20,7 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBD.
@@ -30,7 +30,7 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
 
     private static final String TAG = CropImageActivity.class.getName();
     private CropImageView cropImageView;
-    private TextView tvCrop;
+    private TextViewHozo tvCrop;
     public static Bitmap bitmapCrop;
     private ImageView imgBack;
     private CropImageViewOptions mCropImageViewOptions = new CropImageViewOptions();
@@ -47,7 +47,7 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
         cropImageView.setOnSetImageUriCompleteListener(this);
         cropImageView.setOnCropImageCompleteListener(this);
 
-        tvCrop = (TextView) findViewById(R.id.tv_crop);
+        tvCrop = (TextViewHozo) findViewById(R.id.tv_crop);
 
         imgBack = (ImageView) findViewById(R.id.img_back);
 

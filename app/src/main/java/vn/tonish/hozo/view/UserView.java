@@ -6,10 +6,10 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import vn.tonish.hozo.view.ButtonHozo;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
-import android.widget.TextView;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.User;
@@ -22,9 +22,9 @@ import vn.tonish.hozo.utils.Utils;
 public class UserView extends LinearLayout {
 
     private CircleImageView imgAvatar;
-    private TextView tvName, tvTimeAgo, tvPrice;
+    private TextViewHozo tvName, tvTimeAgo, tvPrice;
     private RatingBar rbRate;
-    private Button btnCall;
+    private ButtonHozo btnCall;
 
     public UserView(Context context) {
         super(context);
@@ -52,11 +52,11 @@ public class UserView extends LinearLayout {
         layoutInflater.inflate(R.layout.user_view, this, true);
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
 
-        tvName = (TextView) findViewById(R.id.tv_name);
-        tvTimeAgo = (TextView) findViewById(R.id.tv_time_ago);
+        tvName = (TextViewHozo) findViewById(R.id.tv_name);
+        tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
         rbRate = (RatingBar) findViewById(R.id.rb_rate);
-        btnCall = (Button) findViewById(R.id.btn_call);
-        tvPrice = (TextView) findViewById(R.id.tv_price);
+        btnCall = (ButtonHozo) findViewById(R.id.btn_call);
+        tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
     }
 
     public void updateData(User user) {

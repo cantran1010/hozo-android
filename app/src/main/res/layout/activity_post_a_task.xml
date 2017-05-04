@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize">
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_cancel"
             style="@style/tv_title_cancel"
             android:layout_width="wrap_content"
@@ -19,7 +19,7 @@
             android:padding="5dp"
             android:text="@string/all_cancel" />
 
-        <TextView
+        <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_title"
             style="@style/tv_title"
             android:layout_width="wrap_content"
@@ -48,14 +48,14 @@
             android:layout_marginRight="10dp"
             android:orientation="vertical">
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/tv_task_title"
                 android:textColor="@color/tv_black" />
 
-            <EditText
+            <vn.tonish.hozo.view.EdittextHozo
                 android:id="@+id/edt_task_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                 android:textColor="@color/tv_black"
                 android:textColorHint="@color/gray" />
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -89,7 +89,7 @@
                     android:background="@drawable/border_gray"
                     android:minHeight="@dimen/edt_min_height">
 
-                    <TextView
+                    <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -117,7 +117,7 @@
                     android:background="@drawable/border_gray"
                     android:minHeight="@dimen/edt_min_height">
 
-                    <EditText
+                    <vn.tonish.hozo.view.EdittextHozo
                         android:id="@+id/edt_number_day"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                     android:background="@drawable/border_gray"
                     android:minHeight="@dimen/edt_min_height">
 
-                    <TextView
+                    <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/tv_start_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
                     android:background="@drawable/border_gray"
                     android:minHeight="@dimen/edt_min_height">
 
-                    <TextView
+                    <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/tv_end_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -200,14 +200,14 @@
 
             </LinearLayout>
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/task_description_hint"
                 android:textColor="@color/tv_black" />
 
-            <EditText
+            <vn.tonish.hozo.view.EdittextHozo
                 android:id="@+id/edt_description"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -219,7 +219,7 @@
                 android:padding="5dp"
                 android:textColorHint="@color/gray" />
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -233,7 +233,7 @@
                 android:layout_marginTop="10dp"
                 android:numColumns="4" />
 
-            <TextView
+            <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -258,7 +258,7 @@
                     android:entries="@array/gender"
                     android:minHeight="@dimen/edt_min_height" />
 
-                <EditText
+                <vn.tonish.hozo.view.EdittextHozo
                     android:id="@+id/edt_age_from"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -274,7 +274,7 @@
                     android:textColor="@color/tv_black"
                     android:textColorHint="@color/gray" />
 
-                <EditText
+                <vn.tonish.hozo.view.EdittextHozo
                     android:id="@+id/edt_age_to"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -294,7 +294,7 @@
 
     </ScrollView>
 
-    <Button
+    <vn.tonish.hozo.view.ButtonHozo
         android:id="@+id/btn_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

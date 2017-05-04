@@ -15,7 +15,7 @@ public class ShareActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        setBackButton();
+        setBackButtonHozo();
         setTitleHeader(getString(R.string.share_title));
 
     }

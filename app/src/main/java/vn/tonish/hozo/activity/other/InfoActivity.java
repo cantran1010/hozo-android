@@ -15,7 +15,7 @@ public class InfoActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        setBackButton();
+        setBackButtonHozo();
     }
 
     @Override

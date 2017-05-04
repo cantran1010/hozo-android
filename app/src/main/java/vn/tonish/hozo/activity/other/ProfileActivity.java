@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import vn.tonish.hozo.view.TextViewHozo;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -43,17 +43,17 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private Context context;
 
     private ImageView img_avatar;
-    private TextView tv_name;
-    private TextView tv_birthday;
-    private TextView tv_address;
-    private TextView tv_phone;
-    private TextView btnLogOut;
+    private TextViewHozo tv_name;
+    private TextViewHozo tv_birthday;
+    private TextViewHozo tv_address;
+    private TextViewHozo tv_phone;
+    private TextViewHozo btnLogOut;
 
     // pager for tab feedback
     protected ViewPager viewPager;
 
     // tab1 and tab 2 in viewpager
-    protected TextView tab_1, tab_2;
+    protected TextViewHozo tab_1, tab_2;
 
     // adapter for feedback pager
     protected FeedBackPagerAdapter feedBackPagerAdapter;
@@ -66,7 +66,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private User user;
 
 
-    private TextView btn_right;
+    private TextViewHozo btn_right;
 
     @Override
     protected int getLayout() {
@@ -76,18 +76,18 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initView() {
         context = ProfileActivity.this;
-        setBackButton();
+        setBackButtonHozo();
         setTitleHeader(getString(R.string.profile_tv_header));
         img_avatar = (ImageView) findViewById(R.id.img_avatar);
-        btnLogOut = (TextView) findViewById(R.id.btn_logout);
-        tv_name = (TextView) findViewById(R.id.tv_name);
-        tv_birthday = (TextView) findViewById(R.id.tv_birthday);
-        tv_address = (TextView) findViewById(R.id.tv_address);
-        tv_phone = (TextView) findViewById(R.id.tv_phone);
+        btnLogOut = (TextViewHozo) findViewById(R.id.btn_logout);
+        tv_name = (TextViewHozo) findViewById(R.id.tv_name);
+        tv_birthday = (TextViewHozo) findViewById(R.id.tv_birthday);
+        tv_address = (TextViewHozo) findViewById(R.id.tv_address);
+        tv_phone = (TextViewHozo) findViewById(R.id.tv_phone);
         viewPager = (ViewPager) findViewById(R.id.pagers);
-        tab_1 = (TextView) findViewById(R.id.tab_1);
-        tab_2 = (TextView) findViewById(R.id.tab_2);
-        tab_2 = (TextView) findViewById(R.id.tab_2);
+        tab_1 = (TextViewHozo) findViewById(R.id.tab_1);
+        tab_2 = (TextViewHozo) findViewById(R.id.tab_2);
+        tab_2 = (TextViewHozo) findViewById(R.id.tab_2);
 
         tab1Data = new ArrayList<>();
         tab2Data = new ArrayList<>();
@@ -95,7 +95,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         feedBackPagerAdapter = new FeedBackPagerAdapter(getSupportFragmentManager(), tab1Data, tab2Data);
         viewPager.setAdapter(feedBackPagerAdapter);
 
-        btn_right = (TextView) findViewById(R.id.btnRight);
+        btn_right = (TextViewHozo) findViewById(R.id.btnRight);
         btn_right.setText("EDIT");
         btn_right.setOnClickListener(new View.OnClickListener() {
             @Override

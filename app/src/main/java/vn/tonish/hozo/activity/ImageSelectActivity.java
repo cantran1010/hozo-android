@@ -7,7 +7,6 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ import vn.tonish.hozo.adapter.ImageSelectAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_CROP_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
@@ -33,7 +33,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     private ArrayList<Image> images;
     private final String[] projection = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA};
     protected ImageView imgBack;
-    protected TextView tvDone, tvAlbumName;
+    protected TextViewHozo tvDone, tvAlbumName;
     private boolean isOnlyImage = false;
     private boolean isCropProfile = false;
 
@@ -47,10 +47,10 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        tvDone = (TextView) findViewById(R.id.tv_done);
+        tvDone = (TextViewHozo) findViewById(R.id.tv_done);
         tvDone.setOnClickListener(this);
 
-        tvAlbumName = (TextView) findViewById(R.id.tv_album_name);
+        tvAlbumName = (TextViewHozo) findViewById(R.id.tv_album_name);
 
         grImage = (GridView) findViewById(R.id.gr_image);
     }

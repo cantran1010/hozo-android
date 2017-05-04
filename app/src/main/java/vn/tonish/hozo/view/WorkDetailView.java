@@ -8,11 +8,11 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import vn.tonish.hozo.view.ButtonHozo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
-import android.widget.TextView;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Work;
@@ -25,11 +25,11 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
     protected CircleImageView imgAvatar;
 
-    private TextView tvName, tvTitle, tvTimeAgo, tvWorkType, tvDescription;
+    private TextViewHozo tvName, tvTitle, tvTimeAgo, tvWorkType, tvDescription;
     private RatingBar rbRate;
     private ImageView imgMobile, imgEmail, imgFacebook;
-    private TextView tvPrice, tvDate, tvTime, tvAddress, tvStatus;
-    private Button btnOffer,btnCallRate;
+    private TextViewHozo tvPrice, tvDate, tvTime, tvAddress, tvStatus;
+    private ButtonHozo btnOffer,btnCallRate;
 
     public WorkDetailView(Context context) {
         super(context);
@@ -57,29 +57,29 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         layoutInflater.inflate(R.layout.work_detail_view, this, true);
 
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
-        tvName = (TextView) findViewById(R.id.tv_name);
+        tvName = (TextViewHozo) findViewById(R.id.tv_name);
 
-        tvTitle = (TextView) findViewById(R.id.tv_title);
-        tvTimeAgo = (TextView) findViewById(R.id.tv_time_ago);
-        tvWorkType = (TextView) findViewById(R.id.tv_work_type);
-        tvDescription = (TextView) findViewById(R.id.tv_description);
+        tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
+        tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
+        tvWorkType = (TextViewHozo) findViewById(R.id.tv_work_type);
+        tvDescription = (TextViewHozo) findViewById(R.id.tv_description);
         rbRate = (RatingBar) findViewById(R.id.rb_rate);
 
         imgMobile = (ImageView) findViewById(R.id.img_mobile_verify);
         imgEmail = (ImageView) findViewById(R.id.img_email_verify);
         imgFacebook = (ImageView) findViewById(R.id.img_facebook_verify);
 
-        tvPrice = (TextView) findViewById(R.id.tv_price);
-        tvDate = (TextView) findViewById(R.id.tv_date);
-        tvTime = (TextView) findViewById(R.id.tv_time);
-        tvAddress = (TextView) findViewById(R.id.tv_address);
+        tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
+        tvDate = (TextViewHozo) findViewById(R.id.tv_date);
+        tvTime = (TextViewHozo) findViewById(R.id.tv_time);
+        tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
 
-        btnOffer = (Button) findViewById(R.id.btn_offer);
+        btnOffer = (ButtonHozo) findViewById(R.id.btn_offer);
         btnOffer.setOnClickListener(this);
 
-        tvStatus = (TextView) findViewById(R.id.tv_status);
+        tvStatus = (TextViewHozo) findViewById(R.id.tv_status);
 
-        btnCallRate = (Button) findViewById(R.id.btn_call_rate);
+        btnCallRate = (ButtonHozo) findViewById(R.id.btn_call_rate);
 
     }
 
