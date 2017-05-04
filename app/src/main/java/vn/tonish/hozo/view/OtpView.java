@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,11 @@ import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.LogUtils;
 
+import static vn.tonish.hozo.common.Constants.CODE;
 import static vn.tonish.hozo.common.Constants.NAME_VIEW;
+import static vn.tonish.hozo.common.Constants.USER_MOBILE;
+import static vn.tonish.hozo.common.Constants.USER_OTP;
+
 
 /**
  * Created by CanTran on 18/04/2017.
@@ -42,12 +47,13 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     private static final String TAG = "OtpView";
 
     private final Context context;
-    private EdittextHozo mPinFirstDigitEditText;
-    private EdittextHozo mPinSecondDigitEditText;
-    private EdittextHozo mPinThirdDigitEditText;
-    private EdittextHozo mPinForthDigitEditText;
-    private EdittextHozo mPinHiddenEditText;
-    private TextViewHozo btnSigIn;
+    private EditText mPinFirstDigitEditText;
+    private EditText mPinSecondDigitEditText;
+    private EditText mPinThirdDigitEditText;
+    private EditText mPinForthDigitEditText;
+    private EditText mPinHiddenEditText;
+    private TextView btnSigIn;
+    private ImageView btnBack;
     private final boolean registed;
     private final String phone;
 
@@ -69,8 +75,8 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         View rootView = LayoutInflater.from(context).inflate(R.layout.view_otp, null);
         addView(rootView);
         init();
-        TextView btnBack = (TextViewHozo) rootView.findViewById(R.id.btnBack);
-        btnSigIn = (TextViewHozo) rootView.findViewById(R.id.btn_sigin);
+        btnBack = (ImageView) rootView.findViewById(R.id.btnBack);
+        btnSigIn = (TextView) rootView.findViewById(R.id.btn_sigin);
         TextView btnResetOtp = (TextView) rootView.findViewById(R.id.btn_reset_otp);
 
         btnBack.setOnClickListener(this);
@@ -100,7 +106,6 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
         mPinSecondDigitEditText.setOnKeyListener(this);
         mPinThirdDigitEditText.setOnKeyListener(this);
         mPinForthDigitEditText.setOnKeyListener(this);
-
         mPinHiddenEditText.setOnKeyListener(this);
     }
 
@@ -117,24 +122,30 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (s.length() == 0) {
             mPinFirstDigitEditText.setText("");
+            btnSigIn.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
+            btnSigIn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
         } else if (s.length() == 1) {
             mPinFirstDigitEditText.setText(s.charAt(0) + "");
             mPinSecondDigitEditText.setText("");
             mPinThirdDigitEditText.setText("");
             mPinForthDigitEditText.setText("");
-
+            btnSigIn.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
+            btnSigIn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
         } else if (s.length() == 2) {
             mPinSecondDigitEditText.setText(s.charAt(1) + "");
             mPinThirdDigitEditText.setText("");
             mPinForthDigitEditText.setText("");
-
+            btnSigIn.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
+            btnSigIn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
         } else if (s.length() == 3) {
             mPinThirdDigitEditText.setText(s.charAt(2) + "");
             mPinForthDigitEditText.setText("");
+            btnSigIn.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
+            btnSigIn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
         } else if (s.length() == 4) {
             mPinForthDigitEditText.setText(s.charAt(3) + "");
             hideSoftKeyboard(mPinForthDigitEditText);
-            btnSigIn.setTextColor(ContextCompat.getColor(getContext(),R.color.white));
+            btnSigIn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -142,7 +153,8 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                 }
             }, 200);
         } else {
-            btnSigIn.setTextColor(ContextCompat.getColor(getContext(),R.color.blue));
+            btnSigIn.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
+            btnSigIn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
         }
 
     }
@@ -152,11 +164,11 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
      * Initialize EditText fields.
      */
     private void init() {
-        mPinFirstDigitEditText = (EdittextHozo) findViewById(R.id.pin_first_edittext);
-        mPinSecondDigitEditText = (EdittextHozo) findViewById(R.id.pin_second_edittext);
-        mPinThirdDigitEditText = (EdittextHozo) findViewById(R.id.pin_third_edittext);
-        mPinForthDigitEditText = (EdittextHozo) findViewById(R.id.pin_forth_edittext);
-        mPinHiddenEditText = (EdittextHozo) findViewById(R.id.pin_hidden_edittext);
+        mPinFirstDigitEditText = (EditText) findViewById(R.id.pin_first_edittext);
+        mPinSecondDigitEditText = (EditText) findViewById(R.id.pin_second_edittext);
+        mPinThirdDigitEditText = (EditText) findViewById(R.id.pin_third_edittext);
+        mPinForthDigitEditText = (EditText) findViewById(R.id.pin_forth_edittext);
+        mPinHiddenEditText = (EditText) findViewById(R.id.pin_hidden_edittext);
     }
 
     @Override
@@ -319,14 +331,14 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     private void login() {
         String otpCode = mPinHiddenEditText.getText().toString().trim();
         HashMap<String, String> dataRequest = new HashMap<>();
-        dataRequest.put("mobile", phone);
-        dataRequest.put("otpcode", otpCode);
+        dataRequest.put(USER_MOBILE, phone);
+        dataRequest.put(USER_OTP, otpCode);
         NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_LOGIN, dataRequest, new NetworkUtils.NetworkListener() {
             @Override
             public void onSuccess(JSONObject jsonResponse) {
                 LogUtils.d(TAG, "dataRequest" + jsonResponse.toString());
                 try {
-                    if (jsonResponse.getInt("code") == 0) {
+                    if (jsonResponse.getInt(CODE) == 0) {
 
                         UserManager.insertUserLogin(new DataParse().getUserEntiny(context, jsonResponse), context);
                         LogUtils.d(TAG, "check User :" + UserManager.getUserLogin(context).toString());
@@ -341,7 +353,7 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
                         } else {
                             ((LoginActivity) context).startActivityAndClearAllTask(MainActivity.class);
                         }
-                    } else if (jsonResponse.getInt("code") == 1) {
+                    } else if (jsonResponse.getInt(CODE) == 1) {
                         Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, "Otp code is invalid", Toast.LENGTH_SHORT).show();

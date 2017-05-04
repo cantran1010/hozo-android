@@ -9,7 +9,12 @@
     <dimen name="edt_min_height">40dp</dimen>
     <dimen name="tv_size_nomal">14sp</dimen>
     <dimen name="edt_size_nomal">14sp</dimen>
-
     <dimen name="menu_text_size">10sp</dimen>
+    <dimen name="tv_size_lager">17sp</dimen>
+    <dimen name="logo_width">257dp</dimen>
+    <dimen name="logo_height">94dp</dimen>
+    <dimen name="logo_margin_top">85dp</dimen>
+    <dimen name="login_layout_width">300dp</dimen>
+    <dimen name="tv_size_tiny">11sp</dimen>
 
 </resources>

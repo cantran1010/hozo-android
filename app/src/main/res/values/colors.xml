@@ -25,5 +25,6 @@
     <color name="tv_black">#030303</color>
     <color name="line_gay">#979797</color>
     <color name="menu_non_selected">#929292</color>
+    <color name="text_hint">#FFA6E5FF</color>
 
 </resources>
