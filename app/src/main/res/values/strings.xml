@@ -20,7 +20,7 @@
     <string name="tv_fee">Chi phí</string>
 
     <!--advance setting screen -->
-    <string name="advance_setting_title">Cài đặt nâng cao</string>
+    <string name="advance_setting_title">Cài Đặt Nâng Cao</string>
     <string name="tv_location">Địa điểm</string>
     <string name="tv_time">Thời gian</string>
     <string name="tv_sex">Giới tính</string>
@@ -120,7 +120,6 @@
     <string name="tv_amount">Số tiền</string>
     <string name="et_max">Max</string>
     <string name="et_min">Min</string>
-    <string name="btn_reset">RESET</string>
     <string name="adjust_image">adjust_image</string>
     <string name="login_hotline">19009669</string>
     <string name="login_erro">Có lỗi</string>
@@ -193,5 +192,6 @@
     <string name="tv_type_of_task">Phân loại công việc</string>
     <string name="img_content_des">Quay trở lại</string>
     <string name="search">Tìm kiếm</string>
+    <string name="btn_reset">Reset</string>
 
 </resources>

@@ -23,5 +23,9 @@
     <color name="text_money">#00B74A</color>
     <color name="text_item_address">#8B8B8B</color>
     <color name="bg">#F8F8F8</color>
+    <color name="text_advance">#363636</color>
+    <color name="text_line">#E0E0E0</color>
+    <color name="text_advance_item">#212121</color>
+
 
 </resources>

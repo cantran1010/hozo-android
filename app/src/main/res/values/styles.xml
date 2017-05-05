@@ -106,7 +106,7 @@
 
     <!-- style title -->
     <style name="tv_title">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/hozo_bg</item>
     </style>
@@ -131,7 +131,15 @@
         <item name="android:textColor">@color/red</item>
     </style>
 
-    <style name="sectionHeader"   parent="android:Widget.Holo.Light.TextView">
+    <!-- style advance setting -->
+    <style name="tv_advance_setting">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textColor">@color/text_advance_item</item>
+    </style>
+
+    <style name="sectionHeader" parent="android:Widget.Holo.Light.TextView">
         <item name="android:drawableBottom">@drawable/section_header</item>
         <item name="android:drawablePadding">4dp</item>
         <item name="android:layout_marginTop">8dp</item>
