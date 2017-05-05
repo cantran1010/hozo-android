@@ -6,12 +6,7 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="transparent">#00000000</color>
-    <color name="cyan_green">#cdfcf6</color>
     <color name="blue">#00A2E5</color>
-    <color name="light_blue">#6670f9</color>
-    <color name="green_light">#d9eae7</color>
-    <color name="blue_sky">#00ae97</color>
     <color name="very_light_gray">#E5E5E5</color>
     <color name="black_alpha">#71000000</color>
     <color name="gray">#979797</color>
@@ -23,8 +18,10 @@
     <color name="btn_selector">#A1A5F5</color>
     <color name="tv_gray">#747474</color>
     <color name="tv_black">#030303</color>
-    <color name="line_gay">#979797</color>
     <color name="menu_non_selected">#929292</color>
     <color name="text_hint">#FFA6E5FF</color>
+    <color name="text_money">#00B74A</color>
+    <color name="text_item_address">#8B8B8B</color>
+    <color name="bg">#F8F8F8</color>
 
 </resources>

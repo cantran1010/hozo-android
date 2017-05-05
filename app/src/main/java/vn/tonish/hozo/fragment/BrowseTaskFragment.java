@@ -1,46 +1,37 @@
 package vn.tonish.hozo.fragment;
 
 import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
-import vn.tonish.hozo.view.EdittextHozo;
-import android.widget.Spinner;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimerTask;
-
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.AdvanceSettingsActivity;
-import vn.tonish.hozo.adapter.WorkAdapter;
-import vn.tonish.hozo.model.Work;
-import vn.tonish.hozo.network.NetworkUtils;
-import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
+import vn.tonish.hozo.view.EdittextHozo;
+
+import static vn.tonish.hozo.R.id.edt_search;
+import static vn.tonish.hozo.R.id.fr_search;
+import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 
 /**
  * Created by Admin on 4/4/2017.
  * Edited by huyquynh on 19/4/2017
  */
 
-public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.NetworkListener {
+public class BrowseTaskFragment extends BaseFragment implements View.OnClickListener {
+    private ImageView imgSearch, imgLocation, imgControls, imgBack, imgClear;
+    private FrameLayout layoutHeader, layoutSearch;
+    private EdittextHozo edtSearch;
+    private boolean checkView = true;
+    private Animation rtAnimation;
+    private Animation lanimation;
 
-    private static double lat = 21.000030;
-    private static double lon = 105.837400;
-
-    private RecyclerView lvList;
-    private WorkAdapter workAdapter;
-    private LinearLayoutManager lvManager;
-    private List<Work> workList;
-
-
-    protected EdittextHozo et_search;
-
-    protected Spinner spinner;
 
     @Override
     protected int getLayout() {
@@ -49,71 +40,58 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
 
     @Override
     protected void initView() {
-        spinner = (Spinner) findViewById(R.id.spin_type);
-        spinner.setPrompt("Phan loai cong viec!");
-        lvList = (RecyclerView) findViewById(R.id.lvList);
-        lvManager = new LinearLayoutManager(getActivity());
-        workList = new ArrayList<>();
-
-
-        lvList.setLayoutManager(lvManager);
-
-        for (int i = 0; i < 10; i++) {
-            Work work = new Work();
-            work.setId(i);
-            work.setName("Hey ! Are you free tonight!");
-            work.setTime("2017-04-18T03:48:10+00:00");
-            work.setNew(true);
-            work.setDescription("15 phut truoc . Ha Noi . Phan loai : Cong nghe");
-            work.setPrice("500000");
-            workList.add(work);
-        }
-        workAdapter = new WorkAdapter(getActivity(), workList);
-        lvList.setAdapter(workAdapter);
-
-
-        findViewById(R.id.tv_advance_setting).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(AdvanceSettingsActivity.class);
-            }
-        });
-
-
-        et_search = (EdittextHozo) findViewById(R.id.et_search);
-        et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                return false;
-            }
-        });
-
-        lvList.addOnScrollListener(new EndlessRecyclerViewScrollListener(lvManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Handler handler = new Handler();
-                handler.postDelayed(new TimerTask() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < 10; i++) {
-                            Work work = new Work();
-                            work.setId(i);
-                            work.setName("Hey ! Are you free tonight!");
-                            work.setTime("2017-04-18T03:48:10+00:00");
-                            work.setNew(true);
-                            work.setDescription("15 phut truoc . Ha Noi . Phan loai : Cong nghe");
-                            work.setPrice("500000");
-                            workList.add(work);
-                        }
-                        workAdapter.notifyDataSetChanged();
-                    }
-                }, 2000);
-            }
-        });
+        rtAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_right);
+        lanimation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_left);
+        imgSearch = (ImageView) findViewById(R.id.img_search);
+        imgLocation = (ImageView) findViewById(R.id.img_location);
+        imgControls = (ImageView) findViewById(R.id.img_controls);
+        imgClear = (ImageView) findViewById(R.id.img_clear);
+        imgBack = (ImageView) findViewById(R.id.img_back);
+        layoutHeader = (FrameLayout) findViewById(R.id.browse_task_header);
+        edtSearch = (EdittextHozo) findViewById(edt_search);
+        layoutSearch = (FrameLayout) findViewById(fr_search);
     }
 
     @Override
     protected void initData() {
+        openFragment(R.id.find_task_container, ListTaskFragment.class, false);
+        imgControls.setOnClickListener(this);
+        imgLocation.setOnClickListener(this);
+        imgSearch.setOnClickListener(this);
+        imgBack.setOnClickListener(this);
+        imgClear.setOnClickListener(this);
+        edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                hideKeyBoard(getActivity());
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+//                    performSearch();
+                    return true;
+                }
+                return false;
+            }
+        });
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (edtSearch.getText().toString().length() > 0) {
+                    imgClear.setVisibility(View.VISIBLE);
+                } else {
+                    imgClear.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
     }
 
@@ -123,9 +101,6 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
     }
 
     public void getData() {
-        //        if (workList.size() == 0) {
-//            NetworkUtils.postVolley(true, true, true, getActivity(), "", new JSONObject(), this);
-//        }
     }
 
     @Override
@@ -135,14 +110,48 @@ public class BrowseTaskFragment extends BaseFragment implements NetworkUtils.Net
     }
 
     @Override
-    public void onSuccess(JSONObject jsonResponse) {
-        if (jsonResponse != null) {
-           // String json = jsonResponse.toString();
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_location:
+                if (checkView) {
+                    openFragment(R.id.find_task_container, MapTaskFragment.class, false);
+                    checkView = false;
+                } else {
+                    openFragment(R.id.find_task_container, ListTaskFragment.class, false);
+                    checkView = true;
+                }
+
+                break;
+            case R.id.img_search:
+                showSearch(layoutSearch, 200, true);
+                showSearch(layoutHeader, 200, false);
+                break;
+            case R.id.img_back:
+                showSearch(layoutHeader, 200, true);
+                showSearch(layoutSearch, 200, false);
+                break;
+            case R.id.img_clear:
+                edtSearch.setText("");
+                break;
+        }
+
+    }
+
+    private void showSearch(final View view, int duration, boolean isShow) {
+        if (isShow) {
+            view.setVisibility(View.VISIBLE);
+            view.startAnimation(rtAnimation);
+        } else {
+            view.startAnimation(lanimation);
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    view.setVisibility(View.GONE);
+                }
+            }, duration);
         }
     }
 
-    @Override
-    public void onError() {
-
-    }
 }
+

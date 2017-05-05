@@ -45,7 +45,6 @@
         android:orientation="vertical">
 
         <vn.tonish.hozo.view.EdittextHozo
-            android:id="@+id/edt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -54,7 +53,6 @@
             android:padding="5dp" />
 
         <vn.tonish.hozo.view.EdittextHozo
-            android:id="@+id/edt_content"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="10dp"

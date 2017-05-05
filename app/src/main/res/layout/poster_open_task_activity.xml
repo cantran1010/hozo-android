@@ -89,7 +89,6 @@
                     android:textSize="15sp" />
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tv_view_all_candidate"
                     style="@style/sectionHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -123,7 +122,6 @@
                     android:textSize="15sp" />
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tv_view_all_comment"
                     style="@style/sectionHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -19,7 +19,6 @@
             android:src="@drawable/avatar_default" />
 
         <LinearLayout
-            android:id="@+id/tv_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

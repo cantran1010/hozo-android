@@ -17,7 +17,6 @@
             android:src="@drawable/img_verify_mobile" />
 
         <ImageView
-            android:id="@+id/img_verify_mobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -37,7 +36,6 @@
             android:src="@drawable/img_verify_fb" />
 
         <ImageView
-            android:id="@+id/img_verify_facebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -59,7 +57,6 @@
             android:src="@drawable/img_verify_email" />
 
         <ImageView
-            android:id="@+id/img_verify_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
