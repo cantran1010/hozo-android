@@ -9,17 +9,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.HozoLocation;
-import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.DateTimeUtils;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -35,7 +34,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
     private TextViewHozo tvTotal;
     private Work work;
     private HozoLocation location;
-    private ArrayList<Image> images;
+    //    private ArrayList<Image> images;
     private ImageView imgBack;
     private Category category;
 
@@ -62,7 +61,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
         work = (Work) getIntent().getSerializableExtra(Constants.EXTRA_WORK);
         location = (HozoLocation) getIntent().getSerializableExtra(Constants.EXTRA_ADDRESS);
-        images = getIntent().getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+//        images = getIntent().getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
         category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
 
         edtBudget.addTextChangedListener(new TextWatcher() {
@@ -136,7 +135,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
     }
 
     private void doDone() {
-        JSONObject jsonRequest = new JSONObject();
+        final JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put("type", category.getId());
             jsonRequest.put("title", work.getName());
@@ -153,6 +152,10 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             jsonRequest.put("address", location.getAddress());
             jsonRequest.put("worker_rate", Integer.valueOf(edtBudget.getText().toString()));
             jsonRequest.put("worker_count", Integer.valueOf(edtNumberWorker.getText().toString()));
+
+            if (work.getArrImageAttack() != null && !work.getArrImageAttack().equals(""))
+                jsonRequest.put("attachments", work.getArrImageAttack());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -160,7 +163,28 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         NetworkUtils.postVolleyRawData(true, true, true, this, NetworkConfig.API_POST_TASK, jsonRequest, new NetworkUtils.NetworkListener() {
             @Override
             public void onSuccess(JSONObject jsonResponse) {
+                try {
+                    int code = jsonResponse.getInt("code");
 
+                    if (code == 0) {
+                        DialogUtils.showConfirmAlertDialog(PostATaskFinishActivity.this, jsonResponse.getString("message"), new DialogUtils.ConfirmDialogListener() {
+                            @Override
+                            public void onConfirmClick() {
+                                setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+                                finish();
+                            }
+                        });
+                    } else {
+                        DialogUtils.showConfirmAlertDialog(PostATaskFinishActivity.this, jsonResponse.getString("message"), new DialogUtils.ConfirmDialogListener() {
+                            @Override
+                            public void onConfirmClick() {
+
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

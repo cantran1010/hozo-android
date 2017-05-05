@@ -7,6 +7,9 @@ public class NetworkConfig {
 
     public static final int NETWORK_TIME_OUT = 10000;
 
+    //==================== DOMAIN IMAGE PATH =====================
+    public static final String DOMAIN_IMAGE = "http://104.198.92.15:8080/";
+
     //==================== DOMAIN =====================
     public static final String DOMAIN = "http://104.198.92.15:8080/v1/";
 

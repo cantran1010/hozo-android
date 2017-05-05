@@ -1,21 +1,18 @@
 package vn.tonish.hozo.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import vn.tonish.hozo.view.TextViewHozo;
 
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.PostATaskActivity;
-import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CircleImageView;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 4/12/17.
@@ -24,11 +21,26 @@ import vn.tonish.hozo.view.CircleImageView;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
 
     private Context context;
+
     public CategoryAdapter(ArrayList<Category> categories) {
         this.categories = categories;
     }
 
     private ArrayList<Category> categories;
+
+    public interface CategoryAdapterLister {
+        public void onCallBack(int position);
+    }
+
+    private CategoryAdapterLister categoryAdapterLister;
+
+    public CategoryAdapterLister getCategoryAdapterLister() {
+        return categoryAdapterLister;
+    }
+
+    public void setCategoryAdapterLister(CategoryAdapterLister categoryAdapterLister) {
+        this.categoryAdapterLister = categoryAdapterLister;
+    }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -40,7 +52,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Utils.displayImage(context,holder.imgPresent,categories.get(position).getPresentPath());
+        Utils.displayImage(context, holder.imgPresent, Utils.getFullPathImage(categories.get(position).getPresentPath()));
         holder.tvName.setText(categories.get(position).getName());
         holder.tvDes.setText(categories.get(position).getDescription());
     }
@@ -50,10 +62,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         return categories.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CircleImageView imgPresent;
-        private TextViewHozo tvName,tvDes;
+        private TextViewHozo tvName, tvDes;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -65,9 +77,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context, PostATaskActivity.class);
-            intent.putExtra(Constants.EXTRA_CATEGORY, categories.get(getAdapterPosition()));
-            context.startActivity(intent);
+
+            if (categoryAdapterLister != null)
+                categoryAdapterLister.onCallBack(getAdapterPosition());
+
+//            Intent intent = new Intent(context, PostATaskActivity.class);
+//            intent.putExtra(Constants.EXTRA_CATEGORY, categories.get(getAdapterPosition()));
+//            context.startActivity(intent);
         }
 
     }

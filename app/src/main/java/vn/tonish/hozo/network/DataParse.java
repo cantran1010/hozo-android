@@ -49,11 +49,11 @@ public class DataParse {
         return userEntity;
     }
 
-    public static String getAvatarTempId(String response) {
-        String result = "";
+    public static int getAvatarTempId(String response) {
+        Integer result = 0;
         try {
             JSONObject jsonResponse = new JSONObject(response);
-            result = jsonResponse.getJSONObject("data").getString("tmp_id");
+            result = jsonResponse.getJSONObject("data").getInt("tmp_id");
         } catch (JSONException e) {
             e.printStackTrace();
         }

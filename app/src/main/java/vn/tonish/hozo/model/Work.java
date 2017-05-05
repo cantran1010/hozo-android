@@ -31,6 +31,15 @@ public class Work implements Serializable {
     private int genderWorker;
     private int ageFromWorker;
     private int ageToWorker;
+    private String arrImageAttack;
+
+    public String getArrImageAttack() {
+        return arrImageAttack;
+    }
+
+    public void setArrImageAttack(String arrImageAttack) {
+        this.arrImageAttack = arrImageAttack;
+    }
 
     public int getWorkTypeId() {
         return workTypeId;

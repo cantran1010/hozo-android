@@ -16,7 +16,7 @@
     <!-- common-->
     <color name="hozo_bg">#00A2E5</color>
     <color name="btn_selector">#A1A5F5</color>
-    <color name="tv_gray">#747474</color>
+    <color name="tv_gray">#787878</color>
     <color name="tv_black">#030303</color>
     <color name="menu_non_selected">#929292</color>
     <color name="text_hint">#FFA6E5FF</color>
@@ -26,6 +26,7 @@
     <color name="text_advance">#363636</color>
     <color name="text_line">#E0E0E0</color>
     <color name="text_advance_item">#212121</color>
-
+    <color name="line_gray">#D8D8D8</color>
+    <color name="border_gray">#CFCFCF</color>
 
 </resources>

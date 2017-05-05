@@ -4,6 +4,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
 import vn.tonish.hozo.fragment.HelpFragment;
@@ -97,7 +98,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    private void updateMenuUi(int positionMenu) {
+    public void updateMenuUi(int positionMenu) {
 
 //        imgPostATask = (ImageView) findViewById(R.id.img_post_a_task);
 //        imgBrowserTask = (ImageView) findViewById(R.id.img_browser_task);
@@ -130,4 +131,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 }

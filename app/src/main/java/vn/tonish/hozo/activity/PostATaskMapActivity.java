@@ -21,7 +21,6 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.HozoLocation;
-import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.GPSTracker;
@@ -50,7 +49,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     private EdittextHozo edtAddress;
 
     private Work work;
-    private ArrayList<Image> images = new ArrayList<>();
+    //    private ArrayList<Image> images = new ArrayList<>();
     private HozoLocation location = new HozoLocation();
     private Category category;
 
@@ -88,7 +87,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     protected void initData() {
 
         work = (Work) getIntent().getSerializableExtra(Constants.EXTRA_WORK);
-        images = getIntent().getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+//        images = getIntent().getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
         category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
 
         mLocationProvider = new LocationProvider(this, this);
@@ -225,8 +224,17 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         Intent intent = new Intent(PostATaskMapActivity.this, PostATaskFinishActivity.class);
         intent.putExtra(Constants.EXTRA_ADDRESS, location);
         intent.putExtra(Constants.EXTRA_WORK, work);
-        intent.putExtra(Constants.EXTRA_CATEGORY,category);
-        startActivity(intent);
+        intent.putExtra(Constants.EXTRA_CATEGORY, category);
+        startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+            finish();
+        }
     }
 
     @Override
