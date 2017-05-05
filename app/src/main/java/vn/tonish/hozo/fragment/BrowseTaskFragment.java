@@ -1,5 +1,6 @@
 package vn.tonish.hozo.fragment;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.AdvanceSettingsActivity;
 import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.R.id.edt_search;
@@ -132,6 +134,9 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.img_clear:
                 edtSearch.setText("");
+                break;
+            case R.id.img_controls:
+                startActivity(new Intent(getContext(), AdvanceSettingsActivity.class));
                 break;
         }
 

@@ -4,16 +4,18 @@ import android.content.Intent;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
-import vn.tonish.hozo.view.TextViewHozo;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by huyquynh on 4/18/17.
  */
 
 public class AdvanceSettingsActivity extends BaseActivity implements View.OnClickListener {
+    private ImageView imgBack;
 
 
     @Override
@@ -23,9 +25,6 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initView() {
-        setBackButtonHozo();
-        setTitleHeader(getString(R.string.advance_setting_title));
-
         findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,7 +39,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
         Spanned text = Html.fromHtml(titleFee + "<i>" + currency + "</i>");
         tv_fee.setText(text);
-
+        findViewById(R.id.img_back).setOnClickListener(this);
         findViewById(R.id.tv_type).setOnClickListener(this);
         findViewById(R.id.tv_fee).setOnClickListener(this);
         findViewById(R.id.tv_location).setOnClickListener(this);
@@ -85,6 +84,9 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
                 break;
 
             case R.id.tv_notification:
+                break;
+            case R.id.img_back:
+                finish();
                 break;
         }
     }
