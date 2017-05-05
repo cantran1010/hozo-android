@@ -94,7 +94,7 @@
     </style>
 
     <style name="tv_style_normal_black">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/tv_black</item>
     </style>
 
@@ -103,15 +103,26 @@
         <item name="android:textColor">@color/tv_gray</item>
     </style>
 
+    <style name="edt_style_normal">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/tv_black</item>
+        <item name="android:textColorHint">@color/edt_hint</item>
+    </style>
+
+    <style name="spinner_normal">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/edt_hint</item>
+    </style>
+
     <!-- style title -->
     <style name="tv_title">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/hozo_bg</item>
     </style>
 
     <style name="btn_style_nomal">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/btn_selector</item>
@@ -130,7 +141,7 @@
         <item name="android:textColor">@color/red</item>
     </style>
 
-    <style name="sectionHeader"   parent="android:Widget.Holo.Light.TextView">
+    <style name="sectionHeader" parent="android:Widget.Holo.Light.TextView">
         <item name="android:drawableBottom">@drawable/section_header</item>
         <item name="android:drawablePadding">4dp</item>
         <item name="android:layout_marginTop">8dp</item>
@@ -140,4 +151,5 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <color name="edt_hint">#AEAEAE</color>
 </resources>

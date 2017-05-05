@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.MainActivity;
 
 /**
  * Created by LongBD.
@@ -96,6 +97,12 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
     public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack) {
 
         Activity activity = getActivity();
@@ -104,9 +111,15 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
             baseActivity.openFragmentBundle(resId, fragmentClazz, args, true);
         }
     }
-    
+
     public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack) {
         openFragment(resId, fragmentClazz, null, addBackStack);
+    }
+
+
+    public void updateMenuUi(int position) {
+        if (getActivity() instanceof MainActivity)
+            ((MainActivity) getActivity()).updateMenuUi(position);
     }
 
 }

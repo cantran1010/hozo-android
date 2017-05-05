@@ -5,13 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.widget.ImageView;
 
-public class TouchImageView extends ImageView {
+public class TouchImageView extends AppCompatImageView {
     Matrix matrix;
     static final int NONE = 0;
     static final int DRAG = 1;
