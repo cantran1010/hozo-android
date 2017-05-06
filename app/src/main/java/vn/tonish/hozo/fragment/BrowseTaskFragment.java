@@ -22,8 +22,7 @@ import static vn.tonish.hozo.R.id.fr_search;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 
 /**
- * Created by Admin on 4/4/2017.
- * Edited by huyquynh on 19/4/2017
+ * Created by Can Tran on 4/11/17.
  */
 
 public class BrowseTaskFragment extends BaseFragment implements View.OnClickListener {
@@ -56,7 +55,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
-        openFragment(R.id.find_task_container, ListTaskFragment.class, false);
+        openFragment(R.id.find_task_container, ListTaskFragment.class, false,true);
         imgControls.setOnClickListener(this);
         imgLocation.setOnClickListener(this);
         imgSearch.setOnClickListener(this);
@@ -116,10 +115,10 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         switch (view.getId()) {
             case R.id.img_location:
                 if (checkView) {
-                    openFragment(R.id.find_task_container, MapTaskFragment.class, false);
+                    openFragment(R.id.find_task_container, MapTaskFragment.class, false,true);
                     checkView = false;
                 } else {
-                    openFragment(R.id.find_task_container, ListTaskFragment.class, false);
+                    openFragment(R.id.find_task_container, ListTaskFragment.class, false,false);
                     checkView = true;
                 }
 

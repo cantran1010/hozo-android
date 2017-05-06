@@ -96,17 +96,17 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack) {
+    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack,boolean isRightToLeft) {
 
         Activity activity = getActivity();
         if (activity instanceof BaseActivity) {
             BaseActivity baseActivity = (BaseActivity) activity;
-            baseActivity.openFragmentBundle(resId, fragmentClazz, args, true);
+            baseActivity.openFragmentBundle(resId, fragmentClazz, args, true,isRightToLeft);
         }
     }
     
-    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack) {
-        openFragment(resId, fragmentClazz, null, addBackStack);
+    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack,boolean isRightToLeft) {
+        openFragment(resId, fragmentClazz, null, addBackStack,isRightToLeft);
     }
 
 }
