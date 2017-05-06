@@ -38,6 +38,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private boolean isOnlyImage = false;
     private boolean isCropProfile = false;
     private ImageView imgBack;
+    private int countImageAttach = 0;
 
 
     @Override
@@ -62,6 +63,9 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
 
         if (intent.hasExtra(Constants.EXTRA_IS_CROP_PROFILE))
             isCropProfile = intent.getBooleanExtra(Constants.EXTRA_IS_CROP_PROFILE, false);
+
+        if (intent.hasExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA))
+            countImageAttach = intent.getIntExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, 0);
 
         getAlbum();
 
@@ -137,6 +141,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                         intent.putExtra(Constants.INTENT_EXTRA_ALBUM, albums.get(position).getName());
                         intent.putExtra(Constants.EXTRA_ONLY_IMAGE, isOnlyImage);
                         intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, isCropProfile);
+                        intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, countImageAttach);
                         startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
                     }
                 });

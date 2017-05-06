@@ -26,7 +26,6 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.GPSTracker;
 import vn.tonish.hozo.utils.LocationProvider;
 import vn.tonish.hozo.utils.LogUtils;
-import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
 
@@ -217,7 +216,8 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     private void doNext() {
 
         if (edtAddress.getText().toString().trim().equals("")) {
-            Utils.showLongToast(PostATaskMapActivity.this, getString(R.string.msg_err_address));
+            edtAddress.requestFocus();
+            edtAddress.setError(getString(R.string.post_a_task_address_error));
             return;
         }
 

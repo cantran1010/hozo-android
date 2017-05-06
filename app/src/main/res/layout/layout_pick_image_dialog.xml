@@ -1,65 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="320dp"
+    android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:background="@drawable/border_pick_image"
     android:gravity="center"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <vn.tonish.hozo.view.TextViewHozo
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_pick_image"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_marginTop="10dp"
+        android:text="@string/attach_img_title"
+        android:textColor="@color/hozo_bg"
+        android:textSize="20sp" />
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/attach_img_title"
-            android:textColor="@color/hozo_bg"
-            android:textSize="20sp" />
+    <vn.tonish.hozo.view.TextViewHozo
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:text="@string/attach_img_source"
+        android:textColor="@color/gray"
+        android:textSize="15sp" />
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:text="@string/attach_img_source"
-            android:textColor="@color/gray"
-            android:textSize="15sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/hozo_bg" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/hozo_bg" />
+    <vn.tonish.hozo.view.ButtonHozo
+        android:id="@+id/btn_camera"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_pick_image_selector"
+        android:text="@string/attach_img_camera"
+        android:textColor="@color/hozo_bg"
+        android:textStyle="bold" />
 
-        <vn.tonish.hozo.view.ButtonHozo
-            android:id="@+id/btn_camera"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/btn_pick_image_selector"
-            android:text="@string/attach_img_camera"
-            android:textColor="@color/hozo_bg"
-            android:textStyle="bold" />
-
-        <vn.tonish.hozo.view.ButtonHozo
-            android:id="@+id/btn_gallery"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/btn_pick_image_selector"
-            android:text="@string/attach_img_gallery"
-            android:textColor="@color/hozo_bg"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+    <vn.tonish.hozo.view.ButtonHozo
+        android:id="@+id/btn_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_pick_image_selector"
+        android:text="@string/attach_img_gallery"
+        android:textColor="@color/hozo_bg"
+        android:textStyle="bold" />
 
 </LinearLayout>

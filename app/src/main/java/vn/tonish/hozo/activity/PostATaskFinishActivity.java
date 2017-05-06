@@ -8,8 +8,6 @@ import android.widget.ImageView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigInteger;
-
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Category;
@@ -19,6 +17,8 @@ import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
+import vn.tonish.hozo.utils.NumberTextWatcher;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -64,6 +64,9 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 //        images = getIntent().getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
         category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
 
+        edtBudget.addTextChangedListener(new NumberTextWatcher(edtBudget));
+//        edtNumberWorker.addTextChangedListener(new NumberTextWatcher(edtNumberWorker));
+
         edtBudget.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -105,18 +108,32 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
     }
 
     private void updateTotalPayment() {
+
         try {
             if (edtBudget.getText().toString().equals("") || edtNumberWorker.getText().toString().equals("")) {
                 tvTotal.setText("");
             } else {
-                BigInteger bBudget = new BigInteger(edtBudget.getText().toString());
-                BigInteger bNumberWorker = new BigInteger(edtNumberWorker.getText().toString());
-                BigInteger total = bBudget.multiply(bNumberWorker);
-                tvTotal.setText(total + "");
+                Long bBudget = Long.valueOf(edtBudget.getText().toString().replace(".", ""));
+                Long bNumberWorker = Long.valueOf(edtNumberWorker.getText().toString().replace(".", ""));
+                Long total = bBudget * bNumberWorker;
+                tvTotal.setText(Utils.formatNumber(total));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+//        try {
+//            if (edtBudget.getText().toString().equals("") || edtNumberWorker.getText().toString().equals("")) {
+//                tvTotal.setText("");
+//            } else {
+//                BigInteger bBudget = new BigInteger(edtBudget.getText().toString());
+//                BigInteger bNumberWorker = new BigInteger(edtNumberWorker.getText().toString());
+//                BigInteger total = bBudget.multiply(bNumberWorker);
+//                tvTotal.setText(total + "");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -135,6 +152,17 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
     }
 
     private void doDone() {
+
+        if (edtBudget.getText().toString().equals("0") || edtBudget.getText().toString().equals("")) {
+            edtBudget.requestFocus();
+            edtBudget.setError(getString(R.string.post_a_task_budget_error));
+            return;
+        } else if (edtNumberWorker.getText().toString().equals("0") || edtNumberWorker.getText().toString().equals("")) {
+            edtNumberWorker.requestFocus();
+            edtNumberWorker.setError(getString(R.string.post_a_task_number_worker_error));
+            return;
+        }
+
         final JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put("type", category.getId());
@@ -150,8 +178,8 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             jsonRequest.put("city", location.getCity());
             jsonRequest.put("district", location.getDistrict());
             jsonRequest.put("address", location.getAddress());
-            jsonRequest.put("worker_rate", Integer.valueOf(edtBudget.getText().toString()));
-            jsonRequest.put("worker_count", Integer.valueOf(edtNumberWorker.getText().toString()));
+            jsonRequest.put("worker_rate", Integer.valueOf(edtBudget.getText().toString().replace(".", "")));
+            jsonRequest.put("worker_count", Integer.valueOf(edtNumberWorker.getText().toString().replace(".", "")));
 
             if (work.getArrImageAttack() != null && !work.getArrImageAttack().equals(""))
                 jsonRequest.put("attachments", work.getArrImageAttack());

@@ -23,21 +23,6 @@ import vn.tonish.hozo.utils.LogUtils;
 public class ImageAdapter extends ArrayAdapter<Image> {
     private static final String TAG = ImageAdapter.class.getName();
     private ArrayList<Image> images;
-
-    public interface ImageAdapterListener {
-        void onImageAdapterListener();
-    }
-
-    private ImageAdapterListener imageAdapterListener;
-
-    public ImageAdapterListener getImageAdapterListener() {
-        return imageAdapterListener;
-    }
-
-    public void setImageAdapterListener(ImageAdapterListener imageAdapterListener) {
-        this.imageAdapterListener = imageAdapterListener;
-    }
-
     public ImageAdapter(Context _context, ArrayList<Image> images) {
         super(_context, R.layout.item_image, images);
         this.images = images;
@@ -67,12 +52,6 @@ public class ImageAdapter extends ArrayAdapter<Image> {
         if (item != null ? item.isAdd : false) {
             holder.imgAdd.setVisibility(View.VISIBLE);
             holder.imgRemove.setVisibility(View.GONE);
-//            holder.imgAdd.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (imageAdapterListener != null) imageAdapterListener.onImageAdapterListener();
-//                }
-//            });
         } else {
             holder.imgAdd.setVisibility(View.GONE);
             holder.imgRemove.setVisibility(View.VISIBLE);
