@@ -19,9 +19,11 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.DeviceUtils;
 import vn.tonish.hozo.utils.PxUtils;
+import vn.tonish.hozo.utils.Utils;
 
 /**
  * Created by LongBui on 4/19/2017.
@@ -31,11 +33,20 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
     private static final String TAG = ImageSelectAdapter.class.getName();
     private boolean isOnlyImage = false;
     private final ArrayList<Image> images;
+    private int countImageAttach;
 
     public ImageSelectAdapter(Context _context, ArrayList<Image> images, boolean isOnlyImage) {
         super(_context, R.layout.item_image_select, images);
         this.isOnlyImage = isOnlyImage;
         this.images = images;
+    }
+
+    public int getCountImageAttach() {
+        return countImageAttach;
+    }
+
+    public void setCountImageAttach(int countImageAttach) {
+        this.countImageAttach = countImageAttach;
     }
 
     @SuppressWarnings("deprecation")
@@ -103,20 +114,26 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
                 }
             });
         } else {
+
             holder.imgImage.setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                 @Override
                 public void onClick(View v) {
-                    if (item != null ? item.isSelected : false) {
+                    if (countImageSelected() + countImageAttach < Constants.MAX_IMAGE_ATTACH) {
+                        if (item != null ? item.isSelected : false) {
+                            item.setSelected(false);
+                        } else {
+                            item.setSelected(true);
+                        }
+                    } else if (countImageSelected() + countImageAttach >= Constants.MAX_IMAGE_ATTACH && item.isSelected) {
                         item.setSelected(false);
                     } else {
-                        item.setSelected(true);
+                        Utils.showLongToast(getContext(), getContext().getResources().getString(R.string.post_a_task_max_attach_err));
                     }
                     notifyDataSetChanged();
                 }
             });
         }
-
 
         DeviceUtils.DisplayInfo displayInfo = DeviceUtils.getDisplayInfo(getContext());
 
@@ -132,6 +149,16 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
                 .centerCrop().into(holder.imgImage);
 
         return convertView;
+    }
+
+    private int countImageSelected() {
+        int count = 0;
+        for (int i = 0, l = images.size(); i < l; i++) {
+            if (images.get(i).isSelected) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public static class ViewHolder {

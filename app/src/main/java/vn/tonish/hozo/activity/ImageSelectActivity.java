@@ -36,6 +36,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     protected TextViewHozo tvDone, tvAlbumName;
     private boolean isOnlyImage = false;
     private boolean isCropProfile = false;
+    private int countImageAttach = 0;
 
     @Override
     protected int getLayout() {
@@ -63,6 +64,9 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
 
         if (intent != null ? intent.hasExtra(Constants.EXTRA_IS_CROP_PROFILE) : false)
             isCropProfile = intent.getBooleanExtra(Constants.EXTRA_IS_CROP_PROFILE, false);
+
+        if (intent.hasExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA))
+            countImageAttach = intent.getIntExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, 0);
 
         album = intent.getStringExtra(Constants.INTENT_EXTRA_ALBUM);
         tvAlbumName.setText(album);
@@ -132,6 +136,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
                 super.onPostExecute(aVoid);
                 imageSelectAdapter = new ImageSelectAdapter(ImageSelectActivity.this, images, isOnlyImage);
                 grImage.setAdapter(imageSelectAdapter);
+                imageSelectAdapter.setCountImageAttach(countImageAttach);
             }
         };
         imageTask.execute();

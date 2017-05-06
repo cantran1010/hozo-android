@@ -32,6 +32,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AgeDialog;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Image;
@@ -44,6 +45,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.MyGridView;
@@ -59,7 +61,7 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 public class PostATaskActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = PostATaskActivity.class.getSimpleName();
-    private TextViewHozo tvTitle;
+    private TextViewHozo tvTitle, tvAge;
     protected ButtonHozo btnNext;
     protected RelativeLayout layoutStartTime, layoutEndTime, layoutDate;
     private MyGridView grImage;
@@ -71,12 +73,13 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private Calendar calendar = Calendar.getInstance();
     private Calendar calendarTimeStart = Calendar.getInstance();
     private Calendar calendarTimeEnd = Calendar.getInstance();
-    private EdittextHozo edtDayWork, edtWorkName, edtDescription, edtAgeFrom, edtAgeTo;
+    private EdittextHozo edtDayWork, edtWorkName, edtDescription;
     private Spinner spGender;
     private Category category;
     private ImageView imgClose;
     private int imageAttachCount;
     private Integer[] imagesArr;
+    private int ageFrom, ageTo;
 
 
     protected int getLayout() {
@@ -101,8 +104,9 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         edtDayWork = (EdittextHozo) findViewById(R.id.edt_number_day);
 
         edtDescription = (EdittextHozo) findViewById(R.id.edt_description);
-        edtAgeFrom = (EdittextHozo) findViewById(R.id.edt_age_from);
-        edtAgeTo = (EdittextHozo) findViewById(R.id.edt_age_to);
+
+        tvAge = (TextViewHozo) findViewById(R.id.tv_age);
+        tvAge.setOnClickListener(this);
 
         grImage = (MyGridView) findViewById(R.id.gr_image);
 
@@ -127,7 +131,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
         tvTitle.setText(category.getName());
 
-        Image image = new Image();
+        final Image image = new Image();
         image.setAdd(true);
 
         images.add(image);
@@ -139,52 +143,33 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (images.get(position).isAdd) {
-                    PickImageDialog pickImageDialog = new PickImageDialog(PostATaskActivity.this);
-                    pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
-                        @Override
-                        public void onCamera() {
-                            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                            startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
-                        }
+                    if (images.size() >= 7) {
+                        Utils.showLongToast(PostATaskActivity.this, getString(R.string.post_a_task_max_attach_err));
+                        return;
+                    } else {
+                        PickImageDialog pickImageDialog = new PickImageDialog(PostATaskActivity.this);
+                        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+                            @Override
+                            public void onCamera() {
+                                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+                            }
 
-                        @Override
-                        public void onGallery() {
-                            Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
-                            startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE);
-                        }
-                    });
-                    pickImageDialog.showView();
+                            @Override
+                            public void onGallery() {
+                                Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
+                                intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size() - 1);
+                                startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE);
+                            }
+                        });
+                        pickImageDialog.showView();
+                    }
                 } else {
                     Intent intent = new Intent(PostATaskActivity.this, PreviewImageActivity.class);
                     intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
                     startActivity(intent);
                 }
-            }
-        });
-
-        imageAdapter.setImageAdapterListener(new ImageAdapter.ImageAdapterListener() {
-            @Override
-            public void onImageAdapterListener() {
-
-
-                PickImageDialog pickImageDialog = new PickImageDialog(PostATaskActivity.this);
-                pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
-                    @Override
-                    public void onCamera() {
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
-                    }
-
-
-                    @Override
-                    public void onGallery() {
-                        Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
-                        startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE);
-                    }
-                });
-                pickImageDialog.showView();
             }
         });
     }
@@ -210,6 +195,20 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                 startActivityForResult(intent, Constants.REQUEST_CODE_ADDRESS);
                 break;
 
+            case R.id.tv_age:
+                AgeDialog ageDialog = new AgeDialog(PostATaskActivity.this);
+                ageDialog.setAgeDialogListener(new AgeDialog.AgeDialogListener() {
+                    @Override
+                    public void onAgeDialogLister(int from, int to) {
+                        tvAge.setText(from + " ~ " + to);
+                        ageFrom = from;
+                        ageTo = to;
+
+                    }
+                });
+                ageDialog.showView();
+                break;
+
             case R.id.layout_start_time:
                 TimePickerDialog timeStartPickerDialog = new TimePickerDialog(this,
                         new TimePickerDialog.OnTimeSetListener() {
@@ -222,6 +221,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                                 calendarTimeStart.set(Calendar.HOUR_OF_DAY, hourOfDay);
                                 calendarTimeStart.set(Calendar.MINUTE, minute);
                                 tvStartTime.setTextColor(ContextCompat.getColor(PostATaskActivity.this, R.color.tv_black));
+                                tvStartTime.setError(null);
                             }
                         }, calendarTimeStart.get((Calendar.HOUR_OF_DAY)), calendarTimeStart.get(Calendar.MINUTE), false);
                 timeStartPickerDialog.show();
@@ -239,6 +239,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                                 calendarTimeEnd.set(Calendar.HOUR_OF_DAY, hourOfDay);
                                 calendarTimeEnd.set(Calendar.MINUTE, minute);
                                 tvEndTime.setTextColor(ContextCompat.getColor(PostATaskActivity.this, R.color.tv_black));
+                                tvEndTime.setError(null);
                             }
                         }, calendarTimeEnd.get((Calendar.HOUR_OF_DAY)), calendarTimeEnd.get(Calendar.MINUTE), false);
                 timeEndPickerDialog.show();
@@ -248,6 +249,10 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                 openDatePicker();
                 break;
         }
+    }
+
+    private void attachImageListener() {
+
     }
 
     private void doNext() {
@@ -276,14 +281,6 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             edtDescription.requestFocus();
             edtDescription.setError(getString(R.string.post_a_task_description_error));
             return;
-        } else if (edtAgeFrom.getText().toString().equals("")) {
-            edtAgeFrom.requestFocus();
-            edtAgeFrom.setError(getString(R.string.post_a_task_start_time_error));
-            return;
-        } else if (edtAgeTo.getText().toString().equals("")) {
-            edtAgeTo.requestFocus();
-            edtAgeTo.setError(getString(R.string.post_a_task_end_time_error));
-            return;
         }
 
         if (images.size() == 1) {
@@ -295,8 +292,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             work.setEndTime(tvEndTime.getText().toString());
             work.setDescription(edtDescription.getText().toString());
             work.setGenderWorker(spGender.getSelectedItemPosition());
-            work.setAgeFromWorker(Integer.valueOf(edtAgeFrom.getText().toString()));
-            work.setAgeToWorker(Integer.valueOf(edtAgeTo.getText().toString()));
+            work.setAgeFromWorker(ageFrom);
+            work.setAgeToWorker(ageTo);
 
             Intent intent = new Intent(this, PostATaskMapActivity.class);
             intent.putExtra(Constants.EXTRA_WORK, work);
@@ -381,8 +378,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             work.setEndTime(tvEndTime.getText().toString());
             work.setDescription(edtDescription.getText().toString());
             work.setGenderWorker(spGender.getSelectedItemPosition());
-            work.setAgeFromWorker(Integer.valueOf(edtAgeFrom.getText().toString()));
-            work.setAgeToWorker(Integer.valueOf(edtAgeTo.getText().toString()));
+            work.setAgeFromWorker(ageFrom);
+            work.setAgeToWorker(ageTo);
 
             JSONArray mJSONArray = new JSONArray(Arrays.asList(imagesArr));
             work.setArrImageAttack(mJSONArray.toString());
@@ -407,6 +404,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                         tvDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                         calendar.set(year, monthOfYear, dayOfMonth);
                         tvDate.setTextColor(ContextCompat.getColor(PostATaskActivity.this, R.color.tv_black));
+                        tvDate.setError(null);
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 

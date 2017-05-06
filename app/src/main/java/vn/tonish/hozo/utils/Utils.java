@@ -123,6 +123,11 @@ public class Utils {
         return myFormatter.format(input);
     }
 
+    public static String formatNumber(Long input) {
+        DecimalFormat myFormatter = new DecimalFormat("###,###.###");
+        return myFormatter.format(input);
+    }
+
     public static boolean isNullOrEmpty(Object obj) {
         String inputString = String.valueOf(obj);
         return obj == null || (inputString.isEmpty() || inputString.equals("null"));

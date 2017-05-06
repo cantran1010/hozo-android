@@ -3,6 +3,7 @@ package vn.tonish.hozo.common;
 public class Constants {
 
     public static final String BADGE = "badge____";
+    public static final int MAX_IMAGE_ATTACH = 6;
 
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 123;
@@ -25,6 +26,7 @@ public class Constants {
     public static final float DEFAULT_MAP_ZOOM_LEVEL = 16f;
     public static final int POST_A_TASK_REQUEST_CODE = 246;
     public static final int POST_A_TASK_RESPONSE_CODE = 642;
+    public static final String COUNT_IMAGE_ATTACH_EXTRA = "extra_count_image";
 
     public static boolean DEBUG = true;
     public static final int SPLASH_TIME = 1500;
