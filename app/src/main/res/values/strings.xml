@@ -193,5 +193,11 @@
     <string name="img_content_des">Quay trở lại</string>
     <string name="search">Tìm kiếm</string>
     <string name="btn_reset">Reset</string>
+    <string name="profile_worker">Người làm việc</string>
+    <string name="profile_hire">Người đăng việc</string>
+    <string name="profile_verify">Đã xác thực</string>
+    <string name="profile_add_verify">Xác thực thêm</string>
+    <string name="profile_address">Địa chỉ</string>
+    <string name="profile_phone">Điện thoại</string>
 
 </resources>

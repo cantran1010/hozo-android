@@ -1,165 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <include layout="@layout/header" />
 
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:attr/actionBarSize">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:background="@color/white"
             android:orientation="vertical">
 
-            <vn.tonish.hozo.view.CircleImageView
-                android:id="@+id/img_avatar"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:src="@drawable/avatar_default" />
+            <include layout="@layout/sub_profile_avatar" />
 
+            <include layout="@layout/sub_profile_verify" />
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="Nguyen Van A" />
+            <include layout="@layout/sub_profile_revies" />
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_birthday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="08/02/11" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@color/black_alpha" />
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true" />
-
-            </RelativeLayout>
-
-
-            <LinearLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/just_image"
-                    android:src="@mipmap/ic_launcher_round" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/just_image"
-                    android:src="@mipmap/ic_launcher_round" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/just_image"
-                    android:src="@mipmap/ic_launcher_round" />
-
-            </LinearLayout>
-
-            <include layout="@layout/line" />
-
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold" />
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="102 Truong Chinh , Quan Dong Da , Ha Noi" />
-
-            <include layout="@layout/line" />
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold" />
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="0919030190" />
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="@color/black_alpha" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tab_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tab_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/pagers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/btn_logout"
-                style="@style/Base.TextAppearance.AppCompat.Large"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/black_alpha"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="@string/profile_log_out"
-                android:textStyle="bold" />
 
         </LinearLayout>
+
     </ScrollView>
 
-</LinearLayout>
+</FrameLayout>

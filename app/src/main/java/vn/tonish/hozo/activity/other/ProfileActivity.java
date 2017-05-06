@@ -36,8 +36,9 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 
 /**
- * Created by huy_quynh on 4/12/17.
+ * Created by Can Tran on 4/11/17.
  */
+
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener, NetworkUtils.NetworkListener {
     private Context context;
@@ -78,16 +79,16 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         context = ProfileActivity.this;
         setBackButtonHozo();
         setTitleHeader(getString(R.string.profile_tv_header));
-        img_avatar = (ImageView) findViewById(R.id.img_avatar);
-        btnLogOut = (TextViewHozo) findViewById(R.id.btn_logout);
-        tv_name = (TextViewHozo) findViewById(R.id.tv_name);
-        tv_birthday = (TextViewHozo) findViewById(R.id.tv_birthday);
-        tv_address = (TextViewHozo) findViewById(R.id.tv_address);
-        tv_phone = (TextViewHozo) findViewById(R.id.tv_phone);
-        viewPager = (ViewPager) findViewById(R.id.pagers);
-        tab_1 = (TextViewHozo) findViewById(R.id.tab_1);
-        tab_2 = (TextViewHozo) findViewById(R.id.tab_2);
-        tab_2 = (TextViewHozo) findViewById(R.id.tab_2);
+//        img_avatar = (ImageView) findViewById(R.id.img_avatar);
+//        btnLogOut = (TextViewHozo) findViewById(R.id.btn_logout);
+//        tv_name = (TextViewHozo) findViewById(R.id.tv_name);
+//        tv_birthday = (TextViewHozo) findViewById(R.id.tv_birthday);
+//        tv_address = (TextViewHozo) findViewById(R.id.tv_address);
+//        tv_phone = (TextViewHozo) findViewById(R.id.tv_phone);
+//        viewPager = (ViewPager) findViewById(R.id.pagers);
+//        tab_1 = (TextViewHozo) findViewById(R.id.tab_1);
+//        tab_2 = (TextViewHozo) findViewById(R.id.tab_2);
+//        tab_2 = (TextViewHozo) findViewById(R.id.tab_2);
 
         tab1Data = new ArrayList<>();
         tab2Data = new ArrayList<>();
