@@ -22,6 +22,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout layoutPostATask, layoutBrowserTask, layoutMyTask, layoutInBox, layoutOther;
     private ImageView imgPostATask, imgBrowserTask, imgMyTask, imgInbox, imgOther;
     private TextViewHozo tvPostATask, tvBrowserTask, tvMyTask, tvInbox, tvOther;
+    private int tabIndex = 1;
 
     @Override
     protected int getLayout() {
@@ -51,6 +52,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
+        updateMenuUi(1);
         openFragment(R.id.layout_container, SelectTaskFragment.class, false);
 
         layoutPostATask.setOnClickListener(this);
@@ -71,26 +73,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
 
             case R.id.layout_post_a_task:
+                if (tabIndex == 1) break;
+                tabIndex = 1;
                 updateMenuUi(1);
                 openFragment(R.id.layout_container, SelectTaskFragment.class, false);
                 break;
 
             case R.id.layout_browser_task:
+                if (tabIndex == 2) break;
+                tabIndex = 2;
                 updateMenuUi(2);
                 openFragment(R.id.layout_container, BrowseTaskFragment.class, false);
                 break;
 
             case R.id.layout_my_task:
+                if (tabIndex == 3) break;
+                tabIndex = 3;
                 updateMenuUi(3);
                 openFragment(R.id.layout_container, MyTaskFragment.class, false);
                 break;
 
             case R.id.layout_inbox:
+                if (tabIndex == 4) break;
+                tabIndex = 4;
                 updateMenuUi(4);
                 openFragment(R.id.layout_container, InboxFragment.class, false);
                 break;
 
             case R.id.layout_other:
+                if (tabIndex == 5) break;
+                tabIndex = 5;
                 updateMenuUi(5);
                 openFragment(R.id.layout_container, HelpFragment.class, false);
                 break;
@@ -99,12 +111,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void updateMenuUi(int positionMenu) {
-
-//        imgPostATask = (ImageView) findViewById(R.id.img_post_a_task);
-//        imgBrowserTask = (ImageView) findViewById(R.id.img_browser_task);
-//        imgMyTask = (ImageView) findViewById(R.id.img_my_task);
-//        imgInbox = (ImageView) findViewById(R.id.img_inbox);
-//        imgOther = (ImageView) findViewById(R.id.img_other);
+        tabIndex = positionMenu;
+        imgPostATask.setImageResource(R.drawable.menu_post_task);
+        imgBrowserTask.setImageResource(R.drawable.menu_browser_task);
+        imgMyTask.setImageResource(R.drawable.menu_my_task);
+        imgInbox.setImageResource(R.drawable.menu_inbox);
+        imgOther.setImageResource(R.drawable.menu_other);
 
         tvPostATask.setTextColor(ContextCompat.getColor(this, R.color.menu_non_selected));
         tvBrowserTask.setTextColor(ContextCompat.getColor(this, R.color.menu_non_selected));
@@ -115,18 +127,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (positionMenu) {
             case 1:
                 tvPostATask.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+                imgPostATask.setImageResource(R.drawable.menu_post_task_selected);
                 break;
             case 2:
                 tvBrowserTask.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+                imgBrowserTask.setImageResource(R.drawable.menu_browser_task_selected);
                 break;
             case 3:
                 tvMyTask.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+                imgMyTask.setImageResource(R.drawable.menu_my_task_selected);
                 break;
             case 4:
                 tvInbox.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+                imgInbox.setImageResource(R.drawable.menu_inbox_selected);
                 break;
             case 5:
                 tvOther.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+                imgOther.setImageResource(R.drawable.menu_other_selected);
                 break;
         }
 
