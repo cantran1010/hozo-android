@@ -30,7 +30,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     protected void initData() {
-        openFragment(R.id.my_task_container, WorkerFragment.class, false);
+        openFragment(R.id.my_task_container, WorkerFragment.class, false,true);
         layoutWorker.setOnClickListener(this);
         layoutPoster.setOnClickListener(this);
     }
@@ -60,12 +60,12 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.layout_worker:
                 selectedTab(1);
-                openFragment(R.id.my_task_container, WorkerFragment.class, false);
+                openFragment(R.id.my_task_container, WorkerFragment.class, false,false);
                 break;
 
             case R.id.layout_poster:
                 selectedTab(2);
-                openFragment(R.id.my_task_container, PosterFragment.class, false);
+                openFragment(R.id.my_task_container, PosterFragment.class, false,true);
                 break;
 
         }

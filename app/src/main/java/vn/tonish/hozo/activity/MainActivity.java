@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        openFragment(R.id.layout_container, SelectTaskFragment.class, false);
+        openFragment(R.id.layout_container, SelectTaskFragment.class, false,true);
 
         layoutPostATask.setOnClickListener(this);
         layoutBrowserTask.setOnClickListener(this);
@@ -71,27 +71,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_post_a_task:
                 updateMenuUi(1);
-                openFragment(R.id.layout_container, SelectTaskFragment.class, false);
+                openFragment(R.id.layout_container, SelectTaskFragment.class, false,true);
                 break;
 
             case R.id.layout_browser_task:
                 updateMenuUi(2);
-                openFragment(R.id.layout_container, BrowseTaskFragment.class, false);
+                openFragment(R.id.layout_container, BrowseTaskFragment.class, false,true);
                 break;
 
             case R.id.layout_my_task:
                 updateMenuUi(3);
-                openFragment(R.id.layout_container, MyTaskFragment.class, false);
+                openFragment(R.id.layout_container, MyTaskFragment.class, false,true);
                 break;
 
             case R.id.layout_inbox:
                 updateMenuUi(4);
-                openFragment(R.id.layout_container, InboxFragment.class, false);
+                openFragment(R.id.layout_container, InboxFragment.class, false,true);
                 break;
 
             case R.id.layout_other:
                 updateMenuUi(5);
-                openFragment(R.id.layout_container, HelpFragment.class, false);
+                openFragment(R.id.layout_container, HelpFragment.class, false,true);
                 break;
 
         }

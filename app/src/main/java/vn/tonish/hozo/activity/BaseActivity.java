@@ -133,15 +133,15 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         startActivity(intent);
     }
 
-    protected void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack) {
-        openFragment(resId, fragmentClazz, null, addBackStack);
+    protected void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack,boolean isRightToLeft) {
+        openFragment(resId, fragmentClazz, null, addBackStack,isRightToLeft);
     }
 
-    public void openFragmentBundle(int resId, Class<? extends Fragment> fragmentClazz, Bundle bundle, boolean addBackStack) {
-        openFragment(resId, fragmentClazz, bundle, addBackStack);
+    public void openFragmentBundle(int resId, Class<? extends Fragment> fragmentClazz, Bundle bundle, boolean addBackStack,boolean isRightToLeft) {
+        openFragment(resId, fragmentClazz, bundle, addBackStack, isRightToLeft);
     }
 
-    private void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack) {
+    private void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack,boolean isRightToLeft) {
         FragmentManager manager = getSupportFragmentManager();
         String tag = fragmentClazz.getName();
         try {
@@ -152,7 +152,12 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
                     fragment.setArguments(args);
                 }
                 FragmentTransaction transaction = manager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout);
+
+                if(isRightToLeft)
+                     transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left);
+                else
+                    transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
+
                 transaction.replace(resId, fragment, tag);
 
                 if (addBackStack) {
