@@ -105,7 +105,7 @@ public class SelectTaskFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             updateMenuUi(3);
-            openFragment(R.id.layout_container, MyTaskFragment.class, false);
+            openFragment(R.id.layout_container, MyTaskFragment.class, false,true);
         }
     }
 }
