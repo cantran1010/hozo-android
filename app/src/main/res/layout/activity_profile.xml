@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/bg"
     android:layout_height="match_parent">
 
-    <include layout="@layout/header" />
+    <FrameLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
 
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:src="@drawable/ic_back_blue" />
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/my_account"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/tv_size_title" />
+
+        <ImageView
+            android:id="@+id/img_edit"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:padding="16dp"
+            android:src="@drawable/ic_edit_profile" />
+
+    </FrameLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,7 +49,37 @@
 
             <include layout="@layout/sub_profile_verify" />
 
-            <include layout="@layout/sub_profile_revies" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/dropdown"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/dropdown"
+                android:padding="5dp"
+                android:text="@string/show_all" />
+
+            <FrameLayout
+                android:id="@+id/btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <include layout="@layout/line" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_logout"
+                    android:gravity="center"
+                    android:text="@string/profile_log_out"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/tv_size_xlager" />
+            </FrameLayout>
 
 
         </LinearLayout>
