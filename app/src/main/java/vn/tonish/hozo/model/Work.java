@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class Work implements Serializable {
 
     private int id;
+    private int workTypeId;
     private String name;
     private String time;
     private String type;
@@ -30,6 +31,23 @@ public class Work implements Serializable {
     private int genderWorker;
     private int ageFromWorker;
     private int ageToWorker;
+    private String arrImageAttack;
+
+    public String getArrImageAttack() {
+        return arrImageAttack;
+    }
+
+    public void setArrImageAttack(String arrImageAttack) {
+        this.arrImageAttack = arrImageAttack;
+    }
+
+    public int getWorkTypeId() {
+        return workTypeId;
+    }
+
+    public void setWorkTypeId(int workTypeId) {
+        this.workTypeId = workTypeId;
+    }
 
     public int getGenderWorker() {
         return genderWorker;

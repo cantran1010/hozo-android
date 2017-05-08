@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.DatePicker;
-import vn.tonish.hozo.view.EdittextHozo;
 import android.widget.ImageView;
 
 import com.android.volley.Response;
@@ -35,6 +34,7 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.CircleImageView;
+import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
@@ -163,7 +163,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 dataRequest.put("full_name", edtName.getText().toString());
                 dataRequest.put("address", edtAddress.getText().toString());
                 dataRequest.put("date_of_birth", tvBirthday.getText().toString());
-                dataRequest.put("avatar_id", DataParse.getAvatarTempId(s));
+                dataRequest.put("avatar_id", String.valueOf(DataParse.getAvatarTempId(s)));
                 NetworkUtils.postVolleyFormData(true, true, true, EditProfileActivity.this, NetworkConfig.API_UPDATE_USER, dataRequest, new NetworkUtils.NetworkListener() {
                     @Override
                     public void onSuccess(JSONObject jsonResponse) {
@@ -174,8 +174,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                             user.setAvatar(jsonResponse.getJSONObject("data").getJSONObject("user").getString("avatar"));
 
                             Intent intent = new Intent();
-                            intent.putExtra(Constants.DATA,user);
-                            setResult(Constants.RESULT_CODE_UPDATE_PROFILE,intent);
+                            intent.putExtra(Constants.DATA, user);
+                            setResult(Constants.RESULT_CODE_UPDATE_PROFILE, intent);
                             finish();
                         } catch (Exception e) {
                             e.printStackTrace();

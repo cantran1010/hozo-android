@@ -4,12 +4,14 @@ import android.app.Application;
 import android.content.Context;
 
 import io.realm.Realm;
+import vn.tonish.hozo.utils.TypefaceContainer;
 
 public class HozoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
         Realm.init(getApplicationContext());
+        TypefaceContainer.init(getApplicationContext());
 
 //        Fabric.with(this, new Crashlytics());
 

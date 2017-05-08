@@ -8,7 +8,6 @@
     <string name="continue_up_case">TIẾP TỤC</string>
 
 
-
     <!--notification Screen-->
     <string name="notification_notify">Thông báo chưa đọc</string>
 
@@ -61,6 +60,15 @@
     <string name="profile_log_out">Thoát tài khoản</string>
     <string name="tv_task_title">Tiêu đề công việc</string>
     <string name="task_title_hint">Lau dọn nhà bếp</string>
+
+    <string name="post_a_task_name_error">Tiêu đề công việc trên 10 kí tự</string>
+    <string name="post_a_task_date_error">Vui lòng nhập thời gian bắt đầu làm việc</string>
+    <string name="post_a_task_day_error">Vui lòng nhập số ngày làm việc</string>
+    <string name="post_a_task_start_time_error">Vui lòng nhập thời gian bắt đầu</string>
+    <string name="post_a_task_end_time_error">Vui lòng nhập thời gian kết thúc</string>
+    <string name="post_a_task_description_error">Mô tả công việc phải trên 25 kí tự</string>
+    <string name="post_a_task_age_from_error">Vui lòng nhập tuổi bắt đầu</string>
+    <string name="post_a_task_age_to_error">Vui lòng nhập tuổi kết thúc</string>
 
     <string name="notify_title">Thông báo</string>
 
@@ -132,7 +140,7 @@
     <string name="task_description_hint">Mô tả công việc</string>
     <string name="attach_image_hint">Đăng hình ảnh</string>
     <string name="more_detail">Tùy chọn thêm</string>
-    <string name="date_pick_hint">Chọn ngày tháng</string>
+    <string name="date_pick_hint">Chọn thời gian bắt đầu làm việc</string>
     <string name="btn_next">TIẾP TỤC</string>
     <string name="age_from_hint">Từ 20 tuổi</string>
     <string name="age_to_hint">Đến 60 tuổi</string>
@@ -199,5 +207,22 @@
     <string name="profile_add_verify">Xác thực thêm</string>
     <string name="profile_address">Địa chỉ</string>
     <string name="profile_phone">Điện thoại</string>
+    <string name="content_description_send">Gửi</string>
+    <string name="content_description_verify">Đã xác thực</string>
+    <string name="post_a_task_budget_error">Vui lòng nhập số tiền cho một người</string>
+    <string name="post_a_task_number_worker_error">Vui lòng nhập số người cần thuê</string>
+    <string name="post_a_task_address_error">Vui lòng nhập địa chỉ trên 20 kí tự</string>
+    <string name="post_a_task_max_attach_err">Bạn chỉ được chọn tối đa 6 ảnh</string>
+    <string name="select_age_title">Chọn Tuổi</string>
+    <string name="select_age_to">Đến</string>
+    <string name="ok">OK</string>
+    <string name="select_age_error">Vui lòng nhập tuổi lớn hơn</string>
+    <string name="alert_dialog_title">Hủy thao tác</string>
+    <string name="alert_dialog_content">Bạn có chắc chắn muốn dừng thao tác này</string>
+    <string name="alert_dialog_yes">CÓ</string>
+    <string name="alert_dialog_no">KHÔNG</string>
+    <string name="post_a_task_working_hour_hint">Số giờ làm việc</string>
+    <string name="post_a_task_time_working_error">Vui lòng nhập số giờ làm việc</string>
+    <string name="post_a_task_age_error">Vui lòng chọn tuổi</string>
 
 </resources>

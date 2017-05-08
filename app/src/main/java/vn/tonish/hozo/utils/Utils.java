@@ -11,7 +11,6 @@ import android.os.Build;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import vn.tonish.hozo.view.EdittextHozo;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,6 +27,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.network.NetworkConfig;
+import vn.tonish.hozo.view.EdittextHozo;
 
 /**
  * Created by LongBui.
@@ -122,6 +123,11 @@ public class Utils {
         return myFormatter.format(input);
     }
 
+    public static String formatNumber(Long input) {
+        DecimalFormat myFormatter = new DecimalFormat("###,###.###");
+        return myFormatter.format(input);
+    }
+
     public static boolean isNullOrEmpty(Object obj) {
         String inputString = String.valueOf(obj);
         return obj == null || (inputString.isEmpty() || inputString.equals("null"));
@@ -177,6 +183,10 @@ public class Utils {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static String getFullPathImage(String path) {
+        return NetworkConfig.DOMAIN_IMAGE + path;
     }
 
 }

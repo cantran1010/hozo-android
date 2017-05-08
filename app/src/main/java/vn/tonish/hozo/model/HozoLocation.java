@@ -7,9 +7,11 @@ import java.io.Serializable;
  */
 
 public class HozoLocation implements Serializable{
-    private String address;
     private double lat;
     private double lon;
+    private String address;
+    private String district;
+    private String city;
 
     public String getAddress() {
         return address;
@@ -33,5 +35,21 @@ public class HozoLocation implements Serializable{
 
     public void setLon(double lon) {
         this.lon = lon;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

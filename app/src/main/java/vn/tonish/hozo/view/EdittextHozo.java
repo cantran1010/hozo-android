@@ -1,10 +1,11 @@
 package vn.tonish.hozo.view;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 
-import vn.tonish.hozo.utils.TypefaceUtil;
+import vn.tonish.hozo.utils.TypefaceContainer;
 
 /**
  * Created by LongBui on 5/4/2017.
@@ -27,6 +28,28 @@ public class EdittextHozo extends AppCompatEditText {
     }
 
     private void init() {
-        setTypeface(TypefaceUtil.getFontNormal(getContext()));
+        if (!isInEditMode()) {
+            Typeface tf;
+            try {
+                int style = getTypeface().getStyle();
+                switch (style) {
+                    case 0:
+                        tf = TypefaceContainer.TYPEFACE_REGULAR;
+                        break;
+                    case 1:
+                        tf = TypefaceContainer.TYPEFACE_BOLD;
+                        break;
+                    case 2:
+                        tf = TypefaceContainer.TYPEFACE_LIGHT;
+                        break;
+                    default:
+                        tf = TypefaceContainer.TYPEFACE_REGULAR;
+                        break;
+                }
+            } catch (Exception e) {
+                tf = TypefaceContainer.TYPEFACE_REGULAR;
+            }
+            setTypeface(tf);
+        }
     }
 }

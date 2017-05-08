@@ -63,5 +63,5 @@ public abstract class BaseAdapter<T, H extends BaseHolder, L extends BaseHolder>
     public int getItemViewType(int position) {
         return position >= list.size() ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
-    
+
 }

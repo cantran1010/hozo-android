@@ -23,7 +23,7 @@ abstract class BaseDialog extends Dialog {
         super.onCreate(savedInstanceState);
 
         this.setCancelable(true);
-        this.setCanceledOnTouchOutside(false);
+        this.setCanceledOnTouchOutside(true);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
