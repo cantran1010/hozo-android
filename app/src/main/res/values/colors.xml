@@ -28,5 +28,6 @@
     <color name="text_advance_item">#212121</color>
     <color name="line_gray">#D8D8D8</color>
     <color name="border_gray">#CFCFCF</color>
+    <color name="hozo_red">#FF3100</color>
 
 </resources>
