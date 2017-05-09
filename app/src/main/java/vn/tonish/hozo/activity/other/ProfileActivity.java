@@ -1,7 +1,6 @@
 package vn.tonish.hozo.activity.other;
 
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -23,7 +22,6 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.fragment.PosterReviewFragment;
 import vn.tonish.hozo.fragment.SelectTaskFragment;
 import vn.tonish.hozo.fragment.workerReviewFragment;
-import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.LogUtils;
 
