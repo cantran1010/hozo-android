@@ -1,15 +1,10 @@
-package vn.tonish.hozo.activity;
+package vn.tonish.hozo.fragment;
 
-import android.content.Context;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -24,54 +19,34 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.view.EdittextHozo;
-import vn.tonish.hozo.view.NameView;
-import vn.tonish.hozo.view.OtpView;
 
-import static vn.tonish.hozo.common.Constants.OTP_VIEW;
 import static vn.tonish.hozo.common.Constants.USER_MOBILE;
-import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 /**
- * Created by Can Tran on 4/11/17.
+ * Created by tonish1 on 5/9/17.
  */
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
-
+public class LoginFragment extends BaseFragment implements View.OnClickListener{
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private Context context;
     private EditText edtPhone;
     private TextView tvContinue;
-    private FrameLayout viewLevel1, viewLevel2, viewLevel3;
-    private boolean registed = false;
-    private String phone = "";
-    private int viewLevel = 0;
-    private final int duration = 200;
-    private Animation mLoadAnimation;
-    private Animation rtAnimation;
-    private Animation lanimation;
 
     @Override
     protected int getLayout() {
-        return R.layout.activity_login;
+        return R.layout.login_fragment;
     }
 
     @Override
     protected void initView() {
-        context = LoginActivity.this;
-        mLoadAnimation = AnimationUtils.loadAnimation(this, R.anim.animation_edittext);
-        rtAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
-        lanimation = AnimationUtils.loadAnimation(this, R.anim.slide_out_left);
         edtPhone = (EditText) findViewById(R.id.edt_phone);
         tvContinue = (TextView) findViewById(R.id.tv_continue);
-        viewLevel2 = (FrameLayout) findViewById(R.id.view_Level2);
-        viewLevel3 = (FrameLayout) findViewById(R.id.view_Level3);
-        viewLevel1 = (FrameLayout) findViewById(R.id.view_level1);
         tvContinue.setOnClickListener(this);
-        hideKeyBoard(this);
     }
 
     @Override
@@ -86,19 +61,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String error;
                 if (!checkNumberPhone(edtPhone.getText().toString().trim())) {
-                    tvContinue.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
-                    tvContinue.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
+                    tvContinue.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
+                    tvContinue.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
                     tvContinue.setEnabled(false);
                     if (CheckErrorEditText(edtPhone.getText().toString().trim())) {
                         error = getResources().getString(R.string.login_erro_phone);
-                        edtPhone.startAnimation(mLoadAnimation);
                         edtPhone.setError(error);
                     }
                 } else {
-                    tvContinue.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
-                    tvContinue.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                    tvContinue.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
+                    tvContinue.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
                     tvContinue.setEnabled(true);
-                    hideSoftKeyboard(context, (EdittextHozo) edtPhone);
+                    hideSoftKeyboard(getActivity(), (EdittextHozo) edtPhone);
                 }
 
             }
@@ -109,27 +83,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         });
 
+
     }
 
     @Override
     protected void resumeData() {
         if (checkNumberPhone(edtPhone.getText().toString().trim())) {
             tvContinue.setEnabled(true);
-            tvContinue.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+            tvContinue.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
         } else {
             tvContinue.setEnabled(false);
-            tvContinue.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
+            tvContinue.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
         }
     }
-
-    private OtpView getOtpView() {
-        return new OtpView(context, registed, phone);
-    }
-
-    private NameView getNameView() {
-        return new NameView(context);
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -140,77 +106,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
 
     }
-
-    public void showExtendView(String TAG_VIEW) {
-        hideKeyBoard(this);
-        View view;
-        if (TAG_VIEW.equalsIgnoreCase(OTP_VIEW)) {
-            view = getOtpView();
-        } else {
-            view = getNameView();
-        }
-        try {
-            viewLevel++;
-            if (viewLevel == 1) {
-                showViewFromRight(viewLevel1, duration, false);
-                viewLevel2.removeAllViews();
-                viewLevel2.addView(view);
-                showViewFromRight(viewLevel2, duration, true);
-            } else if (viewLevel == 2) {
-                showViewFromRight(viewLevel2, duration, false);
-                viewLevel3.removeAllViews();
-                viewLevel3.addView(view);
-                showViewFromRight(viewLevel3, duration, true);
-            }
-
-        } catch (Exception ignored) {
-
-        }
-    }
-
-
-    public void closeExtendView() {
-        hideKeyBoard(this);
-        if (viewLevel == 0) {
-            return;
-        }
-        if (viewLevel == 1) {
-            showViewFromRight(viewLevel2, duration, false);
-            showViewFromRight(viewLevel1, duration, true);
-            tvContinue.setEnabled(true);
-        } else if (viewLevel == 2) {
-            showViewFromRight(viewLevel3, duration, false);
-            showViewFromRight(viewLevel2, duration, true);
-        }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (viewLevel == 1) {
-                    viewLevel2.removeAllViews();
-                } else if (viewLevel == 2) {
-                    viewLevel3.removeAllViews();
-                }
-                viewLevel--;
-            }
-        }, duration);
-    }
-
-    private void showViewFromRight(final View view, int duration, boolean isShow) {
-        if (isShow) {
-            view.setVisibility(View.VISIBLE);
-            view.startAnimation(rtAnimation);
-        } else {
-            view.startAnimation(lanimation);
-            new Handler().postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    view.setVisibility(View.GONE);
-                }
-            }, duration);
-        }
-    }
-
     private boolean checkNumberPhone(String number) {
         Pattern pattern = Pattern.compile("^[0-9]*$");
         Matcher matcher = pattern.matcher(number);
@@ -245,6 +140,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void login() {
+
+        ProgressDialogUtils.showProgressDialog(getActivity());
         JSONObject jsonRequest = new JSONObject();
         String mobile = edtPhone.getText().toString().trim();
         LogUtils.d(TAG, "mobile" + mobile);
@@ -269,13 +166,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 LogUtils.d(TAG, "onResponse body : " + response.body());
 
                 if (response.code() == 204) {
-                    showExtendView(OTP_VIEW);
+                    openFragment(R.id.layout_container, OtpFragment.class, false,true);
                 }
+
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
 

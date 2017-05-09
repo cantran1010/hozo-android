@@ -40,7 +40,7 @@ public class SplashActivity extends BaseActivity {
                 if (UserManager.checkLogin(SplashActivity.this)) {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 } else {
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
               }
            }
         }, SPLASH_TIME);
