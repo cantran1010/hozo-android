@@ -224,5 +224,10 @@
     <string name="post_a_task_working_hour_hint">Số giờ làm việc</string>
     <string name="post_a_task_time_working_error">Vui lòng nhập số giờ làm việc</string>
     <string name="post_a_task_age_error">Vui lòng chọn tuổi</string>
+    <string name="accout_is_not_exist">Tài khoản không tồn tại</string>
+    <string name="show_all">Xem thêm</string>
+    <string name="my_account">Tài khoản của tôi</string>
+    <string name="profile_verifyed">Verified</string>
+    <string name="profile_rate">Đánh giá</string>
 
 </resources>

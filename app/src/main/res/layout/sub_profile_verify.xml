@@ -4,38 +4,43 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/bg" />
+        android:layout_height="0.5dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/text_line" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="16dp"
         android:orientation="horizontal">
 
-        <TextView
-            style="@style/tv_title"
+        <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="@string/profile_verify"
-            android:textColor="@color/blue" />
+            android:textColor="@color/blue"
+            android:textSize="@dimen/tv_size_nomal" />
 
-        <TextView
-            style="@style/btn_style_nomal"
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_add_verify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:background="@color/blue"
             android:padding="5dp"
-            android:text="@string/profile_add_verify" />
+            android:text="@string/profile_add_verify"
+            android:textColor="@color/white"
+            android:textSize="@dimen/tv_size_tiny" />
+
     </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp">
+        android:layout_marginLeft="16dp">
 
         <ImageView
             android:layout_width="40dp"
@@ -71,40 +76,43 @@
     <include layout="@layout/line" />
 
     <TextView
-        style="@style/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="16dp"
         android:padding="5dp"
-        android:text="@string/profile_address" />
+        android:text="@string/profile_address"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/tv_size_nomal" />
 
     <TextView
         android:id="@+id/tv_address"
-        style="@style/tv_style_normal_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:padding="5dp" />
+        android:layout_marginLeft="16dp"
+        android:padding="5dp"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/tv_size_nomal" />
 
     <include layout="@layout/line" />
 
-    <TextView
-        style="@style/tv_title"
+    <vn.tonish.hozo.view.TextViewHozo
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="16dp"
         android:padding="5dp"
-        android:text="@string/profile_phone" />
+        android:text="@string/profile_phone"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/tv_size_nomal" />
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tv_phone"
         style="@style/tv_style_normal_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="16dp"
         android:padding="5dp" />
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:background="@color/bg" />
