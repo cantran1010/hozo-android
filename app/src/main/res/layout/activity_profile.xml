@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/bg"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg">
 
     <FrameLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="56dp">
+        android:layout_height="56dp"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/img_back"
@@ -49,7 +49,42 @@
 
             <include layout="@layout/sub_profile_verify" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/btn_worker"
+                    android:layout_width="0dp"
+                    android:layout_height="21dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_profile_left_selector"
+                    android:gravity="center"
+                    android:text="@string/profile_hire"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/tv_size_xtiny" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/btn_poster"
+                    android:layout_width="0dp"
+                    android:layout_height="21dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="24dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_profile_right_selector"
+                    android:gravity="center"
+                    android:text="@string/profile_worker"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/tv_size_xtiny" />
+
+            </LinearLayout>
+
             <FrameLayout
+                android:id="@+id/layout_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

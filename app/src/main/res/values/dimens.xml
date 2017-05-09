@@ -15,6 +15,7 @@
     <dimen name="logo_height">94dp</dimen>
     <dimen name="login_layout_width">300dp</dimen>
     <dimen name="tv_size_tiny">11sp</dimen>
+    <dimen name="tv_size_xtiny">12sp</dimen>
     <dimen name="tv_size_title">20sp</dimen>
     <dimen name="tv_size_medium">15sp</dimen>
     <dimen name="title_margin_left">16dp</dimen>

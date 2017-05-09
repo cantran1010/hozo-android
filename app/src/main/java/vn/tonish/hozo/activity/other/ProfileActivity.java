@@ -19,6 +19,8 @@ import vn.tonish.hozo.activity.EditProfileActivity;
 import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.fragment.SelectTaskFragment;
+import vn.tonish.hozo.fragment.workerReviewFragment;
 import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -36,6 +38,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private ImageView imgback, imgEdit;
     private TextView btnAddVerify;
     private FrameLayout btnLogOut;
+    private FrameLayout layoutContainer;
 
     @Override
     public void onClick(View v) {
@@ -93,6 +96,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         imgEdit = (ImageView) findViewById(R.id.img_edit);
         btnAddVerify = (TextView) findViewById(R.id.tv_add_verify);
         btnLogOut = (FrameLayout) findViewById(R.id.btn_logout);
+        layoutContainer = (FrameLayout) findViewById(R.id.layout_container);
     }
 
     @Override
@@ -101,6 +105,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         imgEdit.setOnClickListener(this);
         btnAddVerify.setOnClickListener(this);
         btnLogOut.setOnClickListener(this);
+        openFragment(R.id.layout_container, workerReviewFragment.class, false,true);
 
     }
 
