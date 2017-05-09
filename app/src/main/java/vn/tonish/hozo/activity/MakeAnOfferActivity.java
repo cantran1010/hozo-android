@@ -100,7 +100,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         work = new Work();
         work.setName("Sua Ti vi");
         work.setTimeAgo("20 phut truoc");
-        work.setWorkType("Lắp đặt");
+        work.setWorkTypeName("Lắp đặt");
         work.setDescription("Tôi cần một người sửa ti si samsung OTX 24000,nhanh nhẹn,có năng lực,trung thực,nam giới ...");
         work.setPrice("350.000 Đồng");
         work.setDate("25/04/2017");

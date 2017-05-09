@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="vn.tonish.hozo.activity.SplashActivity"
+            android:name="vn.tonish.hozo.activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
@@ -44,11 +44,11 @@
 
         </activity>
 
-        <activity
-            android:name="vn.tonish.hozo.activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
+        <!--<activity-->
+            <!--android:name="vn.tonish.hozo.activity.MainActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/AppTheme.NoActionBar"-->
+            <!--android:windowSoftInputMode="stateHidden" />-->
 
         <activity
             android:name="vn.tonish.hozo.activity.LoginActivity"

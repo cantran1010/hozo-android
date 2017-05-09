@@ -10,26 +10,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-
-import io.realm.Realm;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.activity.MainActivity;
-import vn.tonish.hozo.database.entity.UserEntity;
-import vn.tonish.hozo.database.manager.RealmDbHelper;
-import vn.tonish.hozo.database.manager.UserManager;
-import vn.tonish.hozo.network.NetworkConfig;
-import vn.tonish.hozo.network.NetworkUtils;
-import vn.tonish.hozo.utils.LogUtils;
-
-import static vn.tonish.hozo.common.Constants.NAME_VIEW;
-import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 
 /**
  * Created by CanTran on 18/04/2017.
@@ -97,48 +81,48 @@ public class NameView extends FrameLayout implements View.OnClickListener {
     }
 
     private void saveUser() {
-        String name = edtName.getText().toString();
-        HashMap<String, String> dataRequest = new HashMap<>();
-        dataRequest.put("full_name", name);
-        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_NAME, dataRequest, new NetworkUtils.NetworkListener() {
-            @Override
-            public void onSuccess(JSONObject jsonResponse) {
-                LogUtils.d(TAG, "dataRequest" + jsonResponse.toString());
-                try {
-                    if (jsonResponse.getInt("code") == 0) {
-                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
-                        JSONObject mObject = new JSONObject(getStringInJsonObj(object, "user"));
-                        UserEntity userEntity = UserManager.getUserLogin(getContext());
-                        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
-                        realm.beginTransaction();
-                        userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
-                        realm.commitTransaction();
-                        LogUtils.d(TAG, "token name " + UserManager.getUserToken(context));
-                        if (getStringInJsonObj(mObject, "full_name").trim().equalsIgnoreCase("")) {
-                            LogUtils.d(TAG, "name_check" + getStringInJsonObj(mObject, "full_name").trim());
-                            ((LoginActivity) context).showExtendView(NAME_VIEW);
-                        } else {
-                            ((LoginActivity) context).startActivityAndClearAllTask(MainActivity.class);
-                        }
-                    } else if (jsonResponse.getInt("code") == 1) {
-                        Toast.makeText(context, "FullName is empty", Toast.LENGTH_SHORT).show();
-
-                    } else if (jsonResponse.getInt("code") == 2) {
-                        Toast.makeText(context, "Account is not exist", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, " Not update full name", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-
-            @Override
-            public void onError() {
-
-            }
-        });
+//        String name = edtName.getText().toString();
+//        HashMap<String, String> dataRequest = new HashMap<>();
+//        dataRequest.put("full_name", name);
+//        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_NAME, dataRequest, new NetworkUtils.NetworkListener() {
+//            @Override
+//            public void onSuccess(JSONObject jsonResponse) {
+//                LogUtils.d(TAG, "dataRequest" + jsonResponse.toString());
+//                try {
+//                    if (jsonResponse.getInt("code") == 0) {
+//                        JSONObject object = new JSONObject(getStringInJsonObj(jsonResponse, "data"));
+//                        JSONObject mObject = new JSONObject(getStringInJsonObj(object, "user"));
+//                        UserEntity userEntity = UserManager.getUserLogin(getContext());
+//                        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
+//                        realm.beginTransaction();
+//                        userEntity.setFullName(getStringInJsonObj(mObject, "full_name"));
+//                        realm.commitTransaction();
+//                        LogUtils.d(TAG, "token name " + UserManager.getUserToken(context));
+//                        if (getStringInJsonObj(mObject, "full_name").trim().equalsIgnoreCase("")) {
+//                            LogUtils.d(TAG, "name_check" + getStringInJsonObj(mObject, "full_name").trim());
+//                            ((LoginActivity) context).showExtendView(NAME_VIEW);
+//                        } else {
+//                            ((LoginActivity) context).startActivityAndClearAllTask(MainActivity.class);
+//                        }
+//                    } else if (jsonResponse.getInt("code") == 1) {
+//                        Toast.makeText(context, "FullName is empty", Toast.LENGTH_SHORT).show();
+//
+//                    } else if (jsonResponse.getInt("code") == 2) {
+//                        Toast.makeText(context, "Account is not exist", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(context, " Not update full name", Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//
+//            @Override
+//            public void onError() {
+//
+//            }
+//        });
     }
 
 }

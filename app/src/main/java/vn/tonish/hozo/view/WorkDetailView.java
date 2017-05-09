@@ -8,11 +8,9 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import vn.tonish.hozo.view.ButtonHozo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
-import vn.tonish.hozo.view.TextViewHozo;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Work;
@@ -88,7 +86,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
         tvTime.setText(work.getName());
         tvTimeAgo.setText(work.getTimeAgo());
-        tvWorkType.setText(work.getWorkType());
+        tvWorkType.setText(work.getWorkTypeName());
         tvDescription.setText(work.getDescription());
 
         tvPrice.setText(work.getPrice());
