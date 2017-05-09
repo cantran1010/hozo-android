@@ -5,23 +5,22 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.dialog.ReportDialog;
-import vn.tonish.hozo.model.Comment;
+import vn.tonish.hozo.model.FeedBack;
 import vn.tonish.hozo.utils.Utils;
 
 /**
  * Created by tonish1 on 5/9/17.
  */
 
-public class ReviewsView extends LinearLayout implements View.OnClickListener {
+public class ReviewsView extends LinearLayout {
 
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName, tvComment, tvTimeAgo;
+    private TextViewHozo tvName, tvReviews, tvTimeAgo;
+    private RatingBar ratingBar;
 
     public ReviewsView(Context context) {
         super(context);
@@ -48,32 +47,21 @@ public class ReviewsView extends LinearLayout implements View.OnClickListener {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.reviews_view, this, true);
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
-
-
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
-        tvComment = (TextViewHozo) findViewById(R.id.tv_comment);
+        tvName = (TextViewHozo) findViewById(R.id.tv_name);
+        tvReviews = (TextViewHozo) findViewById(R.id.tv_reviews);
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
-        ImageView imgSetting = (ImageView) findViewById(R.id.img_setting);
-
-        imgSetting.setOnClickListener(this);
+        ratingBar = (RatingBar) findViewById(R.id.rating);
     }
 
-    public void updateData(Comment comment) {
+    public void updateData(FeedBack feedBack) {
 
-        Utils.displayImageAvatar(getContext(), imgAvatar, comment.getAvatar());
-        tvName.setText(comment.getFullName());
-        tvComment.setText(comment.getBody());
-        tvTimeAgo.setText(comment.getCreatedAt());
+        Utils.displayImageAvatar(getContext(), imgAvatar, feedBack.getAvatar());
+        tvName.setText(feedBack.getName());
+        ratingBar.setRating((float) feedBack.getRate());
+        tvReviews.setText(feedBack.getContent());
+        tvTimeAgo.setText(feedBack.getTime());
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.img_setting:
-                ReportDialog reportDialog = new ReportDialog(getContext());
-                reportDialog.showView();
-                break;
-        }
-    }
 }
 

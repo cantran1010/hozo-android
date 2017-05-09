@@ -3,37 +3,34 @@ package vn.tonish.hozo.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
+import io.realm.RealmObject;
+
 /**
  * Created by huyquynh on 4/20/17.
  */
 
-public class FeedBack implements Parcelable {
+public class FeedBack extends RealmObject implements Serializable {
 
-    int id;
-    String content;
-    String name;
-    String time;
-    double rate;
+    private int id;
+    private String avatar;
+    private String content;
+    private String name;
+    private String time;
+    private double rate;
 
-    protected FeedBack(Parcel in) {
-        id = in.readInt();
-        content = in.readString();
-        name = in.readString();
-        time = in.readString();
-        rate = in.readDouble();
+    public FeedBack() {
     }
 
-    public static final Creator<FeedBack> CREATOR = new Creator<FeedBack>() {
-        @Override
-        public FeedBack createFromParcel(Parcel in) {
-            return new FeedBack(in);
-        }
-
-        @Override
-        public FeedBack[] newArray(int size) {
-            return new FeedBack[size];
-        }
-    };
+    public FeedBack(int id, String avatar, String content, String name, String time, double rate) {
+        this.id = id;
+        this.avatar = avatar;
+        this.content = content;
+        this.name = name;
+        this.time = time;
+        this.rate = rate;
+    }
 
     public int getId() {
         return id;
@@ -41,6 +38,14 @@ public class FeedBack implements Parcelable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getContent() {
@@ -73,19 +78,5 @@ public class FeedBack implements Parcelable {
 
     public void setRate(double rate) {
         this.rate = rate;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeString(content);
-        parcel.writeString(name);
-        parcel.writeString(time);
-        parcel.writeDouble(rate);
     }
 }
