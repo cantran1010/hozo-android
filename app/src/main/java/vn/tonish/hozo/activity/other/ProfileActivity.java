@@ -1,6 +1,7 @@
 package vn.tonish.hozo.activity.other;
 
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -19,6 +20,7 @@ import vn.tonish.hozo.activity.EditProfileActivity;
 import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.fragment.PosterReviewFragment;
 import vn.tonish.hozo.fragment.SelectTaskFragment;
 import vn.tonish.hozo.fragment.workerReviewFragment;
 import vn.tonish.hozo.network.NetworkConfig;
@@ -27,6 +29,7 @@ import vn.tonish.hozo.utils.LogUtils;
 
 import static vn.tonish.hozo.common.Constants.CODE;
 import static vn.tonish.hozo.database.manager.UserManager.context;
+import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
 
 /**
@@ -38,7 +41,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private ImageView imgback, imgEdit;
     private TextView btnAddVerify;
     private FrameLayout btnLogOut;
-    private FrameLayout layoutContainer;
+    private TextView btnWorker, btnPoster;
 
     @Override
     public void onClick(View v) {
@@ -51,6 +54,20 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.btn_logout:
                 logOut();
+                break;
+            case R.id.btn_poster:
+                btnPoster.setTextColor(ContextCompat.getColor(this, R.color.white));
+                setViewBackground(btnPoster, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_left_reviews_selected));
+                btnWorker.setTextColor(ContextCompat.getColor(this, R.color.black));
+                setViewBackground(btnWorker, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_no_active_press));
+                openFragment(R.id.layout_container, workerReviewFragment.class, false, true);
+                break;
+            case R.id.btn_worker:
+                btnWorker.setTextColor(ContextCompat.getColor(this, R.color.white));
+                setViewBackground(btnWorker, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_no_active_selected));
+                btnPoster.setTextColor(ContextCompat.getColor(this, R.color.black));
+                setViewBackground(btnPoster, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_left_reviews_press));
+                openFragment(R.id.layout_container, PosterReviewFragment.class, false, false);
                 break;
         }
 
@@ -96,7 +113,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         imgEdit = (ImageView) findViewById(R.id.img_edit);
         btnAddVerify = (TextView) findViewById(R.id.tv_add_verify);
         btnLogOut = (FrameLayout) findViewById(R.id.btn_logout);
-        layoutContainer = (FrameLayout) findViewById(R.id.layout_container);
+        btnWorker = (TextView) findViewById(R.id.btn_worker);
+        btnPoster = (TextView) findViewById(R.id.btn_poster);
     }
 
     @Override
@@ -105,7 +123,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         imgEdit.setOnClickListener(this);
         btnAddVerify.setOnClickListener(this);
         btnLogOut.setOnClickListener(this);
-        openFragment(R.id.layout_container, workerReviewFragment.class, false,true);
+        btnPoster.setOnClickListener(this);
+        btnWorker.setOnClickListener(this);
+        openFragment(R.id.layout_container, workerReviewFragment.class, false, true);
 
     }
 

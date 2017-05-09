@@ -20,10 +20,10 @@
         android:text="@string/profile_rate"
         android:textColor="@color/blue" />
 
-    <android.support.v7.widget.RecyclerView
+    <vn.tonish.hozo.view.ReviewsListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"></android.support.v7.widget.RecyclerView>
+        android:layout_marginTop="16dp"/>
 
 
 </LinearLayout>
