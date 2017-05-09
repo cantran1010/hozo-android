@@ -37,7 +37,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-
         imgback = (ImageView) findViewById(R.id.img_back);
         imgEdit = (ImageView) findViewById(R.id.img_edit);
         btnAddVerify = (TextView) findViewById(R.id.tv_add_verify);
@@ -90,7 +89,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 openFragment(R.id.layout_container, PosterReviewFragment.class, false, false);
                 break;
         }
-
     }
 
     private void logOut() {
@@ -98,5 +96,3 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         LogUtils.d("", "user logout " + userEntity.toString());
 
     }
-
-}
