@@ -9,28 +9,14 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONObject;
-
 import java.io.File;
 import java.util.Calendar;
-import java.util.HashMap;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.User;
-import vn.tonish.hozo.network.DataParse;
-import vn.tonish.hozo.network.MultipartRequest;
-import vn.tonish.hozo.network.NetworkConfig;
-import vn.tonish.hozo.network.NetworkUtils;
-import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
-import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.CircleImageView;
@@ -125,72 +111,72 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void doSave() {
-        MultipartRequest multipartRequest = new MultipartRequest(this, NetworkConfig.API_UPDATE_AVATA, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                LogUtils.e(TAG, "volley onErrorResponse : " + error.toString());
-
-                if (error.getMessage().equals(Constants.ERROR_AUTHENTICATION)) {
-                    // HTTP Status Code: 401 Unauthorized
-                    // Refresh token
-                    NetworkUtils.RefreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish(JSONObject jsonResponse) {
-                            UserManager.insertUserLogin(new DataParse().getUserEntiny(EditProfileActivity.this, jsonResponse), EditProfileActivity.this);
-                            doSave();
-                        }
-                    });
-                } else {
-                    DialogUtils.showRetryDialog(EditProfileActivity.this, EditProfileActivity.this.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
-                        @Override
-                        public void onOkClick() {
-                            doSave();
-                        }
-
-                        @Override
-                        public void onCancelClick() {
-
-                        }
-                    });
-                }
-            }
-        }, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                LogUtils.d(TAG, "volley onResponse : " + s);
-
-                HashMap<String, String> dataRequest = new HashMap<>();
-                dataRequest.put("full_name", edtName.getText().toString());
-                dataRequest.put("address", edtAddress.getText().toString());
-                dataRequest.put("date_of_birth", tvBirthday.getText().toString());
-                dataRequest.put("avatar_id", String.valueOf(DataParse.getAvatarTempId(s)));
-                NetworkUtils.postVolleyFormData(true, true, true, EditProfileActivity.this, NetworkConfig.API_UPDATE_USER, dataRequest, new NetworkUtils.NetworkListener() {
-                    @Override
-                    public void onSuccess(JSONObject jsonResponse) {
-                        try {
-                            user.setFull_name(edtName.getText().toString());
-                            user.setAddress(edtAddress.getText().toString());
-                            user.setDate_of_birth(tvBirthday.getText().toString());
-                            user.setAvatar(jsonResponse.getJSONObject("data").getJSONObject("user").getString("avatar"));
-
-                            Intent intent = new Intent();
-                            intent.putExtra(Constants.DATA, user);
-                            setResult(Constants.RESULT_CODE_UPDATE_PROFILE, intent);
-                            finish();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-                });
-
-            }
-        }, file);
-        Volley.newRequestQueue(this).add(multipartRequest);
+//        MultipartRequest multipartRequest = new MultipartRequest(this, NetworkConfig.API_UPDATE_AVATA, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                LogUtils.e(TAG, "volley onErrorResponse : " + error.toString());
+//
+//                if (error.getMessage().equals(Constants.ERROR_AUTHENTICATION)) {
+//                    // HTTP Status Code: 401 Unauthorized
+//                    // Refresh token
+//                    NetworkUtils.RefreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
+//                        @Override
+//                        public void onRefreshFinish(JSONObject jsonResponse) {
+//                            UserManager.insertUserLogin(new DataParse().getUserEntiny(EditProfileActivity.this, jsonResponse), EditProfileActivity.this);
+//                            doSave();
+//                        }
+//                    });
+//                } else {
+//                    DialogUtils.showRetryDialog(EditProfileActivity.this, EditProfileActivity.this.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
+//                        @Override
+//                        public void onOkClick() {
+//                            doSave();
+//                        }
+//
+//                        @Override
+//                        public void onCancelClick() {
+//
+//                        }
+//                    });
+//                }
+//            }
+//        }, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String s) {
+//                LogUtils.d(TAG, "volley onResponse : " + s);
+//
+//                HashMap<String, String> dataRequest = new HashMap<>();
+//                dataRequest.put("full_name", edtName.getText().toString());
+//                dataRequest.put("address", edtAddress.getText().toString());
+//                dataRequest.put("date_of_birth", tvBirthday.getText().toString());
+//                dataRequest.put("avatar_id", String.valueOf(DataParse.getAvatarTempId(s)));
+////                NetworkUtils.postVolleyFormData(true, true, true, EditProfileActivity.this, NetworkConfig.API_UPDATE_USER, dataRequest, new NetworkUtils.NetworkListener() {
+////                    @Override
+////                    public void onSuccess(JSONObject jsonResponse) {
+////                        try {
+////                            user.setFull_name(edtName.getText().toString());
+////                            user.setAddress(edtAddress.getText().toString());
+////                            user.setDate_of_birth(tvBirthday.getText().toString());
+////                            user.setAvatar(jsonResponse.getJSONObject("data").getJSONObject("user").getString("avatar"));
+////
+////                            Intent intent = new Intent();
+////                            intent.putExtra(Constants.DATA, user);
+////                            setResult(Constants.RESULT_CODE_UPDATE_PROFILE, intent);
+////                            finish();
+////                        } catch (Exception e) {
+////                            e.printStackTrace();
+////                        }
+////                    }
+////
+////                    @Override
+////                    public void onError() {
+////
+////                    }
+////                });
+//
+//            }
+//        }, file);
+//        Volley.newRequestQueue(this).add(multipartRequest);
     }
 
     private void openDatePicker() {

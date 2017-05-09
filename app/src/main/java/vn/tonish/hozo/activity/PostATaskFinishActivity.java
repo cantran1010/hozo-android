@@ -8,14 +8,20 @@ import android.widget.ImageView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.HozoLocation;
 import vn.tonish.hozo.model.Work;
-import vn.tonish.hozo.network.NetworkConfig;
-import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.NumberTextWatcher;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
@@ -28,6 +34,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 public class PostATaskFinishActivity extends BaseActivity implements View.OnClickListener {
 
+    private static final String TAG = PostATaskFinishActivity.class.getSimpleName();
     protected ButtonHozo btnDone;
     private EdittextHozo edtBudget, edtNumberWorker;
     private TextViewHozo tvTotal;
@@ -172,8 +179,8 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             jsonRequest.put("start_time", work.getStartTime());
             jsonRequest.put("end_time", work.getEndTime());
             jsonRequest.put("gender", work.getGenderWorker());
-            jsonRequest.put("min_age", work.getAgeFromWorker());
-            jsonRequest.put("max_age", work.getAgeToWorker());
+            jsonRequest.put("min_age", work.getMinAge());
+            jsonRequest.put("max_age", work.getMaxAge());
             jsonRequest.put("latitude", location.getLat());
             jsonRequest.put("longitude", location.getLon());
             jsonRequest.put("city", location.getCity());
@@ -182,44 +189,70 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             jsonRequest.put("worker_rate", Integer.valueOf(edtBudget.getText().toString().replace(".", "")));
             jsonRequest.put("worker_count", Integer.valueOf(edtNumberWorker.getText().toString().replace(".", "")));
 
-            if (work.getArrImageAttack() != null && !work.getArrImageAttack().equals(""))
-                jsonRequest.put("attachments", work.getArrImageAttack());
+            if (work.getAttachmentsImage() != null && !work.getAttachmentsImage().equals(""))
+                jsonRequest.put("attachments", work.getAttachmentsImage());
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        NetworkUtils.postVolleyRawData(true, true, true, this, NetworkConfig.API_POST_TASK, jsonRequest, new NetworkUtils.NetworkListener() {
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        ApiClient.getApiService().createNewTask(UserManager.getUserToken(this), body).enqueue(new Callback<Work>() {
             @Override
-            public void onSuccess(JSONObject jsonResponse) {
-                try {
-                    int code = jsonResponse.getInt("code");
+            public void onResponse(Call<Work> call, Response<Work> response) {
+                LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
 
-                    if (code == 0) {
-                        DialogUtils.showConfirmAlertDialog(PostATaskFinishActivity.this, jsonResponse.getString("message"), new DialogUtils.ConfirmDialogListener() {
-                            @Override
-                            public void onConfirmClick() {
-                                setResult(Constants.POST_A_TASK_RESPONSE_CODE);
-                                finish();
-                            }
-                        });
-                    } else {
-                        DialogUtils.showConfirmAlertDialog(PostATaskFinishActivity.this, jsonResponse.getString("message"), new DialogUtils.ConfirmDialogListener() {
-                            @Override
-                            public void onConfirmClick() {
+                if (response.isSuccessful()) {
 
-                            }
-                        });
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    DialogUtils.showConfirmAlertDialog(PostATaskFinishActivity.this, getString(R.string.post_a_task_complete), new DialogUtils.ConfirmDialogListener() {
+                        @Override
+                        public void onConfirmClick() {
+                            setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+                            finish();
+                        }
+                    });
+
                 }
+
             }
 
             @Override
-            public void onError() {
-
+            public void onFailure(Call<Work> call, Throwable t) {
+                LogUtils.e(TAG, "createNewTask onFailure : " + t.getMessage());
             }
         });
+
+//        NetworkUtils.postVolleyRawData(true, true, true, this, NetworkConfig.API_POST_TASK, jsonRequest, new NetworkUtils.NetworkListener() {
+//            @Override
+//            public void onSuccess(JSONObject jsonResponse) {
+//                try {
+//                    int code = jsonResponse.getInt("code");
+//
+//                    if (code == 0) {
+//                        DialogUtils.showConfirmAlertDialog(PostATaskFinishActivity.this, jsonResponse.getString("message"), new DialogUtils.ConfirmDialogListener() {
+//                            @Override
+//                            public void onConfirmClick() {
+//                                setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+//                                finish();
+//                            }
+//                        });
+//                    } else {
+//                        DialogUtils.showConfirmAlertDialog(PostATaskFinishActivity.this, jsonResponse.getString("message"), new DialogUtils.ConfirmDialogListener() {
+//                            @Override
+//                            public void onConfirmClick() {
+//
+//                            }
+//                        });
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onError() {
+//
+//            }
+//        });
     }
 }

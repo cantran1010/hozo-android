@@ -27,7 +27,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.network.NetworkConfig;
+import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.view.EdittextHozo;
 
 /**
@@ -186,7 +186,7 @@ public class Utils {
     }
 
     public static String getFullPathImage(String path) {
-        return NetworkConfig.DOMAIN_IMAGE + path;
+        return ApiClient.BASE_URL + path;
     }
 
 }
