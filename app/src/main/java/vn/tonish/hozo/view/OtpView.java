@@ -15,26 +15,11 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.LoginActivity;
-import vn.tonish.hozo.activity.MainActivity;
-import vn.tonish.hozo.database.manager.UserManager;
-import vn.tonish.hozo.network.DataParse;
-import vn.tonish.hozo.network.NetworkConfig;
-import vn.tonish.hozo.network.NetworkUtils;
-import vn.tonish.hozo.utils.LogUtils;
-
-import static vn.tonish.hozo.common.Constants.CODE;
-import static vn.tonish.hozo.common.Constants.NAME_VIEW;
-import static vn.tonish.hozo.common.Constants.USER_MOBILE;
-import static vn.tonish.hozo.common.Constants.USER_OTP;
 
 
 /**
@@ -300,73 +285,73 @@ public class OtpView extends FrameLayout implements View.OnFocusChangeListener, 
     private void resetOtp() {
         HashMap<String, String> dataRequest = new HashMap<>();
         dataRequest.put("mobile", phone);
-        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_OTP, dataRequest, new NetworkUtils.NetworkListener() {
-            @Override
-            public void onSuccess(JSONObject jsonResponse) {
-                try {
-                    if (jsonResponse.getInt("code") == 0) {
-                        mPinForthDigitEditText.setText("");
-                        mPinThirdDigitEditText.setText("");
-                        mPinSecondDigitEditText.setText("");
-                        mPinFirstDigitEditText.setText("");
-                        mPinHiddenEditText.setText("");
-                    } else if (jsonResponse.getInt("code") == 1) {
-                        Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-
-            @Override
-            public void onError() {
-
-            }
-        });
+//        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_OTP, dataRequest, new NetworkUtils.NetworkListener() {
+//            @Override
+//            public void onSuccess(JSONObject jsonResponse) {
+//                try {
+//                    if (jsonResponse.getInt("code") == 0) {
+//                        mPinForthDigitEditText.setText("");
+//                        mPinThirdDigitEditText.setText("");
+//                        mPinSecondDigitEditText.setText("");
+//                        mPinFirstDigitEditText.setText("");
+//                        mPinHiddenEditText.setText("");
+//                    } else if (jsonResponse.getInt("code") == 1) {
+//                        Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//
+//            @Override
+//            public void onError() {
+//
+//            }
+//        });
     }
 
     private void login() {
-        String otpCode = mPinHiddenEditText.getText().toString().trim();
-        HashMap<String, String> dataRequest = new HashMap<>();
-        dataRequest.put(USER_MOBILE, phone);
-        dataRequest.put(USER_OTP, otpCode);
-        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_LOGIN, dataRequest, new NetworkUtils.NetworkListener() {
-            @Override
-            public void onSuccess(JSONObject jsonResponse) {
-                LogUtils.d(TAG, "dataRequest" + jsonResponse.toString());
-                try {
-                    if (jsonResponse.getInt(CODE) == 0) {
-
-                        UserManager.insertUserLogin(new DataParse().getUserEntiny(context, jsonResponse), context);
-                        LogUtils.d(TAG, "check User :" + UserManager.getUserLogin(context).toString());
-
-                        LogUtils.e(TAG, UserManager.getUserLogin(context).getId() + "");
-
-                        String name;
-                        name = UserManager.getUserLogin(context).getFullName().trim();
-                        if ((name.isEmpty())) {
-                            LogUtils.d(TAG, "name_check" + name + jsonResponse.toString());
-                            ((LoginActivity) context).showExtendView(NAME_VIEW);
-                        } else {
-                            ((LoginActivity) context).startActivityAndClearAllTask(MainActivity.class);
-                        }
-                    } else if (jsonResponse.getInt(CODE) == 1) {
-                        Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Otp code is invalid", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
+//        String otpCode = mPinHiddenEditText.getText().toString().trim();
+//        HashMap<String, String> dataRequest = new HashMap<>();
+//        dataRequest.put(USER_MOBILE, phone);
+//        dataRequest.put(USER_OTP, otpCode);
+//        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_LOGIN, dataRequest, new NetworkUtils.NetworkListener() {
+//            @Override
+//            public void onSuccess(JSONObject jsonResponse) {
+//                LogUtils.d(TAG, "dataRequest" + jsonResponse.toString());
+//                try {
+//                    if (jsonResponse.getInt(CODE) == 0) {
+//
+//                        UserManager.insertUserLogin(new DataParse().getUserEntiny(context, jsonResponse), context);
+//                        LogUtils.d(TAG, "check User :" + UserManager.getUserLogin(context).toString());
+//
+//                        LogUtils.e(TAG, UserManager.getUserLogin(context).getId() + "");
+//
+//                        String name;
+//                        name = UserManager.getUserLogin(context).getFullName().trim();
+//                        if ((name.isEmpty())) {
+//                            LogUtils.d(TAG, "name_check" + name + jsonResponse.toString());
+//                            ((LoginActivity) context).showExtendView(NAME_VIEW);
+//                        } else {
+//                            ((LoginActivity) context).startActivityAndClearAllTask(MainActivity.class);
+//                        }
+//                    } else if (jsonResponse.getInt(CODE) == 1) {
+//                        Toast.makeText(context, "Mobile is empty", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(context, "Otp code is invalid", Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onError() {
+//
+//            }
+//        });
     }
 }

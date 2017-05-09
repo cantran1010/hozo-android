@@ -224,5 +224,6 @@
     <string name="post_a_task_working_hour_hint">Số giờ làm việc</string>
     <string name="post_a_task_time_working_error">Vui lòng nhập số giờ làm việc</string>
     <string name="post_a_task_age_error">Vui lòng chọn tuổi</string>
+    <string name="post_a_task_complete">Bạn đã đăng tuyển thành công</string>
 
 </resources>

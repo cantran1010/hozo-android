@@ -14,12 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,6 +22,12 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.common.Constants;
@@ -37,12 +38,9 @@ import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.model.Work;
-import vn.tonish.hozo.network.DataParse;
-import vn.tonish.hozo.network.MultipartRequest;
-import vn.tonish.hozo.network.NetworkConfig;
-import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
-import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
@@ -298,8 +296,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             work.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
             work.setDescription(edtDescription.getText().toString());
             work.setGenderWorker(spGender.getSelectedItemPosition());
-            work.setAgeFromWorker(ageFrom);
-            work.setAgeToWorker(ageTo);
+            work.setMinAge(ageFrom);
+            work.setMaxAge(ageTo);
 
             Intent intent = new Intent(this, PostATaskMapActivity.class);
             intent.putExtra(Constants.EXTRA_WORK, work);
@@ -337,46 +335,68 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void attachFile(final File file, final int position) {
-        final MultipartRequest multipartRequest = new MultipartRequest(this, NetworkConfig.API_UPDATE_AVATA, new Response.ErrorListener() {
+
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
+
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(this),itemPart).enqueue(new Callback<ImageResponse>() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                LogUtils.e(TAG, "volley onErrorResponse : " + error.toString());
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+                LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
+                ImageResponse  imageResponse = response.body();
 
-                if (error.getMessage().equals(Constants.ERROR_AUTHENTICATION)) {
-                    // HTTP Status Code: 401 Unauthorized
-                    // Refresh token
-                    NetworkUtils.RefreshToken(PostATaskActivity.this, new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish(JSONObject jsonResponse) {
-                            UserManager.insertUserLogin(new DataParse().getUserEntiny(PostATaskActivity.this, jsonResponse), PostATaskActivity.this);
-                            attachFile(file, position);
-                        }
-                    });
-                } else {
-                    DialogUtils.showRetryDialog(PostATaskActivity.this, PostATaskActivity.this.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
-                        @Override
-                        public void onOkClick() {
-                            attachFile(file, position);
-                        }
-
-                        @Override
-                        public void onCancelClick() {
-
-                        }
-                    });
-                }
-            }
-        }, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                LogUtils.d(TAG, "volley onResponse : " + s);
                 imageAttachCount--;
-                imagesArr[position] = DataParse.getAvatarTempId(s);
+                imagesArr[position] = imageResponse.getIdTemp();
                 finishAttachImage();
 
             }
-        }, file);
-        Volley.newRequestQueue(this).add(multipartRequest);
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
+            }
+        });
+
+//        final MultipartRequest multipartRequest = new MultipartRequest(this, NetworkConfig.API_UPDATE_AVATA, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                LogUtils.e(TAG, "volley onErrorResponse : " + error.toString());
+//
+//                if (error.getMessage().equals(Constants.ERROR_AUTHENTICATION)) {
+//                    // HTTP Status Code: 401 Unauthorized
+//                    // Refresh token
+//                    NetworkUtils.RefreshToken(PostATaskActivity.this, new NetworkUtils.RefreshListener() {
+//                        @Override
+//                        public void onRefreshFinish(JSONObject jsonResponse) {
+//                            UserManager.insertUserLogin(new DataParse().getUserEntiny(PostATaskActivity.this, jsonResponse), PostATaskActivity.this);
+//                            attachFile(file, position);
+//                        }
+//                    });
+//                } else {
+//                    DialogUtils.showRetryDialog(PostATaskActivity.this, PostATaskActivity.this.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
+//                        @Override
+//                        public void onOkClick() {
+//                            attachFile(file, position);
+//                        }
+//
+//                        @Override
+//                        public void onCancelClick() {
+//
+//                        }
+//                    });
+//                }
+//            }
+//        }, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String s) {
+//                LogUtils.d(TAG, "volley onResponse : " + s);
+//                imageAttachCount--;
+//                imagesArr[position] = DataParse.getAvatarTempId(s);
+//                finishAttachImage();
+//
+//            }
+//        }, file);
+//        Volley.newRequestQueue(this).add(multipartRequest);
     }
 
     private void finishAttachImage() {
@@ -389,11 +409,11 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             work.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
             work.setDescription(edtDescription.getText().toString());
             work.setGenderWorker(spGender.getSelectedItemPosition());
-            work.setAgeFromWorker(ageFrom);
-            work.setAgeToWorker(ageTo);
+            work.setMinAge(ageFrom);
+            work.setMaxAge(ageTo);
 
             JSONArray mJSONArray = new JSONArray(Arrays.asList(imagesArr));
-            work.setArrImageAttack(mJSONArray.toString());
+            work.setAttachmentsImage(imagesArr);
 
             Intent intent = new Intent(this, PostATaskMapActivity.class);
             intent.putExtra(Constants.EXTRA_WORK, work);

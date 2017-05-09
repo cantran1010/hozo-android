@@ -6,41 +6,31 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import vn.tonish.hozo.view.TextViewHozo;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.EditProfileActivity;
-import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.fragment.FeedBackFragment;
 import vn.tonish.hozo.model.FeedBack;
 import vn.tonish.hozo.model.User;
-import vn.tonish.hozo.network.NetworkConfig;
-import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by Can Tran on 4/11/17.
  */
 
 
-public class ProfileActivity extends BaseActivity implements View.OnClickListener, NetworkUtils.NetworkListener {
+public class ProfileActivity extends BaseActivity implements View.OnClickListener{
     private Context context;
 
     private ImageView img_avatar;
@@ -117,7 +107,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void initData() {
         btnLogOut.setOnClickListener(this);
         int userID = UserManager.getUserLogin(context).getId();
-        NetworkUtils.getRequestVolleyRawData(true, true, true, ProfileActivity.this, NetworkConfig.API_GET_PROFILE + userID, new JSONObject(), this);
+//        NetworkUtils.getRequestVolleyRawData(true, true, true, ProfileActivity.this, NetworkConfig.API_GET_PROFILE + userID, new JSONObject(), this);
     }
 
     @Override
@@ -152,57 +142,57 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         UserEntity userEntity = UserManager.getUserLogin(this);
         LogUtils.d("", "user logout " + userEntity.toString());
 
-        NetworkUtils.getRequestVolleyFormData(true, true, true, this, NetworkConfig.API_LOGOUT, new HashMap<String, String>(), new NetworkUtils.NetworkListener() {
-            @Override
-            public void onSuccess(JSONObject jsonResponse) {
-                Log.e("ABC", jsonResponse.toString());
-                try {
-                    if (jsonResponse.getInt(Constants.CODE) == 0) {
-                        UserManager.deleteAll();
-                        Intent intent = new Intent(context, LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                    } else if (jsonResponse.getInt("code") == 1) {
-                        Toast.makeText(context, "Account is not exist", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
-
-
-    }
-
-    @Override
-    public void onSuccess(JSONObject jsonResponse) {
-        if (jsonResponse.toString() != null) {
-            try {
-                int code = jsonResponse.getInt(Constants.CODE);
-                String message = jsonResponse.getString(Constants.MESSAGE);
-                if (code == Constants.REQUEST_SUCCESSFUL) {
-                    JSONObject data = jsonResponse.getJSONObject(Constants.DATA);
-                    JSONObject user = data.getJSONObject(Constants.USER);
-                    this.user = new Gson().fromJson(user.toString(), User.class);
-                } else {
-                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void onError() {
+//        NetworkUtils.getRequestVolleyFormData(true, true, true, this, NetworkConfig.API_LOGOUT, new HashMap<String, String>(), new NetworkUtils.NetworkListener() {
+//            @Override
+//            public void onSuccess(JSONObject jsonResponse) {
+//                Log.e("ABC", jsonResponse.toString());
+//                try {
+//                    if (jsonResponse.getInt(Constants.CODE) == 0) {
+//                        UserManager.deleteAll();
+//                        Intent intent = new Intent(context, LoginActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        context.startActivity(intent);
+//                    } else if (jsonResponse.getInt("code") == 1) {
+//                        Toast.makeText(context, "Account is not exist", Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onError() {
+//
+//            }
+//        });
 
 
     }
+
+//    @Override
+//    public void onSuccess(JSONObject jsonResponse) {
+//        if (jsonResponse.toString() != null) {
+//            try {
+//                int code = jsonResponse.getInt(Constants.CODE);
+//                String message = jsonResponse.getString(Constants.MESSAGE);
+//                if (code == Constants.REQUEST_SUCCESSFUL) {
+//                    JSONObject data = jsonResponse.getJSONObject(Constants.DATA);
+//                    JSONObject user = data.getJSONObject(Constants.USER);
+//                    this.user = new Gson().fromJson(user.toString(), User.class);
+//                } else {
+//                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void onError(VolleyError error) {
+//
+//    }
+
 
     public class FeedBackPagerAdapter extends FragmentPagerAdapter {
 

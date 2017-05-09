@@ -1,5 +1,7 @@
 package vn.tonish.hozo.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -8,10 +10,18 @@ import java.io.Serializable;
 
 public class Category implements Serializable {
     private int id;
+
     private String name;
+
     private String description;
+
+    @SerializedName("suggest_title")
     private String suggestTitle;
+
+    @SerializedName("suggest_description")
     private String suggestDescription;
+
+    @SerializedName("avatar")
     private String presentPath;
 
     public String getSuggestTitle() {
