@@ -57,7 +57,7 @@
                 android:weightSum="2">
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/btn_worker"
+                    android:id="@+id/btn_poster"
                     android:layout_width="0dp"
                     android:layout_height="21dp"
                     android:layout_marginLeft="24dp"
@@ -69,7 +69,7 @@
                     android:textSize="@dimen/tv_size_xtiny" />
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/btn_poster"
+                    android:id="@+id/btn_worker"
                     android:layout_width="0dp"
                     android:layout_height="21dp"
                     android:layout_gravity="center"
