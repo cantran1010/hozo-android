@@ -96,3 +96,4 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         LogUtils.d("", "user logout " + userEntity.toString());
 
     }
+}
