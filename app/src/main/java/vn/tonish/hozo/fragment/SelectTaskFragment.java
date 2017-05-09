@@ -4,27 +4,28 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PostATaskActivity;
 import vn.tonish.hozo.adapter.CategoryAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Category;
-import vn.tonish.hozo.network.NetworkConfig;
 import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.utils.LogUtils;
 
 /**
  * Created by LongBui on 4/4/2017.
  */
 
 public class SelectTaskFragment extends BaseFragment {
-
+    private static final String TAG = SelectTaskFragment.class.getSimpleName();
     private RecyclerView rcvTask;
     private CategoryAdapter categoryAdapter;
     private ArrayList<Category> categories = new ArrayList<>();
@@ -46,34 +47,32 @@ public class SelectTaskFragment extends BaseFragment {
     }
 
     private void getCategory() {
-        NetworkUtils.getRequestVolleyFormData(true, true, true, getActivity(), NetworkConfig.API_CATEGORY, new HashMap<String, String>(), new NetworkUtils.NetworkListener() {
+
+        ApiClient.getApiService().getCategories(UserManager.getUserToken(getActivity())).enqueue(new Callback<List<Category>>() {
             @Override
-            public void onSuccess(JSONObject jsonResponse) {
-                try {
-                    JSONArray jsonArr = jsonResponse.getJSONObject("data").getJSONArray("categories");
-                    for (int i = 0; i < jsonArr.length(); i++) {
+            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+                categories = (ArrayList<Category>) response.body();
+                LogUtils.d(TAG, "getCategories onResponse body : " + response.body());
+                LogUtils.d(TAG, "getCategories onResponse status code : " + response.code());
+                LogUtils.d(TAG, "getCategories onResponse isSuccessful : " + response.isSuccessful());
 
-                        JSONObject jsonCategory = jsonArr.getJSONObject(i);
-
-                        Category category = new Category();
-                        category.setId(jsonCategory.getInt("id"));
-                        category.setName(jsonCategory.getString("name"));
-                        category.setDescription(jsonCategory.getString("description"));
-                        category.setSuggestTitle(jsonCategory.getString("suggest_title"));
-                        category.setSuggestDescription(jsonCategory.getString("suggest_description"));
-                        category.setPresentPath(jsonCategory.getString("avatar"));
-
-                        categories.add(category);
-                    }
+                if (response.code() == 401) {
+                    NetworkUtils.RefreshToken(getContext(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            getCategory();
+                        }
+                    });
+                } else {
                     refreshCategory();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+
             }
 
             @Override
-            public void onError() {
+            public void onFailure(Call<List<Category>> call, Throwable t) {
+                LogUtils.e(TAG, "getCategories onFailure status code : " + t.getMessage());
+                // show network error dialog
 
             }
         });
@@ -105,7 +104,7 @@ public class SelectTaskFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             updateMenuUi(3);
-            openFragment(R.id.layout_container, MyTaskFragment.class, false,true);
+            openFragment(R.id.layout_container, MyTaskFragment.class, false, true);
         }
     }
 }

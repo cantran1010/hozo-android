@@ -1,5 +1,7 @@
 package vn.tonish.hozo.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -9,36 +11,83 @@ import java.io.Serializable;
 public class Work implements Serializable {
 
     private int id;
+    @SerializedName("type")
     private int workTypeId;
+    private String workTypeName;
+    @SerializedName("title")
     private String name;
     private String time;
-    private String type;
     private String price;
+    @SerializedName("description")
     private String description;
     private boolean isNew;
     private String date;
     private String address;
     private String timeAgo;
-    private String workType;
     // this is user post work
     private User user;
+    @SerializedName("latitude")
     private Double lat;
+    @SerializedName("longitude")
     private Double lon;
     private String status;
     private int numberDays;
+    @SerializedName("start_time")
     private String startTime;
+    @SerializedName("end_time")
     private String endTime;
+    @SerializedName("gender")
     private int genderWorker;
-    private int ageFromWorker;
-    private int ageToWorker;
-    private String arrImageAttack;
+    @SerializedName("min_age")
+    private int minAge;
+    @SerializedName("max_age")
+    private int maxAge;
+    private String city;
+    private String district;
+    private Integer[] attachmentsImage;
+    @SerializedName("worker_rate")
+    private int workerRate;
+    @SerializedName("worker_count")
+    private int workerCount;
 
-    public String getArrImageAttack() {
-        return arrImageAttack;
+    public Integer[] getAttachmentsImage() {
+        return attachmentsImage;
     }
 
-    public void setArrImageAttack(String arrImageAttack) {
-        this.arrImageAttack = arrImageAttack;
+    public void setAttachmentsImage(Integer[] attachmentsImage) {
+        this.attachmentsImage = attachmentsImage;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public int getWorkerRate() {
+        return workerRate;
+    }
+
+    public void setWorkerRate(int workerRate) {
+        this.workerRate = workerRate;
+    }
+
+    public int getWorkerCount() {
+        return workerCount;
+    }
+
+    public void setWorkerCount(int workerCount) {
+        this.workerCount = workerCount;
     }
 
     public int getWorkTypeId() {
@@ -57,20 +106,20 @@ public class Work implements Serializable {
         this.genderWorker = genderWorker;
     }
 
-    public int getAgeFromWorker() {
-        return ageFromWorker;
+    public int getMinAge() {
+        return minAge;
     }
 
-    public void setAgeFromWorker(int ageFromWorker) {
-        this.ageFromWorker = ageFromWorker;
+    public void setMinAge(int minAge) {
+        this.minAge = minAge;
     }
 
-    public int getAgeToWorker() {
-        return ageToWorker;
+    public int getMaxAge() {
+        return maxAge;
     }
 
-    public void setAgeToWorker(int ageToWorker) {
-        this.ageToWorker = ageToWorker;
+    public void setMaxAge(int maxAge) {
+        this.maxAge = maxAge;
     }
 
     public String getStartTime() {
@@ -121,12 +170,12 @@ public class Work implements Serializable {
         this.timeAgo = timeAgo;
     }
 
-    public String getWorkType() {
-        return workType;
+    public String getWorkTypeName() {
+        return workTypeName;
     }
 
-    public void setWorkType(String workType) {
-        this.workType = workType;
+    public void setWorkTypeName(String workTypeName) {
+        this.workTypeName = workTypeName;
     }
 
     public Double getLat() {
@@ -169,9 +218,6 @@ public class Work implements Serializable {
         this.user = user;
     }
 
-    public Work() {
-    }
-
     public String getName() {
         return name;
     }
@@ -186,14 +232,6 @@ public class Work implements Serializable {
 
     public void setTime(String time) {
         this.time = time;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getPrice() {

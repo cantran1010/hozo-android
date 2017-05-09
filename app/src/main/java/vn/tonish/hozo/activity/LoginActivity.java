@@ -11,28 +11,27 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.NameView;
 import vn.tonish.hozo.view.OtpView;
-import vn.tonish.hozo.network.NetworkConfig;
-import vn.tonish.hozo.network.NetworkUtils;
 
-import static vn.tonish.hozo.common.Constants.CODE;
-import static vn.tonish.hozo.common.Constants.DATA;
 import static vn.tonish.hozo.common.Constants.OTP_VIEW;
-import static vn.tonish.hozo.common.Constants.REGISTER;
 import static vn.tonish.hozo.common.Constants.USER_MOBILE;
-import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
@@ -41,6 +40,8 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
  */
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
+
+    private static final String TAG = LoginActivity.class.getSimpleName();
     private Context context;
     private EditText edtPhone;
     private TextView tvContinue;
@@ -244,33 +245,59 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void login() {
-        phone = edtPhone.getText().toString().trim();
-        HashMap<String, String> dataRequest = new HashMap<>();
-        dataRequest.put(USER_MOBILE, phone);
-        NetworkUtils.postVolleyFormData(true, true, true, context, NetworkConfig.API_OTP, dataRequest, new NetworkUtils.NetworkListener() {
+//        phone = edtPhone.getText().toString().trim();
+//        HashMap<String, String> dataRequest = new HashMap<>();
+//        dataRequest.put(USER_MOBILE, phone);
+
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put(USER_MOBILE, "+84978478304");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().getOtpCode("XXXX", body).enqueue(new Callback<Void>() {
             @Override
-            public void onSuccess(JSONObject jsonResponse) {
-                try {
-                    if (jsonResponse.getInt(CODE) == 0) {
-                        JSONObject jData = jsonResponse.getJSONObject(DATA);
-                        registed = getStringInJsonObj(jData, REGISTER).equals("true");
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                LogUtils.d(TAG, "onResponse status code : " + response.code());
+                LogUtils.d(TAG, "onResponse body : " + response.body());
+
+                if (response.code() == 204) {
                         showExtendView(OTP_VIEW);
-                    } else if (jsonResponse.getInt(CODE) == 1) {
-                        Toast.makeText(context, getString(R.string.login_erro_phone), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, getString(R.string.login_erro), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
             }
 
             @Override
-            public void onError() {
-
+            public void onFailure(Call<Void> call, Throwable t) {
+                LogUtils.e(TAG, "onFailure message : " + t.getMessage());
             }
         });
 
+//        NetworkUtils.postVolleyRawData(true, true, true, context, NetworkConfig.API_OTP, jsonRequest, new NetworkUtils.NetworkListener() {
+//            @Override
+//            public void onSuccess(JSONObject jsonResponse) {
+//                try {
+//                    if (jsonResponse.getInt(CODE) == 0) {
+//                        JSONObject jData = jsonResponse.getJSONObject(DATA);
+//                        registed = getStringInJsonObj(jData, REGISTER).equals("true");
+//                        showExtendView(OTP_VIEW);
+//                    } else if (jsonResponse.getInt(CODE) == 1) {
+//                        Toast.makeText(context, getString(R.string.login_erro_phone), Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(context, getString(R.string.login_erro), Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onError() {
+//
+//            }
+//        });
 
     }
 }

@@ -44,6 +44,39 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private TextView btnWorker, btnPoster;
 
     @Override
+    protected int getLayout() {
+        return R.layout.activity_profile;
+    }
+
+    @Override
+    protected void initView() {
+
+        imgback = (ImageView) findViewById(R.id.img_back);
+        imgEdit = (ImageView) findViewById(R.id.img_edit);
+        btnAddVerify = (TextView) findViewById(R.id.tv_add_verify);
+        btnLogOut = (FrameLayout) findViewById(R.id.btn_logout);
+        btnWorker = (TextView) findViewById(R.id.btn_worker);
+        btnPoster = (TextView) findViewById(R.id.btn_poster);
+    }
+
+    @Override
+    protected void initData() {
+        imgback.setOnClickListener(this);
+        imgEdit.setOnClickListener(this);
+        btnAddVerify.setOnClickListener(this);
+        btnLogOut.setOnClickListener(this);
+        btnPoster.setOnClickListener(this);
+        btnWorker.setOnClickListener(this);
+        openFragment(R.id.layout_container, workerReviewFragment.class, false, true);
+
+    }
+
+    @Override
+    protected void resumeData() {
+
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_back:
@@ -77,60 +110,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         UserEntity userEntity = UserManager.getUserLogin(this);
         LogUtils.d("", "user logout " + userEntity.toString());
 
-        NetworkUtils.getRequestVolleyFormData(true, true, true, this, NetworkConfig.API_LOGOUT, new HashMap<String, String>(), new NetworkUtils.NetworkListener() {
-            @Override
-            public void onSuccess(JSONObject jsonResponse) {
-                try {
-                    if (jsonResponse.getInt(CODE) == 0) {
-                        UserManager.deleteAll();
-                        Intent intent = new Intent(context, LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                    } else if (jsonResponse.getInt(CODE) == 1) {
-                        Toast.makeText(context, getString(R.string.accout_is_not_exist), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
     }
 
-    @Override
-    protected int getLayout() {
-        return R.layout.activity_profile;
-    }
-
-    @Override
-    protected void initView() {
-
-        imgback = (ImageView) findViewById(R.id.img_back);
-        imgEdit = (ImageView) findViewById(R.id.img_edit);
-        btnAddVerify = (TextView) findViewById(R.id.tv_add_verify);
-        btnLogOut = (FrameLayout) findViewById(R.id.btn_logout);
-        btnWorker = (TextView) findViewById(R.id.btn_worker);
-        btnPoster = (TextView) findViewById(R.id.btn_poster);
-    }
-
-    @Override
-    protected void initData() {
-        imgback.setOnClickListener(this);
-        imgEdit.setOnClickListener(this);
-        btnAddVerify.setOnClickListener(this);
-        btnLogOut.setOnClickListener(this);
-        btnPoster.setOnClickListener(this);
-        btnWorker.setOnClickListener(this);
-        openFragment(R.id.layout_container, workerReviewFragment.class, false, true);
-
-    }
-
-    @Override
-    protected void resumeData() {
-
-    }
 }
