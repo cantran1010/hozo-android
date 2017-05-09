@@ -36,11 +36,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             case R.id.img_edit:
                 startActivity(new Intent(this, EditProfileActivity.class));
                 break;
-            case R.id.btn_logout:
-                logOut();
-                break;
         }
-
     }
 
     private void logOut() {
@@ -90,30 +86,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 //        });
 
     }
-
-//    @Override
-//    public void onSuccess(JSONObject jsonResponse) {
-//        if (jsonResponse.toString() != null) {
-//            try {
-//                int code = jsonResponse.getInt(Constants.CODE);
-//                String message = jsonResponse.getString(Constants.MESSAGE);
-//                if (code == Constants.REQUEST_SUCCESSFUL) {
-//                    JSONObject data = jsonResponse.getJSONObject(Constants.DATA);
-//                    JSONObject user = data.getJSONObject(Constants.USER);
-//                    this.user = new Gson().fromJson(user.toString(), User.class);
-//                } else {
-//                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void onError(VolleyError error) {
-//
-//    }
 
     @Override
     protected void resumeData() {
