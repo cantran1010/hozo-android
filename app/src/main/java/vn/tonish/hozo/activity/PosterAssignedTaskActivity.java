@@ -21,12 +21,14 @@ import java.util.ArrayList;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.UserAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.dialog.AlertConfirmDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
+import vn.tonish.hozo.view.TextViewHozo;
 import vn.tonish.hozo.view.WorkAroundMapFragment;
 import vn.tonish.hozo.view.WorkDetailView;
 
@@ -53,6 +55,7 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
     private ArrayList<User> users = new ArrayList<>();
     private UserAdapter userAdapter;
     private ScrollView scv;
+    private TextViewHozo tvCancel;
 
     @Override
     protected int getLayout() {
@@ -66,6 +69,9 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
 
         imgAttach = (ImageView) findViewById(R.id.img_attach);
         imgAttach.setOnClickListener(this);
+
+        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
+        tvCancel.setOnClickListener(this);
 
         imgAttached = (ImageView) findViewById(R.id.img_attached);
 
@@ -176,7 +182,27 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
                 imgAttachPath = null;
                 break;
 
+            case R.id.tv_cancel:
+                doCancel();
+                break;
+
         }
+    }
+
+    private void doCancel() {
+        final AlertConfirmDialog alertConfirmDialog = new AlertConfirmDialog(this);
+        alertConfirmDialog.setAlertConfirmDialogListener(new AlertConfirmDialog.AlertConfirmDialogListener() {
+            @Override
+            public void onOk() {
+                // request server to delete task
+            }
+
+            @Override
+            public void onCancel() {
+                alertConfirmDialog.hideView();
+            }
+        });
+        alertConfirmDialog.showView();
     }
 
     @Override

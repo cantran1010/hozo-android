@@ -13,7 +13,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 public class AlertConfirmDialog extends BaseDialog implements View.OnClickListener {
 
-    private TextViewHozo tvYes, tvNo;
+    private TextViewHozo tvYes, tvNo, tvTitle, tvContent;
 
     public interface AlertConfirmDialogListener {
         public void onOk();
@@ -49,6 +49,14 @@ public class AlertConfirmDialog extends BaseDialog implements View.OnClickListen
         tvNo = (TextViewHozo) findViewById(R.id.tv_no);
         tvNo.setOnClickListener(this);
 
+        tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
+        tvContent = (TextViewHozo) findViewById(R.id.tv_content);
+
+    }
+
+    private void updateTitleContent(String title, String content) {
+        tvTitle.setText(title);
+        tvContent.setText(content);
     }
 
 
