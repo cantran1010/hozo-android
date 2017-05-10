@@ -187,9 +187,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
+                    android:background="@drawable/border_gray"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
-                    android:background="@drawable/border_gray"
                     android:gravity="center"
                     android:hint="@string/age_from_hint"
                     android:minHeight="@dimen/edt_min_height" />
