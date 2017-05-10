@@ -33,7 +33,7 @@ import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AgeDialog;
-import vn.tonish.hozo.dialog.AlertConfirmDialog;
+import vn.tonish.hozo.dialog.AlertDialogCancelTask;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Image;
@@ -179,20 +179,20 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_close:
-                final AlertConfirmDialog alertConfirmDialog = new AlertConfirmDialog(PostATaskActivity.this);
-                alertConfirmDialog.setAlertConfirmDialogListener(new AlertConfirmDialog.AlertConfirmDialogListener() {
+                final AlertDialogCancelTask alertDialogCancelTask = new AlertDialogCancelTask(PostATaskActivity.this);
+                alertDialogCancelTask.setAlertConfirmDialogListener(new AlertDialogCancelTask.AlertConfirmDialogListener() {
                     @Override
                     public void onOk() {
-                        alertConfirmDialog.hideView();
+                        alertDialogCancelTask.hideView();
                         finish();
                     }
 
                     @Override
                     public void onCancel() {
-                        alertConfirmDialog.hideView();
+                        alertDialogCancelTask.hideView();
                     }
                 });
-                alertConfirmDialog.showView();
+                alertDialogCancelTask.showView();
                 break;
 
             case R.id.btn_next:

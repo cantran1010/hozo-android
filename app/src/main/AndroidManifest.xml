@@ -18,12 +18,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
 
         <activity
-            android:name="vn.tonish.hozo.activity.PosterOpenTaskActivity"
+            android:name="vn.tonish.hozo.activity.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,14 +46,12 @@
         <!--<activity-->
             <!--android:name="vn.tonish.hozo.activity.MainActivity"-->
             <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/AppTheme.NoActionBar"-->
             <!--android:windowSoftInputMode="stateHidden" />-->
 
         <activity
             android:name="vn.tonish.hozo.activity.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
 
         <activity

@@ -230,5 +230,9 @@
     <string name="profile_verifyed">Verified</string>
     <string name="profile_rate">Đánh giá</string>
     <string name="post_a_task_complete">Bạn đã đăng tuyển thành công</string>
+    <string name="retry_title">Lỗi</string>
+    <string name="retry_content">Đã xảy ra lỗi trong quá trình kết nối. Bạn có muốn thử lại không ?</string>
+    <string name="retry_ok">Có</string>
+    <string name="retry_cancel">Không</string>
 
 </resources>
