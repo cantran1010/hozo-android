@@ -86,7 +86,7 @@ public class WorkerAcceptedTaskActivity extends BaseActivity implements OnMapRea
 
         //user up work
         User user = new User();
-        user.setFull_name("TRAN MINH HAI");
+        user.setFullName("TRAN MINH HAI");
         work.setUser(user);
 
         workDetailView.updateWork(work);

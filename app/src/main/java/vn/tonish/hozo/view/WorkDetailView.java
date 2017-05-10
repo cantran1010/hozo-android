@@ -82,7 +82,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
     }
 
     public void updateWork(Work work) {
-        tvName.setText(work.getUser().getFull_name());
+        tvName.setText(work.getUser().getFullName());
 
         tvTime.setText(work.getName());
         tvTimeAgo.setText(work.getTimeAgo());

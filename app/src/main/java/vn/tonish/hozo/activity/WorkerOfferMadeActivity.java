@@ -109,7 +109,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
 
         //user up work
         User user = new User();
-        user.setFull_name("TRAN MINH HAI");
+        user.setFullName("TRAN MINH HAI");
         work.setUser(user);
 
         workDetailView.updateWork(work);

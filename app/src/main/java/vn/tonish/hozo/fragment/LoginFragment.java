@@ -1,5 +1,6 @@
 package vn.tonish.hozo.fragment;
 
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +21,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.LoginActivity;
+import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
@@ -32,7 +34,7 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
  * Created by tonish1 on 5/9/17.
  */
 
-public class LoginFragment extends BaseFragment implements View.OnClickListener{
+public class LoginFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = LoginActivity.class.getSimpleName();
     private EditText edtPhone;
     private TextView tvContinue;
@@ -88,14 +90,17 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener{
 
     @Override
     protected void resumeData() {
+        LogUtils.d(TAG, "resum");
         if (checkNumberPhone(edtPhone.getText().toString().trim())) {
             tvContinue.setEnabled(true);
             tvContinue.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+            tvContinue.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
         } else {
             tvContinue.setEnabled(false);
             tvContinue.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
         }
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -106,6 +111,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener{
         }
 
     }
+
     private boolean checkNumberPhone(String number) {
         Pattern pattern = Pattern.compile("^[0-9]*$");
         Matcher matcher = pattern.matcher(number);
@@ -159,6 +165,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener{
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
+        final String finalMobile = mobile;
         ApiClient.getApiService().getOtpCode("XXXX", body).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -166,9 +173,10 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener{
                 LogUtils.d(TAG, "onResponse body : " + response.body());
 
                 if (response.code() == 204) {
-                    openFragment(R.id.layout_container, OtpFragment.class, false,true);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constants.USER_MOBILE, finalMobile);
+                    openFragment(R.id.layout_container, OtpFragment.class, bundle, false, true);
                 }
-
                 ProgressDialogUtils.dismissProgressDialog();
             }
 

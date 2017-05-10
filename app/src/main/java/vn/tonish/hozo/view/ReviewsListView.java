@@ -12,10 +12,8 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.adapter.CommentAdapter;
 import vn.tonish.hozo.adapter.ReviewsAdapter;
-import vn.tonish.hozo.model.Comment;
-import vn.tonish.hozo.model.FeedBack;
+import vn.tonish.hozo.model.Feedback;
 
 /**
  * Created by tonish1 on 5/9/17.
@@ -53,8 +51,8 @@ public class ReviewsListView extends RelativeLayout {
         rcvComment = (RecyclerView) findViewById(R.id.rcv_comment);
     }
 
-    public void updateData(ArrayList<FeedBack> feedBacks) {
-        ReviewsAdapter reviewsAdapter = new ReviewsAdapter(feedBacks);
+    public void updateData(ArrayList<Feedback> feedbacks) {
+        ReviewsAdapter reviewsAdapter = new ReviewsAdapter(feedbacks);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rcvComment.setLayoutManager(layoutManager);
         rcvComment.setAdapter(reviewsAdapter);

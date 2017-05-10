@@ -15,7 +15,8 @@ import retrofit2.http.Part;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
-import vn.tonish.hozo.rest.responseRes.RefreshTokenResponse;
+import vn.tonish.hozo.rest.responseRes.OtpReponse;
+import vn.tonish.hozo.rest.responseRes.Token;
 
 /**
  * Created by LongBui on 09/05/2017.
@@ -26,7 +27,7 @@ public interface ApiInterface {
     Call<Void> getOtpCode(@Header("X-Hozo-API-Key") String apiKey, @Body RequestBody body);
 
     @PUT("auth/refresh_token")
-    Call<RefreshTokenResponse> refreshToken(@Header("Authorization") String token, @Body RequestBody body);
+    Call<Token> refreshToken(@Header("Authorization") String token, @Body RequestBody body);
 
     @GET("tasks/categories")
     Call<List<Category>> getCategories(@Header("Authorization") String token);
@@ -37,5 +38,8 @@ public interface ApiInterface {
 
     @POST("tasks")
     Call<Work> createNewTask(@Header("Authorization") String token, @Body RequestBody body);
+
+    @POST("auth/login")
+    Call<OtpReponse> senOtp(@Body RequestBody body);
 
 }
