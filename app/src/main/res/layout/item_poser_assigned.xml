@@ -48,21 +48,21 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:contentDescription="@string/adjust_image"
-                    android:src="@drawable/img_mobile" />
+                    android:src="@drawable/img_verify_mobile" />
 
                 <ImageView
                     android:id="@+id/img_email_verify"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:contentDescription="@string/adjust_image"
-                    android:src="@drawable/img_mobile" />
+                    android:src="@drawable/img_verify_email" />
 
                 <ImageView
                     android:id="@+id/img_facebook_verify"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:contentDescription="@string/adjust_image"
-                    android:src="@drawable/img_facebook" />
+                    android:src="@drawable/img_verify_fb" />
 
             </LinearLayout>
 

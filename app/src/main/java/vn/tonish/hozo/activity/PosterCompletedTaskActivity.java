@@ -18,8 +18,10 @@ import java.util.ArrayList;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.PosterCompletedAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.dialog.AlertDialogCancelTask;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.model.Work;
+import vn.tonish.hozo.view.TextViewHozo;
 import vn.tonish.hozo.view.WorkAroundMapFragment;
 import vn.tonish.hozo.view.WorkDetailView;
 
@@ -36,6 +38,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
     private PosterCompletedAdapter posterCompletedAdapter;
     private ArrayList<User> users = new ArrayList<>();
     private ScrollView scv;
+    private TextViewHozo tvCancel;
 
     @Override
     protected int getLayout() {
@@ -49,6 +52,9 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
         rcvUser = (RecyclerView) findViewById(R.id.rcv_user);
 
         scv = (ScrollView) findViewById(R.id.scv);
+
+        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
+        tvCancel.setOnClickListener(this);
 
         WorkAroundMapFragment mapFragment = (WorkAroundMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -126,8 +132,26 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.tv_cancel:
+                doCancel();
+                break;
         }
+    }
+
+    private void doCancel() {
+        final AlertDialogCancelTask alertDialogCancelTask = new AlertDialogCancelTask(this);
+        alertDialogCancelTask.setAlertConfirmDialogListener(new AlertDialogCancelTask.AlertConfirmDialogListener() {
+            @Override
+            public void onOk() {
+                // request server to delete task
+            }
+
+            @Override
+            public void onCancel() {
+                alertDialogCancelTask.hideView();
+            }
+        });
+        alertDialogCancelTask.showView();
     }
 
 }

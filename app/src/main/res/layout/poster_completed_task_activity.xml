@@ -11,27 +11,32 @@
 
         <ImageView
             android:id="@+id/img_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/content_description_back"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
             android:layout_centerVertical="true"
+            android:background="@drawable/btn_back_selector"
+            android:contentDescription="@string/content_description_back"
             android:padding="5dp"
-            android:src="@drawable/back" />
+            android:scaleType="centerInside"
+            android:src="@drawable/img_back" />
 
         <vn.tonish.hozo.view.TextViewHozo
             style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_toRightOf="@id/img_back"
             android:text="@string/make_an_offer_title" />
 
         <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/btn_cancel"
+            android:id="@+id/tv_cancel"
             style="@style/tv_title_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
             android:padding="5dp"
             android:text="@string/cancel_task" />
 
@@ -78,7 +83,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/make_an_offer_worker"                     android:textColor="@color/tv_black"
+                    android:text="@string/make_an_offer_worker"
+                    android:textColor="@color/tv_black"
                     android:textSize="15sp" />
 
                 <vn.tonish.hozo.view.TextViewHozo
@@ -92,7 +98,6 @@
                     android:textColor="@color/hozo_bg" />
 
             </RelativeLayout>
-
 
 
             <android.support.v7.widget.RecyclerView

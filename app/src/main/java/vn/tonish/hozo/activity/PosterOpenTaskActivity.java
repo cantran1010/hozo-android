@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.CandidateAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.dialog.AlertDialogCancelTask;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
@@ -33,6 +34,7 @@ import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
+import vn.tonish.hozo.view.TextViewHozo;
 import vn.tonish.hozo.view.WorkAroundMapFragment;
 import vn.tonish.hozo.view.WorkDetailView;
 
@@ -60,6 +62,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     private RecyclerView rcvCandidate;
     private ArrayList<User> usersCandidate = new ArrayList<>();
     private CandidateAdapter candidateAdapter;
+    private TextViewHozo tvCancel;
 
 
     @Override
@@ -71,6 +74,9 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     protected void initView() {
         workDetailView = (WorkDetailView) findViewById(R.id.work_detail_view);
         commentViewFull = (CommentViewFull) findViewById(R.id.comment_view_full);
+
+        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
+        tvCancel.setOnClickListener(this);
 
         imgAttach = (ImageView) findViewById(R.id.img_attach);
         imgAttach.setOnClickListener(this);
@@ -219,7 +225,27 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
                 finish();
                 break;
 
+            case R.id.tv_cancel:
+                doCancel();
+                break;
+
         }
+    }
+
+    private void doCancel() {
+        final AlertDialogCancelTask alertDialogCancelTask = new AlertDialogCancelTask(this);
+        alertDialogCancelTask.setAlertConfirmDialogListener(new AlertDialogCancelTask.AlertConfirmDialogListener() {
+            @Override
+            public void onOk() {
+                // request server to delete task
+            }
+
+            @Override
+            public void onCancel() {
+                alertDialogCancelTask.hideView();
+            }
+        });
+        alertDialogCancelTask.showView();
     }
 
     public Uri setImageUri() {

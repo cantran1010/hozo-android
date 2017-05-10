@@ -19,6 +19,7 @@ import java.util.Locale;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.HozoLocation;
 import vn.tonish.hozo.model.Work;
@@ -136,9 +137,10 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         } else {
             mLocationProvider.connect();
             LogUtils.d(TAG, "onMapReady !!!!!! canGetLocation");
-            DialogUtils.showConfirmAlertDialog(this, getString(R.string.msg_err_gps), new DialogUtils.ConfirmDialogListener() {
+
+            DialogUtils.showOkDialog(this, "", getString(R.string.msg_err_gps), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                 @Override
-                public void onConfirmClick() {
+                public void onSubmit() {
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(intent);
                 }

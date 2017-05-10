@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import vn.tonish.hozo.view.TextViewHozo;
 
 import com.bumptech.glide.Glide;
 
@@ -18,6 +17,8 @@ import java.util.ArrayList;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Album;
 import vn.tonish.hozo.utils.DeviceUtils;
+import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 4/19/2017.
@@ -49,6 +50,8 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
+        LogUtils.d(TAG, "AlbumAdapter , item name : " + item.getName());
 
         holder.tvName.setText(item != null ? item.getName() : "");
 //        Utils.displayImage(getContext(), holder.imgAlbum, item.getCoverPath());
