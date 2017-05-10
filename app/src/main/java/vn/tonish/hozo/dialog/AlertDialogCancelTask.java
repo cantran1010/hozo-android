@@ -11,7 +11,7 @@ import vn.tonish.hozo.view.TextViewHozo;
  * Created by LongBui on 5/8/2017.
  */
 
-public class AlertConfirmDialog extends BaseDialog implements View.OnClickListener {
+public class AlertDialogCancelTask extends BaseDialog implements View.OnClickListener {
 
     private TextViewHozo tvYes, tvNo, tvTitle, tvContent;
 
@@ -31,13 +31,13 @@ public class AlertConfirmDialog extends BaseDialog implements View.OnClickListen
         this.alertConfirmDialogListener = alertConfirmDialogListener;
     }
 
-    public AlertConfirmDialog(@NonNull Context context) {
+    public AlertDialogCancelTask(@NonNull Context context) {
         super(context);
     }
 
     @Override
     protected int getLayout() {
-        return R.layout.alert_confirm_dialog;
+        return R.layout.alert_dialog_cancel_task;
     }
 
     @Override

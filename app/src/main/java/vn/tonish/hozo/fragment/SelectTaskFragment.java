@@ -15,10 +15,13 @@ import vn.tonish.hozo.activity.PostATaskActivity;
 import vn.tonish.hozo.adapter.CategoryAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 
 /**
  * Created by LongBui on 4/4/2017.
@@ -48,6 +51,8 @@ public class SelectTaskFragment extends BaseFragment {
 
     private void getCategory() {
 
+        ProgressDialogUtils.showProgressDialog(getActivity());
+
         ApiClient.getApiService().getCategories(UserManager.getUserToken(getActivity())).enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
@@ -66,7 +71,7 @@ public class SelectTaskFragment extends BaseFragment {
                 } else {
                     refreshCategory();
                 }
-
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -74,6 +79,18 @@ public class SelectTaskFragment extends BaseFragment {
                 LogUtils.e(TAG, "getCategories onFailure status code : " + t.getMessage());
                 // show network error dialog
 
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getCategory();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }

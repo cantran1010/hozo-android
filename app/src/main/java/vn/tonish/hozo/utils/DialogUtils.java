@@ -1,130 +1,26 @@
 package vn.tonish.hozo.utils;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.dialog.AlertDialogOk;
+
 /**
- * Created by LongBui.
+ * Created by LongBui on 4/4/2017.
  */
 public class DialogUtils {
 
-    public interface ConfirmDialogListener {
-        void onConfirmClick();
+    public static void showRetryDialog(Context context, AlertDialogOkAndCancel.AlertDialogListener alertDialogListener) {
+        AlertDialogOkAndCancel alertDialogHozo = new AlertDialogOkAndCancel(context, context.getString(R.string.retry_title), context.getString(R.string.retry_content), context.getString(R.string.retry_ok), context.getString(R.string.retry_cancel), alertDialogListener);
     }
 
-    public interface ConfirmDialogOkCancelListener {
-        void onOkClick();
-
-        void onCancelClick();
+    public static void showOkAndCancelDialog(Context context,String title,String content,String submit,String cancel, AlertDialogOkAndCancel.AlertDialogListener alertDialogListener) {
+        AlertDialogOkAndCancel alertDialogHozo = new AlertDialogOkAndCancel(context,title,content,submit,cancel, alertDialogListener);
     }
 
-    public static AlertDialog showConfirmAlertDialog(final Context context, final String msg, final ConfirmDialogListener listener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(msg);
-        builder.setCancelable(false);
-
-        if (listener != null) {
-            builder.setPositiveButton(context.getString(R.string.all_ok),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog,
-                                            int which) {
-                            listener.onConfirmClick();
-
-                        }
-                    });
-        }
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-        return alertDialog;
+    public static void showOkDialog(Context context, String title,String content, String submit,AlertDialogOk.AlertDialogListener alertDialogListener){
+        AlertDialogOk alertDialogOk = new AlertDialogOk(context,title,content,submit,alertDialogListener);
     }
-
-    public static AlertDialog showConfirmAndCancelAlertDialog(final Context context, final String msg, final ConfirmDialogOkCancelListener listener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(msg);
-        builder.setCancelable(false);
-
-        if (listener != null) {
-            builder.setPositiveButton(context.getString(R.string.all_ok),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog,
-                                            int which) {
-                            listener.onOkClick();
-
-                        }
-                    });
-
-            builder.setNegativeButton(context.getString(R.string.all_cancel), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    listener.onCancelClick();
-                }
-            });
-        }
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-        return alertDialog;
-    }
-
-    public static AlertDialog showConfirmAndCancelAlertDialogNew(final Context context, final String msg, final ConfirmDialogOkCancelListener listener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(msg);
-        builder.setCancelable(false);
-
-        if (listener != null) {
-            builder.setPositiveButton("Oke",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog,
-                                            int which) {
-                            listener.onOkClick();
-
-                        }
-                    });
-
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    listener.onCancelClick();
-                }
-            });
-        }
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-        return alertDialog;
-    }
-
-    public static AlertDialog showRetryDialog(final Context context, final String msg, final ConfirmDialogOkCancelListener listener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(msg);
-        builder.setCancelable(false);
-
-        builder.setPositiveButton(context.getString(R.string.all_retry),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog,
-                                        int which) {
-                        listener.onOkClick();
-                    }
-                });
-
-        builder.setNegativeButton(context.getString(R.string.all_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                listener.onCancelClick();
-            }
-        });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-        return alertDialog;
-    }
-
 
 }

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
     <ProgressBar
         android:id="@android:id/progress"
         style="@android:style/Widget.ProgressBar"
-        android:indeterminateDrawable="@drawable/rotate_loading_screen"
+        android:indeterminateDrawable="@drawable/progressbar_custom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:max="100" />
 
-</merge>
+</FrameLayout>

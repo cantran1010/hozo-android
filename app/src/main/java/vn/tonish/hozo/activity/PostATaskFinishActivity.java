@@ -16,6 +16,7 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.HozoLocation;
 import vn.tonish.hozo.model.Work;
@@ -203,15 +204,13 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
                 LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
 
                 if (response.isSuccessful()) {
-
-                    DialogUtils.showConfirmAlertDialog(PostATaskFinishActivity.this, getString(R.string.post_a_task_complete), new DialogUtils.ConfirmDialogListener() {
+                    DialogUtils.showOkDialog(PostATaskFinishActivity.this, "", getString(R.string.post_a_task_complete), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                         @Override
-                        public void onConfirmClick() {
+                        public void onSubmit() {
                             setResult(Constants.POST_A_TASK_RESPONSE_CODE);
                             finish();
                         }
                     });
-
                 }
 
             }

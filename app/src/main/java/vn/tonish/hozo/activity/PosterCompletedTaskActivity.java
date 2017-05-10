@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.PosterCompletedAdapter;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.dialog.AlertConfirmDialog;
+import vn.tonish.hozo.dialog.AlertDialogCancelTask;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -139,8 +139,8 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
     }
 
     private void doCancel() {
-        final AlertConfirmDialog alertConfirmDialog = new AlertConfirmDialog(this);
-        alertConfirmDialog.setAlertConfirmDialogListener(new AlertConfirmDialog.AlertConfirmDialogListener() {
+        final AlertDialogCancelTask alertDialogCancelTask = new AlertDialogCancelTask(this);
+        alertDialogCancelTask.setAlertConfirmDialogListener(new AlertDialogCancelTask.AlertConfirmDialogListener() {
             @Override
             public void onOk() {
                 // request server to delete task
@@ -148,10 +148,10 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
 
             @Override
             public void onCancel() {
-                alertConfirmDialog.hideView();
+                alertDialogCancelTask.hideView();
             }
         });
-        alertConfirmDialog.showView();
+        alertDialogCancelTask.showView();
     }
 
 }

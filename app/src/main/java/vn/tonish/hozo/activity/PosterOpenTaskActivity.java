@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.CandidateAdapter;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.dialog.AlertConfirmDialog;
+import vn.tonish.hozo.dialog.AlertDialogCancelTask;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
@@ -233,8 +233,8 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     }
 
     private void doCancel() {
-        final AlertConfirmDialog alertConfirmDialog = new AlertConfirmDialog(this);
-        alertConfirmDialog.setAlertConfirmDialogListener(new AlertConfirmDialog.AlertConfirmDialogListener() {
+        final AlertDialogCancelTask alertDialogCancelTask = new AlertDialogCancelTask(this);
+        alertDialogCancelTask.setAlertConfirmDialogListener(new AlertDialogCancelTask.AlertConfirmDialogListener() {
             @Override
             public void onOk() {
                 // request server to delete task
@@ -242,10 +242,10 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
             @Override
             public void onCancel() {
-                alertConfirmDialog.hideView();
+                alertDialogCancelTask.hideView();
             }
         });
-        alertConfirmDialog.showView();
+        alertDialogCancelTask.showView();
     }
 
     public Uri setImageUri() {
