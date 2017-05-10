@@ -44,30 +44,35 @@
         android:layout_marginLeft="16dp">
 
         <ImageView
+            android:id="@+id/img_verify_mobile"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="5dp"
             android:src="@drawable/ic_vr_phone" />
 
         <ImageView
+            android:id="@+id/img_verify_facebook"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="5dp"
             android:src="@drawable/ic_vr_facebook" />
 
         <ImageView
+            android:id="@+id/img_verify_email"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="5dp"
             android:src="@drawable/ic_vr_card" />
 
         <ImageView
+            android:id="@+id/img_verify_card"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="5dp"
             android:src="@drawable/ic_vr_card" />
 
         <ImageView
+            android:id="@+id/img_verify_bank"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="5dp"
@@ -76,7 +81,7 @@
 
     <include layout="@layout/line" />
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -85,7 +90,7 @@
         android:textColor="@color/blue"
         android:textSize="@dimen/tv_size_nomal" />
 
-    <TextView
+    <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tv_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
