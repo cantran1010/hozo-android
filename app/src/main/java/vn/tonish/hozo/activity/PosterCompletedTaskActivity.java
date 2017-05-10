@@ -85,14 +85,14 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
 
         //user up work
         User user = new User();
-        user.setFull_name("TRAN MINH HAI");
+        user.setFullName("TRAN MINH HAI");
         work.setUser(user);
 
         workDetailView.updateWork(work);
 
         //fake list user assigned
         User user1 = new User();
-        user1.setFull_name("Tristan");
+        user1.setFullName("Tristan");
         users.add(user1);
         users.add(user1);
         users.add(user1);

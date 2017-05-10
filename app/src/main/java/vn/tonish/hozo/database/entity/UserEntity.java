@@ -12,44 +12,22 @@ public class UserEntity extends RealmObject implements Serializable {
 
     @PrimaryKey
     private int id;
-    private String token;
-    private String refreshToken;
-    private String tokenExp;
+    private String fullName;
     private String phoneNumber;
     private String email;
-    private String fullName;
-    private String password;
-    private String tokenDevice;
-    private String profileImage;
-    private String birthday;
-    private int gender;
-    private String job;
+    private String facebookId;
+    private String address;
+    private String avatar;
+    private String dateOfBirth;
     private String description;
-    private String loginAt;
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
-
-    public String getLoginAt() {
-        return loginAt;
-    }
-
-    public void setLoginAt(String loginAt) {
-        this.loginAt = loginAt;
-    }
-
-    public String getTokenExp() {
-        return tokenExp;
-    }
-
-    public void setTokenExp(String tokenExp) {
-        this.tokenExp = tokenExp;
-    }
+    private int verified;
+    private float posterAverageRating;
+    private float taskerAverageRating;
+    private float posterReviewCount;
+    private float taskerReviewCount;
+    private String accessToken;
+    private String refreshToken;
+    private String tokenExp;
 
     public int getId() {
         return id;
@@ -57,6 +35,14 @@ public class UserEntity extends RealmObject implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getPhoneNumber() {
@@ -75,60 +61,36 @@ public class UserEntity extends RealmObject implements Serializable {
         this.email = email;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFacebookId() {
+        return facebookId;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
     }
 
-    public String getPassword() {
-        return password;
+    public String getAddress() {
+        return address;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getTokenDevice() {
-        return tokenDevice;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setTokenDevice(String tokenDevice) {
-        this.tokenDevice = tokenDevice;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
-    public String getProfileImage() {
-        return profileImage;
+    public String getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public int getGender() {
-        return gender;
-    }
-
-    public void setGender(int gender) {
-        this.gender = gender;
-    }
-
-    public String getJob() {
-        return job;
-    }
-
-    public void setJob(String job) {
-        this.job = job;
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getDescription() {
@@ -139,13 +101,67 @@ public class UserEntity extends RealmObject implements Serializable {
         this.description = description;
     }
 
-    public String getToken() {
-        return token;
+    public int getVerified() {
+        return verified;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setVerified(int verified) {
+        this.verified = verified;
     }
 
+    public float getPosterAverageRating() {
+        return posterAverageRating;
+    }
 
+    public void setPosterAverageRating(float posterAverageRating) {
+        this.posterAverageRating = posterAverageRating;
+    }
+
+    public float getTaskerAverageRating() {
+        return taskerAverageRating;
+    }
+
+    public void setTaskerAverageRating(float taskerAverageRating) {
+        this.taskerAverageRating = taskerAverageRating;
+    }
+
+    public float getPosterReviewCount() {
+        return posterReviewCount;
+    }
+
+    public void setPosterReviewCount(float posterReviewCount) {
+        this.posterReviewCount = posterReviewCount;
+    }
+
+    public float getTaskerReviewCount() {
+        return taskerReviewCount;
+    }
+
+    public void setTaskerReviewCount(float taskerReviewCount) {
+        this.taskerReviewCount = taskerReviewCount;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public String getTokenExp() {
+        return tokenExp;
+    }
+
+    public void setTokenExp(String tokenExp) {
+        this.tokenExp = tokenExp;
+    }
 }

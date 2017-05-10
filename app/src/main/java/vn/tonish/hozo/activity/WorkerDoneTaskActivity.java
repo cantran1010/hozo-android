@@ -86,7 +86,7 @@ public class WorkerDoneTaskActivity extends BaseActivity implements OnMapReadyCa
 
         //user up work
         User user = new User();
-        user.setFull_name("TRAN MINH HAI");
+        user.setFullName("TRAN MINH HAI");
         work.setUser(user);
 
         workDetailView.updateWork(work);

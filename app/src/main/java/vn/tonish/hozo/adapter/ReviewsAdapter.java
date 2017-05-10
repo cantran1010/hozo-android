@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.model.Comment;
-import vn.tonish.hozo.model.FeedBack;
-import vn.tonish.hozo.view.CommentView;
+import vn.tonish.hozo.model.Feedback;
 import vn.tonish.hozo.view.ReviewsView;
 
 /**
@@ -20,10 +18,10 @@ import vn.tonish.hozo.view.ReviewsView;
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.MyViewHolder> {
 
 
-    private final ArrayList<FeedBack> feedBacks;
+    private final ArrayList<Feedback> feedbacks;
 
-    public ReviewsAdapter(ArrayList<FeedBack> feedBacks) {
-        this.feedBacks = feedBacks;
+    public ReviewsAdapter(ArrayList<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
     }
 
     @Override
@@ -35,12 +33,12 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.reviewsView.updateData(feedBacks.get(position));
+        holder.reviewsView.updateData(feedbacks.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return feedBacks.size();
+        return feedbacks.size();
     }
 
 

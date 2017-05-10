@@ -76,9 +76,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     protected void initData() {
         user = (User) getIntent().getSerializableExtra(Constants.DATA);
 
-        edtName.setText(user.getFull_name());
+        edtName.setText(user.getFullName());
         edtAddress.setText(user.getAddress());
-        tvBirthday.setText(user.getDate_of_birth());
+        tvBirthday.setText(user.getDateOfBirth());
         Utils.displayImageAvatar(this, imgAvatar, user.getAvatar());
     }
 

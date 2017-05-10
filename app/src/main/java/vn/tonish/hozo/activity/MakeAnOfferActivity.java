@@ -111,7 +111,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
         //user up work
         User user = new User();
-        user.setFull_name("TRAN MINH HAI");
+        user.setFullName("TRAN MINH HAI");
         work.setUser(user);
 
         workDetailView.updateWork(work);

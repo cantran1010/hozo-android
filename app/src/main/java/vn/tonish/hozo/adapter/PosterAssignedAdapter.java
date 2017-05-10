@@ -5,17 +5,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import vn.tonish.hozo.view.ButtonHozo;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import vn.tonish.hozo.view.TextViewHozo;
 
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.CircleImageView;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 4/19/2017.
@@ -41,8 +41,8 @@ public class PosterAssignedAdapter extends RecyclerView.Adapter<PosterAssignedAd
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Utils.displayImage(context,holder.imgAvatar,users.get(position).getAvatar());
-        holder.tvName.setText(users.get(position).getFull_name());
-        holder.tvPrice.setText(users.get(position).getPriceBit());
+        holder.tvName.setText(users.get(position).getFullName());
+//        holder.tvPrice.setText(users.get(position).getPriceBit());
 
     }
 

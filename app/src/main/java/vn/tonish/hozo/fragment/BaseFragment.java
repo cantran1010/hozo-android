@@ -102,6 +102,12 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         super.startActivityForResult(intent, requestCode);
         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
+    public void startActivityAndClearAllTask(Intent intent) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        super.startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
     public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack,boolean isRightToLeft) {
         Activity activity = getActivity();
         if (activity instanceof BaseActivity) {

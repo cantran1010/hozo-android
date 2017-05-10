@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by LongBui on 5/9/2017.
  */
 
-public class RefreshTokenResponse {
+public class Token {
 
     @SerializedName("access_token")
     private String accessToken;
@@ -39,5 +39,14 @@ public class RefreshTokenResponse {
 
     public void setTokenExpires(String tokenExpires) {
         this.tokenExpires = tokenExpires;
+    }
+
+    @Override
+    public String toString() {
+        return "Token{" +
+                "accessToken='" + accessToken + '\'' +
+                ", refreshToken='" + refreshToken + '\'' +
+                ", tokenExpires='" + tokenExpires + '\'' +
+                '}';
     }
 }

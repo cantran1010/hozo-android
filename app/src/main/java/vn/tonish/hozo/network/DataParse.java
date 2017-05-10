@@ -5,19 +5,17 @@ import android.content.Context;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import vn.tonish.hozo.database.entity.UserEntity;
+import java.util.ArrayList;
+import java.util.List;
 
-import static vn.tonish.hozo.common.Constants.ACCESS_TOCKEN;
-import static vn.tonish.hozo.common.Constants.DATA;
-import static vn.tonish.hozo.common.Constants.EXP_TOCKEN;
-import static vn.tonish.hozo.common.Constants.REFRESH_TOCKEN;
-import static vn.tonish.hozo.common.Constants.TOCKEN;
-import static vn.tonish.hozo.common.Constants.USER;
-import static vn.tonish.hozo.common.Constants.USER_FULL_NAME;
-import static vn.tonish.hozo.common.Constants.USER_ID;
-import static vn.tonish.hozo.common.Constants.USER_LOGIN_AT;
-import static vn.tonish.hozo.common.Constants.USER_MOBILE;
-import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
+import vn.tonish.hozo.database.entity.ReviewEntity;
+import vn.tonish.hozo.database.entity.UserEntity;
+import vn.tonish.hozo.database.manager.ReviewManager;
+import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.model.Review;
+import vn.tonish.hozo.model.User;
+import vn.tonish.hozo.rest.responseRes.Token;
+import vn.tonish.hozo.utils.LogUtils;
 
 /**
  * Created by Can Tran on 24/04/2017.
@@ -25,28 +23,83 @@ import static vn.tonish.hozo.utils.Utils.getStringInJsonObj;
 
 public class DataParse {
 
-    public static UserEntity getUserEntiny(Context context, JSONObject object) {
-        // save new token
+    //inser data UserEntity
+
+    public static void insertUsertoDb(User user, Token token, Context context) {
         UserEntity userEntity = new UserEntity();
-        try {
-            if (!(object == null)) {
-                JSONObject jData = object.getJSONObject(DATA);
-                JSONObject jToken = jData.getJSONObject(TOCKEN);
-                JSONObject jUser = jData.getJSONObject(USER);
+        userEntity.setId(user.getId());
+        userEntity.setAddress(user.getAddress());
+        userEntity.setAvatar(user.getAvatar());
+        userEntity.setDateOfBirth(user.getDateOfBirth());
+        userEntity.setDescription(user.getDescription());
+        userEntity.setEmail(user.getEmail());
+        userEntity.setFacebookId(user.getFacebookId());
+        userEntity.setFullName(user.getFullName());
+        userEntity.setPhoneNumber(user.getPhone());
+        userEntity.setVerified(user.getVerified());
+        userEntity.setPosterAverageRating(user.getPosterAverageRating());
+        userEntity.setPosterReviewCount(user.getPosterReviewCount());
+        userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
+        userEntity.setTaskerReviewCount(user.getTaskerReviewCount());
 
-                userEntity.setToken(getStringInJsonObj(jToken, ACCESS_TOCKEN));
-                userEntity.setRefreshToken(getStringInJsonObj(jToken, REFRESH_TOCKEN));
-                userEntity.setTokenExp(getStringInJsonObj(jToken, EXP_TOCKEN));
+        userEntity.setAccessToken(token.getAccessToken());
+        userEntity.setRefreshToken(token.getRefreshToken());
+        userEntity.setTokenExp(token.getTokenExpires());
 
-                userEntity.setId(Integer.parseInt(getStringInJsonObj(jUser, USER_ID)));
-                userEntity.setFullName(getStringInJsonObj(jUser, USER_FULL_NAME));
-                userEntity.setPhoneNumber(getStringInJsonObj(jUser, USER_MOBILE));
-                userEntity.setLoginAt(getStringInJsonObj(jUser, USER_LOGIN_AT));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        UserManager.insertUserLogin(userEntity, context);
+        LogUtils.d("inser data UserEntity : ", userEntity.toString());
+    }
+
+    //update User to database
+
+
+    public static void updateUser(User user, Context context) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(user.getId());
+        userEntity.setAddress(user.getAddress());
+        userEntity.setAvatar(user.getAvatar());
+        userEntity.setDateOfBirth(user.getDateOfBirth());
+        userEntity.setDescription(user.getDescription());
+        userEntity.setEmail(user.getEmail());
+        userEntity.setFacebookId(user.getFacebookId());
+        userEntity.setFullName(user.getFullName());
+        userEntity.setPhoneNumber(user.getPhone());
+        userEntity.setVerified(user.getVerified());
+        userEntity.setPosterAverageRating(user.getPosterAverageRating());
+        userEntity.setPosterReviewCount(user.getPosterReviewCount());
+        userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
+        userEntity.setTaskerReviewCount(user.getTaskerReviewCount());
+
+        UserManager.insertUserLogin(userEntity, context);
+        LogUtils.d("update User to database: ", userEntity.toString());
+    }
+
+
+    //update data reviewEntities
+
+    public static void insertReviewtoDb(User user) {
+        List<Review> reviewsPoster = user.getPosterReviews();
+        List<Review> reviewsTasker = user.getTaskerReviews();
+        List<Review> reviews = new ArrayList();
+        reviews.addAll(reviewsPoster);
+        reviews.addAll(reviewsTasker);
+        List<ReviewEntity> reviewEntities = new ArrayList();
+        for (int i = 0; i < reviews.size(); i++) {
+            ReviewEntity reviewEntity = new ReviewEntity();
+            Review review = reviews.get(i);
+            reviewEntity.setAuthorId(review.getAuthorId());
+            reviewEntity.setAuthorAvatar(review.getAuthorAvatar());
+            reviewEntity.setAuthorName(review.getAuthorName());
+            reviewEntity.setBody(review.getBody());
+            reviewEntity.setCreatedAt(review.getCreatedAt());
+            reviewEntity.setRating(review.getRating());
+            reviewEntity.setTaskName(review.getTaskName());
+            reviewEntity.setType(review.getType());
+            reviewEntities.add(reviewEntity);
         }
-        return userEntity;
+
+        ReviewManager.insertReviews(reviewEntities);
+        LogUtils.d("update data reviewEntities: ", reviewEntities.toString());
     }
 
     public static int getAvatarTempId(String response) {

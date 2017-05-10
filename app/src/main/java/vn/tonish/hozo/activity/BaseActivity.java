@@ -1,5 +1,6 @@
 package vn.tonish.hozo.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +12,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import vn.tonish.hozo.view.EdittextHozo;
-import vn.tonish.hozo.view.TextViewHozo;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBD
@@ -22,6 +23,7 @@ import vn.tonish.hozo.R;
 public abstract class BaseActivity extends FragmentActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = BaseActivity.class.getName();
     private FragmentManager fragmentManager;
+    protected ProgressDialog progressDialog;
 
 
     protected abstract int getLayout();
@@ -133,15 +135,15 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         startActivity(intent);
     }
 
-    protected void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack,boolean isRightToLeft) {
-        openFragment(resId, fragmentClazz, null, addBackStack,isRightToLeft);
+    protected void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, boolean isRightToLeft) {
+        openFragment(resId, fragmentClazz, null, addBackStack, isRightToLeft);
     }
 
-    public void openFragmentBundle(int resId, Class<? extends Fragment> fragmentClazz, Bundle bundle, boolean addBackStack,boolean isRightToLeft) {
+    public void openFragmentBundle(int resId, Class<? extends Fragment> fragmentClazz, Bundle bundle, boolean addBackStack, boolean isRightToLeft) {
         openFragment(resId, fragmentClazz, bundle, addBackStack, isRightToLeft);
     }
 
-    private void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack,boolean isRightToLeft) {
+    private void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack, boolean isRightToLeft) {
         FragmentManager manager = getSupportFragmentManager();
         String tag = fragmentClazz.getName();
         try {
@@ -153,8 +155,8 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
                 }
                 FragmentTransaction transaction = manager.beginTransaction();
 
-                if(isRightToLeft)
-                     transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left);
+                if (isRightToLeft)
+                    transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left);
                 else
                     transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
 
@@ -193,6 +195,19 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
             super.onBackPressed();
         } else {
             fragmentManager.popBackStack();
+        }
+    }
+
+    protected void showLoadingProgress(String msg) {
+        progressDialog = new ProgressDialog(BaseActivity.this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage(msg);
+        progressDialog.show();
+    }
+
+    protected void hideLoadingProgress() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
         }
     }
 

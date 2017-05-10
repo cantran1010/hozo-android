@@ -46,7 +46,7 @@ public class UserManager {
         if (realm.where(UserEntity.class) != null) {
             userEntity = realm.where(UserEntity.class).findFirst();
             if (userEntity != null) {
-                result = userEntity.getToken();
+                result = userEntity.getAccessToken();
             }
         }
         return result;

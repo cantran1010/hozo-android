@@ -124,14 +124,14 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
         //user up work
         User user = new User();
-        user.setFull_name("TRAN MINH HAI");
+        user.setFullName("TRAN MINH HAI");
         work.setUser(user);
 
         workDetailView.updateWork(work);
 
         //fake candidate
         User user1 = new User();
-        user1.setFull_name("Tran Van Quan");
+        user1.setFullName("Tran Van Quan");
         usersCandidate.add(user1);
         usersCandidate.add(user1);
         usersCandidate.add(user1);

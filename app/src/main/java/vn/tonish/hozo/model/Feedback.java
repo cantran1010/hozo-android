@@ -1,8 +1,5 @@
 package vn.tonish.hozo.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 
 import io.realm.RealmObject;
@@ -11,7 +8,7 @@ import io.realm.RealmObject;
  * Created by huyquynh on 4/20/17.
  */
 
-public class FeedBack extends RealmObject implements Serializable {
+public class Feedback extends RealmObject implements Serializable {
 
     private int id;
     private String avatar;
@@ -20,10 +17,10 @@ public class FeedBack extends RealmObject implements Serializable {
     private String time;
     private double rate;
 
-    public FeedBack() {
+    public Feedback() {
     }
 
-    public FeedBack(int id, String avatar, String content, String name, String time, double rate) {
+    public Feedback(int id, String avatar, String content, String name, String time, double rate) {
         this.id = id;
         this.avatar = avatar;
         this.content = content;

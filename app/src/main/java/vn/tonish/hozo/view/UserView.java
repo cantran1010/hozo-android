@@ -6,10 +6,8 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import vn.tonish.hozo.view.ButtonHozo;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
-import vn.tonish.hozo.view.TextViewHozo;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.User;
@@ -62,7 +60,7 @@ public class UserView extends LinearLayout {
     public void updateData(User user) {
 
         Utils.displayImageAvatar(getContext(), imgAvatar, user.getAvatar());
-        tvName.setText(user.getFull_name());
+        tvName.setText(user.getFullName());
 //        tvTimeAgo.setText();
 
         btnCall.setOnClickListener(new OnClickListener() {
