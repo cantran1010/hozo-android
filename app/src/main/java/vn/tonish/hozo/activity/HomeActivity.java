@@ -10,7 +10,7 @@ import vn.tonish.hozo.fragment.LoginFragment;
 public class HomeActivity extends BaseActivity {
     @Override
     protected int getLayout() {
-        return R.layout.home_activty;
+        return R.layout.activty_home;
     }
 
     @Override

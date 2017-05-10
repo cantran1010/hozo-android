@@ -20,7 +20,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.LogUtils;
@@ -35,7 +34,7 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
  */
 
 public class LoginFragment extends BaseFragment implements View.OnClickListener {
-    private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final String TAG = LoginFragment.class.getSimpleName();
     private EditText edtPhone;
     private TextView tvContinue;
 
