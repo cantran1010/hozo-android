@@ -46,5 +46,7 @@ public interface ApiInterface {
     @PUT("user")
     Call<User> updateUser(@Header("Authorization") String token, @Body RequestBody body);
 
+    @GET("user")
+    Call<User> getMyAccountInfor(@Header("Authorization") String token);
 
 }

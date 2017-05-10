@@ -15,6 +15,8 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.fragment.PosterReviewFragment;
 import vn.tonish.hozo.fragment.workerReviewFragment;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
@@ -25,10 +27,11 @@ import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView imgback, imgEdit;
-    private TextView btnAddVerify;
+    private ImageView imgback, imgEdit, avatar;
+    private TextView btnAddVerify, btnWorker, btnPoster, btnMoreReview;
     private FrameLayout btnLogOut;
-    private TextView btnWorker, btnPoster;
+    private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile;
+    private ImageView imgVerifyMobile, imgVerifyFacebook, imgverifyMail, imgVerifyCard, imgVerifyBank;
 
     @Override
     protected int getLayout() {
@@ -39,10 +42,22 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void initView() {
         imgback = (ImageView) findViewById(R.id.img_back);
         imgEdit = (ImageView) findViewById(R.id.img_edit);
+        avatar = (ImageView) findViewById(R.id.img_avatar);
         btnAddVerify = (TextView) findViewById(R.id.tv_add_verify);
         btnLogOut = (FrameLayout) findViewById(R.id.btn_logout);
-        btnWorker = (TextView) findViewById(R.id.btn_worker);
-        btnPoster = (TextView) findViewById(R.id.btn_poster);
+        btnWorker = (TextViewHozo) findViewById(R.id.btn_worker);
+        btnPoster = (TextViewHozo) findViewById(R.id.btn_poster);
+        btnPoster = (TextViewHozo) findViewById(R.id.btn_poster);
+        btnMoreReview = (TextViewHozo) findViewById(R.id.tv_more_reviews);
+        tvName = (TextViewHozo) findViewById(R.id.tv_name);
+        tvDateOfBirth = (TextViewHozo) findViewById(R.id.tv_birthday);
+        tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
+        tvMobile = (TextViewHozo) findViewById(R.id.tv_phone);
+        imgVerifyMobile = (ImageView) findViewById(R.id.img_verify_mobile);
+        imgVerifyFacebook = (ImageView) findViewById(R.id.img_verify_facebook);
+        imgverifyMail = (ImageView) findViewById(R.id.img_verify_email);
+        imgVerifyCard = (ImageView) findViewById(R.id.img_verify_card);
+        imgVerifyBank = (ImageView) findViewById(R.id.img_verify_bank);
     }
 
     @Override
@@ -53,6 +68,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btnLogOut.setOnClickListener(this);
         btnPoster.setOnClickListener(this);
         btnWorker.setOnClickListener(this);
+
+        //set cache data
+        setUserInfoFromCache();
+
+        //get data from server
+        updateUserInfoFromServer();
+
         openFragment(R.id.layout_container, workerReviewFragment.class, false, true);
 
     }
@@ -96,4 +118,42 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         LogUtils.d("", "user logout " + userEntity.toString());
 
     }
+
+    private void updateUserInfoFromServer() {
+
+
+    }
+
+    private void setUserInfoFromCache() {
+        UserEntity userEntity = new UserEntity();
+        userEntity = UserManager.getUserLogin(this);
+        Utils.displayImageAvatar(this, avatar, userEntity.getAvatar());
+        tvName.setText(userEntity.getFullName());
+        tvDateOfBirth.setText(userEntity.getDateOfBirth());
+        tvMobile.setText(userEntity.getPhoneNumber());
+        tvAddress.setText(userEntity.getAddress());
+        setVerify(userEntity.getVerified(), imgVerifyMobile, imgVerifyFacebook, imgverifyMail, imgVerifyCard, imgVerifyBank);
+    }
+
+    private void setVerify(int verify, ImageView imgPhone, ImageView imgFacebook, ImageView imgMail, ImageView imgCard, ImageView imgBank) {
+        if ((verify & 1) == 0) {
+            imgPhone.setAlpha(0.2f);
+        }
+        if ((verify & 2) == 0) {
+            imgFacebook.setAlpha(0.2f);
+        }
+        if ((verify & 4) == 0) {
+            imgMail.setAlpha(0.2f);
+        }
+        if ((verify & 8) == 0) {
+            imgCard.setAlpha(0.2f);
+        }
+
+        if ((verify & 16) == 0) {
+            imgBank.setAlpha(0.2f);
+        }
+
+    }
+
 }
+
