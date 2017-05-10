@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue"
+    android:orientation="vertical"
+    android:padding="30dp"
+    tools:ignore="Overdraw">
+
+
+    <vn.tonish.hozo.view.TextViewHozo
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/tv_label_name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/tv_size_lager"
+        tools:ignore="RtlHardcoded" />
+
+
+    <vn.tonish.hozo.view.EdittextHozo
+        android:id="@+id/edt_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:inputType="text"
+        android:maxLines="2"
+        android:minHeight="30dp"
+        android:textColor="@color/white" />
+
+
+    <vn.tonish.hozo.view.TextViewHozo
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text="@string/tv_login_policy"
+        android:textColor="@color/white"
+        android:textSize="@dimen/tv_size_xtiny" />
+
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@color/blue"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="@string/tv_login_save"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/tv_size_nomal" />
+
+
+</LinearLayout>

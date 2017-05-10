@@ -15,6 +15,7 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Review;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.rest.responseRes.Token;
+import vn.tonish.hozo.utils.LogUtils;
 
 /**
  * Created by Can Tran on 24/04/2017.
@@ -22,6 +23,7 @@ import vn.tonish.hozo.rest.responseRes.Token;
 
 public class DataParse {
 
+    //inser data UserEntity
 
     public static void insertUsertoDb(User user, Token token, Context context) {
         UserEntity userEntity = new UserEntity();
@@ -45,7 +47,35 @@ public class DataParse {
         userEntity.setTokenExp(token.getTokenExpires());
 
         UserManager.insertUserLogin(userEntity, context);
+        LogUtils.d("inser data UserEntity : ", userEntity.toString());
     }
+
+    //update User to database
+
+
+    public static void updateUser(User user, Context context) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(user.getId());
+        userEntity.setAddress(user.getAddress());
+        userEntity.setAvatar(user.getAvatar());
+        userEntity.setDateOfBirth(user.getDateOfBirth());
+        userEntity.setDescription(user.getDescription());
+        userEntity.setEmail(user.getEmail());
+        userEntity.setFacebookId(user.getFacebookId());
+        userEntity.setFullName(user.getFullName());
+        userEntity.setPhoneNumber(user.getPhone());
+        userEntity.setVerified(user.getVerified());
+        userEntity.setPosterAverageRating(user.getPosterAverageRating());
+        userEntity.setPosterReviewCount(user.getPosterReviewCount());
+        userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
+        userEntity.setTaskerReviewCount(user.getTaskerReviewCount());
+
+        UserManager.insertUserLogin(userEntity, context);
+        LogUtils.d("update User to database: ", userEntity.toString());
+    }
+
+
+    //update data reviewEntities
 
     public static void insertReviewtoDb(User user) {
         List<Review> reviewsPoster = user.getPosterReviews();
@@ -53,7 +83,7 @@ public class DataParse {
         List<Review> reviews = new ArrayList();
         reviews.addAll(reviewsPoster);
         reviews.addAll(reviewsTasker);
-        List<ReviewEntity> reviewEntities = new ArrayList<ReviewEntity>();
+        List<ReviewEntity> reviewEntities = new ArrayList();
         for (int i = 0; i < reviews.size(); i++) {
             ReviewEntity reviewEntity = new ReviewEntity();
             Review review = reviews.get(i);
@@ -69,6 +99,7 @@ public class DataParse {
         }
 
         ReviewManager.insertReviews(reviewEntities);
+        LogUtils.d("update data reviewEntities: ", reviewEntities.toString());
     }
 
     public static int getAvatarTempId(String response) {

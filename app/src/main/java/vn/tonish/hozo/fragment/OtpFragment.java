@@ -1,7 +1,6 @@
 package vn.tonish.hozo.fragment;
 
 import android.app.Service;
-import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -22,7 +21,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.rest.ApiClient;
@@ -288,10 +286,11 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
                 // login
                 if (response.code() == 200) {
                     btnSigIn.setText(getString(R.string.login_account));
-                    startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class));
+                    openFragment(R.id.layout_container, VerifyNameFragment.class, false, false);
+//                    startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class));
                 } else {
                     btnSigIn.setText(getString(R.string.login_create_account));
-                    openFragment(R.id.layout_container, OtpFragment.class, false, false);
+                    openFragment(R.id.layout_container, VerifyNameFragment.class, false, false);
                 }
                 ProgressDialogUtils.dismissProgressDialog();
             }

@@ -13,6 +13,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
@@ -41,5 +42,9 @@ public interface ApiInterface {
 
     @POST("auth/login")
     Call<OtpReponse> senOtp(@Body RequestBody body);
+
+    @PUT("user")
+    Call<User> updateUser(@Header("Authorization") String token, @Body RequestBody body);
+
 
 }
