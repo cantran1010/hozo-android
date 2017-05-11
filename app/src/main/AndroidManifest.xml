@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="vn.tonish.hozo.activity.SplashActivity"
+            android:name="vn.tonish.hozo.activity.PostATaskMapActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -72,10 +72,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
-        <activity
-            android:name=".activity.PostATaskMapActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+        <!--<activity-->
+            <!--android:name=".activity.PostATaskMapActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:windowSoftInputMode="stateHidden" />-->
 
         <activity
             android:name=".activity.PostATaskFinishActivity"
@@ -117,15 +117,15 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
-        <activity
-            android:name=".activity.MakeAnOfferActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+        <!--  <activity
+              android:name=".activity.MakeAnOfferActivity"
+              android:screenOrientation="portrait"
+              android:windowSoftInputMode="stateHidden" />-->
 
         <!--<activity-->
-            <!--android:name=".activity.PosterOpenTaskActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="stateHidden" />-->
+        <!--android:name=".activity.PosterOpenTaskActivity"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--android:windowSoftInputMode="stateHidden" />-->
 
         <activity
             android:name=".activity.PosterAssignedTaskActivity"

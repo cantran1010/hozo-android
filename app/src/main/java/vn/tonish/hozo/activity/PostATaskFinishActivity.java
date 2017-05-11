@@ -197,6 +197,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             e.printStackTrace();
         }
 
+        LogUtils.d(TAG, "createNewTask data request : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         ApiClient.getApiService().createNewTask(UserManager.getUserToken(this), body).enqueue(new Callback<Work>() {
             @Override

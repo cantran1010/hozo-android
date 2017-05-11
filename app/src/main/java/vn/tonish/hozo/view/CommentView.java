@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import vn.tonish.hozo.view.TextViewHozo;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.dialog.ReportDialog;
@@ -23,6 +22,7 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
 
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvComment, tvTimeAgo;
+    private ImageView imgAttach;
 
     public CommentView(Context context) {
         super(context);
@@ -55,16 +55,17 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
         tvComment = (TextViewHozo) findViewById(R.id.tv_comment);
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
         ImageView imgSetting = (ImageView) findViewById(R.id.img_setting);
+        imgAttach = (ImageView) findViewById(R.id.img_attach);
 
         imgSetting.setOnClickListener(this);
     }
 
     public void updateData(Comment comment) {
-
         Utils.displayImageAvatar(getContext(), imgAvatar, comment.getAvatar());
         tvName.setText(comment.getFullName());
         tvComment.setText(comment.getBody());
         tvTimeAgo.setText(comment.getCreatedAt());
+        Utils.displayImage(getContext(), imgAttach, comment.getImgAttach());
     }
 
     @Override

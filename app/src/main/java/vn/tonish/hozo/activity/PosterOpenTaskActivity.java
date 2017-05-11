@@ -90,7 +90,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        rcvCandidate = (RecyclerView) findViewById(R.id.rcv_candidate);
+        rcvCandidate = (RecyclerView) findViewById(R.id.rcv_bidders);
 
         imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
 

@@ -1,9 +1,14 @@
 package vn.tonish.hozo.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -39,6 +44,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private boolean isCropProfile = false;
     private ImageView imgBack;
     private int countImageAttach = 0;
+    private final String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
 
     @Override
@@ -67,8 +73,37 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
         if (intent.hasExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA))
             countImageAttach = intent.getIntExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, 0);
 
-        getAlbum();
+        checkPermission();
+    }
 
+    protected void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            permissionGranted();
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != Constants.PERMISSION_REQUEST_CODE
+                || grantResults.length == 0
+                || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            permissionDenied();
+        } else {
+            permissionGranted();
+        }
+    }
+
+    private void permissionDenied() {
+//        hideViews();
+//        requestPermission();
+    }
+
+    private void permissionGranted() {
+        getAlbum();
     }
 
     private void getAlbum() {

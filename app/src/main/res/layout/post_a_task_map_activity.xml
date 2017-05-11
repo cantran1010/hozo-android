@@ -44,13 +44,15 @@
         android:text="@string/continue_up_case"
         android:textColor="@color/white" />
 
-    <vn.tonish.hozo.view.EdittextHozo
-        android:id="@+id/edt_address"
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_address"
+        style="@style/tv_style_normal_black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_next"
         android:layout_margin="10dp"
         android:background="@drawable/border_gray"
+        android:gravity="center_vertical"
         android:inputType="text"
         android:maxLines="1"
         android:minHeight="@dimen/edt_min_height"
@@ -61,7 +63,7 @@
         android:id="@+id/layout_des"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/edt_address"
+        android:layout_above="@id/tv_address"
         android:orientation="horizontal">
 
         <vn.tonish.hozo.view.TextViewHozo
@@ -76,7 +78,7 @@
         <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
+            android:layout_marginLeft="2dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/map_hint_input2"
@@ -96,21 +98,6 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-        <RelativeLayout
-            android:layout_width="16dp"
-            android:layout_height="64dp"
-            android:layout_centerInParent="true">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="34dp"
-                android:layout_centerHorizontal="true"
-                android:contentDescription="@string/just_image"
-                android:src="@drawable/current_pin" />
-
-        </RelativeLayout>
-
 
         <LinearLayout
             android:layout_width="wrap_content"

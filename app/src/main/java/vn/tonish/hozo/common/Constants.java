@@ -58,4 +58,6 @@ public class Constants {
     public static final String DATA = "data";
     public static final String USER = "user";
 
+    public static final int PERMISSION_REQUEST_CODE = 987;
+    public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
 }

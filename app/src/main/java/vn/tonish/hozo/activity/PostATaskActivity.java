@@ -1,11 +1,16 @@
 package vn.tonish.hozo.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
@@ -78,6 +83,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private Integer[] imagesArr;
     private int ageFrom, ageTo;
     private EdittextHozo edtWorkingHour;
+    private final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
     protected int getLayout() {
         return R.layout.activity_post_a_task;
@@ -147,9 +153,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                         pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
                             @Override
                             public void onCamera() {
-                                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+                                checkPermission();
                             }
 
                             @Override
@@ -173,6 +177,37 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void resumeData() {
 
+    }
+
+    protected void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            permissionGranted();
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != Constants.PERMISSION_REQUEST_CODE
+                || grantResults.length == 0
+                || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            permissionDenied();
+        } else {
+            permissionGranted();
+        }
+    }
+
+    private void permissionGranted() {
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+    }
+
+    private void permissionDenied() {
+        LogUtils.d(TAG,"permissionDenied camera");
     }
 
     @Override
@@ -339,11 +374,11 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
 
-        ApiClient.getApiService().uploadImage(UserManager.getUserToken(this),itemPart).enqueue(new Callback<ImageResponse>() {
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(this), itemPart).enqueue(new Callback<ImageResponse>() {
             @Override
             public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
                 LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
-                ImageResponse  imageResponse = response.body();
+                ImageResponse imageResponse = response.body();
 
                 imageAttachCount--;
                 imagesArr[position] = imageResponse.getIdTemp();
