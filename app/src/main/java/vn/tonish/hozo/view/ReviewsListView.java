@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.ReviewsAdapter;
-import vn.tonish.hozo.model.Feedback;
+import vn.tonish.hozo.model.Review;
 
 /**
  * Created by tonish1 on 5/9/17.
@@ -51,8 +51,8 @@ public class ReviewsListView extends RelativeLayout {
         rcvComment = (RecyclerView) findViewById(R.id.rcv_comment);
     }
 
-    public void updateData(ArrayList<Feedback> feedbacks) {
-        ReviewsAdapter reviewsAdapter = new ReviewsAdapter(feedbacks);
+    public void updateData(ArrayList<Review> reviews) {
+        ReviewsAdapter reviewsAdapter = new ReviewsAdapter(reviews);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rcvComment.setLayoutManager(layoutManager);
         rcvComment.setAdapter(reviewsAdapter);

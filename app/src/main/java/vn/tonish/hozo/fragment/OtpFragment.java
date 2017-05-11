@@ -35,7 +35,7 @@ import static vn.tonish.hozo.network.DataParse.insertReviewtoDb;
 import static vn.tonish.hozo.network.DataParse.insertUsertoDb;
 
 /**
- * Created by tonish1 on 5/9/17.
+ * Created by Can Tran on 4/11/17.
  */
 
 public class OtpFragment extends BaseFragment implements View.OnFocusChangeListener, View.OnKeyListener, TextWatcher, View.OnClickListener {
