@@ -9,14 +9,23 @@ import io.realm.annotations.PrimaryKey;
 
 public class ReviewEntity extends RealmObject {
     @PrimaryKey
+    private int id;
     private Integer authorId;
     private String authorAvatar;
     private String authorName;
     private String taskName;
-    private Integer type;
+    private String type;
     private String body;
     private Integer rating;
     private String createdAt;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Integer getAuthorId() {
         return authorId;
@@ -50,11 +59,11 @@ public class ReviewEntity extends RealmObject {
         this.taskName = taskName;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 

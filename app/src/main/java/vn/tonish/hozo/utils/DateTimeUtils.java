@@ -1,11 +1,15 @@
 package vn.tonish.hozo.utils;
 
+import android.content.Context;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+
+import vn.tonish.hozo.R;
 
 /**
  * Created by LongBui.
@@ -118,6 +122,50 @@ public class DateTimeUtils {
         Date dateConverted = convertToDate2(date + " " + time);
         String nowAsISO = fromDateIso(dateConverted);
         return nowAsISO;
+    }
+
+    private static final int SECOND_MILLIS = 1000;
+    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
+    private static final int MONTH_MILLIS = 30 * DAY_MILLIS;
+
+    public static String getTimeAgo(String date, Context context) {
+        String result = "";
+        long time;
+        try {
+            time = toCalendar(date).getTimeInMillis();
+            if (time < 1000000000000L) {
+                // if timestamp given in seconds, convert to millis
+                time *= 1000;
+            }
+            Calendar calendar = Calendar.getInstance();
+            long now = calendar.getTimeInMillis();
+            if (time > now || time <= 0) {
+                return null;
+            }
+            final long diff = now - time;
+            if (diff < MINUTE_MILLIS) {
+                result = context.getResources().getString(R.string.just_now);
+            } else if (diff < 2 * MINUTE_MILLIS) {
+                result = context.getResources().getString(R.string.minute_ago);
+            } else if (diff < 50 * MINUTE_MILLIS) {
+                result = diff / MINUTE_MILLIS + " " + context.getResources().getString(R.string.minutes_ago);
+            } else if (diff < 90 * MINUTE_MILLIS) {
+                result = context.getResources().getString(R.string.hour_ago);
+            } else if (diff < 24 * HOUR_MILLIS) {
+                result = diff / HOUR_MILLIS + " " + context.getResources().getString(R.string.hours_ago);
+            } else if (diff < 48 * HOUR_MILLIS) {
+                result = context.getResources().getString(R.string.yesterday);
+            } else {
+                result = diff / DAY_MILLIS + " " + context.getResources().getString(R.string.days_ago);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        return result;
     }
 
 }

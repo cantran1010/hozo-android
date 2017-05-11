@@ -10,8 +10,9 @@ import com.google.gson.annotations.SerializedName;
  */
 
 
-public class Review  implements Parcelable{
+public class Review implements Parcelable {
 
+    private Integer id;
     @SerializedName("author_id")
     private Integer authorId;
     @SerializedName("author_avatar")
@@ -20,7 +21,7 @@ public class Review  implements Parcelable{
     private String authorName;
     @SerializedName("task_name")
     private String taskName;
-    private Integer type;
+    private String type;
     private String body;
     private Integer rating;
     @SerializedName("created_at")
@@ -48,6 +49,14 @@ public class Review  implements Parcelable{
             return new Review[size];
         }
     };
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getAuthorId() {
         return authorId;
@@ -81,11 +90,11 @@ public class Review  implements Parcelable{
         this.taskName = taskName;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 

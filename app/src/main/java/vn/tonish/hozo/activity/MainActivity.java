@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        openFragment(R.id.layout_container, SelectTaskFragment.class, false,true);
+        openFragment(R.id.layout_container, SelectTaskFragment.class, false, true);
         updateMenuUi(1);
 
         layoutPostATask.setOnClickListener(this);
@@ -76,35 +76,35 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (tabIndex == 1) break;
                 tabIndex = 1;
                 updateMenuUi(1);
-                openFragment(R.id.layout_container, SelectTaskFragment.class, false,true);
+                openFragment(R.id.layout_container, SelectTaskFragment.class, false, true);
                 break;
 
             case R.id.layout_browser_task:
                 if (tabIndex == 2) break;
                 tabIndex = 2;
                 updateMenuUi(2);
-                openFragment(R.id.layout_container, BrowseTaskFragment.class, false,true);
+                openFragment(R.id.layout_container, BrowseTaskFragment.class, false, true);
                 break;
 
             case R.id.layout_my_task:
                 if (tabIndex == 3) break;
                 tabIndex = 3;
                 updateMenuUi(3);
-                openFragment(R.id.layout_container, MyTaskFragment.class, false,true);
+                openFragment(R.id.layout_container, MyTaskFragment.class, false, true);
                 break;
 
             case R.id.layout_inbox:
                 if (tabIndex == 4) break;
                 tabIndex = 4;
                 updateMenuUi(4);
-                openFragment(R.id.layout_container, InboxFragment.class, false,true);
+                openFragment(R.id.layout_container, InboxFragment.class, false, true);
                 break;
 
             case R.id.layout_other:
                 if (tabIndex == 5) break;
                 tabIndex = 5;
                 updateMenuUi(5);
-                openFragment(R.id.layout_container, HelpFragment.class, false,true);
+                openFragment(R.id.layout_container, HelpFragment.class, false, true);
                 break;
 
         }

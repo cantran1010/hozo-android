@@ -10,6 +10,7 @@ import android.widget.RatingBar;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Review;
+import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.Utils;
 
 /**
@@ -60,7 +61,8 @@ public class ReviewsView extends LinearLayout {
         tvName.setText(review.getAuthorName());
         ratingBar.setRating((float) review.getRating());
         tvReviews.setText(review.getBody());
-        tvTimeAgo.setText(review.getCreatedAt());
+        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(review.getCreatedAt(), getContext()));
+
     }
 
 }
