@@ -6,36 +6,37 @@
     <vn.tonish.hozo.view.TextViewHozo
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/text_line" />
+        android:background="@color/text_line"
+        android:id="@+id/textViewHozo" />
 
 
     <vn.tonish.hozo.view.CircleImageView
         android:id="@+id/img_avatar"
         android:layout_width="84dp"
         android:layout_height="84dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="23dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/avatar_default" />
+        android:src="@drawable/avatar_default"
+        android:layout_below="@+id/textViewHozo"
+        android:layout_centerHorizontal="true" />
 
 
     <vn.tonish.hozo.view.TextViewHozo
-        android:layout_marginTop="18dp"
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/img_avatar"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp"
         android:gravity="center"
-        android:text="@string/app_name"
         android:textColor="@color/black"
         android:textSize="@dimen/tv_size_xlager" />
 
     <vn.tonish.hozo.view.TextViewHozo
-        android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tv_name"
+        android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/tv_name"
         android:background="@drawable/bg_verify_profile"
         android:gravity="center"
@@ -50,15 +51,25 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_name"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="@string/app_name"
-        android:textColor="@color/text_item_address" />
+        android:layout_marginTop="5dp"
+        android:textColor="@color/text_item_address"
+        android:textSize="@dimen/tv_size_xtiny" />
 
     <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/tv_birthday"
-        android:layout_marginTop="18dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/text_item_address"
+        android:textSize="@dimen/tv_size_xtiny" />
+
+    <vn.tonish.hozo.view.TextViewHozo
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
+        android:layout_below="@+id/tv_gender"
+        android:layout_marginTop="18dp"
         android:background="@color/text_line" />
 
 </RelativeLayout>
