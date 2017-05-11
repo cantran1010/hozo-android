@@ -42,7 +42,7 @@ public class ReviewManager {
         return reviews;
     }
 
-    public static List<ReviewEntity> getReviewByType(int type){
+    public static List<ReviewEntity> getReviewByType(String type){
         LogUtils.d(TAG, "getUserLogin start ");
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         // get last update

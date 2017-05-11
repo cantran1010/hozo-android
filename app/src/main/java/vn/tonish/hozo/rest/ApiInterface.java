@@ -43,10 +43,10 @@ public interface ApiInterface {
     @POST("auth/login")
     Call<OtpReponse> senOtp(@Body RequestBody body);
 
-    @PUT("user")
+    @PUT("users")
     Call<User> updateUser(@Header("Authorization") String token, @Body RequestBody body);
 
-    @GET("user")
+    @GET("users")
     Call<User> getMyAccountInfor(@Header("Authorization") String token);
 
 }
