@@ -18,9 +18,8 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.model.Category;
-import vn.tonish.hozo.model.HozoLocation;
-import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.NumberTextWatcher;
@@ -39,9 +38,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
     protected ButtonHozo btnDone;
     private EdittextHozo edtBudget, edtNumberWorker;
     private TextViewHozo tvTotal;
-    private Work work;
-    private HozoLocation location;
-    //    private ArrayList<Image> images;
+    private TaskResponse work;
     private ImageView imgBack;
     private Category category;
 
@@ -66,11 +63,8 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
     @Override
     protected void initData() {
 
-        work = (Work) getIntent().getSerializableExtra(Constants.EXTRA_WORK);
-        location = (HozoLocation) getIntent().getSerializableExtra(Constants.EXTRA_ADDRESS);
-//        images = getIntent().getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+        work = (TaskResponse) getIntent().getSerializableExtra(Constants.EXTRA_TASK);
         category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
-
         edtBudget.addTextChangedListener(new NumberTextWatcher(edtBudget));
 //        edtNumberWorker.addTextChangedListener(new NumberTextWatcher(edtNumberWorker));
 
@@ -173,34 +167,36 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         final JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put("type", category.getId());
-            jsonRequest.put("title", work.getName());
+            jsonRequest.put("title", work.getTitle());
             jsonRequest.put("description", work.getDescription());
 //            jsonRequest.put("start_time", DateTimeUtils.getTimeIso8601(work.getDate(), work.getStartTime()));
 //            jsonRequest.put("end_time", DateTimeUtils.getTimeIso8601(work.getDate(), work.getEndTime()));
             jsonRequest.put("start_time", work.getStartTime());
             jsonRequest.put("end_time", work.getEndTime());
-            jsonRequest.put("gender", work.getGenderWorker());
+            jsonRequest.put("gender", work.getGender());
             jsonRequest.put("min_age", work.getMinAge());
             jsonRequest.put("max_age", work.getMaxAge());
-            jsonRequest.put("latitude", location.getLat());
-            jsonRequest.put("longitude", location.getLon());
-            jsonRequest.put("city", location.getCity());
-            jsonRequest.put("district", location.getDistrict());
-            jsonRequest.put("address", location.getAddress());
+            jsonRequest.put("latitude", work.getLatitude());
+            jsonRequest.put("longitude", work.getLongitude());
+            jsonRequest.put("city", work.getCity());
+            jsonRequest.put("district", work.getDistrict());
+            jsonRequest.put("address", work.getAddress());
             jsonRequest.put("worker_rate", Integer.valueOf(edtBudget.getText().toString().replace(".", "")));
             jsonRequest.put("worker_count", Integer.valueOf(edtNumberWorker.getText().toString().replace(".", "")));
 
-            if (work.getAttachmentsImage() != null && !work.getAttachmentsImage().equals(""))
-                jsonRequest.put("attachments", work.getAttachmentsImage());
+            if (work.getAttachmentsId() != null && !work.getAttachmentsId().equals(""))
+                jsonRequest.put("attachments", work.getAttachmentsId());
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        LogUtils.d(TAG, "createNewTask data request : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().createNewTask(UserManager.getUserToken(this), body).enqueue(new Callback<Work>() {
+
+        ApiClient.getApiService().createNewTask(UserManager.getUserToken(this), body).enqueue(new Callback<TaskResponse>() {
             @Override
-            public void onResponse(Call<Work> call, Response<Work> response) {
+            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                 LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
 
                 if (response.isSuccessful()) {
@@ -212,46 +208,12 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
                         }
                     });
                 }
-
             }
 
             @Override
-            public void onFailure(Call<Work> call, Throwable t) {
-                LogUtils.e(TAG, "createNewTask onFailure : " + t.getMessage());
+            public void onFailure(Call<TaskResponse> call, Throwable t) {
+
             }
         });
-
-//        NetworkUtils.postVolleyRawData(true, true, true, this, NetworkConfig.API_POST_TASK, jsonRequest, new NetworkUtils.NetworkListener() {
-//            @Override
-//            public void onSuccess(JSONObject jsonResponse) {
-//                try {
-//                    int code = jsonResponse.getInt("code");
-//
-//                    if (code == 0) {
-//                        DialogUtils.showConfirmAlertDialog(PostATaskFinishActivity.this, jsonResponse.getString("message"), new DialogUtils.ConfirmDialogListener() {
-//                            @Override
-//                            public void onConfirmClick() {
-//                                setResult(Constants.POST_A_TASK_RESPONSE_CODE);
-//                                finish();
-//                            }
-//                        });
-//                    } else {
-//                        DialogUtils.showConfirmAlertDialog(PostATaskFinishActivity.this, jsonResponse.getString("message"), new DialogUtils.ConfirmDialogListener() {
-//                            @Override
-//                            public void onConfirmClick() {
-//
-//                            }
-//                        });
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onError() {
-//
-//            }
-//        });
     }
 }

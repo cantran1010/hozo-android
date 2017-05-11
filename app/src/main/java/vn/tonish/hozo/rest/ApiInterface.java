@@ -12,11 +12,12 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.User;
-import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
+import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.rest.responseRes.Token;
 
 /**
@@ -38,13 +39,16 @@ public interface ApiInterface {
     Call<ImageResponse> uploadImage(@Header("Authorization") String token, @Part MultipartBody.Part filePart);
 
     @POST("tasks")
-    Call<Work> createNewTask(@Header("Authorization") String token, @Body RequestBody body);
+    Call<TaskResponse> createNewTask(@Header("Authorization") String token, @Body RequestBody body);
 
     @POST("auth/login")
     Call<OtpReponse> senOtp(@Body RequestBody body);
 
     @PUT("user")
     Call<User> updateUser(@Header("Authorization") String token, @Body RequestBody body);
+
+    @GET("tasks/{id}")
+    Call<TaskResponse> getDetailTask(@Header("Authorization") String token, @Path("id") int id);
 
 
 }

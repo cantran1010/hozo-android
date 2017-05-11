@@ -1,5 +1,7 @@
 package vn.tonish.hozo.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 import io.realm.RealmObject;
@@ -10,10 +12,15 @@ import io.realm.RealmObject;
 
 public class Comment extends RealmObject implements Serializable {
     private String id;
+    @SerializedName("author_id")
     private String authorId;
+    @SerializedName("full_name")
     private String fullName;
     private String avatar;
+    @SerializedName("image_url")
+    private String imgAttach;
     private String body;
+    @SerializedName("created_at")
     private String createdAt;
     private String taskId;
 
@@ -27,6 +34,14 @@ public class Comment extends RealmObject implements Serializable {
         this.body = body;
         this.createdAt = created_at;
         this.taskId = task_id;
+    }
+
+    public String getImgAttach() {
+        return imgAttach;
+    }
+
+    public void setImgAttach(String imgAttach) {
+        this.imgAttach = imgAttach;
     }
 
     public String getFullName() {
@@ -83,5 +98,19 @@ public class Comment extends RealmObject implements Serializable {
 
     public void setTaskId(String taskId) {
         this.taskId = taskId;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id='" + id + '\'' +
+                ", authorId='" + authorId + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", imgAttach='" + imgAttach + '\'' +
+                ", body='" + body + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", taskId='" + taskId + '\'' +
+                '}';
     }
 }

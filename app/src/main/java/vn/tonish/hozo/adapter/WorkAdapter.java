@@ -3,24 +3,24 @@ package vn.tonish.hozo.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import vn.tonish.hozo.view.TextViewHozo;
 import android.widget.Toast;
 
 import java.util.List;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.model.Work;
+import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by MAC2015 on 4/12/17.
  */
 
-public class WorkAdapter extends BaseAdapter<Work, WorkAdapter.WorkHolder, LoadingHolder> {
+public class WorkAdapter extends BaseAdapter<TaskResponse, WorkAdapter.WorkHolder, LoadingHolder> {
 
-    private List<Work> works;
+    private List<TaskResponse> works;
     private Context context;
 
-    public WorkAdapter(Context context, List<Work> works) {
+    public WorkAdapter(Context context, List<TaskResponse> works) {
         super(context, works);
         this.context = context;
         this.works = works;
@@ -51,15 +51,15 @@ public class WorkAdapter extends BaseAdapter<Work, WorkAdapter.WorkHolder, Loadi
         if (holder instanceof WorkHolder) {
             WorkHolder workHolder = ((WorkHolder) holder);
             workHolder.work = works.get(position);
-            workHolder.tvName.setText(workHolder.work.getName());
+            workHolder.tvName.setText(workHolder.work.getTitle());
             workHolder.tvDes.setText(workHolder.work.getDescription());
-            workHolder.tvPrice.setText(workHolder.work.getPrice());
+            workHolder.tvPrice.setText(workHolder.work.getCurrency());
         }
     }
 
     class WorkHolder extends BaseHolder {
 
-        private Work work;
+        private TaskResponse work;
         private final TextViewHozo tvName;
         private final TextViewHozo tvDes;
         private final TextViewHozo tvPrice;

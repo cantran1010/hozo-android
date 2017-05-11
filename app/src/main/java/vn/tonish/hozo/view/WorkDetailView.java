@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.model.Work;
+import vn.tonish.hozo.rest.responseRes.TaskResponse;
 
 /**
  * Created by LongBui on 4/21/2017.
@@ -81,18 +81,18 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
     }
 
-    public void updateWork(Work work) {
-        tvName.setText(work.getUser().getFullName());
+    public void updateWork(TaskResponse taskResponse) {
+        tvName.setText(taskResponse.getPoster().getFullName());
 
-        tvTime.setText(work.getName());
-        tvTimeAgo.setText(work.getTimeAgo());
-        tvWorkType.setText(work.getWorkTypeName());
-        tvDescription.setText(work.getDescription());
+        tvTime.setText(taskResponse.getTitle());
+        tvTimeAgo.setText(taskResponse.getEndTime());
+//        tvWorkType.setText(taskResponse.getR);
+        tvDescription.setText(taskResponse.getDescription());
 
-        tvPrice.setText(work.getPrice());
-        tvDate.setText(work.getDate());
-        tvTime.setText(work.getTime());
-        tvAddress.setText(work.getAddress());
+        tvPrice.setText(taskResponse.getCurrency());
+        tvDate.setText(taskResponse.getStartTime());
+        tvTime.setText(taskResponse.getEndTime());
+        tvAddress.setText(taskResponse.getAddress());
 
     }
 

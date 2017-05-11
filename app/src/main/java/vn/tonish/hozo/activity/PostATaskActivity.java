@@ -1,11 +1,16 @@
 package vn.tonish.hozo.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
@@ -14,11 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
-import org.json.JSONArray;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,9 +39,9 @@ import vn.tonish.hozo.dialog.AlertDialogCancelTask;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Image;
-import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
+import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -78,6 +80,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private Integer[] imagesArr;
     private int ageFrom, ageTo;
     private EdittextHozo edtWorkingHour;
+    private final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
     protected int getLayout() {
         return R.layout.activity_post_a_task;
@@ -147,9 +150,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                         pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
                             @Override
                             public void onCamera() {
-                                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+                                checkPermission();
                             }
 
                             @Override
@@ -173,6 +174,37 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void resumeData() {
 
+    }
+
+    protected void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            permissionGranted();
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != Constants.PERMISSION_REQUEST_CODE
+                || grantResults.length == 0
+                || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            permissionDenied();
+        } else {
+            permissionGranted();
+        }
+    }
+
+    private void permissionGranted() {
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+    }
+
+    private void permissionDenied() {
+        LogUtils.d(TAG, "permissionDenied camera");
     }
 
     @Override
@@ -289,18 +321,17 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         }
 
         if (images.size() == 1) {
-            Work work = new Work();
-            work.setName(edtWorkName.getText().toString());
-            work.setDate(tvDate.getText().toString());
-            work.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
-            work.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
-            work.setDescription(edtDescription.getText().toString());
-            work.setGenderWorker(spGender.getSelectedItemPosition());
-            work.setMinAge(ageFrom);
-            work.setMaxAge(ageTo);
+            TaskResponse taskResponse = new TaskResponse();
+            taskResponse.setTitle(edtWorkName.getText().toString());
+            taskResponse.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
+            taskResponse.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
+            taskResponse.setDescription(edtDescription.getText().toString());
+            taskResponse.setGender(spGender.getSelectedItemPosition() + "");
+            taskResponse.setMinAge(ageFrom);
+            taskResponse.setMaxAge(ageTo);
 
             Intent intent = new Intent(this, PostATaskMapActivity.class);
-            intent.putExtra(Constants.EXTRA_WORK, work);
+            intent.putExtra(Constants.EXTRA_TASK, taskResponse);
             intent.putExtra(Constants.EXTRA_CATEGORY, category);
 
             startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE);
@@ -339,11 +370,11 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
 
-        ApiClient.getApiService().uploadImage(UserManager.getUserToken(this),itemPart).enqueue(new Callback<ImageResponse>() {
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(this), itemPart).enqueue(new Callback<ImageResponse>() {
             @Override
             public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
                 LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
-                ImageResponse  imageResponse = response.body();
+                ImageResponse imageResponse = response.body();
 
                 imageAttachCount--;
                 imagesArr[position] = imageResponse.getIdTemp();
@@ -356,67 +387,24 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                 LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
             }
         });
-
-//        final MultipartRequest multipartRequest = new MultipartRequest(this, NetworkConfig.API_UPDATE_AVATA, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                LogUtils.e(TAG, "volley onErrorResponse : " + error.toString());
-//
-//                if (error.getMessage().equals(Constants.ERROR_AUTHENTICATION)) {
-//                    // HTTP Status Code: 401 Unauthorized
-//                    // Refresh token
-//                    NetworkUtils.RefreshToken(PostATaskActivity.this, new NetworkUtils.RefreshListener() {
-//                        @Override
-//                        public void onRefreshFinish(JSONObject jsonResponse) {
-//                            UserManager.insertUserLogin(new DataParse().getUserEntiny(PostATaskActivity.this, jsonResponse), PostATaskActivity.this);
-//                            attachFile(file, position);
-//                        }
-//                    });
-//                } else {
-//                    DialogUtils.showRetryDialog(PostATaskActivity.this, PostATaskActivity.this.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
-//                        @Override
-//                        public void onOkClick() {
-//                            attachFile(file, position);
-//                        }
-//
-//                        @Override
-//                        public void onCancelClick() {
-//
-//                        }
-//                    });
-//                }
-//            }
-//        }, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String s) {
-//                LogUtils.d(TAG, "volley onResponse : " + s);
-//                imageAttachCount--;
-//                imagesArr[position] = DataParse.getAvatarTempId(s);
-//                finishAttachImage();
-//
-//            }
-//        }, file);
-//        Volley.newRequestQueue(this).add(multipartRequest);
     }
 
     private void finishAttachImage() {
 
         if (imageAttachCount == 0) {
-            Work work = new Work();
-            work.setName(edtWorkName.getText().toString());
-            work.setDate(tvDate.getText().toString());
-            work.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
-            work.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
-            work.setDescription(edtDescription.getText().toString());
-            work.setGenderWorker(spGender.getSelectedItemPosition());
-            work.setMinAge(ageFrom);
-            work.setMaxAge(ageTo);
+            TaskResponse taskResponse = new TaskResponse();
+            taskResponse.setTitle(edtWorkName.getText().toString());
+            taskResponse.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
+            taskResponse.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
+            taskResponse.setDescription(edtDescription.getText().toString());
+            taskResponse.setGender(spGender.getSelectedItemPosition() + "");
+            taskResponse.setMinAge(ageFrom);
+            taskResponse.setMaxAge(ageTo);
 
-            JSONArray mJSONArray = new JSONArray(Arrays.asList(imagesArr));
-            work.setAttachmentsImage(imagesArr);
+            taskResponse.setAttachmentsId(imagesArr);
 
             Intent intent = new Intent(this, PostATaskMapActivity.class);
-            intent.putExtra(Constants.EXTRA_WORK, work);
+            intent.putExtra(Constants.EXTRA_TASK, taskResponse);
             intent.putExtra(Constants.EXTRA_CATEGORY, category);
 
             startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE);

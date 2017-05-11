@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="vn.tonish.hozo.activity.SplashActivity"
+            android:name="vn.tonish.hozo.activity.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -43,10 +43,10 @@
 
         </activity>
 
-        <activity
-            android:name="vn.tonish.hozo.activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+        <!--<activity-->
+        <!--android:name="vn.tonish.hozo.activity.MainActivity"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--android:windowSoftInputMode="stateHidden" />-->
 
         <activity
             android:name="vn.tonish.hozo.activity.HomeActivity"
@@ -122,10 +122,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
-        <!--<activity-->
-            <!--android:name=".activity.PosterOpenTaskActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="stateHidden" />-->
+        <activity
+            android:name=".activity.PosterOpenTaskActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".activity.PosterAssignedTaskActivity"

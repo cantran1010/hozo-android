@@ -186,7 +186,7 @@
     <string name="rate_other">Other</string>
     <string name="network_account_is_not_exist">Tài khoản không tồn tại</string>
     <string name="type_your_text">Type your text …</string>
-    <string name="assign_people">Người ứng tuyển</string>
+    <string name="assign_people">Người đã giao</string>
     <string name="assign">Chọn</string>
     <string name="view_all">Xem tất cả</string>
     <string name="worker">Người làm</string>
@@ -234,4 +234,6 @@
     <string name="retry_content">Đã xảy ra lỗi trong quá trình kết nối. Bạn có muốn thử lại không ?</string>
     <string name="retry_ok">Có</string>
     <string name="retry_cancel">Không</string>
+    <string name="bidder">Người ứng tuyển</string>
+    <string name="text_test">Text Test</string>
 </resources>

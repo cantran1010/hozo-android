@@ -63,11 +63,79 @@
                 android:layout_height="180dp"
                 android:layout_marginTop="10dp" />
 
+            <vn.tonish.hozo.view.TaskProgressView
+                android:id="@+id/task_progress_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginTop="10dp"
                 android:background="@color/gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp">
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/bidder"
+                    android:textColor="@color/tv_black"
+                    android:textSize="15sp" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    style="@style/sectionHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="@string/view_all"
+                    android:textColor="@color/hozo_bg" />
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rcv_bidders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp">
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/assign_people"
+                    android:textColor="@color/tv_black"
+                    android:textSize="15sp" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    style="@style/sectionHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="@string/view_all"
+                    android:textColor="@color/hozo_bg" />
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rcv_assign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"

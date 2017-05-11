@@ -21,7 +21,7 @@ public class Constants {
     public static final int RESPONSE_CODE_CROP_IMAGE = 432;
 
     public static final String EXTRA_CATEGORY = "extra_category";
-    public static final String EXTRA_WORK = "extra_work";
+    public static final String EXTRA_TASK = "extra_work";
     public static final int RESULT_CODE_UPDATE_PROFILE = 678;
     public static final float DEFAULT_MAP_ZOOM_LEVEL = 16f;
     public static final int POST_A_TASK_REQUEST_CODE = 246;
@@ -58,4 +58,6 @@ public class Constants {
     public static final String DATA = "data";
     public static final String USER = "user";
 
+    public static final int PERMISSION_REQUEST_CODE = 987;
+    public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
 }
