@@ -236,4 +236,11 @@
     <string name="retry_cancel">Không</string>
     <string name="bidder">Người ứng tuyển</string>
     <string name="text_test">Text Test</string>
+    <string name="just_now">vừa xong</string>
+    <string name="minute_ago">1 phút trước</string>
+    <string name="minutes_ago">phút trước</string>
+    <string name="hour_ago">1 giờ trước</string>
+    <string name="hours_ago">giờ trước</string>
+    <string name="yesterday">ngày hôm qua</string>
+    <string name="days_ago">ngày trước</string>
 </resources>

@@ -78,15 +78,13 @@ public class DataParse {
     //update data reviewEntities
 
     public static void insertReviewtoDb(User user) {
-        List<Review> reviewsPoster = user.getPosterReviews();
-        List<Review> reviewsTasker = user.getTaskerReviews();
         List<Review> reviews = new ArrayList();
-        reviews.addAll(reviewsPoster);
-        reviews.addAll(reviewsTasker);
+        reviews.addAll(user.getReviews());
         List<ReviewEntity> reviewEntities = new ArrayList();
         for (int i = 0; i < reviews.size(); i++) {
             ReviewEntity reviewEntity = new ReviewEntity();
             Review review = reviews.get(i);
+            reviewEntity.setId(review.getId());
             reviewEntity.setAuthorId(review.getAuthorId());
             reviewEntity.setAuthorAvatar(review.getAuthorAvatar());
             reviewEntity.setAuthorName(review.getAuthorName());

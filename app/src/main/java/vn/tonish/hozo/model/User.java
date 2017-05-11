@@ -3,6 +3,7 @@ package vn.tonish.hozo.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,10 +34,8 @@ public class User implements Serializable {
     private Integer posterReviewCount;
     @SerializedName("tasker_review_count")
     private Integer taskerReviewCount;
-    @SerializedName("poster_reviews")
-    private List<Review> posterReviews = null;
-    @SerializedName("tasker_reviews")
-    private List<Review> taskerReviews = null;
+
+    private List<Review> reviews = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -150,21 +149,14 @@ public class User implements Serializable {
         this.taskerReviewCount = taskerReviewCount;
     }
 
-    public List<Review> getPosterReviews() {
-        return posterReviews;
+    public List<Review> getReviews() {
+        return reviews;
     }
 
-    public void setPosterReviews(List<Review> posterReviews) {
-        this.posterReviews = posterReviews;
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
-    public List<Review> getTaskerReviews() {
-        return taskerReviews;
-    }
-
-    public void setTaskerReviews(List<Review> taskerReviews) {
-        this.taskerReviews = taskerReviews;
-    }
 
     @Override
     public String toString() {
@@ -183,8 +175,7 @@ public class User implements Serializable {
                 ", taskerAverageRating=" + taskerAverageRating +
                 ", posterReviewCount=" + posterReviewCount +
                 ", taskerReviewCount=" + taskerReviewCount +
-                ", posterReviews=" + posterReviews +
-                ", taskerReviews=" + taskerReviews +
+                ", reviews=" + reviews +
                 '}';
     }
 }
