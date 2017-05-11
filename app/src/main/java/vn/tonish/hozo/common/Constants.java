@@ -46,6 +46,8 @@ public class Constants {
     public static final String USER_MOBILE = "phone";
     public static final String USER_OTP = "otpcode";
     public static final String USER_LOGIN_AT = "login_at";
+    public static final String USER_POSTER_RATING = "poster_rating";
+    public static final String USER_TASKER_RATING = "tasker_rating";
 
 
     // request http code here
@@ -57,6 +59,9 @@ public class Constants {
     public static final String MESSAGE = "message";
     public static final String DATA = "data";
     public static final String USER = "user";
+
+    public static final String USER_POSTER_REVIEWS = "poster_reviews";
+    public static final String USER_TASKER_REVIEWS = "tasker_reviews";
 
     public static final int PERMISSION_REQUEST_CODE = 987;
     public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;

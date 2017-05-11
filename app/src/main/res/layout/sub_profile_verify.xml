@@ -81,44 +81,52 @@
 
     <include layout="@layout/line" />
 
-    <vn.tonish.hozo.view.TextViewHozo
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout_infor"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:padding="5dp"
-        android:text="@string/profile_address"
-        android:textColor="@color/blue"
-        android:textSize="@dimen/tv_size_nomal" />
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <vn.tonish.hozo.view.TextViewHozo
-        android:id="@+id/tv_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:padding="5dp"
-        android:textColor="@color/blue"
-        android:textSize="@dimen/tv_size_nomal" />
+        <vn.tonish.hozo.view.TextViewHozo
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:padding="5dp"
+            android:text="@string/profile_address"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/tv_size_nomal" />
 
-    <include layout="@layout/line" />
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tv_size_nomal" />
 
-    <vn.tonish.hozo.view.TextViewHozo
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:padding="5dp"
-        android:text="@string/profile_phone"
-        android:textColor="@color/blue"
-        android:textSize="@dimen/tv_size_nomal" />
+        <include layout="@layout/line" />
 
-    <vn.tonish.hozo.view.TextViewHozo
-        android:id="@+id/tv_phone"
-        style="@style/tv_style_normal_black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:padding="5dp" />
+        <vn.tonish.hozo.view.TextViewHozo
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:padding="5dp"
+            android:text="@string/profile_phone"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/tv_size_nomal" />
 
-    <include layout="@layout/line" />
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:padding="5dp"
+            android:textColor="@color/black" />
+
+        <include layout="@layout/line" />
+    </LinearLayout>
 
     <vn.tonish.hozo.view.TextViewHozo
         android:layout_width="match_parent"
