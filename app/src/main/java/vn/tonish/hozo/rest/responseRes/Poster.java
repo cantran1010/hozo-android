@@ -52,4 +52,14 @@ public class Poster {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Poster{" +
+                "fullName='" + fullName + '\'' +
+                ", posterAverageRating=" + posterAverageRating +
+                ", verify=" + verify +
+                ", avatar='" + avatar + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

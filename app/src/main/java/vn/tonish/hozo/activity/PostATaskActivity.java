@@ -19,11 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
-import org.json.JSONArray;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -42,9 +39,9 @@ import vn.tonish.hozo.dialog.AlertDialogCancelTask;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Image;
-import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
+import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -207,7 +204,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void permissionDenied() {
-        LogUtils.d(TAG,"permissionDenied camera");
+        LogUtils.d(TAG, "permissionDenied camera");
     }
 
     @Override
@@ -324,18 +321,17 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         }
 
         if (images.size() == 1) {
-            Work work = new Work();
-            work.setName(edtWorkName.getText().toString());
-            work.setDate(tvDate.getText().toString());
-            work.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
-            work.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
-            work.setDescription(edtDescription.getText().toString());
-            work.setGenderWorker(spGender.getSelectedItemPosition());
-            work.setMinAge(ageFrom);
-            work.setMaxAge(ageTo);
+            TaskResponse taskResponse = new TaskResponse();
+            taskResponse.setTitle(edtWorkName.getText().toString());
+            taskResponse.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
+            taskResponse.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
+            taskResponse.setDescription(edtDescription.getText().toString());
+            taskResponse.setGender(spGender.getSelectedItemPosition() + "");
+            taskResponse.setMinAge(ageFrom);
+            taskResponse.setMaxAge(ageTo);
 
             Intent intent = new Intent(this, PostATaskMapActivity.class);
-            intent.putExtra(Constants.EXTRA_WORK, work);
+            intent.putExtra(Constants.EXTRA_TASK, taskResponse);
             intent.putExtra(Constants.EXTRA_CATEGORY, category);
 
             startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE);
@@ -391,67 +387,24 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                 LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
             }
         });
-
-//        final MultipartRequest multipartRequest = new MultipartRequest(this, NetworkConfig.API_UPDATE_AVATA, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                LogUtils.e(TAG, "volley onErrorResponse : " + error.toString());
-//
-//                if (error.getMessage().equals(Constants.ERROR_AUTHENTICATION)) {
-//                    // HTTP Status Code: 401 Unauthorized
-//                    // Refresh token
-//                    NetworkUtils.RefreshToken(PostATaskActivity.this, new NetworkUtils.RefreshListener() {
-//                        @Override
-//                        public void onRefreshFinish(JSONObject jsonResponse) {
-//                            UserManager.insertUserLogin(new DataParse().getUserEntiny(PostATaskActivity.this, jsonResponse), PostATaskActivity.this);
-//                            attachFile(file, position);
-//                        }
-//                    });
-//                } else {
-//                    DialogUtils.showRetryDialog(PostATaskActivity.this, PostATaskActivity.this.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
-//                        @Override
-//                        public void onOkClick() {
-//                            attachFile(file, position);
-//                        }
-//
-//                        @Override
-//                        public void onCancelClick() {
-//
-//                        }
-//                    });
-//                }
-//            }
-//        }, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String s) {
-//                LogUtils.d(TAG, "volley onResponse : " + s);
-//                imageAttachCount--;
-//                imagesArr[position] = DataParse.getAvatarTempId(s);
-//                finishAttachImage();
-//
-//            }
-//        }, file);
-//        Volley.newRequestQueue(this).add(multipartRequest);
     }
 
     private void finishAttachImage() {
 
         if (imageAttachCount == 0) {
-            Work work = new Work();
-            work.setName(edtWorkName.getText().toString());
-            work.setDate(tvDate.getText().toString());
-            work.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
-            work.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
-            work.setDescription(edtDescription.getText().toString());
-            work.setGenderWorker(spGender.getSelectedItemPosition());
-            work.setMinAge(ageFrom);
-            work.setMaxAge(ageTo);
+            TaskResponse taskResponse = new TaskResponse();
+            taskResponse.setTitle(edtWorkName.getText().toString());
+            taskResponse.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
+            taskResponse.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
+            taskResponse.setDescription(edtDescription.getText().toString());
+            taskResponse.setGender(spGender.getSelectedItemPosition() + "");
+            taskResponse.setMinAge(ageFrom);
+            taskResponse.setMaxAge(ageTo);
 
-            JSONArray mJSONArray = new JSONArray(Arrays.asList(imagesArr));
-            work.setAttachmentsImage(imagesArr);
+            taskResponse.setAttachmentsId(imagesArr);
 
             Intent intent = new Intent(this, PostATaskMapActivity.class);
-            intent.putExtra(Constants.EXTRA_WORK, work);
+            intent.putExtra(Constants.EXTRA_TASK, taskResponse);
             intent.putExtra(Constants.EXTRA_CATEGORY, category);
 
             startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE);

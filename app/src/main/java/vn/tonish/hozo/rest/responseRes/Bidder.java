@@ -69,4 +69,16 @@ public class Bidder {
         this.phone = phone;
     }
 
+    @Override
+    public String toString() {
+        return "Bidder{" +
+                "fullName='" + fullName + '\'' +
+                ", posterAverageRating=" + posterAverageRating +
+                ", verify=" + verify +
+                ", avatar='" + avatar + '\'' +
+                ", id=" + id +
+                ", bidedAt='" + bidedAt + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }

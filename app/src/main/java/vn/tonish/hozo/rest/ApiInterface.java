@@ -15,7 +15,6 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.User;
-import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
@@ -40,7 +39,7 @@ public interface ApiInterface {
     Call<ImageResponse> uploadImage(@Header("Authorization") String token, @Part MultipartBody.Part filePart);
 
     @POST("tasks")
-    Call<Work> createNewTask(@Header("Authorization") String token, @Body RequestBody body);
+    Call<TaskResponse> createNewTask(@Header("Authorization") String token, @Body RequestBody body);
 
     @POST("auth/login")
     Call<OtpReponse> senOtp(@Body RequestBody body);

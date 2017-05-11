@@ -11,7 +11,7 @@ import java.util.TimerTask;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.WorkAdapter;
-import vn.tonish.hozo.model.Work;
+import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 
 /**
@@ -22,7 +22,7 @@ public class PosterFragment extends BaseFragment implements View.OnClickListener
     private RecyclerView lvList;
     private WorkAdapter workAdapter;
     private LinearLayoutManager lvManager;
-    private List<Work> workList;
+    private List<TaskResponse> workList;
 
     @Override
     public void onClick(View view) {
@@ -47,14 +47,14 @@ public class PosterFragment extends BaseFragment implements View.OnClickListener
     @Override
     protected void initData() {
         for (int i = 0; i < 10; i++) {
-            Work work = new Work();
-            work.setId(i);
-            work.setName("Hey ! Are you free tonight!");
-            work.setTime("2017-04-18T03:48:10+00:00");
-            work.setNew(true);
-            work.setDescription("15 phut truoc . Ha Noi . Phan loai : Cong nghe");
-            work.setPrice("500000");
-            workList.add(work);
+//            Work work = new Work();
+//            work.setId(i);
+//            work.setName("Hey ! Are you free tonight!");
+//            work.setTime("2017-04-18T03:48:10+00:00");
+//            work.setNew(true);
+//            work.setDescription("15 phut truoc . Ha Noi . Phan loai : Cong nghe");
+//            work.setPrice("500000");
+//            workList.add(work);
         }
         lvList.setAdapter(workAdapter);
 
@@ -66,14 +66,14 @@ public class PosterFragment extends BaseFragment implements View.OnClickListener
                     @Override
                     public void run() {
                         for (int i = 0; i < 10; i++) {
-                            Work work = new Work();
-                            work.setId(i);
-                            work.setName("Hey ! Are you free tonight!");
-                            work.setTime("2017-04-18T03:48:10+00:00");
-                            work.setNew(true);
-                            work.setDescription("15 phut truoc . Ha Noi . Phan loai : Cong nghe");
-                            work.setPrice("500000");
-                            workList.add(work);
+//                            Work work = new Work();
+//                            work.setId(i);
+//                            work.setName("Hey ! Are you free tonight!");
+//                            work.setTime("2017-04-18T03:48:10+00:00");
+//                            work.setNew(true);
+//                            work.setDescription("15 phut truoc . Ha Noi . Phan loai : Cong nghe");
+//                            work.setPrice("500000");
+//                            workList.add(work);
                         }
                         workAdapter.notifyDataSetChanged();
                     }

@@ -99,4 +99,18 @@ public class Comment extends RealmObject implements Serializable {
     public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id='" + id + '\'' +
+                ", authorId='" + authorId + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", imgAttach='" + imgAttach + '\'' +
+                ", body='" + body + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", taskId='" + taskId + '\'' +
+                '}';
+    }
 }

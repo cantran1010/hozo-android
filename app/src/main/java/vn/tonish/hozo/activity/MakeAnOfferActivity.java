@@ -23,7 +23,6 @@ import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.model.User;
-import vn.tonish.hozo.model.Work;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
@@ -43,7 +42,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     private CommentViewFull commentViewFull;
     private WorkDetailView workDetailView;
     private ArrayList<Comment> comments = new ArrayList<>();
-    private Work work;
+//    private Work work;
 
     private ImageView imgAttach, imgAttached, imgDelete;
     private RelativeLayout imgLayout;

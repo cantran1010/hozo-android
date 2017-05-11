@@ -35,8 +35,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.model.Category;
-import vn.tonish.hozo.model.HozoLocation;
-import vn.tonish.hozo.model.Work;
+import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.GPSTracker;
 import vn.tonish.hozo.utils.LocationProvider;
@@ -44,6 +43,7 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
+import static vn.tonish.hozo.R.drawable.location;
 import static vn.tonish.hozo.R.id.map;
 import static vn.tonish.hozo.common.Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE;
 
@@ -59,13 +59,13 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     protected ButtonHozo btnNext;
     protected ImageView imgCurrentLocation, imgZoomIn, imgZoomOut;
 
-    private static double lat = 21.000030;
-    private static double lon = 105.837400;
+    //    private static double lat = 21.000030;
+//    private static double lon = 105.837400;
     private LatLng latLng;
     private LocationProvider mLocationProvider;
     private TextViewHozo tvAddress;
-    private Work work;
-    private HozoLocation location = new HozoLocation();
+    private TaskResponse work;
+    //    private HozoLocation location = new HozoLocation();
     private Category category;
     private final String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     private Marker marker;
@@ -103,7 +103,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
     @Override
     protected void initData() {
-        work = (Work) getIntent().getSerializableExtra(Constants.EXTRA_WORK);
+        work = (TaskResponse) getIntent().getSerializableExtra(Constants.EXTRA_TASK);
         category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
 
         mLocationProvider = new LocationProvider(this, this);
@@ -139,6 +139,8 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             marker = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(latLng.latitude, latLng.longitude))
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
+
+            getAddress(true);
 
         } else {
             mLocationProvider.connect();
@@ -183,36 +185,37 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         checkPermission();
     }
 
-    private void getAddress() {
+    private void getAddress(boolean isAddAddress) {
         try {
             Geocoder geocoder;
             ArrayList<Address> addresses;
             geocoder = new Geocoder(this, Locale.getDefault());
 
-            addresses = (ArrayList<Address>) geocoder.getFromLocation(lat, lon, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            addresses = (ArrayList<Address>) geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
             Address addRess = addresses.get(0);
             LogUtils.d(TAG, "getAddress address : " + addRess.toString());
 
-//            String strReturnedAddress = "";
-//            for (int i = 0; i < addRess.getMaxAddressLineIndex(); i++) {
-//                strReturnedAddress = strReturnedAddress + addRess.getAddressLine(i) + ", ";
-//            }
-//            strReturnedAddress = strReturnedAddress.substring(0, strReturnedAddress.length() - 2);
-//            tvAddress.setText(strReturnedAddress);
-
+            if (isAddAddress) {
+                String strReturnedAddress = "";
+                for (int i = 0; i < addRess.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress = strReturnedAddress + addRess.getAddressLine(i) + ", ";
+                }
+                strReturnedAddress = strReturnedAddress.substring(0, strReturnedAddress.length() - 2);
+                tvAddress.setText(strReturnedAddress);
+            }
 
             if (addRess.getMaxAddressLineIndex() > 1) {
-                location.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
+                work.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
             }
 
             if (addRess.getMaxAddressLineIndex() > 2) {
-                location.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
+                work.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
             }
 
-            location.setAddress(tvAddress.getText().toString());
-            location.setLat(latLng.latitude);
-            location.setLon(latLng.longitude);
+            work.setAddress(tvAddress.getText().toString());
+            work.setLatitude(latLng.latitude);
+            work.setLongitude(latLng.longitude);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -235,7 +238,6 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
                 if (gpsTracker.canGetLocation()) {
                     latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
                 }
                 break;
@@ -273,7 +275,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
         Intent intent = new Intent(PostATaskMapActivity.this, PostATaskFinishActivity.class);
         intent.putExtra(Constants.EXTRA_ADDRESS, location);
-        intent.putExtra(Constants.EXTRA_WORK, work);
+        intent.putExtra(Constants.EXTRA_TASK, work);
         intent.putExtra(Constants.EXTRA_CATEGORY, category);
         startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE);
     }
@@ -290,13 +292,11 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 Log.i(TAG, "Place: " + place.getName());
 
                 tvAddress.setText(place.getName());
-                lat = place.getLatLng().latitude;
-                lon = place.getLatLng().longitude;
-                getAddress();
 
-                latLng = new LatLng(lat, lon);
+                latLng = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
+                getAddress(false);
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
-                marker.setPosition(new LatLng(lat, lon));
+                marker.setPosition(latLng);
 
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
