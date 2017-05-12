@@ -2,12 +2,23 @@ package vn.tonish.hozo.common;
 
 public class Constants {
 
+    //http code
+    public static final int HTTP_CODE_OK = 200;
+    public static final int HTTP_CODE_CREATED = 201;
+    public static final int HTTP_CODE_NO_CONTENT = 204;
+    public static final int HTTP_CODE_BAD_REQUEST = 400;
+    public static final int HTTP_CODE_UNAUTHORIZED = 401;
+    public static final int HTTP_CODE_FORBIDEN = 403;
+    public static final int HTTP_CODE_NOT_FOUND = 404;
+    public static final int HTTP_CODE_UNPROCESSABLE_ENTITY= 422;
+    public static final int HTTP_CODE_INTERNAL_SERVER_ERROR= 500;
+
     public static final String BADGE = "badge____";
     public static final int MAX_IMAGE_ATTACH = 6;
 
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 123;
-    public static final int RESPONSE_CODE_PICK_IMAGE = 345;
+    public static final int RESPONSE_CODE_PICK_IMAGE = 321;
     public static final String INTENT_EXTRA_IMAGES = "extra_image";
     public static final int REQUEST_CODE_CAMERA = 567;
     public static final int REQUEST_CODE_ADDRESS = 2345;
@@ -17,12 +28,13 @@ public class Constants {
     public static final String ERROR_AUTHENTICATION = "java.io.IOException: No authentication challenges found";
     public static final String EXTRA_IS_CROP_PROFILE = "extra_is_crop_profile";
     public static final String EXTRA_IMAGE_PATH = "extra_image_path";
-    public static final int REQUEST_CODE_CROP_IMAGE = 321;
-    public static final int RESPONSE_CODE_CROP_IMAGE = 432;
+    public static final int REQUEST_CODE_CROP_IMAGE = 123;
+    public static final int RESPONSE_CODE_CROP_IMAGE = 321;
 
     public static final String EXTRA_CATEGORY = "extra_category";
     public static final String EXTRA_TASK = "extra_work";
-    public static final int RESULT_CODE_UPDATE_PROFILE = 678;
+    public static final int RESULT_CODE_UPDATE_PROFILE = 876;
+    public static final int REQUEST_CODE_UPDATE_PROFILE = 678;
     public static final float DEFAULT_MAP_ZOOM_LEVEL = 16f;
     public static final int POST_A_TASK_REQUEST_CODE = 246;
     public static final int POST_A_TASK_RESPONSE_CODE = 642;
@@ -70,4 +82,12 @@ public class Constants {
 
     public static final String REVIEW_TYPE_TASKER = "tasker";
     public static final String REVIEW_TYPE_POSTER = "poster";
+
+    //update user parameter
+    public static final String PARAMETER_FULL_NAME = "full_name";
+    public static final String PARAMETER_EMAIL = "email";
+    public static final String PARAMETER_ADDRESS = "address";
+    public static final String PARAMETER_DATE_OF_BIRTH = "date_of_birth";
+    public static final String PARAMETER_AVATA_ID = "avatar_id";
+
 }

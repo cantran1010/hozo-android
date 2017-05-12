@@ -111,7 +111,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.img_edit:
-                startActivity(new Intent(this, EditProfileActivity.class));
+                doEdit();
                 break;
             case R.id.btn_logout:
                 logOut();
@@ -129,6 +129,21 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             case R.id.tv_add_verify:
                 startActivityForResult(new Intent(ProfileActivity.this, AddVerifyActivity.class),Constants.REQUEST_CODE_ADD_VERIFY);
                 break;
+        }
+    }
+
+    private void doEdit() {
+        Intent intent = new Intent(this, EditProfileActivity.class);
+        UserEntity userEntity = UserManager.getUserLogin(this);
+        intent.putExtra(Constants.USER, DataParse.convertUserEntityToUser(userEntity));
+        startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_PROFILE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQUEST_CODE_UPDATE_PROFILE && resultCode == Constants.RESULT_CODE_UPDATE_PROFILE) {
+            setUserInfoFromCache();
         }
     }
 

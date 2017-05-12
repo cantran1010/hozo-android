@@ -30,10 +30,10 @@ import vn.tonish.hozo.view.TextViewHozo;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
 /**
- * Created by tonish1 on 5/10/17.
+ * Created by CanTran on 5/10/17.
  */
 
-class VerifyNameFragment extends BaseFragment implements View.OnClickListener {
+public  class VerifyNameFragment extends BaseFragment implements View.OnClickListener {
     private final static String TAG = VerifyNameFragment.class.getName();
     private EdittextHozo edtName;
     private TextViewHozo btnSave;

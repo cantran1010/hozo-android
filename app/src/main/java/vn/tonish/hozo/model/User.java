@@ -16,7 +16,7 @@ public class User implements Serializable {
 
     @SerializedName("full_name")
     private String fullName;
-    private String phone;
+    private String phoneNumber;
     private String email;
     @SerializedName("facebook_id")
     private String facebookId;
@@ -27,13 +27,13 @@ public class User implements Serializable {
     private String description;
     private Integer verified;
     @SerializedName("poster_average_rating")
-    private Integer posterAverageRating;
+    private float posterAverageRating;
     @SerializedName("tasker_average_rating")
-    private Integer taskerAverageRating;
+    private float taskerAverageRating;
     @SerializedName("poster_review_count")
-    private Integer posterReviewCount;
+    private float posterReviewCount;
     @SerializedName("tasker_review_count")
-    private Integer taskerReviewCount;
+    private float taskerReviewCount;
 
     private List<Review> reviews = new ArrayList<>();
 
@@ -53,12 +53,12 @@ public class User implements Serializable {
         this.fullName = fullName;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {
@@ -117,35 +117,39 @@ public class User implements Serializable {
         this.verified = verified;
     }
 
-    public Integer getPosterAverageRating() {
+    public void setTaskerReviewCount(Integer taskerReviewCount) {
+        this.taskerReviewCount = taskerReviewCount;
+    }
+
+    public float getPosterAverageRating() {
         return posterAverageRating;
     }
 
-    public void setPosterAverageRating(Integer posterAverageRating) {
+    public void setPosterAverageRating(float posterAverageRating) {
         this.posterAverageRating = posterAverageRating;
     }
 
-    public Integer getTaskerAverageRating() {
+    public float getTaskerAverageRating() {
         return taskerAverageRating;
     }
 
-    public void setTaskerAverageRating(Integer taskerAverageRating) {
+    public void setTaskerAverageRating(float taskerAverageRating) {
         this.taskerAverageRating = taskerAverageRating;
     }
 
-    public Integer getPosterReviewCount() {
+    public float getPosterReviewCount() {
         return posterReviewCount;
     }
 
-    public void setPosterReviewCount(Integer posterReviewCount) {
+    public void setPosterReviewCount(float posterReviewCount) {
         this.posterReviewCount = posterReviewCount;
     }
 
-    public Integer getTaskerReviewCount() {
+    public float getTaskerReviewCount() {
         return taskerReviewCount;
     }
 
-    public void setTaskerReviewCount(Integer taskerReviewCount) {
+    public void setTaskerReviewCount(float taskerReviewCount) {
         this.taskerReviewCount = taskerReviewCount;
     }
 
@@ -163,7 +167,7 @@ public class User implements Serializable {
         return "User{" +
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
-                ", phone='" + phone + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", facebookId='" + facebookId + '\'' +
                 ", address='" + address + '\'' +

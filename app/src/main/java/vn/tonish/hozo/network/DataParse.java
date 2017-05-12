@@ -35,7 +35,7 @@ public class DataParse {
         userEntity.setEmail(user.getEmail());
         userEntity.setFacebookId(user.getFacebookId());
         userEntity.setFullName(user.getFullName());
-        userEntity.setPhoneNumber(user.getPhone());
+        userEntity.setPhoneNumber(user.getPhoneNumber());
         userEntity.setVerified(user.getVerified());
         userEntity.setPosterAverageRating(user.getPosterAverageRating());
         userEntity.setPosterReviewCount(user.getPosterReviewCount());
@@ -63,7 +63,7 @@ public class DataParse {
         userEntity.setEmail(user.getEmail());
         userEntity.setFacebookId(user.getFacebookId());
         userEntity.setFullName(user.getFullName());
-        userEntity.setPhoneNumber(user.getPhone());
+        userEntity.setPhoneNumber(user.getPhoneNumber());
         userEntity.setVerified(user.getVerified());
         userEntity.setPosterAverageRating(user.getPosterAverageRating());
         userEntity.setPosterReviewCount(user.getPosterReviewCount());
@@ -72,6 +72,44 @@ public class DataParse {
 
         UserManager.insertUserLogin(userEntity, context);
         LogUtils.d("update User to database: ", userEntity.toString());
+    }
+
+    public static User convertUserEntityToUser(UserEntity userEntity) {
+        User user = new User();
+        user.setId(userEntity.getId());
+        user.setAddress(userEntity.getAddress());
+        user.setAvatar(userEntity.getAvatar());
+        user.setDateOfBirth(userEntity.getDateOfBirth());
+        user.setDescription(userEntity.getDescription());
+        user.setEmail(userEntity.getEmail());
+        user.setFacebookId(userEntity.getFacebookId());
+        user.setFullName(userEntity.getFullName());
+        user.setPhoneNumber(userEntity.getPhoneNumber());
+        user.setVerified(userEntity.getVerified());
+        user.setPosterAverageRating(userEntity.getPosterAverageRating());
+        user.setPosterReviewCount(userEntity.getPosterReviewCount());
+        user.setTaskerAverageRating(userEntity.getTaskerAverageRating());
+        user.setTaskerReviewCount(userEntity.getTaskerReviewCount());
+        return user;
+    }
+
+    public static UserEntity convertUserToUserEntity(User user) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(user.getId());
+        userEntity.setAddress(user.getAddress());
+        userEntity.setAvatar(user.getAvatar());
+        userEntity.setDateOfBirth(user.getDateOfBirth());
+        userEntity.setDescription(user.getDescription());
+        userEntity.setEmail(user.getEmail());
+        userEntity.setFacebookId(user.getFacebookId());
+        userEntity.setFullName(user.getFullName());
+        userEntity.setPhoneNumber(user.getPhoneNumber());
+        userEntity.setVerified(user.getVerified());
+        userEntity.setPosterAverageRating(user.getPosterAverageRating());
+        userEntity.setPosterReviewCount(user.getPosterReviewCount());
+        userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
+        userEntity.setTaskerReviewCount(user.getTaskerReviewCount());
+        return userEntity;
     }
 
 
