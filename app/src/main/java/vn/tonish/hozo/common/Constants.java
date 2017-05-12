@@ -67,4 +67,7 @@ public class Constants {
 
     public static final String REVIEW_TYPE_TASKER = "tasker";
     public static final String REVIEW_TYPE_POSTER = "poster";
+    public static final String USER_POSTER_REVIEWS = "poster_reviews";
+    public static final String USER_TASKER_REVIEWS = "tasker_reviews";
+
 }
