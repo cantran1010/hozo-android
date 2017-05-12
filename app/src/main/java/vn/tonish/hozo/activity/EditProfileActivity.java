@@ -138,6 +138,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void updateAvata() {
+
+        //test add ssh key new Mac
+
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
 
