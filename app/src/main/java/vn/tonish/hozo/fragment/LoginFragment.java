@@ -21,12 +21,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.common.Constants.USER_MOBILE;
+import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 /**
@@ -184,6 +186,18 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             public void onFailure(Call<Void> call, Throwable t) {
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
+                showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        login();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+
             }
         });
 

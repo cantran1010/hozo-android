@@ -6,14 +6,15 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="?android:attr/actionBarSize"
         android:background="@color/white">
 
         <ImageView
             android:id="@+id/img_back"
-            android:layout_width="56dp"
-            android:layout_height="match_parent"
-            android:padding="16dp"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+           android:scaleType="centerInside"
+            android:background="@drawable/btn_back_selector"
             android:src="@drawable/ic_back_blue" />
 
         <vn.tonish.hozo.view.TextViewHozo
@@ -48,7 +49,7 @@
             <vn.tonish.hozo.view.ProfileView
                 android:id="@+id/view_profile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></vn.tonish.hozo.view.ProfileView>
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
