@@ -12,6 +12,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
