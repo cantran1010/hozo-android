@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:background="@color/blue"
+            android:background="@drawable/btn_selector"
             android:padding="5dp"
             android:text="@string/profile_add_verify"
             android:textColor="@color/white"

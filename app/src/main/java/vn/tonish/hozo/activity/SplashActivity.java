@@ -12,9 +12,9 @@ import vn.tonish.hozo.database.manager.UserManager;
 import static vn.tonish.hozo.common.Constants.SPLASH_TIME;
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+ * Created by Can Tran on 4/11/17.
  */
+
 public class SplashActivity extends BaseActivity {
     private ImageView imgLogo;
     private Animation animation;

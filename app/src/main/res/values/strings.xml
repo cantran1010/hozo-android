@@ -243,4 +243,14 @@
     <string name="hours_ago">giờ trước</string>
     <string name="yesterday">ngày hôm qua</string>
     <string name="days_ago">ngày trước</string>
+    <string name="msg_contten_logOut">Bạn có chắc chắn muốn đăng xuất?</string>
+    <string name="title_add_verify">Cung cấp thông tin cá nhân</string>
+    <string name="verify_label_info">Để có thể tìm được người làm việc hay nhận việc một cách nhanh chóng và uy tín, bạn cần xác thực thông tin với HoZo!</string>
+    <string name="verify_email">Xác thực với email</string>
+    <string name="all_verify">Verify</string>
+    <string name="verify_facebook">Xác thực với Facebook</string>
+    <string name="verify_card">Xác thực với Mastercard</string>
+    <string name="verify_bank">Xác thực với tài khoản ngân hàng</string>
+    <string name="verify_other">Xác thực thông tin cá nhân khác</string>
+    <string name="all_call">1900160078</string>
 </resources>

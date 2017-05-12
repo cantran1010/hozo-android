@@ -109,7 +109,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    private void startActivityAndClearAllTask(Intent intent) {
+    public void startActivityAndClearAllTask(Intent intent) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         super.startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

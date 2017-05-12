@@ -57,13 +57,12 @@ public class ProfileView extends LinearLayout implements View.OnClickListener {
         tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
         tvMobile = (TextViewHozo) findViewById(R.id.tv_phone);
         tvGender = (TextViewHozo) findViewById(R.id.tv_gender);
-        btnAddVerify = (TextViewHozo) findViewById(R.id.tv_add_verify);
         imgVerifyMobile = (ImageView) findViewById(R.id.img_verify_mobile);
         imgVerifyFacebook = (ImageView) findViewById(R.id.img_verify_facebook);
         imgverifyMail = (ImageView) findViewById(R.id.img_verify_email);
         imgVerifyCard = (ImageView) findViewById(R.id.img_verify_card);
         imgVerifyBank = (ImageView) findViewById(R.id.img_verify_bank);
-        btnAddVerify.setOnClickListener(this);
+        btnAddVerify = (TextViewHozo) findViewById(R.id.tv_add_verify);
     }
 
     public void updateData(boolean isAccount, String urlAvatar, String fullName, String birthday, String gender, String address, String mobile, int verified) {
@@ -109,7 +108,6 @@ public class ProfileView extends LinearLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
     }
 }
 
