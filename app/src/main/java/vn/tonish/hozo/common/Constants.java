@@ -2,6 +2,14 @@ package vn.tonish.hozo.common;
 
 public class Constants {
 
+    //http code
+    public static final int HTTP_CODE_OK = 200;
+    public static final int HTTP_CODE_NO_CONTENT = 204;
+    public static final int HTTP_CODE_BAD_REQUEST = 400;
+    public static final int HTTP_CODE_UNAUTHORIZED = 401;
+    public static final int HTTP_CODE_NOT_FOUND = 404;
+    public static final int HTTP_CODE_REQUEST_TIME_OUT = 408;
+
     public static final String BADGE = "badge____";
     public static final int MAX_IMAGE_ATTACH = 6;
 
@@ -69,4 +77,12 @@ public class Constants {
 
     public static final String REVIEW_TYPE_TASKER = "tasker";
     public static final String REVIEW_TYPE_POSTER = "poster";
+
+    //update user parameter
+    public static final String PARAMETER_FULL_NAME = "full_name";
+    public static final String PARAMETER_EMAIL = "email";
+    public static final String PARAMETER_ADDRESS = "address";
+    public static final String PARAMETER_DATE_OF_BIRTH = "date_of_birth";
+    public static final String PARAMETER_AVATA_ID = "avatar_id";
+
 }

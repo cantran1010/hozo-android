@@ -9,14 +9,31 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.Calendar;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.User;
+import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.ImageResponse;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
+import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.CircleImageView;
@@ -44,7 +61,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private Calendar calendar = Calendar.getInstance();
     private File file;
     private User user;
-    private String avataId;
+    private int avataId;
+    private boolean isUpdateAvata = false;
 
     @Override
     protected int getLayout() {
@@ -74,7 +92,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
-        user = (User) getIntent().getSerializableExtra(Constants.DATA);
+        user = (User) getIntent().getSerializableExtra(Constants.USER);
 
         edtName.setText(user.getFullName());
         edtAddress.setText(user.getAddress());
@@ -111,6 +129,96 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void doSave() {
+        if (isUpdateAvata) {
+            updateAvata();
+        } else {
+            updateProfile();
+        }
+
+    }
+
+    private void updateAvata() {
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
+
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(this), itemPart).enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+                LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    ImageResponse imageResponse = response.body();
+                    avataId = imageResponse.getIdTemp();
+                    updateProfile();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.RefreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            updateAvata();
+                        }
+                    });
+                } else {
+                    DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            updateAvata();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
+                DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        updateAvata();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
+    private void updateProfile() {
+
+        ProgressDialogUtils.showProgressDialog(this);
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put(Constants.PARAMETER_FULL_NAME, edtName.getText().toString());
+            jsonRequest.put(Constants.PARAMETER_EMAIL, user.getEmail());
+            jsonRequest.put(Constants.PARAMETER_ADDRESS, edtAddress.getText().toString());
+            jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, tvBirthday.getText().toString());
+
+            if (isUpdateAvata)
+                jsonRequest.put(Constants.PARAMETER_AVATA_ID, avataId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().updateUser(UserManager.getUserToken(this), body).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
 //        MultipartRequest multipartRequest = new MultipartRequest(this, NetworkConfig.API_UPDATE_AVATA, new Response.ErrorListener() {
 //            @Override
 //            public void onErrorResponse(VolleyError error) {
@@ -202,6 +310,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             Utils.displayImage(EditProfileActivity.this, imgAvatar, imgPath);
 
             file = new File(imgPath);
+            isUpdateAvata = true;
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
             Intent intent = new Intent(EditProfileActivity.this, CropImageActivity.class);
             intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
@@ -211,6 +320,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             Utils.displayImage(EditProfileActivity.this, imgAvatar, imgPath);
 
             file = new File(imgPath);
+            isUpdateAvata = true;
         }
 
     }
