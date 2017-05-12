@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -27,9 +28,11 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.User;
+import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
+import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -139,7 +142,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     private void updateAvata() {
 
-        //test add ssh key new Mac
+        ProgressDialogUtils.showProgressDialog(this);
 
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
@@ -148,8 +151,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
                 LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
+                LogUtils.d(TAG, "uploadImage code : " + response.code());
 
-                if (response.code() == Constants.HTTP_CODE_OK) {
+                if (response.code() == Constants.HTTP_CODE_CREATED) {
                     ImageResponse imageResponse = response.body();
                     avataId = imageResponse.getIdTemp();
                     updateProfile();
@@ -209,88 +213,73 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        LogUtils.d(TAG, "updateUser jsonRequest : " + jsonRequest.toString());
 
         ApiClient.getApiService().updateUser(UserManager.getUserToken(this), body).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
 
+                LogUtils.d(TAG, "updateUser onResponse : " + response.body());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+
+                    //update in database
+                    DataParse.updateUser(response.body(), EditProfileActivity.this);
+
+                    //set return
+                    Intent intent = new Intent();
+                    setResult(Constants.RESULT_CODE_UPDATE_PROFILE, intent);
+                    finish();
+
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.RefreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            updateAvata();
+                        }
+                    });
+                } else {
+                    DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            updateProfile();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                LogUtils.e(TAG, "onFailure error : " + t.getMessage());
+                DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        updateProfile();
+                    }
 
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
-//        MultipartRequest multipartRequest = new MultipartRequest(this, NetworkConfig.API_UPDATE_AVATA, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                LogUtils.e(TAG, "volley onErrorResponse : " + error.toString());
-//
-//                if (error.getMessage().equals(Constants.ERROR_AUTHENTICATION)) {
-//                    // HTTP Status Code: 401 Unauthorized
-//                    // Refresh token
-//                    NetworkUtils.RefreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
-//                        @Override
-//                        public void onRefreshFinish(JSONObject jsonResponse) {
-//                            UserManager.insertUserLogin(new DataParse().getUserEntiny(EditProfileActivity.this, jsonResponse), EditProfileActivity.this);
-//                            doSave();
-//                        }
-//                    });
-//                } else {
-//                    DialogUtils.showRetryDialog(EditProfileActivity.this, EditProfileActivity.this.getString(vn.tonish.hozo.R.string.all_network_error_msg), new DialogUtils.ConfirmDialogOkCancelListener() {
-//                        @Override
-//                        public void onOkClick() {
-//                            doSave();
-//                        }
-//
-//                        @Override
-//                        public void onCancelClick() {
-//
-//                        }
-//                    });
-//                }
-//            }
-//        }, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String s) {
-//                LogUtils.d(TAG, "volley onResponse : " + s);
-//
-//                HashMap<String, String> dataRequest = new HashMap<>();
-//                dataRequest.put("full_name", edtName.getText().toString());
-//                dataRequest.put("address", edtAddress.getText().toString());
-//                dataRequest.put("date_of_birth", tvBirthday.getText().toString());
-//                dataRequest.put("avatar_id", String.valueOf(DataParse.getAvatarTempId(s)));
-////                NetworkUtils.postVolleyFormData(true, true, true, EditProfileActivity.this, NetworkConfig.API_UPDATE_USER, dataRequest, new NetworkUtils.NetworkListener() {
-////                    @Override
-////                    public void onSuccess(JSONObject jsonResponse) {
-////                        try {
-////                            user.setFull_name(edtName.getText().toString());
-////                            user.setAddress(edtAddress.getText().toString());
-////                            user.setDate_of_birth(tvBirthday.getText().toString());
-////                            user.setAvatar(jsonResponse.getJSONObject("data").getJSONObject("user").getString("avatar"));
-////
-////                            Intent intent = new Intent();
-////                            intent.putExtra(Constants.DATA, user);
-////                            setResult(Constants.RESULT_CODE_UPDATE_PROFILE, intent);
-////                            finish();
-////                        } catch (Exception e) {
-////                            e.printStackTrace();
-////                        }
-////                    }
-////
-////                    @Override
-////                    public void onError() {
-////
-////                    }
-////                });
-//
-//            }
-//        }, file);
-//        Volley.newRequestQueue(this).add(multipartRequest);
+
     }
 
     private void openDatePicker() {
+
+        Date date = DateTimeUtils.convertToDate(tvBirthday.getText().toString());
+        calendar.setTime(date);
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -300,6 +289,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                         calendar.set(year, monthOfYear, dayOfMonth);
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis() - 10000);
         datePickerDialog.show();
     }
 

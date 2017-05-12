@@ -48,7 +48,7 @@
             <vn.tonish.hozo.view.ProfileView
                 android:id="@+id/view_profile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></vn.tonish.hozo.view.ProfileView>
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
