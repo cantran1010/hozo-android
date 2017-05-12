@@ -18,6 +18,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.rest.ApiClient;
@@ -25,6 +26,8 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
+
+import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
 /**
  * Created by CanTran on 5/10/17.
@@ -125,6 +128,17 @@ public  class VerifyNameFragment extends BaseFragment implements View.OnClickLis
             public void onFailure(Call<User> call, Throwable t) {
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
+                showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        updateFullName();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
             }
         });
     }

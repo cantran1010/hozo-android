@@ -53,4 +53,7 @@ public interface ApiInterface {
     @GET("users")
     Call<User> getMyAccountInfor(@Header("Authorization") String token);
 
+    @POST("user/logout")
+    Call<Void> logOut(@Header("Authorization") String token);
+
 }

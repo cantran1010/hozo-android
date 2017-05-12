@@ -8,10 +8,10 @@
 
     <ImageView
         android:id="@+id/btnBack"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="?android:attr/actionBarSize"
         android:contentDescription="@string/img_content_des"
-        android:padding="20dp"
+        android:scaleType="centerInside"
         android:src="@drawable/ic_back" />
 
     <ScrollView

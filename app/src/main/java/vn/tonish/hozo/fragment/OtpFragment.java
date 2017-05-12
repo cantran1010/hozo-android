@@ -22,6 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
@@ -33,6 +34,7 @@ import vn.tonish.hozo.view.EdittextHozo;
 import static vn.tonish.hozo.common.Constants.USER_MOBILE;
 import static vn.tonish.hozo.network.DataParse.insertReviewtoDb;
 import static vn.tonish.hozo.network.DataParse.insertUsertoDb;
+import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
 /**
  * Created by Can Tran on 4/11/17.
@@ -299,6 +301,17 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
             public void onFailure(Call<OtpReponse> call, Throwable t) {
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
+                showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        sendOtp();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
             }
         });
     }

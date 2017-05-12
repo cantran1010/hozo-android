@@ -73,6 +73,7 @@ public class Constants {
     public static final String USER = "user";
 
     public static final int PERMISSION_REQUEST_CODE = 987;
+    public static final int REQUEST_CODE_ADD_VERIFY = 1019;
     public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
 
     public static final String USER_POSTER_REVIEWS = "poster_reviews";
