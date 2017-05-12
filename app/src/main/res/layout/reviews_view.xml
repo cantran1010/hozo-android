@@ -25,17 +25,17 @@
             android:layout_toRightOf="@id/img_avatar"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="4">
+                android:layout_height="wrap_content">
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_name"
                     style="@style/tv_style_normal_black"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2.5"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/rating"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/app_name"
@@ -45,13 +45,15 @@
                 <RatingBar
                     android:id="@+id/rating"
                     style="@style/StarRatingBar"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="center"
-                    android:layout_weight="1.5" />
+                    android:numStars="5"
+                    android:stepSize="1.0" />
 
-
-            </LinearLayout>
+            </RelativeLayout>
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_reviews"
@@ -59,15 +61,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:textColor="#030303"
+                android:textColor="@color/black"
                 android:textSize="@dimen/tv_size_tiny" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_time_ago"
-                style="@style/tv_style_normal_gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_line" />
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/tv_size_tiny" />
 
         </LinearLayout>
 

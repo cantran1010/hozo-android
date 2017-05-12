@@ -9,7 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.model.Feedback;
+import vn.tonish.hozo.model.Review;
+import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.Utils;
 
 /**
@@ -54,13 +55,14 @@ public class ReviewsView extends LinearLayout {
         ratingBar = (RatingBar) findViewById(R.id.rating);
     }
 
-    public void updateData(Feedback feedback) {
+    public void updateData(Review review) {
 
-        Utils.displayImageAvatar(getContext(), imgAvatar, feedback.getAvatar());
-        tvName.setText(feedback.getName());
-        ratingBar.setRating((float) feedback.getRate());
-        tvReviews.setText(feedback.getContent());
-        tvTimeAgo.setText(feedback.getTime());
+        Utils.displayImageAvatar(getContext(), imgAvatar, review.getAuthorAvatar());
+        tvName.setText(review.getAuthorName());
+        ratingBar.setRating((float) review.getRating());
+        tvReviews.setText(review.getBody());
+        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(review.getCreatedAt(), getContext()));
+
     }
 
 }
