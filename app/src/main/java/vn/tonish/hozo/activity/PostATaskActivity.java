@@ -46,6 +46,7 @@ import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
@@ -157,7 +158,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                             public void onGallery() {
                                 Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
                                 intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size() - 1);
-                                startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE);
+                                startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
                             }
                         });
                         pickImageDialog.showView();
@@ -165,7 +166,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                 } else {
                     Intent intent = new Intent(PostATaskActivity.this, PreviewImageActivity.class);
                     intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
-                    startActivity(intent);
+                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 }
             }
         });
@@ -233,7 +234,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.tv_address:
                 Intent intent = new Intent(this, PostATaskMapActivity.class);
-                startActivityForResult(intent, Constants.REQUEST_CODE_ADDRESS);
+                startActivityForResult(intent, Constants.REQUEST_CODE_ADDRESS,TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.tv_age:
@@ -334,7 +335,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             intent.putExtra(Constants.EXTRA_TASK, taskResponse);
             intent.putExtra(Constants.EXTRA_CATEGORY, category);
 
-            startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE);
+            startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
         } else {
             // attach image
             attachAllFile();
@@ -407,7 +408,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             intent.putExtra(Constants.EXTRA_TASK, taskResponse);
             intent.putExtra(Constants.EXTRA_CATEGORY, category);
 
-            startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE);
+            startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
         }
 
         ProgressDialogUtils.dismissProgressDialog();

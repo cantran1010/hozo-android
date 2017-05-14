@@ -34,6 +34,7 @@ import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.ProfileView;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -127,7 +128,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 selectab(2);
                 break;
             case R.id.tv_add_verify:
-                startActivityForResult(new Intent(ProfileActivity.this, AddVerifyActivity.class),Constants.REQUEST_CODE_ADD_VERIFY);
+                startActivityForResult(new Intent(ProfileActivity.this, AddVerifyActivity.class),Constants.REQUEST_CODE_ADD_VERIFY,TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
     }
@@ -136,7 +137,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         Intent intent = new Intent(this, EditProfileActivity.class);
         UserEntity userEntity = UserManager.getUserLogin(this);
         intent.putExtra(Constants.USER, DataParse.convertUserEntityToUser(userEntity));
-        startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_PROFILE);
+        startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_PROFILE,TransitionScreen.RIGHT_TO_LEFT);
     }
 
     @Override
@@ -155,7 +156,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.code() == 204) {
-                            startActivityAndClearAllTask(new Intent(ProfileActivity.this, HomeActivity.class));
+                            startActivityAndClearAllTask(new Intent(ProfileActivity.this, HomeActivity.class), TransitionScreen.FADE_IN);
                         }
                     }
 

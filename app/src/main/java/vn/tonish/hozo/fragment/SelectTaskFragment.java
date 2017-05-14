@@ -22,6 +22,7 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 
 /**
  * Created by LongBui on 4/4/2017.
@@ -111,7 +112,7 @@ public class SelectTaskFragment extends BaseFragment {
             public void onCallBack(int position) {
                 Intent intent = new Intent(getActivity(), PostATaskActivity.class);
                 intent.putExtra(Constants.EXTRA_CATEGORY, categories.get(position));
-                startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE);
+                startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.DOWN_TO_UP);
             }
         });
     }

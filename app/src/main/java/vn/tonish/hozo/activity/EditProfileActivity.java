@@ -37,6 +37,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.CircleImageView;
@@ -307,7 +308,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
             Intent intent = new Intent(EditProfileActivity.this, CropImageActivity.class);
             intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
-            startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE);
+            startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE,TransitionScreen.RIGHT_TO_LEFT);
         } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
             String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
             Utils.displayImage(EditProfileActivity.this, imgAvatar, imgPath);
@@ -334,7 +335,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 Intent intent = new Intent(EditProfileActivity.this, AlbumActivity.class);
                 intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
                 intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
-                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
+                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE,TransitionScreen.RIGHT_TO_LEFT);
             }
         });
         pickImageDialog.showView();

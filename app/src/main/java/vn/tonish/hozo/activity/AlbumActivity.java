@@ -22,6 +22,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.AlbumAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Album;
+import vn.tonish.hozo.utils.TransitionScreen;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
@@ -177,7 +178,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                         intent.putExtra(Constants.EXTRA_ONLY_IMAGE, isOnlyImage);
                         intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, isCropProfile);
                         intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, countImageAttach);
-                        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
+                        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
                     }
                 });
             }

@@ -14,17 +14,20 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
- * Created by LongBD
+ * Created by LongBui on 4/12/17.
  */
 public abstract class BaseActivity extends FragmentActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = BaseActivity.class.getName();
     private FragmentManager fragmentManager;
     protected ProgressDialog progressDialog;
-
+    private TransitionScreen transitionScreen;
 
     protected abstract int getLayout();
 
@@ -68,6 +71,11 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
 //            getWindow().setStatusBarColor(getResources().getColor(R.color.pink));
 //        }
 
+        if (getIntent().hasExtra(Constants.TRANSITION_EXTRA))
+            transitionScreen = (TransitionScreen) getIntent().getSerializableExtra(Constants.TRANSITION_EXTRA);
+
+        LogUtils.d(TAG, "BaseActivity , transitionScreen : " + transitionScreen);
+
         fragmentManager = getSupportFragmentManager();
         setContentView(getLayout());
         initView();
@@ -94,45 +102,44 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        if (transitionScreen != null)
+            TransitionScreen.overridePendingTransitionOut(this, transitionScreen);
     }
 
-    @Override
-    public void startActivityForResult(Intent intent, int requestCode) {
-        super.startActivityForResult(intent, requestCode);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    public void startActivityForResult(Intent intent, int requestCode, TransitionScreen transitionScreen) {
+        intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
+        startActivityForResult(intent, requestCode);
+        TransitionScreen.overridePendingTransition(this, transitionScreen);
     }
 
-    @Override
-    public void startActivity(Intent intent) {
-        super.startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    public void startActivity(Intent intent, TransitionScreen transitionScreen) {
+        intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
+        startActivity(intent);
+        TransitionScreen.overridePendingTransition(this, transitionScreen);
     }
 
-    public void startActivityAndClearAllTask(Intent intent) {
+    public void startActivityAndClearAllTask(Intent intent, TransitionScreen transitionScreen) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        super.startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
+        startActivity(intent);
+        TransitionScreen.overridePendingTransition(this, transitionScreen);
     }
 
-    public void startActivityAndClearAllTask(Class<?> cls) {
+    public void startActivityAndClearAllTask(Class<?> cls, TransitionScreen transitionScreen) {
         Intent intent = new Intent(this, cls);
-        startActivityAndClearAllTask(intent);
+        startActivityAndClearAllTask(intent, transitionScreen);
     }
 
-    public void startActivityDefault(Intent intent) {
-        super.startActivity(intent);
-    }
-
-    public void startActivity(Class<?> cls) {
+    public void startActivity(Class<?> cls, TransitionScreen transitionScreen) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
+        TransitionScreen.overridePendingTransition(this, transitionScreen);
     }
 
-    public void startActivity(Class<?> cls, Bundle bundle) {
+    public void startActivity(Class<?> cls, Bundle bundle, TransitionScreen transitionScreen) {
         Intent intent = new Intent(this, cls);
         intent.putExtras(bundle);
-        startActivity(intent);
+        startActivity(intent, transitionScreen);
     }
 
     protected void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, boolean isRightToLeft) {

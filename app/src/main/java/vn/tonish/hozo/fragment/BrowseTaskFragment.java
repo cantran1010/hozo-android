@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AdvanceSettingsActivity;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.R.id.edt_search;
@@ -135,7 +136,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 edtSearch.setText("");
                 break;
             case R.id.img_controls:
-                startActivity(new Intent(getContext(), AdvanceSettingsActivity.class));
+                startActivity(new Intent(getContext(), AdvanceSettingsActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
 

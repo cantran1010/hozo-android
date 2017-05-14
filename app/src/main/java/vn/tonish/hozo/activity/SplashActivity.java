@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.utils.TransitionScreen;
 
 import static vn.tonish.hozo.common.Constants.SPLASH_TIME;
 
@@ -38,9 +39,9 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 finish();
                 if (UserManager.checkLogin(SplashActivity.this)) {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class), TransitionScreen.FADE_IN);
                 } else {
-                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                    startActivity(new Intent(SplashActivity.this, HomeActivity.class),TransitionScreen.FADE_IN);
               }
            }
         }, SPLASH_TIME);
