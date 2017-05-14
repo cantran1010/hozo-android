@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AdvanceSettingsActivity;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.R.id.edt_search;
@@ -55,7 +56,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
-        openFragment(R.id.find_task_container, ListTaskFragment.class, false,true);
+        openFragment(R.id.find_task_container, ListTaskFragment.class, false,TransitionScreen.FADE_IN);
         imgControls.setOnClickListener(this);
         imgLocation.setOnClickListener(this);
         imgSearch.setOnClickListener(this);
@@ -65,11 +66,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 hideKeyBoard(getActivity());
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//                    performSearch();
-                    return true;
-                }
-                return false;
+                return actionId == EditorInfo.IME_ACTION_SEARCH;
             }
         });
         edtSearch.addTextChangedListener(new TextWatcher() {
@@ -115,10 +112,10 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         switch (view.getId()) {
             case R.id.img_location:
                 if (checkView) {
-                    openFragment(R.id.find_task_container, MapTaskFragment.class, false,true);
+                    openFragment(R.id.find_task_container, MapTaskFragment.class, false,TransitionScreen.RIGHT_TO_LEFT);
                     checkView = false;
                 } else {
-                    openFragment(R.id.find_task_container, ListTaskFragment.class, false,false);
+                    openFragment(R.id.find_task_container, ListTaskFragment.class, false,TransitionScreen.LEFT_TO_RIGHT);
                     checkView = true;
                 }
 
@@ -135,7 +132,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 edtSearch.setText("");
                 break;
             case R.id.img_controls:
-                startActivity(new Intent(getContext(), AdvanceSettingsActivity.class));
+                startActivity(new Intent(getContext(), AdvanceSettingsActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
 

@@ -13,9 +13,11 @@ import android.view.ViewGroup;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.MainActivity;
+import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.utils.TransitionScreen;
 
 /**
- * Created by LongBD.
+ * Created by LongBui on 4/12/17.
  */
 public abstract class BaseFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -28,7 +30,7 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
     protected abstract void resumeData();
 
     private View view;
-    public SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,11 +63,11 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         resumeData();
     }
 
-    protected View findViewById(int id) {
+    View findViewById(int id) {
         return view.findViewById(id);
     }
 
-    public void createSwipeToRefresh() {
+    void createSwipeToRefresh() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
@@ -79,48 +81,58 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    protected void startActivity(Class<?> cls, Bundle bundle) {
+    protected void startActivity(Class<?> cls, Bundle bundle, TransitionScreen transitionScreen) {
         Intent intent = new Intent(getActivity(), cls);
         intent.putExtras(bundle);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        startActivity(intent, transitionScreen);
     }
 
-    protected void startActivity(Class<?> cls) {
+    void startActivity(Intent intent, TransitionScreen transitionScreen) {
+        intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
+        startActivity(intent);
+        TransitionScreen.overridePendingTransition(getActivity(), transitionScreen);
+    }
+
+    void startActivity(Class<?> cls, TransitionScreen transitionScreen) {
         Intent intent = new Intent(getActivity(), cls);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        startActivity(intent, transitionScreen);
     }
 
-    public void startActivity(Intent intent) {
-        super.startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//    public void startActivity(Intent intent) {
+//        super.startActivity(intent);
+//        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//    }
+
+//    @Override
+//    public void startActivityForResult(Intent intent, int requestCode) {
+//        super.startActivityForResult(intent, requestCode);
+//        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//    }
+
+    void startActivityForResult(Intent intent, int requestCode, TransitionScreen transitionScreen) {
+        intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
+        startActivityForResult(intent, requestCode);
+        TransitionScreen.overridePendingTransition(getActivity(), transitionScreen);
     }
 
-    @Override
-    public void startActivityForResult(Intent intent, int requestCode) {
-        super.startActivityForResult(intent, requestCode);
-        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
-
-    public void startActivityAndClearAllTask(Intent intent) {
+    void startActivityAndClearAllTask(Intent intent, TransitionScreen transitionScreen) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        super.startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        startActivity(intent, transitionScreen);
     }
-    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack,boolean isRightToLeft) {
+
+    void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack, TransitionScreen transitionScreen) {
         Activity activity = getActivity();
         if (activity instanceof BaseActivity) {
             BaseActivity baseActivity = (BaseActivity) activity;
-            baseActivity.openFragmentBundle(resId, fragmentClazz, args, true,isRightToLeft);
+            baseActivity.openFragmentBundle(resId, fragmentClazz, args, true, transitionScreen);
         }
     }
 
-    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack,boolean isRightToLeft) {
-        openFragment(resId, fragmentClazz, null, addBackStack, isRightToLeft);
+    void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, TransitionScreen transitionScreen) {
+        openFragment(resId, fragmentClazz, null, addBackStack, transitionScreen);
     }
 
-    public void updateMenuUi(int position) {
+    void updateMenuUi(int position) {
         if (getActivity() instanceof MainActivity)
             ((MainActivity) getActivity()).updateMenuUi(position);
     }

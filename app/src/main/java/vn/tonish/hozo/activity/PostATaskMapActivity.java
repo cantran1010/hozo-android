@@ -40,6 +40,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.GPSTracker;
 import vn.tonish.hozo.utils.LocationProvider;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -149,7 +150,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 @Override
                 public void onSubmit() {
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivity(intent);
+                    startActivity(intent,TransitionScreen.RIGHT_TO_LEFT);
                 }
             });
         }
@@ -277,7 +278,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         intent.putExtra(Constants.EXTRA_ADDRESS, location);
         intent.putExtra(Constants.EXTRA_TASK, work);
         intent.putExtra(Constants.EXTRA_CATEGORY, category);
-        startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE);
+        startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
     }
 
     @Override

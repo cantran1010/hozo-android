@@ -29,7 +29,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     private ArrayList<Category> categories;
 
     public interface CategoryAdapterLister {
-        public void onCallBack(int position);
+        void onCallBack(int position);
     }
 
     private CategoryAdapterLister categoryAdapterLister;

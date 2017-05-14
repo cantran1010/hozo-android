@@ -24,11 +24,12 @@
         android:id="@+id/img_remove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_margin="2dp"
         android:background="#44000000"
         android:contentDescription="@string/adjust_image"
         android:padding="5dp"
-        android:src="@drawable/img_close" />
+        android:src="@drawable/img_close"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

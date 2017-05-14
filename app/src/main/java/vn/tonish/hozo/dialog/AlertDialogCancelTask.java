@@ -13,12 +13,13 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 public class AlertDialogCancelTask extends BaseDialog implements View.OnClickListener {
 
-    private TextViewHozo tvYes, tvNo, tvTitle, tvContent;
+    private TextViewHozo tvTitle;
+    private TextViewHozo tvContent;
 
     public interface AlertConfirmDialogListener {
-        public void onOk();
+        void onOk();
 
-        public void onCancel();
+        void onCancel();
     }
 
     private AlertConfirmDialogListener alertConfirmDialogListener;
@@ -43,10 +44,10 @@ public class AlertDialogCancelTask extends BaseDialog implements View.OnClickLis
     @Override
     protected void initData() {
 
-        tvYes = (TextViewHozo) findViewById(R.id.tv_yes);
+        TextViewHozo tvYes = (TextViewHozo) findViewById(R.id.tv_yes);
         tvYes.setOnClickListener(this);
 
-        tvNo = (TextViewHozo) findViewById(R.id.tv_no);
+        TextViewHozo tvNo = (TextViewHozo) findViewById(R.id.tv_no);
         tvNo.setOnClickListener(this);
 
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);

@@ -31,7 +31,7 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
     private static final String TAG = CropImageActivity.class.getName();
     private CropImageView cropImageView;
     private TextViewHozo tvCrop;
-    public static Bitmap bitmapCrop;
+    private static Bitmap bitmapCrop;
     private ImageView imgBack;
     private CropImageViewOptions mCropImageViewOptions = new CropImageViewOptions();
     private ImageView imgRotate;
@@ -97,7 +97,7 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    public void setCropImageViewOptions(CropImageViewOptions options) {
+    private void setCropImageViewOptions(CropImageViewOptions options) {
         cropImageView.setAspectRatio(options.aspectRatio.first, options.aspectRatio.second);
 //        cropImageView.setScaleType(options.scaleType);
 //        cropImageView.setCropShape(options.cropShape);

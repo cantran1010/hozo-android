@@ -15,6 +15,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.ImageSelectAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Image;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -59,10 +60,10 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initData() {
         Intent intent = getIntent();
-        if (intent != null ? intent.hasExtra(Constants.EXTRA_ONLY_IMAGE) : false)
+        if (intent != null && intent.hasExtra(Constants.EXTRA_ONLY_IMAGE))
             isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
 
-        if (intent != null ? intent.hasExtra(Constants.EXTRA_IS_CROP_PROFILE) : false)
+        if (intent != null && intent.hasExtra(Constants.EXTRA_IS_CROP_PROFILE))
             isCropProfile = intent.getBooleanExtra(Constants.EXTRA_IS_CROP_PROFILE, false);
 
         if (intent.hasExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA))
@@ -188,7 +189,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
                         Image imageCrop = getSelectedImage().get(0);
                         Intent intent = new Intent(ImageSelectActivity.this, CropImageActivity.class);
                         intent.putExtra(Constants.EXTRA_IMAGE_PATH, imageCrop.getPath());
-                        startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
+                        startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
                     } else {
                         sendIntent();
                     }

@@ -25,20 +25,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/title_margin_left"
+            android:layout_toEndOf="@id/img_back"
+            android:layout_toLeftOf="@+id/tv_cancel"
+            android:layout_toStartOf="@+id/tv_cancel"
+            android:text="@string/make_an_offer_title"
             android:layout_marginLeft="@dimen/title_margin_left"
-            android:layout_toRightOf="@id/img_back"
-            android:text="@string/make_an_offer_title" />
+            android:layout_toRightOf="@id/img_back" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_cancel"
             style="@style/tv_title_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+
             android:padding="5dp"
-            android:text="@string/cancel_task" />
+            android:text="@string/cancel_task"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp" />
 
         <View
             android:layout_width="match_parent"
@@ -91,11 +98,12 @@
                     style="@style/sectionHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
                     android:text="@string/view_all"
-                    android:textColor="@color/hozo_bg" />
+                    android:textColor="@color/hozo_bg"
+                    android:layout_alignParentRight="true" />
 
             </RelativeLayout>
 

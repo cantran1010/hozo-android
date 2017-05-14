@@ -25,6 +25,7 @@ import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.common.Constants.USER_MOBILE;
@@ -177,7 +178,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 if (response.code() == 204) {
                     Bundle bundle = new Bundle();
                     bundle.putString(Constants.USER_MOBILE, finalMobile);
-                    openFragment(R.id.layout_container, OtpFragment.class, bundle, false, true);
+                    openFragment(R.id.layout_container, OtpFragment.class, bundle, false, TransitionScreen.RIGHT_TO_LEFT);
                 }
                 ProgressDialogUtils.dismissProgressDialog();
             }

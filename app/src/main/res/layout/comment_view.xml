@@ -16,6 +16,7 @@
             android:layout_height="60dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:src="@drawable/avatar_default" />
 
         <LinearLayout
@@ -23,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_toEndOf="@id/img_avatar"
             android:layout_toRightOf="@id/img_avatar"
             android:orientation="vertical">
 
@@ -33,16 +35,20 @@
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_name"
                     style="@style/tv_style_normal_black"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/img_setting"
+                    android:layout_toStartOf="@+id/img_setting"
                     android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/img_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:contentDescription="@string/adjust_image"
                     android:src="@drawable/img_comment_setting" />
@@ -65,6 +71,7 @@
                 android:id="@+id/img_attach"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:contentDescription="@string/just_image"
                 android:src="@drawable/avatar_default" />
 
         </LinearLayout>

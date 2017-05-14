@@ -24,6 +24,7 @@ import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -33,7 +34,7 @@ import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
  * Created by CanTran on 5/10/17.
  */
 
-public  class VerifyNameFragment extends BaseFragment implements View.OnClickListener {
+public class VerifyNameFragment extends BaseFragment implements View.OnClickListener {
     private final static String TAG = VerifyNameFragment.class.getName();
     private EdittextHozo edtName;
     private TextViewHozo btnSave;
@@ -118,7 +119,7 @@ public  class VerifyNameFragment extends BaseFragment implements View.OnClickLis
                         DataParse.updateUser(response.body(), getContext());
                         LogUtils.d(TAG, "update User : " + UserManager.getUserLogin(getContext()).toString());
                     }
-                    startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class));
+                    startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
 
                 }

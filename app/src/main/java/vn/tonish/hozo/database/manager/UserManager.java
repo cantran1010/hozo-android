@@ -6,17 +6,15 @@ import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.utils.LogUtils;
 
 import io.realm.Realm;
+
+import static vn.tonish.hozo.database.manager.ReviewManager.context;
+
 /**
  * Created by LongBui.
  */
 public class UserManager {
 
     private static final String TAG = UserManager.class.getName();
-    public static Context context;
-
-    public UserManager(Context context) {
-        UserManager.context = context;
-    }
 
     public static UserManager userManager;
 
@@ -56,7 +54,7 @@ public class UserManager {
     public static void insertUserLogin(UserEntity userEntity, Context context) {
         LogUtils.d(TAG, "insertUserLogin : " + userEntity.toString());
 
-        deleteAll();
+        deleteAll(context);
 
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         realm.beginTransaction();
@@ -64,7 +62,7 @@ public class UserManager {
         realm.commitTransaction();
     }
 
-    public static void deleteAll() {
+    public static void deleteAll(Context context) {
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         realm.beginTransaction();
         realm.where(UserEntity.class).findAll().deleteAllFromRealm();

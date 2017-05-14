@@ -21,6 +21,7 @@ import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.FileUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
 import vn.tonish.hozo.view.WorkAroundMapFragment;
@@ -156,7 +157,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
                     public void onGallery() {
                         Intent intent = new Intent(WorkerOfferMadeActivity.this, AlbumActivity.class);
                         intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
-                        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
+                        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE,TransitionScreen.RIGHT_TO_LEFT);
                     }
                 });
                 pickImageDialog.showView();
@@ -170,7 +171,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
             case R.id.img_attached:
                 Intent intent = new Intent(WorkerOfferMadeActivity.this, PreviewImageActivity.class);
                 intent.putExtra(Constants.EXTRA_IMAGE_PATH, imgPath);
-                startActivity(intent);
+                startActivity(intent,TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }

@@ -19,6 +19,7 @@ import vn.tonish.hozo.dialog.AlertDialogCancelTask;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.model.User;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -167,7 +168,7 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
             case R.id.img_attach:
                 Intent intent = new Intent(PosterAssignedTaskActivity.this, AlbumActivity.class);
                 intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
-                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
+                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.img_delete:

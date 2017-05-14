@@ -25,6 +25,7 @@ import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.utils.FileUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -197,7 +198,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
                     public void onGallery() {
                         Intent intent = new Intent(PosterOpenTaskActivity.this, AlbumActivity.class);
                         intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
-                        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
+                        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE,TransitionScreen.RIGHT_TO_LEFT);
                     }
                 });
                 pickImageDialog.showView();
@@ -211,7 +212,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
             case R.id.img_attached:
                 Intent intent = new Intent(PosterOpenTaskActivity.this, PreviewImageActivity.class);
                 intent.putExtra(Constants.EXTRA_IMAGE_PATH, imgPath);
-                startActivity(intent);
+                startActivity(intent,TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.img_back:

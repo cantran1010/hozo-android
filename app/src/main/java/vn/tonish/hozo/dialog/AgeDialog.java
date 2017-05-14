@@ -16,7 +16,7 @@ import vn.tonish.hozo.view.ButtonHozo;
 public class AgeDialog extends BaseDialog implements View.OnClickListener {
 
     public interface AgeDialogListener {
-        public void onAgeDialogLister(int ageFrom, int ageTo);
+        void onAgeDialogLister(int ageFrom, int ageTo);
     }
 
     private AgeDialogListener ageDialogListener;
@@ -30,7 +30,6 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
     }
 
     private NumberPicker npAgeFrom, npAgeTo;
-    private ButtonHozo btnOk;
 
     private static final int minAge = 18;
     private static final int maxAge = 80;
@@ -47,7 +46,7 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
     @Override
     protected void initData() {
 
-        btnOk = (ButtonHozo) findViewById(R.id.btn_ok);
+        ButtonHozo btnOk = (ButtonHozo) findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(this);
 
         npAgeFrom = (NumberPicker) findViewById(R.id.np_age_from);

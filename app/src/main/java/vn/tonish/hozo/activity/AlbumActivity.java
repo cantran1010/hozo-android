@@ -22,6 +22,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.AlbumAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Album;
+import vn.tonish.hozo.utils.TransitionScreen;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
@@ -42,7 +43,6 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private AlbumAdapter albumAdapter;
     private boolean isOnlyImage = false;
     private boolean isCropProfile = false;
-    private ImageView imgBack;
     private int countImageAttach = 0;
     private final String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
@@ -56,7 +56,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     protected void initView() {
         grAlbum = (GridView) findViewById(R.id.gr_album);
 
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
     }
 
@@ -76,7 +76,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
         checkPermission();
     }
 
-    protected void checkPermission() {
+    private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             permissionGranted();
@@ -122,6 +122,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                         .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
                                 null, null, MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
 
+                assert cursor != null;
                 ArrayList<Album> temp = new ArrayList<>(cursor.getCount());
                 HashSet<Long> albumSet = new HashSet<>();
                 File file;
@@ -177,7 +178,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                         intent.putExtra(Constants.EXTRA_ONLY_IMAGE, isOnlyImage);
                         intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, isCropProfile);
                         intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, countImageAttach);
-                        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
+                        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
                     }
                 });
             }

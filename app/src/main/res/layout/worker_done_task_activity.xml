@@ -11,18 +11,23 @@
 
         <ImageView
             android:id="@+id/img_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/content_description_back"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
             android:layout_centerVertical="true"
+            android:background="@drawable/btn_back_selector"
+            android:contentDescription="@string/content_description_back"
             android:padding="5dp"
-            android:src="@drawable/back" />
+            android:scaleType="centerInside"
+            android:src="@drawable/img_back" />
 
         <vn.tonish.hozo.view.TextViewHozo
             style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_toEndOf="@id/img_back"
+            android:layout_toRightOf="@id/img_back"
             android:text="@string/make_an_offer_title" />
 
         <View
@@ -37,7 +42,6 @@
         android:id="@+id/scv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/layout_footer"
         android:layout_below="@id/layout_header">
 
         <LinearLayout
@@ -77,6 +81,7 @@
                     style="@style/sectionHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
