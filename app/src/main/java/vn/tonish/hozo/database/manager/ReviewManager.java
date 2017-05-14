@@ -47,5 +47,11 @@ public class ReviewManager {
         // get last update
         return realm.where(ReviewEntity.class).equalTo("type", type).findAll();
     }
+    public static void deleteAll() {
+        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
+        realm.beginTransaction();
+        realm.where(ReviewEntity.class).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
+    }
 
 }

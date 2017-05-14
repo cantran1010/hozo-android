@@ -31,9 +31,11 @@ import vn.tonish.hozo.fragment.workerReviewFragment;
 import vn.tonish.hozo.model.Review;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.network.DataParse;
+import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.ProfileView;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -52,7 +54,7 @@ import static vn.tonish.hozo.utils.Utils.setViewBackground;
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private ImageView imgback, imgEdit;
-    private TextView btnWorker, btnPoster, btnMoreReview,btnAddVerify;
+    private TextView btnWorker, btnPoster, btnAddVerify;
     private FrameLayout btnLogOut;
     private ProfileView profileView;
     private float ratingPoster, ratingTasker;
@@ -73,7 +75,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btnLogOut = (FrameLayout) findViewById(R.id.btn_logout);
         btnWorker = (TextViewHozo) findViewById(R.id.btn_worker);
         btnPoster = (TextViewHozo) findViewById(R.id.btn_poster);
-        btnMoreReview = (TextViewHozo) findViewById(R.id.tv_more_reviews);
         btnAddVerify = (TextViewHozo) findViewById(R.id.tv_add_verify);
         posterReviews = new ArrayList<>();
         taskerReviews = new ArrayList<>();
@@ -149,19 +150,43 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void logOut() {
+        ProgressDialogUtils.showProgressDialog(this);
         DialogUtils.showOkAndCancelDialog(this, getString(R.string.msg_logOut), getString(R.string.msg_contten_logOut), "Có", "huỷ", new AlertDialogOkAndCancel.AlertDialogListener() {
             @Override
             public void onSubmit() {
                 ApiClient.getApiService().logOut(UserManager.getUserToken(ProfileActivity.this)).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.code() == 204) {
+                        ProgressDialogUtils.dismissProgressDialog();
+                        if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                            UserManager.deleteAll(ProfileActivity.this);
+                            ReviewManager.deleteAll();
                             startActivityAndClearAllTask(new Intent(ProfileActivity.this, HomeActivity.class), TransitionScreen.FADE_IN);
+                        } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                            NetworkUtils.RefreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
+                                @Override
+                                public void onRefreshFinish() {
+                                    logOut();
+                                }
+                            });
+                        } else {
+                            DialogUtils.showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+                                    logOut();
+                                }
+
+                                @Override
+                                public void onCancel() {
+
+                                }
+                            });
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
+                        ProgressDialogUtils.dismissProgressDialog();
                         showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
