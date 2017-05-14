@@ -11,6 +11,7 @@ import vn.tonish.hozo.fragment.HelpFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
 import vn.tonish.hozo.fragment.MyTaskFragment;
 import vn.tonish.hozo.fragment.SelectTaskFragment;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -52,7 +53,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        openFragment(R.id.layout_container, SelectTaskFragment.class, false, true);
+        openFragment(R.id.layout_container, SelectTaskFragment.class, false, TransitionScreen.FADE_IN);
         updateMenuUi(1);
 
         layoutPostATask.setOnClickListener(this);
@@ -74,37 +75,49 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_post_a_task:
                 if (tabIndex == 1) break;
+                openFragment(R.id.layout_container, SelectTaskFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
                 tabIndex = 1;
                 updateMenuUi(1);
-                openFragment(R.id.layout_container, SelectTaskFragment.class, false, true);
                 break;
 
             case R.id.layout_browser_task:
                 if (tabIndex == 2) break;
+                if (tabIndex > 2) {
+                    openFragment(R.id.layout_container, BrowseTaskFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
+                } else {
+                    openFragment(R.id.layout_container, BrowseTaskFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+                }
                 tabIndex = 2;
                 updateMenuUi(2);
-                openFragment(R.id.layout_container, BrowseTaskFragment.class, false, true);
                 break;
 
             case R.id.layout_my_task:
                 if (tabIndex == 3) break;
+                if (tabIndex > 3) {
+                    openFragment(R.id.layout_container, MyTaskFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
+                } else {
+                    openFragment(R.id.layout_container, MyTaskFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+                }
                 tabIndex = 3;
                 updateMenuUi(3);
-                openFragment(R.id.layout_container, MyTaskFragment.class, false, true);
                 break;
 
             case R.id.layout_inbox:
                 if (tabIndex == 4) break;
+                if (tabIndex > 4) {
+                    openFragment(R.id.layout_container, InboxFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
+                } else {
+                    openFragment(R.id.layout_container, InboxFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+                }
                 tabIndex = 4;
                 updateMenuUi(4);
-                openFragment(R.id.layout_container, InboxFragment.class, false, true);
                 break;
 
             case R.id.layout_other:
                 if (tabIndex == 5) break;
+                openFragment(R.id.layout_container, HelpFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
                 tabIndex = 5;
                 updateMenuUi(5);
-                openFragment(R.id.layout_container, HelpFragment.class, false, true);
                 break;
 
         }

@@ -2,6 +2,8 @@ package vn.tonish.hozo.fragment;
 
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import vn.tonish.hozo.R;
@@ -30,7 +32,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     protected void initData() {
-        openFragment(R.id.my_task_container, WorkerFragment.class, false,true);
+        openFragment(R.id.my_task_container, WorkerFragment.class, false,TransitionScreen.FADE_IN);
         layoutWorker.setOnClickListener(this);
         layoutPoster.setOnClickListener(this);
     }
@@ -60,12 +62,12 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.layout_worker:
                 selectedTab(1);
-                openFragment(R.id.my_task_container, WorkerFragment.class, false,false);
+                openFragment(R.id.my_task_container, WorkerFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
                 break;
 
             case R.id.layout_poster:
                 selectedTab(2);
-                openFragment(R.id.my_task_container, PosterFragment.class, false,true);
+                openFragment(R.id.my_task_container, PosterFragment.class, false,TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }

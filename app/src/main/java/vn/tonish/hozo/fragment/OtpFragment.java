@@ -29,6 +29,7 @@ import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.Token;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.common.Constants.USER_MOBILE;
@@ -288,11 +289,11 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
                 // login
                 if (response.code() == 200) {
                     btnSigIn.setText(getString(R.string.login_account));
-                    openFragment(R.id.layout_container, VerifyNameFragment.class, false, false);
+                    openFragment(R.id.layout_container, VerifyNameFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
 //                    startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class));
                 } else {
                     btnSigIn.setText(getString(R.string.login_create_account));
-                    openFragment(R.id.layout_container, VerifyNameFragment.class, false, false);
+                    openFragment(R.id.layout_container, VerifyNameFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
                 }
                 ProgressDialogUtils.dismissProgressDialog();
             }

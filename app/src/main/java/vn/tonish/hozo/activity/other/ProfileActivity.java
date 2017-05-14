@@ -263,13 +263,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             setViewBackground(btnPoster, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_left_reviews_selected));
             btnWorker.setTextColor(ContextCompat.getColor(this, R.color.black));
             setViewBackground(btnWorker, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_no_active_press));
-            openFragmentBundle(R.id.layout_container, PosterReviewFragment.class, bundlePoster, false, true);
+            openFragmentBundle(R.id.layout_container, PosterReviewFragment.class, bundlePoster, false, TransitionScreen.RIGHT_TO_LEFT);
         } else {
             btnWorker.setTextColor(ContextCompat.getColor(this, R.color.white));
             setViewBackground(btnWorker, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_no_active_selected));
             btnPoster.setTextColor(ContextCompat.getColor(this, R.color.black));
             setViewBackground(btnPoster, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_left_reviews_default));
-            openFragmentBundle(R.id.layout_container, workerReviewFragment.class, bundleTasker, false, false);
+            openFragmentBundle(R.id.layout_container, workerReviewFragment.class, bundleTasker, false, TransitionScreen.RIGHT_TO_LEFT);
 
         }
     }

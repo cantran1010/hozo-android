@@ -56,7 +56,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
-        openFragment(R.id.find_task_container, ListTaskFragment.class, false,true);
+        openFragment(R.id.find_task_container, ListTaskFragment.class, false,TransitionScreen.FADE_IN);
         imgControls.setOnClickListener(this);
         imgLocation.setOnClickListener(this);
         imgSearch.setOnClickListener(this);
@@ -116,10 +116,10 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         switch (view.getId()) {
             case R.id.img_location:
                 if (checkView) {
-                    openFragment(R.id.find_task_container, MapTaskFragment.class, false,true);
+                    openFragment(R.id.find_task_container, MapTaskFragment.class, false,TransitionScreen.RIGHT_TO_LEFT);
                     checkView = false;
                 } else {
-                    openFragment(R.id.find_task_container, ListTaskFragment.class, false,false);
+                    openFragment(R.id.find_task_container, ListTaskFragment.class, false,TransitionScreen.LEFT_TO_RIGHT);
                     checkView = true;
                 }
 
