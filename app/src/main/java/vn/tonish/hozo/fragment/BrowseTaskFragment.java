@@ -66,11 +66,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 hideKeyBoard(getActivity());
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//                    performSearch();
-                    return true;
-                }
-                return false;
+                return actionId == EditorInfo.IME_ACTION_SEARCH;
             }
         });
         edtSearch.addTextChangedListener(new TextWatcher() {

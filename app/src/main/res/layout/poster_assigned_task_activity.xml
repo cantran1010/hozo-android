@@ -25,8 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/title_margin_left"
-            android:layout_toRightOf="@id/img_back"
+            android:layout_marginStart="@dimen/title_margin_left"
+            android:layout_toEndOf="@id/img_back"
             android:text="@string/make_an_offer_title" />
 
         <vn.tonish.hozo.view.TextViewHozo
@@ -34,9 +34,9 @@
             style="@style/tv_title_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:padding="5dp"
             android:text="@string/cancel_task" />
 
@@ -92,7 +92,7 @@
                     style="@style/sectionHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
                     android:text="@string/view_all"
@@ -123,7 +123,7 @@
                     style="@style/sectionHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
                     android:text="@string/view_all"
@@ -140,6 +140,8 @@
 
     </ScrollView>
 
-    <include layout="@layout/footer_coment_layout" />
+    <include
+        android:id="@+id/layout_footer"
+        layout="@layout/footer_coment_layout" />
 
 </RelativeLayout>

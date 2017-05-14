@@ -38,16 +38,14 @@ public class ReviewManager {
         LogUtils.d(TAG, "getUserLogin start ");
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         // get last update
-        List<ReviewEntity> reviews = realm.where(ReviewEntity.class).findAll();
-        return reviews;
+        return realm.where(ReviewEntity.class).findAll();
     }
 
     public static List<ReviewEntity> getReviewByType(String type){
         LogUtils.d(TAG, "getUserLogin start ");
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         // get last update
-        List<ReviewEntity> reviews = realm.where(ReviewEntity.class).equalTo("type", type).findAll();
-        return reviews;
+        return realm.where(ReviewEntity.class).equalTo("type", type).findAll();
     }
 
 }

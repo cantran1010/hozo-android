@@ -69,11 +69,7 @@ public class NumberTextWatcher implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (s.toString().contains(String.valueOf(df.getDecimalFormatSymbols().getDecimalSeparator()))) {
-            hasFractionalPart = true;
-        } else {
-            hasFractionalPart = false;
-        }
+        hasFractionalPart = s.toString().contains(String.valueOf(df.getDecimalFormatSymbols().getDecimalSeparator()));
     }
 
 }

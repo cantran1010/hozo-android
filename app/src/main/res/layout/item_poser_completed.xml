@@ -20,9 +20,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_toLeftOf="@+id/right_layout"
-            android:layout_toRightOf="@id/img_avatar"
+            android:layout_marginStart="10dp"
+            android:layout_toStartOf="@+id/right_layout"
+            android:layout_toEndOf="@id/img_avatar"
             android:orientation="vertical">
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -77,8 +77,8 @@
             android:id="@+id/right_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical">
 
             <vn.tonish.hozo.view.TextViewHozo

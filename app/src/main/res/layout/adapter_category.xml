@@ -16,14 +16,14 @@
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:contentDescription="@string/just_image"
             android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
             android:orientation="vertical">
 
             <vn.tonish.hozo.view.TextViewHozo

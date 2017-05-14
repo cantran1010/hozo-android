@@ -28,24 +28,6 @@ public class PreferUtils {
 
     public SharedPreferences preferences;
 
-    public static PreferUtils preferUtils;
-
-    public static Context context;
-
-    public PreferUtils(Context context) {
-        preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
-        PreferUtils.context = context;
-    }
-
-    public static PreferUtils getInstance(Context context) {
-        if (preferUtils != null) {
-            return preferUtils;
-        } else {
-            preferUtils = new PreferUtils(context);
-            return preferUtils;
-        }
-    }
-
     // just example method
     public static void setMessage(String message) {
 

@@ -30,7 +30,7 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
     protected abstract void resumeData();
 
     private View view;
-    public SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,11 +63,11 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         resumeData();
     }
 
-    protected View findViewById(int id) {
+    View findViewById(int id) {
         return view.findViewById(id);
     }
 
-    public void createSwipeToRefresh() {
+    void createSwipeToRefresh() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
@@ -87,13 +87,13 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         startActivity(intent, transitionScreen);
     }
 
-    protected void startActivity(Intent intent, TransitionScreen transitionScreen) {
+    void startActivity(Intent intent, TransitionScreen transitionScreen) {
         intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
         startActivity(intent);
         TransitionScreen.overridePendingTransition(getActivity(), transitionScreen);
     }
 
-    protected void startActivity(Class<?> cls, TransitionScreen transitionScreen) {
+    void startActivity(Class<?> cls, TransitionScreen transitionScreen) {
         Intent intent = new Intent(getActivity(), cls);
         startActivity(intent, transitionScreen);
     }
@@ -109,18 +109,18 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
 //        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 //    }
 
-    public void startActivityForResult(Intent intent, int requestCode, TransitionScreen transitionScreen) {
+    void startActivityForResult(Intent intent, int requestCode, TransitionScreen transitionScreen) {
         intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
         startActivityForResult(intent, requestCode);
         TransitionScreen.overridePendingTransition(getActivity(), transitionScreen);
     }
 
-    public void startActivityAndClearAllTask(Intent intent, TransitionScreen transitionScreen) {
+    void startActivityAndClearAllTask(Intent intent, TransitionScreen transitionScreen) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent, transitionScreen);
     }
 
-    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack, TransitionScreen transitionScreen) {
+    void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack, TransitionScreen transitionScreen) {
         Activity activity = getActivity();
         if (activity instanceof BaseActivity) {
             BaseActivity baseActivity = (BaseActivity) activity;
@@ -128,11 +128,11 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         }
     }
 
-    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, TransitionScreen transitionScreen) {
+    void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, TransitionScreen transitionScreen) {
         openFragment(resId, fragmentClazz, null, addBackStack, transitionScreen);
     }
 
-    public void updateMenuUi(int position) {
+    void updateMenuUi(int position) {
         if (getActivity() instanceof MainActivity)
             ((MainActivity) getActivity()).updateMenuUi(position);
     }

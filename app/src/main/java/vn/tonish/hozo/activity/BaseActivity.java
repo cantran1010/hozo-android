@@ -26,7 +26,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 public abstract class BaseActivity extends FragmentActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = BaseActivity.class.getName();
     private FragmentManager fragmentManager;
-    protected ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
     private TransitionScreen transitionScreen;
 
     protected abstract int getLayout();
@@ -106,7 +106,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
             TransitionScreen.overridePendingTransitionOut(this, transitionScreen);
     }
 
-    public void startActivityForResult(Intent intent, int requestCode, TransitionScreen transitionScreen) {
+    protected void startActivityForResult(Intent intent, int requestCode, TransitionScreen transitionScreen) {
         intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
         startActivityForResult(intent, requestCode);
         TransitionScreen.overridePendingTransition(this, transitionScreen);
@@ -118,7 +118,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         TransitionScreen.overridePendingTransition(this, transitionScreen);
     }
 
-    public void startActivityAndClearAllTask(Intent intent, TransitionScreen transitionScreen) {
+    protected void startActivityAndClearAllTask(Intent intent, TransitionScreen transitionScreen) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
         startActivity(intent);
@@ -142,7 +142,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         startActivity(intent, transitionScreen);
     }
 
-    protected void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, TransitionScreen transitionScreen) {
+    void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, TransitionScreen transitionScreen) {
         openFragment(resId, fragmentClazz, null, addBackStack, transitionScreen);
     }
 

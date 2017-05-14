@@ -14,32 +14,33 @@ import java.util.List;
 
 public abstract class BaseAdapter<T, H extends BaseHolder, L extends BaseHolder> extends RecyclerView.Adapter {
 
-    public static final int VIEW_TYPE_LOADING = 1;
-    public static final int VIEW_TYPE_ITEM = 0;
+    private static final int VIEW_TYPE_LOADING = 1;
+    private static final int VIEW_TYPE_ITEM = 0;
 
     public void stopLoadMore() {
         isLoad = false;
     }
 
-    public boolean isLoad = true;
+    private boolean isLoad = true;
 
-    public final Context context;
-    public View view, loading;
+    final Context context;
+    private View view;
+    private View loading;
 
-    public final List<T> list;
+    private final List<T> list;
 
-    public BaseAdapter(Context context, List<T> list) {
+    BaseAdapter(Context context, List<T> list) {
         this.context = context;
         this.list = list;
     }
 
-    public abstract int getItemLayout();
+    protected abstract int getItemLayout();
 
-    public abstract int getLoadingLayout();
+    protected abstract int getLoadingLayout();
 
-    public abstract H returnItemHolder(View view);
+    protected abstract H returnItemHolder(View view);
 
-    public abstract L returnLoadingHolder(View view);
+    protected abstract L returnLoadingHolder(View view);
 
     @Override
     public BaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {

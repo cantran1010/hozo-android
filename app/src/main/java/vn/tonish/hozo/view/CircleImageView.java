@@ -174,7 +174,7 @@ public class CircleImageView extends AppCompatImageView {
         return mBorderColor;
     }
 
-    public void setBorderColor(@ColorInt int borderColor) {
+    private void setBorderColor(@ColorInt int borderColor) {
         if (borderColor == mBorderColor) {
             return;
         }
@@ -211,7 +211,7 @@ public class CircleImageView extends AppCompatImageView {
      * @deprecated Fill color support is going to be removed in the future
      */
     @Deprecated
-    public void setFillColor(@ColorInt int fillColor) {
+    private void setFillColor(@ColorInt int fillColor) {
         if (fillColor == mFillColor) {
             return;
         }

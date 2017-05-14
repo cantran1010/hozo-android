@@ -120,7 +120,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
                 @Override
                 public void onClick(View v) {
                     if (countImageSelected() + countImageAttach < Constants.MAX_IMAGE_ATTACH) {
-                        if (item != null ? item.isSelected : false) {
+                        if (item != null && item.isSelected) {
                             item.setSelected(false);
                         } else {
                             item.setSelected(true);

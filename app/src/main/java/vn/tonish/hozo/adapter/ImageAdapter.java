@@ -49,7 +49,7 @@ public class ImageAdapter extends ArrayAdapter<Image> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (item != null ? item.isAdd : false) {
+        if (item != null && item.isAdd) {
             holder.imgAdd.setVisibility(View.VISIBLE);
             holder.imgRemove.setVisibility(View.GONE);
         } else {

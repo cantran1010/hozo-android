@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by LongBui on 4/26/2017.
  */
 
-public class HozoLocation implements Serializable{
+class HozoLocation implements Serializable{
     private double lat;
     private double lon;
     private String address;

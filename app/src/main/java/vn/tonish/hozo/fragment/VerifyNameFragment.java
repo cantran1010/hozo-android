@@ -34,7 +34,7 @@ import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
  * Created by CanTran on 5/10/17.
  */
 
-public  class VerifyNameFragment extends BaseFragment implements View.OnClickListener {
+public class VerifyNameFragment extends BaseFragment implements View.OnClickListener {
     private final static String TAG = VerifyNameFragment.class.getName();
     private EdittextHozo edtName;
     private TextViewHozo btnSave;

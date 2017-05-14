@@ -1,6 +1,5 @@
 package vn.tonish.hozo.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import vn.tonish.hozo.view.CandidateView;
 public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.MyViewHolder> {
 
     private ArrayList<User> users;
-    private Context context;
 
     public CandidateAdapter(ArrayList<User> users){
         this.users = users;
@@ -29,7 +27,6 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.MyVi
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adapter_candidate, parent, false);
-        context = parent.getContext();
         return new MyViewHolder(itemView);    }
 
     @Override
@@ -42,7 +39,7 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.MyVi
         return users.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyViewHolder extends RecyclerView.ViewHolder{
 
         private CandidateView candidateView;
 
@@ -51,9 +48,5 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.MyVi
             candidateView = (CandidateView) itemView.findViewById(R.id.candidate_view);
         }
 
-        @Override
-        public void onClick(View v) {
-
-        }
     }
 }

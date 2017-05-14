@@ -15,12 +15,12 @@ import vn.tonish.hozo.model.Category;
  * Created by LongBui on 4/13/17.
  */
 
-public class CategoryHolder extends BaseHolder {
-    public final TextViewHozo tvName;
-    public final ImageView imgPresent;
-    public final View.OnClickListener onClickListener;
-    public final View view;
-    public Category category;
+class CategoryHolder extends BaseHolder {
+    private final TextViewHozo tvName;
+    private final ImageView imgPresent;
+    private final View.OnClickListener onClickListener;
+    private final View view;
+    private Category category;
 
     public CategoryHolder(View itemView, final Context context) {
         super(itemView, context);

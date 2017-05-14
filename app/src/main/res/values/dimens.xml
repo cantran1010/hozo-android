@@ -18,9 +18,9 @@
     <dimen name="tv_size_xtiny">12sp</dimen>
     <dimen name="tv_size_title">20sp</dimen>
     <dimen name="tv_size_medium">15sp</dimen>
-    <dimen name="title_margin_left">16dp</dimen>
+    <dimen name="title_margin_left">16sp</dimen>
     <dimen name="alert_dialog_width">300dp</dimen>
     <dimen name="tv_size_xlager">18sp</dimen>
-    <dimen name="tv_verify">8dp</dimen>
+    <dimen name="tv_verify">8sp</dimen>
 
 </resources>

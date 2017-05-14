@@ -74,19 +74,19 @@ public enum TransitionScreen implements Serializable {
 
         switch (transitionScreen) {
             case LEFT_TO_RIGHT:
-                transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right);
+                transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left);
                 break;
 
             case RIGHT_TO_LEFT:
-                transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left);
+                transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
 
             case UP_TO_DOWN:
-                transaction.setCustomAnimations(R.anim.slide_in_down, R.anim.from_up_to_down, R.anim.slide_in_down, R.anim.from_up_to_down);
+                transaction.setCustomAnimations(R.anim.slide_in_down, R.anim.from_up_to_down, R.anim.from_down_to_up, R.anim.slide_out_down);
                 break;
 
             case DOWN_TO_UP:
-                transaction.setCustomAnimations(R.anim.from_down_to_up, R.anim.slide_out_down, R.anim.from_down_to_up, R.anim.slide_out_down);
+                transaction.setCustomAnimations(R.anim.from_down_to_up, R.anim.slide_out_down, R.anim.slide_in_down, R.anim.from_up_to_down);
                 break;
 
             case FADE_IN:

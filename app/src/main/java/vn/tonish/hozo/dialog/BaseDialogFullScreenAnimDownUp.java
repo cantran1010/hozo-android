@@ -15,7 +15,7 @@ import vn.tonish.hozo.R;
  */
 abstract class BaseDialogFullScreenAnimDownUp extends Dialog {
 
-    public BaseDialogFullScreenAnimDownUp(@NonNull Context context) {
+    BaseDialogFullScreenAnimDownUp(@NonNull Context context) {
         super(context, R.style.DialogSlideAnimFullScreenAnimDownUp);
     }
 
@@ -50,7 +50,7 @@ abstract class BaseDialogFullScreenAnimDownUp extends Dialog {
     /**
      * hide view
      */
-    public void hideView() {
+    void hideView() {
         if (this.isShowing()) {
             this.dismiss();
         }

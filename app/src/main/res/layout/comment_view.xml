@@ -15,7 +15,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:src="@drawable/avatar_default" />
 
         <LinearLayout
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_toRightOf="@id/img_avatar"
+            android:layout_toEndOf="@id/img_avatar"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -41,9 +41,9 @@
                     android:id="@+id/img_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:contentDescription="@string/adjust_image"
                     android:src="@drawable/img_comment_setting" />
 
@@ -64,6 +64,7 @@
             <ImageView
                 android:id="@+id/img_attach"
                 android:layout_width="40dp"
+                android:contentDescription="@string/just_image"
                 android:layout_height="40dp"
                 android:src="@drawable/avatar_default" />
 

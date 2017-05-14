@@ -43,7 +43,6 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     private AlbumAdapter albumAdapter;
     private boolean isOnlyImage = false;
     private boolean isCropProfile = false;
-    private ImageView imgBack;
     private int countImageAttach = 0;
     private final String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
@@ -57,7 +56,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
     protected void initView() {
         grAlbum = (GridView) findViewById(R.id.gr_album);
 
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
     }
 
@@ -77,7 +76,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
         checkPermission();
     }
 
-    protected void checkPermission() {
+    private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             permissionGranted();
@@ -123,6 +122,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
                         .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
                                 null, null, MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
 
+                assert cursor != null;
                 ArrayList<Album> temp = new ArrayList<>(cursor.getCount());
                 HashSet<Long> albumSet = new HashSet<>();
                 File file;

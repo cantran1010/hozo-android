@@ -65,7 +65,7 @@ public class DateTimeUtils {
 
     private static final String DATE_FORMAT2 = "dd-MM-yyyy HH:mm";
 
-    public static Date convertToDate2(String input) {
+    private static Date convertToDate2(String input) {
         Date date = null;
         try {
             date = new SimpleDateFormat(DATE_FORMAT2, Locale.getDefault()).parse(input);
@@ -78,8 +78,8 @@ public class DateTimeUtils {
     /**
      * Transform Calendar to ISO 8601 string.
      */
-    public static String fromDateIso(Date date) {
-        String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+    private static String fromDateIso(Date date) {
+        String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US)
                 .format(date);
         return formatted.substring(0, 22) + ":" + formatted.substring(22);
     }
@@ -89,7 +89,7 @@ public class DateTimeUtils {
      */
     public static String fromCalendarIso(final Calendar calendar) {
         Date date = calendar.getTime();
-        String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+        String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US)
                 .format(date);
         return formatted.substring(0, 22) + ":" + formatted.substring(22);
     }
@@ -104,7 +104,7 @@ public class DateTimeUtils {
     /**
      * Transform ISO 8601 string to Calendar.
      */
-    public static Calendar toCalendar(final String iso8601string)
+    private static Calendar toCalendar(final String iso8601string)
             throws ParseException {
         Calendar calendar = GregorianCalendar.getInstance();
         String s = iso8601string.replace("Z", "+00:00");
@@ -113,15 +113,14 @@ public class DateTimeUtils {
         } catch (IndexOutOfBoundsException e) {
             throw new ParseException("Invalid length", 0);
         }
-        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(s);
+        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US).parse(s);
         calendar.setTime(date);
         return calendar;
     }
 
     public static String getTimeIso8601(String date, String time) {
         Date dateConverted = convertToDate2(date + " " + time);
-        String nowAsISO = fromDateIso(dateConverted);
-        return nowAsISO;
+        return fromDateIso(dateConverted);
     }
 
     private static final int SECOND_MILLIS = 1000;

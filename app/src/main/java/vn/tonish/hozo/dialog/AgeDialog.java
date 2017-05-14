@@ -30,7 +30,6 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
     }
 
     private NumberPicker npAgeFrom, npAgeTo;
-    private ButtonHozo btnOk;
 
     private static final int minAge = 18;
     private static final int maxAge = 80;
@@ -47,7 +46,7 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
     @Override
     protected void initData() {
 
-        btnOk = (ButtonHozo) findViewById(R.id.btn_ok);
+        ButtonHozo btnOk = (ButtonHozo) findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(this);
 
         npAgeFrom = (NumberPicker) findViewById(R.id.np_age_from);

@@ -145,7 +145,6 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                 if (images.get(position).isAdd) {
                     if (images.size() >= 7) {
                         Utils.showLongToast(PostATaskActivity.this, getString(R.string.post_a_task_max_attach_err));
-                        return;
                     } else {
                         PickImageDialog pickImageDialog = new PickImageDialog(PostATaskActivity.this);
                         pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {

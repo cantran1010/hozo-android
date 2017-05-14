@@ -9,7 +9,7 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="21dp"
         android:text="@string/alert_dialog_title"
         android:textColor="@color/black"
@@ -29,10 +29,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:gravity="right">
+        android:gravity="end">
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_no"
