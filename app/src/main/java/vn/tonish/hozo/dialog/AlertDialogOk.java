@@ -16,7 +16,7 @@ public class AlertDialogOk extends BaseDialog implements View.OnClickListener {
     private String title, content, submit;
 
     public interface AlertDialogListener {
-        public void onSubmit();
+        void onSubmit();
     }
 
     private AlertDialogListener alertDialogListener;

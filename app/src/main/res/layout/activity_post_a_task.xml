@@ -15,8 +15,8 @@
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
             android:background="@drawable/btn_back_selector"
-            android:scaleType="centerInside"
             android:contentDescription="@string/content_description_back"
+            android:scaleType="centerInside"
             android:src="@drawable/img_close_red" />
 
         <vn.tonish.hozo.view.TextViewHozo
@@ -88,6 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
                     android:layout_marginRight="20dp"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
@@ -99,8 +100,10 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:contentDescription="@string/drop_down"
                     android:src="@drawable/dropdown" />
@@ -175,6 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/border_gray"
                     android:entries="@array/gender"
@@ -186,6 +190,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/border_gray"
                     android:focusable="true"

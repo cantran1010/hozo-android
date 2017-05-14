@@ -28,7 +28,8 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:maxLength="4"
-        android:padding="16dp" />
+        android:padding="16dp"
+        android:layout_alignParentRight="true" />
 
 
 </RelativeLayout>

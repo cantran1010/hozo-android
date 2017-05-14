@@ -16,9 +16,9 @@ public class AlertDialogOkAndCancel extends BaseDialog implements View.OnClickLi
     private String title, content, submit, cancel;
 
     public interface AlertDialogListener {
-        public void onSubmit();
+        void onSubmit();
 
-        public void onCancel();
+        void onCancel();
     }
 
     private AlertDialogListener alertDialogListener;

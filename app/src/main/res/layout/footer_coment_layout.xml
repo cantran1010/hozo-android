@@ -13,7 +13,8 @@
         android:layout_height="70dp"
         android:layout_marginBottom="5dp"
         android:layout_marginStart="50dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_marginLeft="50dp">
 
         <ImageView
             android:id="@+id/img_attached"
@@ -31,7 +32,8 @@
             android:background="#66000000"
             android:contentDescription="@string/adjust_image"
             android:padding="5dp"
-            android:src="@drawable/img_close" />
+            android:src="@drawable/img_close"
+            android:layout_alignParentRight="true" />
 
     </RelativeLayout>
 
@@ -54,7 +56,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
             android:layout_toEndOf="@id/img_attach"
-            android:background="@drawable/bg_border_gray_corners">
+            android:background="@drawable/bg_border_gray_corners"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@id/img_attach">
 
             <ImageView
                 android:id="@+id/img_send"
@@ -63,7 +67,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/content_description_send"
-                android:src="@drawable/img_send" />
+                android:src="@drawable/img_send"
+                android:layout_alignParentRight="true" />
 
             <vn.tonish.hozo.view.EdittextHozo
                 android:layout_width="match_parent"
@@ -73,7 +78,8 @@
                 android:hint="@string/type_your_text"
                 android:minHeight="@dimen/edt_min_height"
                 android:padding="5dp"
-                android:textColorHint="@color/tv_gray" />
+                android:textColorHint="@color/tv_gray"
+                android:layout_toLeftOf="@id/img_send" />
 
         </RelativeLayout>
 

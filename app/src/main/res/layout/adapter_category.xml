@@ -18,13 +18,15 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:contentDescription="@string/just_image"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:layout_marginLeft="16dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="14dp">
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_name"

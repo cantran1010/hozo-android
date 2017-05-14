@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/title_margin_left"
             android:layout_centerVertical="true"
-            android:text="@string/select_task_title" />
+            android:text="@string/select_task_title"
+            android:layout_marginLeft="@dimen/title_margin_left" />
 
         <View
             android:layout_width="match_parent"

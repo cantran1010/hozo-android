@@ -80,7 +80,8 @@
                     android:layout_alignParentEnd="true"
                     android:contentDescription="@string/camera"
                     android:padding="5dp"
-                    android:src="@drawable/ic_camera_circle" />
+                    android:src="@drawable/ic_camera_circle"
+                    android:layout_alignParentRight="true" />
 
             </RelativeLayout>
 

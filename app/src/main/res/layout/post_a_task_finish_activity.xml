@@ -71,7 +71,8 @@
                     android:minHeight="@dimen/edt_min_height"
                     android:padding="5dp"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/gray" />
+                    android:textColorHint="@color/gray"
+                    android:layout_toLeftOf="@+id/tv_unit" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_unit"
@@ -82,7 +83,8 @@
                     android:layout_margin="5dp"
                     android:text="@string/vn_dong"
                     android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:layout_alignParentRight="true" />
 
             </RelativeLayout>
 
@@ -130,7 +132,8 @@
                     android:padding="5dp"
                     android:text=""
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_toLeftOf="@+id/tv_unit2" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_unit2"
@@ -141,7 +144,8 @@
                     android:layout_margin="5dp"
                     android:text="@string/vn_dong"
                     android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:layout_alignParentRight="true" />
 
             </RelativeLayout>
 

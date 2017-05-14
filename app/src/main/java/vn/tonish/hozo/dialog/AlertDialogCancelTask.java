@@ -17,9 +17,9 @@ public class AlertDialogCancelTask extends BaseDialog implements View.OnClickLis
     private TextViewHozo tvContent;
 
     public interface AlertConfirmDialogListener {
-        public void onOk();
+        void onOk();
 
-        public void onCancel();
+        void onCancel();
     }
 
     private AlertConfirmDialogListener alertConfirmDialogListener;

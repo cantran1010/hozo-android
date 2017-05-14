@@ -16,7 +16,7 @@ import vn.tonish.hozo.view.ButtonHozo;
 public class AgeDialog extends BaseDialog implements View.OnClickListener {
 
     public interface AgeDialogListener {
-        public void onAgeDialogLister(int ageFrom, int ageTo);
+        void onAgeDialogLister(int ageFrom, int ageTo);
     }
 
     private AgeDialogListener ageDialogListener;

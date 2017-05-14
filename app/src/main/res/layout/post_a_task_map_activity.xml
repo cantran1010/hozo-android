@@ -73,7 +73,9 @@
             android:layout_marginEnd="0dp"
             android:layout_marginTop="10dp"
             android:text="@string/map_hint_input1"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="0dp" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="wrap_content"
@@ -82,7 +84,9 @@
             android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/map_hint_input2"
-            android:textColor="@color/gray" />
+            android:textColor="@color/gray"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="10dp" />
 
     </LinearLayout>
 
@@ -105,7 +109,8 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_margin="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_alignParentRight="true">
 
             <ImageView
                 android:id="@+id/img_current_location"

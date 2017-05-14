@@ -256,7 +256,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                     Intent intent =
                             new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
                                     .build(this);
-                    startActivityForResult(intent, Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE,TransitionScreen.RIGHT_TO_LEFT);
+                    startActivityForResult(intent, Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE);
                 } catch (GooglePlayServicesRepairableException e) {
                     // TODO: Handle the error.
                 } catch (GooglePlayServicesNotAvailableException e) {

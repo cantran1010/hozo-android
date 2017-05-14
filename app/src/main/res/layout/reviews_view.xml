@@ -15,14 +15,18 @@
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:src="@drawable/avatar_default" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="16dp"
+            android:layout_marginStart="10dp"
             android:layout_toRightOf="@id/img_avatar"
+            android:layout_toEndOf="@id/img_avatar"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -36,6 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/rating"
+                    android:layout_toStartOf="@+id/rating"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/app_name"
@@ -48,6 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:numStars="5"

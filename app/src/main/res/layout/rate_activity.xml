@@ -103,7 +103,8 @@
                         android:paddingBottom="30dp"
                         android:paddingTop="30dp"
                         android:text="@string/rate_professional"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:layout_marginRight="5dp" />
 
                     <vn.tonish.hozo.view.ButtonHozo
                         android:layout_width="0dp"
@@ -114,7 +115,8 @@
                         android:paddingBottom="30dp"
                         android:paddingTop="30dp"
                         android:text="@string/rate_hard_working"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:layout_marginLeft="5dp" />
 
                 </LinearLayout>
 
@@ -133,7 +135,8 @@
                         android:paddingBottom="30dp"
                         android:paddingTop="30dp"
                         android:text="@string/rate_good_attitude"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:layout_marginRight="5dp" />
 
                     <vn.tonish.hozo.view.ButtonHozo
                         android:layout_width="0dp"
@@ -144,7 +147,8 @@
                         android:paddingBottom="30dp"
                         android:paddingTop="30dp"
                         android:text="@string/rate_other"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:layout_marginLeft="5dp" />
 
                 </LinearLayout>
 

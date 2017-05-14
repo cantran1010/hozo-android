@@ -29,6 +29,7 @@
         android:background="#44000000"
         android:contentDescription="@string/adjust_image"
         android:padding="5dp"
-        android:src="@drawable/img_close" />
+        android:src="@drawable/img_close"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>
