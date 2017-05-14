@@ -72,7 +72,11 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(true);
+        if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     public void onStopRefresh() {
@@ -108,15 +112,16 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         super.startActivity(intent);
         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
-    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack,boolean isRightToLeft) {
+
+    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack, boolean isRightToLeft) {
         Activity activity = getActivity();
         if (activity instanceof BaseActivity) {
             BaseActivity baseActivity = (BaseActivity) activity;
-            baseActivity.openFragmentBundle(resId, fragmentClazz, args, true,isRightToLeft);
+            baseActivity.openFragmentBundle(resId, fragmentClazz, args, true, isRightToLeft);
         }
     }
 
-    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack,boolean isRightToLeft) {
+    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, boolean isRightToLeft) {
         openFragment(resId, fragmentClazz, null, addBackStack, isRightToLeft);
     }
 
