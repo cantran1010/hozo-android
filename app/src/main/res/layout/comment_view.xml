@@ -37,8 +37,8 @@
                     style="@style/tv_style_normal_black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/img_setting"
-                    android:layout_toStartOf="@id/img_setting"
+                    android:layout_toLeftOf="@+id/img_setting"
+                    android:layout_toStartOf="@+id/img_setting"
                     android:textSize="15sp" />
 
                 <ImageView
