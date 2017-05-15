@@ -28,6 +28,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     private FragmentManager fragmentManager;
     private ProgressDialog progressDialog;
     private TransitionScreen transitionScreen;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     protected abstract int getLayout();
 
