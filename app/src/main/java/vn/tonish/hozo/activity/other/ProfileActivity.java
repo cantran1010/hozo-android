@@ -277,8 +277,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         profileView.updateData(true, userEntity.getAvatar(), userEntity.getFullName(), userEntity.getDateOfBirth(), "Nam", userEntity.getAddress(), userEntity.getPhoneNumber(), userEntity.getVerified());
 
         bundleTasker.putFloat(Constants.USER_TASKER_RATING, ratingTasker);
+        bundleTasker.putInt(Constants.USER_ID, userEntity.getId());
         bundleTasker.putParcelableArrayList(Constants.USER_TASKER_REVIEWS, (ArrayList<? extends Parcelable>) taskerReviews);
+
         bundlePoster.putFloat(Constants.USER_POSTER_RATING, ratingPoster);
+        bundlePoster.putInt(Constants.USER_ID, userEntity.getId());
         bundlePoster.putParcelableArrayList(Constants.USER_POSTER_REVIEWS, (ArrayList<? extends Parcelable>) posterReviews);
     }
 
