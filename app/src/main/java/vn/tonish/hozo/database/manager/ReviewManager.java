@@ -53,5 +53,11 @@ public class ReviewManager {
         realm.where(ReviewEntity.class).findAll().deleteAllFromRealm();
         realm.commitTransaction();
     }
+    public static void deleteAll() {
+        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
+        realm.beginTransaction();
+        realm.where(ReviewEntity.class).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
+    }
 
 }
