@@ -30,7 +30,6 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     private TransitionScreen transitionScreen;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-
     protected abstract int getLayout();
 
     protected abstract void initView();
