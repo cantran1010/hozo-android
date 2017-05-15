@@ -129,7 +129,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 selectab(2);
                 break;
             case R.id.tv_add_verify:
-                startActivityForResult(new Intent(ProfileActivity.this, AddVerifyActivity.class),Constants.REQUEST_CODE_ADD_VERIFY,TransitionScreen.RIGHT_TO_LEFT);
+                startActivityForResult(new Intent(ProfileActivity.this, AddVerifyActivity.class), Constants.REQUEST_CODE_ADD_VERIFY, TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
     }
@@ -138,7 +138,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         Intent intent = new Intent(this, EditProfileActivity.class);
         UserEntity userEntity = UserManager.getUserLogin(this);
         intent.putExtra(Constants.USER, DataParse.convertUserEntityToUser(userEntity));
-        startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_PROFILE,TransitionScreen.RIGHT_TO_LEFT);
+        startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_PROFILE, TransitionScreen.RIGHT_TO_LEFT);
     }
 
     @Override
