@@ -124,7 +124,7 @@ public class Review implements Parcelable {
 
     @Override
     public String toString() {
-        return "TaskerReview{" +
+        return "{" +
                 "authorId=" + authorId +
                 ", authorAvatar='" + authorAvatar + '\'' +
                 ", authorName='" + authorName + '\'' +

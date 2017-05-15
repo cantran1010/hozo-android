@@ -1,6 +1,7 @@
 package vn.tonish.hozo.rest;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -13,7 +14,9 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.model.Review;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
@@ -56,4 +59,7 @@ public interface ApiInterface {
     @POST("user/logout")
     Call<Void> logOut(@Header("Authorization") String token);
 
+    @GET("users/{user_id}/reviews")
+//    Call<List<Review>> getUserReviews(@Header("Authorization") String token, @Path("user_id") int id, @Path("limit") int limit, @Path("review_type") String review_type, @Path("since") String since);
+    Call<List<Review>> getUserReviews(@Header("Authorization") String token, @Path("user_id") int id, @QueryMap Map<String,String> option);
 }
