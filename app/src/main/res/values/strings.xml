@@ -186,7 +186,7 @@
     <string name="rate_other">Other</string>
     <string name="network_account_is_not_exist">Tài khoản không tồn tại</string>
     <string name="type_your_text">Type your text …</string>
-    <string name="assign_people">Người ứng tuyển</string>
+    <string name="assign_people">Người đã assign</string>
     <string name="assign">Chọn</string>
     <string name="view_all">Xem tất cả</string>
     <string name="worker">Người làm</string>
@@ -253,4 +253,8 @@
     <string name="verify_bank">Xác thực với tài khoản ngân hàng</string>
     <string name="verify_other">Xác thực thông tin cá nhân khác</string>
     <string name="all_call">1900160078</string>
+    <string name="empty"></string>
+    <string name="task_detail_attach_image_hint">ảnh đính kèm</string>
+    <string name="comment_answer">Trả lời tin nhắn</string>
+    <string name="comment_report">Thông báo tin nhắn xấu</string>
 </resources>

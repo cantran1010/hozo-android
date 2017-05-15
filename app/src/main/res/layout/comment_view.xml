@@ -51,6 +51,10 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:contentDescription="@string/adjust_image"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="2dp"
                     android:src="@drawable/img_comment_setting" />
 
             </RelativeLayout>

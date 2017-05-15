@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+    <item
+        android:id="@+id/report"
+        android:title="@string/comment_report" />
+
+    <item
+        android:id="@+id/answer"
+        android:title="@string/comment_answer"/>
+
+</menu>

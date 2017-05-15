@@ -1,6 +1,7 @@
 package vn.tonish.hozo.rest;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -13,7 +14,9 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
@@ -47,13 +50,19 @@ public interface ApiInterface {
     @PUT("users")
     Call<User> updateUser(@Header("Authorization") String token, @Body RequestBody body);
 
-    @GET("tasks/{id}")
-    Call<TaskResponse> getDetailTask(@Header("Authorization") String token, @Path("id") int id);
+    @GET("tasks")
+    Call<List<TaskResponse>> getDetailTask(@Header("Authorization") String token, @QueryMap Map<String, String> params);
 
     @GET("users")
     Call<User> getMyAccountInfor(@Header("Authorization") String token);
 
     @POST("user/logout")
     Call<Void> logOut(@Header("Authorization") String token);
+
+    @POST("tasks/{taskId}/comments")
+    Call<Comment> commentTask(@Header("Authorization") String token,@Path("taskId") int taskId,@Body RequestBody body);
+
+    @POST("comments/{commentId}/report")
+    Call<Void> report(@Header("Authorization") String token,@Path("commentId") int commentId,@Body RequestBody body);
 
 }

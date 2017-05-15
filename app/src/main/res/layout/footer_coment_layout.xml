@@ -71,6 +71,7 @@
                 android:layout_alignParentRight="true" />
 
             <vn.tonish.hozo.view.EdittextHozo
+                android:id="@+id/edt_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/img_send"

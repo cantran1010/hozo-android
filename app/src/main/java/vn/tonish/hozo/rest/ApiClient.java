@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ApiClient {
 
-    public static final String BASE_URL = "https://private-50cc10-hozodev.apiary-mock.com/v1/";
+    public static final String BASE_URL = "https://private-anon-f117a0bf31-hozodev.apiary-mock.com/v1/";
 //    public static final String BASE_URL = "http://104.198.92.15:8080/v1/";
 
     private static Retrofit retrofit = null;
