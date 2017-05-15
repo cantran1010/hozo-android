@@ -2,18 +2,26 @@ package vn.tonish.hozo.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
+import java.util.ArrayList;
+
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.PreviewImageListActivity;
+import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
+import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.utils.Utils;
 
 /**
  * Created by LongBui on 4/21/2017.
@@ -23,11 +31,12 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
     protected CircleImageView imgAvatar;
 
-    private TextViewHozo tvName, tvTitle, tvTimeAgo, tvWorkType, tvDescription;
+    private TextViewHozo tvName, tvTitle, tvTimeAgo, tvWorkType, tvDescription,tvImageAttachTitle;
     private RatingBar rbRate;
     private ImageView imgMobile, imgEmail, imgFacebook;
     private TextViewHozo tvPrice, tvDate, tvTime, tvAddress, tvStatus;
-    private ButtonHozo btnOffer,btnCallRate;
+    private ButtonHozo btnOffer, btnCallRate;
+    private MyGridView myGridView;
 
     public WorkDetailView(Context context) {
         super(context);
@@ -79,20 +88,49 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
         btnCallRate = (ButtonHozo) findViewById(R.id.btn_call_rate);
 
+        myGridView = (MyGridView) findViewById(R.id.gr_image);
+
+        tvImageAttachTitle = (TextViewHozo) findViewById(R.id.tv_img_attach_title);
+
     }
 
     public void updateWork(TaskResponse taskResponse) {
+        Utils.displayImage(getContext(), imgAvatar, taskResponse.getPoster().getAvatar());
         tvName.setText(taskResponse.getPoster().getFullName());
-
+        rbRate.setRating(taskResponse.getPoster().getPosterAverageRating());
+        tvTitle.setText(taskResponse.getTitle());
         tvTime.setText(taskResponse.getTitle());
         tvTimeAgo.setText(taskResponse.getEndTime());
-//        tvWorkType.setText(taskResponse.getR);
+        tvWorkType.setText(taskResponse.getCategoryId() + "");
         tvDescription.setText(taskResponse.getDescription());
 
         tvPrice.setText(taskResponse.getCurrency());
         tvDate.setText(taskResponse.getStartTime());
         tvTime.setText(taskResponse.getEndTime());
         tvAddress.setText(taskResponse.getAddress());
+
+        final ArrayList<String> attachments = (ArrayList<String>) taskResponse.getAttachments();
+        attachments.addAll(attachments);
+        attachments.addAll(attachments);
+        attachments.addAll(attachments);
+        attachments.addAll(attachments);
+
+        if (attachments.size() > 0) {
+            ImageDetailTaskAdapter imageDetailTaskAdapter = new ImageDetailTaskAdapter(getContext(), attachments);
+            myGridView.setAdapter(imageDetailTaskAdapter);
+
+            myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(getContext(), PreviewImageListActivity.class);
+                    intent.putStringArrayListExtra(Constants.IMAGE_ATTACHS_EXTRA, attachments);
+                    intent.putExtra(Constants.IMAGE_POSITITON_EXTRA, position);
+                    getContext().startActivity(intent);
+                }
+            });
+        }else{
+            tvImageAttachTitle.setVisibility(View.GONE);
+        }
 
     }
 
@@ -115,18 +153,18 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         }
     }
 
-    public void updateBtnCallRate(boolean isShow,boolean isCall,String text){
-        if(isShow){
+    public void updateBtnCallRate(boolean isShow, boolean isCall, String text) {
+        if (isShow) {
             btnCallRate.setVisibility(View.VISIBLE);
             btnCallRate.setText(text);
-            if(isCall){
+            if (isCall) {
                 btnCallRate.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                     }
                 });
-            }else{
+            } else {
                 btnCallRate.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -134,11 +172,10 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                     }
                 });
             }
-        }else{
+        } else {
             btnCallRate.setVisibility(View.GONE);
         }
     }
-
 
 
     @Override

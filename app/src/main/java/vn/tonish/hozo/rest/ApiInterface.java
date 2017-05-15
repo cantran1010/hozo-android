@@ -17,6 +17,7 @@ import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Review;
+import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
@@ -61,4 +62,10 @@ public interface ApiInterface {
 
     @GET("users/{user_id}/reviews")
     Call<List<Review>> getUserReviews(@Header("Authorization") String token, @Path("user_id") int id, @QueryMap Map<String, String> option);
+
+    @POST("tasks/{taskId}/comments")
+    Call<Comment> commentTask(@Header("Authorization") String token,@Path("taskId") int taskId,@Body RequestBody body);
+
+    @POST("comments/{commentId}/report")
+    Call<Void> report(@Header("Authorization") String token,@Path("commentId") int commentId,@Body RequestBody body);
 }

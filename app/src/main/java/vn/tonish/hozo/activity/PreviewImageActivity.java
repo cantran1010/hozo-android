@@ -2,7 +2,7 @@ package vn.tonish.hozo.activity;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
@@ -14,10 +14,8 @@ import vn.tonish.hozo.view.TouchImageView;
  */
 public class PreviewImageActivity extends BaseActivity implements View.OnClickListener {
 
-
     private TouchImageView imgPreview;
-    private RelativeLayout layoutBack;
-
+    private ImageView imgBack;
 
     @Override
     protected int getLayout() {
@@ -27,13 +25,13 @@ public class PreviewImageActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initView() {
         imgPreview = (TouchImageView) findViewById(R.id.img_preview);
-        layoutBack = (RelativeLayout) findViewById(R.id.layout_back);
+        imgBack = (ImageView) findViewById(R.id.img_back);
     }
 
     @Override
     protected void initData() {
 
-        layoutBack.setOnClickListener(this);
+        imgBack.setOnClickListener(this);
 
         Intent intent = getIntent();
         String path = intent.getStringExtra(Constants.EXTRA_IMAGE_PATH);
@@ -53,7 +51,7 @@ public class PreviewImageActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.layout_back:
+            case R.id.img_back:
                 finish();
                 break;
         }

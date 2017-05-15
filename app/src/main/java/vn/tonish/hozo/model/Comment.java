@@ -11,9 +11,9 @@ import io.realm.RealmObject;
  */
 
 public class Comment extends RealmObject implements Serializable {
-    private String id;
+    private int id;
     @SerializedName("author_id")
-    private String authorId;
+    private int authorId;
     @SerializedName("full_name")
     private String fullName;
     private String avatar;
@@ -25,15 +25,7 @@ public class Comment extends RealmObject implements Serializable {
     private String taskId;
 
     public Comment() {
-    }
 
-    public Comment(String id, String author_id, String avatar, String body, String created_at, String task_id) {
-        this.id = id;
-        this.authorId = author_id;
-        this.avatar = avatar;
-        this.body = body;
-        this.createdAt = created_at;
-        this.taskId = task_id;
     }
 
     public String getImgAttach() {
@@ -52,19 +44,19 @@ public class Comment extends RealmObject implements Serializable {
         this.fullName = fullName;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getAuthorId() {
+    public int getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(String authorId) {
+    public void setAuthorId(int authorId) {
         this.authorId = authorId;
     }
 

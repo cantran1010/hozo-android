@@ -73,6 +73,7 @@ public class Utils {
         Glide.with(context).load(url)
 //                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.avatar_default)
+                .dontAnimate()
                 .into(img);
     }
 
