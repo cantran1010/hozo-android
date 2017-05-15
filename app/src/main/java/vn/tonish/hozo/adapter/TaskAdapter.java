@@ -12,15 +12,15 @@ import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
- * Created by MAC2015 on 4/12/17.
+ * Created by Can Tran on 14/05/2017.
  */
 
-public class WorkAdapter extends BaseAdapter<TaskResponse, WorkAdapter.WorkHolder, LoadingHolder> {
+public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolder, LoadingHolder> {
 
     private List<TaskResponse> works;
     private Context context;
 
-    public WorkAdapter(Context context, List<TaskResponse> works) {
+    public TaskAdapter(Context context, List<TaskResponse> works) {
         super(context, works);
         this.context = context;
         this.works = works;
@@ -28,7 +28,7 @@ public class WorkAdapter extends BaseAdapter<TaskResponse, WorkAdapter.WorkHolde
 
     @Override
     public int getItemLayout() {
-        return R.layout.adapter_work;
+        return R.layout.item_find_task;
     }
 
     @Override

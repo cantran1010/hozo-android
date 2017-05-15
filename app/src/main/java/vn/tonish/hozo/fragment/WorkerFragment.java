@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.TimerTask;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.adapter.WorkAdapter;
+import vn.tonish.hozo.adapter.TaskAdapter;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 
@@ -20,7 +20,7 @@ import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 
 public class WorkerFragment extends BaseFragment implements View.OnClickListener {
     private RecyclerView lvList;
-    private WorkAdapter workAdapter;
+    private TaskAdapter taskAdapter;
     private LinearLayoutManager lvManager;
     private List<TaskResponse> workList;
 
@@ -40,7 +40,7 @@ public class WorkerFragment extends BaseFragment implements View.OnClickListener
         lvManager = new LinearLayoutManager(getActivity());
         workList = new ArrayList<>();
         lvList.setLayoutManager(lvManager);
-        workAdapter = new WorkAdapter(getActivity(), workList);
+        taskAdapter = new TaskAdapter(getActivity(), workList);
 
     }
 
@@ -56,7 +56,7 @@ public class WorkerFragment extends BaseFragment implements View.OnClickListener
 //            work.setPrice("500000");
 //            workList.add(work);
         }
-        lvList.setAdapter(workAdapter);
+        lvList.setAdapter(taskAdapter);
 
         lvList.addOnScrollListener(new EndlessRecyclerViewScrollListener(lvManager) {
             @Override
@@ -75,7 +75,7 @@ public class WorkerFragment extends BaseFragment implements View.OnClickListener
 //                            work.setPrice("500000");
 //                            workList.add(work);
                         }
-                        workAdapter.notifyDataSetChanged();
+                        taskAdapter.notifyDataSetChanged();
                     }
                 }, 2000);
             }
