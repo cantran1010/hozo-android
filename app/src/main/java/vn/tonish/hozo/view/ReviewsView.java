@@ -14,7 +14,7 @@ import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.Utils;
 
 /**
- * Created by tonish1 on 5/9/17.
+ * Created by Can Tran on 14/05/2017.
  */
 
 public class ReviewsView extends LinearLayout {

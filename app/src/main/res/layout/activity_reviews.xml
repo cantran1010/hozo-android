@@ -41,7 +41,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/layout_header"
-        android:layout_marginTop="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
 

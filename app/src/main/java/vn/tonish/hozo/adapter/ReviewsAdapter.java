@@ -1,9 +1,8 @@
 package vn.tonish.hozo.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
@@ -12,28 +11,46 @@ import vn.tonish.hozo.model.Review;
 import vn.tonish.hozo.view.ReviewsView;
 
 /**
- * Created by LongBui on 4/21/2017.
+ * Created by Can Tran on 14/05/2017.
  */
 
-public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.MyViewHolder> {
+public class ReviewsAdapter extends BaseAdapter<Review, ReviewsAdapter.MyViewHolder, LoadingHolder> {
+    private ArrayList<Review> reviews;
 
 
-    private final ArrayList<Review> reviews;
-
-    public ReviewsAdapter(ArrayList<Review> reviews) {
+    public ReviewsAdapter(Context context, ArrayList<Review> reviews) {
+        super(context, reviews);
         this.reviews = reviews;
     }
 
+
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_freebackview, parent, false);
-        return new MyViewHolder(itemView);
+    public int getItemLayout() {
+        return R.layout.item_freebackview;
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.reviewsView.updateData(reviews.get(position));
+    public int getLoadingLayout() {
+        return R.layout.bottom_loading;
+    }
+
+    @Override
+    public MyViewHolder returnItemHolder(View view) {
+        return new MyViewHolder(view);
+    }
+
+    @Override
+    public LoadingHolder returnLoadingHolder(View view) {
+        return new LoadingHolder(view, context);
+    }
+
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+        MyViewHolder holder_ = (MyViewHolder) holder;
+        holder_.reviewsView.updateData(reviews.get(position));
+
     }
 
     @Override
