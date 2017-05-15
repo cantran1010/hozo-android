@@ -2,6 +2,7 @@ package vn.tonish.hozo.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.RatingBar;
 
