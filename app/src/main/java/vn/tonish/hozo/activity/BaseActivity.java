@@ -28,6 +28,8 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     private FragmentManager fragmentManager;
     private ProgressDialog progressDialog;
     private TransitionScreen transitionScreen;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
 
     protected abstract int getLayout();
 
@@ -43,8 +45,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     }
 
     public void createSwipeToRefresh() {
-        SwipeRefreshLayout
-                swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
@@ -80,6 +81,11 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         setContentView(getLayout());
         initView();
         initData();
+    }
+
+
+    public void onStopRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
