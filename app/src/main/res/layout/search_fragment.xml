@@ -23,8 +23,7 @@
                 android:padding="16dp"
                 android:text="@string/share_task"
                 android:textColor="@color/blue"
-                android:textSize="@dimen/tv_size_title"
-                android:textStyle="bold" />
+                android:textSize="@dimen/tv_size_title" />
 
             <ImageView
                 android:id="@+id/img_search"

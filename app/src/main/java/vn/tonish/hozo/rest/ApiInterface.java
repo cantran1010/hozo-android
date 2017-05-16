@@ -50,8 +50,8 @@ public interface ApiInterface {
     @PUT("users")
     Call<User> updateUser(@Header("Authorization") String token, @Body RequestBody body);
 
-    @GET("tasks/{id}")
-    Call<TaskResponse> getDetailTask(@Header("Authorization") String token, @Path("id") int id);
+    @GET("tasks")
+    Call<List<TaskResponse>> getDetailTask(@Header("Authorization") String token, @QueryMap Map<String, String> params);
 
     @GET("users")
     Call<User> getMyAccountInfor(@Header("Authorization") String token);
@@ -60,6 +60,5 @@ public interface ApiInterface {
     Call<Void> logOut(@Header("Authorization") String token);
 
     @GET("users/{user_id}/reviews")
-//    Call<List<Review>> getUserReviews(@Header("Authorization") String token, @Path("user_id") int id, @Path("limit") int limit, @Path("review_type") String review_type, @Path("since") String since);
-    Call<List<Review>> getUserReviews(@Header("Authorization") String token, @Path("user_id") int id, @QueryMap Map<String,String> option);
+    Call<List<Review>> getUserReviews(@Header("Authorization") String token, @Path("user_id") int id, @QueryMap Map<String, String> option);
 }
