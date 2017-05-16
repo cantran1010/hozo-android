@@ -1,34 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg"
     android:orientation="vertical">
 
-    <FrameLayout
+    <RelativeLayout
+        android:id="@+id/layout_header"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_alignParentTop="true"
         android:background="@color/white">
 
         <ImageView
             android:id="@+id/img_back"
-            android:layout_width="56dp"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:src="@drawable/ic_back_blue" />
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_back_selector"
+            android:contentDescription="@string/content_description_back"
+            android:padding="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/img_back" />
 
         <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_title"
             style="@style/tv_title"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="80dp"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_toRightOf="@id/img_back"
             android:text="@string/advance_setting_title" />
-    </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray" />
+
+    </RelativeLayout>
 
     <vn.tonish.hozo.view.ButtonHozo
         android:id="@+id/btn_save"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:background="@color/blue"
         android:gravity="center"
@@ -37,166 +55,195 @@
         android:textColor="@color/white"
         android:textSize="@dimen/tv_size_lager" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_above="@id/btn_save"
+        android:layout_below="@id/layout_header">
 
-        <include layout="@layout/line" />
-
-        <vn.tonish.hozo.view.TextViewHozo
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="2"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="@string/tv_guide_setting"
-            android:textColor="@color/text_advance"
-            android:textSize="@dimen/tv_size_nomal" />
-
-        <include layout="@layout/line" />
-
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="0">
+            android:orientation="vertical">
 
-            <TableRow
-                android:id="@+id/tv_type"
-                android:layout_height="50dp">
+            <vn.tonish.hozo.view.TextViewHozo
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/bg"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/tv_guide_setting"
+                android:textColor="@color/text_advance"
+                android:textSize="@dimen/tv_size_nomal" />
 
-                <vn.tonish.hozo.view.TextViewHozo
-                    style="@style/tv_advance_setting"
-                    android:text="@string/tv_type_of_work" />
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardElevation="5dp"
+                card_view:cardUseCompatPadding="true">
 
-                <vn.tonish.hozo.view.TextViewHozo
-                    style="@style/tv_advance_setting"
-                    android:text="chan tay" />
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="0">
 
-            </TableRow>
+                    <TableRow
+                        android:id="@+id/tab_type"
+                        android:layout_height="50dp">
 
+                        <vn.tonish.hozo.view.TextViewHozo
+                            style="@style/tv_advance_setting"
+                            android:text="@string/tv_type_of_work"
+                            android:textColor="@color/text_advance_label" />
 
-            <include layout="@layout/line" />
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_work_type"
+                            style="@style/tv_advance_setting" />
 
-            <TableRow
-
-                android:id="@+id/tv_fee"
-                android:layout_height="50dp">
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tv_fee_text"
-                    style="@style/tv_advance_setting"
-                    android:text="@string/tv_fee" />
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    style="@style/tv_advance_setting"
-                    android:text="chan tay" />
-            </TableRow>
-
-            <include layout="@layout/line" />
-
-            <TableRow
-                android:id="@+id/tv_location"
-                android:layout_height="50dp">
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    style="@style/tv_advance_setting"
-                    android:text="@string/tv_location" />
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    style="@style/tv_advance_setting"
-                    android:text="chan tay" />
-
-            </TableRow>
-
-            <include layout="@layout/line" />
-
-            <TableRow
-
-                android:id="@+id/tv_time"
-                android:layout_height="50dp">
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    style="@style/tv_advance_setting"
-                    android:text="@string/tv_time" />
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    style="@style/tv_advance_setting"
-                    android:text="chan tay" />
+                    </TableRow>
 
 
-            </TableRow>
+                    <include layout="@layout/line" />
+
+                    <TableRow
+
+                        android:id="@+id/tab_price"
+                        android:layout_height="50dp">
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            style="@style/tv_advance_setting"
+                            android:text="@string/tv_fee"
+                            android:textColor="@color/text_advance_label" />
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_price"
+                            style="@style/tv_advance_setting" />
+                    </TableRow>
+
+                    <include layout="@layout/line" />
+
+                    <TableRow
+                        android:id="@+id/tab_location"
+                        android:layout_height="50dp">
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            style="@style/tv_advance_setting"
+                            android:text="@string/tv_location"
+                            android:textColor="@color/text_advance_label" />
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_location"
+                            style="@style/tv_advance_setting" />
+
+                    </TableRow>
+
+                    <include layout="@layout/line" />
+
+                    <TableRow
+
+                        android:id="@+id/tab_time"
+                        android:layout_height="50dp">
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            style="@style/tv_advance_setting"
+                            android:text="@string/tv_time"
+                            android:textColor="@color/text_advance_label" />
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_time"
+                            style="@style/tv_advance_setting" />
 
 
-            <include layout="@layout/line" />
-
-            <TableRow
-                android:id="@+id/tv_sex"
-                android:layout_height="50dp">
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    style="@style/tv_advance_setting"
-                    android:text="@string/tv_sex" />
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    style="@style/tv_advance_setting"
-                    android:padding="16dp"
-                    android:text="chan tay" />
-
-            </TableRow>
+                    </TableRow>
 
 
-            <include layout="@layout/line" />
+                    <include layout="@layout/line" />
 
-            <TableRow
-                android:id="@+id/tv_age"
-                android:layout_height="50dp">
+                    <TableRow
+                        android:id="@+id/tab_gender"
+                        android:layout_height="50dp">
 
-                <vn.tonish.hozo.view.TextViewHozo
-                    style="@style/tv_advance_setting"
-                    android:text="@string/tv_age" />
+                        <vn.tonish.hozo.view.TextViewHozo
+                            style="@style/tv_advance_setting"
+                            android:text="@string/tv_sex"
+                            android:textColor="@color/text_advance_label" />
 
-                <vn.tonish.hozo.view.TextViewHozo
-                    style="@style/tv_advance_setting"
-                    android:text="chan tay" />
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_gender"
+                            style="@style/tv_advance_setting"
+                            android:padding="16dp" />
 
-
-            </TableRow>
-
-            <include layout="@layout/line" />
-
-            <TableRow
-                android:id="@+id/tv_notification"
-                android:layout_height="50dp"
-                android:background="@drawable/reset_background">
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    style="@style/tv_advance_setting"
-                    android:text="@string/tv_notification" />
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    style="@style/tv_advance_setting"
-                    android:text="chan tay" />
-
-            </TableRow>
+                    </TableRow>
 
 
-        </TableLayout>
+                    <include layout="@layout/line" />
 
-        <vn.tonish.hozo.view.ButtonHozo
-            android:id="@+id/btn_reset"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/reset_background"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:text="@string/btn_reset"
-            android:textColor="@color/red"
-            android:textSize="@dimen/tv_size_nomal" />
-    </LinearLayout>
+                    <TableRow
+                        android:id="@+id/tab_age"
+                        android:layout_height="50dp">
 
-</FrameLayout>
+                        <vn.tonish.hozo.view.TextViewHozo
+                            style="@style/tv_advance_setting"
+                            android:text="@string/tv_age"
+                            android:textColor="@color/text_advance_label" />
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_age"
+                            style="@style/tv_advance_setting" />
+
+
+                    </TableRow>
+
+                    <include layout="@layout/line" />
+
+                    <TableRow
+                        android:id="@+id/tab_notification"
+                        android:layout_height="50dp">
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            style="@style/tv_advance_setting"
+                            android:text="@string/tv_notification"
+                            android:textColor="@color/text_advance_label" />
+
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/sw_notification"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="16dp"
+                            android:checked="true"
+                            android:theme="@style/MySwitch" />
+
+                    </TableRow>
+
+
+                </TableLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardElevation="5dp"
+                card_view:cardUseCompatPadding="true">
+
+                <vn.tonish.hozo.view.ButtonHozo
+                    android:id="@+id/btn_reset"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    android:text="@string/btn_reset"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/tv_size_nomal" />
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
