@@ -175,6 +175,12 @@
         <!-- inactive track color (30% transparency) -->
         <item name="android:colorForeground">@color/gray</item>
     </style>
+    // check box
+
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/gray</item>
+        <item name="colorControlActivated">@color/blue</item>
+    </style>
 
     <color name="edt_hint">#AEAEAE</color>
 </resources>

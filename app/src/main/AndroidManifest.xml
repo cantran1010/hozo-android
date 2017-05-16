@@ -148,7 +148,6 @@
         <activity android:name=".activity.other.NADActivity" />
         <activity android:name=".activity.other.PaymentActivity" />
         <activity android:name=".activity.setting.SexActivity" />
-        <activity android:name=".activity.setting.WorkTypeActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
