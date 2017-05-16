@@ -1,8 +1,8 @@
-<LinearLayout android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
-    android:orientation="horizontal"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_marginTop="0dp"
+    android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="15dp"
@@ -25,7 +25,8 @@
 
     <RelativeLayout
         android:layout_width="20dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/img_email_verify"
@@ -46,7 +47,8 @@
     <RelativeLayout
         android:layout_width="20dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp">
+        android:layout_marginLeft="3dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/img_facebook_verify"

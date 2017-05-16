@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -16,12 +17,26 @@ import android.widget.RatingBar;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PreviewImageListActivity;
 import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.dialog.BidSuccessDialog;
+import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.BidResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.utils.DateTimeUtils;
+import vn.tonish.hozo.utils.DialogUtils;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by LongBui on 4/21/2017.
@@ -31,12 +46,14 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
     protected CircleImageView imgAvatar;
 
-    private TextViewHozo tvName, tvTitle, tvTimeAgo, tvWorkType, tvDescription,tvImageAttachTitle;
+    private TextViewHozo tvName, tvTitle, tvTimeAgo, tvWorkType, tvDescription, tvImageAttachTitle;
     private RatingBar rbRate;
     private ImageView imgMobile, imgEmail, imgFacebook;
     private TextViewHozo tvPrice, tvDate, tvTime, tvAddress, tvStatus;
     private ButtonHozo btnOffer, btnCallRate;
     private MyGridView myGridView;
+    private TaskProgressView taskProgressView;
+    private TaskResponse taskResponse;
 
     public WorkDetailView(Context context) {
         super(context);
@@ -92,25 +109,29 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
         tvImageAttachTitle = (TextViewHozo) findViewById(R.id.tv_img_attach_title);
 
+        taskProgressView = (TaskProgressView) findViewById(R.id.task_progress_view);
+
     }
 
     public void updateWork(TaskResponse taskResponse) {
+        this.taskResponse = taskResponse;
         Utils.displayImage(getContext(), imgAvatar, taskResponse.getPoster().getAvatar());
         tvName.setText(taskResponse.getPoster().getFullName());
         rbRate.setRating(taskResponse.getPoster().getPosterAverageRating());
         tvTitle.setText(taskResponse.getTitle());
         tvTime.setText(taskResponse.getTitle());
-        tvTimeAgo.setText(taskResponse.getEndTime());
-        tvWorkType.setText(taskResponse.getCategoryId() + "");
+        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(taskResponse.getStartTime(), getContext()));
+        tvWorkType.setText(getContext().getString(R.string.task_detail_category_type) + " " + taskResponse.getCategoryId());
         tvDescription.setText(taskResponse.getDescription());
 
+        taskProgressView.updateData(1, 2, 4);
+
         tvPrice.setText(taskResponse.getCurrency());
-        tvDate.setText(taskResponse.getStartTime());
-        tvTime.setText(taskResponse.getEndTime());
+        tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
+        tvTime.setText(DateTimeUtils.getHourMinuteFromIso(taskResponse.getStartTime()) + getContext().getString(R.string.detail_task_time_to) + DateTimeUtils.getHourMinuteFromIso(taskResponse.getEndTime()));
         tvAddress.setText(taskResponse.getAddress());
 
         final ArrayList<String> attachments = (ArrayList<String>) taskResponse.getAttachments();
-        attachments.addAll(attachments);
         attachments.addAll(attachments);
         attachments.addAll(attachments);
         attachments.addAll(attachments);
@@ -128,7 +149,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                     getContext().startActivity(intent);
                 }
             });
-        }else{
+        } else {
             tvImageAttachTitle.setVisibility(View.GONE);
         }
 
@@ -180,6 +201,73 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
 
+            case R.id.btn_offer:
+                doOffer();
+                break;
+
+        }
+    }
+
+    private void doOffer() {
+        ApiClient.getApiService().bidsTask(UserManager.getUserToken(getContext()), taskResponse.getId()).enqueue(new Callback<BidResponse>() {
+            @Override
+            public void onResponse(Call<BidResponse> call, Response<BidResponse> response) {
+                LogUtils.d(TAG, "bidsTask status code : " + response.code());
+                LogUtils.d(TAG, "bidsTask body : " + response.body());
+
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    final BidSuccessDialog bidSuccessDialog = new BidSuccessDialog(getContext());
+                    bidSuccessDialog.showView();
+
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            bidSuccessDialog.hideView();
+                        }
+                    }, 1500);
+
+
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.RefreshToken(getContext(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doOffer();
+                        }
+                    });
+                } else {
+                    DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doOffer();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<BidResponse> call, Throwable t) {
+                DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doOffer();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
     }
 }

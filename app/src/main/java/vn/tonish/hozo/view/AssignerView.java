@@ -10,6 +10,7 @@ import android.widget.RatingBar;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.rest.responseRes.Assigner;
+import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 
@@ -63,6 +64,6 @@ public class AssignerView extends LinearLayout {
         Utils.displayImageAvatar(getContext(), imgAvatar, assigner.getAvatar());
         tvName.setText(assigner.getFullName());
         ratingBar.setRating(assigner.getTaskerAverageRating());
-        tvTimeAgo.setText(assigner.getBiddedAt());
+        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(assigner.getBiddedAt(),getContext()));
     }
 }

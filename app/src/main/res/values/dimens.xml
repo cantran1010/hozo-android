@@ -22,5 +22,9 @@
     <dimen name="alert_dialog_width">300dp</dimen>
     <dimen name="tv_size_xlager">18sp</dimen>
     <dimen name="tv_verify">8sp</dimen>
+    <dimen name="margin_left_screen">13dp</dimen>
+    <dimen name="margin_right_screen">13dp</dimen>
+    <dimen name="detail_task_map_height">150dp</dimen>
+    <dimen name="avatar_width_height">52dp</dimen>
 
 </resources>

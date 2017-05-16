@@ -10,6 +10,7 @@ import android.widget.RatingBar;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.rest.responseRes.Bidder;
+import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 
@@ -63,6 +64,6 @@ public class BidderView extends LinearLayout {
         Utils.displayImageAvatar(getContext(), imgAvatar, bidder.getAvatar());
         tvName.setText(bidder.getFullName());
         ratingBar.setRating(bidder.getPosterAverageRating());
-        tvTimeAgo.setText(bidder.getBidedAt());
+        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(bidder.getBidedAt(), getContext()));
     }
 }

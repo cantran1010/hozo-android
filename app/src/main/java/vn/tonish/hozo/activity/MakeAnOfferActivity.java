@@ -60,6 +60,7 @@ import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 import vn.tonish.hozo.view.WorkAroundMapFragment;
 import vn.tonish.hozo.view.WorkDetailView;
 
@@ -99,7 +100,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     private GoogleMap googleMap;
     private int tempId = 0;
     private File fileAttach;
-
+    private TextViewHozo tvSeeMore;
 
     @Override
     protected int getLayout() {
@@ -132,6 +133,9 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
         imgComment = (ImageView) findViewById(R.id.img_send);
         imgComment.setOnClickListener(this);
+        
+        tvSeeMore = (TextViewHozo) findViewById(R.id.tv_see_more_comment);
+        tvSeeMore.setOnClickListener(this);
 
         scv = (ScrollView) findViewById(R.id.scv);
 
@@ -167,6 +171,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     }
 
     private void getData() {
+        ProgressDialogUtils.showProgressDialog(this);
 
         Map<String, String> params = new HashMap<>();
         params.put("id", taskId + "");
@@ -223,6 +228,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                         }
                     });
                 }
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -239,6 +245,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
                     }
                 });
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
 
@@ -315,8 +322,15 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
             case R.id.img_send:
                 doSend();
                 break;
+            
+            case R.id.tv_see_more_comment:
+                doSeeMoreComment();
+                break;
 
         }
+    }
+
+    private void doSeeMoreComment() {
     }
 
     private void doSend() {
