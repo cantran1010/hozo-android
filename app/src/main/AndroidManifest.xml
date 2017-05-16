@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".activity.PosterOpenTaskActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -103,10 +103,10 @@
             <!--android:name=".activity.MakeAnOfferActivity"-->
             <!--android:screenOrientation="portrait"-->
             <!--android:windowSoftInputMode="stateHidden" />-->
-        <activity
-            android:name=".activity.PosterOpenTaskActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+        <!--<activity-->
+            <!--android:name=".activity.PosterOpenTaskActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:windowSoftInputMode="stateHidden" />-->
         <activity
             android:name=".activity.PosterAssignedTaskActivity"
             android:screenOrientation="portrait"
