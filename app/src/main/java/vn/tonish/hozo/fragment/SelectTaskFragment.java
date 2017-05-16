@@ -14,14 +14,16 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PostATaskActivity;
 import vn.tonish.hozo.adapter.CategoryAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.entity.CategoryEntity;
+import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
-import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 
 /**
@@ -32,7 +34,8 @@ public class SelectTaskFragment extends BaseFragment {
     private static final String TAG = SelectTaskFragment.class.getSimpleName();
     private RecyclerView rcvTask;
     private CategoryAdapter categoryAdapter;
-    private ArrayList<Category> categories = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
+    private List<CategoryEntity> categoryEntities = new ArrayList<>();
     protected LinearLayoutManager linearLayoutManager;
 
     @Override
@@ -47,22 +50,35 @@ public class SelectTaskFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        getCacheData();
         getCategory();
+    }
+
+    private void getCacheData() {
+        categoryEntities = CategoryManager.getAllCategories(getActivity());
+        for (int i = 0; i < categoryEntities.size(); i++) {
+            categories.add(DataParse.convertCatogoryEntityToCategory(categoryEntities.get(i)));
+        }
+        refreshCategory();
     }
 
     private void getCategory() {
 
-        ProgressDialogUtils.showProgressDialog(getActivity());
+//        ProgressDialogUtils.showProgressDialog(getActivity());
 
         ApiClient.getApiService().getCategories(UserManager.getUserToken(getActivity())).enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-                categories = (ArrayList<Category>) response.body();
+                categories = response.body();
                 LogUtils.d(TAG, "getCategories onResponse body : " + response.body());
                 LogUtils.d(TAG, "getCategories onResponse status code : " + response.code());
                 LogUtils.d(TAG, "getCategories onResponse isSuccessful : " + response.isSuccessful());
 
-                if (response.code() == 401) {
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    refreshCategory();
+                    CategoryManager.deleteAll(getActivity());
+                    CategoryManager.insertCategories(getActivity(), DataParse.convertListCategoryToListCategoryEntity(categories));
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.RefreshToken(getContext(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
@@ -70,9 +86,19 @@ public class SelectTaskFragment extends BaseFragment {
                         }
                     });
                 } else {
-                    refreshCategory();
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            getCategory();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
                 }
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -91,7 +117,7 @@ public class SelectTaskFragment extends BaseFragment {
 
                     }
                 });
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }

@@ -1,22 +1,21 @@
-package vn.tonish.hozo.model;
-
-import com.google.gson.annotations.SerializedName;
+package vn.tonish.hozo.database.entity;
 
 import java.io.Serializable;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by LongBui on 4/12/17.
  */
 
-public class Category implements Serializable{
+public class CategoryEntity extends RealmObject implements Serializable{
+    @PrimaryKey
     private int id;
     private String name;
     private String description;
-    @SerializedName("suggest_title")
     private String suggestTitle;
-    @SerializedName("suggest_description")
     private String suggestDescription;
-    @SerializedName("avatar")
     private String presentPath;
 
     public String getSuggestTitle() {
@@ -69,7 +68,7 @@ public class Category implements Serializable{
 
     @Override
     public String toString() {
-        return "Category{" +
+        return "CategoryEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
