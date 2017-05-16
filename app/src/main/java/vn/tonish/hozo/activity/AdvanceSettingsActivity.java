@@ -45,8 +45,8 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         findViewById(R.id.img_back).setOnClickListener(this);
         findViewById(R.id.tab_type).setOnClickListener(this);
         findViewById(R.id.tab_price).setOnClickListener(this);
-        findViewById(R.id.tv_location).setOnClickListener(this);
-        findViewById(R.id.tv_time).setOnClickListener(this);
+        findViewById(R.id.tab_location).setOnClickListener(this);
+        findViewById(R.id.tab_time).setOnClickListener(this);
         findViewById(R.id.tab_price).setOnClickListener(this);
         findViewById(R.id.tab_age).setOnClickListener(this);
         findViewById(R.id.tab_notification).setOnClickListener(this);
@@ -72,12 +72,13 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
                 startActivity(new Intent(this, TaskTypeActivity.class), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tab_price:
-              startActivityForResult(new Intent(this, PriceSettingActivity.class), Constants.REQUEST_CODE_SETTING_PRICE_, TransitionScreen.LEFT_TO_RIGHT);
+                startActivityForResult(new Intent(this, PriceSettingActivity.class), Constants.REQUEST_CODE_SETTING_PRICE_, TransitionScreen.LEFT_TO_RIGHT);
                 break;
-            case R.id.tv_location:
+            case R.id.tab_location:
 
                 break;
-            case R.id.tv_time:
+            case R.id.tab_time:
+                startActivityForResult(new Intent(this, PriceSettingActivity.class), Constants.REQUEST_CODE_SETTING_PRICE_, TransitionScreen.LEFT_TO_RIGHT);
                 break;
 
             case R.id.tab_gender:

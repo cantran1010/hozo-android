@@ -31,7 +31,7 @@ import vn.tonish.hozo.rest.responseRes.Token;
  */
 public interface ApiInterface {
 
-    @POST("auth/otpcode")
+    @POST("auth/otp_code")
     Call<Void> getOtpCode(@Header("X-Hozo-API-Key") String apiKey, @Body RequestBody body);
 
     @PUT("auth/refresh_token")
