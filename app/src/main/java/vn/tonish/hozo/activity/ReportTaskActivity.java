@@ -1,6 +1,7 @@
 package vn.tonish.hozo.activity;
 
 import android.view.View;
+import android.widget.ImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,8 +33,9 @@ public class ReportTaskActivity extends BaseActivity implements View.OnClickList
     private static final String TAG = ReportTaskActivity.class.getSimpleName();
 
     private ButtonHozo btnReport;
-    private EdittextHozo edtTitle, edtContent;
+    private EdittextHozo edtContent;
     private Comment comment;
+    private ImageView imgClose;
 
     @Override
     protected int getLayout() {
@@ -43,11 +45,13 @@ public class ReportTaskActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initView() {
 
-        edtTitle = (EdittextHozo) findViewById(R.id.edt_title);
         edtContent = (EdittextHozo) findViewById(R.id.edt_content);
 
         btnReport = (ButtonHozo) findViewById(R.id.btn_report);
         btnReport.setOnClickListener(this);
+
+        imgClose = (ImageView) findViewById(R.id.img_close);
+        imgClose.setOnClickListener(this);
     }
 
     @Override
@@ -65,6 +69,10 @@ public class ReportTaskActivity extends BaseActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.btn_report:
                 doReport();
+                break;
+
+            case R.id.img_close:
+                finish();
                 break;
         }
     }

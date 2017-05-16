@@ -7,73 +7,56 @@
     <RelativeLayout
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/hozo_bg">
+        android:layout_height="?android:attr/actionBarSize">
 
-        <RelativeLayout
-            android:id="@+id/layout_back"
+        <ImageView
+            android:id="@+id/img_close"
+            style="@style/tv_title_cancel"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
-            android:background="@drawable/btn_selector">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:contentDescription="@string/adjust_image"
-                android:layout_centerVertical="true"
-                android:src="@drawable/img_back" />
-
-        </RelativeLayout>
+            android:background="@drawable/btn_back_selector"
+            android:contentDescription="@string/content_description_back"
+            android:scaleType="centerInside"
+            android:src="@drawable/img_close_red" />
 
         <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_title"
+            style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/report_task_title"
-            android:textColor="@color/white" />
+            android:text="@string/report_reason_other_title" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray" />
 
     </RelativeLayout>
 
-    <LinearLayout
+    <vn.tonish.hozo.view.EdittextHozo
+        android:id="@+id/edt_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="14dp"
+        android:minHeight="80dp"
+        android:layout_marginRight="14dp"
         android:layout_below="@id/layout_header"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="vertical">
-
-        <vn.tonish.hozo.view.EdittextHozo
-            android:id="@+id/edt_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/border_gray"
-            android:hint="@string/report_task_title_hint"
-            android:padding="5dp" />
-
-        <vn.tonish.hozo.view.EdittextHozo
-            android:id="@+id/edt_content"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/border_gray"
-            android:gravity="top"
-            android:hint="@string/report_task_content_hint"
-            android:padding="5dp" />
-
-    </LinearLayout>
+        style="@style/edt_style_normal"
+        android:background="@drawable/border_gray"
+        android:gravity="top"
+        android:hint="@string/report_task_content_hint"
+        android:padding="5dp" />
 
     <vn.tonish.hozo.view.ButtonHozo
         android:id="@+id/btn_report"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:background="@drawable/btn_selector"
-        android:text="@string/btn_report"
+        android:text="@string/btn_report_send"
         android:textColor="@color/white" />
 
 

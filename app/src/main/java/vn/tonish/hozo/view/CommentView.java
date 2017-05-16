@@ -13,10 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.ReportTaskActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.ReportDialog;
 import vn.tonish.hozo.model.Comment;
+import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.Utils;
 
 /**
@@ -72,16 +73,17 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
         Utils.displayImageAvatar(getContext(), imgAvatar, comment.getAvatar());
         tvName.setText(comment.getFullName());
         tvComment.setText(comment.getBody());
-        tvTimeAgo.setText(comment.getCreatedAt());
-        Utils.displayImage(getContext(), imgAttach, comment.getImgAttach());
+        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(comment.getCreatedAt(), getContext()));
+
+        if (comment.getImgAttach() != null && !comment.getImgAttach().trim().equals("") && !comment.equals("null"))
+            Utils.displayImage(getContext(), imgAttach, comment.getImgAttach());
+        else imgAttach.setVisibility(View.GONE);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_setting:
-//                ReportDialog reportDialog = new ReportDialog(getContext());
-//                reportDialog.showView();
                 showPopupMenu();
                 break;
         }
@@ -102,9 +104,8 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
                     switch (item.getItemId()) {
 
                         case R.id.report:
-                            Intent intent = new Intent(getContext(), ReportTaskActivity.class);
-                            intent.putExtra(Constants.COMMENT_EXTRA, comment);
-                            getContext().startActivity(intent);
+                            ReportDialog reportDialog = new ReportDialog(getContext(), comment);
+                            reportDialog.showView();
                             break;
 
                         case R.id.answer:
@@ -126,9 +127,8 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.report:
-                            Intent intent = new Intent(getContext(), ReportTaskActivity.class);
-                            intent.putExtra(Constants.COMMENT_EXTRA, comment);
-                            getContext().startActivity(intent);
+                            ReportDialog reportDialog = new ReportDialog(getContext(), comment);
+                            reportDialog.showView();
                             break;
                     }
                     return true;
@@ -137,4 +137,5 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
         }
         popup.show();//showing popup menu
     }
+
 }

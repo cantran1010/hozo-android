@@ -19,6 +19,7 @@ import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Review;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.User;
+import vn.tonish.hozo.rest.responseRes.BidResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
@@ -68,4 +69,8 @@ public interface ApiInterface {
 
     @POST("comments/{commentId}/report")
     Call<Void> report(@Header("Authorization") String token,@Path("commentId") int commentId,@Body RequestBody body);
+
+    @POST("tasks/{taskId}/bids")
+    Call<BidResponse> bidsTask(@Header("Authorization") String token, @Path("taskId") int taskId);
+
 }
