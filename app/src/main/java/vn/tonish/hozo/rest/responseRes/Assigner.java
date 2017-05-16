@@ -73,4 +73,17 @@ public class Assigner {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    @Override
+    public String toString() {
+        return "Assigner{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", taskerAverageRating=" + taskerAverageRating +
+                ", verify=" + verify +
+                ", avatar='" + avatar + '\'' +
+                ", biddedAt='" + biddedAt + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }

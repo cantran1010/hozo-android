@@ -186,7 +186,7 @@
     <string name="rate_other">Other</string>
     <string name="network_account_is_not_exist">Tài khoản không tồn tại</string>
     <string name="type_your_text">Type your text …</string>
-    <string name="assign_people">Người đã assign</string>
+    <string name="assign_people">Người làm</string>
     <string name="assign">Chọn</string>
     <string name="view_all">Xem tất cả</string>
     <string name="worker">Người làm</string>
@@ -273,4 +273,9 @@
     <string name="number_bit_footer"> người \n ứng tuyển</string>
     <string name="task_detail_category_type">Loại công việc:</string>
     <string name="detail_task_time_to">-</string>
+    <string name="call_err">Rất tiếc điện thoại của bạn không hỗ trợ chức năng gọi điện</string>
+    <string name="title_cancel_task">Hủy việc</string>
+    <string name="content_cancel_task">Bạn có chắc chắn muốn hủy việc này ?</string>
+    <string name="cancel_task_ok">Có</string>
+    <string name="cancel_task_cancel">Không</string>
 </resources>

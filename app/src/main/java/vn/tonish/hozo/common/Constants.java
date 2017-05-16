@@ -94,4 +94,12 @@ public class Constants {
     public static final String PARAMETER_DATE_OF_BIRTH = "date_of_birth";
     public static final String PARAMETER_AVATA_ID = "avatar_id";
 
+    // accept offer
+    public static final String PARAMETER_ACCEPT_OFFER = "status";
+    public static final String PARAMETER_ACCEPTED_OFFER = "accepted";
+
+    //update task
+    public static final String PARAM_UPDATE_TASK = "status";
+    public static final String PARAM_UPDATE_TASK_CANCEL = "canceled";
+
 }

@@ -4,9 +4,11 @@ package vn.tonish.hozo.utils;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.telephony.SmsManager;
 import android.view.View;
@@ -183,6 +185,16 @@ public class Utils {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void call(Context context,String phoneNumber){
+        try {
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null));
+            context.startActivity(intent);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            showLongToast(context,context.getString(R.string.call_err));
         }
     }
 

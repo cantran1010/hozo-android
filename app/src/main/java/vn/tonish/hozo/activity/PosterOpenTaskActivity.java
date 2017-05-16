@@ -1,33 +1,65 @@
 package vn.tonish.hozo.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.adapter.CandidateAdapter;
+import vn.tonish.hozo.adapter.AssignerCallAdapter;
+import vn.tonish.hozo.adapter.PosterOpenAdapter;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.dialog.AlertDialogCancelTask;
+import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
-import vn.tonish.hozo.model.User;
+import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.Assigner;
+import vn.tonish.hozo.rest.responseRes.Bidder;
+import vn.tonish.hozo.rest.responseRes.ImageResponse;
+import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
+import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
+import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 import vn.tonish.hozo.view.WorkAroundMapFragment;
 import vn.tonish.hozo.view.WorkDetailView;
@@ -45,19 +77,31 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     private CommentViewFull commentViewFull;
     private WorkDetailView workDetailView;
     private ArrayList<Comment> comments = new ArrayList<>();
-//    private Work work;
+    private TaskResponse taskResponse;
 
     private ImageView imgAttach, imgAttached, imgDelete;
+    private EdittextHozo edtComment;
     private RelativeLayout imgLayout;
     private String imgPath;
     private ScrollView scv;
     private ImageView imgBack;
 
-    private RecyclerView rcvCandidate;
-    private ArrayList<User> usersCandidate = new ArrayList<>();
-    private CandidateAdapter candidateAdapter;
-    private TextViewHozo tvCancel;
+    private RecyclerView rcvBidder;
+    private ArrayList<Bidder> bidders = new ArrayList<>();
+    private PosterOpenAdapter posterOpenAdapter;
 
+    private RecyclerView rcvAssign;
+    private ArrayList<Assigner> assigners = new ArrayList<>();
+    private AssignerCallAdapter assignerAdapter;
+
+    private ImageView imgComment;
+
+    private int taskId = 0;
+    private GoogleMap googleMap;
+    private int tempId = 0;
+    private File fileAttach;
+    private TextViewHozo tvSeeMore;
+    private TextViewHozo tvCancel;
 
     @Override
     protected int getLayout() {
@@ -69,8 +113,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         workDetailView = (WorkDetailView) findViewById(R.id.work_detail_view);
         commentViewFull = (CommentViewFull) findViewById(R.id.comment_view_full);
 
-        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
-        tvCancel.setOnClickListener(this);
+        edtComment = (EdittextHozo) findViewById(R.id.edt_comment);
 
         imgAttach = (ImageView) findViewById(R.id.img_attach);
         imgAttach.setOnClickListener(this);
@@ -84,9 +127,19 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        rcvCandidate = (RecyclerView) findViewById(R.id.rcv_bidders);
+        rcvBidder = (RecyclerView) findViewById(R.id.rcv_bidders);
+        rcvAssign = (RecyclerView) findViewById(R.id.rcv_assign);
 
         imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
+
+        imgComment = (ImageView) findViewById(R.id.img_send);
+        imgComment.setOnClickListener(this);
+
+        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
+        tvCancel.setOnClickListener(this);
+
+        tvSeeMore = (TextViewHozo) findViewById(R.id.tv_see_more_comment);
+        tvSeeMore.setOnClickListener(this);
 
         scv = (ScrollView) findViewById(R.id.scv);
 
@@ -105,78 +158,131 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
     @Override
     protected void initData() {
-//        workDetailView.updateStatus(getString(R.string.update_task), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
-//        workDetailView.updateBtnOffer(false);
-//        workDetailView.updateBtnCallRate(false, false, "");
-//
-//        //fake work detail
-//        work = new Work();
-//        work.setName("Sua Ti vi");
-//        work.setTimeAgo("20 phut truoc");
-//        work.setWorkTypeName("Lắp đặt");
-//        work.setDescription("Tôi cần một người sửa ti si samsung OTX 24000,nhanh nhẹn,có năng lực,trung thực,nam giới ...");
-//        work.setPrice("350.000 Đồng");
-//        work.setDate("25/04/2017");
-//        work.setTime("14h:00 - 20h:00");
-//        work.setAddress("Số nhà 41,ngõ 102 trường trinh,Hà Nội");
-//        work.setLat(21.000030);
-//        work.setLon(105.837400);
-//
-//        //user up work
-//        User user = new User();
-//        user.setFullName("TRAN MINH HAI");
-//        work.setUser(user);
-//
-//        workDetailView.updateWork(work);
-//
-//        //fake candidate
-//        User user1 = new User();
-//        user1.setFullName("Tran Van Quan");
-//        usersCandidate.add(user1);
-//        usersCandidate.add(user1);
-//        usersCandidate.add(user1);
-//        usersCandidate.add(user1);
-//        usersCandidate.add(user1);
-//        usersCandidate.add(user1);
-//        usersCandidate.add(user1);
-//        usersCandidate.add(user1);
-//        usersCandidate.add(user1);
-//
-//        candidateAdapter = new CandidateAdapter(usersCandidate);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        rcvCandidate.setLayoutManager(linearLayoutManager);
-//        rcvCandidate.setAdapter(candidateAdapter);
-//
-//        //fake  comment data
-//        Comment comment = new Comment();
-//        comment.setFullName("Bui duc long");
-//        comment.setBody("Lorem ipsum dolor sit amet, consectetur adipiscing, se do eiusmod tempor incididunt");
-//        comment.setCreatedAt("2 days ago");
-//
-//        comments.add(comment);
-//        comments.add(comment);
-//        comments.add(comment);
-//        comments.add(comment);
-//        comments.add(comment);
-//
-//        commentViewFull.updateData(comments);
+        workDetailView.updateStatus(getString(R.string.update_task), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
+        workDetailView.updateBtnOffer(false);
+        workDetailView.updateBtnCallRate(false, false, "");
 
+        getData();
     }
 
     @Override
     protected void resumeData() {
+        registerReceiver(broadcastReceiver, new IntentFilter("MyBroadcast"));
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+    }
+
+    private void getData() {
+        ProgressDialogUtils.showProgressDialog(this);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("id", taskId + "");
+
+        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(this), params).enqueue(new Callback<List<TaskResponse>>() {
+            @Override
+            public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
+                LogUtils.d(TAG, "getDetailTask , status code : " + response.code());
+                LogUtils.d(TAG, "getDetailTask , body : " + response.body());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    taskResponse = response.body().get(0);
+                    workDetailView.updateWork(taskResponse);
+
+                    if (googleMap != null) {
+                        LatLng latLng = new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude());
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
+
+                        // create marker
+                        MarkerOptions marker = new MarkerOptions().position(new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
+                        googleMap.addMarker(marker);
+                    }
+
+                    // update bidder list
+                    bidders = (ArrayList<Bidder>) taskResponse.getBidders();
+                    refreshBidderList();
+
+                    //update assigners list
+                    assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
+                    refreshAssignerList();
+
+                    //update comments
+                    comments = (ArrayList<Comment>) taskResponse.getComments();
+                    commentViewFull.updateData(comments);
+
+
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.RefreshToken(PosterOpenTaskActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            getData();
+                        }
+                    });
+                } else {
+                    DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            getData();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<List<TaskResponse>> call, Throwable t) {
+                LogUtils.e(TAG, "getDetailTask , error : " + t.getMessage());
+                DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getData();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
+
+    }
+
+    private void refreshAssignerList() {
+        assignerAdapter = new AssignerCallAdapter(assigners);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rcvAssign.setLayoutManager(linearLayoutManager);
+        rcvAssign.setAdapter(assignerAdapter);
+    }
+
+    private void refreshBidderList() {
+        posterOpenAdapter = new PosterOpenAdapter(bidders);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rcvBidder.setLayoutManager(linearLayoutManager);
+        rcvBidder.setAdapter(posterOpenAdapter);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
 
-//        LatLng latLng = new LatLng(work.getLat(), work.getLon());
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
-//
-//        // create marker
-//        MarkerOptions marker = new MarkerOptions().position(new LatLng(work.getLat(), work.getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
-//        googleMap.addMarker(marker);
+        if (taskResponse != null) {
+            LatLng latLng = new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude());
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
+
+            // create marker
+            MarkerOptions marker = new MarkerOptions().position(new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
+            googleMap.addMarker(marker);
+        }
 
     }
 
@@ -189,7 +295,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
                 pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
                     @Override
                     public void onCamera() {
-                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
                         startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
                     }
@@ -198,7 +304,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
                     public void onGallery() {
                         Intent intent = new Intent(PosterOpenTaskActivity.this, AlbumActivity.class);
                         intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
-                        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE,TransitionScreen.RIGHT_TO_LEFT);
+                        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
                     }
                 });
                 pickImageDialog.showView();
@@ -212,34 +318,234 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
             case R.id.img_attached:
                 Intent intent = new Intent(PosterOpenTaskActivity.this, PreviewImageActivity.class);
                 intent.putExtra(Constants.EXTRA_IMAGE_PATH, imgPath);
-                startActivity(intent,TransitionScreen.RIGHT_TO_LEFT);
+                startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.img_back:
                 finish();
                 break;
 
+            case R.id.img_send:
+                doSend();
+                break;
+
+            case R.id.tv_see_more_comment:
+                doSeeMoreComment();
+                break;
+
             case R.id.tv_cancel:
-                doCancel();
+                DialogUtils.showOkAndCancelDialog(
+                        this, getString(R.string.title_cancel_task), getString(R.string.content_cancel_task), getString(R.string.cancel_task_ok), getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                doCacelTask();
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
+
                 break;
 
         }
     }
 
-    private void doCancel() {
-        final AlertDialogCancelTask alertDialogCancelTask = new AlertDialogCancelTask(this);
-        alertDialogCancelTask.setAlertConfirmDialogListener(new AlertDialogCancelTask.AlertConfirmDialogListener() {
+    private void doCacelTask() {
+        ProgressDialogUtils.showProgressDialog(this);
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put(Constants.PARAM_UPDATE_TASK, Constants.PARAM_UPDATE_TASK_CANCEL);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LogUtils.d(TAG, "doCacelTask data request : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().updateTask(UserManager.getUserToken(this), taskId, body).enqueue(new Callback<TaskResponse>() {
             @Override
-            public void onOk() {
-                // request server to delete task
+            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+                LogUtils.d(TAG, "doCacelTask , code : " + response.code());
+                LogUtils.d(TAG, "doCacelTask , body : " + response.body());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    finish();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.RefreshToken(PosterOpenTaskActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doCacelTask();
+                        }
+                    });
+                } else {
+                    DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doCacelTask();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
-            public void onCancel() {
-                alertDialogCancelTask.hideView();
+            public void onFailure(Call<TaskResponse> call, Throwable t) {
+                DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doCacelTask();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
-        alertDialogCancelTask.showView();
+    }
+
+    private void doSeeMoreComment() {
+    }
+
+    private void doSend() {
+        if (imgPath == null) {
+            doComment();
+        } else {
+            doAttachImage();
+        }
+    }
+
+    private void doAttachImage() {
+        ProgressDialogUtils.showProgressDialog(this);
+
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileAttach);
+        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileAttach.getName(), requestBody);
+
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(this), itemPart).enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+                LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
+                LogUtils.d(TAG, "uploadImage code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_CREATED) {
+                    ImageResponse imageResponse = response.body();
+                    tempId = imageResponse.getIdTemp();
+                    doComment();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.RefreshToken(PosterOpenTaskActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doAttachImage();
+                        }
+                    });
+                } else {
+                    DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doAttachImage();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
+                DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doAttachImage();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
+    private void doComment() {
+
+        ProgressDialogUtils.showProgressDialog(this);
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("body", edtComment.getText().toString());
+            if (imgPath != null)
+                jsonRequest.put("image_id", tempId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LogUtils.d(TAG, "commentTask data request : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().commentTask(UserManager.getUserToken(this), taskId, body).enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                LogUtils.d(TAG, "commentTask , code : " + response.code());
+                LogUtils.d(TAG, "commentTask , body : " + response.body());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    comments.add(response.body());
+                    commentViewFull.updateData(comments);
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.RefreshToken(PosterOpenTaskActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doComment();
+                        }
+                    });
+                } else {
+                    DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doComment();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doComment();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
     }
 
     public Uri setImageUri() {
@@ -259,10 +565,23 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
             imgPath = imagesSelected.get(0).getPath();
             Utils.displayImage(PosterOpenTaskActivity.this, imgAttached, imgPath);
             imgLayout.setVisibility(View.VISIBLE);
+            fileAttach = new File(imgPath);
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
             Utils.displayImage(PosterOpenTaskActivity.this, imgAttached, imgPath);
             imgLayout.setVisibility(View.VISIBLE);
+            fileAttach = new File(imgPath);
         }
 
     }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Comment comment = (Comment) intent.getSerializableExtra(Constants.COMMENT_EXTRA);
+            LogUtils.d(TAG, "broadcastReceiver , comment : " + comment.toString());
+            edtComment.setText("@" + comment.getFullName() + " \n");
+
+            edtComment.setSelection(edtComment.getText().length());
+        }
+    };
 }
