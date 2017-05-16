@@ -253,11 +253,6 @@
     <string name="verify_bank">Xác thực với tài khoản ngân hàng</string>
     <string name="verify_other">Xác thực thông tin cá nhân khác</string>
     <string name="all_call">1900160078</string>
-    <string name="task_type">Loại công việc</string>
-    <string name="hint_min">Min</string>
-    <string name="edt_max">Max</string>
-    <string name="hint_time_start">Thời gian bắt đầu</string>
-    <string name="hint_time_done">Thới gian kết thúc</string>
     <string name="empty"></string>
     <string name="task_detail_attach_image_hint">Hình ảnh minh họa</string>
     <string name="comment_answer">Trả lời tin nhắn</string>
