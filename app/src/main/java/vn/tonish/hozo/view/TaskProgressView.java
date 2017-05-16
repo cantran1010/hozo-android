@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import vn.tonish.hozo.R;
@@ -15,7 +14,9 @@ import vn.tonish.hozo.R;
  * Created by LongBui on 5/11/2017.
  */
 
-public class TaskProgressView extends LinearLayout implements View.OnClickListener {
+public class TaskProgressView extends LinearLayout {
+
+    private TextViewHozo tvNumberEmploy, tvNumberRemain, tvNumberBid;
 
     public TaskProgressView(Context context) {
         super(context);
@@ -41,11 +42,16 @@ public class TaskProgressView extends LinearLayout implements View.OnClickListen
     private void init() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.task_progress_view, this, true);
+
+        tvNumberEmploy = (TextViewHozo) findViewById(R.id.tv_number_employ);
+        tvNumberRemain = (TextViewHozo) findViewById(R.id.tv_number_remain);
+        tvNumberBid = (TextViewHozo) findViewById(R.id.tv_number_bid);
     }
 
-    @Override
-    public void onClick(View v) {
-
+    public void updateData(int numberEmploy, int numberRemain, int numberBid) {
+        tvNumberEmploy.setText(numberEmploy + " " + getContext().getString(R.string.number_employ_footer));
+        tvNumberRemain.setText(numberRemain + " " + getContext().getString(R.string.number_remain_footer));
+        tvNumberBid.setText(numberBid + " " + getContext().getString(R.string.number_bit_footer));
     }
 
 }

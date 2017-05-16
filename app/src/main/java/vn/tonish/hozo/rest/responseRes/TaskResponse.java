@@ -45,7 +45,16 @@ public class TaskResponse implements Serializable{
     private String currency;
     private Poster poster;
     private List<Bidder> bidders = null;
+    private List<Assigner> assignees = null;
     private List<Comment> comments = null;
+
+    public List<Assigner> getAssignees() {
+        return assignees;
+    }
+
+    public void setAssignees(List<Assigner> assignees) {
+        this.assignees = assignees;
+    }
 
     public Integer[] getAttachmentsId() {
         return attachmentsId;

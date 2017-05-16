@@ -8,44 +8,44 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.model.User;
-import vn.tonish.hozo.view.CandidateView;
+import vn.tonish.hozo.rest.responseRes.Assigner;
+import vn.tonish.hozo.view.AssignerView;
 
 /**
  * Created by LongBui on 5/3/2017.
  */
 
-public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.MyViewHolder> {
+public class AssignerAdapter extends RecyclerView.Adapter<AssignerAdapter.MyViewHolder> {
 
-    private ArrayList<User> users;
+    private ArrayList<Assigner> assigners;
 
-    public CandidateAdapter(ArrayList<User> users){
-        this.users = users;
+    public AssignerAdapter(ArrayList<Assigner> assigners){
+        this.assigners = assigners;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adapter_candidate, parent, false);
+                .inflate(R.layout.adapter_assigner, parent, false);
         return new MyViewHolder(itemView);    }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.candidateView.updateData(users.get(position));
+        holder.assignerView.updateData(assigners.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return users.size();
+        return assigners.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        private CandidateView candidateView;
+        private AssignerView assignerView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            candidateView = (CandidateView) itemView.findViewById(R.id.candidate_view);
+            assignerView = (AssignerView) itemView.findViewById(R.id.assign_view);
         }
 
     }

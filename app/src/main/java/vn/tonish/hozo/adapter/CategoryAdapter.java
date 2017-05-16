@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Category;
@@ -22,11 +22,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     private Context context;
 
-    public CategoryAdapter(ArrayList<Category> categories) {
+    public CategoryAdapter(List<Category> categories) {
         this.categories = categories;
     }
 
-    private ArrayList<Category> categories;
+    private List<Category> categories;
 
     public interface CategoryAdapterLister {
         void onCallBack(int position);
@@ -52,7 +52,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Utils.displayImage(context, holder.imgPresent, Utils.getFullPathImage(categories.get(position).getPresentPath()));
+        Utils.displayImage(context, holder.imgPresent, categories.get(position).getPresentPath());
         holder.tvName.setText(categories.get(position).getName());
         holder.tvDes.setText(categories.get(position).getDescription());
     }
@@ -80,10 +80,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
             if (categoryAdapterLister != null)
                 categoryAdapterLister.onCallBack(getAdapterPosition());
-
-//            Intent intent = new Intent(context, PostATaskActivity.class);
-//            intent.putExtra(Constants.EXTRA_CATEGORY, categories.get(getAdapterPosition()));
-//            context.startActivity(intent);
         }
 
     }

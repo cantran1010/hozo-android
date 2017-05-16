@@ -23,7 +23,7 @@
         <!-- No backgrounds, titles or window float -->
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsFloating">false</item>
         <!-- Just to prove it's working -->
         <item name="android:background">@android:color/transparent</item>
     </style>
@@ -35,7 +35,7 @@
         <!-- No backgrounds, titles or window float -->
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsFloating">false</item>
         <!-- Just to prove it's working -->
         <item name="android:background">@android:color/transparent</item>
     </style>
@@ -90,6 +90,7 @@
 
     <style name="tv_style_normal_black">
         <item name="android:textSize">16sp</item>
+        <item name="android:textColorHint">@color/gray</item>
         <item name="android:textColor">@color/tv_black</item>
     </style>
 

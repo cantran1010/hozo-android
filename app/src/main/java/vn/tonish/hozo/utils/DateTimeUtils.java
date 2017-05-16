@@ -2,6 +2,7 @@ package vn.tonish.hozo.utils;
 
 import android.content.Context;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,7 +13,7 @@ import java.util.Locale;
 import vn.tonish.hozo.R;
 
 /**
- * Created by LongBui.
+ * Created by LongBui on 4/21/2017.
  */
 public class DateTimeUtils {
 
@@ -51,6 +52,28 @@ public class DateTimeUtils {
 
     }
 
+    public static String getOnlyDateFromIso(String input){
+        input = input.substring(0, 22) + input.substring(23);
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault()).parse(input);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date);
+    }
+
+    public static String getHourMinuteFromIso(String input){
+        input = input.substring(0, 22) + input.substring(23);
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault()).parse(input);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(date);
+    }
+
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     public static Date convertToDate(String input) {
@@ -69,6 +92,20 @@ public class DateTimeUtils {
         Date date = null;
         try {
             date = new SimpleDateFormat(DATE_FORMAT2, Locale.getDefault()).parse(input);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    public static Date getDateFromStringIso(String dateIso) {
+        String dateIsoAndroid = dateIso.substring(0, 22) + dateIso.substring(23);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+        Date date = null;
+        try {
+            date = df.parse(dateIsoAndroid);
+            String newDateString = df.format(date);
+            System.out.println(newDateString);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -111,6 +148,7 @@ public class DateTimeUtils {
         try {
             s = s.substring(0, 22) + s.substring(23);  // to get rid of the ":"
         } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
             throw new ParseException("Invalid length", 0);
         }
         Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US).parse(s);
@@ -141,7 +179,7 @@ public class DateTimeUtils {
             Calendar calendar = Calendar.getInstance();
             long now = calendar.getTimeInMillis();
             if (time > now || time <= 0) {
-                return null;
+                return context.getResources().getString(R.string.just_now);
             }
             final long diff = now - time;
             if (diff < MINUTE_MILLIS) {

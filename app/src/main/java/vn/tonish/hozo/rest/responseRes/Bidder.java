@@ -1,15 +1,20 @@
 package vn.tonish.hozo.rest.responseRes;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by LongBui on 5/11/2017.
  */
 
 public class Bidder {
+    private Integer id;
+    @SerializedName("full_name")
     private String fullName;
-    private Double posterAverageRating;
+    @SerializedName("poster_average_rating")
+    private float posterAverageRating;
     private Integer verify;
     private String avatar;
-    private Integer id;
+    @SerializedName("bidded_at")
     private String bidedAt;
     private String phone;
 
@@ -21,11 +26,11 @@ public class Bidder {
         this.fullName = fullName;
     }
 
-    public Double getPosterAverageRating() {
+    public float getPosterAverageRating() {
         return posterAverageRating;
     }
 
-    public void setPosterAverageRating(Double posterAverageRating) {
+    public void setPosterAverageRating(float posterAverageRating) {
         this.posterAverageRating = posterAverageRating;
     }
 

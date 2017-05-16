@@ -5,69 +5,65 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.model.User;
+import vn.tonish.hozo.rest.responseRes.Bidder;
+import vn.tonish.hozo.utils.DateTimeUtils;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by LongBui on 4/21/2017.
  */
 
-public class CandidateView extends LinearLayout {
+public class BidderView extends LinearLayout {
 
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvTimeAgo, tvPrice;
-    private RatingBar rbRate;
-    private ButtonHozo btnAssign;
+    private RatingBar ratingBar;
 
-    public CandidateView(Context context) {
+    public BidderView(Context context) {
         super(context);
         initView();
     }
 
-    public CandidateView(Context context, AttributeSet attrs) {
+    public BidderView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
 
-    public CandidateView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BidderView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public CandidateView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public BidderView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView();
     }
 
     private void initView() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        layoutInflater.inflate(R.layout.candidate_view, this, true);
+        layoutInflater.inflate(R.layout.bidder_view, this, true);
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
 
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
-        rbRate = (RatingBar) findViewById(R.id.rb_rate);
-        btnAssign = (ButtonHozo) findViewById(R.id.btn_assign);
-        tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
+        ratingBar = (RatingBar) findViewById(R.id.rb_rate);
     }
 
-    public void updateData(User user) {
+    public void updateData(Bidder bidder) {
 
-        Utils.displayImageAvatar(getContext(), imgAvatar, user.getAvatar());
-        tvName.setText(user.getFullName());
-//        tvTimeAgo.setText();
+        LogUtils.d(TAG, "BidderView , updateData bidder : " + bidder.toString());
 
-        btnAssign.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        Utils.displayImageAvatar(getContext(), imgAvatar, bidder.getAvatar());
+        tvName.setText(bidder.getFullName());
+        ratingBar.setRating(bidder.getPosterAverageRating());
+        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(bidder.getBidedAt(), getContext()));
     }
 }

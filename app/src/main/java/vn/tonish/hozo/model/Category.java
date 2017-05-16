@@ -8,19 +8,14 @@ import java.io.Serializable;
  * Created by LongBui on 4/12/17.
  */
 
-public class Category implements Serializable {
+public class Category implements Serializable{
     private int id;
-
     private String name;
-
     private String description;
-
     @SerializedName("suggest_title")
     private String suggestTitle;
-
     @SerializedName("suggest_description")
     private String suggestDescription;
-
     @SerializedName("avatar")
     private String presentPath;
 

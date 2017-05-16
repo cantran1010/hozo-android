@@ -75,6 +75,9 @@ public class Constants {
     public static final int PERMISSION_REQUEST_CODE = 987;
     public static final int REQUEST_CODE_ADD_VERIFY = 1019;
     public static final String TRANSITION_EXTRA = "transition_extra";
+    public static final String IMAGE_ATTACHS_EXTRA = "image_attachs_extra";
+    public static final String IMAGE_POSITITON_EXTRA = "position_extra";
+    public static final String COMMENT_EXTRA = "comment_extra";
     public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
 
     public static final String USER_POSTER_REVIEWS = "poster_reviews";
@@ -90,5 +93,13 @@ public class Constants {
     public static final String PARAMETER_ADDRESS = "address";
     public static final String PARAMETER_DATE_OF_BIRTH = "date_of_birth";
     public static final String PARAMETER_AVATA_ID = "avatar_id";
+
+    // accept offer
+    public static final String PARAMETER_ACCEPT_OFFER = "status";
+    public static final String PARAMETER_ACCEPTED_OFFER = "accepted";
+
+    //update task
+    public static final String PARAM_UPDATE_TASK = "status";
+    public static final String PARAM_UPDATE_TASK_CANCEL = "canceled";
 
 }

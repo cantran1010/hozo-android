@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <vn.tonish.hozo.view.CandidateView
-        android:id="@+id/candidate_view"
+    <vn.tonish.hozo.view.BidderView
+        android:id="@+id/bidder_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

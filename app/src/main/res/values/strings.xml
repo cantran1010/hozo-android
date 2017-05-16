@@ -165,7 +165,7 @@
     <string name="crop_image_title">Chỉnh sửa</string>
     <string name="crop_image_done">Tiếp tục</string>
     <string name="report_task_title_hint">Nhập tiêu đề</string>
-    <string name="report_task_content_hint">Nhập nội dung</string>
+    <string name="report_task_content_hint">Hãy cho chúng tôi biết lý do khác của bạn là gì</string>
     <string name="next">Tiếp tục</string>
     <string name="call">Gọi</string>
     <string name="make_an_offer_worker">Người làm</string>
@@ -186,7 +186,7 @@
     <string name="rate_other">Other</string>
     <string name="network_account_is_not_exist">Tài khoản không tồn tại</string>
     <string name="type_your_text">Type your text …</string>
-    <string name="assign_people">Người ứng tuyển</string>
+    <string name="assign_people">Người làm</string>
     <string name="assign">Chọn</string>
     <string name="view_all">Xem tất cả</string>
     <string name="worker">Người làm</string>
@@ -253,4 +253,29 @@
     <string name="verify_bank">Xác thực với tài khoản ngân hàng</string>
     <string name="verify_other">Xác thực thông tin cá nhân khác</string>
     <string name="all_call">1900160078</string>
+    <string name="empty"></string>
+    <string name="task_detail_attach_image_hint">Hình ảnh minh họa</string>
+    <string name="comment_answer">Trả lời tin nhắn</string>
+    <string name="comment_report">Thông báo tin nhắn xấu</string>
+    <string name="see_more">Xem thêm</string>
+    <string name="bid_success">Ứng tuyển thành công</string>
+    <string name="report_title">Lý do báo cáo</string>
+    <string name="report_spam_much">Spam quá nhiều</string>
+    <string name="report_language_bad">Ngôn ngữ không phù hợp</string>
+    <string name="report_policy">Vi phạm điều khoản sử dụng</string>
+    <string name="report_other">Lý do khác</string>
+    <string name="report_cancel">HỦY</string>
+    <string name="report_ok">CHỌN</string>
+    <string name="report_reason_other_title">Lý do khác</string>
+    <string name="btn_report_send">GỬI</string>
+    <string name="number_employ_footer"> người \n được thuê</string>
+    <string name="number_remain_footer"> vị trí \n còn trống</string>
+    <string name="number_bit_footer"> người \n ứng tuyển</string>
+    <string name="task_detail_category_type">Loại công việc:</string>
+    <string name="detail_task_time_to">-</string>
+    <string name="call_err">Rất tiếc điện thoại của bạn không hỗ trợ chức năng gọi điện</string>
+    <string name="title_cancel_task">Hủy việc</string>
+    <string name="content_cancel_task">Bạn có chắc chắn muốn hủy việc này ?</string>
+    <string name="cancel_task_ok">Có</string>
+    <string name="cancel_task_cancel">Không</string>
 </resources>

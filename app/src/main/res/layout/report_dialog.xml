@@ -4,33 +4,91 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@drawable/alert_dialog_bg"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="20dp">
 
-    <vn.tonish.hozo.view.ButtonHozo
-        android:id="@+id/btn_reply"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/btn_selector"
-        android:text="@string/btn_reply_report"
-        android:textColor="@color/white" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/report_title"
+        android:textColor="@color/tv_black"
+        android:textSize="20sp"
+        android:textStyle="normal" />
 
-    <vn.tonish.hozo.view.ButtonHozo
-        android:id="@+id/btn_report"
+    <RadioGroup
+        android:id="@+id/rg_report"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/btn_selector"
-        android:text="@string/btn_report_report"
-        android:textColor="@color/white" />
+        android:layout_height="wrap_content"
+        android:checkedButton="@+id/sound">
 
-    <vn.tonish.hozo.view.ButtonHozo
-        android:id="@+id/btn_cancel"
+        <RadioButton
+            android:id="@+id/rb_spam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:button="@drawable/radio_button_background"
+            android:checked="true"
+            android:padding="5dp"
+            android:text="@string/report_spam_much" />
+
+        <RadioButton
+            android:id="@+id/rb_language"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:button="@drawable/radio_button_background"
+            android:padding="5dp"
+            android:text="@string/report_language_bad" />
+
+        <RadioButton
+            android:id="@+id/rb_policy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:button="@drawable/radio_button_background"
+            android:padding="5dp"
+            android:text="@string/report_policy" />
+
+        <RadioButton
+            android:id="@+id/rb_other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:button="@drawable/radio_button_background"
+            android:padding="5dp"
+            android:text="@string/report_other" />
+
+    </RadioGroup>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
         android:layout_marginTop="10dp"
-        android:background="@drawable/btn_selector"
-        android:text="@string/btn_cancel"
-        android:textColor="@color/white" />
+        android:gravity="right">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/report_cancel"
+            android:textColor="@color/hozo_red" />
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/report_ok"
+            android:textColor="@color/hozo_bg" />
+
+
+    </LinearLayout>
 
 </LinearLayout>
