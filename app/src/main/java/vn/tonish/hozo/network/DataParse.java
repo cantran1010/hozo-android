@@ -8,10 +8,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.ReviewManager;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Review;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.rest.responseRes.Token;
@@ -91,6 +93,36 @@ public class DataParse {
         user.setTaskerAverageRating(userEntity.getTaskerAverageRating());
         user.setTaskerReviewCount(userEntity.getTaskerReviewCount());
         return user;
+    }
+
+    public static Category convertCatogoryEntityToCategory(CategoryEntity categoryEntity) {
+        Category category = new Category();
+        category.setId(categoryEntity.getId());
+        category.setName(categoryEntity.getName());
+        category.setDescription(categoryEntity.getDescription());
+        category.setSuggestTitle(categoryEntity.getSuggestTitle());
+        category.setSuggestDescription(categoryEntity.getSuggestDescription());
+        category.setPresentPath(categoryEntity.getPresentPath());
+        return category;
+    }
+
+    public static List<CategoryEntity> convertListCategoryToListCategoryEntity(List<Category> categories) {
+        List<CategoryEntity> categoryEntities = new ArrayList<>();
+        for (int i = 0; i < categories.size(); i++) {
+            categoryEntities.add(convertCatogoryToCategoryEntity(categories.get(i)));
+        }
+        return categoryEntities;
+    }
+
+    public static CategoryEntity convertCatogoryToCategoryEntity(Category category) {
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryEntity.setId(category.getId());
+        categoryEntity.setName(category.getName());
+        categoryEntity.setDescription(category.getDescription());
+        categoryEntity.setSuggestTitle(category.getSuggestTitle());
+        categoryEntity.setSuggestDescription(category.getSuggestDescription());
+        categoryEntity.setPresentPath(category.getPresentPath());
+        return categoryEntity;
     }
 
     public static UserEntity convertUserToUserEntity(User user) {

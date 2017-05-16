@@ -2,12 +2,9 @@ package vn.tonish.hozo.database.manager;
 
 import android.content.Context;
 
+import io.realm.Realm;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.utils.LogUtils;
-
-import io.realm.Realm;
-
-import static vn.tonish.hozo.database.manager.ReviewManager.context;
 
 /**
  * Created by LongBui.
@@ -15,8 +12,6 @@ import static vn.tonish.hozo.database.manager.ReviewManager.context;
 public class UserManager {
 
     private static final String TAG = UserManager.class.getName();
-
-    public static UserManager userManager;
 
     public static boolean checkLogin(Context context) {
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
@@ -68,6 +63,5 @@ public class UserManager {
         realm.where(UserEntity.class).findAll().deleteAllFromRealm();
         realm.commitTransaction();
     }
-
 
 }
