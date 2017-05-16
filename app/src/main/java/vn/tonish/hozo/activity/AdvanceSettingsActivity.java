@@ -1,21 +1,27 @@
 package vn.tonish.hozo.activity;
 
 import android.content.Intent;
-import android.text.Html;
-import android.text.Spanned;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.setting.PriceSettingActivity;
+import vn.tonish.hozo.activity.setting.TaskTypeActivity;
+import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
- * Created by huyquynh on 4/18/17.
+ * Created by CanTran on 5/16/17.
  */
 
 public class AdvanceSettingsActivity extends BaseActivity implements View.OnClickListener {
     private ImageView imgBack;
+    private TextViewHozo tvWorkType, tvPrice, tvLocation, tvTime, tvGender, tvAge;
+    private SwitchCompat swNotification;
+    private ButtonHozo btnReset;
 
 
     @Override
@@ -25,28 +31,25 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initView() {
-        findViewById(R.id.btn_save).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(AdvanceSettingsActivity.this, "Just Demo!", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
+        imgBack = (ImageView) findViewById(R.id.img_back);
+        tvWorkType = (TextViewHozo) findViewById(R.id.tv_work_type);
+        tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
+        tvLocation = (TextViewHozo) findViewById(R.id.tv_location);
+        tvTime = (TextViewHozo) findViewById(R.id.tv_time);
+        tvGender = (TextViewHozo) findViewById(R.id.tv_gender);
+        tvAge = (TextViewHozo) findViewById(R.id.tv_age);
+        swNotification = (SwitchCompat) findViewById(R.id.sw_notification);
+        btnReset = (ButtonHozo) findViewById(R.id.btn_reset);
 
-        TextViewHozo tv_fee = (TextViewHozo) findViewById(R.id.tv_fee_text);
-        String titleFee = getString(R.string.tv_fee);
-        String currency = getString(R.string.vnd);
 
-        Spanned text = Html.fromHtml(titleFee + "<i>" + currency + "</i>");
-        tv_fee.setText(text);
         findViewById(R.id.img_back).setOnClickListener(this);
-        findViewById(R.id.tv_type).setOnClickListener(this);
-        findViewById(R.id.tv_fee).setOnClickListener(this);
+        findViewById(R.id.tab_type).setOnClickListener(this);
+        findViewById(R.id.tab_price).setOnClickListener(this);
         findViewById(R.id.tv_location).setOnClickListener(this);
         findViewById(R.id.tv_time).setOnClickListener(this);
-        findViewById(R.id.tv_sex).setOnClickListener(this);
-        findViewById(R.id.tv_age).setOnClickListener(this);
-        findViewById(R.id.tv_notification).setOnClickListener(this);
+        findViewById(R.id.tab_price).setOnClickListener(this);
+        findViewById(R.id.tab_age).setOnClickListener(this);
+        findViewById(R.id.tab_notification).setOnClickListener(this);
 
     }
 
@@ -62,14 +65,14 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
-    public void onClick(View view) {
-        int id = view.getId();
-
-        switch (id) {
-            case R.id.tv_type:
-
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tab_type:
+//                startActivityForResult(new Intent(this, TaskTypeActivity.class), Constants.REQUEST_CODE_TASK_TYPE, TransitionScreen.LEFT_TO_RIGHT);
+                startActivity(new Intent(this, TaskTypeActivity.class), TransitionScreen.LEFT_TO_RIGHT);
                 break;
-            case R.id.tv_fee:
+            case R.id.tab_price:
+              startActivityForResult(new Intent(this, PriceSettingActivity.class), Constants.REQUEST_CODE_SETTING_PRICE_, TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_location:
 
@@ -77,13 +80,13 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             case R.id.tv_time:
                 break;
 
-            case R.id.tv_sex:
+            case R.id.tab_gender:
                 break;
 
-            case R.id.tv_age:
+            case R.id.tab_age:
                 break;
 
-            case R.id.tv_notification:
+            case R.id.tab_notification:
                 break;
             case R.id.img_back:
                 finish();
