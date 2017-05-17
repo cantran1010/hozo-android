@@ -37,7 +37,6 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
-import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.view.ProfileView;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -137,7 +136,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     private void doEdit() {
         Intent intent = new Intent(this, EditProfileActivity.class);
-        UserEntity userEntity = UserManager.getUserLogin(this);
+        UserEntity userEntity = UserManager.getUserLogin();
         intent.putExtra(Constants.USER, DataParse.convertUserEntityToUser(userEntity));
         startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_PROFILE, TransitionScreen.RIGHT_TO_LEFT);
     }
@@ -155,12 +154,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         DialogUtils.showOkAndCancelDialog(this, getString(R.string.msg_logOut), getString(R.string.msg_contten_logOut), "Có", "huỷ", new AlertDialogOkAndCancel.AlertDialogListener() {
             @Override
             public void onSubmit() {
-                ApiClient.getApiService().logOut(UserManager.getUserToken(ProfileActivity.this)).enqueue(new Callback<Void>() {
+                ApiClient.getApiService().logOut(UserManager.getUserToken()).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         ProgressDialogUtils.dismissProgressDialog();
                         if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
-                            UserManager.deleteAll(ProfileActivity.this);
+                            UserManager.deleteAll();
                             ReviewManager.deleteAll();
                             startActivityAndClearAllTask(new Intent(ProfileActivity.this, HomeActivity.class), TransitionScreen.FADE_IN);
                         } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -215,7 +214,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     private void updateUserInfoFromServer() {
 
-        ApiClient.getApiService().getMyAccountInfor(UserManager.getUserToken(this)).enqueue(new Callback<User>() {
+        ApiClient.getApiService().getMyAccountInfor(UserManager.getUserToken()).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.code() == 200) {
@@ -240,7 +239,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private void setUserInfoFromCache() {
 
         UserEntity userEntity = new UserEntity();
-        userEntity = UserManager.getUserLogin(this);
+        userEntity = UserManager.getUserLogin();
         List<ReviewEntity> posterReviewEntity = new ArrayList<>();
         List<ReviewEntity> taskerReviewEntity = new ArrayList<>();
         posterReviewEntity = ReviewManager.getReviewByType(REVIEW_TYPE_POSTER);

@@ -79,7 +79,7 @@ public class ListTaskFragment extends BaseFragment {
         option.put("page", "2");
         option.put("sort_by", "worker_rate");
         option.put("ascending", "true");
-        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(getContext()), option).enqueue(new Callback<List<TaskResponse>>() {
+        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), option).enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
                 if (response.code() == Constants.HTTP_CODE_OK) {

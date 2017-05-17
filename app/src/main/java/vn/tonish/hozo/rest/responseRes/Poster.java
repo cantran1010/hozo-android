@@ -2,12 +2,15 @@ package vn.tonish.hozo.rest.responseRes;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+
 /**
  * Created by LongBui on 5/11/2017.
  */
 
-public class Poster {
+public class Poster extends RealmObject{
 
+    private int taskId;
     @SerializedName("full_name")
     private String fullName;
     @SerializedName("poster_average_rating")
@@ -15,6 +18,14 @@ public class Poster {
     private Integer verify;
     private String avatar;
     private Integer id;
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
 
     public String getFullName() {
         return fullName;

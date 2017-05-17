@@ -91,7 +91,7 @@ public class ReportTaskActivity extends BaseActivity implements View.OnClickList
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
 
-        ApiClient.getApiService().report(UserManager.getUserToken(this), comment.getId(), body).enqueue(new Callback<Void>() {
+        ApiClient.getApiService().report(UserManager.getUserToken(), comment.getId(), body).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 LogUtils.d(TAG, "report , body : " + response.body());

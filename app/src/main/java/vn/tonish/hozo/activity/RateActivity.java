@@ -121,7 +121,7 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
 
         LogUtils.d(TAG, "doRate data request : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().rateTask(UserManager.getUserToken(this), assigner.getTaskId(), body).enqueue(new Callback<RateResponse>() {
+        ApiClient.getApiService().rateTask(UserManager.getUserToken(), assigner.getTaskId(), body).enqueue(new Callback<RateResponse>() {
             @Override
             public void onResponse(Call<RateResponse> call, Response<RateResponse> response) {
                 LogUtils.d(TAG, "doRate code : " + response.code());

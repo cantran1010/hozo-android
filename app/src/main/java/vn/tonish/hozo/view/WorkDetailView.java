@@ -211,7 +211,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
     }
 
     private void doOffer() {
-        ApiClient.getApiService().bidsTask(UserManager.getUserToken(getContext()), taskResponse.getId()).enqueue(new Callback<BidResponse>() {
+        ApiClient.getApiService().bidsTask(UserManager.getUserToken(), taskResponse.getId()).enqueue(new Callback<BidResponse>() {
             @Override
             public void onResponse(Call<BidResponse> call, Response<BidResponse> response) {
                 LogUtils.d(TAG, "bidsTask status code : " + response.code());
