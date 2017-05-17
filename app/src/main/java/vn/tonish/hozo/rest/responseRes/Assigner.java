@@ -2,11 +2,13 @@ package vn.tonish.hozo.rest.responseRes;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by LongBui on 5/15/17.
  */
 
-public class Assigner {
+public class Assigner implements Serializable{
     private Integer id;
     @SerializedName("full_name")
     private String fullName;
@@ -17,6 +19,15 @@ public class Assigner {
     @SerializedName("bidded_at")
     private String biddedAt;
     private String phone;
+    private int taskId;
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
 
     public Integer getId() {
         return id;

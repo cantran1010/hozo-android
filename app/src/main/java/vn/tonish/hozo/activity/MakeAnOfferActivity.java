@@ -334,6 +334,10 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     }
 
     private void doSend() {
+        if (edtComment.getText().toString().trim().equals("")) {
+            Utils.showLongToast(this, getString(R.string.empty_content_comment_error));
+            return;
+        }
         if (imgPath == null) {
             doComment();
         } else {
@@ -422,6 +426,10 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     comments.add(response.body());
                     commentViewFull.updateData(comments);
+
+                    imgPath = null;
+                    edtComment.setText(getString(R.string.empty));
+                    imgLayout.setVisibility(View.GONE);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.RefreshToken(MakeAnOfferActivity.this, new NetworkUtils.RefreshListener() {
                         @Override

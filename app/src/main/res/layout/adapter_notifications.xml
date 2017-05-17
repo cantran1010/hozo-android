@@ -7,8 +7,7 @@
     <vn.tonish.hozo.view.CircleImageView
         android:id="@+id/img_avatar"
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/rotate_loading_screen" />
+        android:layout_height="50dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,12 +1,16 @@
 package vn.tonish.hozo.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -102,6 +106,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     private File fileAttach;
     private TextViewHozo tvSeeMore;
     private TextViewHozo tvCancel;
+    private final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
     @Override
     protected int getLayout() {
@@ -158,7 +163,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
     @Override
     protected void initData() {
-        workDetailView.updateStatus(getString(R.string.update_task), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
+        workDetailView.updateStatus(getString(R.string.update_task), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
         workDetailView.updateBtnOffer(false);
         workDetailView.updateBtnCallRate(false, false, "");
 
@@ -290,14 +295,11 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_attach:
-
                 PickImageDialog pickImageDialog = new PickImageDialog(PosterOpenTaskActivity.this);
                 pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
                     @Override
                     public void onCamera() {
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+                        checkPermission();
                     }
 
                     @Override
@@ -351,6 +353,38 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
         }
     }
+
+    protected void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            permissionGranted();
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != Constants.PERMISSION_REQUEST_CODE
+                || grantResults.length == 0
+                || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            permissionDenied();
+        } else {
+            permissionGranted();
+        }
+    }
+
+    private void permissionGranted() {
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+    }
+
+    private void permissionDenied() {
+        LogUtils.d(TAG, "permissionDenied camera");
+    }
+
 
     private void doCacelTask() {
         ProgressDialogUtils.showProgressDialog(this);
@@ -418,6 +452,10 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     }
 
     private void doSend() {
+        if (edtComment.getText().toString().trim().equals("")) {
+            Utils.showLongToast(this, getString(R.string.empty_content_comment_error));
+            return;
+        }
         if (imgPath == null) {
             doComment();
         } else {
@@ -441,6 +479,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
                     ImageResponse imageResponse = response.body();
                     tempId = imageResponse.getIdTemp();
                     doComment();
+                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.RefreshToken(PosterOpenTaskActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -461,7 +500,6 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
                         }
                     });
                 }
-
             }
 
             @Override
@@ -483,7 +521,6 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     }
 
     private void doComment() {
-
         ProgressDialogUtils.showProgressDialog(this);
         final JSONObject jsonRequest = new JSONObject();
         try {
@@ -506,6 +543,10 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     comments.add(response.body());
                     commentViewFull.updateData(comments);
+
+                    imgPath = null;
+                    edtComment.setText(getString(R.string.empty));
+                    imgLayout.setVisibility(View.GONE);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.RefreshToken(PosterOpenTaskActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
