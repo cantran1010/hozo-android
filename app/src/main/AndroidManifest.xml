@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.PosterOpenTaskActivity"
+            android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -99,10 +99,10 @@
             android:name=".activity.RateActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <!--<activity-->
-            <!--android:name=".activity.MakeAnOfferActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="stateHidden" />-->
+        <activity
+            android:name=".activity.MakeAnOfferActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <!--<activity-->
             <!--android:name=".activity.PosterOpenTaskActivity"-->
             <!--android:screenOrientation="portrait"-->
@@ -148,7 +148,6 @@
         <activity android:name=".activity.other.NADActivity" />
         <activity android:name=".activity.other.PaymentActivity" />
         <activity android:name=".activity.setting.SexActivity" />
-        <activity android:name=".activity.setting.WorkTypeActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -177,9 +176,16 @@
             android:name=".activity.AddVerifyActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".activity.ReviewsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.setting.TaskTypeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.setting.PriceSettingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
     </application>

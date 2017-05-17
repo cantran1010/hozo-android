@@ -10,8 +10,8 @@ public class Constants {
     public static final int HTTP_CODE_UNAUTHORIZED = 401;
     public static final int HTTP_CODE_FORBIDEN = 403;
     public static final int HTTP_CODE_NOT_FOUND = 404;
-    public static final int HTTP_CODE_UNPROCESSABLE_ENTITY= 422;
-    public static final int HTTP_CODE_INTERNAL_SERVER_ERROR= 500;
+    public static final int HTTP_CODE_UNPROCESSABLE_ENTITY = 422;
+    public static final int HTTP_CODE_INTERNAL_SERVER_ERROR = 500;
 
     public static final String BADGE = "badge____";
     public static final int MAX_IMAGE_ATTACH = 6;
@@ -78,6 +78,9 @@ public class Constants {
     public static final String IMAGE_ATTACHS_EXTRA = "image_attachs_extra";
     public static final String IMAGE_POSITITON_EXTRA = "position_extra";
     public static final String COMMENT_EXTRA = "comment_extra";
+    public static final String EXTRA_CATEGORY_ID = "Category_id";
+    public static final String EXTRA_MIN_PRICE ="min_price" ;
+    public static final String EXTRA_MAX_PRICE ="max_price" ;
     public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
 
     public static final String USER_POSTER_REVIEWS = "poster_reviews";
@@ -93,6 +96,10 @@ public class Constants {
     public static final String PARAMETER_ADDRESS = "address";
     public static final String PARAMETER_DATE_OF_BIRTH = "date_of_birth";
     public static final String PARAMETER_AVATA_ID = "avatar_id";
+    // Addvance setting
+    public static final int REQUEST_CODE_TASK_TYPE = 456;
+    public static final int REQUEST_CODE_SETTING_PRICE = 406;
+
 
     // accept offer
     public static final String PARAMETER_ACCEPT_OFFER = "status";
