@@ -180,7 +180,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
         Map<String, String> params = new HashMap<>();
         params.put("id", taskId + "");
 
-        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(this), params).enqueue(new Callback<List<TaskResponse>>() {
+        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), params).enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
                 LogUtils.d(TAG, "getDetailTask , status code : " + response.code());
@@ -385,7 +385,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
         LogUtils.d(TAG, "doCacelTask data request : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
-        ApiClient.getApiService().updateTask(UserManager.getUserToken(this), taskId, body).enqueue(new Callback<TaskResponse>() {
+        ApiClient.getApiService().updateTask(UserManager.getUserToken(), taskId, body).enqueue(new Callback<TaskResponse>() {
             @Override
             public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                 LogUtils.d(TAG, "doCacelTask , code : " + response.code());
@@ -456,7 +456,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileAttach);
         MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileAttach.getName(), requestBody);
 
-        ApiClient.getApiService().uploadImage(UserManager.getUserToken(this), itemPart).enqueue(new Callback<ImageResponse>() {
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(), itemPart).enqueue(new Callback<ImageResponse>() {
             @Override
             public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
                 LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
@@ -523,7 +523,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
         LogUtils.d(TAG, "commentTask data request : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
-        ApiClient.getApiService().commentTask(UserManager.getUserToken(this), taskId, body).enqueue(new Callback<Comment>() {
+        ApiClient.getApiService().commentTask(UserManager.getUserToken(), taskId, body).enqueue(new Callback<Comment>() {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
                 LogUtils.d(TAG, "commentTask , code : " + response.code());

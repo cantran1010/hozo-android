@@ -121,7 +121,7 @@ public class ReportDialog extends BaseDialog implements View.OnClickListener {
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
 
-        ApiClient.getApiService().report(UserManager.getUserToken(getContext()), comment.getId(), body).enqueue(new Callback<Void>() {
+        ApiClient.getApiService().report(UserManager.getUserToken(), comment.getId(), body).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 LogUtils.d(TAG, "report , body : " + response.body());

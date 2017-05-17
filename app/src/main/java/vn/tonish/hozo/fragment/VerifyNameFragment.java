@@ -101,14 +101,14 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
         ProgressDialogUtils.showProgressDialog(getActivity());
         JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put(Constants.USER_ID, UserManager.getUserLogin(getContext()).getId());
-            jsonRequest.put(Constants.USER_MOBILE, UserManager.getUserLogin(getContext()).getPhoneNumber());
+            jsonRequest.put(Constants.USER_ID, UserManager.getUserLogin().getId());
+            jsonRequest.put(Constants.USER_MOBILE, UserManager.getUserLogin().getPhoneNumber());
             jsonRequest.put(Constants.USER_FULL_NAME, edtName.getText().toString().trim());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().updateUser(UserManager.getUserToken(getContext()), body).enqueue(new Callback<User>() {
+        ApiClient.getApiService().updateUser(UserManager.getUserToken(), body).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 ProgressDialogUtils.dismissProgressDialog();
@@ -117,7 +117,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
                 if (response.code() == 200) {
                     if (response.body() != null) {
                         DataParse.updateUser(response.body(), getContext());
-                        LogUtils.d(TAG, "update User : " + UserManager.getUserLogin(getContext()).toString());
+                        LogUtils.d(TAG, "update User : " + UserManager.getUserLogin().toString());
                     }
                     startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 } else {

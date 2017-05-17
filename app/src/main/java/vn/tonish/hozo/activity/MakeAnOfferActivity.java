@@ -41,11 +41,14 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.AssignerAdapter;
 import vn.tonish.hozo.adapter.BidderAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.entity.TaskEntity;
+import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
+import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.Assigner;
@@ -133,7 +136,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
         imgComment = (ImageView) findViewById(R.id.img_send);
         imgComment.setOnClickListener(this);
-        
+
         tvSeeMore = (TextViewHozo) findViewById(R.id.tv_see_more_comment);
         tvSeeMore.setOnClickListener(this);
 
@@ -156,6 +159,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     protected void initData() {
         workDetailView.updateBtnCallRate(false, false, getString(R.string.empty));
         workDetailView.updateStatus(getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
+        useCacheData();
         getData();
     }
 
@@ -170,13 +174,21 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         unregisterReceiver(broadcastReceiver);
     }
 
+    private void useCacheData() {
+        TaskEntity taskEntity = TaskManager.getTaskById(this, 123);
+        if (taskEntity != null) {
+            taskResponse = DataParse.converTaskEntityToTaskReponse(taskEntity);
+            updateUi();
+        }
+    }
+
     private void getData() {
         ProgressDialogUtils.showProgressDialog(this);
 
         Map<String, String> params = new HashMap<>();
         params.put("id", taskId + "");
 
-        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(this), params).enqueue(new Callback<List<TaskResponse>>() {
+        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), params).enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
                 LogUtils.d(TAG, "getDetailTask , status code : " + response.code());
@@ -184,30 +196,8 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taskResponse = response.body().get(0);
-                    workDetailView.updateWork(taskResponse);
-
-                    if (googleMap != null) {
-                        LatLng latLng = new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude());
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
-
-                        // create marker
-                        MarkerOptions marker = new MarkerOptions().position(new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
-                        googleMap.addMarker(marker);
-                    }
-
-                    // update bidder list
-                    bidders = (ArrayList<Bidder>) taskResponse.getBidders();
-                    refreshBidderList();
-
-                    //update assigners list
-                    assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
-                    refreshAssignerList();
-
-                    //update comments
-                    comments = (ArrayList<Comment>) taskResponse.getComments();
-                    commentViewFull.updateData(comments);
-
-
+                    storeTaskToDatabase();
+                    updateUi();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.RefreshToken(MakeAnOfferActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -248,6 +238,36 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                 ProgressDialogUtils.dismissProgressDialog();
             }
         });
+
+    }
+
+    private void storeTaskToDatabase() {
+        TaskEntity taskEntity = DataParse.converTaskReponseToTaskEntity(taskResponse);
+        TaskManager.insertTask(taskEntity);
+    }
+
+    private void updateUi() {
+        workDetailView.updateWork(taskResponse);
+        if (googleMap != null) {
+            LatLng latLng = new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude());
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
+
+            // create marker
+            MarkerOptions marker = new MarkerOptions().position(new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
+            googleMap.addMarker(marker);
+        }
+
+        // update bidder list
+        bidders = (ArrayList<Bidder>) taskResponse.getBidders();
+        refreshBidderList();
+
+        //update assigners list
+        assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
+        refreshAssignerList();
+
+        //update comments
+        comments = (ArrayList<Comment>) taskResponse.getComments();
+        commentViewFull.updateData(comments);
 
     }
 
@@ -322,7 +342,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
             case R.id.img_send:
                 doSend();
                 break;
-            
+
             case R.id.tv_see_more_comment:
                 doSeeMoreComment();
                 break;
@@ -351,7 +371,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileAttach);
         MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileAttach.getName(), requestBody);
 
-        ApiClient.getApiService().uploadImage(UserManager.getUserToken(this), itemPart).enqueue(new Callback<ImageResponse>() {
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(), itemPart).enqueue(new Callback<ImageResponse>() {
             @Override
             public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
                 LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
@@ -417,7 +437,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         LogUtils.d(TAG, "commentTask data request : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
-        ApiClient.getApiService().commentTask(UserManager.getUserToken(this), taskId, body).enqueue(new Callback<Comment>() {
+        ApiClient.getApiService().commentTask(UserManager.getUserToken(), taskId, body).enqueue(new Callback<Comment>() {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
                 LogUtils.d(TAG, "commentTask , code : " + response.code());

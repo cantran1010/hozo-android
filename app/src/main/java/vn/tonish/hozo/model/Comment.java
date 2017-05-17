@@ -9,7 +9,6 @@ import io.realm.RealmObject;
 /**
  * Created by LongBui on 20/04/2017.
  */
-
 public class Comment extends RealmObject implements Serializable {
     private int id;
     @SerializedName("author_id")

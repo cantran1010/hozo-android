@@ -5,13 +5,18 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import io.realm.Realm;
+import vn.tonish.hozo.database.manager.RealmDbHelper;
 import vn.tonish.hozo.utils.TypefaceContainer;
+
 
 public class HozoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Realm.init(getApplicationContext());
+
+        Realm.init(this);
+        Realm.setDefaultConfiguration(RealmDbHelper.getRealmConfig(getApplicationContext()));
+
         TypefaceContainer.init(getApplicationContext());
 
 //        Fabric.with(this, new Crashlytics());

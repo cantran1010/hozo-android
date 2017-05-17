@@ -87,7 +87,7 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onRefresh() {
         super.onRefresh();
-        getReviews(UserManager.getUserLogin(this).getId(), pageSize, typeReview, "2017-04-24T07:13:41Z", true);
+        getReviews(UserManager.getUserLogin().getId(), pageSize, typeReview, "2017-04-24T07:13:41Z", true);
         onStopRefresh();
 
     }
@@ -104,7 +104,7 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
         option.put("limit", String.valueOf(limit));
         option.put("review_type", type);
         option.put("since", since);
-        ApiClient.getApiService().getUserReviews(UserManager.getUserToken(ReviewsActivity.this), userId, option).enqueue(new Callback<List<Review>>() {
+        ApiClient.getApiService().getUserReviews(UserManager.getUserToken(), userId, option).enqueue(new Callback<List<Review>>() {
             @Override
             public void onResponse(Call<List<Review>> call, Response<List<Review>> response) {
                 if (response.code() == Constants.HTTP_CODE_OK) {
