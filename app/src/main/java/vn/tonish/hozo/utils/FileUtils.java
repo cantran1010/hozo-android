@@ -31,7 +31,7 @@ public class FileUtils {
         return success;
     }
 
-    // maybe delete all temp file after used
+    //delete all temp file after used
     public static boolean deleteDirectory(File path) {
         if (path.exists()) {
             File[] files = path.listFiles();

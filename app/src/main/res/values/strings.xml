@@ -113,7 +113,7 @@
 
     <!-- rate screen -->
     <string name="rate"> Bình Chọn </string>
-    <string name="rate_title"> Mức độ hài lòng của bạn </string>
+    <string name="rate_title">Bạn có hài lòng với công việc và \n khách hàng này không ?</string>
     <string name="rate_des">Totally Awesome</string>
     <string name="just_image">just_image</string>
 
@@ -278,4 +278,14 @@
     <string name="content_cancel_task">Bạn có chắc chắn muốn hủy việc này ?</string>
     <string name="cancel_task_ok">Có</string>
     <string name="cancel_task_cancel">Không</string>
+    <string name="empty_content_comment_error">Vui lòng nhập nội dung bình luận</string>
+
+    <!-- rate -->
+    <string name="rate_submit">GỬI ĐÁNH GIÁ</string>
+    <string name="rate_content_1_star">Cạn lời !</string>
+    <string name="rate_content_2_star">Không ổn tí nào !</string>
+    <string name="rate_content_3_star">Tạm được !</string>
+    <string name="rate_content_4_star">Khá tốt !</string>
+    <string name="rate_content_5_star">Rất hài lòng !</string>
+    <string name="rate_msg_no_content_error">Vui lòng xếp hạng</string>
 </resources>

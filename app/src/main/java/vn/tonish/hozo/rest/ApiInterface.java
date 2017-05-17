@@ -23,6 +23,7 @@ import vn.tonish.hozo.rest.responseRes.AcceptOfferResponse;
 import vn.tonish.hozo.rest.responseRes.BidResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
+import vn.tonish.hozo.rest.responseRes.RateResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.rest.responseRes.Token;
 
@@ -79,5 +80,8 @@ public interface ApiInterface {
 
     @PUT("tasks/{taskId}")
     Call<TaskResponse> updateTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
+
+    @POST("tasks/{taskId}/reviews")
+    Call<RateResponse> rateTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
 
 }
