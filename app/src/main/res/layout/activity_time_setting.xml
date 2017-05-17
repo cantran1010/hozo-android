@@ -32,7 +32,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/title_margin_left"
             android:layout_toRightOf="@id/img_back"
-            android:text="@string/tv_fee" />
+            android:text="@string/setting_time" />
 
         <View
             android:layout_width="match_parent"
@@ -60,7 +60,7 @@
             android:weightSum="2">
 
             <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/btn_min_price"
+                android:id="@+id/tv_time_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -76,7 +76,7 @@
                 android:textSize="@dimen/tv_size_medium" />
 
             <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/edt_max_price"
+                android:id="@+id/tv_time_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"

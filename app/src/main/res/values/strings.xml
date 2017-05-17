@@ -21,7 +21,7 @@
     <!--advance setting screen -->
     <string name="advance_setting_title">Cài Đặt Nâng Cao</string>
     <string name="tv_location">Địa điểm</string>
-    <string name="tv_time">Thời gian</string>
+    <string name="setting_time">Thời gian</string>
     <string name="tv_sex">Giới tính</string>
     <string name="tv_age">Độ tuổi</string>
     <string name="tv_notification">Thông báo công việc</string>
@@ -283,4 +283,6 @@
     <string name="edt_max">Max</string>
     <string name="hint_time_start">Thời gian bắt đầu</string>
     <string name="hint_time_done">Thới gian kết thúc</string>
+    <string name="erro_emply_price">Lỗi! bạn chưa nhập giá trị</string>
+    <string name="erro_price">Giá trị bên trái phải bé hơn giá trị bên phải  </string>
 </resources>

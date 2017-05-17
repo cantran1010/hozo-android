@@ -2,7 +2,9 @@ package vn.tonish.hozo.utils;
 
 import android.content.Context;
 
+import java.sql.Time;
 import java.text.DateFormat;
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -159,6 +161,13 @@ public class DateTimeUtils {
     public static String getTimeIso8601(String date, String time) {
         Date dateConverted = convertToDate2(date + " " + time);
         return fromDateIso(dateConverted);
+    }
+
+    public static  String getTime(int hr,int min) {
+        Time tme = new Time(hr,min,0);//seconds by default set to zero
+        Format formatter;
+        formatter = new SimpleDateFormat("h:mm a");
+        return formatter.format(tme);
     }
 
     private static final int SECOND_MILLIS = 1000;
