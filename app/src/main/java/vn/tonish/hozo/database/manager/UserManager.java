@@ -48,9 +48,7 @@ public class UserManager {
 
     public static void insertUserLogin(UserEntity userEntity, Context context) {
         LogUtils.d(TAG, "insertUserLogin : " + userEntity.toString());
-
         deleteAll(context);
-
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(userEntity);

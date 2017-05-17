@@ -5,12 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.List;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.model.TaskType;
+import vn.tonish.hozo.model.Category;
 
 /**
  * Created by CanTran on 5/16/17.
@@ -18,9 +19,9 @@ import vn.tonish.hozo.model.TaskType;
 
 public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHolder> {
 
-    private List<TaskType> taskTypes;
+    private List<Category> taskTypes;
 
-    public TaskTypeAdapter(List<TaskType> taskTypes) {
+    public TaskTypeAdapter(List<Category> taskTypes) {
         this.taskTypes = taskTypes;
 
     }
@@ -36,8 +37,16 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        viewHolder.tvName.setText(taskTypes.get(position).getTaskType());
-        viewHolder.chkSelected.setChecked(taskTypes.get(position).isSelected());
+        final int pos = position;
+        viewHolder.tvName.setText(taskTypes.get(pos).getName());
+        viewHolder.chkSelected.setChecked(taskTypes.get(pos).isSelected());
+        viewHolder.chkSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //set your object's last status
+                taskTypes.get(pos).setSelected(isChecked);
+            }
+        });
 
     }
 

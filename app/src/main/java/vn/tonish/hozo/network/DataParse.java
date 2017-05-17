@@ -122,6 +122,7 @@ public class DataParse {
         categoryEntity.setSuggestTitle(category.getSuggestTitle());
         categoryEntity.setSuggestDescription(category.getSuggestDescription());
         categoryEntity.setPresentPath(category.getPresentPath());
+        categoryEntity.setSelected(category.isSelected());
         return categoryEntity;
     }
 

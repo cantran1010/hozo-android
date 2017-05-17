@@ -1,28 +1,32 @@
-package vn.tonish.hozo.database.entity;
+package vn.tonish.hozo.model;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import java.util.ArrayList;
 
 /**
  * Created by CanTran on 5/17/17.
  */
 
-public class SettingEntiny extends RealmObject implements Serializable {
-    @PrimaryKey
+public class AddvanceSetting implements Serializable {
     private int userId;
-    private RealmList<CategoryEntity> categoryEntities;
+    private ArrayList<Integer> categoryIds;
+    @SerializedName("min_worker_rate")
     private String minWorkerRate;
+    @SerializedName("max_worker_rate")
     private String maxWorkerRate;
     private double latitude;
     private double longitude;
     private String radius;
+    @SerializedName("start_daytime")
     private String startDaytime;
+    @SerializedName("end_daytime")
     private String endaytime;
     private String gender;
+    @SerializedName("min_age")
     private String minAge;
+    @SerializedName("max_age")
     private String maxAge;
     private boolean isNotification;
 
@@ -34,12 +38,13 @@ public class SettingEntiny extends RealmObject implements Serializable {
         this.userId = userId;
     }
 
-    public RealmList<CategoryEntity> getCategoryId() {
-        return categoryEntities;
+
+    public ArrayList<Integer> getCategoryIds() {
+        return categoryIds;
     }
 
-    public void setCategoryId(RealmList<CategoryEntity> categoryId) {
-        this.categoryEntities = categoryId;
+    public void setCategoryIds(ArrayList<Integer> categoryIds) {
+        this.categoryIds = categoryIds;
     }
 
     public String getMinWorkerRate() {
@@ -132,9 +137,9 @@ public class SettingEntiny extends RealmObject implements Serializable {
 
     @Override
     public String toString() {
-        return "SettingEntiny{" +
+        return "AddvanceSetting{" +
                 "userId=" + userId +
-                ", categoryEntities=" + categoryEntities +
+                ", categoryId=" + categoryIds +
                 ", minWorkerRate='" + minWorkerRate + '\'' +
                 ", maxWorkerRate='" + maxWorkerRate + '\'' +
                 ", latitude=" + latitude +

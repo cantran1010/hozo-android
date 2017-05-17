@@ -17,6 +17,7 @@ public class CategoryEntity extends RealmObject implements Serializable{
     private String suggestTitle;
     private String suggestDescription;
     private String presentPath;
+    private boolean isSelected;
 
     public String getSuggestTitle() {
         return suggestTitle;
@@ -64,6 +65,14 @@ public class CategoryEntity extends RealmObject implements Serializable{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     @Override

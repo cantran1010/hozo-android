@@ -3,12 +3,13 @@ package vn.tonish.hozo.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by LongBui on 4/12/17.
  */
 
-public class Category implements Serializable{
+public class Category implements Serializable {
     private int id;
     private String name;
     private String description;
@@ -18,6 +19,16 @@ public class Category implements Serializable{
     private String suggestDescription;
     @SerializedName("avatar")
     private String presentPath;
+    private boolean isSelected;
+    private ArrayList<Category> categories;
+
+    public ArrayList<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(ArrayList<Category> categories) {
+        this.categories = categories;
+    }
 
     public String getSuggestTitle() {
         return suggestTitle;
@@ -65,6 +76,14 @@ public class Category implements Serializable{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     @Override
