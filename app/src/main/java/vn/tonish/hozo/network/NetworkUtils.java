@@ -38,7 +38,7 @@ public class NetworkUtils {
         }
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().refreshToken(UserManager.getUserToken(context), body).enqueue(new Callback<Token>() {
+        ApiClient.getApiService().refreshToken(UserManager.getUserToken(), body).enqueue(new Callback<Token>() {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response) {
                 if (response.code() == 200) {
@@ -49,9 +49,9 @@ public class NetworkUtils {
 
                     LogUtils.d(TAG, "refreshToken token : " + token.toString());
                     //update new token to database - user table
-                    UserManager.getUserLogin(context).setAccessToken(token.getAccessToken());
-                    UserManager.getUserLogin(context).setRefreshToken(token.getRefreshToken());
-                    UserManager.getUserLogin(context).setTokenExp(token.getTokenExpires());
+                    UserManager.getUserLogin().setAccessToken(token.getAccessToken());
+                    UserManager.getUserLogin().setRefreshToken(token.getRefreshToken());
+                    UserManager.getUserLogin().setTokenExp(token.getTokenExpires());
 
                 } else {
                     //log out

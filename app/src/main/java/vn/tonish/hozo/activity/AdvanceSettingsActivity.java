@@ -103,7 +103,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        addvanceSetting.setUserId(UserManager.getUserLogin(this).getId());
+        addvanceSetting.setUserId(UserManager.getUserLogin().getId());
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_TASK_TYPE && data != null) {
             LogUtils.d(TAG, "onActivityResult show Data " + data.getExtras().getIntegerArrayList(Constants.EXTRA_CATEGORY_ID));

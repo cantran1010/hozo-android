@@ -2,11 +2,13 @@ package vn.tonish.hozo.rest.responseRes;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+
 /**
  * Created by LongBui on 5/11/2017.
  */
 
-public class Bidder {
+public class Bidder extends RealmObject{
     private Integer id;
     @SerializedName("full_name")
     private String fullName;

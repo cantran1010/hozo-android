@@ -38,7 +38,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 finish();
-                if (UserManager.checkLogin(SplashActivity.this)) {
+                if (UserManager.checkLogin()) {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class), TransitionScreen.FADE_IN);
                 } else {
                     startActivity(new Intent(SplashActivity.this, HomeActivity.class),TransitionScreen.FADE_IN);

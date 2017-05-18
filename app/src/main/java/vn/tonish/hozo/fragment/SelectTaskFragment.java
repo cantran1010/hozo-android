@@ -55,7 +55,7 @@ public class SelectTaskFragment extends BaseFragment {
     }
 
     private void getCacheData() {
-        categoryEntities = CategoryManager.getAllCategories(getActivity());
+        categoryEntities = CategoryManager.getAllCategories();
         for (int i = 0; i < categoryEntities.size(); i++) {
             categories.add(DataParse.convertCatogoryEntityToCategory(categoryEntities.get(i)));
         }
@@ -66,7 +66,7 @@ public class SelectTaskFragment extends BaseFragment {
 
 //        ProgressDialogUtils.showProgressDialog(getActivity());
 
-        ApiClient.getApiService().getCategories(UserManager.getUserToken(getActivity())).enqueue(new Callback<List<Category>>() {
+        ApiClient.getApiService().getCategories(UserManager.getUserToken()).enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
                 categories = response.body();
@@ -76,8 +76,8 @@ public class SelectTaskFragment extends BaseFragment {
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     refreshCategory();
-                    CategoryManager.deleteAll(getActivity());
-                    CategoryManager.insertCategories(getActivity(), DataParse.convertListCategoryToListCategoryEntity(categories));
+                    CategoryManager.deleteAll();
+                    CategoryManager.insertCategories(DataParse.convertListCategoryToListCategoryEntity(categories));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.RefreshToken(getContext(), new NetworkUtils.RefreshListener() {
                         @Override

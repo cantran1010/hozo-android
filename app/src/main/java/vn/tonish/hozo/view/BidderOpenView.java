@@ -103,7 +103,7 @@ public class BidderOpenView extends LinearLayout {
                 RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
                 LogUtils.d(TAG, "acceptOffer jsonRequest : " + jsonRequest.toString());
 
-                ApiClient.getApiService().acceptOffer(UserManager.getUserToken(getContext()), bidder.getId(),body).enqueue(new Callback<AcceptOfferResponse>() {
+                ApiClient.getApiService().acceptOffer(UserManager.getUserToken(), bidder.getId(),body).enqueue(new Callback<AcceptOfferResponse>() {
                     @Override
                     public void onResponse(Call<AcceptOfferResponse> call, Response<AcceptOfferResponse> response) {
                         LogUtils.d(TAG, "acceptOffer code : " + response.code());
