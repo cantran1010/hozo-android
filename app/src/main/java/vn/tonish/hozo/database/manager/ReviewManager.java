@@ -35,7 +35,7 @@ public class ReviewManager {
     }
 
     public static List<ReviewEntity> getAllReview(){
-        LogUtils.d(TAG, "getUserLogin start ");
+        LogUtils.d(TAG, "List<ReviewEntity> start ");
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         // get last update
         return realm.where(ReviewEntity.class).findAll();

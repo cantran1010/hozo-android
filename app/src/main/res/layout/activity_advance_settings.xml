@@ -101,9 +101,9 @@
                             android:textColor="@color/text_advance_label" />
 
                         <vn.tonish.hozo.view.TextViewHozo
-                            android:layout_width="200dp"
                             android:id="@+id/tv_work_type"
                             style="@style/tv_advance_setting"
+                            android:layout_width="200dp"
                             android:ellipsize="end"
                             android:gravity="right"
                             android:maxLines="1" />
@@ -124,9 +124,9 @@
                             android:textColor="@color/text_advance_label" />
 
                         <vn.tonish.hozo.view.TextViewHozo
-                            android:layout_width="match_parent"
                             android:id="@+id/tv_price"
                             style="@style/tv_advance_setting"
+                            android:layout_width="match_parent"
                             android:gravity="right" />
                     </TableRow>
 
@@ -142,10 +142,11 @@
                             android:textColor="@color/text_advance_label" />
 
                         <vn.tonish.hozo.view.TextViewHozo
-                            android:layout_width="match_parent"
                             android:id="@+id/tv_location"
                             style="@style/tv_advance_setting"
-                            android:gravity="right" />
+                            android:ellipsize="end"
+                            android:gravity="right"
+                            android:maxLines="1" />
 
                     </TableRow>
 

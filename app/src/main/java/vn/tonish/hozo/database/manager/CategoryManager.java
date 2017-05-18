@@ -33,6 +33,8 @@ public class CategoryManager {
         return realm.where(CategoryEntity.class).findAll();
     }
 
+
+
     public static CategoryEntity getCategoryById(Context context, int id) {
         LogUtils.d(TAG, "getAllCategories start ");
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
