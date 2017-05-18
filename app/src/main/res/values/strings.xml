@@ -298,4 +298,5 @@
     <string name="title_cancel_offer">Hủy ứng tuyển</string>
     <string name="content_cancel_offer">Bạn có muốn hủy việc đã ứng tuyển ?</string>
     <string name="cancel_offer">Hủy</string>
+    <string name="brower_task_map_activity">Tìm việc gần đây</string>
 </resources>
