@@ -19,12 +19,9 @@ public class SettingEntiny extends RealmObject implements Serializable {
     private double latitude;
     private double longitude;
     private String radius;
-    private String startDaytime;
-    private String endaytime;
     private String gender;
     private String minAge;
     private String maxAge;
-    private boolean isNotification;
 
     public int getUserId() {
         return userId;
@@ -82,22 +79,6 @@ public class SettingEntiny extends RealmObject implements Serializable {
         this.radius = radius;
     }
 
-    public String getStartDaytime() {
-        return startDaytime;
-    }
-
-    public void setStartDaytime(String startDaytime) {
-        this.startDaytime = startDaytime;
-    }
-
-    public String getEndaytime() {
-        return endaytime;
-    }
-
-    public void setEndaytime(String endaytime) {
-        this.endaytime = endaytime;
-    }
-
     public String getGender() {
         return gender;
     }
@@ -122,14 +103,6 @@ public class SettingEntiny extends RealmObject implements Serializable {
         this.maxAge = maxAge;
     }
 
-    public boolean isNotification() {
-        return isNotification;
-    }
-
-    public void setNotification(boolean notification) {
-        isNotification = notification;
-    }
-
     @Override
     public String toString() {
         return "SettingEntiny{" +
@@ -140,12 +113,9 @@ public class SettingEntiny extends RealmObject implements Serializable {
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", radius='" + radius + '\'' +
-                ", startDaytime='" + startDaytime + '\'' +
-                ", endaytime='" + endaytime + '\'' +
                 ", gender='" + gender + '\'' +
                 ", minAge='" + minAge + '\'' +
                 ", maxAge='" + maxAge + '\'' +
-                ", isNotification=" + isNotification +
                 '}';
     }
 }

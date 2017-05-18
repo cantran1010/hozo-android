@@ -1,61 +1,93 @@
 package vn.tonish.hozo.model;
 
+import java.util.List;
+
 /**
  * Created by CanTran on 5/16/17.
  */
 
 public class TaskSetting {
-    private String taskType;
-    private String price;
-    private String location;
-    private String time;
+    private int userId;
+    private List<Category> categoryEntities;
+    private String minWorkerRate;
+    private String maxWorkerRate;
+    private double latitude;
+    private double longitude;
+    private String radius;
     private String gender;
-    private String age;
-    private boolean isNotification;
+    private String minAge;
+    private String maxAge;
 
     public TaskSetting() {
     }
 
-    public TaskSetting(String taskType, String price, String location, String time, String gender, String age, boolean isNotification) {
-        this.taskType = taskType;
-        this.price = price;
-        this.location = location;
-        this.time = time;
+    public TaskSetting(int userId, List<Category> categoryEntities, String minWorkerRate, String maxWorkerRate, double latitude, double longitude, String radius, String gender, String minAge, String maxAge) {
+        this.userId = userId;
+        this.categoryEntities = categoryEntities;
+        this.minWorkerRate = minWorkerRate;
+        this.maxWorkerRate = maxWorkerRate;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.radius = radius;
         this.gender = gender;
-        this.age = age;
-        this.isNotification = isNotification;
+        this.minAge = minAge;
+        this.maxAge = maxAge;
     }
 
-    public String getTaskType() {
-        return taskType;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setTaskType(String taskType) {
-        this.taskType = taskType;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getPrice() {
-        return price;
+    public List<Category> getCategoryEntities() {
+        return categoryEntities;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setCategoryEntities(List<Category> categoryEntities) {
+        this.categoryEntities = categoryEntities;
     }
 
-    public String getLocation() {
-        return location;
+    public String getMinWorkerRate() {
+        return minWorkerRate;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setMinWorkerRate(String minWorkerRate) {
+        this.minWorkerRate = minWorkerRate;
     }
 
-    public String getTime() {
-        return time;
+    public String getMaxWorkerRate() {
+        return maxWorkerRate;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setMaxWorkerRate(String maxWorkerRate) {
+        this.maxWorkerRate = maxWorkerRate;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getRadius() {
+        return radius;
+    }
+
+    public void setRadius(String radius) {
+        this.radius = radius;
     }
 
     public String getGender() {
@@ -66,19 +98,35 @@ public class TaskSetting {
         this.gender = gender;
     }
 
-    public String getAge() {
-        return age;
+    public String getMinAge() {
+        return minAge;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+    public void setMinAge(String minAge) {
+        this.minAge = minAge;
     }
 
-    public boolean isNotification() {
-        return isNotification;
+    public String getMaxAge() {
+        return maxAge;
     }
 
-    public void setNotification(boolean notification) {
-        isNotification = notification;
+    public void setMaxAge(String maxAge) {
+        this.maxAge = maxAge;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskSetting{" +
+                "userId=" + userId +
+                ", categoryEntities=" + categoryEntities +
+                ", minWorkerRate='" + minWorkerRate + '\'' +
+                ", maxWorkerRate='" + maxWorkerRate + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", radius='" + radius + '\'' +
+                ", gender='" + gender + '\'' +
+                ", minAge='" + minAge + '\'' +
+                ", maxAge='" + maxAge + '\'' +
+                '}';
     }
 }

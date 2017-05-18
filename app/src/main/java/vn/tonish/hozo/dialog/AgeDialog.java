@@ -34,7 +34,7 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
     private static final int minAge = 18;
     private static final int maxAge = 80;
 
-    public AgeDialog(@NonNull Context context) {
+    public  AgeDialog(@NonNull Context context) {
         super(context);
     }
 

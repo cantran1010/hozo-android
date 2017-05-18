@@ -15,28 +15,31 @@ public class CategoryManager {
 
     private static final String TAG = CategoryManager.class.getName();
 
-    public static void insertCategories(Context context,List<CategoryEntity> categories){
+    public static void insertCategories(Context context, List<CategoryEntity> categories) {
         LogUtils.d(TAG, "insertCategories start ");
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         realm.beginTransaction();
 
-        for (int i=0;i<categories.size();i++){
+        for (int i = 0; i < categories.size(); i++) {
             realm.insertOrUpdate(categories.get(i));
         }
 
         realm.commitTransaction();
     }
 
-    public static List<CategoryEntity> getAllCategories(Context context){
+    public static List<CategoryEntity> getAllCategories(Context context) {
         LogUtils.d(TAG, "getAllCategories start ");
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         return realm.where(CategoryEntity.class).findAll();
     }
-    public static CategoryEntity getCategoryById(Context context,int id){
+
+    public static CategoryEntity getCategoryById(Context context, int id) {
         LogUtils.d(TAG, "getAllCategories start ");
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
-        return realm.where(CategoryEntity.class).equalTo("id",id).findFirst();
+        return realm.where(CategoryEntity.class).equalTo("id", id).findFirst();
     }
+
+
 
     public static void deleteAll(Context context) {
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));

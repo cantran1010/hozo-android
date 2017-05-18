@@ -128,12 +128,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.setting.TimeSettingActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.setting.AgeSettingActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.PreviewImageListActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -142,12 +136,10 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.other.AboutActivity" />
         <activity android:name=".activity.other.ConditionActivity" />
-        <activity android:name=".activity.setting.FeeActivity" />
         <activity android:name=".activity.other.HistoryActivity" />
         <activity android:name=".activity.other.InfoActivity" />
         <activity android:name=".activity.other.NADActivity" />
         <activity android:name=".activity.other.PaymentActivity" />
-        <activity android:name=".activity.setting.SexActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -182,10 +174,6 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.setting.TaskTypeActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activity.setting.PriceSettingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
     </application>
