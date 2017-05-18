@@ -175,7 +175,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 LogUtils.d(TAG, "onResponse status code : " + response.code());
                 LogUtils.d(TAG, "onResponse body : " + response.body());
 
-                if (response.code() == 204) {
+                if (response.code() == 200) {
                     Bundle bundle = new Bundle();
                     bundle.putString(Constants.USER_MOBILE, finalMobile);
                     openFragment(R.id.layout_container, OtpFragment.class, bundle, false, TransitionScreen.RIGHT_TO_LEFT);

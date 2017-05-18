@@ -14,7 +14,7 @@ import android.view.Window;
  */
 abstract class BaseDialog extends Dialog {
 
-    BaseDialog(@NonNull Context context) {
+    public BaseDialog(@NonNull Context context) {
         super(context);
     }
 

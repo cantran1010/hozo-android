@@ -101,8 +101,12 @@
                             android:textColor="@color/text_advance_label" />
 
                         <vn.tonish.hozo.view.TextViewHozo
+                            android:layout_width="200dp"
                             android:id="@+id/tv_work_type"
-                            style="@style/tv_advance_setting" />
+                            style="@style/tv_advance_setting"
+                            android:ellipsize="end"
+                            android:gravity="right"
+                            android:maxLines="1" />
 
                     </TableRow>
 
@@ -120,8 +124,10 @@
                             android:textColor="@color/text_advance_label" />
 
                         <vn.tonish.hozo.view.TextViewHozo
+                            android:layout_width="match_parent"
                             android:id="@+id/tv_price"
-                            style="@style/tv_advance_setting" />
+                            style="@style/tv_advance_setting"
+                            android:gravity="right" />
                     </TableRow>
 
                     <include layout="@layout/line" />
@@ -136,32 +142,34 @@
                             android:textColor="@color/text_advance_label" />
 
                         <vn.tonish.hozo.view.TextViewHozo
+                            android:layout_width="match_parent"
                             android:id="@+id/tv_location"
-                            style="@style/tv_advance_setting" />
+                            style="@style/tv_advance_setting"
+                            android:gravity="right" />
 
                     </TableRow>
 
                     <include layout="@layout/line" />
 
                     <TableRow
-
-                        android:id="@+id/tab_time"
+                        android:id="@+id/tab_radius"
                         android:layout_height="50dp">
 
                         <vn.tonish.hozo.view.TextViewHozo
                             style="@style/tv_advance_setting"
-                            android:text="@string/setting_time"
+                            android:text="@string/tv_radius"
                             android:textColor="@color/text_advance_label" />
 
                         <vn.tonish.hozo.view.TextViewHozo
-                            android:id="@+id/tv_time"
-                            style="@style/tv_advance_setting" />
-
+                            android:id="@+id/tv_radius"
+                            style="@style/tv_advance_setting"
+                            android:gravity="right"
+                            android:padding="16dp" />
 
                     </TableRow>
 
-
                     <include layout="@layout/line" />
+
 
                     <TableRow
                         android:id="@+id/tab_gender"
@@ -175,49 +183,8 @@
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_gender"
                             style="@style/tv_advance_setting"
+                            android:gravity="right"
                             android:padding="16dp" />
-
-                    </TableRow>
-
-
-                    <include layout="@layout/line" />
-
-                    <TableRow
-                        android:id="@+id/tab_age"
-                        android:layout_height="50dp">
-
-                        <vn.tonish.hozo.view.TextViewHozo
-                            style="@style/tv_advance_setting"
-                            android:text="@string/tv_age"
-                            android:textColor="@color/text_advance_label" />
-
-                        <vn.tonish.hozo.view.TextViewHozo
-                            android:id="@+id/tv_age"
-                            style="@style/tv_advance_setting" />
-
-
-                    </TableRow>
-
-                    <include layout="@layout/line" />
-
-                    <TableRow
-                        android:id="@+id/tab_notification"
-                        android:layout_height="50dp">
-
-                        <vn.tonish.hozo.view.TextViewHozo
-                            style="@style/tv_advance_setting"
-                            android:text="@string/tv_notification"
-                            android:textColor="@color/text_advance_label" />
-
-
-                        <android.support.v7.widget.SwitchCompat
-                            android:id="@+id/sw_notification"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="16dp"
-                            android:checked="true"
-                            android:theme="@style/MySwitch" />
 
                     </TableRow>
 
