@@ -99,7 +99,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
     private ImageView imgComment;
 
-    private int taskId = 0;
+    private int taskId = 123;
     private GoogleMap googleMap;
     private int tempId = 0;
     private File fileAttach;
@@ -196,8 +196,8 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taskResponse = response.body().get(0);
-                    storeTaskToDatabase();
                     updateUi();
+                    storeTaskToDatabase();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.RefreshToken(MakeAnOfferActivity.this, new NetworkUtils.RefreshListener() {
                         @Override

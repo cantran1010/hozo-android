@@ -30,7 +30,7 @@ public class CompleteView extends LinearLayout {
     private TextViewHozo tvName, tvTimeAgo, tvPrice;
     private RatingBar rbRate;
     private ButtonHozo btnRate;
-    private Assigner assigner;
+    private int taskId;
 
     public CompleteView(Context context) {
         super(context);
@@ -67,7 +67,6 @@ public class CompleteView extends LinearLayout {
 
     public void updateData(final Assigner assigner) {
         LogUtils.d(TAG, "updateData bidder : " + assigner.toString());
-        this.assigner = assigner;
         Utils.displayImageAvatar(getContext(), imgAvatar, assigner.getAvatar());
         tvName.setText(assigner.getFullName());
         rbRate.setRating(assigner.getTaskerAverageRating());
@@ -77,9 +76,18 @@ public class CompleteView extends LinearLayout {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), RateActivity.class);
-                intent.putExtra(Constants.DATA,assigner);
+                intent.putExtra(Constants.TASK_ID_EXTRA, getTaskId());
+                intent.putExtra(Constants.USER_ID_EXTRA, assigner.getId());
                 getContext().startActivity(intent);
             }
         });
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
     }
 }

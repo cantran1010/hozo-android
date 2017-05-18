@@ -44,11 +44,14 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.CompleteAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.entity.TaskEntity;
+import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
+import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.Assigner;
@@ -160,6 +163,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
         workDetailView.updateStatus(getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
         workDetailView.updateBtnOffer(false);
         workDetailView.updateBtnCallRate(false, false, "");
+        useCacheData();
         getData();
     }
 
@@ -172,6 +176,14 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
     protected void onPause() {
         super.onPause();
         unregisterReceiver(broadcastReceiver);
+    }
+
+    private void useCacheData() {
+        TaskEntity taskEntity = TaskManager.getTaskById(this, 123);
+        if (taskEntity != null) {
+            taskResponse = DataParse.converTaskEntityToTaskReponse(taskEntity);
+            updateUi();
+        }
     }
 
     private void getData() {
@@ -188,31 +200,8 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taskResponse = response.body().get(0);
-                    workDetailView.updateWork(taskResponse);
-
-                    if (googleMap != null) {
-                        LatLng latLng = new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude());
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
-
-                        // create marker
-                        MarkerOptions marker = new MarkerOptions().position(new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
-                        googleMap.addMarker(marker);
-                    }
-
-                    //update assigners list
-                    assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
-
-                    for(int i=0;i<assigners.size();i++){
-                        assigners.get(i).setTaskId(taskId);
-                    }
-
-                    refreshAssignerList();
-
-                    //update comments
-                    comments = (ArrayList<Comment>) taskResponse.getComments();
-                    commentViewFull.updateData(comments);
-
-
+                    updateUi();
+                    storeTaskToDatabase();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.RefreshToken(PosterCompletedTaskActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -256,8 +245,36 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
 
     }
 
+    private void storeTaskToDatabase() {
+        TaskEntity taskEntity = DataParse.converTaskReponseToTaskEntity(taskResponse);
+        TaskManager.insertTask(taskEntity);
+    }
+
+    private void updateUi(){
+        workDetailView.updateWork(taskResponse);
+
+        if (googleMap != null) {
+            LatLng latLng = new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude());
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
+
+            // create marker
+            MarkerOptions marker = new MarkerOptions().position(new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
+            googleMap.addMarker(marker);
+        }
+
+        //update assigners list
+        assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
+
+        refreshAssignerList();
+
+        //update comments
+        comments = (ArrayList<Comment>) taskResponse.getComments();
+        commentViewFull.updateData(comments);
+    }
+
     private void refreshAssignerList() {
         completeAdapter = new CompleteAdapter(assigners);
+        completeAdapter.setTaskId(taskId);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvAssign.setLayoutManager(linearLayoutManager);
         rcvAssign.setAdapter(completeAdapter);

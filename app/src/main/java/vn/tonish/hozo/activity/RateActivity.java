@@ -18,7 +18,6 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
-import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.RateResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -37,7 +36,7 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
     private TextViewHozo tvRateContent;
     private RatingBar ratingBar;
     private ButtonHozo btnRate;
-    private Assigner assigner;
+    private int taskId, userId;
 
     @Override
     protected int getLayout() {
@@ -56,10 +55,11 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
+
+        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
+        userId = getIntent().getIntExtra(Constants.USER_ID_EXTRA, 0);
+
         ratingBar.setStepSize(1.0f);
-
-        assigner = (Assigner) getIntent().getSerializableExtra(Constants.DATA);
-
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,
                                         boolean fromUser) {
@@ -112,7 +112,7 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
         ProgressDialogUtils.showProgressDialog(this);
         final JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put("user_id", assigner.getId());
+            jsonRequest.put("user_id", userId);
             jsonRequest.put("body", tvRateContent.getText().toString());
             jsonRequest.put("rating", ratingBar.getRating());
         } catch (JSONException e) {
@@ -121,7 +121,7 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
 
         LogUtils.d(TAG, "doRate data request : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().rateTask(UserManager.getUserToken(), assigner.getTaskId(), body).enqueue(new Callback<RateResponse>() {
+        ApiClient.getApiService().rateTask(UserManager.getUserToken(), taskId, body).enqueue(new Callback<RateResponse>() {
             @Override
             public void onResponse(Call<RateResponse> call, Response<RateResponse> response) {
                 LogUtils.d(TAG, "doRate code : " + response.code());

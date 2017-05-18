@@ -78,6 +78,10 @@ public class Constants {
     public static final String IMAGE_ATTACHS_EXTRA = "image_attachs_extra";
     public static final String IMAGE_POSITITON_EXTRA = "position_extra";
     public static final String COMMENT_EXTRA = "comment_extra";
+    public static final String TASK_ID_EXTRA = "task_id_extra";
+    public static final String USER_ID_EXTRA = "user_id_extra";
+    public static final String COMMENT_ID_EXTRA = "comment_id_extra";
+    public static final String TASK_STATUS_EXTRA = "task_status_extra";
     public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
 
     public static final String USER_POSTER_REVIEWS = "poster_reviews";

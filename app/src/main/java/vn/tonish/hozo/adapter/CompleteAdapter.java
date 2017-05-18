@@ -18,6 +18,15 @@ import vn.tonish.hozo.view.CompleteView;
 public class CompleteAdapter extends RecyclerView.Adapter<CompleteAdapter.MyViewHolder> {
 
     private ArrayList<Assigner> assigners;
+    private int taskId;
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
 
     public CompleteAdapter(ArrayList<Assigner> assigners) {
         this.assigners = assigners;
@@ -32,6 +41,7 @@ public class CompleteAdapter extends RecyclerView.Adapter<CompleteAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        holder.completeView.setTaskId(getTaskId());
         holder.completeView.updateData(assigners.get(position));
     }
 

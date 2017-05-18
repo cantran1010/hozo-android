@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".activity.WorkerOfferMadeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -115,18 +115,18 @@
             <!--android:name=".activity.PosterCompletedTaskActivity"-->
             <!--android:screenOrientation="portrait"-->
             <!--android:windowSoftInputMode="stateHidden" />-->
-        <activity
-            android:name=".activity.WorkerOfferMadeActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activity.WorkerAcceptedTaskActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activity.WorkerDoneTaskActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+        <!--<activity-->
+            <!--android:name=".activity.WorkerOfferMadeActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:windowSoftInputMode="stateHidden" />-->
+        <!--<activity-->
+            <!--android:name=".activity.WorkerAcceptedTaskActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:windowSoftInputMode="stateHidden" />-->
+        <!--<activity-->
+            <!--android:name=".activity.WorkerDoneTaskActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:windowSoftInputMode="stateHidden" />-->
         <activity
             android:name=".activity.setting.TimeSettingActivity"
             android:screenOrientation="portrait" />

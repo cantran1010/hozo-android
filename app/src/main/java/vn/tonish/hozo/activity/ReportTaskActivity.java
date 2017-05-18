@@ -15,7 +15,6 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
-import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
@@ -34,8 +33,8 @@ public class ReportTaskActivity extends BaseActivity implements View.OnClickList
 
     private ButtonHozo btnReport;
     private EdittextHozo edtContent;
-    private Comment comment;
     private ImageView imgClose;
+    private int commentId;
 
     @Override
     protected int getLayout() {
@@ -56,7 +55,7 @@ public class ReportTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initData() {
-        comment = (Comment) getIntent().getSerializableExtra(Constants.COMMENT_EXTRA);
+        commentId = getIntent().getIntExtra(Constants.COMMENT_ID_EXTRA, 0);
     }
 
     @Override
@@ -91,7 +90,7 @@ public class ReportTaskActivity extends BaseActivity implements View.OnClickList
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
 
-        ApiClient.getApiService().report(UserManager.getUserToken(), comment.getId(), body).enqueue(new Callback<Void>() {
+        ApiClient.getApiService().report(UserManager.getUserToken(), commentId, body).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 LogUtils.d(TAG, "report , body : " + response.body());
