@@ -2,9 +2,9 @@ package vn.tonish.hozo.database.manager;
 
 import android.content.Context;
 
-import java.util.List;
-
 import io.realm.Realm;
+import io.realm.RealmList;
+import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.entity.SettingEntiny;
 import vn.tonish.hozo.utils.LogUtils;
 
@@ -14,26 +14,39 @@ import vn.tonish.hozo.utils.LogUtils;
 
 public class SettingManager {
     private static final String TAG = CategoryManager.class.getName();
-    public static Context context;
-
-
-    public static void insertCategories(Context context, List<SettingEntiny> settingEntinies) {
-        LogUtils.d(TAG, "insertSettingEntinies start ");
+    public static void insertSetting(SettingEntiny settingEntiny, Context context) {
+        LogUtils.d(TAG, "insertSetting : " + settingEntiny.toString());
+        deleteAll(context);
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         realm.beginTransaction();
-
-        for (int i = 0; i < settingEntinies.size(); i++) {
-            realm.insertOrUpdate(settingEntinies.get(i));
-        }
-
+        realm.copyToRealmOrUpdate(settingEntiny);
         realm.commitTransaction();
     }
 
-    public static List<SettingEntiny> getAllCategories(Context context) {
-        LogUtils.d(TAG, "getAllSettingEntiniesstart ");
+    public static SettingEntiny getSettingEntiny(Context context) {
+        LogUtils.d(TAG, "getSettingEntiny ");
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
-        return realm.where(SettingEntiny.class).findAll();
+        // get last update
+        SettingEntiny settingEntiny = realm.where(SettingEntiny.class).findFirst();
+        if (settingEntiny != null)
+            LogUtils.d(TAG, "getSettingEntiny : " + settingEntiny.toString());
+        return settingEntiny;
     }
+
+    public static RealmList<CategoryEntity> getRealmListCategoryEntity(Context context) {
+        RealmList<CategoryEntity> categoryEntities=new RealmList<>();
+        LogUtils.d(TAG, "getUserLogin start ");
+        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
+        // get last update
+        SettingEntiny settingEntiny;
+        if (realm.where(SettingEntiny.class) != null) {
+            settingEntiny = realm.where(SettingEntiny.class).findFirst();
+            categoryEntities=settingEntiny.getCategoryEntities();
+        }
+        return categoryEntities;
+
+    }
+
 
     public static void deleteAll(Context context) {
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));

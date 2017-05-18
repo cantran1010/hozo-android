@@ -32,7 +32,6 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
     private TaskTypeAdapter mAdapter;
     private ButtonHozo btnReset, btnSave;
     private ArrayList<Category> taskTypes;
-    private ArrayList<Integer> ids = new ArrayList<>();
 
 
     @Override
@@ -91,15 +90,16 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
         }
         List<CategoryEntity> categoryEntities = new ArrayList<>();
         categoryEntities.addAll(convertListCategoryToListCategoryEntity(taskTypes));
-        CategoryManager.insertCategories(categoryEntities);
+        CategoryManager.insertCategories(this, categoryEntities);
         mAdapter.notifyDataSetChanged();
     }
 
     public List<Category> getTaskTypes() {
-        for (int i = 0; i < CategoryManager.getAllCategories().size(); i++) {
+        LogUtils.d("inser data UserEntity : ", "" + CategoryManager.getAllCategories(TaskTypeActivity.this).size());
+        for (int i = 0; i < CategoryManager.getAllCategories(TaskTypeActivity.this).size(); i++) {
             Category taskType = new Category();
-            taskType.setId(CategoryManager.getAllCategories().get(i).getId());
-            taskType.setName(CategoryManager.getAllCategories().get(i).getName());
+            taskType.setId(CategoryManager.getAllCategories(TaskTypeActivity.this).get(i).getId());
+            taskType.setName(CategoryManager.getAllCategories(TaskTypeActivity.this).get(i).getName());
             taskType.setSelected(false);
             taskTypes.add(taskType);
         }
@@ -108,16 +108,17 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
 
 
     private void saveData() {
+        List<Category> categories = new ArrayList<>();
         Intent intent = new Intent();
         for (int i = 0; i < taskTypes.size(); i++) {
             if (taskTypes.get(i).isSelected()) {
-                ids.add(taskTypes.get(i).getId());
+                categories.add(taskTypes.get(i));
+
             }
         }
         Category category = new Category();
-        category.setCategories(taskTypes);
-        LogUtils.d(TAG, "show categoryId size" + ids.size());
-        intent.putIntegerArrayListExtra(Constants.EXTRA_CATEGORY_ID, ids);
+        category.setCategories((ArrayList<Category>) categories);
+        intent.putExtra(Constants.EXTRA_CATEGORY_ID, category);
         setResult(Constants.REQUEST_CODE_TASK_TYPE, intent);
         finish();//finishing
     }
