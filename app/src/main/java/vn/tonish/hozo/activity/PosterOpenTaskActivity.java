@@ -45,11 +45,14 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.AssignerCallAdapter;
 import vn.tonish.hozo.adapter.PosterOpenAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.entity.TaskEntity;
+import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
+import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.Assigner;
@@ -100,7 +103,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
     private ImageView imgComment;
 
-    private int taskId = 0;
+    private int taskId = 123;
     private GoogleMap googleMap;
     private int tempId = 0;
     private File fileAttach;
@@ -166,7 +169,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         workDetailView.updateStatus(getString(R.string.update_task), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
         workDetailView.updateBtnOffer(false);
         workDetailView.updateBtnCallRate(false, false, "");
-
+        useCacheData();
         getData();
     }
 
@@ -179,6 +182,14 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     protected void onPause() {
         super.onPause();
         unregisterReceiver(broadcastReceiver);
+    }
+
+    private void useCacheData() {
+        TaskEntity taskEntity = TaskManager.getTaskById(this, 123);
+        if (taskEntity != null) {
+            taskResponse = DataParse.converTaskEntityToTaskReponse(taskEntity);
+            updateUi();
+        }
     }
 
     private void getData() {
@@ -195,30 +206,8 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taskResponse = response.body().get(0);
-                    workDetailView.updateWork(taskResponse);
-
-                    if (googleMap != null) {
-                        LatLng latLng = new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude());
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
-
-                        // create marker
-                        MarkerOptions marker = new MarkerOptions().position(new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
-                        googleMap.addMarker(marker);
-                    }
-
-                    // update bidder list
-                    bidders = (ArrayList<Bidder>) taskResponse.getBidders();
-                    refreshBidderList();
-
-                    //update assigners list
-                    assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
-                    refreshAssignerList();
-
-                    //update comments
-                    comments = (ArrayList<Comment>) taskResponse.getComments();
-                    commentViewFull.updateData(comments);
-
-
+                    updateUi();
+                    storeTaskToDatabase();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.RefreshToken(PosterOpenTaskActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -260,6 +249,36 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
             }
         });
 
+    }
+
+    private void storeTaskToDatabase() {
+        TaskEntity taskEntity = DataParse.converTaskReponseToTaskEntity(taskResponse);
+        TaskManager.insertTask(taskEntity);
+    }
+
+    private void updateUi(){
+        workDetailView.updateWork(taskResponse);
+
+        if (googleMap != null) {
+            LatLng latLng = new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude());
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
+
+            // create marker
+            MarkerOptions marker = new MarkerOptions().position(new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
+            googleMap.addMarker(marker);
+        }
+
+        // update bidder list
+        bidders = (ArrayList<Bidder>) taskResponse.getBidders();
+        refreshBidderList();
+
+        //update assigners list
+        assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
+        refreshAssignerList();
+
+        //update comments
+        comments = (ArrayList<Comment>) taskResponse.getComments();
+        commentViewFull.updateData(comments);
     }
 
     private void refreshAssignerList() {

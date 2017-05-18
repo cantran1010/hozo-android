@@ -295,4 +295,7 @@
     <string name="rate_content_4_star">Khá tốt !</string>
     <string name="rate_content_5_star">Rất hài lòng !</string>
     <string name="rate_msg_no_content_error">Vui lòng xếp hạng</string>
+    <string name="title_cancel_offer">Hủy ứng tuyển</string>
+    <string name="content_cancel_offer">Bạn có muốn hủy việc đã ứng tuyển ?</string>
+    <string name="cancel_offer">Hủy</string>
 </resources>

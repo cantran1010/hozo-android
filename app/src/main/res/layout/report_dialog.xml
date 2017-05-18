@@ -5,7 +5,7 @@
     android:layout_gravity="center"
     android:background="@drawable/alert_dialog_bg"
     android:orientation="vertical"
-    android:paddingBottom="20dp"
+    android:paddingBottom="10dp"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
     android:paddingTop="20dp">
@@ -74,8 +74,11 @@
             android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/btn_back_selector"
+            android:paddingBottom="5dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
+            android:paddingTop="5dp"
             android:text="@string/report_cancel"
             android:textColor="@color/hozo_red" />
 
@@ -83,8 +86,11 @@
             android:id="@+id/tv_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/btn_back_selector"
+            android:paddingBottom="5dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
+            android:paddingTop="5dp"
             android:text="@string/report_ok"
             android:textColor="@color/hozo_bg" />
 

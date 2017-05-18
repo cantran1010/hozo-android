@@ -21,15 +21,6 @@ public class Assigner extends RealmObject implements Serializable{
     @SerializedName("bidded_at")
     private String biddedAt;
     private String phone;
-    private int taskId;
-
-    public int getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
-    }
 
     public Integer getId() {
         return id;

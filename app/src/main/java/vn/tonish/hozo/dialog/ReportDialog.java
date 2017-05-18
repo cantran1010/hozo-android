@@ -101,7 +101,7 @@ public class ReportDialog extends BaseDialog implements View.OnClickListener {
             case R.id.rb_other:
                 hideView();
                 Intent intent = new Intent(getContext(), ReportTaskActivity.class);
-                intent.putExtra(Constants.COMMENT_EXTRA, comment);
+                intent.putExtra(Constants.COMMENT_ID_EXTRA, comment.getId());
                 getContext().startActivity(intent);
                 break;
 

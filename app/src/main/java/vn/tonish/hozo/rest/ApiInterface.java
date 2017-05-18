@@ -21,6 +21,7 @@ import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.rest.responseRes.AcceptOfferResponse;
 import vn.tonish.hozo.rest.responseRes.BidResponse;
+import vn.tonish.hozo.rest.responseRes.CancelOfferResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.RateResponse;
@@ -83,5 +84,9 @@ public interface ApiInterface {
 
     @POST("tasks/{taskId}/reviews")
     Call<RateResponse> rateTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
+
+    @POST("bids/{bidId}")
+    Call<CancelOfferResponse> cancelOffer(@Header("Authorization") String token, @Path("bidId") int bidId, @Body RequestBody body);
+
 
 }
