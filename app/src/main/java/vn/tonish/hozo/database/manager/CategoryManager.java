@@ -30,9 +30,10 @@ public class CategoryManager {
         Realm realm = Realm.getDefaultInstance();
         return realm.where(CategoryEntity.class).findAll();
     }
-    public static CategoryEntity getCategoryById(Context context,int id){
+
+    public static CategoryEntity getCategoryById(int id){
         LogUtils.d(TAG, "getAllCategories start ");
-        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
+        Realm realm = Realm.getDefaultInstance();
         return realm.where(CategoryEntity.class).equalTo("id",id).findFirst();
     }
 
