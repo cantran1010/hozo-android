@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.BrowerTaskMapActivity"
+            android:name=".activity.other.GeneralInfoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -103,6 +103,7 @@
             android:name=".activity.MakeAnOfferActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+
         <activity
             android:name=".activity.PosterOpenTaskActivity"
             android:screenOrientation="portrait"
