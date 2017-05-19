@@ -1,31 +1,26 @@
-package vn.tonish.hozo.model;
+package vn.tonish.hozo.database.entity;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
+import java.util.Date;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by Can Tran on 12/04/2017.
+ * Created by LongBui on 5/19/17.
  */
 
-public class Notification extends RealmObject implements Serializable {
+public class NotificationEntity extends RealmObject {
 
+    @PrimaryKey
     private Integer id;
-    @SerializedName("user_id")
     private Integer userId;
-    @SerializedName("full_name")
     private String fullName;
     private String avatar;
-    @SerializedName("task_id")
     private Integer taskId;
-    @SerializedName("task_name")
     private String taskName;
     private String event;
     private Boolean read;
-    @SerializedName("created_at")
-    private String createdAt;
+    private Date createdAt;
 
     public Integer getId() {
         return id;
@@ -49,6 +44,14 @@ public class Notification extends RealmObject implements Serializable {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Integer getTaskId() {
@@ -83,35 +86,11 @@ public class Notification extends RealmObject implements Serializable {
         this.read = read;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    @Override
-    public String toString() {
-        return "Notification{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", fullName='" + fullName + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", taskId=" + taskId +
-                ", taskName='" + taskName + '\'' +
-                ", event='" + event + '\'' +
-                ", read=" + read +
-                ", createdAt='" + createdAt + '\'' +
-                '}';
-    }
-
 }

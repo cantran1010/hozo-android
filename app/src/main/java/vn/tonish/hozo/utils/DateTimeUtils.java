@@ -117,7 +117,7 @@ public class DateTimeUtils {
     /**
      * Transform Calendar to ISO 8601 string.
      */
-    private static String fromDateIso(Date date) {
+    public static String fromDateIso(Date date) {
         String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US)
                 .format(date);
         return formatted.substring(0, 22) + ":" + formatted.substring(22);

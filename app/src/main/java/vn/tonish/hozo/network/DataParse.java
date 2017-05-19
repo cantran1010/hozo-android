@@ -10,6 +10,7 @@ import java.util.List;
 
 import io.realm.RealmList;
 import vn.tonish.hozo.database.entity.CategoryEntity;
+import vn.tonish.hozo.database.entity.NotificationEntity;
 import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.database.entity.UserEntity;
@@ -17,12 +18,14 @@ import vn.tonish.hozo.database.manager.ReviewManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
+import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.model.Review;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.Bidder;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.rest.responseRes.Token;
+import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
 
 /**
@@ -272,6 +275,48 @@ public class DataParse {
         taskEntity.setComments(comments);
 
         return taskEntity;
+    }
+
+    public static Notification convertNotificationEntityToNotification(NotificationEntity notificationEntity) {
+        Notification notification = new Notification();
+        notification.setId(notificationEntity.getId());
+        notification.setUserId(notificationEntity.getUserId());
+        notification.setFullName(notificationEntity.getFullName());
+        notification.setAvatar(notificationEntity.getAvatar());
+        notification.setTaskId(notificationEntity.getTaskId());
+        notification.setTaskName(notificationEntity.getTaskName());
+        notification.setEvent(notificationEntity.getEvent());
+        notification.setRead(notificationEntity.getRead());
+        notification.setCreatedAt(DateTimeUtils.fromDateIso(notificationEntity.getCreatedAt()));
+        return notification;
+    }
+
+    public static NotificationEntity convertNotificationToNotificationEntity(Notification notification) {
+        NotificationEntity notificationEntity = new NotificationEntity();
+        notificationEntity.setId(notification.getId());
+        notificationEntity.setUserId(notification.getUserId());
+        notificationEntity.setFullName(notification.getFullName());
+        notificationEntity.setAvatar(notification.getAvatar());
+        notificationEntity.setTaskId(notification.getTaskId());
+        notificationEntity.setTaskName(notification.getTaskName());
+        notificationEntity.setEvent(notification.getEvent());
+        notificationEntity.setRead(notification.getRead());
+        notificationEntity.setCreatedAt(DateTimeUtils.getDateFromStringIso(notification.getCreatedAt()));
+        return notificationEntity;
+    }
+
+    public static List<Notification> converListNotificationEntity(List<NotificationEntity> notificationEntities) {
+        List<Notification> notifications = new ArrayList<>();
+        for (int i = 0; i < notificationEntities.size(); i++)
+            notifications.add(convertNotificationEntityToNotification(notificationEntities.get(i)));
+        return notifications;
+    }
+
+    public static List<NotificationEntity> convertListNotification(List<Notification> notifications) {
+        List<NotificationEntity> notificationEntities = new ArrayList<>();
+        for (int i = 0; i < notifications.size(); i++)
+            notificationEntities.add(convertNotificationToNotificationEntity(notifications.get(i)));
+        return notificationEntities;
     }
 
     public static int getAvatarTempId(String response) {

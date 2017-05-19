@@ -16,6 +16,7 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.model.Review;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.User;
@@ -87,6 +88,9 @@ public interface ApiInterface {
 
     @POST("bids/{bidId}")
     Call<CancelOfferResponse> cancelOffer(@Header("Authorization") String token, @Path("bidId") int bidId, @Body RequestBody body);
+
+    @GET("notifications")
+    Call<List<Notification>> getMyNotifications(@Header("Authorization") String token, @QueryMap Map<String, String> option);
 
 
 }
