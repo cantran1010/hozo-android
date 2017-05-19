@@ -321,4 +321,33 @@
     <string name="find_task_category"><b>.</b>  Phân loại:</string>
 
     <string name="brower_task_map_activity">Tìm việc gần đây</string>
+
+    <!-- notification -->
+    <string name="notification_review_received">đã gửi đánh giá về bạn</string>
+    <string name="notification_comment_received">đã gửi một tin nhắn cho bạn</string>
+    <string name="notification_bidder_canceled">đã hủy việc đã ứng tuyển</string>
+    <string name="notification_bid_received">đã nhận được một đề nghị làm việc</string>
+    <string name="notification_bid_accepted">đã chấp nhận đề nghị làm việc của bạn</string>
+    <string name="notification_task_reminder">chuẩn bị đi làm</string>
+    <string name="notification_new_task_alert">có một việc phù hợp với bạn</string>
+    <string name="notification_poster_canceled">đã hủy việc bạn ứng tuyển</string>
+
+    <string name="notification_review_received_matcher">đánh giá</string>
+    <string name="notification_comment_received_matcher">tin nhắn</string>
+    <string name="notification_bidder_canceled_matcher">hủy việc đã ứng tuyển</string>
+    <string name="notification_bid_received_matcher">để nghị làm việc</string>
+    <string name="notification_bid_accepted_matcher">chấp nhận để nghị</string>
+    <string name="notification_task_reminder_matcher">chuẩn bị</string>
+    <string name="notification_new_task_alert_matcher">phù hợp</string>
+    <string name="notification_poster_canceled_matcher">hủy việc</string>
+
+    <string name="notification_review_received_color">#00A2E5</string>
+    <string name="notification_comment_received_color">#00A2E5</string>
+    <string name="notification_bidder_canceled_color">#FF3100</string>
+    <string name="notification_bid_received_color">#00A2E5</string>
+    <string name="notification_bid_accepted_color">#00A2E5</string>
+    <string name="notification_task_reminder_color">#00A2E5</string>
+    <string name="notification_new_task_alert_color">#00A2E5</string>
+    <string name="notification_poster_canceled_color">#FF3100</string>
+
 </resources>

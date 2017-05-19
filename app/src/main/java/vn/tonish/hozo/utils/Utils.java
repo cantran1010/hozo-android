@@ -7,10 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.telephony.SmsManager;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -27,11 +32,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.database.manager.CategoryManager;
-import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui.
@@ -192,18 +200,74 @@ public class Utils {
         }
     }
 
-    public static void call(Context context,String phoneNumber){
+    public static void call(Context context, String phoneNumber) {
         try {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null));
             context.startActivity(intent);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
-            showLongToast(context,context.getString(R.string.call_err));
+            showLongToast(context, context.getString(R.string.call_err));
         }
     }
 
-    public static String getFullPathImage(String path) {
-        return ApiClient.BASE_URL + path;
+    public static void setContentMessage(Context context, TextViewHozo tvContent, Notification notification) {
+
+        String content = "";
+        String matcher = "";
+        String matcherColor = "#00A2E5";
+
+        if (notification.getEvent().equals("review_received")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_review_received);
+            matcher = context.getString(R.string.notification_review_received_matcher);
+            matcherColor = context.getString(R.string.notification_review_received_color);
+        } else if (notification.getEvent().equals("comment_received")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received);
+            matcher = context.getString(R.string.notification_comment_received_matcher);
+            matcherColor = context.getString(R.string.notification_comment_received_color);
+        } else if (notification.getEvent().equals("bidder_canceled")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled);
+            matcher = context.getString(R.string.notification_bidder_canceled_matcher);
+            matcherColor = context.getString(R.string.notification_bidder_canceled_color);
+        } else if (notification.getEvent().equals("bid_received")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received);
+            matcher = context.getString(R.string.notification_bid_received_matcher);
+            matcherColor = context.getString(R.string.notification_bid_received_color);
+        } else if (notification.getEvent().equals("bid_accepted")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted);
+            matcher = context.getString(R.string.notification_bid_accepted_matcher);
+            matcherColor = context.getString(R.string.notification_bid_accepted_color);
+        } else if (notification.getEvent().equals("task_reminder")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_task_reminder);
+            matcher = context.getString(R.string.notification_task_reminder_matcher);
+            matcherColor = context.getString(R.string.notification_task_reminder_color);
+        } else if (notification.getEvent().equals("new_task_alert")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert);
+            matcher = context.getString(R.string.notification_new_task_alert_matcher);
+            matcherColor = context.getString(R.string.notification_new_task_alert_color);
+        } else if (notification.getEvent().equals("poster_canceled")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled);
+            matcher = context.getString(R.string.notification_poster_canceled_matcher);
+            matcherColor = context.getString(R.string.notification_poster_canceled_color);
+        }
+
+        tvContent.setText(content);
+        SpannableString spannable = new SpannableString(tvContent.getText().toString());
+        Pattern patternId = Pattern.compile(matcher);
+        Matcher matcherId = patternId.matcher(tvContent.getText().toString());
+        while (matcherId.find()) {
+            spannable.setSpan(new RelativeSizeSpan(1f), matcherId.start(), matcherId.end(), 0);
+            spannable.setSpan(new ForegroundColorSpan(Color.parseColor(matcherColor)), matcherId.start(), matcherId.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        String matcherName = notification.getFullName();
+        Pattern patternIdName = Pattern.compile(matcherName);
+        Matcher matcherIdName = patternIdName.matcher(tvContent.getText().toString());
+        while (matcherIdName.find()) {
+            spannable.setSpan(new RelativeSizeSpan(1.1f), matcherIdName.start(), matcherIdName.end(), 0);
+            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), matcherIdName.start(), matcherIdName.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        tvContent.setText(spannable);
+        tvContent.setContentDescription(spannable);
     }
 
 }
