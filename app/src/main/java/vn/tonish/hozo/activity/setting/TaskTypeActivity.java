@@ -96,17 +96,17 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
         }
         List<CategoryEntity> categoryEntities = new ArrayList<>();
         categoryEntities.addAll(convertListCategoryToListCategoryEntity(taskTypes));
-        CategoryManager.insertCategories(this, categoryEntities);
+        CategoryManager.insertCategories(categoryEntities);
         mAdapter.notifyDataSetChanged();
     }
 
     public List<Category> getTaskTypes() {
         if (mCategory == null) {
-            for (int i = 0; i < CategoryManager.getAllCategories(TaskTypeActivity.this).size(); i++) {
+            for (int i = 0; i < CategoryManager.getAllCategories().size(); i++) {
                 Category taskType = new Category();
-                taskType.setId(CategoryManager.getAllCategories(TaskTypeActivity.this).get(i).getId());
-                taskType.setName(CategoryManager.getAllCategories(TaskTypeActivity.this).get(i).getName());
-                taskType.setSelected(CategoryManager.getAllCategories(TaskTypeActivity.this).get(i).isSelected());
+                taskType.setId(CategoryManager.getAllCategories().get(i).getId());
+                taskType.setName(CategoryManager.getAllCategories().get(i).getName());
+                taskType.setSelected(CategoryManager.getAllCategories().get(i).isSelected());
                 taskTypes.add(taskType);
             }
         } else {

@@ -149,7 +149,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         addvanceSetting.setRadius(mRadius);
         SettingEntiny settingEntiny = new SettingEntiny();
         settingEntiny = convertSettingToSettingEntiny(addvanceSetting);
-        SettingManager.insertSetting(settingEntiny, this);
+        SettingManager.insertSetting(settingEntiny);
         finish();
 
 
@@ -246,7 +246,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     private void setDataforView() {
         SettingEntiny settingEntiny = new SettingEntiny();
-        settingEntiny = SettingManager.getSettingEntiny(this);
+        settingEntiny = SettingManager.getSettingEntiny();
         tvWorkType.setText(getNameRealmCategorys(settingEntiny.getCategoryEntities()));
         tvPrice.setText(formatNumber(settingEntiny.getMinWorkerRate()) + " - " + formatNumber(settingEntiny.getMaxWorkerRate()));
         tvLocation.setText(getCompleteAddressString(settingEntiny.getLatitude(), settingEntiny.getLongitude()));
@@ -256,12 +256,12 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     }
 
     private void setDefaultAddvanceSetting() {
-        if (SettingManager.getSettingEntiny(this) == null) {
+        if (SettingManager.getSettingEntiny() == null) {
             RealmList<CategoryEntity> realmList = new RealmList<>();
             SettingEntiny settingEntiny = new SettingEntiny();
             settingEntiny.setUserId(UserManager.getUserLogin().getId());
-            setIsSelected(CategoryManager.getAllCategories (this));
-            realmList.addAll(CategoryManager.getAllCategories(this));
+            setIsSelected(CategoryManager.getAllCategories ());
+            realmList.addAll(CategoryManager.getAllCategories());
             settingEntiny.setCategoryEntities(realmList);
             settingEntiny.setLatitude(21.028511);
             lat = 21.028511;
@@ -275,7 +275,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             minWorkerRate = 1000;
             settingEntiny.setMaxWorkerRate(100000000);
             maxWorkerRate = 1000000000;
-            SettingManager.insertSetting(settingEntiny, this);
+            SettingManager.insertSetting(settingEntiny);
             setDataforView();
         } else {
             setDataforView();
@@ -286,9 +286,9 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     private void setIsSelected(List<CategoryEntity> categoryEntities) {
 
         for (CategoryEntity categoryEntity : categoryEntities) {
-            insertIsSelected(this, categoryEntity, true);
+            insertIsSelected(categoryEntity, true);
         }
-        CategoryManager.insertCategories(this, categoryEntities);
+        CategoryManager.insertCategories(categoryEntities);
     }
 
 

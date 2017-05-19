@@ -1,7 +1,5 @@
 package vn.tonish.hozo.database.manager;
 
-import android.content.Context;
-
 import io.realm.Realm;
 import io.realm.RealmList;
 import vn.tonish.hozo.database.entity.CategoryEntity;
@@ -14,18 +12,18 @@ import vn.tonish.hozo.utils.LogUtils;
 
 public class SettingManager {
     private static final String TAG = CategoryManager.class.getName();
-    public static void insertSetting(SettingEntiny settingEntiny, Context context) {
+    public static void insertSetting(SettingEntiny settingEntiny) {
         LogUtils.d(TAG, "insertSetting : " + settingEntiny.toString());
-        deleteAll(context);
-        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
+        deleteAll();
+        Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(settingEntiny);
         realm.commitTransaction();
     }
 
-    public static SettingEntiny getSettingEntiny(Context context) {
+    public static SettingEntiny getSettingEntiny() {
         LogUtils.d(TAG, "getSettingEntiny ");
-        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
+        Realm realm = Realm.getDefaultInstance();
         // get last update
         SettingEntiny settingEntiny = realm.where(SettingEntiny.class).findFirst();
         if (settingEntiny != null)
@@ -33,10 +31,10 @@ public class SettingManager {
         return settingEntiny;
     }
 
-    public static RealmList<CategoryEntity> getRealmListCategoryEntity(Context context) {
+    public static RealmList<CategoryEntity> getRealmListCategoryEntity() {
         RealmList<CategoryEntity> categoryEntities=new RealmList<>();
         LogUtils.d(TAG, "getUserLogin start ");
-        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
+        Realm realm = Realm.getDefaultInstance();
         // get last update
         SettingEntiny settingEntiny;
         if (realm.where(SettingEntiny.class) != null) {
@@ -48,8 +46,8 @@ public class SettingManager {
     }
 
 
-    public static void deleteAll(Context context) {
-        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
+    public static void deleteAll() {
+        Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.where(SettingEntiny.class).findAll().deleteAllFromRealm();
         realm.commitTransaction();
