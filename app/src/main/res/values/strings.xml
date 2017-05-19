@@ -313,4 +313,19 @@
     <string name="title_cancel_offer">Hủy ứng tuyển</string>
     <string name="content_cancel_offer">Bạn có muốn hủy việc đã ứng tuyển ?</string>
     <string name="cancel_offer">Hủy</string>
+    <string name="select_gender_title">Chọn giới tính</string>
+    <string name="gender_any">Bất kỳ</string>
+    <string name="gender_male">Nam</string>
+    <string name="gender_mafele">Nữ</string>
+    <string name="tv_radius">Bán kính</string>
+    <string name="setting_radius">Chọn bán kính</string>
+
+    <string name="radius_5km">5 km</string>
+    <string name="radius_10km">10 km</string>
+    <string name="radius_15km">15 km</string>
+    <string name="radius_20km">20 km</string>
+    <string name="radius_25km">25 km</string>
+    <string name="radius_50km">50 km</string>
+
+
 </resources>

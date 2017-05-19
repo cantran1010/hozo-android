@@ -107,26 +107,26 @@
             <!--android:name=".activity.PosterOpenTaskActivity"-->
             <!--android:screenOrientation="portrait"-->
             <!--android:windowSoftInputMode="stateHidden" />-->
-        <!--<activity-->
-            <!--android:name=".activity.PosterAssignedTaskActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="stateHidden" />-->
-        <!--<activity-->
-            <!--android:name=".activity.PosterCompletedTaskActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="stateHidden" />-->
-        <!--<activity-->
-            <!--android:name=".activity.WorkerOfferMadeActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="stateHidden" />-->
-        <!--<activity-->
-            <!--android:name=".activity.WorkerAcceptedTaskActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="stateHidden" />-->
-        <!--<activity-->
-            <!--android:name=".activity.WorkerDoneTaskActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="stateHidden" />-->
+        <activity
+            android:name=".activity.PosterAssignedTaskActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.PosterCompletedTaskActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.WorkerOfferMadeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.WorkerAcceptedTaskActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.WorkerDoneTaskActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.PreviewImageListActivity"
             android:screenOrientation="portrait" />
