@@ -12,11 +12,19 @@ import vn.tonish.hozo.utils.LogUtils;
 
 public class SettingManager {
     private static final String TAG = CategoryManager.class.getName();
+
     public static void insertSetting(SettingEntiny settingEntiny) {
         LogUtils.d(TAG, "insertSetting : " + settingEntiny.toString());
-        deleteAll();
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
+        realm.copyToRealmOrUpdate(settingEntiny);
+        realm.commitTransaction();
+    }
+
+    public static void insertRealmListCategory(SettingEntiny settingEntiny, RealmList<CategoryEntity> categoryEntityRealmList) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        settingEntiny.setCategoryEntities(categoryEntityRealmList);
         realm.copyToRealmOrUpdate(settingEntiny);
         realm.commitTransaction();
     }
@@ -32,14 +40,14 @@ public class SettingManager {
     }
 
     public static RealmList<CategoryEntity> getRealmListCategoryEntity() {
-        RealmList<CategoryEntity> categoryEntities=new RealmList<>();
+        RealmList<CategoryEntity> categoryEntities = new RealmList<>();
         LogUtils.d(TAG, "getUserLogin start ");
         Realm realm = Realm.getDefaultInstance();
         // get last update
         SettingEntiny settingEntiny;
         if (realm.where(SettingEntiny.class) != null) {
             settingEntiny = realm.where(SettingEntiny.class).findFirst();
-            categoryEntities=settingEntiny.getCategoryEntities();
+            categoryEntities = settingEntiny.getCategoryEntities();
         }
         return categoryEntities;
 

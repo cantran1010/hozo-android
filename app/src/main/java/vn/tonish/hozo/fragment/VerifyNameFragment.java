@@ -17,6 +17,8 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.entity.SettingEntiny;
+import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.User;
@@ -55,6 +57,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
+        setDefaultSetting();
         btnSave.setOnClickListener(this);
         edtName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -82,6 +85,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
 
     }
 
+
     @Override
     protected void resumeData() {
 
@@ -96,6 +100,21 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
         }
 
     }
+
+    private void setDefaultSetting() {
+        SettingEntiny settingEntiny = new SettingEntiny();
+        settingEntiny.setUserId(UserManager.getUserLogin().getId());
+        settingEntiny.setLatitude(21.028511);
+        settingEntiny.setLongitude(105.804817);
+        settingEntiny.setRadius(50);
+        settingEntiny.setGender(getString(R.string.gender_any));
+        settingEntiny.setMinWorkerRate(1000);
+        settingEntiny.setMaxWorkerRate(100000000);
+        SettingManager.insertSetting(settingEntiny);
+
+    }
+
+
 
     private void updateFullName() {
         ProgressDialogUtils.showProgressDialog(getActivity());

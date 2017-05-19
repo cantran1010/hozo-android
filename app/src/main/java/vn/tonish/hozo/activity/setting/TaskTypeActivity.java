@@ -101,7 +101,7 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
     }
 
     public List<Category> getTaskTypes() {
-        if (mCategory == null) {
+        if (mCategory.getCategories()==null||mCategory.getCategories().size()==0) {
             for (int i = 0; i < CategoryManager.getAllCategories().size(); i++) {
                 Category taskType = new Category();
                 taskType.setId(CategoryManager.getAllCategories().get(i).getId());
