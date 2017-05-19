@@ -6,13 +6,11 @@
         android:bottomRightRadius="5dp"
         android:topLeftRadius="0dp"
         android:topRightRadius="5dp" />
-    <solid android:color="@color/blue" />
-    <padding
-        android:bottom="0dp"
-        android:left="0dp"
-        android:right="0dp"
-        android:top="0dp" />
+    <solid android:color="@color/white" />
     <size
         android:width="156dp"
         android:height="21dp" />
+    <stroke
+        android:width="0.5dp"
+        android:color="@color/hozo_bg" />
 </shape>
