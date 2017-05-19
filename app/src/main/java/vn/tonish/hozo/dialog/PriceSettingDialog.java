@@ -1,44 +1,51 @@
-package vn.tonish.hozo.activity.setting;
+package vn.tonish.hozo.dialog;
 
-import android.content.Intent;
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.BaseActivity;
-import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.utils.NumberTextWatcher;
-import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
- * Created by CanTran on 5/16/17.
+ * Created by CanTran on 5/18/17.
  */
 
-
-public class PriceSettingActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = PriceSettingActivity.class.getSimpleName();
+public class PriceSettingDialog extends BaseDialog implements View.OnClickListener {
     private ImageView imgBack;
     private EdittextHozo edtMinPrice, edtMaxPrice;
-    private ButtonHozo btnReset, btnSave;
+    private TextViewHozo btnReset, btnSave;
+    private PriceDialogListener priceDialogListener;
 
-    @Override
-    protected int getLayout() {
-        return R.layout.activity_price_setting;
+    public PriceDialogListener getPriceDialogListener() {
+        return priceDialogListener;
+    }
+
+    public void setPriceDialogListener(PriceDialogListener priceDialogListener) {
+        this.priceDialogListener = priceDialogListener;
+    }
+
+    public PriceSettingDialog(@NonNull Context context) {
+        super(context);
     }
 
     @Override
-    protected void initView() {
-        imgBack = (ImageView) findViewById(R.id.img_back);
-        edtMinPrice = (EdittextHozo) findViewById(R.id.edt_min_price);
-        edtMaxPrice = (EdittextHozo) findViewById(R.id.edt_max_price);
-        btnReset = (ButtonHozo) findViewById(R.id.btn_reset);
-        btnSave = (ButtonHozo) findViewById(R.id.btn_save);
-
+    protected int getLayout() {
+        return R.layout.price_dialog;
     }
 
     @Override
     protected void initData() {
+        imgBack = (ImageView) findViewById(R.id.img_back);
+        edtMinPrice = (EdittextHozo) findViewById(R.id.edt_min_price);
+        edtMaxPrice = (EdittextHozo) findViewById(R.id.edt_max_price);
+        btnReset = (TextViewHozo) findViewById(R.id.tv_reset);
+        btnSave = (TextViewHozo) findViewById(R.id.tv_ok);
+
         imgBack.setOnClickListener(this);
         btnReset.setOnClickListener(this);
         btnSave.setOnClickListener(this);
@@ -48,52 +55,50 @@ public class PriceSettingActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
-    protected void resumeData() {
-
-    }
-
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_back:
-                finish();
+                hideView();
                 break;
-            case R.id.btn_reset:
+            case R.id.tv_reset:
                 reset();
                 break;
-            case R.id.btn_save:
+            case R.id.tv_ok:
                 save();
                 break;
         }
+
     }
 
     private void save() {
         if (edtMinPrice.getText().toString().trim().isEmpty()) {
-            edtMinPrice.setError(getString(R.string.erro_emply_price));
+            edtMinPrice.setError(getContext().getString(R.string.erro_emply_price));
         } else if (edtMaxPrice.getText().toString().trim().isEmpty()) {
-            edtMaxPrice.setError(getString(R.string.erro_emply_price));
+            edtMaxPrice.setError(getContext().getString(R.string.erro_emply_price));
         } else {
             long minPrice = Long.valueOf(edtMinPrice.getText().toString().replace(".", ""));
             long maxPrice = Long.valueOf(edtMaxPrice.getText().toString().replace(".", ""));
             if (maxPrice < minPrice) {
-                edtMaxPrice.setError(getString(R.string.erro_price));
+                Utils.showLongToast(getContext(), getContext().getString(R.string.erro_price));
+                return;
             } else {
-                Intent intent = new Intent();
-                intent.putExtra(Constants.EXTRA_MIN_PRICE, minPrice + "");
-                intent.putExtra(Constants.EXTRA_MAX_PRICE, maxPrice + "");
-                setResult(Constants.REQUEST_CODE_SETTING_PRICE, intent);
-                finish();
+                if (priceDialogListener != null)
+                    priceDialogListener.onPriceDialogLister(minPrice, maxPrice);
+                hideView();
+
 
             }
         }
-
-
     }
 
     private void reset() {
         edtMinPrice.setText("");
         edtMaxPrice.setText("");
 
+    }
+
+
+    public interface PriceDialogListener {
+        void onPriceDialogLister(long minPrice, long maxPrice);
     }
 }

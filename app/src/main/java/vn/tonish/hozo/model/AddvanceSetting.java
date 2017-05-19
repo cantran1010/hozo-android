@@ -1,9 +1,7 @@
 package vn.tonish.hozo.model;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by CanTran on 5/17/17.
@@ -11,24 +9,13 @@ import java.util.ArrayList;
 
 public class AddvanceSetting implements Serializable {
     private int userId;
-    private ArrayList<Integer> categoryIds;
-    @SerializedName("min_worker_rate")
-    private String minWorkerRate;
-    @SerializedName("max_worker_rate")
-    private String maxWorkerRate;
+    private List<Category> categories;
+    private long minWorkerRate;
+    private long maxWorkerRate;
     private double latitude;
     private double longitude;
-    private String radius;
-    @SerializedName("start_daytime")
-    private String startDaytime;
-    @SerializedName("end_daytime")
-    private String endaytime;
+    private int radius;
     private String gender;
-    @SerializedName("min_age")
-    private String minAge;
-    @SerializedName("max_age")
-    private String maxAge;
-    private boolean isNotification;
 
     public int getUserId() {
         return userId;
@@ -38,28 +25,27 @@ public class AddvanceSetting implements Serializable {
         this.userId = userId;
     }
 
-
-    public ArrayList<Integer> getCategoryIds() {
-        return categoryIds;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setCategoryIds(ArrayList<Integer> categoryIds) {
-        this.categoryIds = categoryIds;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
-    public String getMinWorkerRate() {
+    public long getMinWorkerRate() {
         return minWorkerRate;
     }
 
-    public void setMinWorkerRate(String minWorkerRate) {
+    public void setMinWorkerRate(long minWorkerRate) {
         this.minWorkerRate = minWorkerRate;
     }
 
-    public String getMaxWorkerRate() {
+    public long getMaxWorkerRate() {
         return maxWorkerRate;
     }
 
-    public void setMaxWorkerRate(String maxWorkerRate) {
+    public void setMaxWorkerRate(long maxWorkerRate) {
         this.maxWorkerRate = maxWorkerRate;
     }
 
@@ -79,28 +65,12 @@ public class AddvanceSetting implements Serializable {
         this.longitude = longitude;
     }
 
-    public String getRadius() {
+    public int getRadius() {
         return radius;
     }
 
-    public void setRadius(String radius) {
+    public void setRadius(int radius) {
         this.radius = radius;
-    }
-
-    public String getStartDaytime() {
-        return startDaytime;
-    }
-
-    public void setStartDaytime(String startDaytime) {
-        this.startDaytime = startDaytime;
-    }
-
-    public String getEndaytime() {
-        return endaytime;
-    }
-
-    public void setEndaytime(String endaytime) {
-        this.endaytime = endaytime;
     }
 
     public String getGender() {
@@ -111,46 +81,17 @@ public class AddvanceSetting implements Serializable {
         this.gender = gender;
     }
 
-    public String getMinAge() {
-        return minAge;
-    }
-
-    public void setMinAge(String minAge) {
-        this.minAge = minAge;
-    }
-
-    public String getMaxAge() {
-        return maxAge;
-    }
-
-    public void setMaxAge(String maxAge) {
-        this.maxAge = maxAge;
-    }
-
-    public boolean isNotification() {
-        return isNotification;
-    }
-
-    public void setNotification(boolean notification) {
-        isNotification = notification;
-    }
-
     @Override
     public String toString() {
         return "AddvanceSetting{" +
                 "userId=" + userId +
-                ", categoryId=" + categoryIds +
-                ", minWorkerRate='" + minWorkerRate + '\'' +
-                ", maxWorkerRate='" + maxWorkerRate + '\'' +
+                ", categories=" + categories +
+                ", minWorkerRate=" + minWorkerRate +
+                ", maxWorkerRate=" + maxWorkerRate +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
-                ", radius='" + radius + '\'' +
-                ", startDaytime='" + startDaytime + '\'' +
-                ", endaytime='" + endaytime + '\'' +
+                ", radius=" + radius +
                 ", gender='" + gender + '\'' +
-                ", minAge='" + minAge + '\'' +
-                ", maxAge='" + maxAge + '\'' +
-                ", isNotification=" + isNotification +
                 '}';
     }
 }

@@ -16,7 +16,7 @@
     <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
     <string name="btn_save">LƯU LẠI</string>
     <string name="tv_type_of_work">Loại công việc</string>
-    <string name="tv_fee">Chi phí</string>
+    <string name="tv_fee">Chi phí (VND)</string>
 
     <!--advance setting screen -->
     <string name="advance_setting_title">Cài Đặt Nâng Cao</string>
@@ -279,12 +279,27 @@
     <string name="cancel_task_ok">Có</string>
     <string name="cancel_task_cancel">Không</string>
     <string name="task_type">Loại công việc</string>
-    <string name="hint_min">Min</string>
-    <string name="edt_max">Max</string>
+    <string name="hint_min">Giá thấp nhất </string>
+    <string name="edt_max">Giá cao nhất</string>
     <string name="hint_time_start">Thời gian bắt đầu</string>
     <string name="hint_time_done">Thới gian kết thúc</string>
     <string name="erro_emply_price">Lỗi! bạn chưa nhập giá trị</string>
     <string name="erro_price">Giá trị bên trái phải bé hơn giá trị bên phải  </string>
+    <string name="select_gender_title">Chọn giới tính</string>
+    <string name="gender_any">Bất kỳ</string>
+    <string name="gender_male">Nam</string>
+    <string name="gender_mafele">Nữ</string>
+    <string name="tv_radius">Bán kính</string>
+    <string name="setting_radius">Chọn bán kính</string>
+
+    <string name="radius_5km">5 km</string>
+    <string name="radius_10km">10 km</string>
+    <string name="radius_15km">15 km</string>
+    <string name="radius_20km">20 km</string>
+    <string name="radius_25km">25 km</string>
+    <string name="radius_50km">50 km</string>
+
+
     <string name="empty_content_comment_error">Vui lòng nhập nội dung bình luận</string>
 
     <!-- rate -->
@@ -298,4 +313,5 @@
     <string name="title_cancel_offer">Hủy ứng tuyển</string>
     <string name="content_cancel_offer">Bạn có muốn hủy việc đã ứng tuyển ?</string>
     <string name="cancel_offer">Hủy</string>
+
 </resources>

@@ -14,17 +14,13 @@ public class SettingEntiny extends RealmObject implements Serializable {
     @PrimaryKey
     private int userId;
     private RealmList<CategoryEntity> categoryEntities;
-    private String minWorkerRate;
-    private String maxWorkerRate;
+    private long minWorkerRate;
+    private long maxWorkerRate;
     private double latitude;
     private double longitude;
-    private String radius;
-    private String startDaytime;
-    private String endaytime;
+    private int radius;
     private String gender;
-    private String minAge;
-    private String maxAge;
-    private boolean isNotification;
+
 
     public int getUserId() {
         return userId;
@@ -34,27 +30,27 @@ public class SettingEntiny extends RealmObject implements Serializable {
         this.userId = userId;
     }
 
-    public RealmList<CategoryEntity> getCategoryId() {
+    public RealmList<CategoryEntity> getCategoryEntities() {
         return categoryEntities;
     }
 
-    public void setCategoryId(RealmList<CategoryEntity> categoryId) {
-        this.categoryEntities = categoryId;
+    public void setCategoryEntities(RealmList<CategoryEntity> categoryEntities) {
+        this.categoryEntities = categoryEntities;
     }
 
-    public String getMinWorkerRate() {
+    public long getMinWorkerRate() {
         return minWorkerRate;
     }
 
-    public void setMinWorkerRate(String minWorkerRate) {
+    public void setMinWorkerRate(long minWorkerRate) {
         this.minWorkerRate = minWorkerRate;
     }
 
-    public String getMaxWorkerRate() {
+    public long getMaxWorkerRate() {
         return maxWorkerRate;
     }
 
-    public void setMaxWorkerRate(String maxWorkerRate) {
+    public void setMaxWorkerRate(long maxWorkerRate) {
         this.maxWorkerRate = maxWorkerRate;
     }
 
@@ -74,28 +70,13 @@ public class SettingEntiny extends RealmObject implements Serializable {
         this.longitude = longitude;
     }
 
-    public String getRadius() {
+
+    public int getRadius() {
         return radius;
     }
 
-    public void setRadius(String radius) {
+    public void setRadius(int radius) {
         this.radius = radius;
-    }
-
-    public String getStartDaytime() {
-        return startDaytime;
-    }
-
-    public void setStartDaytime(String startDaytime) {
-        this.startDaytime = startDaytime;
-    }
-
-    public String getEndaytime() {
-        return endaytime;
-    }
-
-    public void setEndaytime(String endaytime) {
-        this.endaytime = endaytime;
     }
 
     public String getGender() {
@@ -104,30 +85,6 @@ public class SettingEntiny extends RealmObject implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public String getMinAge() {
-        return minAge;
-    }
-
-    public void setMinAge(String minAge) {
-        this.minAge = minAge;
-    }
-
-    public String getMaxAge() {
-        return maxAge;
-    }
-
-    public void setMaxAge(String maxAge) {
-        this.maxAge = maxAge;
-    }
-
-    public boolean isNotification() {
-        return isNotification;
-    }
-
-    public void setNotification(boolean notification) {
-        isNotification = notification;
     }
 
     @Override
@@ -140,12 +97,7 @@ public class SettingEntiny extends RealmObject implements Serializable {
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", radius='" + radius + '\'' +
-                ", startDaytime='" + startDaytime + '\'' +
-                ", endaytime='" + endaytime + '\'' +
                 ", gender='" + gender + '\'' +
-                ", minAge='" + minAge + '\'' +
-                ", maxAge='" + maxAge + '\'' +
-                ", isNotification=" + isNotification +
                 '}';
     }
 }

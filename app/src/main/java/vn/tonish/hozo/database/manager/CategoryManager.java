@@ -13,29 +13,47 @@ public class CategoryManager {
 
     private static final String TAG = CategoryManager.class.getName();
 
-    public static void insertCategories(List<CategoryEntity> categories){
+    public static void insertCategories(List<CategoryEntity> categories) {
         LogUtils.d(TAG, "insertCategories start ");
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
 
-        for (int i=0;i<categories.size();i++){
+        for (int i = 0; i < categories.size(); i++) {
             realm.insertOrUpdate(categories.get(i));
         }
 
         realm.commitTransaction();
     }
 
-    public static List<CategoryEntity> getAllCategories(){
+    public static void insertCategory(CategoryEntity category) {
+        LogUtils.d(TAG, "insertCategories start ");
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.insertOrUpdate(category);
+        realm.commitTransaction();
+    }
+
+    public static void insertIsSelected(CategoryEntity categoryEntity, boolean isSelected) {
+        LogUtils.d(TAG, "insertCategories start ");
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        categoryEntity.setSelected(isSelected);
+        realm.commitTransaction();
+    }
+
+    public static List<CategoryEntity> getAllCategories() {
         LogUtils.d(TAG, "getAllCategories start ");
         Realm realm = Realm.getDefaultInstance();
         return realm.where(CategoryEntity.class).findAll();
     }
 
-    public static CategoryEntity getCategoryById(int id){
+
+    public static CategoryEntity getCategoryById(int id) {
         LogUtils.d(TAG, "getAllCategories start ");
         Realm realm = Realm.getDefaultInstance();
-        return realm.where(CategoryEntity.class).equalTo("id",id).findFirst();
+        return realm.where(CategoryEntity.class).equalTo("id", id).findFirst();
     }
+
 
     public static void deleteAll() {
         Realm realm = Realm.getDefaultInstance();

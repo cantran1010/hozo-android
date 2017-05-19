@@ -317,4 +317,6 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
         });
     }
 
+
+
 }

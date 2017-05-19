@@ -132,7 +132,6 @@ public class SelectTaskFragment extends BaseFragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         rcvTask.setLayoutManager(linearLayoutManager);
         rcvTask.setAdapter(categoryAdapter);
-
         categoryAdapter.setCategoryAdapterLister(new CategoryAdapter.CategoryAdapterLister() {
             @Override
             public void onCallBack(int position) {
