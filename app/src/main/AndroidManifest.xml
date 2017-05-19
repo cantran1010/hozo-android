@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.BrowerTaskMapActivity"
+            android:name=".activity.other.GeneralInfoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -104,8 +104,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <!--<activity-->
-            <!--android:name=".activity.BrowerTaskMapActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name=".activity.BrowerTaskMapActivity"-->
+        <!--android:screenOrientation="portrait" />-->
         <!--<activity-->
         <!--android:name=".activity.PosterOpenTaskActivity"-->
         <!--android:screenOrientation="portrait"-->
@@ -130,6 +130,9 @@
         <!--android:name=".activity.WorkerDoneTaskActivity"-->
         <!--android:screenOrientation="portrait"-->
         <!--android:windowSoftInputMode="stateHidden" />-->
+        <!--<activity-->
+        <!--android:name=".activity.other.GeneralInfoActivity"-->
+        <!--android:screenOrientation="portrait" />-->
         <activity
             android:name=".activity.setting.TimeSettingActivity"
             android:screenOrientation="portrait" />
