@@ -11,7 +11,6 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,7 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.GenderDialog;
 import vn.tonish.hozo.dialog.PriceSettingDialog;
 import vn.tonish.hozo.dialog.RadiusSettingDialog;
+import vn.tonish.hozo.model.AddvanceSetting;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
@@ -36,6 +36,9 @@ import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE;
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_TASK_TYPE;
+import static vn.tonish.hozo.database.manager.CategoryManager.insertIsSelected;
+import static vn.tonish.hozo.network.DataParse.convertSettingToSettingEntiny;
 import static vn.tonish.hozo.utils.Utils.formatNumber;
 
 /**
@@ -45,9 +48,15 @@ import static vn.tonish.hozo.utils.Utils.formatNumber;
 public class AdvanceSettingsActivity extends BaseActivity implements View.OnClickListener {
     private final static String TAG = AdvanceSettingsActivity.class.getSimpleName();
     private TextViewHozo tvWorkType, tvPrice, tvLocation, tvGender, tvRadius;
-    private ButtonHozo btnReset;
-    private LatLng latLng;
-    private SettingEntiny mSettingEntiny;
+    private ButtonHozo btnReset, btnSave;
+    private double lat;
+    private double lng;
+    private Category mCategory;
+    private long minWorkerRate;
+    private long maxWorkerRate;
+    private String mGender;
+    private int mRadius;
+
 
     @Override
     protected int getLayout() {
@@ -62,19 +71,22 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         tvGender = (TextViewHozo) findViewById(R.id.tv_gender);
         tvRadius = (TextViewHozo) findViewById(R.id.tv_radius);
         btnReset = (ButtonHozo) findViewById(R.id.btn_reset);
+        btnReset = (ButtonHozo) findViewById(R.id.btn_reset);
+        btnSave = (ButtonHozo) findViewById(R.id.btn_save);
 
 
     }
 
     @Override
     protected void initData() {
-        mSettingEntiny=new SettingEntiny();
         findViewById(R.id.img_back).setOnClickListener(this);
         findViewById(R.id.tab_type).setOnClickListener(this);
         findViewById(R.id.tab_price).setOnClickListener(this);
         findViewById(R.id.tab_location).setOnClickListener(this);
         findViewById(R.id.tab_gender).setOnClickListener(this);
         findViewById(R.id.tab_radius).setOnClickListener(this);
+        btnReset.setOnClickListener(this);
+        btnSave.setOnClickListener(this);
         setDefaultAddvanceSetting();
     }
 
@@ -88,7 +100,9 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tab_type:
-                startActivityForResult(new Intent(this, TaskTypeActivity.class), Constants.REQUEST_CODE_TASK_TYPE, TransitionScreen.DOWN_TO_UP);
+                Intent i = new Intent(this, TaskTypeActivity.class);
+                i.putExtra(Constants.EXTRA_CATEGORY, mCategory);
+                startActivityForResult(i, Constants.REQUEST_CODE_TASK_TYPE, TransitionScreen.DOWN_TO_UP);
                 break;
             case R.id.tab_price:
                 setPrice();
@@ -124,6 +138,20 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     }
 
     private void save() {
+        AddvanceSetting addvanceSetting = new AddvanceSetting();
+        addvanceSetting.setUserId(UserManager.getUserLogin(this).getId());
+        addvanceSetting.setCategories(mCategory.getCategories());
+        addvanceSetting.setMinWorkerRate(minWorkerRate);
+        addvanceSetting.setMaxWorkerRate(maxWorkerRate);
+        addvanceSetting.setLatitude(lat);
+        addvanceSetting.setLongitude(lng);
+        addvanceSetting.setGender(mGender);
+        addvanceSetting.setRadius(mRadius);
+        SettingEntiny settingEntiny = new SettingEntiny();
+        settingEntiny = convertSettingToSettingEntiny(addvanceSetting);
+        SettingManager.insertSetting(settingEntiny, this);
+        finish();
+
 
     }
 
@@ -138,6 +166,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             @Override
             public void onRadiusDialogLister(String radius) {
                 tvRadius.setText(radius);
+                mRadius = Integer.valueOf((radius.trim().replace(".", "")).replace("km", "").replace(" ", ""));
             }
         });
         radiusSettingDialog.showView();
@@ -150,6 +179,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             @Override
             public void onAgeDialogLister(String gender) {
                 tvGender.setText(gender);
+                mGender = gender;
 
             }
         });
@@ -164,6 +194,8 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             @Override
             public void onPriceDialogLister(long minPrice, long maxPrice) {
                 tvPrice.setText(formatNumber(minPrice) + " - " + formatNumber(maxPrice));
+                minWorkerRate = minPrice;
+                maxWorkerRate = maxPrice;
             }
         });
         priceSettingDialog.showView();
@@ -228,15 +260,21 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             RealmList<CategoryEntity> realmList = new RealmList<>();
             SettingEntiny settingEntiny = new SettingEntiny();
             settingEntiny.setUserId(UserManager.getUserLogin(this).getId());
-            LogUtils.d(TAG, "RealmList : " + CategoryManager.getAllCategories(this).size());
+            setIsSelected(CategoryManager.getAllCategories (this));
             realmList.addAll(CategoryManager.getAllCategories(this));
             settingEntiny.setCategoryEntities(realmList);
             settingEntiny.setLatitude(21.028511);
+            lat = 21.028511;
             settingEntiny.setLongitude(105.804817);
+            lng = 105.804817;
             settingEntiny.setRadius(50);
+            mRadius = 50;
             settingEntiny.setGender(getString(R.string.gender_any));
+            mGender = getString(R.string.gender_any);
             settingEntiny.setMinWorkerRate(1000);
+            minWorkerRate = 1000;
             settingEntiny.setMaxWorkerRate(100000000);
+            maxWorkerRate = 1000000000;
             SettingManager.insertSetting(settingEntiny, this);
             setDataforView();
         } else {
@@ -245,28 +283,39 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         }
     }
 
-    private List<Integer> getAllId(List<CategoryEntity> categoryEntities) {
-        List<Integer> integers = null;
+    private void setIsSelected(List<CategoryEntity> categoryEntities) {
+
         for (CategoryEntity categoryEntity : categoryEntities) {
-            integers.add(categoryEntity.getId());
+            insertIsSelected(this, categoryEntity, true);
         }
-        return integers;
+        CategoryManager.insertCategories(this, categoryEntities);
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.REQUEST_CODE_TASK_TYPE && data != null) {
+        if (requestCode == REQUEST_CODE_TASK_TYPE && data != null) {
             Category category = (Category) data.getExtras().get(Constants.EXTRA_CATEGORY_ID);
-            tvWorkType.setText(getNameCategorys(category.getCategories()));
+            List<Category> list = new ArrayList<>();
+            mCategory = new Category();
+            mCategory = category;
+            for (Category cat : mCategory.getCategories()) {
+                if (cat.isSelected()) {
+                    list.add(cat);
+                }
+
+            }
+            tvWorkType.setText(getNameCategorys((ArrayList<Category>) list));
+
         }
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(this, data);
                 Log.i(TAG, "Place: " + place.getName());
                 tvLocation.setText(place.getName());
-                latLng = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
+                lat = place.getLatLng().latitude;
+                lng = place.getLatLng().longitude;
                 tvLocation.setText(place.getName());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);

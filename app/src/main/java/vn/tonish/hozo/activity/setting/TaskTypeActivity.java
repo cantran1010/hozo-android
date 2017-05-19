@@ -16,9 +16,9 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.model.Category;
-import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.view.ButtonHozo;
 
+import static vn.tonish.hozo.common.Constants.EXTRA_CATEGORY;
 import static vn.tonish.hozo.network.DataParse.convertListCategoryToListCategoryEntity;
 
 /**
@@ -32,6 +32,7 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
     private TaskTypeAdapter mAdapter;
     private ButtonHozo btnReset, btnSave;
     private ArrayList<Category> taskTypes;
+    private Category mCategory;
 
 
     @Override
@@ -47,15 +48,20 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
         btnSave = (ButtonHozo) findViewById(R.id.btn_save);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         taskTypes = new ArrayList<>();
-        getTaskTypes();
         mAdapter = new TaskTypeAdapter(taskTypes);
         mRecyclerView.setAdapter(mAdapter);
-
 
     }
 
     @Override
     protected void initData() {
+        mCategory = new Category();
+        Intent intent = getIntent();
+
+        if (intent.hasExtra(EXTRA_CATEGORY)) {
+            mCategory = (Category) intent.getExtras().get(EXTRA_CATEGORY);
+        }
+        getTaskTypes();
         imgback.setOnClickListener(this);
         btnReset.setOnClickListener(this);
         btnSave.setOnClickListener(this);
@@ -95,29 +101,25 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
     }
 
     public List<Category> getTaskTypes() {
-        LogUtils.d("inser data UserEntity : ", "" + CategoryManager.getAllCategories(TaskTypeActivity.this).size());
-        for (int i = 0; i < CategoryManager.getAllCategories(TaskTypeActivity.this).size(); i++) {
-            Category taskType = new Category();
-            taskType.setId(CategoryManager.getAllCategories(TaskTypeActivity.this).get(i).getId());
-            taskType.setName(CategoryManager.getAllCategories(TaskTypeActivity.this).get(i).getName());
-            taskType.setSelected(false);
-            taskTypes.add(taskType);
+        if (mCategory == null) {
+            for (int i = 0; i < CategoryManager.getAllCategories(TaskTypeActivity.this).size(); i++) {
+                Category taskType = new Category();
+                taskType.setId(CategoryManager.getAllCategories(TaskTypeActivity.this).get(i).getId());
+                taskType.setName(CategoryManager.getAllCategories(TaskTypeActivity.this).get(i).getName());
+                taskType.setSelected(CategoryManager.getAllCategories(TaskTypeActivity.this).get(i).isSelected());
+                taskTypes.add(taskType);
+            }
+        } else {
+            taskTypes.addAll(mCategory.getCategories());
         }
         return taskTypes;
     }
 
 
     private void saveData() {
-        List<Category> categories = new ArrayList<>();
         Intent intent = new Intent();
-        for (int i = 0; i < taskTypes.size(); i++) {
-            if (taskTypes.get(i).isSelected()) {
-                categories.add(taskTypes.get(i));
-
-            }
-        }
         Category category = new Category();
-        category.setCategories((ArrayList<Category>) categories);
+        category.setCategories((ArrayList<Category>) taskTypes);
         intent.putExtra(Constants.EXTRA_CATEGORY_ID, category);
         setResult(Constants.REQUEST_CODE_TASK_TYPE, intent);
         finish();//finishing

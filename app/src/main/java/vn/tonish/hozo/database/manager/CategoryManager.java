@@ -27,6 +27,22 @@ public class CategoryManager {
         realm.commitTransaction();
     }
 
+    public static void insertCategory(Context context, CategoryEntity category) {
+        LogUtils.d(TAG, "insertCategories start ");
+        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
+        realm.beginTransaction();
+        realm.insertOrUpdate(category);
+        realm.commitTransaction();
+    }
+
+    public static void insertIsSelected(Context context, CategoryEntity categoryEntity, boolean isSelected) {
+        LogUtils.d(TAG, "insertCategories start ");
+        Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
+        realm.beginTransaction();
+        categoryEntity.setSelected(isSelected);
+        realm.commitTransaction();
+    }
+
     public static List<CategoryEntity> getAllCategories(Context context) {
         LogUtils.d(TAG, "getAllCategories start ");
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
@@ -34,13 +50,11 @@ public class CategoryManager {
     }
 
 
-
     public static CategoryEntity getCategoryById(Context context, int id) {
         LogUtils.d(TAG, "getAllCategories start ");
         Realm realm = Realm.getInstance(RealmDbHelper.getRealmConfig(context));
         return realm.where(CategoryEntity.class).equalTo("id", id).findFirst();
     }
-
 
 
     public static void deleteAll(Context context) {

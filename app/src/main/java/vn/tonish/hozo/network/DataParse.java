@@ -8,11 +8,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.RealmList;
 import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.entity.ReviewEntity;
+import vn.tonish.hozo.database.entity.SettingEntiny;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.ReviewManager;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.model.AddvanceSetting;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Review;
 import vn.tonish.hozo.model.User;
@@ -103,6 +106,7 @@ public class DataParse {
         category.setSuggestTitle(categoryEntity.getSuggestTitle());
         category.setSuggestDescription(categoryEntity.getSuggestDescription());
         category.setPresentPath(categoryEntity.getPresentPath());
+        category.setSelected(categoryEntity.isSelected());
         return category;
     }
 
@@ -145,6 +149,20 @@ public class DataParse {
         return userEntity;
     }
 
+    public static SettingEntiny convertSettingToSettingEntiny(AddvanceSetting addvanceSetting) {
+        RealmList<CategoryEntity> categoryEntities = new RealmList<>();
+        SettingEntiny entiny = new SettingEntiny();
+        entiny.setUserId(addvanceSetting.getUserId());
+        categoryEntities.addAll(convertListCategoryToListCategoryEntity(addvanceSetting.getCategories()));
+        entiny.setCategoryEntities(categoryEntities);
+        entiny.setMinWorkerRate(addvanceSetting.getMinWorkerRate());
+        entiny.setMaxWorkerRate(addvanceSetting.getMaxWorkerRate());
+        entiny.setLatitude(addvanceSetting.getLatitude());
+        entiny.setLongitude(addvanceSetting.getLongitude());
+        entiny.setRadius(addvanceSetting.getRadius());
+        entiny.setGender(addvanceSetting.getGender());
+        return entiny;
+    }
 
     //update data reviewEntities
 

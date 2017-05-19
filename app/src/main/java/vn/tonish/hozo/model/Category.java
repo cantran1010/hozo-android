@@ -95,7 +95,8 @@ public class Category implements Serializable {
                 ", suggestTitle='" + suggestTitle + '\'' +
                 ", suggestDescription='" + suggestDescription + '\'' +
                 ", presentPath='" + presentPath + '\'' +
+                ", isSelected=" + isSelected +
+                ", categories=" + categories +
                 '}';
     }
-
 }
