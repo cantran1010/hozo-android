@@ -55,7 +55,7 @@ public class SelectTaskFragment extends BaseFragment {
     }
 
     private void getCacheData() {
-        categoryEntities = CategoryManager.getAllCategories();
+        categoryEntities = CategoryManager.getAllCategories(getContext());
         for (int i = 0; i < categoryEntities.size(); i++) {
             categories.add(DataParse.convertCatogoryEntityToCategory(categoryEntities.get(i)));
         }
@@ -76,8 +76,8 @@ public class SelectTaskFragment extends BaseFragment {
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     refreshCategory();
-                    CategoryManager.deleteAll();
-                    CategoryManager.insertCategories(DataParse.convertListCategoryToListCategoryEntity(categories));
+                    CategoryManager.deleteAll(getContext());
+                    CategoryManager.insertCategories(getContext(),DataParse.convertListCategoryToListCategoryEntity(categories));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.RefreshToken(getContext(), new NetworkUtils.RefreshListener() {
                         @Override

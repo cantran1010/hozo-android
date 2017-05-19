@@ -139,7 +139,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     private void save() {
         AddvanceSetting addvanceSetting = new AddvanceSetting();
-        addvanceSetting.setUserId(UserManager.getUserLogin(this).getId());
+        addvanceSetting.setUserId(UserManager.getUserLogin().getId());
         addvanceSetting.setCategories(mCategory.getCategories());
         addvanceSetting.setMinWorkerRate(minWorkerRate);
         addvanceSetting.setMaxWorkerRate(maxWorkerRate);
@@ -259,7 +259,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         if (SettingManager.getSettingEntiny(this) == null) {
             RealmList<CategoryEntity> realmList = new RealmList<>();
             SettingEntiny settingEntiny = new SettingEntiny();
-            settingEntiny.setUserId(UserManager.getUserLogin(this).getId());
+            settingEntiny.setUserId(UserManager.getUserLogin().getId());
             setIsSelected(CategoryManager.getAllCategories (this));
             realmList.addAll(CategoryManager.getAllCategories(this));
             settingEntiny.setCategoryEntities(realmList);
