@@ -6,7 +6,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.realm.RealmList;
 import vn.tonish.hozo.database.entity.CategoryEntity;
@@ -14,6 +16,7 @@ import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.database.entity.SettingEntiny;
 import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.database.entity.UserEntity;
+import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.ReviewManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.AddvanceSetting;
@@ -301,5 +304,39 @@ public class DataParse {
         }
         return result;
     }
+
+    public static Map<String, String> setParameterGetTasks(SettingEntiny addvanceSetting, String sortBy, String limit, String since, String query) {
+        Map<String, String> option = new HashMap<>();
+        option.put("category_id", getIds2(CategoryManager.getAllCategories()));
+        option.put("min_worker_rate", String.valueOf(addvanceSetting.getMinWorkerRate()));
+        option.put("min_worker_rate", String.valueOf(addvanceSetting.getMaxWorkerRate()));
+        option.put("latitude", String.valueOf(addvanceSetting.getLatitude()));
+        option.put("longitude", String.valueOf(addvanceSetting.getLongitude()));
+        option.put("distance", String.valueOf(addvanceSetting.getRadius()));
+        option.put("sort_by", sortBy);
+        option.put("limit", limit);
+        option.put("since", since);
+        option.put("query", query);
+        return option;
+    }
+
+    public static String getIds(RealmList<CategoryEntity> entityRealmList) {
+        String ids = "";
+        for (CategoryEntity categoryEntity : entityRealmList) {
+            ids = "ids[]=" + categoryEntity.getId() + "&";
+        }
+        return ids.substring(0, ids.length() - 2);
+
+    }
+    public static String getIds2(List<CategoryEntity> entityRealmList) {
+        String ids = "";
+        for (CategoryEntity categoryEntity : entityRealmList) {
+            ids = "ids[]=" + categoryEntity.getId() + "&";
+        }
+        return ids.substring(0, ids.length() - 2);
+
+    }
+
+
 
 }

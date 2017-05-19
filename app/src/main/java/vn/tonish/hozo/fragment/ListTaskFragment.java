@@ -15,7 +15,9 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.TaskAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.LogUtils;
@@ -33,6 +35,8 @@ public class ListTaskFragment extends BaseFragment {
     private TaskAdapter taskAdapter;
     private LinearLayoutManager lvManager;
     private List<TaskResponse> taskList;
+    private final static int limit = 20;
+    private String lastTime;
 
     @Override
     protected int getLayout() {
@@ -63,22 +67,7 @@ public class ListTaskFragment extends BaseFragment {
     public void getReviews() {
         ProgressDialogUtils.showProgressDialog(getContext());
         Map<String, String> option = new HashMap<>();
-        option.put("category_id", "1");
-        option.put("currency", "VND");
-        option.put("min_worker_rate", "150000");
-        option.put("max_worker_rate", "200000");
-        option.put("start_daytime", "10:00:00+07:00");
-        option.put("end_daytime", "17:00:00+07:00");
-        option.put("city", "Hà Nội");
-        option.put("gender", "male");
-        option.put("min_age", "18");
-        option.put("max_age", "25");
-        option.put("status", "open");
-        option.put("poster_id", "123");
-        option.put("tasker_id", "123");
-        option.put("page", "2");
-        option.put("sort_by", "worker_rate");
-        option.put("ascending", "true");
+        option = DataParse.setParameterGetTasks(SettingManager.getSettingEntiny(), "distance", String.valueOf(limit), lastTime, "");
         ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), option).enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
