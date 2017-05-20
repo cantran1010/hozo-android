@@ -11,12 +11,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PosterAssignedTaskActivity;
 import vn.tonish.hozo.activity.PosterCompletedTaskActivity;
 import vn.tonish.hozo.activity.PosterOpenTaskActivity;
@@ -133,7 +130,6 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                             taskResponses.add(taskResponsesBody.get(i));
 
                     sinceStr = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
-
                     TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponsesBody));
 
                     if (taskResponsesBody.size() < LIMIT) {
