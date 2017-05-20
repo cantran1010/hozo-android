@@ -54,7 +54,8 @@ public class DateTimeUtils {
 
     }
 
-    public static String getOnlyDateFromIso(String input){
+
+    public static String getOnlyDateFromIso(String input) {
         input = input.substring(0, 22) + input.substring(23);
         Date date = null;
         try {
@@ -65,7 +66,7 @@ public class DateTimeUtils {
         return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date);
     }
 
-    public static String getHourMinuteFromIso(String input){
+    public static String getHourMinuteFromIso(String input) {
         input = input.substring(0, 22) + input.substring(23);
         Date date = null;
         try {
@@ -117,7 +118,7 @@ public class DateTimeUtils {
     /**
      * Transform Calendar to ISO 8601 string.
      */
-    private static String fromDateIso(Date date) {
+    public static String fromDateIso(Date date) {
         String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US)
                 .format(date);
         return formatted.substring(0, 22) + ":" + formatted.substring(22);
@@ -143,7 +144,7 @@ public class DateTimeUtils {
     /**
      * Transform ISO 8601 string to Calendar.
      */
-    private static Calendar toCalendar(final String iso8601string)
+    public static Calendar toCalendar(final String iso8601string)
             throws ParseException {
         Calendar calendar = GregorianCalendar.getInstance();
         String s = iso8601string.replace("Z", "+00:00");
@@ -163,8 +164,8 @@ public class DateTimeUtils {
         return fromDateIso(dateConverted);
     }
 
-    public static  String getTime(int hr,int min) {
-        Time tme = new Time(hr,min,0);//seconds by default set to zero
+    public static String getTime(int hr, int min) {
+        Time tme = new Time(hr, min, 0);//seconds by default set to zero
         Format formatter;
         formatter = new SimpleDateFormat("h:mm a");
         return formatter.format(tme);
