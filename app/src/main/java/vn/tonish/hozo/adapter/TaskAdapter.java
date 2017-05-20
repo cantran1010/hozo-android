@@ -53,9 +53,9 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
         if (holder instanceof WorkHolder) {
             WorkHolder workHolder = ((WorkHolder) holder);
             workHolder.tvName.setText(taskResponses.get(position).getTitle());
-            workHolder.tvDes.setText(context.getString(R.string.find_time_start) + " " + getOnlyDateFromIso(taskResponses.get(position).getStartTime()) + context.getString(R.string.find_task_category) + " " + getNameCategoryById(taskResponses.get(position).getCategoryId()));
+            workHolder.tvDes.setText(context.getString(R.string.find_time_start)+" "+  getOnlyDateFromIso(taskResponses.get(position).getStartTime()) + context.getString(R.string.find_task_category)+ getNameCategoryById(taskResponses.get(position).getCategoryId()));
             workHolder.tvPrice.setText(context.getString(R.string.all_vnd) + " " + taskResponses.get(position).getWorkerRate());
-            workHolder.tvAddress.setText(context.getString(R.string.find_task_address) + " " + taskResponses.get(position).getAddress());
+            workHolder.tvAddress.setText(context.getString(R.string.find_task_address) +" "+ taskResponses.get(position).getAddress());
         }
     }
 
