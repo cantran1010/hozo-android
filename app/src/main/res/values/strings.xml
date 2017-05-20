@@ -314,10 +314,10 @@
     <string name="content_cancel_offer">Bạn có muốn hủy việc đã ứng tuyển ?</string>
     <string name="cancel_offer">Hủy</string>
     <!--find task-->
-    <string name="find_task_address">Đia chỉ:&amp;#160</string>
+    <string name="find_task_address">Đia chỉ:</string>
     <string name="all_vnd">đ</string>
     <string name="find_time_start">Ngày làm:</string>
-    <string name="find_task_category">Phân loại . </string>
+    <string name="find_task_category"><b>.</b>  Phân loại:</string>
 
 
 </resources>
