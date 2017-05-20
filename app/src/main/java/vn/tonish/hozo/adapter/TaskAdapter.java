@@ -3,7 +3,6 @@ package vn.tonish.hozo.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -60,27 +59,16 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
     class WorkHolder extends BaseHolder {
 
         private TaskResponse work;
-        private final TextViewHozo tvName;
-        private final TextViewHozo tvDes;
-        private final TextViewHozo tvPrice;
+        private TextViewHozo tvName;
+        private TextViewHozo tvDes;
+        private TextViewHozo tvPrice;
 
-        private final View.OnClickListener onClickListener;
-
-        private final View view;
 
         public WorkHolder(View itemView, final Context context) {
             super(itemView);
-            this.view = itemView;
-            this.tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
-            this.tvDes = (TextViewHozo) itemView.findViewById(R.id.tv_des);
-            this.tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
-            this.onClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(context, "Coming soon...!", Toast.LENGTH_SHORT).show();
-                }
-            };
-            this.view.setOnClickListener(onClickListener);
+            tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
+            tvDes = (TextViewHozo) itemView.findViewById(R.id.tv_des);
+            tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
         }
 
     }
