@@ -24,7 +24,6 @@
             android:textSize="@dimen/tv_size_medium" />
 
         <vn.tonish.hozo.view.TextViewHozo
-            android:layout_marginTop="5dp"
             android:id="@+id/tv_des"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,8 +32,8 @@
             android:maxLines="1"
             android:textColor="@color/text_item_address"
             android:textSize="@dimen/tv_size_tiny" />
+
         <vn.tonish.hozo.view.TextViewHozo
-            android:layout_marginTop="5dp"
             android:id="@+id/tv_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,13 +44,12 @@
             android:textSize="@dimen/tv_size_tiny" />
 
         <vn.tonish.hozo.view.TextViewHozo
-            android:layout_marginTop="5dp"
             android:id="@+id/tv_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_address"
             android:ellipsize="end"
-            android:maxLines="1"
+            android:maxLines="2"
             android:textColor="@color/text_money"
             android:textSize="@dimen/tv_size_medium" />
     </RelativeLayout>
