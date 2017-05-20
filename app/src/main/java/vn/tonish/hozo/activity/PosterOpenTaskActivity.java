@@ -166,6 +166,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
     @Override
     protected void initData() {
+        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
         workDetailView.updateStatus(getString(R.string.update_task), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
         workDetailView.updateBtnOffer(false);
         workDetailView.updateBtnCallRate(false, false, "");
@@ -256,7 +257,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         TaskManager.insertTask(taskEntity);
     }
 
-    private void updateUi(){
+    private void updateUi() {
         workDetailView.updateWork(taskResponse);
 
         if (googleMap != null) {

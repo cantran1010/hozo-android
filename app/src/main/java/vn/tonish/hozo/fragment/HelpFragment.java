@@ -1,16 +1,13 @@
 package vn.tonish.hozo.fragment;
 
+import android.content.Intent;
 import android.view.View;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.other.AboutActivity;
-import vn.tonish.hozo.activity.other.ConditionActivity;
-import vn.tonish.hozo.activity.other.HistoryActivity;
-import vn.tonish.hozo.activity.other.InfoActivity;
-import vn.tonish.hozo.activity.other.NADActivity;
-import vn.tonish.hozo.activity.other.PaymentActivity;
+import vn.tonish.hozo.activity.other.GeneralInfoActivity;
 import vn.tonish.hozo.activity.other.ProfileActivity;
 import vn.tonish.hozo.activity.other.ShareActivity;
+import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.utils.TransitionScreen;
 
 /**
@@ -26,21 +23,17 @@ public class HelpFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initView() {
-        findViewById(R.id.tvProfile).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(ProfileActivity.class, TransitionScreen.RIGHT_TO_LEFT);
-            }
-        });
-        findViewById(R.id.tv_share).setOnClickListener(this);
-        findViewById(R.id.tv_history).setOnClickListener(this);
-        findViewById(R.id.tv_share).setOnClickListener(this);
-        findViewById(R.id.tv_payment).setOnClickListener(this);
-        findViewById(R.id.tv_condition).setOnClickListener(this);
-        findViewById(R.id.tv_nda).setOnClickListener(this);
-        findViewById(R.id.tv_nda).setOnClickListener(this);
-        findViewById(R.id.tv_info).setOnClickListener(this);
-        findViewById(R.id.tv_about).setOnClickListener(this);
+        findViewById(R.id.layout_profile).setOnClickListener(this);
+        findViewById(R.id.layout_share).setOnClickListener(this);
+//        findViewById(R.id.tv_history).setOnClickListener(this);
+//        findViewById(R.id.tv_payment).setOnClickListener(this);
+        findViewById(R.id.layout_condition).setOnClickListener(this);
+        findViewById(R.id.layout_nda).setOnClickListener(this);
+        findViewById(R.id.layout_nda).setOnClickListener(this);
+        findViewById(R.id.layout_info).setOnClickListener(this);
+        findViewById(R.id.layout_about).setOnClickListener(this);
+        findViewById(R.id.layout_share).setOnClickListener(this);
+
 
     }
 
@@ -59,34 +52,48 @@ public class HelpFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
-            case R.id.tv_share:
+
+            case R.id.layout_profile:
+                startActivity(ProfileActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+
+            case R.id.layout_share:
                 startActivity(ShareActivity.class, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
-            case R.id.tv_history:
-                startActivity(HistoryActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+//            case R.id.tv_history:
+//                startActivity(HistoryActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+//                break;
+//
+//            case R.id.tv_payment:
+//                startActivity(PaymentActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+//                break;
+
+            case R.id.layout_condition:
+                openGeneralInfoActivity(getString(R.string.other_condition), "http://vnexpress.net/");
                 break;
 
-            case R.id.tv_payment:
-                startActivity(PaymentActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+            case R.id.layout_nda:
+                openGeneralInfoActivity(getString(R.string.other_nad), "http://vnexpress.net/");
                 break;
 
-            case R.id.tv_condition:
-                startActivity(ConditionActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+            case R.id.layout_info:
+                openGeneralInfoActivity(getString(R.string.other_info), "http://vnexpress.net/");
                 break;
 
-            case R.id.tv_nda:
-                startActivity(NADActivity.class, TransitionScreen.RIGHT_TO_LEFT);
-                break;
-
-            case R.id.tv_info:
-                startActivity(InfoActivity.class, TransitionScreen.RIGHT_TO_LEFT);
-                break;
-
-            case R.id.tv_about:
-                startActivity(AboutActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+            case R.id.layout_about:
+                openGeneralInfoActivity(getString(R.string.other_about), "http://vnexpress.net/");
                 break;
 
         }
     }
+
+    private void openGeneralInfoActivity(String title, String url) {
+        Intent intent = new Intent(getActivity(), GeneralInfoActivity.class);
+        intent.putExtra(Constants.URL_EXTRA, url);
+        intent.putExtra(Constants.TITLE_INFO_EXTRA, title);
+        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+    }
+
+
 }

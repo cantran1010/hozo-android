@@ -32,12 +32,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.model.Notification;
+import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -268,6 +270,12 @@ public class Utils {
         }
         tvContent.setText(spannable);
         tvContent.setContentDescription(spannable);
+    }
+
+    public static boolean checkContainsTaskResponse(List<TaskResponse> taskResponses, TaskResponse taskResponse) {
+        for (int i = 0; i < taskResponses.size(); i++)
+            if (taskResponses.get(i).getId() == taskResponse.getId()) return true;
+        return false;
     }
 
 }

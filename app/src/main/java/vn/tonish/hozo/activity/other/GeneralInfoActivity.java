@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.view.CustomWebView;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -36,11 +37,8 @@ public class GeneralInfoActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
-//        String url = getIntent().getStringExtra(Constants.URL_EXTRA);
-
-        customWebView.loadUrl("http://vnexpress.net/");
-
-//        tvTitle.setText(getIntent().getStringExtra(Constants.TITLE_INFO_EXTRA));
+        customWebView.loadUrl(getIntent().getStringExtra(Constants.URL_EXTRA));
+        tvTitle.setText(getIntent().getStringExtra(Constants.TITLE_INFO_EXTRA));
     }
 
     @Override

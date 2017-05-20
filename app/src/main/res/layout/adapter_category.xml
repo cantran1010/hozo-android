@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:gravity="center_vertical"
-    android:orientation="vertical">
+    android:layout_height="72dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
         android:orientation="horizontal">
 
         <vn.tonish.hozo.view.CircleImageView
@@ -16,17 +14,17 @@
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:contentDescription="@string/just_image"
-            android:scaleType="centerCrop"
-            android:layout_marginLeft="16dp" />
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
             android:layout_marginStart="14dp"
-            android:orientation="vertical"
-            android:layout_marginLeft="14dp">
+            android:orientation="vertical">
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_name"
@@ -55,7 +53,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="10dp"
+        android:layout_alignParentBottom="true"
         android:background="@color/line_gray" />
 
-</LinearLayout>
+</RelativeLayout>

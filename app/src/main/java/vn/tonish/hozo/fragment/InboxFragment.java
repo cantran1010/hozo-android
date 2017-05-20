@@ -156,17 +156,17 @@ public class InboxFragment extends BaseFragment {
             @Override
             public void onFailure(Call<List<Notification>> call, Throwable t) {
                 LogUtils.e(TAG, "getNotifications , onFailure : " + t.getMessage());
-                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        getNotifications(isSince);
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
+//                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+//                    @Override
+//                    public void onSubmit() {
+//                        getNotifications(isSince);
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//
+//                    }
+//                });
 
                 notificationAdapter.stopLoadMore();
                 isLoadingFromServer = false;
