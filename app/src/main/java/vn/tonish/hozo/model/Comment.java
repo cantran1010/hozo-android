@@ -3,6 +3,7 @@ package vn.tonish.hozo.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import io.realm.RealmObject;
 
@@ -21,6 +22,7 @@ public class Comment extends RealmObject implements Serializable {
     private String body;
     @SerializedName("created_at")
     private String createdAt;
+    private Date craeatedDateAt;
     private String taskId;
 
     public Comment() {
@@ -83,6 +85,14 @@ public class Comment extends RealmObject implements Serializable {
         this.createdAt = createdAt;
     }
 
+    public Date getCraeatedDateAt() {
+        return craeatedDateAt;
+    }
+
+    public void setCraeatedDateAt(Date craeatedDateAt) {
+        this.craeatedDateAt = craeatedDateAt;
+    }
+
     public String getTaskId() {
         return taskId;
     }
@@ -94,13 +104,14 @@ public class Comment extends RealmObject implements Serializable {
     @Override
     public String toString() {
         return "Comment{" +
-                "id='" + id + '\'' +
-                ", authorId='" + authorId + '\'' +
+                "id=" + id +
+                ", authorId=" + authorId +
                 ", fullName='" + fullName + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", imgAttach='" + imgAttach + '\'' +
                 ", body='" + body + '\'' +
                 ", createdAt='" + createdAt + '\'' +
+                ", craeatedDateAt=" + craeatedDateAt +
                 ", taskId='" + taskId + '\'' +
                 '}';
     }
