@@ -1,5 +1,7 @@
 package vn.tonish.hozo.database.entity;
 
+import java.util.Date;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -20,6 +22,7 @@ public class TaskEntity extends RealmObject {
     private String description;
     private String startTime;
     private String endTime;
+    private Date createdAt;
     private String status;
     private Integer commentsCount;
     private String gender;
@@ -34,11 +37,27 @@ public class TaskEntity extends RealmObject {
     private Integer workerCount;
     private String attachments;
     private String currency;
+    private String role;
     private Poster poster;
     private RealmList<Bidder> bidders = null;
     private RealmList<Assigner> assignees = null;
     private RealmList<Comment> comments = null;
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public String getCurrency() {
         return currency;

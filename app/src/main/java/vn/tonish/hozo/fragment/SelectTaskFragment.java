@@ -52,6 +52,7 @@ public class SelectTaskFragment extends BaseFragment {
     protected void initData() {
         getCacheData();
         getCategory();
+
     }
 
     private void getCacheData() {
@@ -78,6 +79,7 @@ public class SelectTaskFragment extends BaseFragment {
                     refreshCategory();
                     CategoryManager.deleteAll();
                     CategoryManager.insertCategories(DataParse.convertListCategoryToListCategoryEntity(categories));
+
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.RefreshToken(getContext(), new NetworkUtils.RefreshListener() {
                         @Override
@@ -122,6 +124,7 @@ public class SelectTaskFragment extends BaseFragment {
         });
     }
 
+
     @Override
     protected void resumeData() {
 
@@ -150,4 +153,6 @@ public class SelectTaskFragment extends BaseFragment {
             openFragment(R.id.layout_container, MyTaskFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
         }
     }
+
+
 }
