@@ -3,6 +3,7 @@ package vn.tonish.hozo.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import io.realm.RealmObject;
 
@@ -26,6 +27,7 @@ public class Notification extends RealmObject implements Serializable {
     private Boolean read;
     @SerializedName("created_at")
     private String createdAt;
+    private Date dateAt;
 
     public Integer getId() {
         return id;

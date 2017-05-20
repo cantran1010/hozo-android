@@ -100,5 +100,8 @@ public interface ApiInterface {
     @GET("users/tasks")
     Call<List<TaskResponse>> getMyTask(@Header("Authorization") String token, @QueryMap Map<String, String> option);
 
+    @POST("tasks/{taskId}/comments")
+    Call<Comment> getCommens(@Header("Authorization") String token, @Path("taskId") int taskId, @QueryMap Map<String, String> params);
+
 
 }

@@ -4,31 +4,30 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.view.CommentView;
 
 /**
- * Created by CanTran on 5/16/17.
+ * Created by Can Tran on 14/05/2017.
  */
 
-public class CommentAdapter extends BaseAdapter<Comment, CommentAdapter.MyViewHolder, LoadingHolder> {
+public class CommentsAdapter extends BaseAdapter<Comment, CommentsAdapter.WorkHolder, LoadingHolder> {
 
+    private List<Comment> comments;
+    private Context context;
 
-    private ArrayList<Comment> comments;
-
-
-    public CommentAdapter(Context context, ArrayList<Comment> comments) {
+    public CommentsAdapter(Context context, List<Comment> comments) {
         super(context, comments);
+        this.context = context;
         this.comments = comments;
     }
 
-
     @Override
     public int getItemLayout() {
-        return R.layout.item_freebackview;
+        return R.layout.item_comments;
     }
 
     @Override
@@ -37,8 +36,8 @@ public class CommentAdapter extends BaseAdapter<Comment, CommentAdapter.MyViewHo
     }
 
     @Override
-    public MyViewHolder returnItemHolder(View view) {
-        return new MyViewHolder(view);
+    public WorkHolder returnItemHolder(View view) {
+        return new WorkHolder(view);
     }
 
     @Override
@@ -46,28 +45,22 @@ public class CommentAdapter extends BaseAdapter<Comment, CommentAdapter.MyViewHo
         return new LoadingHolder(view, context);
     }
 
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        MyViewHolder holder_ = (MyViewHolder) holder;
-        holder_.commentView.updateData(comments.get(position));
-
+        if (holder instanceof WorkHolder) {
+            ((WorkHolder) holder).commentView.updateData(comments.get(position));
+        }
     }
 
-    @Override
-    public int getItemCount() {
-        return comments.size();
-    }
-
-
-    public class MyViewHolder extends BaseHolder {
+    class WorkHolder extends BaseHolder {
         public final CommentView commentView;
 
 
-        public MyViewHolder(View itemView) {
+        public WorkHolder(View itemView) {
             super(itemView);
-            commentView = (CommentView) itemView.findViewById(R.id.comment_view);
+            commentView = (CommentView) itemView.findViewById(R.id.comments_view);
         }
+
+
     }
 }
