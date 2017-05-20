@@ -7,7 +7,9 @@ import android.view.View;
 import java.util.List;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -25,6 +27,20 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
         this.taskResponses = taskResponses;
     }
 
+    public interface MyTaskAdapterListener {
+        public void onMyTaskAdapterClickListener(int position);
+    }
+
+    private MyTaskAdapterListener myTaskAdapterListener;
+
+    public MyTaskAdapterListener getMyTaskAdapterListener() {
+        return myTaskAdapterListener;
+    }
+
+    public void setMyTaskAdapterListener(MyTaskAdapterListener myTaskAdapterListener) {
+        this.myTaskAdapterListener = myTaskAdapterListener;
+    }
+
     @Override
     public int getItemLayout() {
         return R.layout.item_my_task;
@@ -37,7 +53,7 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
 
     @Override
     public WorkHolder returnItemHolder(View view) {
-        return new WorkHolder(view, context);
+        return new WorkHolder(view);
     }
 
     @Override
@@ -50,29 +66,36 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
         if (holder instanceof WorkHolder) {
             WorkHolder workHolder = ((WorkHolder) holder);
 
-
             workHolder.tvName.setText(taskResponses.get(position).getTitle());
-            workHolder.tvAddress.setText(taskResponses.get(position).getAddress());
             workHolder.tvStatus.setText(taskResponses.get(position).getStatus());
             workHolder.tvPrice.setText(taskResponses.get(position).getCurrency());
 
-            workHolder.tvDes.setText(taskResponses.get(position).getStartTime());
+            workHolder.tvStartTime.setText(context.getString(R.string.my_task_adapter_start_time) + " " + DateTimeUtils.getOnlyDateFromIso(taskResponses.get(position).getStartTime()));
+            workHolder.tvTaskType.setText(context.getString(R.string.my_task_adapter_task_type) + " " + CategoryManager.getCategoryById(taskResponses.get(position).getCategoryId()).getName());
+            workHolder.tvAddress.setText(context.getString(R.string.my_task_adapter_address) + " " + taskResponses.get(position).getAddress());
         }
     }
 
-    class WorkHolder extends BaseHolder {
+    class WorkHolder extends BaseHolder implements View.OnClickListener {
 
-        private TextViewHozo tvName, tvStatus, tvAddress, tvDes, tvPrice;
+        private TextViewHozo tvName, tvStatus, tvAddress, tvStartTime, tvTaskType, tvPrice;
 
-        public WorkHolder(View itemView, final Context context) {
+        public WorkHolder(View itemView) {
             super(itemView);
             tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
             tvStatus = (TextViewHozo) itemView.findViewById(R.id.tv_status);
             tvAddress = (TextViewHozo) itemView.findViewById(R.id.tv_address);
-            tvDes = (TextViewHozo) itemView.findViewById(R.id.tv_des);
+            tvStartTime = (TextViewHozo) itemView.findViewById(R.id.tv_start_time);
+            tvTaskType = (TextViewHozo) itemView.findViewById(R.id.tv_task_type);
             tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
 
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            if (myTaskAdapterListener != null)
+                myTaskAdapterListener.onMyTaskAdapterClickListener(getAdapterPosition());
+        }
     }
 }

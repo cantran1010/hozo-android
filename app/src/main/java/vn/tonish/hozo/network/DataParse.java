@@ -202,6 +202,8 @@ public class DataParse {
         taskResponse.setWorkerCount(taskEntity.getWorkerCount());
         taskResponse.setCurrency(taskEntity.getCurrency());
         taskResponse.setPoster(taskEntity.getPoster());
+        taskResponse.setRole(taskEntity.getRole());
+        taskResponse.setCreatedAt(DateTimeUtils.fromDateIso(taskEntity.getCreatedAt()));
 
         String[] arrAtachments = taskEntity.getAttachments().split(",");
         List<String> listAttachments = new ArrayList<>();
@@ -251,6 +253,8 @@ public class DataParse {
         taskEntity.setWorkerCount(taskResponse.getWorkerCount());
         taskEntity.setCurrency(taskResponse.getCurrency());
         taskEntity.setPoster(taskResponse.getPoster());
+        taskEntity.setRole(taskResponse.getRole());
+        taskEntity.setCreatedAt(DateTimeUtils.getDateFromStringIso(taskResponse.getCreatedAt()));
 
         List<String> atachments = taskResponse.getAttachments();
         String strAtachments = "";
@@ -260,21 +264,39 @@ public class DataParse {
         taskEntity.setAttachments(strAtachments);
 
         RealmList<Bidder> bidders = new RealmList<Bidder>();
-        for (int i = 0; i < taskResponse.getBidders().size(); i++)
-            bidders.add(taskResponse.getBidders().get(i));
+        if (taskResponse.getBidders() != null)
+            for (int i = 0; i < taskResponse.getBidders().size(); i++)
+                bidders.add(taskResponse.getBidders().get(i));
         taskEntity.setBidders(bidders);
 
         RealmList<Assigner> assigners = new RealmList<>();
-        for (int i = 0; i < taskResponse.getAssignees().size(); i++)
-            assigners.add(taskResponse.getAssignees().get(i));
+        if (taskResponse.getAssignees() != null)
+            for (int i = 0; i < taskResponse.getAssignees().size(); i++)
+                assigners.add(taskResponse.getAssignees().get(i));
         taskEntity.setAssignees(assigners);
 
         RealmList<Comment> comments = new RealmList<>();
-        for (int i = 0; i < taskResponse.getComments().size(); i++)
-            comments.add(taskResponse.getComments().get(i));
+        if (taskResponse.getComments() != null)
+            for (int i = 0; i < taskResponse.getComments().size(); i++)
+                comments.add(taskResponse.getComments().get(i));
         taskEntity.setComments(comments);
 
         return taskEntity;
+    }
+
+    public static List<TaskResponse> convertListTaskEntities(List<TaskEntity> taskEntities) {
+        List<TaskResponse> taskResponses = new ArrayList<>();
+        for (int i = 0; i < taskEntities.size(); i++)
+            taskResponses.add(converTaskEntityToTaskReponse(taskEntities.get(i)));
+
+        return taskResponses;
+    }
+
+    public static List<TaskEntity> convertListTaskResponse(List<TaskResponse> taskResponses) {
+        List<TaskEntity> taskEntities = new ArrayList<>();
+        for (int i = 0; i < taskResponses.size(); i++)
+            taskEntities.add(converTaskReponseToTaskEntity(taskResponses.get(i)));
+        return taskEntities;
     }
 
     public static Notification convertNotificationEntityToNotification(NotificationEntity notificationEntity) {

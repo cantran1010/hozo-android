@@ -106,17 +106,17 @@ public class SelectTaskFragment extends BaseFragment {
                 LogUtils.e(TAG, "getCategories onFailure status code : " + t.getMessage());
                 // show network error dialog
 
-                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        getCategory();
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
+//                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+//                    @Override
+//                    public void onSubmit() {
+//                        getCategory();
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//
+//                    }
+//                });
 //                ProgressDialogUtils.dismissProgressDialog();
             }
         });

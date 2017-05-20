@@ -10,22 +10,22 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="10dp"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="20dp">
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_employ" />
+            android:src="@drawable/img_bid" />
 
         <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_number_employ"
+            android:id="@+id/tv_number_bid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="fasdfa"
             android:textColor="@color/hozo_bg" />
 
     </LinearLayout>
@@ -49,7 +49,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="@string/text_test"
             android:textColor="@color/hozo_bg" />
 
     </LinearLayout>
@@ -60,23 +59,22 @@
         android:layout_gravity="right"
         android:layout_marginRight="10dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="20dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_bid" />
+            android:src="@drawable/img_employ" />
 
         <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_number_bid"
+            android:id="@+id/tv_number_employ"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="fasfadsf \n fdasf asfd asfasf a"
             android:textColor="@color/hozo_bg" />
 
     </LinearLayout>
-
 
 </LinearLayout>

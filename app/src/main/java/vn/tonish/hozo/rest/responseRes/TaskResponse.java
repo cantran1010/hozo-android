@@ -3,6 +3,7 @@ package vn.tonish.hozo.rest.responseRes;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import vn.tonish.hozo.model.Comment;
  * Created by LongBui on 5/11/2017.
  */
 
-public class TaskResponse implements Serializable{
+public class TaskResponse implements Serializable {
 
     private Integer id;
     @SerializedName("category_id")
@@ -23,6 +24,8 @@ public class TaskResponse implements Serializable{
     private String startTime;
     @SerializedName("end_time")
     private String endTime;
+    @SerializedName("created_at")
+    private String createdAt;
     private String status;
     @SerializedName("comments_count")
     private Integer commentsCount;
@@ -40,13 +43,31 @@ public class TaskResponse implements Serializable{
     private Integer workerRate;
     @SerializedName("worker_count")
     private Integer workerCount;
+    private String role;
     private List<String> attachments = null;
     private Integer[] attachmentsId;
     private String currency;
     private Poster poster;
-    private List<Bidder> bidders = null;
-    private List<Assigner> assignees = null;
-    private List<Comment> comments = null;
+    private List<Bidder> bidders = new ArrayList<>();
+    private List<Assigner> assignees = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
+
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public List<Assigner> getAssignees() {
         return assignees;

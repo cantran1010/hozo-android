@@ -33,8 +33,8 @@
     <string name="other_menthod">Hình thức thanh toán</string>
     <string name="other_condition">Điều khoản sử dụng</string>
     <string name="other_nad">Chính sách bảo mật</string>
-    <string name="other_share">Chia sẻ</string>
-    <string name="other_about">Chúng tôi - Hozo</string>
+    <string name="other_share">Chia sẻ với bạn bè</string>
+    <string name="other_about">Giới thiệu Hozo</string>
     <string name="other_info">Thông tin chung</string>
     <string name="ed_login_phone">Nhập số điện thoại của bạn vào</string>
     <string name="login_zone">+84</string>
@@ -327,5 +327,10 @@
     <string name="notification_task_reminder_color">#00A2E5</string>
     <string name="notification_new_task_alert_color">#00A2E5</string>
     <string name="notification_poster_canceled_color">#FF3100</string>
+
+    <!-- my task adapter -->
+    <string name="my_task_adapter_start_time">Ngày làm :</string>
+    <string name="my_task_adapter_task_type">Phân loại :</string>
+    <string name="my_task_adapter_address">Địa chỉ :</string>
 
 </resources>
