@@ -157,6 +157,9 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
     @Override
     protected void initData() {
+
+        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA,123);
+
         workDetailView.updateBtnCallRate(false, false, getString(R.string.empty));
         workDetailView.updateStatus(getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
         useCacheData();
@@ -258,6 +261,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         }
 
         // update bidder list
+        if ( taskResponse.getBidders() !=null)
         bidders = (ArrayList<Bidder>) taskResponse.getBidders();
         refreshBidderList();
 
