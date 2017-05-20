@@ -97,7 +97,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
         tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
         tvDate = (TextViewHozo) findViewById(R.id.tv_date);
-        tvTime = (TextViewHozo) findViewById(R.id.tv_time);
+        tvTime = (TextViewHozo) findViewById(R.id.tv_address);
         tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
 
         btnOffer = (ButtonHozo) findViewById(R.id.btn_offer);
