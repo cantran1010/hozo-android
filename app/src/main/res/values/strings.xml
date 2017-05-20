@@ -33,8 +33,8 @@
     <string name="other_menthod">Hình thức thanh toán</string>
     <string name="other_condition">Điều khoản sử dụng</string>
     <string name="other_nad">Chính sách bảo mật</string>
-    <string name="other_share">Chia sẻ</string>
-    <string name="other_about">Chúng tôi - Hozo</string>
+    <string name="other_share">Chia sẻ với bạn bè</string>
+    <string name="other_about">Giới thiệu Hozo</string>
     <string name="other_info">Thông tin chung</string>
     <string name="ed_login_phone">Nhập số điện thoại của bạn vào</string>
     <string name="login_zone">+84</string>
@@ -313,11 +313,46 @@
     <string name="title_cancel_offer">Hủy ứng tuyển</string>
     <string name="content_cancel_offer">Bạn có muốn hủy việc đã ứng tuyển ?</string>
     <string name="cancel_offer">Hủy</string>
+
     <!--find task-->
     <string name="find_task_address">Đia chỉ:</string>
     <string name="all_vnd">đ</string>
     <string name="find_time_start">Ngày làm:</string>
     <string name="find_task_category"><b>.</b>  Phân loại:</string>
 
+    <string name="brower_task_map_activity">Tìm việc gần đây</string>
+
+    <!-- notification -->
+    <string name="notification_review_received">đã gửi đánh giá về bạn</string>
+    <string name="notification_comment_received">đã gửi một tin nhắn cho bạn</string>
+    <string name="notification_bidder_canceled">đã hủy việc đã ứng tuyển</string>
+    <string name="notification_bid_received">đã nhận được một đề nghị làm việc</string>
+    <string name="notification_bid_accepted">đã chấp nhận đề nghị làm việc của bạn</string>
+    <string name="notification_task_reminder">chuẩn bị đi làm</string>
+    <string name="notification_new_task_alert">có một việc phù hợp với bạn</string>
+    <string name="notification_poster_canceled">đã hủy việc bạn ứng tuyển</string>
+
+    <string name="notification_review_received_matcher">đánh giá</string>
+    <string name="notification_comment_received_matcher">tin nhắn</string>
+    <string name="notification_bidder_canceled_matcher">hủy việc đã ứng tuyển</string>
+    <string name="notification_bid_received_matcher">để nghị làm việc</string>
+    <string name="notification_bid_accepted_matcher">chấp nhận để nghị</string>
+    <string name="notification_task_reminder_matcher">chuẩn bị</string>
+    <string name="notification_new_task_alert_matcher">phù hợp</string>
+    <string name="notification_poster_canceled_matcher">hủy việc</string>
+
+    <string name="notification_review_received_color">#00A2E5</string>
+    <string name="notification_comment_received_color">#00A2E5</string>
+    <string name="notification_bidder_canceled_color">#FF3100</string>
+    <string name="notification_bid_received_color">#00A2E5</string>
+    <string name="notification_bid_accepted_color">#00A2E5</string>
+    <string name="notification_task_reminder_color">#00A2E5</string>
+    <string name="notification_new_task_alert_color">#00A2E5</string>
+    <string name="notification_poster_canceled_color">#FF3100</string>
+
+    <!-- my task adapter -->
+    <string name="my_task_adapter_start_time">Ngày làm :</string>
+    <string name="my_task_adapter_task_type">Phân loại :</string>
+    <string name="my_task_adapter_address">Địa chỉ :</string>
 
 </resources>

@@ -155,8 +155,8 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
     @Override
     protected void initData() {
 
-        if (getIntent().hasExtra(Constants.TASK_STATUS_EXTRA))
-            taskStatus = (TaskStatus) getIntent().getSerializableExtra(Constants.TASK_STATUS_EXTRA);
+        taskStatus = (TaskStatus) getIntent().getSerializableExtra(Constants.TASK_STATUS_EXTRA);
+        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
 
         //test data
         taskStatus = TaskStatus.WorkerDoneTask;
@@ -185,7 +185,6 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
                 break;
 
         }
-
 
         useCacheData();
         getData();

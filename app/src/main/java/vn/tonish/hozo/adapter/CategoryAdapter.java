@@ -69,10 +69,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
             imgPresent = (CircleImageView) itemView.findViewById(R.id.img_present);
             tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
             tvDes = (TextViewHozo) itemView.findViewById(R.id.tv_description);
+
+            itemView.setOnClickListener(this);
         }
 
         @Override

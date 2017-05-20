@@ -161,6 +161,7 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
 
     @Override
     protected void initData() {
+        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
         workDetailView.updateStatus(getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
         workDetailView.updateBtnOffer(false);
         workDetailView.updateBtnCallRate(false, false, "");

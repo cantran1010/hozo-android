@@ -160,6 +160,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
 
     @Override
     protected void initData() {
+        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
         workDetailView.updateStatus(getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
         workDetailView.updateBtnOffer(false);
         workDetailView.updateBtnCallRate(false, false, "");
