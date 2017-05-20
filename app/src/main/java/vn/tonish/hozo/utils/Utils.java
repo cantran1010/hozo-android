@@ -29,6 +29,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.view.EdittextHozo;
 
@@ -156,6 +157,9 @@ public class Utils {
         } else {
             return "";
         }
+    }
+    public static String getNameCategoryById( int  id) {
+        return CategoryManager.getCategoryById(id).getName();
     }
 
     @SuppressWarnings("deprecation")
