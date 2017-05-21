@@ -9,6 +9,8 @@ import vn.tonish.hozo.activity.CommentsActivity;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.utils.LogUtils;
 
+import static vn.tonish.hozo.utils.DateTimeUtils.getDateFromStringIso;
+
 /**
  * Created by CanTran on 5/17/17.
  */
@@ -22,10 +24,11 @@ public class CommentsManager {
         realm.beginTransaction();
 
         for (int i = 0; i < comments.size(); i++) {
+            comments.get(i).setCraeatedDateAt(getDateFromStringIso(comments.get(i).getCreatedAt()));
             realm.insertOrUpdate(comments.get(i));
         }
-
         realm.commitTransaction();
+
     }
 
     public static List<Comment> getAllComment() {
@@ -55,7 +58,7 @@ public class CommentsManager {
         LogUtils.d(TAG, "getCommentsSince start ");
         List<Comment> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
-        List<Comment> comments = realm.where(Comment.class).lessThan("createdAt", sinceDate).findAll().sort("createdAt");
+        List<Comment> comments = realm.where(Comment.class).lessThan("craeatedDateAt", sinceDate).findAll().sort("createdAt");
         if (comments.size() > 0) {
 
             if (comments.size() >= CommentsActivity.LIMIT)

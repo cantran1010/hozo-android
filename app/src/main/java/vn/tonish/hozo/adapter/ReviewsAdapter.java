@@ -4,22 +4,24 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.model.Review;
+import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.view.ReviewsView;
 
 /**
  * Created by Can Tran on 14/05/2017.
  */
 
-public class ReviewsAdapter extends BaseAdapter<Review, ReviewsAdapter.MyViewHolder, LoadingHolder> {
-    private ArrayList<Review> reviews;
+public class ReviewsAdapter extends BaseAdapter<ReviewEntity, ReviewsAdapter.MyViewHolder, LoadingHolder> {
+    private Context context;
+    private List<ReviewEntity> reviews;
 
 
-    public ReviewsAdapter(Context context, ArrayList<Review> reviews) {
-        super(context, reviews);
+    public ReviewsAdapter(Context context, List<ReviewEntity> reviews) {
+        super(context,reviews);
+        this.context=context;
         this.reviews = reviews;
     }
 
