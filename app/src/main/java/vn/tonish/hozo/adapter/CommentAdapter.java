@@ -1,8 +1,9 @@
 package vn.tonish.hozo.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
@@ -11,48 +12,28 @@ import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.view.CommentView;
 
 /**
- * Created by CanTran on 5/16/17.
+ * Created by LongBui on 4/21/2017.
  */
 
-public class CommentAdapter extends BaseAdapter<Comment, CommentAdapter.MyViewHolder, LoadingHolder> {
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHolder> {
 
 
-    private ArrayList<Comment> comments;
+    private final ArrayList<Comment> comments;
 
-
-    public CommentAdapter(Context context, ArrayList<Comment> comments) {
-        super(context, comments);
+    public CommentAdapter(ArrayList<Comment> comments) {
         this.comments = comments;
     }
 
-
     @Override
-    public int getItemLayout() {
-        return R.layout.item_freebackview;
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_comment, parent, false);
+        return new MyViewHolder(itemView);
     }
 
     @Override
-    public int getLoadingLayout() {
-        return R.layout.bottom_loading;
-    }
-
-    @Override
-    public MyViewHolder returnItemHolder(View view) {
-        return new MyViewHolder(view);
-    }
-
-    @Override
-    public LoadingHolder returnLoadingHolder(View view) {
-        return new LoadingHolder(view, context);
-    }
-
-
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        MyViewHolder holder_ = (MyViewHolder) holder;
-        holder_.commentView.updateData(comments.get(position));
-
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        holder.commentView.updateData(comments.get(position));
     }
 
     @Override

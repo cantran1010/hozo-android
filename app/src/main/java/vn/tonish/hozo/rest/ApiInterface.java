@@ -15,6 +15,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
+import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
@@ -68,7 +69,7 @@ public interface ApiInterface {
     Call<Void> logOut(@Header("Authorization") String token);
 
     @GET("users/{user_id}/reviews")
-    Call<List<Review>> getUserReviews(@Header("Authorization") String token, @Path("user_id") int id, @QueryMap Map<String, String> option);
+    Call<List<ReviewEntity>> getUserReviews(@Header("Authorization") String token, @Path("user_id") int id, @QueryMap Map<String, String> option);
 
     @POST("tasks/{taskId}/comments")
     Call<Comment> commentTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
@@ -100,8 +101,7 @@ public interface ApiInterface {
     @GET("users/tasks")
     Call<List<TaskResponse>> getMyTask(@Header("Authorization") String token, @QueryMap Map<String, String> option);
 
-    @POST("tasks/{taskId}/comments")
-    Call<Comment> getCommens(@Header("Authorization") String token, @Path("taskId") int taskId, @QueryMap Map<String, String> params);
-
+    @GET("tasks/{taskId}/comments")
+    Call<List<Comment>> getCommens(@Header("Authorization") String token, @Path("taskId") int taskId, @QueryMap Map<String, String> params);
 
 }
