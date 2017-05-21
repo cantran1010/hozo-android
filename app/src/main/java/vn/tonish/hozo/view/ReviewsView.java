@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.model.Review;
+import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.Utils;
 
@@ -55,7 +55,7 @@ public class ReviewsView extends LinearLayout {
         ratingBar = (RatingBar) findViewById(R.id.rating);
     }
 
-    public void updateData(Review review) {
+    public void updateData(ReviewEntity review) {
 
         Utils.displayImageAvatar(getContext(), imgAvatar, review.getAuthorAvatar());
         tvName.setText(review.getAuthorName());

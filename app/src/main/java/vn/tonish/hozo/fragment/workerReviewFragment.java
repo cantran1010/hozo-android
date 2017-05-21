@@ -46,13 +46,13 @@ public class workerReviewFragment extends BaseFragment implements View.OnClickLi
         btnMoreReview.setOnClickListener(this);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            userRate = bundle.getFloat(Constants.USER_POSTER_RATING);
-            reviews = bundle.getParcelableArrayList(Constants.USER_TASKER_REVIEWS);
-            posterRating.setRating(userRate);
-            userID = bundle.getInt(Constants.USER_ID);
-            reviewsListView.updateData((ArrayList<Review>) reviews);
-            String rate = getContext().getString(R.string.profile_rate) + " (" + reviews.size() + ") ";
-            tvRate.setText(rate);
+//            userRate = bundle.getFloat(Constants.USER_POSTER_RATING);
+//            reviews = bundle.getParcelableArrayList(Constants.USER_TASKER_REVIEWS);
+//            posterRating.setRating(userRate);
+//            userID = bundle.getInt(Constants.USER_ID);
+//            reviewsListView.updateData((ArrayList<ReviewEntity>) reviews);
+//            String rate = getContext().getString(R.string.profile_rate) + " (" + reviews.size() + ") ";
+//            tvRate.setText(rate);
         }
 
     }

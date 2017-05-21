@@ -53,7 +53,8 @@ public class DataParse {
         userEntity.setFacebookId(user.getFacebookId());
         userEntity.setFullName(user.getFullName());
         userEntity.setPhoneNumber(user.getPhoneNumber());
-        userEntity.setVerified(user.getVerified());
+        if (user.getVerified() != null)
+            userEntity.setVerified(user.getVerified());
         userEntity.setPosterAverageRating(user.getPosterAverageRating());
         userEntity.setPosterReviewCount(user.getPosterReviewCount());
         userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
@@ -81,7 +82,8 @@ public class DataParse {
         userEntity.setFacebookId(user.getFacebookId());
         userEntity.setFullName(user.getFullName());
         userEntity.setPhoneNumber(user.getPhoneNumber());
-        userEntity.setVerified(user.getVerified());
+        if (user.getVerified() != null)
+            userEntity.setVerified(user.getVerified());
         userEntity.setPosterAverageRating(user.getPosterAverageRating());
         userEntity.setPosterReviewCount(user.getPosterReviewCount());
         userEntity.setTaskerAverageRating(user.getTaskerAverageRating());

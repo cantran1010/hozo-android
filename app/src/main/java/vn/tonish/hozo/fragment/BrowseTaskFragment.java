@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private final static String TAG = BrowseTaskFragment.class.getSimpleName();
     public final static int limit = 10;
     private ImageView imgSearch, imgLocation, imgControls, imgBack, imgClear;
-    private FrameLayout layoutHeader, layoutSearch;
+    private RelativeLayout layoutHeader, layoutSearch;
     private EdittextHozo edtSearch;
     private RecyclerView rcvTask;
     private TaskAdapter taskAdapter;
@@ -84,9 +84,9 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         imgControls = (ImageView) findViewById(R.id.img_controls);
         imgClear = (ImageView) findViewById(R.id.img_clear);
         imgBack = (ImageView) findViewById(R.id.img_back);
-        layoutHeader = (FrameLayout) findViewById(R.id.browse_task_header);
+        layoutHeader = (RelativeLayout) findViewById(R.id.browse_task_header);
         edtSearch = (EdittextHozo) findViewById(edt_search);
-        layoutSearch = (FrameLayout) findViewById(fr_search);
+        layoutSearch = (RelativeLayout) findViewById(fr_search);
         rcvTask = (RecyclerView) findViewById(R.id.lv_list);
         createSwipeToRefresh();
     }
@@ -138,7 +138,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     private void getCacheDataFirstPage() {
         LogUtils.d(TAG, "getCacheDataFirstPage start");
-        List<TaskEntity> taskEntities = TaskManager.getFirstPage();
+        List<TaskEntity> taskEntities = TaskManager.getTaskEntitiesSince(null);
         if (taskEntities.size() > 0)
             sinceDate = taskEntities.get(taskEntities.size() - 1).getCreatedAt();
         taskList = DataParse.converListTaskEntityToTaskResponse(taskEntities);
