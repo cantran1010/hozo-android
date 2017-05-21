@@ -12,7 +12,7 @@ import java.util.List;
 
 public class User implements Serializable {
 
-    private Integer id;
+    private int id;
 
     @SerializedName("full_name")
     private String fullName;

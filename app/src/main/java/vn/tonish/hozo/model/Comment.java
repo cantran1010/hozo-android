@@ -6,11 +6,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by LongBui on 20/04/2017.
  */
 public class Comment extends RealmObject implements Serializable {
+    @PrimaryKey
     private int id;
     @SerializedName("author_id")
     private int authorId;

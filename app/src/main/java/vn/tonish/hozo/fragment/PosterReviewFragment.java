@@ -1,9 +1,6 @@
 package vn.tonish.hozo.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.RatingBar;
 
@@ -13,7 +10,7 @@ import java.util.List;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.ReviewsActivity;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.model.Review;
+import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.view.ReviewsListView;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -26,7 +23,7 @@ public class PosterReviewFragment extends BaseFragment implements View.OnClickLi
     private RatingBar posterRating;
     private TextViewHozo tvRate, btnMoreReview;
     private ReviewsListView reviewsListView;
-    private List<Review> reviews = new ArrayList<>();
+    private List<ReviewEntity> reviews = new ArrayList<>();
     private float userRate = 0;
     private int userID = 0;
 
@@ -45,17 +42,17 @@ public class PosterReviewFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initData() {
-        btnMoreReview.setOnClickListener(this);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            userRate = bundle.getFloat(Constants.USER_POSTER_RATING);
-            reviews = bundle.getParcelableArrayList(Constants.USER_POSTER_REVIEWS);
-            posterRating.setRating(userRate);
-            userID = bundle.getInt(Constants.USER_ID);
-            reviewsListView.updateData((ArrayList<Review>) reviews);
-            String rate = getContext().getString(R.string.profile_rate) + " (" + reviews.size() + ") ";
-            tvRate.setText(rate);
-        }
+//        btnMoreReview.setOnClickListener(this);
+//        Bundle bundle = getArguments();
+//        if (bundle != null) {
+//            userRate = bundle.getFloat(Constants.USER_POSTER_RATING);
+//            reviews = bundle.getParcelableArrayList(Constants.USER_POSTER_REVIEWS);
+//            posterRating.setRating(userRate);
+//            userID = bundle.getInt(Constants.USER_ID);
+//            reviewsListView.updateData((ArrayList<ReviewEntity>) reviews);
+//            String rate = getContext().getString(R.string.profile_rate) + " (" + reviews.size() + ") ";
+////            tvRate.setText(rate);
+//        }
 
     }
 

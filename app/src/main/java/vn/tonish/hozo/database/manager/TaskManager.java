@@ -45,27 +45,17 @@ public class TaskManager {
         Realm realm = Realm.getDefaultInstance();
         return realm.where(TaskEntity.class).equalTo("id", taskId).findFirst();
     }
-    public static List<TaskEntity> getFirstPage() {
-        LogUtils.d(TAG, "getFirstPage ");
-        List<TaskEntity> result = new ArrayList<>();
-        Realm realm = Realm.getDefaultInstance();
-        List<TaskEntity> taskEntities = realm.where(TaskEntity.class).findAll().sort("createdAt");
-        if (taskEntities.size() > 0) {
-
-            if (taskEntities.size() >= BrowseTaskFragment.limit)
-                result = taskEntities.subList(0, BrowseTaskFragment.limit);
-            else
-                result = taskEntities;
-
-        }
-        return result;
-    }
 
     public static List<TaskEntity> getTaskEntitiesSince(Date sinceDate) {
         LogUtils.d(TAG, "getTaskEntitiesSince");
         List<TaskEntity> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
-        List<TaskEntity> taskEntities = realm.where(TaskEntity.class).lessThan("createdAt", sinceDate).findAll().sort("createdAt");
+        List<TaskEntity> taskEntities;
+        if (sinceDate == null) {
+            taskEntities = realm.where(TaskEntity.class).findAll().sort("createdAt");
+        } else {
+            taskEntities = realm.where(TaskEntity.class).lessThan("createdAt", sinceDate).findAll().sort("createdAt");
+        }
         if (taskEntities.size() > 0) {
 
             if (taskEntities.size() >= BrowseTaskFragment.limit)
@@ -75,6 +65,7 @@ public class TaskManager {
         }
         return result;
     }
+
     public static void deleteAll() {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
