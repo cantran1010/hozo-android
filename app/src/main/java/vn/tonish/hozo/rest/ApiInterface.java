@@ -16,6 +16,7 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 import vn.tonish.hozo.database.entity.ReviewEntity;
+import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
@@ -63,7 +64,7 @@ public interface ApiInterface {
     Call<TaskResponse> getDetailTask(@Header("Authorization") String token, @Path("taskId") int taskId);
 
     @GET("users")
-    Call<User> getMyAccountInfor(@Header("Authorization") String token);
+    Call<UserEntity> getMyAccountInfor(@Header("Authorization") String token);
 
     @POST("user/logout")
     Call<Void> logOut(@Header("Authorization") String token);
