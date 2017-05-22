@@ -142,7 +142,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     private void save() {
         AddvanceSetting addvanceSetting = new AddvanceSetting();
-        addvanceSetting.setUserId(UserManager.getUserLogin().getId());
+        addvanceSetting.setUserId(UserManager.getMyUser().getId());
         addvanceSetting.setCategories(mCategory.getCategories());
         addvanceSetting.setMinWorkerRate(minWorkerRate);
         addvanceSetting.setMaxWorkerRate(maxWorkerRate);
