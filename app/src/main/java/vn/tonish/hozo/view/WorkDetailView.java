@@ -133,7 +133,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
         taskProgressView.updateData(taskResponse.getBidderCount(), (taskResponse.getWorkerCount() - taskResponse.getBidderCount() - taskResponse.getAssigneeCount()), taskResponse.getAssigneeCount());
 
-        tvPrice.setText(taskResponse.getCurrency());
+        tvPrice.setText(Utils.formatNumber(taskResponse.getWorkerCount() * taskResponse.getWorkerRate()) + " VND");
         tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
         tvTime.setText(DateTimeUtils.getHourMinuteFromIso(taskResponse.getStartTime()) + " " + getContext().getString(R.string.detail_task_time_to) + " " + DateTimeUtils.getHourMinuteFromIso(taskResponse.getEndTime()));
         tvAddress.setText(taskResponse.getAddress());

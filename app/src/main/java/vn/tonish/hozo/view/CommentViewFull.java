@@ -57,4 +57,5 @@ public class CommentViewFull extends RelativeLayout {
         rcvComment.setLayoutManager(layoutManager);
         rcvComment.setAdapter(commentAdapter);
     }
+
 }

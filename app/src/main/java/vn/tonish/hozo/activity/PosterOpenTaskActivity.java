@@ -31,9 +31,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -196,17 +193,14 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     private void getData() {
         ProgressDialogUtils.showProgressDialog(this);
 
-        Map<String, String> params = new HashMap<>();
-        params.put("id", taskId + "");
-
-        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), params).enqueue(new Callback<List<TaskResponse>>() {
+        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId).enqueue(new Callback<TaskResponse>() {
             @Override
-            public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
+            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                 LogUtils.d(TAG, "getDetailTask , status code : " + response.code());
                 LogUtils.d(TAG, "getDetailTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    taskResponse = response.body().get(0);
+                    taskResponse = response.body();
                     updateUi();
                     storeTaskToDatabase();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -233,7 +227,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
             }
 
             @Override
-            public void onFailure(Call<List<TaskResponse>> call, Throwable t) {
+            public void onFailure(Call<TaskResponse> call, Throwable t) {
                 LogUtils.e(TAG, "getDetailTask , error : " + t.getMessage());
                 DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
@@ -258,6 +252,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     }
 
     private void updateUi() {
+        LogUtils.d(TAG, "updateUi start");
         workDetailView.updateWork(taskResponse);
 
         if (googleMap != null) {
@@ -272,6 +267,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         // update bidder list
         bidders = (ArrayList<Bidder>) taskResponse.getBidders();
         refreshBidderList();
+        for (int i = 0; i < bidders.size(); i++) bidders.get(i).setTaskId(taskResponse.getId());
 
         //update assigners list
         assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
@@ -638,11 +634,18 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Comment comment = (Comment) intent.getSerializableExtra(Constants.COMMENT_EXTRA);
-            LogUtils.d(TAG, "broadcastReceiver , comment : " + comment.toString());
-            edtComment.setText("@" + comment.getFullName() + " \n");
 
-            edtComment.setSelection(edtComment.getText().length());
+            if (intent.hasExtra(Constants.COMMENT_EXTRA)) {
+                Comment comment = (Comment) intent.getSerializableExtra(Constants.COMMENT_EXTRA);
+                LogUtils.d(TAG, "broadcastReceiver , comment : " + comment.toString());
+                edtComment.setText("@" + comment.getFullName() + " \n");
+                edtComment.setSelection(edtComment.getText().length());
+            } else if (intent.hasExtra(Constants.EXTRA_TASK)) {
+                taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
+                updateUi();
+                storeTaskToDatabase();
+            }
+
         }
     };
 }

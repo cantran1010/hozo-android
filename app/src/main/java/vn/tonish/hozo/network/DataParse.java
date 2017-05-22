@@ -228,11 +228,15 @@ public class DataParse {
         taskResponse.setRole(taskEntity.getRole());
         taskResponse.setCreatedAt(DateTimeUtils.fromDateIso(taskEntity.getCreatedAt()));
 
-        String[] arrAtachments = taskEntity.getAttachments().split(",");
         List<String> listAttachments = new ArrayList<>();
-        for (int i = 0; i < arrAtachments.length; i++)
-            if (!arrAtachments[i].equals(""))
-                listAttachments.add(arrAtachments[i]);
+
+        if (taskEntity.getAttachments() != null) {
+            String[] arrAtachments = taskEntity.getAttachments().split(",");
+            for (int i = 0; i < arrAtachments.length; i++)
+                if (!arrAtachments[i].equals(""))
+                    listAttachments.add(arrAtachments[i]);
+        }
+
 //        List<String> listAttachments = new ArrayList<String>(Arrays.asList(arrAtachments));
         taskResponse.setAttachments(listAttachments);
 

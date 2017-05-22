@@ -29,9 +29,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -67,6 +64,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 import vn.tonish.hozo.view.WorkAroundMapFragment;
 import vn.tonish.hozo.view.WorkDetailView;
 
+import static vn.tonish.hozo.R.string.call;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
@@ -173,7 +171,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
             case WorkerAcceptedTask:
                 workDetailView.updateBtnOffer(false);
                 workDetailView.updateStatus(getString(R.string.received), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
-                workDetailView.updateBtnCallRate(true, true, getString(R.string.call));
+                workDetailView.updateBtnCallRate(true, true, getString(call));
                 workDetailView.updateTaskProgressViewVisibility(false);
                 break;
 
@@ -212,17 +210,14 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
     private void getData() {
         ProgressDialogUtils.showProgressDialog(this);
 
-        Map<String, String> params = new HashMap<>();
-        params.put("id", taskId + "");
-
-        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), params).enqueue(new Callback<List<TaskResponse>>() {
+        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId).enqueue(new Callback<TaskResponse>() {
             @Override
-            public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
+            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                 LogUtils.d(TAG, "getDetailTask , status code : " + response.code());
                 LogUtils.d(TAG, "getDetailTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    taskResponse = response.body().get(0);
+                    taskResponse = response.body();
                     updateUi();
                     storeTaskToDatabase();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -249,7 +244,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
             }
 
             @Override
-            public void onFailure(Call<List<TaskResponse>> call, Throwable t) {
+            public void onFailure(Call<TaskResponse> call, Throwable t) {
                 LogUtils.e(TAG, "getDetailTask , error : " + t.getMessage());
                 DialogUtils.showRetryDialog(WorkerOfferMadeActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override

@@ -2,13 +2,15 @@ package vn.tonish.hozo.rest.responseRes;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 
 /**
  * Created by LongBui on 5/11/2017.
  */
 
-public class Bidder extends RealmObject{
+public class Bidder extends RealmObject implements Serializable{
     private Integer id;
     @SerializedName("full_name")
     private String fullName;
@@ -19,6 +21,15 @@ public class Bidder extends RealmObject{
     @SerializedName("bidded_at")
     private String bidedAt;
     private String phone;
+    private int taskId;
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
 
     public String getFullName() {
         return fullName;

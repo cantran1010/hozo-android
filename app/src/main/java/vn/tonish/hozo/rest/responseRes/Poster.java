@@ -2,13 +2,15 @@ package vn.tonish.hozo.rest.responseRes;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 
 /**
  * Created by LongBui on 5/11/2017.
  */
 
-public class Poster extends RealmObject{
+public class Poster extends RealmObject implements Serializable{
 
     private int taskId;
     @SerializedName("full_name")

@@ -111,6 +111,7 @@ public class Constants {
     // accept offer
     public static final String PARAMETER_ACCEPT_OFFER = "status";
     public static final String PARAMETER_ACCEPTED_OFFER = "accepted";
+    public static final String PARAMETER_ACCEPTED_OFFER_USER_ID = "user_id";
 
     //update task
     public static final String PARAM_UPDATE_TASK = "status";

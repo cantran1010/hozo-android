@@ -48,7 +48,7 @@ public class TaskResponse implements Serializable {
     @SerializedName("bidder_count")
     private int bidderCount;
     private String role;
-    private List<String> attachments = null;
+    private List<String> attachments = new ArrayList<>();
     private Integer[] attachmentsId;
     private String currency;
     private Poster poster;

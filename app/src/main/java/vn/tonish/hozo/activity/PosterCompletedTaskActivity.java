@@ -31,9 +31,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -190,17 +187,14 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
     private void getData() {
         ProgressDialogUtils.showProgressDialog(this);
 
-        Map<String, String> params = new HashMap<>();
-        params.put("id", taskId + "");
-
-        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), params).enqueue(new Callback<List<TaskResponse>>() {
+        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId).enqueue(new Callback<TaskResponse>() {
             @Override
-            public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
+            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                 LogUtils.d(TAG, "getDetailTask , status code : " + response.code());
                 LogUtils.d(TAG, "getDetailTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    taskResponse = response.body().get(0);
+                    taskResponse = response.body();
                     updateUi();
                     storeTaskToDatabase();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -227,7 +221,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
             }
 
             @Override
-            public void onFailure(Call<List<TaskResponse>> call, Throwable t) {
+            public void onFailure(Call<TaskResponse> call, Throwable t) {
                 LogUtils.e(TAG, "getDetailTask , error : " + t.getMessage());
                 DialogUtils.showRetryDialog(PosterCompletedTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
