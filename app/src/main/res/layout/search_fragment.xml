@@ -8,8 +8,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@drawable/background_bar">
+        android:layout_height="?android:attr/actionBarSize">
 
         <FrameLayout
             android:id="@+id/browse_task_header"
@@ -27,30 +26,33 @@
 
             <ImageView
                 android:id="@+id/img_search"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
                 android:layout_gravity="end"
                 android:layout_marginEnd="125dp"
-                android:padding="16dp"
+                android:background="@drawable/btn_back_selector"
+                android:scaleType="centerInside"
                 android:src="@drawable/search"
                 tools:ignore="RtlCompat" />
 
             <ImageView
                 android:id="@+id/img_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
                 android:layout_gravity="end"
                 android:layout_marginEnd="65dp"
-                android:padding="17dp"
+                android:background="@drawable/btn_back_selector"
+                android:scaleType="centerInside"
                 android:src="@drawable/location"
                 tools:ignore="RtlCompat" />
 
             <ImageView
                 android:id="@+id/img_controls"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
                 android:layout_gravity="end"
-                android:padding="17dp"
+                android:background="@drawable/btn_back_selector"
+                android:scaleType="centerInside"
                 android:src="@drawable/controls" />
         </FrameLayout>
 
@@ -108,6 +110,12 @@
                 android:visibility="gone" />
 
         </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="bottom"
+            android:background="@color/gray" />
 
     </FrameLayout>
 

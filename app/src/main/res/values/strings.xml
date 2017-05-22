@@ -53,7 +53,7 @@
     <string name="select_task_title">Đăng việc</string>
     <string name="browse_task_title">Tìm việc</string>
     <string name="my_task_title">Việc của tôi</string>
-    <string name="other_title">Khác</string>
+    <string name="other_title">Tùy chỉnh</string>
 
     <!--  post a task layout-->
     <string name="tv_post_a_task_title">Chi tiết đăng việc</string>
@@ -334,9 +334,9 @@
 
     <string name="notification_review_received_matcher">đánh giá</string>
     <string name="notification_comment_received_matcher">tin nhắn</string>
-    <string name="notification_bidder_canceled_matcher">hủy việc đã ứng tuyển</string>
-    <string name="notification_bid_received_matcher">để nghị làm việc</string>
-    <string name="notification_bid_accepted_matcher">chấp nhận để nghị</string>
+    <string name="notification_bidder_canceled_matcher">hủy việc</string>
+    <string name="notification_bid_received_matcher">đề nghị</string>
+    <string name="notification_bid_accepted_matcher">chấp nhận</string>
     <string name="notification_task_reminder_matcher">chuẩn bị</string>
     <string name="notification_new_task_alert_matcher">phù hợp</string>
     <string name="notification_poster_canceled_matcher">hủy việc</string>
@@ -354,5 +354,15 @@
     <string name="my_task_adapter_start_time">Ngày làm :</string>
     <string name="my_task_adapter_task_type">Phân loại :</string>
     <string name="my_task_adapter_address">Địa chỉ :</string>
+    <string name="my_task_status_worker_open">Ứng tuyển</string>
+    <string name="my_task_status_worker_assigned">Đã nhận</string>
+    <string name="my_task_status_worker_completed">Hoàn thành</string>
+    <string name="my_task_status_poster_open">Đã đăng</string>
+    <string name="my_task_status_poster_assigned">Đã giao</string>
+    <string name="my_task_status_poster_completed">Hoàn thành</string>
+    <!-- share app -->
+    <string name="share_app_title">Chọn ứng dụng bạn muốn chia sẻ</string>
+    <string name="share_app_content">Hãy chia sẻ cho bạn bè ứng dụng tuyệt vời này \n</string>
+    <string name="share_app_error">Rất tiếc,điện thoại bạn không cài đặt ứng dụng có thể chia sẻ</string>
 
 </resources>

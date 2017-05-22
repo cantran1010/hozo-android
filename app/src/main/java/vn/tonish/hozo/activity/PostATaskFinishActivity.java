@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -185,7 +187,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             jsonRequest.put("worker_count", Integer.valueOf(edtNumberWorker.getText().toString().replace(".", "")));
 
             if (work.getAttachmentsId() != null && !work.getAttachmentsId().equals(""))
-                jsonRequest.put("attachments", work.getAttachmentsId());
+                jsonRequest.put("attachments",  Arrays.toString(work.getAttachmentsId()));
 
         } catch (JSONException e) {
             e.printStackTrace();

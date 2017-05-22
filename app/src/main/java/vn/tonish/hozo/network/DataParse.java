@@ -53,7 +53,7 @@ public class DataParse {
         userEntity.setFacebookId(user.getFacebookId());
         userEntity.setFullName(user.getFullName());
         userEntity.setPhoneNumber(user.getPhoneNumber());
-        userEntity.setVerified(user.getVerified());
+//        userEntity.setVerified(user.getVerified());
         userEntity.setPosterAverageRating(user.getPosterAverageRating());
         userEntity.setPosterReviewCount(user.getPosterReviewCount());
         userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
@@ -81,7 +81,7 @@ public class DataParse {
         userEntity.setFacebookId(user.getFacebookId());
         userEntity.setFullName(user.getFullName());
         userEntity.setPhoneNumber(user.getPhoneNumber());
-        userEntity.setVerified(user.getVerified());
+//        userEntity.setVerified(user.getVerified());
         userEntity.setPosterAverageRating(user.getPosterAverageRating());
         userEntity.setPosterReviewCount(user.getPosterReviewCount());
         userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
@@ -221,16 +221,22 @@ public class DataParse {
         taskResponse.setAddress(taskEntity.getAddress());
         taskResponse.setWorkerRate(taskEntity.getWorkerRate());
         taskResponse.setWorkerCount(taskEntity.getWorkerCount());
+        taskResponse.setAssigneeCount(taskEntity.getAssigneeCount());
+        taskResponse.setBidderCount(taskEntity.getBidderCount());
         taskResponse.setCurrency(taskEntity.getCurrency());
         taskResponse.setPoster(taskEntity.getPoster());
         taskResponse.setRole(taskEntity.getRole());
         taskResponse.setCreatedAt(DateTimeUtils.fromDateIso(taskEntity.getCreatedAt()));
 
-        String[] arrAtachments = taskEntity.getAttachments().split(",");
         List<String> listAttachments = new ArrayList<>();
-        for (int i = 0; i < arrAtachments.length; i++)
-            if (!arrAtachments[i].equals(""))
-                listAttachments.add(arrAtachments[i]);
+
+        if (taskEntity.getAttachments() != null) {
+            String[] arrAtachments = taskEntity.getAttachments().split(",");
+            for (int i = 0; i < arrAtachments.length; i++)
+                if (!arrAtachments[i].equals(""))
+                    listAttachments.add(arrAtachments[i]);
+        }
+
 //        List<String> listAttachments = new ArrayList<String>(Arrays.asList(arrAtachments));
         taskResponse.setAttachments(listAttachments);
 
@@ -272,6 +278,8 @@ public class DataParse {
         taskEntity.setAddress(taskResponse.getAddress());
         taskEntity.setWorkerRate(taskResponse.getWorkerRate());
         taskEntity.setWorkerCount(taskResponse.getWorkerCount());
+        taskEntity.setAssigneeCount(taskResponse.getAssigneeCount());
+        taskEntity.setBidderCount(taskResponse.getBidderCount());
         taskEntity.setCurrency(taskResponse.getCurrency());
         taskEntity.setPoster(taskResponse.getPoster());
         taskEntity.setRole(taskResponse.getRole());

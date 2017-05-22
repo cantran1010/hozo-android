@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -40,10 +40,10 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-       <!-- <activity
+        <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />-->
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.HomeActivity"
             android:label="@string/app_name"
@@ -120,15 +120,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.WorkerAcceptedTaskActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activity.WorkerDoneTaskActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".activity.PreviewImageListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BrowerTaskMapActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.other.GeneralInfoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.EditProfileActivity"

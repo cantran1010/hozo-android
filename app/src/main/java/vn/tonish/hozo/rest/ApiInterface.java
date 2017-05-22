@@ -16,11 +16,10 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.model.Review;
-import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.User;
-import vn.tonish.hozo.rest.responseRes.AcceptOfferResponse;
 import vn.tonish.hozo.rest.responseRes.BidResponse;
 import vn.tonish.hozo.rest.responseRes.CancelOfferResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
@@ -59,6 +58,9 @@ public interface ApiInterface {
     @GET("tasks")
     Call<List<TaskResponse>> getDetailTask(@Header("Authorization") String token, @QueryMap Map<String, String> params);
 
+    @GET("tasks/{taskId}")
+    Call<TaskResponse> getDetailTask(@Header("Authorization") String token, @Path("taskId") int taskId);
+
     @GET("users")
     Call<User> getMyAccountInfor(@Header("Authorization") String token);
 
@@ -77,8 +79,11 @@ public interface ApiInterface {
     @POST("tasks/{taskId}/bids")
     Call<BidResponse> bidsTask(@Header("Authorization") String token, @Path("taskId") int taskId);
 
-    @POST("bids/{bidId}")
-    Call<AcceptOfferResponse> acceptOffer(@Header("Authorization") String token, @Path("bidId") int bidId, @Body RequestBody body);
+//    @POST("bids/{bidId}")
+//    Call<AcceptOfferResponse> acceptOffer(@Header("Authorization") String token, @Path("bidId") int bidId, @Body RequestBody body);
+
+    @POST("tasks/{taskId}/accept")
+    Call<TaskResponse> acceptOffer(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
 
     @PUT("tasks/{taskId}")
     Call<TaskResponse> updateTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);

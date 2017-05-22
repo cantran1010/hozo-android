@@ -79,14 +79,15 @@ public class Constants {
     public static final String IMAGE_POSITITON_EXTRA = "position_extra";
     public static final String COMMENT_EXTRA = "comment_extra";
     public static final String EXTRA_CATEGORY_ID = "Category_id";
-    public static final String EXTRA_MIN_PRICE ="min_price" ;
-    public static final String EXTRA_MAX_PRICE ="max_price" ;
+    public static final String EXTRA_MIN_PRICE = "min_price";
+    public static final String EXTRA_MAX_PRICE = "max_price";
     public static final String TASK_ID_EXTRA = "task_id_extra";
     public static final String USER_ID_EXTRA = "user_id_extra";
     public static final String COMMENT_ID_EXTRA = "comment_id_extra";
     public static final String TASK_STATUS_EXTRA = "task_status_extra";
     public static final String URL_EXTRA = "url_extra";
     public static final String TITLE_INFO_EXTRA = "title_info_extra";
+    public static final String LIST_TASK_EXTRA = "list_task_extra";
     public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
 
     public static final String USER_POSTER_REVIEWS = "poster_reviews";
@@ -110,9 +111,20 @@ public class Constants {
     // accept offer
     public static final String PARAMETER_ACCEPT_OFFER = "status";
     public static final String PARAMETER_ACCEPTED_OFFER = "accepted";
+    public static final String PARAMETER_ACCEPTED_OFFER_USER_ID = "user_id";
 
     //update task
     public static final String PARAM_UPDATE_TASK = "status";
     public static final String PARAM_UPDATE_TASK_CANCEL = "canceled";
+
+    //task status
+    public static final String TASK_STATUS_OPEN = "open";
+    public static final String TASK_STATUS_ASSIGNED = "assigned";
+    public static final String TASK_STATUS_COMPLETED = "completed";
+
+    // my task role
+    public static final String ROLE_WORKER = "worker";
+    public static final String ROLE_POSTER = "poster";
+
 
 }

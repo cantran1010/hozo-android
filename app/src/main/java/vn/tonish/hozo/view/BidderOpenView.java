@@ -2,6 +2,7 @@ package vn.tonish.hozo.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -23,8 +24,8 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
-import vn.tonish.hozo.rest.responseRes.AcceptOfferResponse;
 import vn.tonish.hozo.rest.responseRes.Bidder;
+import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -82,7 +83,7 @@ public class BidderOpenView extends LinearLayout {
 
         Utils.displayImageAvatar(getContext(), imgAvatar, bidder.getAvatar());
         tvName.setText(bidder.getFullName());
-        rbRate.setRating(bidder.getPosterAverageRating());
+        rbRate.setRating(bidder.getTaskerAverageRating());
         tvTimeAgo.setText(DateTimeUtils.getTimeAgo(bidder.getBidedAt(), getContext()));
 
         btnAssign.setOnClickListener(new OnClickListener() {
@@ -95,7 +96,7 @@ public class BidderOpenView extends LinearLayout {
                 ProgressDialogUtils.showProgressDialog(getContext());
                 JSONObject jsonRequest = new JSONObject();
                 try {
-                    jsonRequest.put(Constants.PARAMETER_ACCEPT_OFFER, Constants.PARAMETER_ACCEPTED_OFFER);
+                    jsonRequest.put(Constants.PARAMETER_ACCEPTED_OFFER_USER_ID, bidder.getId());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -103,14 +104,17 @@ public class BidderOpenView extends LinearLayout {
                 RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
                 LogUtils.d(TAG, "acceptOffer jsonRequest : " + jsonRequest.toString());
 
-                ApiClient.getApiService().acceptOffer(UserManager.getUserToken(), bidder.getId(),body).enqueue(new Callback<AcceptOfferResponse>() {
+                ApiClient.getApiService().acceptOffer(UserManager.getUserToken(), bidder.getTaskId(), body).enqueue(new Callback<TaskResponse>() {
                     @Override
-                    public void onResponse(Call<AcceptOfferResponse> call, Response<AcceptOfferResponse> response) {
+                    public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                         LogUtils.d(TAG, "acceptOffer code : " + response.code());
                         LogUtils.d(TAG, "acceptOffer body : " + response.body());
 
                         if (response.code() == Constants.HTTP_CODE_OK) {
-
+                            Intent intentAnswer = new Intent();
+                            intentAnswer.setAction("MyBroadcast");
+                            intentAnswer.putExtra(Constants.EXTRA_TASK, response.body());
+                            getContext().sendBroadcast(intentAnswer);
                         } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                             NetworkUtils.RefreshToken(getContext(), new NetworkUtils.RefreshListener() {
                                 @Override
@@ -136,7 +140,7 @@ public class BidderOpenView extends LinearLayout {
                     }
 
                     @Override
-                    public void onFailure(Call<AcceptOfferResponse> call, Throwable t) {
+                    public void onFailure(Call<TaskResponse> call, Throwable t) {
                         DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
@@ -152,6 +156,54 @@ public class BidderOpenView extends LinearLayout {
                     }
                 });
 
+//                ApiClient.getApiService().acceptOffer(UserManager.getUserToken(), bidder.getId(),body).enqueue(new Callback<AcceptOfferResponse>() {
+//                    @Override
+//                    public void onResponse(Call<AcceptOfferResponse> call, Response<AcceptOfferResponse> response) {
+//                        LogUtils.d(TAG, "acceptOffer code : " + response.code());
+//                        LogUtils.d(TAG, "acceptOffer body : " + response.body());
+//
+//                        if (response.code() == Constants.HTTP_CODE_OK) {
+//
+//                        } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+//                            NetworkUtils.RefreshToken(getContext(), new NetworkUtils.RefreshListener() {
+//                                @Override
+//                                public void onRefreshFinish() {
+//                                    doAcceptOffer();
+//                                }
+//                            });
+//                        } else {
+//                            DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+//                                @Override
+//                                public void onSubmit() {
+//                                    doAcceptOffer();
+//                                }
+//
+//                                @Override
+//                                public void onCancel() {
+//
+//                                }
+//                            });
+//                        }
+//
+//                        ProgressDialogUtils.dismissProgressDialog();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<AcceptOfferResponse> call, Throwable t) {
+//                        DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+//                            @Override
+//                            public void onSubmit() {
+//                                doAcceptOffer();
+//                            }
+//
+//                            @Override
+//                            public void onCancel() {
+//
+//                            }
+//                        });
+//                        ProgressDialogUtils.dismissProgressDialog();
+//                    }
+//                });
 
             }
         });

@@ -26,6 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AdvanceSettingsActivity;
+import vn.tonish.hozo.activity.BrowerTaskMapActivity;
 import vn.tonish.hozo.adapter.TaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.TaskEntity;
@@ -33,6 +34,7 @@ import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.model.MiniTask;
 import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
@@ -277,6 +279,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_location:
+                goToMapScren();
                 break;
             case R.id.img_search:
                 showSearch(layoutSearch, 200, true);
@@ -294,6 +297,25 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 break;
         }
 
+    }
+
+    private void goToMapScren() {
+        ArrayList<MiniTask> miniTasks = new ArrayList<>();
+
+        for (int i = 0; i < taskList.size(); i++) {
+            MiniTask miniTask = new MiniTask();
+            miniTask.setId(taskList.get(i).getId());
+            miniTask.setTitle(taskList.get(i).getTitle());
+            miniTask.setAddress(taskList.get(i).getAddress());
+            miniTask.setLat(taskList.get(i).getLatitude());
+            miniTask.setLon(taskList.get(i).getLongitude());
+
+            miniTasks.add(miniTask);
+        }
+
+        Intent intent = new Intent(getActivity(), BrowerTaskMapActivity.class);
+        intent.putParcelableArrayListExtra(Constants.LIST_TASK_EXTRA, miniTasks);
+        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
     }
 
     private void showSearch(final View view, int duration, boolean isShow) {

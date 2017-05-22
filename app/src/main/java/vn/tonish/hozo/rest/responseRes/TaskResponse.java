@@ -43,8 +43,12 @@ public class TaskResponse implements Serializable {
     private Integer workerRate;
     @SerializedName("worker_count")
     private Integer workerCount;
+    @SerializedName("assignee_count")
+    private int assigneeCount;
+    @SerializedName("bidder_count")
+    private int bidderCount;
     private String role;
-    private List<String> attachments = null;
+    private List<String> attachments = new ArrayList<>();
     private Integer[] attachmentsId;
     private String currency;
     private Poster poster;
@@ -52,6 +56,21 @@ public class TaskResponse implements Serializable {
     private List<Assigner> assignees = new ArrayList<>();
     private List<Comment> comments = new ArrayList<>();
 
+    public int getAssigneeCount() {
+        return assigneeCount;
+    }
+
+    public void setAssigneeCount(int assigneeCount) {
+        this.assigneeCount = assigneeCount;
+    }
+
+    public int getBidderCount() {
+        return bidderCount;
+    }
+
+    public void setBidderCount(int bidderCount) {
+        this.bidderCount = bidderCount;
+    }
 
     public String getCreatedAt() {
         return createdAt;
@@ -291,6 +310,8 @@ public class TaskResponse implements Serializable {
                 ", address='" + address + '\'' +
                 ", workerRate=" + workerRate +
                 ", workerCount=" + workerCount +
+                ", assigneeCount=" + assigneeCount +
+                ", bidderCount=" + bidderCount +
                 ", role='" + role + '\'' +
                 ", attachments=" + attachments +
                 ", attachmentsId=" + Arrays.toString(attachmentsId) +

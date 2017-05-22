@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
@@ -82,6 +83,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private int ageFrom, ageTo;
     private EdittextHozo edtWorkingHour;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
+    private LinearLayout layoutAge;
 
     protected int getLayout() {
         return R.layout.activity_post_a_task;
@@ -109,7 +111,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         edtDescription = (EdittextHozo) findViewById(R.id.edt_description);
 
         tvAge = (TextViewHozo) findViewById(R.id.tv_age);
-        tvAge.setOnClickListener(this);
+//        tvAge.setOnClickListener(this);
 
         grImage = (MyGridView) findViewById(R.id.gr_image);
 
@@ -123,6 +125,9 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
         layoutDate = (RelativeLayout) findViewById(R.id.date_layout);
         layoutDate.setOnClickListener(this);
+
+        layoutAge = (LinearLayout) findViewById(R.id.layout_age);
+        layoutAge.setOnClickListener(this);
     }
 
     @Override
@@ -233,10 +238,14 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.tv_address:
                 Intent intent = new Intent(this, PostATaskMapActivity.class);
-                startActivityForResult(intent, Constants.REQUEST_CODE_ADDRESS,TransitionScreen.RIGHT_TO_LEFT);
+                startActivityForResult(intent, Constants.REQUEST_CODE_ADDRESS, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
-            case R.id.tv_age:
+//            case R.id.tv_age:
+//
+//                break;
+
+            case R.id.layout_age:
                 AgeDialog ageDialog = new AgeDialog(PostATaskActivity.this);
                 ageDialog.setAgeDialogListener(new AgeDialog.AgeDialogListener() {
                     @Override
@@ -402,15 +411,15 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             taskResponse.setMaxAge(ageTo);
 
             taskResponse.setAttachmentsId(imagesArr);
-
             Intent intent = new Intent(this, PostATaskMapActivity.class);
             intent.putExtra(Constants.EXTRA_TASK, taskResponse);
             intent.putExtra(Constants.EXTRA_CATEGORY, category);
 
             startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+
+            ProgressDialogUtils.dismissProgressDialog();
         }
 
-        ProgressDialogUtils.dismissProgressDialog();
 
     }
 

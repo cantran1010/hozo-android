@@ -1,12 +1,16 @@
 package vn.tonish.hozo.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,9 +31,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -104,6 +105,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     private int tempId = 0;
     private File fileAttach;
     private TextViewHozo tvSeeMore;
+    private final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
     @Override
     protected int getLayout() {
@@ -158,7 +160,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     @Override
     protected void initData() {
 
-        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA,123);
+        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 123);
 
         workDetailView.updateBtnCallRate(false, false, getString(R.string.empty));
         workDetailView.updateStatus(getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
@@ -188,17 +190,14 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     private void getData() {
         ProgressDialogUtils.showProgressDialog(this);
 
-        Map<String, String> params = new HashMap<>();
-        params.put("id", taskId + "");
-
-        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), params).enqueue(new Callback<List<TaskResponse>>() {
+        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId).enqueue(new Callback<TaskResponse>() {
             @Override
-            public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
+            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                 LogUtils.d(TAG, "getDetailTask , status code : " + response.code());
                 LogUtils.d(TAG, "getDetailTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    taskResponse = response.body().get(0);
+                    taskResponse = response.body();
                     updateUi();
                     storeTaskToDatabase();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -225,7 +224,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
             }
 
             @Override
-            public void onFailure(Call<List<TaskResponse>> call, Throwable t) {
+            public void onFailure(Call<TaskResponse> call, Throwable t) {
                 LogUtils.e(TAG, "getDetailTask , error : " + t.getMessage());
                 DialogUtils.showRetryDialog(MakeAnOfferActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
@@ -261,8 +260,8 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         }
 
         // update bidder list
-        if ( taskResponse.getBidders() !=null)
-        bidders = (ArrayList<Bidder>) taskResponse.getBidders();
+        if (taskResponse.getBidders() != null)
+            bidders = (ArrayList<Bidder>) taskResponse.getBidders();
         refreshBidderList();
 
         //update assigners list
@@ -313,9 +312,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                 pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
                     @Override
                     public void onCamera() {
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+                        checkPermission();
                     }
 
                     @Override
@@ -352,6 +349,37 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                 break;
 
         }
+    }
+
+    protected void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            permissionGranted();
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != Constants.PERMISSION_REQUEST_CODE
+                || grantResults.length == 0
+                || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            permissionDenied();
+        } else {
+            permissionGranted();
+        }
+    }
+
+    private void permissionDenied() {
+        LogUtils.d(TAG, "permissionDenied camera");
+    }
+
+    private void permissionGranted() {
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
     }
 
     private void doSeeMoreComment() {
