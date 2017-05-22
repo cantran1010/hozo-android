@@ -41,7 +41,7 @@ public class SettingManager {
 
     public static RealmList<CategoryEntity> getRealmListCategoryEntity() {
         RealmList<CategoryEntity> categoryEntities = new RealmList<>();
-        LogUtils.d(TAG, "getUserLogin start ");
+        LogUtils.d(TAG, "getMyUser start ");
         Realm realm = Realm.getDefaultInstance();
         // get last update
         SettingEntiny settingEntiny;

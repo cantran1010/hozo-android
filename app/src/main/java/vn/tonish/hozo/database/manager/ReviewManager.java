@@ -63,14 +63,14 @@ public class ReviewManager {
 
 
     public static List<ReviewEntity> getAllReview() {
-        LogUtils.d(TAG, "getUserLogin start ");
+        LogUtils.d(TAG, "getMyUser start ");
         Realm realm = Realm.getDefaultInstance();
         // get last update
         return realm.where(ReviewEntity.class).findAll();
     }
 
     public static List<ReviewEntity> getReviewByType(String type) {
-        LogUtils.d(TAG, "getUserLogin start ");
+        LogUtils.d(TAG, "getMyUser start ");
         Realm realm = Realm.getDefaultInstance();
         // get last update
         return realm.where(ReviewEntity.class).equalTo("type", type).findAll();

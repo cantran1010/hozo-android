@@ -94,7 +94,7 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
         //Creating the instance of PopupMenu
         PopupMenu popup = new PopupMenu(getContext(), imgSetting);
 
-        if (comment.getAuthorId() == UserManager.getUserLogin().getId()) {
+        if (comment.getAuthorId() == UserManager.getMyUser().getId()) {
             //Inflating the Popup using xml file
             popup.getMenuInflater().inflate(R.menu.menu_comment, popup.getMenu());
             //registering popup with OnMenuItemClickListener

@@ -34,7 +34,6 @@ public class User implements Serializable {
     private float posterReviewCount;
     @SerializedName("tasker_review_count")
     private float taskerReviewCount;
-
     private List<Review> reviews = new ArrayList<>();
 
     public Integer getId() {

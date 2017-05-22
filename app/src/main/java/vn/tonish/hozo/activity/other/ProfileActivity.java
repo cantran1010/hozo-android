@@ -1,12 +1,12 @@
 package vn.tonish.hozo.activity.other;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,16 +20,13 @@ import vn.tonish.hozo.activity.AddVerifyActivity;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.EditProfileActivity;
 import vn.tonish.hozo.activity.HomeActivity;
+import vn.tonish.hozo.activity.ReviewsActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.ReviewManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
-import vn.tonish.hozo.fragment.PosterReviewFragment;
-import vn.tonish.hozo.fragment.workerReviewFragment;
-import vn.tonish.hozo.model.Review;
-import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
@@ -37,11 +34,12 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
-import vn.tonish.hozo.view.ProfileView;
+import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.CircleImageView;
+import vn.tonish.hozo.view.ReviewsListView;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.REVIEW_TYPE_POSTER;
-import static vn.tonish.hozo.common.Constants.REVIEW_TYPE_TASKER;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
@@ -56,11 +54,20 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private ImageView imgback, imgEdit;
     private TextView btnWorker, btnPoster, btnAddVerify;
     private FrameLayout btnLogOut;
-    private ProfileView profileView;
+    private CircleImageView imgAvatar;
+    private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvGender, tvRateCount, btnMoreReview;
+    private RatingBar ratingBar;
+    private LinearLayout layoutInfor;
     private float ratingPoster, ratingTasker;
-    private List<Review> posterReviews, taskerReviews;
-    private Bundle bundleTasker, bundlePoster;
+    private ReviewsListView reviewsListView;
     private int tabIndex = 0;
+    private boolean isMyUser = true;
+    private int rateCountPoster, retaCountWorker;
+    private int userId;
+    private UserEntity mUserEntity;
+    List<ReviewEntity> reviewEntities = new ArrayList<>();
+    List<ReviewEntity> posterReviewEntity = new ArrayList<>();
+    List<ReviewEntity> taskerReviewEntity = new ArrayList<>();
 
     @Override
     protected int getLayout() {
@@ -71,17 +78,24 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void initView() {
         imgback = (ImageView) findViewById(R.id.img_back);
         imgEdit = (ImageView) findViewById(R.id.img_edit);
-        profileView = (ProfileView) findViewById(R.id.view_profile);
+        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
+        layoutInfor = (LinearLayout) findViewById(R.id.layout_infor);
+        tvName = (TextViewHozo) findViewById(R.id.tv_name);
+        ratingBar = (RatingBar) findViewById(R.id.rb_rating);
+        tvDateOfBirth = (TextViewHozo) findViewById(R.id.tv_birthday);
+        tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
+        tvMobile = (TextViewHozo) findViewById(R.id.tv_phone);
+        tvGender = (TextViewHozo) findViewById(R.id.tv_gender);
+        btnAddVerify = (TextViewHozo) findViewById(R.id.tv_add_verify);
         btnLogOut = (FrameLayout) findViewById(R.id.btn_logout);
         btnWorker = (TextViewHozo) findViewById(R.id.btn_worker);
         btnPoster = (TextViewHozo) findViewById(R.id.btn_poster);
         btnAddVerify = (TextViewHozo) findViewById(R.id.tv_add_verify);
-        posterReviews = new ArrayList<>();
-        taskerReviews = new ArrayList<>();
+        tvRateCount = (TextViewHozo) findViewById(R.id.tv_rate);
+        reviewsListView = (ReviewsListView) findViewById(R.id.rcv_reviews);
+        btnMoreReview = (TextViewHozo) findViewById(R.id.tv_more_reviews);
         ratingPoster = 0f;
         ratingTasker = 0f;
-        bundlePoster = new Bundle();
-        bundleTasker = new Bundle();
     }
 
     @Override
@@ -92,12 +106,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btnPoster.setOnClickListener(this);
         btnWorker.setOnClickListener(this);
         btnAddVerify.setOnClickListener(this);
-        //     set cache data
-        setUserInfoFromCache();
-        //     get data from server
-        updateUserInfoFromServer();
-        //       onClick(btnPoster);
-        onClick(btnPoster);
+        btnMoreReview.setOnClickListener(this);
+        if (isMyUser) {
+            mUserEntity = UserManager.getMyUser();
+        } else {
+            mUserEntity = UserManager.getUserById(userId);
+        }
+        updateUi(mUserEntity, true);
+        updateUserFromServer();
 
     }
 
@@ -131,12 +147,17 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             case R.id.tv_add_verify:
                 startActivityForResult(new Intent(ProfileActivity.this, AddVerifyActivity.class), Constants.REQUEST_CODE_ADD_VERIFY, TransitionScreen.RIGHT_TO_LEFT);
                 break;
+            case R.id.tv_more_reviews:
+                Intent intent = new Intent(this, ReviewsActivity.class);
+                intent.putExtra(Constants.USER_ID, userId);
+                startActivity(intent, TransitionScreen.DOWN_TO_UP);
+                break;
         }
     }
 
     private void doEdit() {
         Intent intent = new Intent(this, EditProfileActivity.class);
-        UserEntity userEntity = UserManager.getUserLogin();
+        UserEntity userEntity = UserManager.getMyUser();
         intent.putExtra(Constants.USER, DataParse.convertUserEntityToUser(userEntity));
         startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_PROFILE, TransitionScreen.RIGHT_TO_LEFT);
     }
@@ -145,7 +166,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_UPDATE_PROFILE && resultCode == Constants.RESULT_CODE_UPDATE_PROFILE) {
-            setUserInfoFromCache();
+            updateUi(UserManager.getMyUser(), true);
         }
     }
 
@@ -212,77 +233,119 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     }
 
-    private void updateUserInfoFromServer() {
+    private void updateUserFromServer() {
+        if (mUserEntity == null) {
+            ProgressDialogUtils.showProgressDialog(this);
+        }
 
-        ApiClient.getApiService().getMyAccountInfor(UserManager.getUserToken()).enqueue(new Callback<User>() {
+        ApiClient.getApiService().getMyAccountInfor(UserManager.getUserToken()).enqueue(new Callback<UserEntity>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
                 if (response.code() == 200) {
                     LogUtils.d(TAG, "response body: " + response.body().toString());
-                    DataParse.updateUser(response.body(), ProfileActivity.this);
-                    DataParse.insertReviewtoDb(response.body());
-                    LogUtils.d(TAG, "update reviews : " + ReviewManager.getAllReview().toString());
+                    UserManager.insertUser(response.body(), true);
+                    updateUi(response.body(), true);
 
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.RefreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            updateUserFromServer();
+                        }
+                    });
+                } else {
+                    DialogUtils.showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            updateUserFromServer();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
                 }
+                ProgressDialogUtils.dismissProgressDialog();
 
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<UserEntity> call, Throwable t) {
+                ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
+                DialogUtils.showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        updateUserFromServer();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+
             }
         });
 
 
     }
 
-    private void setUserInfoFromCache() {
+    private void updateUi(UserEntity userEntity, boolean isPoster) {
+        if (userEntity != null) {
+            posterReviewEntity.clear();
+            taskerReviewEntity.clear();
+            for (ReviewEntity reviewEntity : userEntity.getReviews()) {
+                if (reviewEntity.getType().equals(REVIEW_TYPE_POSTER)) {
+                    posterReviewEntity.add(reviewEntity);
+                } else {
+                    taskerReviewEntity.add(reviewEntity);
+                }
 
-        UserEntity userEntity = new UserEntity();
-        userEntity = UserManager.getUserLogin();
-        List<ReviewEntity> posterReviewEntity = new ArrayList<>();
-        List<ReviewEntity> taskerReviewEntity = new ArrayList<>();
-        posterReviewEntity = ReviewManager.getReviewByType(REVIEW_TYPE_POSTER);
-        taskerReviewEntity = ReviewManager.getReviewByType(REVIEW_TYPE_TASKER);
-        for (int i = 0; i < posterReviewEntity.size(); i++) {
-            Review review = new Review();
-            review.setId(posterReviewEntity.get(i).getId());
-            review.setAuthorAvatar(posterReviewEntity.get(i).getAuthorAvatar());
-            review.setAuthorId(posterReviewEntity.get(i).getAuthorId());
-            review.setAuthorName(posterReviewEntity.get(i).getAuthorName());
-            review.setBody(posterReviewEntity.get(i).getBody());
-            review.setRating(posterReviewEntity.get(i).getRating());
-            review.setCreatedAt(posterReviewEntity.get(i).getCreatedAt());
-            review.setTaskName(posterReviewEntity.get(i).getTaskName());
-            review.setType(posterReviewEntity.get(i).getType());
-            posterReviews.add(review);
-            LogUtils.d(TAG, "update posterReviews: " + posterReviews.toString());
+            }
+            Utils.displayImageAvatar(this, imgAvatar, userEntity.getAvatar());
+            ratingPoster = userEntity.getPosterAverageRating();
+            rateCountPoster = userEntity.getPosterReviewCount();
+            retaCountWorker = userEntity.getTaskerReviewCount();
+            ratingTasker = userEntity.getTaskerAverageRating();
+            tvName.setText(userEntity.getFullName());
+            tvDateOfBirth.setText(userEntity.getDateOfBirth());
+            tvGender.setText(userEntity.getGender());
+            if (isMyUser) {
+                layoutInfor.setVisibility(View.VISIBLE);
+                tvAddress.setText(userEntity.getAddress());
+                tvMobile.setText(userEntity.getPhone());
+                btnAddVerify.setVisibility(View.VISIBLE);
+                btnAddVerify.setEnabled(true);
+                btnLogOut.setVisibility(View.VISIBLE);
+            } else {
+                layoutInfor.setVisibility(View.GONE);
+                btnAddVerify.setVisibility(View.GONE);
+                btnAddVerify.setEnabled(false);
+                btnLogOut.setVisibility(View.GONE);
+            }
+            setDataSelected(true);
         }
-        for (int i = 0; i < taskerReviewEntity.size(); i++) {
-            Review review = new Review();
-            review.setId(taskerReviewEntity.get(i).getId());
-            review.setAuthorAvatar(taskerReviewEntity.get(i).getAuthorAvatar());
-            review.setAuthorId(taskerReviewEntity.get(i).getAuthorId());
-            review.setAuthorName(taskerReviewEntity.get(i).getAuthorName());
-            review.setBody(taskerReviewEntity.get(i).getBody());
-            review.setRating(taskerReviewEntity.get(i).getRating());
-            review.setCreatedAt(taskerReviewEntity.get(i).getCreatedAt());
-            review.setTaskName(taskerReviewEntity.get(i).getTaskName());
-            review.setType(taskerReviewEntity.get(i).getType());
-            taskerReviews.add(review);
-            LogUtils.d(TAG, "update taskerReviews: " + taskerReviews.toString());
+
+    }
+
+
+    private void setDataSelected(boolean isPoster) {
+        reviewEntities.clear();
+        if (isPoster) {
+            tvRateCount.setText(getString(R.string.profile_rate) + "(" + rateCountPoster + ")");
+            ratingBar.setRating(ratingPoster);
+            reviewEntities.addAll(posterReviewEntity);
+        } else {
+            tvRateCount.setText(getString(R.string.profile_rate) + "(" + retaCountWorker + ")");
+            ratingBar.setRating(ratingTasker);
+            reviewEntities.addAll(taskerReviewEntity);
         }
-        ratingPoster = userEntity.getPosterAverageRating();
-        ratingTasker = userEntity.getTaskerAverageRating();
-        profileView.updateData(true, userEntity.getAvatar(), userEntity.getFullName(), userEntity.getDateOfBirth(), "Nam", userEntity.getAddress(), userEntity.getPhoneNumber(), userEntity.getVerified());
+        reviewsListView.updateData((ArrayList<ReviewEntity>) reviewEntities);
+        LogUtils.d(TAG, "reviews " + isPoster + reviewEntities.toString());
 
-        bundleTasker.putFloat(Constants.USER_TASKER_RATING, ratingTasker);
-        bundleTasker.putInt(Constants.USER_ID, userEntity.getId());
-        bundleTasker.putParcelableArrayList(Constants.USER_TASKER_REVIEWS, (ArrayList<? extends Parcelable>) taskerReviews);
 
-        bundlePoster.putFloat(Constants.USER_POSTER_RATING, ratingPoster);
-        bundlePoster.putInt(Constants.USER_ID, userEntity.getId());
-        bundlePoster.putParcelableArrayList(Constants.USER_POSTER_REVIEWS, (ArrayList<? extends Parcelable>) posterReviews);
     }
 
     private void selectab(int i) {
@@ -291,17 +354,17 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             setViewBackground(btnPoster, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_left_reviews_selected));
             btnWorker.setTextColor(ContextCompat.getColor(this, R.color.black));
             setViewBackground(btnWorker, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_no_active_press));
-            openFragmentBundle(R.id.layout_container, PosterReviewFragment.class, bundlePoster, false, TransitionScreen.RIGHT_TO_LEFT);
+            setDataSelected(true);
+
+
         } else {
             btnWorker.setTextColor(ContextCompat.getColor(this, R.color.white));
             setViewBackground(btnWorker, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_no_active_selected));
             btnPoster.setTextColor(ContextCompat.getColor(this, R.color.black));
             setViewBackground(btnPoster, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_left_reviews_default));
-            openFragmentBundle(R.id.layout_container, workerReviewFragment.class, bundleTasker, false, TransitionScreen.RIGHT_TO_LEFT);
-
+            setDataSelected(false);
         }
     }
-
 
 }
 

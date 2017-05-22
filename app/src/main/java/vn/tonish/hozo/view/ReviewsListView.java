@@ -52,9 +52,10 @@ public class ReviewsListView extends RelativeLayout {
     }
 
     public void updateData(ArrayList<ReviewEntity> reviews) {
-        ReviewsAdapter reviewsAdapter = new ReviewsAdapter(getContext(),reviews);
+        ReviewsAdapter reviewsAdapter = new ReviewsAdapter(getContext(), reviews);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rcvComment.setLayoutManager(layoutManager);
         rcvComment.setAdapter(reviewsAdapter);
+        reviewsAdapter.notifyDataSetChanged();
     }
 }
