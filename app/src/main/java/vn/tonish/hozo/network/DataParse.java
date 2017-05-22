@@ -19,7 +19,6 @@ import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.ReviewManager;
-import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.AddvanceSetting;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
@@ -52,7 +51,7 @@ public class DataParse {
         userEntity.setEmail(user.getEmail());
         userEntity.setFacebookId(user.getFacebookId());
         userEntity.setFullName(user.getFullName());
-        userEntity.setPhoneNumber(user.getPhoneNumber());
+        userEntity.setPhone(user.getPhoneNumber());
 //        userEntity.setVerified(user.getVerified());
         userEntity.setPosterAverageRating(user.getPosterAverageRating());
         userEntity.setPosterReviewCount(user.getPosterReviewCount());
@@ -63,7 +62,7 @@ public class DataParse {
         userEntity.setRefreshToken(token.getRefreshToken());
         userEntity.setTokenExp(token.getTokenExpires());
 
-        UserManager.insertUserLogin(userEntity);
+//        UserManager.insertUserLogin(userEntity);
         LogUtils.d("inser data UserEntity : ", userEntity.toString());
     }
 
@@ -80,14 +79,14 @@ public class DataParse {
         userEntity.setEmail(user.getEmail());
         userEntity.setFacebookId(user.getFacebookId());
         userEntity.setFullName(user.getFullName());
-        userEntity.setPhoneNumber(user.getPhoneNumber());
+        userEntity.setPhone(user.getPhoneNumber());
 //        userEntity.setVerified(user.getVerified());
         userEntity.setPosterAverageRating(user.getPosterAverageRating());
         userEntity.setPosterReviewCount(user.getPosterReviewCount());
         userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
         userEntity.setTaskerReviewCount(user.getTaskerReviewCount());
 
-        UserManager.insertUserLogin(userEntity);
+//        UserManager.getMyUser(userEntity);
         LogUtils.d("update User to database: ", userEntity.toString());
     }
 
@@ -101,8 +100,7 @@ public class DataParse {
         user.setEmail(userEntity.getEmail());
         user.setFacebookId(userEntity.getFacebookId());
         user.setFullName(userEntity.getFullName());
-        user.setPhoneNumber(userEntity.getPhoneNumber());
-        user.setVerified(userEntity.getVerified());
+        user.setPhoneNumber(userEntity.getPhone());
         user.setPosterAverageRating(userEntity.getPosterAverageRating());
         user.setPosterReviewCount(userEntity.getPosterReviewCount());
         user.setTaskerAverageRating(userEntity.getTaskerAverageRating());
@@ -152,8 +150,7 @@ public class DataParse {
         userEntity.setEmail(user.getEmail());
         userEntity.setFacebookId(user.getFacebookId());
         userEntity.setFullName(user.getFullName());
-        userEntity.setPhoneNumber(user.getPhoneNumber());
-        userEntity.setVerified(user.getVerified());
+        userEntity.setPhone(user.getPhoneNumber());
         userEntity.setPosterAverageRating(user.getPosterAverageRating());
         userEntity.setPosterReviewCount(user.getPosterReviewCount());
         userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
