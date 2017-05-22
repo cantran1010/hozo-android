@@ -31,7 +31,7 @@ public class NetworkUtils {
 
         JSONObject jsonRequest = new JSONObject();
         try {
-//            jsonRequest.put("refresh_token", UserManager.getUserLogin(context).getRefreshToken());
+//            jsonRequest.put("refresh_token", UserManager.getMyUser(context).getRefreshToken());
             jsonRequest.put("refresh_token", "");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -49,9 +49,9 @@ public class NetworkUtils {
 
                     LogUtils.d(TAG, "refreshToken token : " + token.toString());
                     //update new token to database - user table
-                    UserManager.getUserLogin().setAccessToken(token.getAccessToken());
-                    UserManager.getUserLogin().setRefreshToken(token.getRefreshToken());
-                    UserManager.getUserLogin().setTokenExp(token.getTokenExpires());
+                    UserManager.getMyUser().setAccessToken(token.getAccessToken());
+                    UserManager.getMyUser().setRefreshToken(token.getRefreshToken());
+                    UserManager.getMyUser().setTokenExp(token.getTokenExpires());
 
                 } else {
                     //log out

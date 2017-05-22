@@ -1,6 +1,5 @@
 package vn.tonish.hozo.activity;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -24,7 +23,6 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
-import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
@@ -50,7 +48,7 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
     private Date sinceDate;
     private ImageView imgBack;
     private String typeReview = "worker";
-    private int user_id = 0;
+    private int user_id;
 
     @Override
     protected int getLayout() {
@@ -69,8 +67,7 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initData() {
         imgBack.setOnClickListener(this);
-        Intent i = getIntent();
-//        typeReview = i.getExtras().getString(Constants.REVIEW_TYPE_POSTER);
+//        Intent i = getIntent();
 //        user_id = i.getExtras().getInt(Constants.USER_ID);
         getCacheDataFirstPage();
         getReviews(false, user_id);
@@ -146,14 +143,14 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
                     NetworkUtils.RefreshToken(ReviewsActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            getReviews(isSince, 123);
+                            getReviews(isSince, user_id);
                         }
                     });
                 } else {
                     DialogUtils.showRetryDialog(ReviewsActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            getReviews(isSince, 123);
+                            getReviews(isSince, user_id);
                             ;
                         }
 
@@ -219,12 +216,6 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
 
         LogUtils.d(TAG, "refreshList , getUserReviews size : " + mReviewEntities.size());
 
-    }
-
-    private boolean checkContainsTaskResponse(List<TaskResponse> taskResponses, TaskResponse response) {
-        for (int i = 0; i < taskResponses.size(); i++)
-            if (taskResponses.get(i).getId() == response.getId()) return true;
-        return false;
     }
 
 

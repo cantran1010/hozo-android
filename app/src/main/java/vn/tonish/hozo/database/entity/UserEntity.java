@@ -1,7 +1,10 @@
 package vn.tonish.hozo.database.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -12,22 +15,31 @@ public class UserEntity extends RealmObject implements Serializable {
 
     @PrimaryKey
     private int id;
+    @SerializedName("full_name")
     private String fullName;
-    private String phoneNumber;
+    private String phone;
     private String email;
+    @SerializedName("facebook_id")
     private String facebookId;
     private String address;
     private String avatar;
+    @SerializedName("date_of_birth")
     private String dateOfBirth;
     private String description;
-    private int verified;
+    private String gender;
+    @SerializedName("poster_average_rating")
     private float posterAverageRating;
+    @SerializedName("tasker_average_rating")
     private float taskerAverageRating;
-    private float posterReviewCount;
-    private float taskerReviewCount;
+    @SerializedName("poster_review_count")
+    private int posterReviewCount;
+    @SerializedName("tasker_review_count")
+    private int taskerReviewCount;
+    private RealmList<ReviewEntity> reviews;
     private String accessToken;
     private String refreshToken;
     private String tokenExp;
+    private boolean isMyUser;
 
     public int getId() {
         return id;
@@ -45,12 +57,12 @@ public class UserEntity extends RealmObject implements Serializable {
         this.fullName = fullName;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {
@@ -101,12 +113,12 @@ public class UserEntity extends RealmObject implements Serializable {
         this.description = description;
     }
 
-    public int getVerified() {
-        return verified;
+    public String getGender() {
+        return gender;
     }
 
-    public void setVerified(int verified) {
-        this.verified = verified;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public float getPosterAverageRating() {
@@ -125,20 +137,28 @@ public class UserEntity extends RealmObject implements Serializable {
         this.taskerAverageRating = taskerAverageRating;
     }
 
-    public float getPosterReviewCount() {
+    public int getPosterReviewCount() {
         return posterReviewCount;
     }
 
-    public void setPosterReviewCount(float posterReviewCount) {
+    public void setPosterReviewCount(int posterReviewCount) {
         this.posterReviewCount = posterReviewCount;
     }
 
-    public float getTaskerReviewCount() {
+    public int getTaskerReviewCount() {
         return taskerReviewCount;
     }
 
-    public void setTaskerReviewCount(float taskerReviewCount) {
+    public void setTaskerReviewCount(int taskerReviewCount) {
         this.taskerReviewCount = taskerReviewCount;
+    }
+
+    public RealmList<ReviewEntity> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(RealmList<ReviewEntity> reviews) {
+        this.reviews = reviews;
     }
 
     public String getAccessToken() {
@@ -163,5 +183,38 @@ public class UserEntity extends RealmObject implements Serializable {
 
     public void setTokenExp(String tokenExp) {
         this.tokenExp = tokenExp;
+    }
+
+    public boolean isMyUser() {
+        return isMyUser;
+    }
+
+    public void setMyUser(boolean myUser) {
+        isMyUser = myUser;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", facebookId='" + facebookId + '\'' +
+                ", address='" + address + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", description='" + description + '\'' +
+                ", gender='" + gender + '\'' +
+                ", posterAverageRating=" + posterAverageRating +
+                ", taskerAverageRating=" + taskerAverageRating +
+                ", posterReviewCount=" + posterReviewCount +
+                ", taskerReviewCount=" + taskerReviewCount +
+                ", reviews=" + reviews +
+                ", accessToken='" + accessToken + '\'' +
+                ", refreshToken='" + refreshToken + '\'' +
+                ", tokenExp='" + tokenExp + '\'' +
+                ", isMyUser=" + isMyUser +
+                '}';
     }
 }

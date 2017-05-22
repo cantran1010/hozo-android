@@ -19,24 +19,33 @@ public class UserManager {
         return !(userEntity == null || userEntity.getFullName().equals("") || userEntity.getFullName() == null);
     }
 
-    public static UserEntity getUserLogin() {
-        LogUtils.d(TAG, "getUserLogin start ");
+    public static UserEntity getMyUser() {
+        LogUtils.d(TAG, "getMyUser start ");
         Realm realm = Realm.getDefaultInstance();
         // get last update
-        UserEntity userEntity = realm.where(UserEntity.class).findFirst();
-        if (userEntity != null) LogUtils.d(TAG, "getUserLogin : " + userEntity.toString());
+        UserEntity userEntity = realm.where(UserEntity.class).equalTo("isMyUser", true).findFirst();
+        if (userEntity != null) LogUtils.d(TAG, "getMyUser : " + userEntity.toString());
+        return userEntity;
+    }
+
+    public static UserEntity getUserById(int id) {
+        LogUtils.d(TAG, "getUser start ");
+        Realm realm = Realm.getDefaultInstance();
+        // get last update
+        UserEntity userEntity = realm.where(UserEntity.class).equalTo("id", id).findFirst();
+        if (userEntity != null) LogUtils.d(TAG, "getMyUser : " + userEntity.toString());
         return userEntity;
     }
 
     public static String getUserToken() {
         String result = "";
-        LogUtils.d(TAG, "getUserLogin start ");
+        LogUtils.d(TAG, "getMyUser start ");
         Realm realm = Realm.getDefaultInstance();
         // get last update
         UserEntity userEntity;
         if (realm.where(UserEntity.class) != null) {
-            userEntity = realm.where(UserEntity.class).findFirst();
-            if (userEntity != null) {
+            userEntity = realm.where(UserEntity.class).equalTo("isMyUser", true).findFirst();
+            if (userEntity != null && userEntity.isMyUser()) {
                 result = userEntity.getAccessToken();
             }
         }
@@ -44,14 +53,16 @@ public class UserManager {
 
     }
 
-    public static void insertUserLogin(UserEntity userEntity) {
-        LogUtils.d(TAG, "insertUserLogin : " + userEntity.toString());
-        deleteAll();
+    public static void insertUser(UserEntity userEntity,boolean isMyUser) {
+        LogUtils.d(TAG, "insertUser : " + userEntity.toString());
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
+        if (isMyUser)
+            userEntity.setMyUser(true);
         realm.copyToRealmOrUpdate(userEntity);
         realm.commitTransaction();
     }
+
 
     public static void deleteAll() {
         Realm realm = Realm.getDefaultInstance();
