@@ -82,7 +82,7 @@ public class BidderOpenView extends LinearLayout {
 
         Utils.displayImageAvatar(getContext(), imgAvatar, bidder.getAvatar());
         tvName.setText(bidder.getFullName());
-        rbRate.setRating(bidder.getPosterAverageRating());
+        rbRate.setRating(bidder.getTaskerAverageRating());
         tvTimeAgo.setText(DateTimeUtils.getTimeAgo(bidder.getBidedAt(), getContext()));
 
         btnAssign.setOnClickListener(new OnClickListener() {

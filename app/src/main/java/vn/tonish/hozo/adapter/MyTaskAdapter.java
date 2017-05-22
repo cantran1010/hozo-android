@@ -1,15 +1,18 @@
 package vn.tonish.hozo.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.List;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -66,13 +69,38 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
         if (holder instanceof WorkHolder) {
             WorkHolder workHolder = ((WorkHolder) holder);
 
-            workHolder.tvName.setText(taskResponses.get(position).getTitle());
-            workHolder.tvStatus.setText(taskResponses.get(position).getStatus());
-            workHolder.tvPrice.setText(taskResponses.get(position).getCurrency());
+            TaskResponse taskResponse = taskResponses.get(position);
 
-            workHolder.tvStartTime.setText(context.getString(R.string.my_task_adapter_start_time) + " " + DateTimeUtils.getOnlyDateFromIso(taskResponses.get(position).getStartTime()));
-            workHolder.tvTaskType.setText(context.getString(R.string.my_task_adapter_task_type) + " " + CategoryManager.getCategoryById(taskResponses.get(position).getCategoryId()).getName());
-            workHolder.tvAddress.setText(context.getString(R.string.my_task_adapter_address) + " " + taskResponses.get(position).getAddress());
+            workHolder.tvName.setText(taskResponse.getTitle());
+            workHolder.tvPrice.setText(taskResponse.getCurrency());
+
+            if (taskResponse.getRole().equals(Constants.ROLE_WORKER)) {
+                if (taskResponse.getStatus().equals(Constants.TASK_STATUS_OPEN)) {
+                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_open));
+                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_recruitment));
+                } else if (taskResponse.getStatus().equals(Constants.TASK_STATUS_ASSIGNED)) {
+                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_assigned));
+                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_received));
+                } else if (taskResponse.getStatus().equals(Constants.TASK_STATUS_COMPLETED)) {
+                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_completed));
+                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
+                }
+            } else if (taskResponse.getRole().equals(Constants.ROLE_POSTER)) {
+                if (taskResponse.getStatus().equals(Constants.TASK_STATUS_OPEN)) {
+                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_open));
+                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_recruitment));
+                } else if (taskResponse.getStatus().equals(Constants.TASK_STATUS_ASSIGNED)) {
+                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_assigned));
+                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_received));
+                } else if (taskResponse.getStatus().equals(Constants.TASK_STATUS_COMPLETED)) {
+                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_completed));
+                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
+                }
+            }
+
+            workHolder.tvStartTime.setText(context.getString(R.string.my_task_adapter_start_time) + " " + DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
+            workHolder.tvTaskType.setText(context.getString(R.string.my_task_adapter_task_type) + " " + CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName());
+            workHolder.tvAddress.setText(context.getString(R.string.my_task_adapter_address) + " " + taskResponse.getAddress());
         }
     }
 

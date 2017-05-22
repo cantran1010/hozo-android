@@ -12,8 +12,8 @@ public class Bidder extends RealmObject{
     private Integer id;
     @SerializedName("full_name")
     private String fullName;
-    @SerializedName("poster_average_rating")
-    private float posterAverageRating;
+    @SerializedName("tasker_average_rating")
+    private float taskerAverageRating;
     private Integer verify;
     private String avatar;
     @SerializedName("bidded_at")
@@ -28,12 +28,12 @@ public class Bidder extends RealmObject{
         this.fullName = fullName;
     }
 
-    public float getPosterAverageRating() {
-        return posterAverageRating;
+    public float getTaskerAverageRating() {
+        return taskerAverageRating;
     }
 
-    public void setPosterAverageRating(float posterAverageRating) {
-        this.posterAverageRating = posterAverageRating;
+    public void setTaskerAverageRating(float taskerAverageRating) {
+        this.taskerAverageRating = taskerAverageRating;
     }
 
     public Integer getVerify() {
@@ -79,13 +79,14 @@ public class Bidder extends RealmObject{
     @Override
     public String toString() {
         return "Bidder{" +
-                "fullName='" + fullName + '\'' +
-                ", posterAverageRating=" + posterAverageRating +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", taskerAverageRating=" + taskerAverageRating +
                 ", verify=" + verify +
                 ", avatar='" + avatar + '\'' +
-                ", id=" + id +
                 ", bidedAt='" + bidedAt + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
     }
+
 }

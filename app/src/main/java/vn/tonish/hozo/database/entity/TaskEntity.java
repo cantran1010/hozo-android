@@ -35,6 +35,8 @@ public class TaskEntity extends RealmObject {
     private String address;
     private Integer workerRate;
     private Integer workerCount;
+    private int assigneeCount;
+    private int bidderCount;
     private String attachments;
     private String currency;
     private String role;
@@ -42,6 +44,22 @@ public class TaskEntity extends RealmObject {
     private RealmList<Bidder> bidders = null;
     private RealmList<Assigner> assignees = null;
     private RealmList<Comment> comments = null;
+
+    public int getAssigneeCount() {
+        return assigneeCount;
+    }
+
+    public void setAssigneeCount(int assigneeCount) {
+        this.assigneeCount = assigneeCount;
+    }
+
+    public int getBidderCount() {
+        return bidderCount;
+    }
+
+    public void setBidderCount(int bidderCount) {
+        this.bidderCount = bidderCount;
+    }
 
     public Date getCreatedAt() {
         return createdAt;

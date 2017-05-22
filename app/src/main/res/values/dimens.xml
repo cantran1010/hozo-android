@@ -26,5 +26,6 @@
     <dimen name="margin_right_screen">13dp</dimen>
     <dimen name="detail_task_map_height">150dp</dimen>
     <dimen name="avatar_width_height">52dp</dimen>
+    <dimen name="image_attach_post_task_height">85dp</dimen>
 
 </resources>

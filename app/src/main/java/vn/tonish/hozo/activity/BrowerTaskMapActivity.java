@@ -17,9 +17,8 @@ import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.model.MiniTask;
 import vn.tonish.hozo.utils.TransitionScreen;
-import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -31,8 +30,7 @@ public class BrowerTaskMapActivity extends BaseActivity implements View.OnClickL
     private static final String TAG = BrowerTaskMapActivity.class.getSimpleName();
     private ImageView imgBack;
     private GoogleMap mMap;
-    private ArrayList<TaskResponse> taskResponses = new ArrayList<>();
-
+    private ArrayList<MiniTask> miniTasks = new ArrayList<>();
 
     @Override
     protected int getLayout() {
@@ -51,29 +49,7 @@ public class BrowerTaskMapActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initData() {
-
-        //fake data
-        TaskResponse taskResponse1 = new TaskResponse();
-        taskResponse1.setTitle("Test 1");
-        taskResponse1.setLatitude(21.000030);
-        taskResponse1.setLongitude(105.837400);
-        taskResponse1.setAddress("Truong trinh ha noi 1111");
-
-        TaskResponse taskResponse2 = new TaskResponse();
-        taskResponse2.setTitle("Test 222222222222");
-        taskResponse2.setLatitude(21.010030);
-        taskResponse2.setLongitude(105.847400);
-        taskResponse2.setAddress("Truong trinh ha noi 2222");
-
-        TaskResponse taskResponse3 = new TaskResponse();
-        taskResponse3.setTitle("Test 3");
-        taskResponse3.setLatitude(21.020030);
-        taskResponse3.setLongitude(105.857400);
-        taskResponse3.setAddress("Truong trinh ha noi 3333");
-
-        taskResponses.add(taskResponse1);
-        taskResponses.add(taskResponse2);
-        taskResponses.add(taskResponse3);
+        miniTasks = getIntent().getParcelableArrayListExtra(Constants.LIST_TASK_EXTRA);
     }
 
     @Override
@@ -83,17 +59,17 @@ public class BrowerTaskMapActivity extends BaseActivity implements View.OnClickL
 
     private void updateMap() {
 
-        for (int i = 0; i < taskResponses.size(); i++) {
+        for (int i = 0; i < miniTasks.size(); i++) {
 
-            TaskResponse taskResponse = taskResponses.get(i);
+            MiniTask miniTask = miniTasks.get(i);
 
-            LatLng latLng = new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude());
+            LatLng latLng = new LatLng(miniTask.getLat(), miniTask.getLon());
 
-            if (i == taskResponses.size() - 1)
+            if (i == miniTasks.size() - 1)
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
 
             // create marker
-            MarkerOptions markerOption = new MarkerOptions().position(new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
+            MarkerOptions markerOption = new MarkerOptions().position(new LatLng(miniTask.getLat(), miniTask.getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
             Marker marker = mMap.addMarker(markerOption);
             marker.setTag(i);
         }
@@ -120,13 +96,9 @@ public class BrowerTaskMapActivity extends BaseActivity implements View.OnClickL
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-
                 int position = (int) marker.getTag();
-
-                Utils.showLongToast(BrowerTaskMapActivity.this, position + "");
-
-                Intent intent = new Intent(BrowerTaskMapActivity.this, MainActivity.class);
-                intent.putExtra(Constants.TASK_ID_EXTRA, 123);
+                Intent intent = new Intent(BrowerTaskMapActivity.this, MakeAnOfferActivity.class);
+                intent.putExtra(Constants.TASK_ID_EXTRA, miniTasks.get(position).getId());
                 startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
@@ -158,8 +130,8 @@ public class BrowerTaskMapActivity extends BaseActivity implements View.OnClickL
             TextViewHozo tvName = (TextViewHozo) view.findViewById(R.id.tv_name);
             TextViewHozo tvAddress = (TextViewHozo) view.findViewById(R.id.tv_address);
             int positon = (int) marker.getTag();
-            tvName.setText(taskResponses.get(positon).getTitle());
-            tvAddress.setText(taskResponses.get(positon).getAddress());
+            tvName.setText(miniTasks.get(positon).getTitle());
+            tvAddress.setText(miniTasks.get(positon).getAddress());
             return view;
         }
 

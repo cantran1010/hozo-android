@@ -256,7 +256,7 @@
                 android:textStyle="bold" />
 
             <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_address"
+                android:id="@+id/tv_time"
                 style="@style/tv_style_normal_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

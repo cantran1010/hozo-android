@@ -25,6 +25,7 @@ import vn.tonish.hozo.activity.PreviewImageListActivity;
 import vn.tonish.hozo.activity.RateActivity;
 import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.BidSuccessDialog;
@@ -97,7 +98,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
         tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
         tvDate = (TextViewHozo) findViewById(R.id.tv_date);
-        tvTime = (TextViewHozo) findViewById(R.id.tv_address);
+        tvTime = (TextViewHozo) findViewById(R.id.tv_time);
         tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
 
         btnOffer = (ButtonHozo) findViewById(R.id.btn_offer);
@@ -118,20 +119,23 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
     public void updateWork(TaskResponse taskResponse) {
         this.taskResponse = taskResponse;
+
+        LogUtils.d(TAG, "updateWork , taskResponse : " + taskResponse.toString());
+
         Utils.displayImage(getContext(), imgAvatar, taskResponse.getPoster().getAvatar());
         tvName.setText(taskResponse.getPoster().getFullName());
         rbRate.setRating(taskResponse.getPoster().getPosterAverageRating());
         tvTitle.setText(taskResponse.getTitle());
         tvTime.setText(taskResponse.getTitle());
-        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(taskResponse.getStartTime(), getContext()));
-        tvWorkType.setText(getContext().getString(R.string.task_detail_category_type) + " " + taskResponse.getCategoryId());
+        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), getContext()));
+        tvWorkType.setText(getContext().getString(R.string.task_detail_category_type) + " " + CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName());
         tvDescription.setText(taskResponse.getDescription());
 
-        taskProgressView.updateData(1, 2, 4);
+        taskProgressView.updateData(taskResponse.getBidderCount(), (taskResponse.getWorkerCount() - taskResponse.getBidderCount() - taskResponse.getAssigneeCount()), taskResponse.getAssigneeCount());
 
         tvPrice.setText(taskResponse.getCurrency());
         tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
-        tvTime.setText(DateTimeUtils.getHourMinuteFromIso(taskResponse.getStartTime()) + getContext().getString(R.string.detail_task_time_to) + DateTimeUtils.getHourMinuteFromIso(taskResponse.getEndTime()));
+        tvTime.setText(DateTimeUtils.getHourMinuteFromIso(taskResponse.getStartTime()) + " " + getContext().getString(R.string.detail_task_time_to) + " " + DateTimeUtils.getHourMinuteFromIso(taskResponse.getEndTime()));
         tvAddress.setText(taskResponse.getAddress());
 
         final ArrayList<String> attachments = (ArrayList<String>) taskResponse.getAttachments();

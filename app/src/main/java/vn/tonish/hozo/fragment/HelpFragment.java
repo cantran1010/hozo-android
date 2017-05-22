@@ -6,9 +6,9 @@ import android.view.View;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.other.GeneralInfoActivity;
 import vn.tonish.hozo.activity.other.ProfileActivity;
-import vn.tonish.hozo.activity.other.ShareActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.utils.Utils;
 
 /**
  * Created by Admin on 4/4/2017.
@@ -58,7 +58,7 @@ public class HelpFragment extends BaseFragment implements View.OnClickListener {
                 break;
 
             case R.id.layout_share:
-                startActivity(ShareActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+                doShareApp();
                 break;
 
 //            case R.id.tv_history:
@@ -86,6 +86,22 @@ public class HelpFragment extends BaseFragment implements View.OnClickListener {
                 break;
 
         }
+    }
+
+    private void doShareApp() {
+        try {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+            String content = getString(R.string.share_app_content);
+            content = content + "https://play.google.com/store/apps/details?id=" + getActivity().getPackageName() + " \n";
+            i.putExtra(Intent.EXTRA_TEXT, content);
+            startActivity(Intent.createChooser(i, getString(R.string.share_app_title)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utils.showLongToast(getContext(), getString(R.string.share_app_error));
+        }
+
     }
 
     private void openGeneralInfoActivity(String title, String url) {

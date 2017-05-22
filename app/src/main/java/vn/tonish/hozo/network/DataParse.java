@@ -53,7 +53,7 @@ public class DataParse {
         userEntity.setFacebookId(user.getFacebookId());
         userEntity.setFullName(user.getFullName());
         userEntity.setPhoneNumber(user.getPhoneNumber());
-        userEntity.setVerified(user.getVerified());
+//        userEntity.setVerified(user.getVerified());
         userEntity.setPosterAverageRating(user.getPosterAverageRating());
         userEntity.setPosterReviewCount(user.getPosterReviewCount());
         userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
@@ -81,7 +81,7 @@ public class DataParse {
         userEntity.setFacebookId(user.getFacebookId());
         userEntity.setFullName(user.getFullName());
         userEntity.setPhoneNumber(user.getPhoneNumber());
-        userEntity.setVerified(user.getVerified());
+//        userEntity.setVerified(user.getVerified());
         userEntity.setPosterAverageRating(user.getPosterAverageRating());
         userEntity.setPosterReviewCount(user.getPosterReviewCount());
         userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
@@ -221,6 +221,8 @@ public class DataParse {
         taskResponse.setAddress(taskEntity.getAddress());
         taskResponse.setWorkerRate(taskEntity.getWorkerRate());
         taskResponse.setWorkerCount(taskEntity.getWorkerCount());
+        taskResponse.setAssigneeCount(taskEntity.getAssigneeCount());
+        taskResponse.setBidderCount(taskEntity.getBidderCount());
         taskResponse.setCurrency(taskEntity.getCurrency());
         taskResponse.setPoster(taskEntity.getPoster());
         taskResponse.setRole(taskEntity.getRole());
@@ -272,6 +274,8 @@ public class DataParse {
         taskEntity.setAddress(taskResponse.getAddress());
         taskEntity.setWorkerRate(taskResponse.getWorkerRate());
         taskEntity.setWorkerCount(taskResponse.getWorkerCount());
+        taskEntity.setAssigneeCount(taskResponse.getAssigneeCount());
+        taskEntity.setBidderCount(taskResponse.getBidderCount());
         taskEntity.setCurrency(taskResponse.getCurrency());
         taskEntity.setPoster(taskResponse.getPoster());
         taskEntity.setRole(taskResponse.getRole());
