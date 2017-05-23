@@ -200,7 +200,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                 btnCallRate.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Utils.call(getContext(),taskResponse.getPoster().getPhoneNumber());
+//                        Utils.call(getContext(),taskResponse.getPoster().getPhone());
                         Utils.call(getContext(), "+84978478304");
                     }
                 });

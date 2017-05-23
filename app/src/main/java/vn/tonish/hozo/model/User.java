@@ -12,7 +12,7 @@ import java.util.List;
 
 public class User implements Serializable {
 
-    private Integer id;
+    private int id;
 
     @SerializedName("full_name")
     private String fullName;
@@ -31,17 +31,16 @@ public class User implements Serializable {
     @SerializedName("tasker_average_rating")
     private float taskerAverageRating;
     @SerializedName("poster_review_count")
-    private float posterReviewCount;
+    private int posterReviewCount;
     @SerializedName("tasker_review_count")
-    private float taskerReviewCount;
-
+    private int taskerReviewCount;
     private List<Review> reviews = new ArrayList<>();
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -137,19 +136,20 @@ public class User implements Serializable {
         this.taskerAverageRating = taskerAverageRating;
     }
 
-    public float getPosterReviewCount() {
+
+    public int getPosterReviewCount() {
         return posterReviewCount;
     }
 
-    public void setPosterReviewCount(float posterReviewCount) {
+    public void setPosterReviewCount(int posterReviewCount) {
         this.posterReviewCount = posterReviewCount;
     }
 
-    public float getTaskerReviewCount() {
+    public int getTaskerReviewCount() {
         return taskerReviewCount;
     }
 
-    public void setTaskerReviewCount(float taskerReviewCount) {
+    public void setTaskerReviewCount(int taskerReviewCount) {
         this.taskerReviewCount = taskerReviewCount;
     }
 

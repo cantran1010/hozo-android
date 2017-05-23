@@ -103,7 +103,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
 
     private void setDefaultSetting() {
         SettingEntiny settingEntiny = new SettingEntiny();
-        settingEntiny.setUserId(UserManager.getUserLogin().getId());
+        settingEntiny.setUserId(UserManager.getMyUser().getId());
         settingEntiny.setLatitude(21.028511);
         settingEntiny.setLongitude(105.804817);
         settingEntiny.setRadius(50);
@@ -120,8 +120,8 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
         ProgressDialogUtils.showProgressDialog(getActivity());
         JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put(Constants.USER_ID, UserManager.getUserLogin().getId());
-            jsonRequest.put(Constants.USER_MOBILE, UserManager.getUserLogin().getPhoneNumber());
+            jsonRequest.put(Constants.USER_ID, UserManager.getMyUser().getId());
+            jsonRequest.put(Constants.USER_MOBILE, UserManager.getMyUser().getPhone());
             jsonRequest.put(Constants.USER_FULL_NAME, edtName.getText().toString().trim());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -136,7 +136,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
                 if (response.code() == 200) {
                     if (response.body() != null) {
                         DataParse.updateUser(response.body(), getContext());
-                        LogUtils.d(TAG, "update User : " + UserManager.getUserLogin().toString());
+                        LogUtils.d(TAG, "update User : " + UserManager.getMyUser().toString());
                     }
                     startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
