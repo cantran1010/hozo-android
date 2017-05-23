@@ -126,5 +126,8 @@ public class Constants {
     public static final String ROLE_WORKER = "worker";
     public static final String ROLE_POSTER = "poster";
 
-    
+    // post task
+    public static final String GENDER_MALE = "male";
+    public static final String GENDER_FEMALE = "female";
+
 }

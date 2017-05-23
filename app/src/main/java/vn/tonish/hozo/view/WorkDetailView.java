@@ -48,7 +48,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
     protected CircleImageView imgAvatar;
 
-    private TextViewHozo tvName, tvTitle, tvTimeAgo, tvWorkType, tvDescription, tvImageAttachTitle;
+    private TextViewHozo tvName, tvTitle, tvTimeAgo, tvDescription, tvImageAttachTitle;
     private RatingBar rbRate;
     private ImageView imgMobile, imgEmail, imgFacebook;
     private TextViewHozo tvPrice, tvDate, tvTime, tvAddress, tvStatus;
@@ -88,7 +88,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
-        tvWorkType = (TextViewHozo) findViewById(R.id.tv_work_type);
+//        tvWorkType = (TextViewHozo) findViewById(R.id.tv_work_type);
         tvDescription = (TextViewHozo) findViewById(R.id.tv_description);
         rbRate = (RatingBar) findViewById(R.id.rb_rate);
 
@@ -127,8 +127,9 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         rbRate.setRating(taskResponse.getPoster().getPosterAverageRating());
         tvTitle.setText(taskResponse.getTitle());
         tvTime.setText(taskResponse.getTitle());
-        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), getContext()));
-        tvWorkType.setText(getContext().getString(R.string.task_detail_category_type) + " " + CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName());
+        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), getContext())
+                + " . " + getContext().getString(R.string.task_detail_category_type) + " " + CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName());
+//        tvWorkType.setText(getContext().getString(R.string.task_detail_category_type) + " " + CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName());
         tvDescription.setText(taskResponse.getDescription());
 
         taskProgressView.updateData(taskResponse.getBidderCount(), (taskResponse.getWorkerCount() - taskResponse.getBidderCount() - taskResponse.getAssigneeCount()), taskResponse.getAssigneeCount());
@@ -158,6 +159,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
             });
         } else {
             tvImageAttachTitle.setVisibility(View.GONE);
+            myGridView.setVisibility(View.GONE);
         }
 
     }

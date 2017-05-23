@@ -40,6 +40,7 @@ public class NetworkUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        LogUtils.d(TAG, "refreshToken jsonRequest: " + jsonRequest.toString());
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         ApiClient.getApiService().refreshToken(body).enqueue(new Callback<Token>() {
@@ -78,7 +79,7 @@ public class NetworkUtils {
                 DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        refreshToken(context,refreshListener);
+                        refreshToken(context, refreshListener);
                     }
 
                     @Override
