@@ -5,10 +5,9 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Arrays;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -168,14 +167,16 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
         final JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put("type", category.getId());
+            jsonRequest.put("category_id", category.getId());
             jsonRequest.put("title", work.getTitle());
             jsonRequest.put("description", work.getDescription());
 //            jsonRequest.put("start_time", DateTimeUtils.getTimeIso8601(work.getDate(), work.getStartTime()));
 //            jsonRequest.put("end_time", DateTimeUtils.getTimeIso8601(work.getDate(), work.getEndTime()));
             jsonRequest.put("start_time", work.getStartTime());
             jsonRequest.put("end_time", work.getEndTime());
-            jsonRequest.put("gender", work.getGender());
+
+            if (work.getGender() != null)
+                jsonRequest.put("gender", work.getGender());
             jsonRequest.put("min_age", work.getMinAge());
             jsonRequest.put("max_age", work.getMaxAge());
             jsonRequest.put("latitude", work.getLatitude());
@@ -186,8 +187,12 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             jsonRequest.put("worker_rate", Integer.valueOf(edtBudget.getText().toString().replace(".", "")));
             jsonRequest.put("worker_count", Integer.valueOf(edtNumberWorker.getText().toString().replace(".", "")));
 
-            if (work.getAttachmentsId() != null && !work.getAttachmentsId().equals(""))
-                jsonRequest.put("attachments",  Arrays.toString(work.getAttachmentsId()));
+            if (work.getAttachmentsId() != null && work.getAttachmentsId().length > 0) {
+                JSONArray jsonArray = new JSONArray();
+                for (int i = 0; i < work.getAttachmentsId().length; i++)
+                    jsonArray.put(work.getAttachmentsId()[i]);
+                jsonRequest.put("attachments", jsonArray);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -202,7 +207,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
                 LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
 
                 if (response.isSuccessful()) {
-                    DialogUtils.showOkDialog(PostATaskFinishActivity.this, "", getString(R.string.post_a_task_complete), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                    DialogUtils.showOkDialog(PostATaskFinishActivity.this, getString(R.string.post_a_task_complete_title), getString(R.string.post_a_task_complete), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             setResult(Constants.POST_A_TASK_RESPONSE_CODE);

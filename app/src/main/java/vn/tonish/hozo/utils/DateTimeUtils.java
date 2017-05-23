@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import vn.tonish.hozo.R;
 
@@ -21,45 +22,13 @@ public class DateTimeUtils {
 
     private static final String TAG = DateTimeUtils.class.getSimpleName();
 
-    private static final String DATE_FORMAT_IN = "yyyy-MM-dd HH:mm:ss";
-    private static final String DATE_FORMAT_OUT = "yyyy-MM-dd";
-
-    public static String changeFormatDate(String input) {
-        Date date = null;
-        try {
-            date = new SimpleDateFormat(DATE_FORMAT_IN, Locale.getDefault()).parse(input);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return new SimpleDateFormat(DATE_FORMAT_OUT, Locale.getDefault()).format(date);
-    }
-
-    private static final String DATE_FORMAT_IN2 = "yyyy-MM-dd";
-    private static final String DATE_FORMAT_OUT2 = "yyyy MM dd";
-
-    public static String changeFormatDate2(String input) {
-        Date date = null;
-        try {
-            date = new SimpleDateFormat(DATE_FORMAT_IN2, Locale.getDefault()).parse(input);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return new SimpleDateFormat(DATE_FORMAT_OUT2, Locale.getDefault()).format(date);
-    }
-
-    public static String changeFormatDate2(Calendar newDate) {
-        String myFormat = "yyyy MM dd"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        return sdf.format(newDate.getTime());
-
-    }
-
-
     public static String getOnlyDateFromIso(String input) {
-        input = input.substring(0, 22) + input.substring(23);
         Date date = null;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         try {
-            date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault()).parse(input);
+            date = sdf.parse(input);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -67,10 +36,13 @@ public class DateTimeUtils {
     }
 
     public static String getHourMinuteFromIso(String input) {
-        input = input.substring(0, 22) + input.substring(23);
         Date date = null;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+
         try {
-            date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault()).parse(input);
+            date = sdf.parse(input);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -102,11 +74,10 @@ public class DateTimeUtils {
     }
 
     public static Date getDateFromStringIso(String dateIso) {
-        String dateIsoAndroid = dateIso.substring(0, 22) + dateIso.substring(23);
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
         Date date = null;
         try {
-            date = df.parse(dateIsoAndroid);
+            date = df.parse(dateIso);
             String newDateString = df.format(date);
             System.out.println(newDateString);
         } catch (ParseException e) {
@@ -119,9 +90,9 @@ public class DateTimeUtils {
      * Transform Calendar to ISO 8601 string.
      */
     public static String fromDateIso(Date date) {
-        String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US)
+        String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
                 .format(date);
-        return formatted.substring(0, 22) + ":" + formatted.substring(22);
+        return formatted;
     }
 
     /**
@@ -129,9 +100,11 @@ public class DateTimeUtils {
      */
     public static String fromCalendarIso(final Calendar calendar) {
         Date date = calendar.getTime();
-        String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US)
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String formatted = sdf
                 .format(date);
-        return formatted.substring(0, 22) + ":" + formatted.substring(22);
+        return formatted;
     }
 
     /**
@@ -146,16 +119,11 @@ public class DateTimeUtils {
      */
     public static Calendar toCalendar(final String iso8601string)
             throws ParseException {
+        String timeZone = Calendar.getInstance().getTimeZone().getID();
         Calendar calendar = GregorianCalendar.getInstance();
-        String s = iso8601string.replace("Z", "+00:00");
-        try {
-            s = s.substring(0, 22) + s.substring(23);  // to get rid of the ":"
-        } catch (IndexOutOfBoundsException e) {
-            e.printStackTrace();
-            throw new ParseException("Invalid length", 0);
-        }
-        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US).parse(s);
-        calendar.setTime(date);
+        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).parse(iso8601string);
+        Date localDate = new Date(date.getTime() + TimeZone.getTimeZone(timeZone).getOffset(date.getTime()));
+        calendar.setTime(localDate);
         return calendar;
     }
 
@@ -171,11 +139,26 @@ public class DateTimeUtils {
         return formatter.format(tme);
     }
 
+    public static Date localToGMT(Calendar calendar) {
+        Date date = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date gmt = new Date(sdf.format(date));
+        return gmt;
+    }
+
+    public static Date gmttoLocalDate(Date date) {
+        String timeZone = Calendar.getInstance().getTimeZone().getID();
+        Date local = new Date(date.getTime() + TimeZone.getTimeZone(timeZone).getOffset(date.getTime()));
+        return local;
+    }
+
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
     private static final int MONTH_MILLIS = 30 * DAY_MILLIS;
+    private static final int YEAR_MILLIS = 12 * MONTH_MILLIS;
 
     public static String getTimeAgo(String date, Context context) {
         String result = "";
@@ -204,13 +187,16 @@ public class DateTimeUtils {
                 result = diff / HOUR_MILLIS + " " + context.getResources().getString(R.string.hours_ago);
             } else if (diff < 48 * HOUR_MILLIS) {
                 result = context.getResources().getString(R.string.yesterday);
-            } else {
+            } else if (diff < 30 * DAY_MILLIS) {
                 result = diff / DAY_MILLIS + " " + context.getResources().getString(R.string.days_ago);
+            } else if (diff < 12 * MONTH_MILLIS) {
+                result = diff / MONTH_MILLIS + " " + context.getResources().getString(R.string.month_ago);
+            } else {
+                result = diff / YEAR_MILLIS + " " + context.getResources().getString(R.string.year_ago);
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
 
         return result;
     }

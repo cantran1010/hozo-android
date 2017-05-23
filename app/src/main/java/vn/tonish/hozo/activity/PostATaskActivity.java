@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -135,6 +136,9 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
         category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
         tvTitle.setText(category.getName());
+
+        edtWorkName.setHint(category.getSuggestTitle());
+        edtDescription.setHint(category.getSuggestDescription());
 
         final Image image = new Image();
         image.setAdd(true);
@@ -335,13 +339,23 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             taskResponse.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
             taskResponse.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
             taskResponse.setDescription(edtDescription.getText().toString());
-            taskResponse.setGender(spGender.getSelectedItemPosition() + "");
+
+            if (spGender.getSelectedItemPosition() == 1) {
+                taskResponse.setGender(Constants.GENDER_MALE);
+            } else if (spGender.getSelectedItemPosition() == 2) {
+                taskResponse.setGender(Constants.GENDER_FEMALE);
+            } else {
+                taskResponse.setGender(null);
+            }
+
             taskResponse.setMinAge(ageFrom);
             taskResponse.setMaxAge(ageTo);
 
             Intent intent = new Intent(this, PostATaskMapActivity.class);
             intent.putExtra(Constants.EXTRA_TASK, taskResponse);
             intent.putExtra(Constants.EXTRA_CATEGORY, category);
+
+            LogUtils.d(TAG,"doNext , taskResponse : " + taskResponse.toString());
 
             startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
         } else {
@@ -406,7 +420,15 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             taskResponse.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
             taskResponse.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
             taskResponse.setDescription(edtDescription.getText().toString());
-            taskResponse.setGender(spGender.getSelectedItemPosition() + "");
+
+            if (spGender.getSelectedItemPosition() == 1) {
+                taskResponse.setGender(Constants.GENDER_MALE);
+            } else if (spGender.getSelectedItemPosition() == 2) {
+                taskResponse.setGender(Constants.GENDER_FEMALE);
+            } else {
+                taskResponse.setGender(null);
+            }
+
             taskResponse.setMinAge(ageFrom);
             taskResponse.setMaxAge(ageTo);
 
@@ -474,13 +496,30 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             imageAdapter.notifyDataSetChanged();
 
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
-
-            String selectedImagePath = getImagePath();
-            Image image = new Image();
-            image.setAdd(false);
-            image.setPath(selectedImagePath);
-            images.add(0, image);
-            imageAdapter.notifyDataSetChanged();
+            final String selectedImagePath = getImagePath();
+            LogUtils.d(TAG, "onActivityResult selectedImagePath : " + selectedImagePath);
+            ProgressDialogUtils.showProgressDialog(this);
+            MediaScannerConnection.scanFile(
+                    PostATaskActivity.this,
+                    new String[]{selectedImagePath},
+                    null,
+                    new MediaScannerConnection.OnScanCompletedListener() {
+                        @Override
+                        public void onScanCompleted(String path, Uri uri) {
+                            LogUtils.d(TAG, "onActivityResult onActivityResult path : " + path + " , uri : " + uri.toString());
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Image image = new Image();
+                                    image.setAdd(false);
+                                    image.setPath(selectedImagePath);
+                                    images.add(0, image);
+                                    imageAdapter.notifyDataSetChanged();
+                                    ProgressDialogUtils.dismissProgressDialog();
+                                }
+                            });
+                        }
+                    });
         } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             setResult(Constants.POST_A_TASK_RESPONSE_CODE);
             finish();

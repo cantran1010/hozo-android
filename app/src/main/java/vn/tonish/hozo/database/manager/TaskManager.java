@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmQuery;
+import io.realm.Sort;
 import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
 import vn.tonish.hozo.fragment.MyTaskFragment;
@@ -85,7 +86,7 @@ public class TaskManager {
             taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).lessThan("createdAt", sinceDate);
         }
 
-        List<TaskEntity> taskEntities = taskEntityRealmQuery.findAll().sort("createdAt");
+        List<TaskEntity> taskEntities = taskEntityRealmQuery.findAll().sort("createdAt", Sort.DESCENDING);
         if (taskEntities.size() > 0) {
 
             if (taskEntities.size() >= MyTaskFragment.LIMIT)
