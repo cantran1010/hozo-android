@@ -124,7 +124,7 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         Activity activity = getActivity();
         if (activity instanceof BaseActivity) {
             BaseActivity baseActivity = (BaseActivity) activity;
-            baseActivity.openFragmentBundle(resId, fragmentClazz, args, true, transitionScreen);
+            baseActivity.openFragmentBundle(resId, fragmentClazz, args, addBackStack, transitionScreen);
         }
     }
 

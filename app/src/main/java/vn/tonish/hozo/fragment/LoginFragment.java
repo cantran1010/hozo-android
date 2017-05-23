@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +24,8 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
@@ -172,12 +175,11 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 LogUtils.d(TAG, "onResponse status code : " + response.code());
-                LogUtils.d(TAG, "onResponse body : " + response.body());
-
-                if (response.code() == 204) {
+                if (response.isSuccessful() && response.code() == 204) {
+                    LogUtils.d(TAG, "onResponse body : " + response.body());
                     Bundle bundle = new Bundle();
                     bundle.putString(Constants.USER_MOBILE, finalMobile);
-                    openFragment(R.id.layout_container, OtpFragment.class, bundle, false, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, OtpFragment.class, bundle, true, TransitionScreen.RIGHT_TO_LEFT);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
@@ -187,6 +189,9 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                     });
 
                 } else {
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.d(TAG, "errorBody" + error.toString());
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
