@@ -20,7 +20,6 @@ import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
-import vn.tonish.hozo.model.Review;
 import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.rest.responseRes.BidResponse;
 import vn.tonish.hozo.rest.responseRes.CancelOfferResponse;
