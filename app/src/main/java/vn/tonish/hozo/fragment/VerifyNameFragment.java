@@ -1,10 +1,16 @@
 package vn.tonish.hozo.fragment;
 
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
+import android.graphics.Color;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,7 +46,7 @@ import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 public class VerifyNameFragment extends BaseFragment implements View.OnClickListener {
     private final static String TAG = VerifyNameFragment.class.getName();
     private EdittextHozo edtName;
-    private TextViewHozo btnSave;
+    private TextViewHozo btnSave, tvPolicy;
 
 
     @Override
@@ -52,12 +58,14 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
     protected void initView() {
         edtName = (EdittextHozo) findViewById(R.id.edt_name);
         btnSave = (TextViewHozo) findViewById(R.id.btn_save);
+        tvPolicy = (TextViewHozo) findViewById(R.id.tv_policy);
         btnSave.setOnClickListener(this);
 
     }
 
     @Override
     protected void initData() {
+        setUnderLinePolicy(tvPolicy);
         setDefaultSetting();
         btnSave.setOnClickListener(this);
         edtName.addTextChangedListener(new TextWatcher() {
@@ -69,10 +77,10 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (edtName.getText().toString().trim().length() > 5 && (edtName.getText().toString().trim().length() < 50)) {
-                    btnSave.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
+                    btnSave.setAlpha(1);
                     btnSave.setEnabled(true);
                 } else {
-                    btnSave.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
+                    btnSave.setAlpha(0.5f);
                     btnSave.setEnabled(false);
                 }
 
@@ -89,6 +97,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void resumeData() {
+
 
     }
 
@@ -116,7 +125,6 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
     }
 
 
-
     private void updateFullName() {
         ProgressDialogUtils.showProgressDialog(getActivity());
         JSONObject jsonRequest = new JSONObject();
@@ -129,8 +137,8 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
         }
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
-        LogUtils.d(TAG,"updateFullName , user in db : " + UserManager.getMyUser());
-        LogUtils.d(TAG,"updateFullName , user token : " + UserManager.getUserToken());
+        LogUtils.d(TAG, "updateFullName , user in db : " + UserManager.getMyUser());
+        LogUtils.d(TAG, "updateFullName , user token : " + UserManager.getUserToken());
 
 
         ApiClient.getApiService().updateUser(UserManager.getUserToken(), body).enqueue(new Callback<User>() {
@@ -171,5 +179,26 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
                 });
             }
         });
+    }
+
+    private void setUnderLinePolicy(TextViewHozo textViewHozo) {
+        SpannableString ss = new SpannableString(getContext().getString(R.string.tv_login_policy));
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                Toast.makeText(getContext(), "dang xay dung", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(true);
+            }
+        };
+        ss.setSpan(clickableSpan, 61, 83, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        textViewHozo.setText(ss);
+        textViewHozo.setMovementMethod(LinkMovementMethod.getInstance());
+        textViewHozo.setHighlightColor(Color.TRANSPARENT);
     }
 }

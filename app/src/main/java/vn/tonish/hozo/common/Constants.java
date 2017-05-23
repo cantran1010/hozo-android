@@ -126,5 +126,5 @@ public class Constants {
     public static final String ROLE_WORKER = "worker";
     public static final String ROLE_POSTER = "poster";
 
-
+    
 }

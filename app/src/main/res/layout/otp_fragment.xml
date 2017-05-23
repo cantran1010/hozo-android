@@ -10,17 +10,19 @@
         android:id="@+id/btnBack"
         android:layout_width="?android:attr/actionBarSize"
         android:layout_height="?android:attr/actionBarSize"
+        android:background="@drawable/btn_selector"
         android:contentDescription="@string/img_content_des"
         android:scaleType="centerInside"
         android:src="@drawable/ic_back" />
 
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="?android:attr/actionBarSize">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -86,19 +88,22 @@
                 android:layout_height="36dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="50dp"
-                android:background="@color/blue"
+                android:alpha="0.5"
+                android:background="@drawable/btn_button_selector"
                 android:enabled="false"
                 android:gravity="center"
-                android:textColor="@color/blue" />
+                android:text="@string/login_continue"
+                android:textColor="@color/blue"
+                android:textStyle="bold" />
 
             <vn.tonish.hozo.view.TextViewHozo
-                android:minHeight="@dimen/edt_min_height"
                 android:id="@+id/btn_reset_otp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="17dp"
                 android:gravity="center"
+                android:minHeight="@dimen/edt_min_height"
                 android:text="@string/login_resend_otp"
                 android:textColor="@color/white" />
         </LinearLayout>

@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +27,10 @@ import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.Token;
 import vn.tonish.hozo.utils.LogUtils;
@@ -90,7 +94,7 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
 
     @Override
     protected void initData() {
-        mobile = getArguments().getString(USER_MOBILE);
+        mobile = getArguments().getString(Constants.USER_MOBILE);
     }
 
     @Override
@@ -107,30 +111,26 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (s.length() == 0) {
             mPinFirstDigitEditText.setText("");
-            btnSigIn.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
-            btnSigIn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
+            btnSigIn.setAlpha(0.5f);
         } else if (s.length() == 1) {
             mPinFirstDigitEditText.setText(s.charAt(0) + "");
             mPinSecondDigitEditText.setText("");
             mPinThirdDigitEditText.setText("");
             mPinForthDigitEditText.setText("");
-            btnSigIn.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
-            btnSigIn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
+            btnSigIn.setAlpha(0.5f);
         } else if (s.length() == 2) {
             mPinSecondDigitEditText.setText(s.charAt(1) + "");
             mPinThirdDigitEditText.setText("");
             mPinForthDigitEditText.setText("");
-            btnSigIn.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
-            btnSigIn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
+            btnSigIn.setAlpha(0.5f);
         } else if (s.length() == 3) {
             mPinThirdDigitEditText.setText(s.charAt(2) + "");
             mPinForthDigitEditText.setText("");
-            btnSigIn.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
-            btnSigIn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
+            btnSigIn.setAlpha(0.5f);
         } else if (s.length() == 4) {
             mPinForthDigitEditText.setText(s.charAt(3) + "");
             hideSoftKeyboard(mPinForthDigitEditText);
-            btnSigIn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
+            btnSigIn.setAlpha(1);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -265,7 +265,7 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
 
     private void sendOtp() {
         ProgressDialogUtils.showProgressDialog(getActivity());
-        String otpCode = mPinHiddenEditText.getText().toString().trim();
+        final String otpCode = mPinHiddenEditText.getText().toString().trim();
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(USER_MOBILE, mobile);
@@ -274,33 +274,50 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
             e.printStackTrace();
         }
 
+        LogUtils.d(TAG, "sendOtp data request : " + jsonRequest.toString());
+
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         ApiClient.getApiService().senOtp(body).enqueue(new Callback<OtpReponse>() {
 
             @Override
             public void onResponse(Call<OtpReponse> call, Response<OtpReponse> response) {
-                LogUtils.d(TAG, "onResponse status code : " + response.code());
-                LogUtils.d(TAG, "onResponse body : " + response.body().toString());
-                UserEntity user = response.body().getUser();
-                Token token = response.body().getToken();
+                LogUtils.d(TAG, "onResponse code : " + response.code());
+                if (response.isSuccessful()) {
+                    LogUtils.d(TAG, "onResponse body : " + response.body());
+                    UserEntity user = response.body().getUser();
+                    Token token = response.body().getToken();
 
-                user.setAccessToken(token.getAccessToken());
-                user.setRefreshToken(token.getRefreshToken());
-                user.setTokenExp(token.getTokenExpires());
+                    user.setAccessToken(token.getAccessToken());
+                    user.setRefreshToken(token.getRefreshToken());
+                    user.setTokenExp(token.getTokenExpires());
+                    insertUser(user, true);
+                    // inser User
+                    if (user.getFullName().isEmpty()) {
+                        openFragment(R.id.layout_container, VerifyNameFragment.class, true, TransitionScreen.RIGHT_TO_LEFT);
+                    } else {
+                        startActivityAndClearAllTask(new Intent(getActivity(), MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+                    }
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            sendOtp();
+                        }
+                    });
 
-                // inser User
-                insertUser(user, true);
-                // login
-                if (response.code() == 201) {
-                    openFragment(R.id.layout_container, VerifyNameFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
-                    startActivityAndClearAllTask(new Intent(getActivity(), MainActivity.class),TransitionScreen.RIGHT_TO_LEFT);
+                    btnSigIn.setAlpha(0.5f);
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.d(TAG, "errorBody" + error.toString());
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+
                 ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
             public void onFailure(Call<OtpReponse> call, Throwable t) {
+                btnSigIn.setAlpha(0.5f);
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
