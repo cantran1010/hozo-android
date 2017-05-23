@@ -30,7 +30,10 @@ import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.User;
+import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
@@ -137,29 +140,39 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
         }
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
-        LogUtils.d(TAG, "updateFullName , user in db : " + UserManager.getMyUser());
-        LogUtils.d(TAG, "updateFullName , user token : " + UserManager.getUserToken());
-
-
         ApiClient.getApiService().updateUser(UserManager.getUserToken(), body).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                ProgressDialogUtils.dismissProgressDialog();
-                LogUtils.d(TAG, "onResponse status code : " + response.code());
-                LogUtils.d(TAG, "onResponse body : " + response.body().toString());
-                if (response.code() == 200) {
-                    if (response.body() != null) {
+                LogUtils.d(TAG, "onResponse updateFullName code : " + response.code());
 
-                        UserEntity myUser = UserManager.getMyUser();
-                        Realm realm = Realm.getDefaultInstance();
-                        realm.beginTransaction();
-                        myUser.setFullName(edtName.getText().toString());
-                        realm.commitTransaction();
+                if (response.isSuccessful()) {
+                    LogUtils.d(TAG, "onResponse updateFullName body : " + response.body());
+                    if (response.code() == 200) {
+                        if (response.body() != null) {
+                            UserEntity myUser = UserManager.getMyUser();
+                            Realm realm = Realm.getDefaultInstance();
+                            realm.beginTransaction();
+                            myUser.setFullName(edtName.getText().toString());
+                            realm.commitTransaction();
+                        }
+                        startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                     }
-                    startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
-                } else {
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            updateFullName();
+                        }
+                    });
 
+                } else {
+                    btnSave.setAlpha(0.5f);
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.d(TAG, "errorBody" + error.toString());
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+                ProgressDialogUtils.dismissProgressDialog();
+
             }
 
             @Override

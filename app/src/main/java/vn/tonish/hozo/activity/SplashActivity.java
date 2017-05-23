@@ -28,7 +28,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void initView() {
         imgLogo = (ImageView) findViewById(R.id.img_logo);
-        animation = AnimationUtils.loadAnimation(this, R.anim.local_matching_effect);
+        animation = AnimationUtils.loadAnimation(this, R.anim.fadein);
     }
 
     @Override
