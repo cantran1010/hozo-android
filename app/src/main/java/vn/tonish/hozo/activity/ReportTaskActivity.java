@@ -99,7 +99,7 @@ public class ReportTaskActivity extends BaseActivity implements View.OnClickList
                 if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
                     finish();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(ReportTaskActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(ReportTaskActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doReport();

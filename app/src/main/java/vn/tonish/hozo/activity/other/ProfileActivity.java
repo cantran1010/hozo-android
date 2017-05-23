@@ -184,7 +184,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                             ReviewManager.deleteAll();
                             startActivityAndClearAllTask(new Intent(ProfileActivity.this, HomeActivity.class), TransitionScreen.FADE_IN);
                         } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                            NetworkUtils.RefreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
+                            NetworkUtils.refreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
                                 @Override
                                 public void onRefreshFinish() {
                                     logOut();
@@ -247,7 +247,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     updateUi(response.body(), true);
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             updateUserFromServer();

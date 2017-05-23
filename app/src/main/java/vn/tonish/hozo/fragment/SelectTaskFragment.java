@@ -52,7 +52,6 @@ public class SelectTaskFragment extends BaseFragment {
     protected void initData() {
         getCacheData();
         getCategory();
-
     }
 
     private void getCacheData() {
@@ -81,7 +80,7 @@ public class SelectTaskFragment extends BaseFragment {
                     CategoryManager.insertCategories(DataParse.convertListCategoryToListCategoryEntity(categories));
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(getContext(), new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             getCategory();

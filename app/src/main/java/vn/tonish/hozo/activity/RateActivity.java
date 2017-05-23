@@ -130,7 +130,7 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     finish();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(RateActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(RateActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doRate();

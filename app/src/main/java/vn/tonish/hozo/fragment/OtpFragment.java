@@ -291,11 +291,10 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
                 // inser User
                 insertUser(user, true);
                 // login
-                if (response.code() == 200) {
+                if (response.code() == 201) {
                     openFragment(R.id.layout_container, VerifyNameFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
-//                    startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class));
                 } else {
-                    startActivity(new Intent(getActivity(), MainActivity.class),TransitionScreen.RIGHT_TO_LEFT);
+                    startActivityAndClearAllTask(new Intent(getActivity(), MainActivity.class),TransitionScreen.RIGHT_TO_LEFT);
                 }
                 ProgressDialogUtils.dismissProgressDialog();
             }

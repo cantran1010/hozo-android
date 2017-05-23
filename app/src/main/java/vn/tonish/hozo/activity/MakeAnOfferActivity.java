@@ -201,7 +201,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                     updateUi();
                     storeTaskToDatabase();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(MakeAnOfferActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(MakeAnOfferActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             getData();
@@ -414,7 +414,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                     tempId = imageResponse.getIdTemp();
                     doComment();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(MakeAnOfferActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(MakeAnOfferActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doAttachImage();
@@ -483,7 +483,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                     edtComment.setText(getString(R.string.empty));
                     imgLayout.setVisibility(View.GONE);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(MakeAnOfferActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(MakeAnOfferActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doComment();

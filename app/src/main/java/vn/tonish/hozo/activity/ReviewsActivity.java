@@ -140,7 +140,7 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
                     ReviewManager.insertReviews(reviewEntities);
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(ReviewsActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(ReviewsActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             getReviews(isSince, user_id);
