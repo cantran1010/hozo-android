@@ -221,7 +221,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
                     updateUi();
                     storeTaskToDatabase();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(WorkerOfferMadeActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(WorkerOfferMadeActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             getData();
@@ -416,7 +416,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     finish();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(WorkerOfferMadeActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(WorkerOfferMadeActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doCancelOfferTask();
@@ -491,7 +491,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
                     doComment();
                     FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(WorkerOfferMadeActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(WorkerOfferMadeActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doAttachImage();
@@ -558,7 +558,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
                     edtComment.setText(getString(R.string.empty));
                     imgLayout.setVisibility(View.GONE);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(WorkerOfferMadeActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(WorkerOfferMadeActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doComment();

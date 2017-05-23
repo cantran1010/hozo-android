@@ -140,7 +140,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                     refreshList();
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             getTaskFromServer(role, since, limit, query);

@@ -254,7 +254,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(getContext(), new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(getContext(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doOffer();

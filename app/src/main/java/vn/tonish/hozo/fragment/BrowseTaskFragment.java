@@ -194,7 +194,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
                     LogUtils.d(TAG, "getTasksonResponse size : " + taskList.size());
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             getTaskResponse(isSince, "", "");

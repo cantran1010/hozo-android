@@ -198,7 +198,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
                     updateUi();
                     storeTaskToDatabase();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(PosterCompletedTaskActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(PosterCompletedTaskActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             getData();
@@ -406,7 +406,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     finish();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(PosterCompletedTaskActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(PosterCompletedTaskActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doCacelTask();
@@ -480,7 +480,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
                     doComment();
                     FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(PosterCompletedTaskActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(PosterCompletedTaskActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doAttachImage();
@@ -549,7 +549,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
                     edtComment.setText(getString(R.string.empty));
                     imgLayout.setVisibility(View.GONE);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(PosterCompletedTaskActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(PosterCompletedTaskActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doComment();

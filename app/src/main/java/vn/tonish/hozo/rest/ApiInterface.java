@@ -37,8 +37,8 @@ public interface ApiInterface {
     @POST("auth/otp_code")
     Call<Void> getOtpCode(@Header("X-Hozo-API-Key") String apiKey, @Body RequestBody body);
 
-    @PUT("auth/refresh_token")
-    Call<Token> refreshToken(@Header("Authorization") String token, @Body RequestBody body);
+    @POST("auth/refresh_token")
+    Call<Token> refreshToken(@Body RequestBody body);
 
     @GET("tasks/categories")
     Call<List<Category>> getCategories(@Header("Authorization") String token);

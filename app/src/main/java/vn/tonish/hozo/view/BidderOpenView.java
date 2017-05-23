@@ -116,7 +116,7 @@ public class BidderOpenView extends LinearLayout {
                             intentAnswer.putExtra(Constants.EXTRA_TASK, response.body());
                             getContext().sendBroadcast(intentAnswer);
                         } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                            NetworkUtils.RefreshToken(getContext(), new NetworkUtils.RefreshListener() {
+                            NetworkUtils.refreshToken(getContext(), new NetworkUtils.RefreshListener() {
                                 @Override
                                 public void onRefreshFinish() {
                                     doAcceptOffer();
@@ -165,7 +165,7 @@ public class BidderOpenView extends LinearLayout {
 //                        if (response.code() == Constants.HTTP_CODE_OK) {
 //
 //                        } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-//                            NetworkUtils.RefreshToken(getContext(), new NetworkUtils.RefreshListener() {
+//                            NetworkUtils.refreshToken(getContext(), new NetworkUtils.RefreshListener() {
 //                                @Override
 //                                public void onRefreshFinish() {
 //                                    doAcceptOffer();

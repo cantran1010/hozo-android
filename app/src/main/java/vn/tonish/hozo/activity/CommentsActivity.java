@@ -165,7 +165,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                     CommentsManager.insertComments(comments);
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(CommentsActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(CommentsActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             getComments(isSince, 123);
@@ -280,7 +280,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                     edtComment.setText(getString(R.string.empty));
                     imgLayout.setVisibility(View.GONE);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(CommentsActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(CommentsActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doComment();
@@ -351,7 +351,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                     doComment();
                     FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(CommentsActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(CommentsActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doAttachImage();

@@ -129,7 +129,7 @@ public class InboxFragment extends BaseFragment {
                     NotificationManager.insertNotifications(DataParse.convertListNotification(notificationResponse));
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             getNotifications(isSince);

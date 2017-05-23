@@ -130,7 +130,7 @@ public class ReportDialog extends BaseDialog implements View.OnClickListener {
                 if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
                     hideView();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(getContext(), new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(getContext(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             sendToServer(reason);

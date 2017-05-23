@@ -9,6 +9,7 @@ import android.view.View;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import io.realm.Realm;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -18,11 +19,11 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.SettingEntiny;
+import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.User;
-import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
@@ -140,8 +141,12 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
                 LogUtils.d(TAG, "onResponse body : " + response.body().toString());
                 if (response.code() == 200) {
                     if (response.body() != null) {
-                        DataParse.updateUser(response.body(), getContext());
-                        LogUtils.d(TAG, "update User : " + UserManager.getMyUser().toString());
+
+                        UserEntity myUser = UserManager.getMyUser();
+                        Realm realm = Realm.getDefaultInstance();
+                        realm.beginTransaction();
+                        myUser.setFullName(edtName.getText().toString());
+                        realm.commitTransaction();
                     }
                     startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
