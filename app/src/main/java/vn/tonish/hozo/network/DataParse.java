@@ -19,6 +19,7 @@ import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.ReviewManager;
+import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.AddvanceSetting;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
@@ -54,15 +55,15 @@ public class DataParse {
         userEntity.setPhone(user.getPhoneNumber());
 //        userEntity.setVerified(user.getVerified());
         userEntity.setPosterAverageRating(user.getPosterAverageRating());
-        userEntity.setPosterReviewCount(user.getPosterReviewCount());
-        userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
-        userEntity.setTaskerReviewCount(user.getTaskerReviewCount());
+//        userEntity.setPosterReviewCount(user.getPosterReviewCount());
+//        userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
+//        userEntity.setTaskerReviewCount(user.getTaskerReviewCount());
 
         userEntity.setAccessToken(token.getAccessToken());
         userEntity.setRefreshToken(token.getRefreshToken());
         userEntity.setTokenExp(token.getTokenExpires());
 
-//        UserManager.insertUserLogin(userEntity);
+        UserManager.insertUser(userEntity, true);
         LogUtils.d("inser data UserEntity : ", userEntity.toString());
     }
 
@@ -81,12 +82,14 @@ public class DataParse {
         userEntity.setFullName(user.getFullName());
         userEntity.setPhone(user.getPhoneNumber());
 //        userEntity.setVerified(user.getVerified());
-        userEntity.setPosterAverageRating(user.getPosterAverageRating());
-        userEntity.setPosterReviewCount(user.getPosterReviewCount());
-        userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
-        userEntity.setTaskerReviewCount(user.getTaskerReviewCount());
 
-//        UserManager.getMyUser(userEntity);
+        userEntity.setPosterAverageRating(user.getPosterAverageRating());
+//        userEntity.setPosterReviewCount(user.getPosterReviewCount());
+//        userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
+//        userEntity.setTaskerReviewCount(user.getTaskerReviewCount());
+
+        UserManager.insertUser(userEntity, true);
+
         LogUtils.d("update User to database: ", userEntity.toString());
     }
 
@@ -152,9 +155,9 @@ public class DataParse {
         userEntity.setFullName(user.getFullName());
         userEntity.setPhone(user.getPhoneNumber());
         userEntity.setPosterAverageRating(user.getPosterAverageRating());
-        userEntity.setPosterReviewCount(user.getPosterReviewCount());
-        userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
-        userEntity.setTaskerReviewCount(user.getTaskerReviewCount());
+//        userEntity.setPosterReviewCount(user.getPosterReviewCount());
+//        userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
+//        userEntity.setTaskerReviewCount(user.getTaskerReviewCount());
         return userEntity;
     }
 
