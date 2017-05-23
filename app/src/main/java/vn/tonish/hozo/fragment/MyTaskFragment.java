@@ -5,15 +5,17 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import vn.tonish.hozo.R;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PosterAssignedTaskActivity;
 import vn.tonish.hozo.activity.PosterCompletedTaskActivity;
 import vn.tonish.hozo.activity.PosterOpenTaskActivity;
@@ -36,7 +38,6 @@ import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
-import static android.content.ContentValues.TAG;
 import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
 /**
@@ -44,6 +45,7 @@ import static vn.tonish.hozo.utils.Utils.setViewBackground;
  */
 
 public class MyTaskFragment extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = MyTaskFragment.class.getSimpleName();
     private TextViewHozo tvWorker, tvPoster;
     private RecyclerView rcvTask;
     private List<TaskResponse> taskResponses = new ArrayList<>();
@@ -89,7 +91,8 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         taskResponses = DataParse.converListTaskEntityToTaskResponse(taskEntities);
         refreshList();
         if (taskResponses.size() < LIMIT) isLoadingMoreFromDb = false;
-        refreshList();
+
+        LogUtils.d(TAG,"getCacheData , taskResponses : " + taskResponses.toString());
     }
 
     @Override
@@ -211,9 +214,9 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                 public void onMyTaskAdapterClickListener(int position) {
                     TaskResponse taskResponse = taskResponses.get(position);
 
-                    //for test
-                    role = "poster";
-                    taskResponse.setStatus("open");
+//                    //for test
+//                    role = "poster";
+//                    taskResponse.setStatus("open");
 
                     if (role.equals("worker")) {
                         if (taskResponse.getStatus().equals("open")) {
