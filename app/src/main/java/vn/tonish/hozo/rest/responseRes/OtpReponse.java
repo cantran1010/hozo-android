@@ -1,6 +1,6 @@
 package vn.tonish.hozo.rest.responseRes;
 
-import vn.tonish.hozo.model.User;
+import vn.tonish.hozo.database.entity.UserEntity;
 
 /**
  * Created by tonish1 on 5/10/17.
@@ -9,7 +9,7 @@ import vn.tonish.hozo.model.User;
 public class OtpReponse {
 
     private Token token;
-    private User user;
+    private UserEntity user;
 
     public Token getToken() {
         return token;
@@ -19,11 +19,11 @@ public class OtpReponse {
         this.token = token;
     }
 
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 

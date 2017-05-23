@@ -127,6 +127,11 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        LogUtils.d(TAG,"updateFullName , user in db : " + UserManager.getMyUser());
+        LogUtils.d(TAG,"updateFullName , user token : " + UserManager.getUserToken());
+
+
         ApiClient.getApiService().updateUser(UserManager.getUserToken(), body).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

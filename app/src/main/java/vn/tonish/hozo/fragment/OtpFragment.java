@@ -1,6 +1,7 @@
 package vn.tonish.hozo.fragment;
 
 import android.app.Service;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -21,9 +22,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
-import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.Token;
@@ -33,8 +35,7 @@ import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.common.Constants.USER_MOBILE;
-import static vn.tonish.hozo.network.DataParse.insertReviewtoDb;
-import static vn.tonish.hozo.network.DataParse.insertUsertoDb;
+import static vn.tonish.hozo.database.manager.UserManager.insertUser;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
 /**
@@ -280,20 +281,21 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
             public void onResponse(Call<OtpReponse> call, Response<OtpReponse> response) {
                 LogUtils.d(TAG, "onResponse status code : " + response.code());
                 LogUtils.d(TAG, "onResponse body : " + response.body().toString());
-                User user = response.body().getUser();
+                UserEntity user = response.body().getUser();
                 Token token = response.body().getToken();
+
+                user.setAccessToken(token.getAccessToken());
+                user.setRefreshToken(token.getRefreshToken());
+                user.setTokenExp(token.getTokenExpires());
+
                 // inser User
-                insertUsertoDb(user, token, getContext());
-                // insert review
-                insertReviewtoDb(user);
+                insertUser(user, true);
                 // login
                 if (response.code() == 200) {
-                    btnSigIn.setText(getString(R.string.login_account));
                     openFragment(R.id.layout_container, VerifyNameFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
 //                    startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class));
                 } else {
-                    btnSigIn.setText(getString(R.string.login_create_account));
-                    openFragment(R.id.layout_container, VerifyNameFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+                    startActivity(new Intent(getActivity(), MainActivity.class),TransitionScreen.RIGHT_TO_LEFT);
                 }
                 ProgressDialogUtils.dismissProgressDialog();
             }
@@ -316,7 +318,6 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
             }
         });
     }
-
 
 
 }
