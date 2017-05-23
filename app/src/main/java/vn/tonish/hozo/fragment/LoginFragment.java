@@ -179,7 +179,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                     bundle.putString(Constants.USER_MOBILE, finalMobile);
                     openFragment(R.id.layout_container, OtpFragment.class, bundle, false, TransitionScreen.RIGHT_TO_LEFT);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.RefreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             login();
