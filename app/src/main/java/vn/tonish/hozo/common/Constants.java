@@ -56,7 +56,7 @@ public class Constants {
     public static final String USER_ID = "id";
     public static final String USER_FULL_NAME = "full_name";
     public static final String USER_MOBILE = "phone";
-    public static final String USER_OTP = "otpcode";
+    public static final String USER_OTP = "otp_code";
     public static final String USER_LOGIN_AT = "login_at";
     public static final String USER_POSTER_RATING = "poster_rating";
     public static final String USER_TASKER_RATING = "tasker_rating";
