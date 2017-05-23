@@ -1,7 +1,6 @@
 package vn.tonish.hozo.fragment;
 
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -22,14 +21,15 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.common.Constants.USER_MOBILE;
-import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 /**
@@ -59,23 +59,22 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         edtPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                tvContinue.setEnabled(false);
+
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String error;
                 if (!checkNumberPhone(edtPhone.getText().toString().trim())) {
-                    tvContinue.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
-                    tvContinue.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
+                    tvContinue.setAlpha(0.5f);
                     tvContinue.setEnabled(false);
                     if (CheckErrorEditText(edtPhone.getText().toString().trim())) {
                         error = getResources().getString(R.string.login_erro_phone);
                         edtPhone.setError(error);
+                        hideSoftKeyboard(getActivity(), (EdittextHozo) edtPhone);
                     }
                 } else {
-                    tvContinue.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
-                    tvContinue.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
+                    tvContinue.setAlpha(1f);
                     tvContinue.setEnabled(true);
                     hideSoftKeyboard(getActivity(), (EdittextHozo) edtPhone);
                 }
@@ -95,12 +94,12 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     protected void resumeData() {
         LogUtils.d(TAG, "resum");
         if (checkNumberPhone(edtPhone.getText().toString().trim())) {
+            tvContinue.setAlpha(1f);
             tvContinue.setEnabled(true);
-            tvContinue.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-            tvContinue.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
         } else {
+            tvContinue.setAlpha(0.5f);
             tvContinue.setEnabled(false);
-            tvContinue.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
+
         }
     }
 
@@ -179,6 +178,26 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                     Bundle bundle = new Bundle();
                     bundle.putString(Constants.USER_MOBILE, finalMobile);
                     openFragment(R.id.layout_container, OtpFragment.class, bundle, false, TransitionScreen.RIGHT_TO_LEFT);
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            login();
+                        }
+                    });
+
+                } else {
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            login();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
                 }
                 ProgressDialogUtils.dismissProgressDialog();
             }
@@ -187,7 +206,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             public void onFailure(Call<Void> call, Throwable t) {
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
-                showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         login();
