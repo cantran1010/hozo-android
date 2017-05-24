@@ -11,10 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="15dp"
         android:text="@string/alert_dialog_title"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tv_content"
@@ -22,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="5dp"
         android:text="@string/alert_dialog_content"
         android:textColor="@color/tv_gray"
         android:textSize="16sp" />
@@ -31,8 +32,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="5dp"
         android:gravity="end">
 
         <vn.tonish.hozo.view.TextViewHozo
@@ -43,7 +45,8 @@
             android:padding="10dp"
             android:text="@string/alert_dialog_no"
             android:textColor="@color/hozo_bg"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_yes"
@@ -56,7 +59,8 @@
             android:paddingTop="10dp"
             android:text="@string/alert_dialog_yes"
             android:textColor="@color/hozo_red"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
