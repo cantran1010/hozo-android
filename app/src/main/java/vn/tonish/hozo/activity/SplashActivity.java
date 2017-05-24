@@ -2,13 +2,10 @@ package vn.tonish.hozo.activity;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.database.manager.UserManager;
-import vn.tonish.hozo.utils.TransitionScreen;
 
 import static vn.tonish.hozo.common.Constants.SPLASH_TIME;
 
@@ -18,7 +15,6 @@ import static vn.tonish.hozo.common.Constants.SPLASH_TIME;
 
 public class SplashActivity extends BaseActivity {
     private ImageView imgLogo;
-    private Animation animation;
 
     @Override
     protected int getLayout() {
@@ -28,23 +24,21 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void initView() {
         imgLogo = (ImageView) findViewById(R.id.img_logo);
-        animation = AnimationUtils.loadAnimation(this, R.anim.fadein);
     }
 
     @Override
     protected void initData() {
-        imgLogo.setAnimation(animation);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                finish();
                 if (UserManager.checkLogin()) {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class), TransitionScreen.FADE_IN);
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 } else {
-                    startActivity(new Intent(SplashActivity.this, HomeActivity.class),TransitionScreen.FADE_IN);
-              }
-           }
+                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                }
+            }
         }, SPLASH_TIME);
+        finish();
     }
 
     @Override

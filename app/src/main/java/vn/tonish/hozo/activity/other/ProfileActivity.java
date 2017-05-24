@@ -3,11 +3,11 @@ package vn.tonish.hozo.activity.other;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +30,9 @@ import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
+import vn.tonish.hozo.rest.responseRes.Token;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
@@ -40,7 +43,9 @@ import vn.tonish.hozo.view.ReviewsListView;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.REVIEW_TYPE_POSTER;
+import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyDateFromIso;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
+import static vn.tonish.hozo.utils.Utils.converGender;
 import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
 
@@ -53,15 +58,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private ImageView imgback, imgEdit;
     private TextView btnWorker, btnPoster, btnAddVerify;
-    private FrameLayout btnLogOut;
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvGender, tvRateCount, btnMoreReview;
+    private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvGender, tvRateCount, btnMoreReview, btnLogOut;
     private RatingBar ratingBar;
     private LinearLayout layoutInfor;
     private float ratingPoster, ratingTasker;
     private ReviewsListView reviewsListView;
     private int tabIndex = 0;
-    private boolean isMyUser = true;
+    private boolean isMyUser;
     private int rateCountPoster, retaCountWorker;
     private int userId;
     private UserEntity mUserEntity;
@@ -87,7 +91,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         tvMobile = (TextViewHozo) findViewById(R.id.tv_phone);
         tvGender = (TextViewHozo) findViewById(R.id.tv_gender);
         btnAddVerify = (TextViewHozo) findViewById(R.id.tv_add_verify);
-        btnLogOut = (FrameLayout) findViewById(R.id.btn_logout);
+        btnLogOut = (TextViewHozo) findViewById(R.id.btn_logout);
         btnWorker = (TextViewHozo) findViewById(R.id.btn_worker);
         btnPoster = (TextViewHozo) findViewById(R.id.btn_poster);
         btnAddVerify = (TextViewHozo) findViewById(R.id.tv_add_verify);
@@ -100,6 +104,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initData() {
+        Intent intent = getIntent();
+        userId = intent.getExtras().getInt(Constants.USER_ID);
+        isMyUser = intent.getExtras().getBoolean(Constants.IS_MY_USER);
+        LogUtils.d(TAG, "userId" + userId + "isMyuser" + isMyUser);
         imgback.setOnClickListener(this);
         imgEdit.setOnClickListener(this);
         btnLogOut.setOnClickListener(this);
@@ -112,7 +120,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         } else {
             mUserEntity = UserManager.getUserById(userId);
         }
-        updateUi(mUserEntity, true);
+        updateUi(mUserEntity);
         updateUserFromServer();
 
     }
@@ -166,7 +174,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_UPDATE_PROFILE && resultCode == Constants.RESULT_CODE_UPDATE_PROFILE) {
-            updateUi(UserManager.getMyUser(), true);
+            updateUi(UserManager.getMyUser());
         }
     }
 
@@ -237,15 +245,37 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         if (mUserEntity == null) {
             ProgressDialogUtils.showProgressDialog(this);
         }
-
-        ApiClient.getApiService().getMyAccountInfor(UserManager.getUserToken()).enqueue(new Callback<UserEntity>() {
+        LogUtils.d(TAG, "onResponse updateUserFromServer start");
+        ApiClient.getApiService().getUser(UserManager.getUserToken(), userId).enqueue(new Callback<UserEntity>() {
             @Override
             public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
-                if (response.code() == 200) {
-                    LogUtils.d(TAG, "response body: " + response.body().toString());
-                    UserManager.insertUser(response.body(), true);
-                    updateUi(response.body(), true);
+                LogUtils.d(TAG, "onResponse updateUserFromServer status code : " + response.code());
+                if (response.isSuccessful()) {
+                    LogUtils.d(TAG, "onResponse updateUserFromServer body : " + response.body());
+                    if (response.code() == Constants.HTTP_CODE_OK) {
+                        UserEntity userEntity = response.body();
+                        Token token = new Token();
+                        if (isMyUser) {
+                            userEntity.setAccessToken(UserManager.getMyUser().getAccessToken());
+                            userEntity.setTokenExp(UserManager.getMyUser().getTokenExp());
+                            userEntity.setRefreshToken(UserManager.getMyUser().getRefreshToken());
+                        }
+                        UserManager.insertUser(response.body(), isMyUser);
+                        updateUi(response.body());
 
+                    } else {
+                        DialogUtils.showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                updateUserFromServer();
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
+                    }
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -254,17 +284,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         }
                     });
                 } else {
-                    DialogUtils.showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            updateUserFromServer();
-                        }
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.d(TAG, "errorBody" + error.toString());
+                    Toast.makeText(ProfileActivity.this, error.message(), Toast.LENGTH_SHORT).show();
 
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
                 }
                 ProgressDialogUtils.dismissProgressDialog();
 
@@ -292,26 +315,27 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     }
 
-    private void updateUi(UserEntity userEntity, boolean isPoster) {
+    private void updateUi(UserEntity userEntity) {
         if (userEntity != null) {
             posterReviewEntity.clear();
             taskerReviewEntity.clear();
-            for (ReviewEntity reviewEntity : userEntity.getReviews()) {
-                if (reviewEntity.getType().equals(REVIEW_TYPE_POSTER)) {
-                    posterReviewEntity.add(reviewEntity);
-                } else {
-                    taskerReviewEntity.add(reviewEntity);
-                }
+            if (userEntity.getReviews() != null)
+                for (ReviewEntity reviewEntity : userEntity.getReviews()) {
+                    if (reviewEntity.getType().equals(REVIEW_TYPE_POSTER)) {
+                        posterReviewEntity.add(reviewEntity);
+                    } else {
+                        taskerReviewEntity.add(reviewEntity);
+                    }
 
-            }
+                }
             Utils.displayImageAvatar(this, imgAvatar, userEntity.getAvatar());
             ratingPoster = userEntity.getPosterAverageRating();
             rateCountPoster = userEntity.getPosterReviewCount();
             retaCountWorker = userEntity.getTaskerReviewCount();
             ratingTasker = userEntity.getTaskerAverageRating();
             tvName.setText(userEntity.getFullName());
-            tvDateOfBirth.setText(userEntity.getDateOfBirth());
-            tvGender.setText(userEntity.getGender());
+            tvDateOfBirth.setText(getOnlyDateFromIso(userEntity.getDateOfBirth()));
+            tvGender.setText(converGender(this, userEntity.getGender()));
             if (isMyUser) {
                 layoutInfor.setVisibility(View.VISIBLE);
                 tvAddress.setText(userEntity.getAddress());
@@ -325,7 +349,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 btnAddVerify.setEnabled(false);
                 btnLogOut.setVisibility(View.GONE);
             }
+            if (reviewEntities.size() > 5) {
+                btnMoreReview.setVisibility(View.VISIBLE);
+            } else {
+                btnMoreReview.setVisibility(View.GONE);
+            }
             setDataSelected(true);
+        } else {
+
         }
 
     }

@@ -191,7 +191,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

@@ -369,5 +369,8 @@
     <string name="share_app_error">Rất tiếc,điện thoại bạn không cài đặt ứng dụng có thể chia sẻ</string>
     <string name="post_a_task_complete_title">Thành công</string>
     <string name="currency">VND</string>
+    <string name="gender_vn_any">Bất kỳ</string>
+    <string name="gender_vn_mafele">Nữ</string>
+    <string name="gender_vn_male">Nam</string>
 
 </resources>

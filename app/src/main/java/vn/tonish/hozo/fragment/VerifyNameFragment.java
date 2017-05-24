@@ -169,7 +169,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
                     btnSave.setAlpha(0.5f);
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
                 }
                 ProgressDialogUtils.dismissProgressDialog();
 

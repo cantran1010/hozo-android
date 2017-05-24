@@ -6,25 +6,17 @@ package vn.tonish.hozo.rest.responseRes;
 
 public class APIError {
 
-    private String code;
+    private int statusCode;
     private String message;
 
     public APIError() {
     }
 
-    public String getCode() {
-        return code;
+    public int status() {
+        return statusCode;
     }
 
-    public String getMessage() {
+    public String message() {
         return message;
-    }
-
-    @Override
-    public String toString() {
-        return "APIError{" +
-                "code='" + code + '\'' +
-                ", message='" + message + '\'' +
-                '}';
     }
 }

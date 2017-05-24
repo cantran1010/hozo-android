@@ -62,8 +62,8 @@ public interface ApiInterface {
     @GET("tasks/{taskId}")
     Call<TaskResponse> getDetailTask(@Header("Authorization") String token, @Path("taskId") int taskId);
 
-    @GET("users")
-    Call<UserEntity> getMyAccountInfor(@Header("Authorization") String token);
+    @GET("users/{user_id}")
+    Call<UserEntity> getUser(@Header("Authorization") String token, @Path("user_id") int id);
 
     @POST("user/logout")
     Call<Void> logOut(@Header("Authorization") String token);

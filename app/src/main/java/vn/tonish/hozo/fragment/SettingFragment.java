@@ -7,6 +7,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.other.GeneralInfoActivity;
 import vn.tonish.hozo.activity.other.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 
@@ -14,7 +15,7 @@ import vn.tonish.hozo.utils.Utils;
  * Created by Admin on 4/4/2017.
  */
 
-public class HelpFragment extends BaseFragment implements View.OnClickListener {
+public class SettingFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected int getLayout() {
         return R.layout.setting_fragment;
@@ -54,7 +55,10 @@ public class HelpFragment extends BaseFragment implements View.OnClickListener {
         switch (id) {
 
             case R.id.layout_profile:
-                startActivity(ProfileActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                intent.putExtra(Constants.USER_ID, UserManager.getMyUser().getId());
+                intent.putExtra(Constants.IS_MY_USER, UserManager.getMyUser().isMyUser());
+                startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.layout_share:

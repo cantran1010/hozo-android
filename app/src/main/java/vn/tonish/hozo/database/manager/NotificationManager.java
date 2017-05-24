@@ -64,6 +64,12 @@ public class NotificationManager {
         }
         return result;
     }
+    public static void deleteAll() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.where(NotificationEntity.class).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
+    }
 
 
 }

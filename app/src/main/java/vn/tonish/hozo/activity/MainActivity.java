@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
-import vn.tonish.hozo.fragment.HelpFragment;
+import vn.tonish.hozo.fragment.SettingFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
 import vn.tonish.hozo.fragment.MyTaskFragment;
 import vn.tonish.hozo.fragment.SelectTaskFragment;
@@ -115,7 +115,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_other:
                 if (tabIndex == 5) break;
-                openFragment(R.id.layout_container, HelpFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+                openFragment(R.id.layout_container, SettingFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
                 tabIndex = 5;
                 updateMenuUi(5);
                 break;
