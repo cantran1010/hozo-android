@@ -85,6 +85,7 @@ public class Utils {
     public static void displayImageAvatar(Context context, ImageView img, String url) {
         Glide.with(context).load(url)
 //                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.avatar_default)
                 .dontAnimate()
                 .into(img);
     }
@@ -167,7 +168,8 @@ public class Utils {
             return "";
         }
     }
-    public static String getNameCategoryById( int  id) {
+
+    public static String getNameCategoryById(int id) {
         return CategoryManager.getCategoryById(id).getName();
     }
 
@@ -275,6 +277,30 @@ public class Utils {
         for (int i = 0; i < taskResponses.size(); i++)
             if (taskResponses.get(i).getId() == taskResponse.getId()) return true;
         return false;
+    }
+
+    public static String converGenderVn(Context context, String gender) {
+        String sex = "";
+        if (gender.equals(context.getString(R.string.gender_male)))
+            sex = context.getString(R.string.gender_vn_male);
+        else if (gender.equals(context.getString(R.string.gender_mafele))) {
+            sex = context.getString(R.string.gender_vn_mafele);
+        } else {
+            sex = context.getString(R.string.gender_vn_any);
+        }
+        return sex;
+    }
+
+    public static String converGenderEn(Context context, String gender) {
+        String sex = "";
+        if (gender.equals(context.getString(R.string.gender_vn_male)))
+            sex = context.getString(R.string.gender_male);
+        else if (gender.equals(context.getString(R.string.gender_vn_mafele))) {
+            sex = context.getString(R.string.gender_mafele);
+        } else {
+            sex = context.getString(R.string.gender_any);
+        }
+        return sex;
     }
 
 }

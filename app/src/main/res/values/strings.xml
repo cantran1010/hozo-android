@@ -289,9 +289,9 @@
     <string name="erro_emply_price">Lỗi! bạn chưa nhập giá trị</string>
     <string name="erro_price">Giá trị bên trái phải bé hơn giá trị bên phải  </string>
     <string name="select_gender_title">Chọn giới tính</string>
-    <string name="gender_any">Bất kỳ</string>
-    <string name="gender_male">Nam</string>
-    <string name="gender_mafele">Nữ</string>
+    <string name="gender_any">any</string>
+    <string name="gender_male">male</string>
+    <string name="gender_mafele">female</string>
     <string name="tv_radius">Bán kính</string>
     <string name="setting_radius">Chọn bán kính</string>
 
@@ -369,5 +369,10 @@
     <string name="share_app_error">Rất tiếc,điện thoại bạn không cài đặt ứng dụng có thể chia sẻ</string>
     <string name="post_a_task_complete_title">Thành công</string>
     <string name="currency">VND</string>
+    <string name="gender_vn_any">Bất kỳ</string>
+    <string name="gender_vn_mafele">Nữ</string>
+    <string name="gender_vn_male">Nam</string>
+    <string name="gender_edit">Giới tính</string>
+    <string name="timezero">0001-01-01T00:00:00Z</string>
 
 </resources>

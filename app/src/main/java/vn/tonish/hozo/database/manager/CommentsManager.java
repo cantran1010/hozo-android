@@ -69,5 +69,11 @@ public class CommentsManager {
         return result;
     }
 
+    public static void deleteAll() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.where(Comment.class).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
+    }
 
 }

@@ -35,6 +35,20 @@ public class DateTimeUtils {
         return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date);
     }
 
+
+    public static String getOnlyIsoFromDate(String input) {
+        Date date = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        try {
+            date = sdf.parse(input);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date);
+    }
+
+
     public static String getHourMinuteFromIso(String input) {
         Date date = null;
 
@@ -49,7 +63,7 @@ public class DateTimeUtils {
         return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(date);
     }
 
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
 
     public static Date convertToDate(String input) {
         Date date = null;

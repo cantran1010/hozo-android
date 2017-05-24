@@ -13,6 +13,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,11 +31,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.User;
-import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
@@ -51,6 +53,9 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
+import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyDateFromIso;
+import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyIsoFromDate;
+import static vn.tonish.hozo.utils.Utils.converGenderEn;
 
 
 /**
@@ -63,11 +68,13 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     protected ButtonHozo btnSave;
     private CircleImageView imgAvatar;
     private String imgPath;
-    private TextViewHozo tvCancel;
+    private ImageView imgCancel;
     private ImageView imgCamera;
+    private RadioButton rbMale, rbFemale;
     private EdittextHozo edtName, edtAddress;
     private TextViewHozo tvBirthday;
     private Calendar calendar = Calendar.getInstance();
+    private RadioGroup rgRadius;
     private File file;
     private User user;
     private int avataId;
@@ -87,8 +94,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         btnSave = (ButtonHozo) findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
 
-        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
-        tvCancel.setOnClickListener(this);
+        imgCancel = (ImageView) findViewById(R.id.img_cancel);
+        imgCancel.setOnClickListener(this);
 
         imgCamera = (ImageView) findViewById(R.id.img_camera);
         imgCamera.setOnClickListener(this);
@@ -98,16 +105,39 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         tvBirthday = (TextViewHozo) findViewById(R.id.tv_birthday);
         tvBirthday.setOnClickListener(this);
+        rgRadius = (RadioGroup) findViewById(R.id.rg_gender);
+        rbMale = (RadioButton) findViewById(R.id.rb_male);
+        rbFemale = (RadioButton) findViewById(R.id.rb_female);
     }
 
     @Override
     protected void initData() {
-        user = (User) getIntent().getSerializableExtra(Constants.USER);
+        UserEntity userEntity = UserManager.getMyUser();
+        edtName.setText(userEntity.getFullName());
+        if (userEntity.getAddress() != null)
+            edtAddress.setText(userEntity.getAddress());
 
-        edtName.setText(user.getFullName());
-        edtAddress.setText(user.getAddress());
-        tvBirthday.setText(user.getDateOfBirth());
-        Utils.displayImageAvatar(this, imgAvatar, user.getAvatar());
+        if (userEntity.getDateOfBirth().equals(getString(R.string.timezero))) {
+            tvBirthday.setText("");
+        } else {
+            tvBirthday.setText(getOnlyDateFromIso(userEntity.getDateOfBirth()));
+        }
+
+        if (userEntity.getAvatar() != null)
+            Utils.displayImageAvatar(this, imgAvatar, userEntity.getAvatar());
+        if (userEntity.getGender() != null)
+            if (userEntity.getGender().equals(getString(R.string.gender_male))) {
+                rbMale.setChecked(true);
+            } else if (userEntity.getGender().equals(getString(R.string.gender_mafele))) {
+                rbFemale.setChecked(true);
+
+            } else {
+                rbMale.setChecked(false);
+                rbFemale.setChecked(false);
+
+            }
+
+
     }
 
     @Override
@@ -127,7 +157,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 doPickImage();
                 break;
 
-            case R.id.tv_cancel:
+            case R.id.img_cancel:
                 finish();
                 break;
 
@@ -207,15 +237,15 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void updateProfile() {
-
         ProgressDialogUtils.showProgressDialog(this);
+        int selectedId = rgRadius.getCheckedRadioButtonId();
+        RadioButton ckSelected = (RadioButton) findViewById(selectedId);
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(Constants.PARAMETER_FULL_NAME, edtName.getText().toString());
-            jsonRequest.put(Constants.PARAMETER_EMAIL, user.getEmail());
             jsonRequest.put(Constants.PARAMETER_ADDRESS, edtAddress.getText().toString());
-            jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, tvBirthday.getText().toString());
-
+            jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, getOnlyIsoFromDate(tvBirthday.getText().toString()));
+            jsonRequest.put(Constants.PARAMETER_GENDER, converGenderEn(this, ckSelected.getText().toString()));
             if (isUpdateAvata)
                 jsonRequest.put(Constants.PARAMETER_AVATA_ID, avataId);
         } catch (JSONException e) {
@@ -225,15 +255,17 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         LogUtils.d(TAG, "updateUser jsonRequest : " + jsonRequest.toString());
 
-        ApiClient.getApiService().updateUser(UserManager.getUserToken(), body).enqueue(new Callback<User>() {
+        ApiClient.getApiService().updateUser(UserManager.getUserToken(), body).enqueue(new Callback<UserEntity>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
 
                 LogUtils.d(TAG, "updateUser onResponse : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-
-                    //update in database
-                    DataParse.updateUser(response.body(), EditProfileActivity.this);
+                    UserEntity userEntity = response.body();
+                    userEntity.setAccessToken(UserManager.getMyUser().getAccessToken());
+                    userEntity.setTokenExp(UserManager.getMyUser().getTokenExp());
+                    userEntity.setRefreshToken(UserManager.getMyUser().getRefreshToken());
+                    UserManager.insertUser(response.body(), true);
 
                     //set return
                     Intent intent = new Intent();
@@ -244,7 +276,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            updateAvata();
+                            updateProfile();
                         }
                     });
                 } else {
@@ -264,7 +296,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<UserEntity> call, Throwable t) {
                 LogUtils.e(TAG, "onFailure error : " + t.getMessage());
                 DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
@@ -285,15 +317,19 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     private void openDatePicker() {
 
-        Date date = DateTimeUtils.convertToDate(tvBirthday.getText().toString());
-        calendar.setTime(date);
+        if (tvBirthday.getText().toString().isEmpty()) {
+
+        } else {
+            Date date = DateTimeUtils.convertToDate(tvBirthday.getText().toString());
+            calendar.setTime(date);
+        }
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
-                        tvBirthday.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                        tvBirthday.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                         calendar.set(year, monthOfYear, dayOfMonth);
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -315,7 +351,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
             Intent intent = new Intent(EditProfileActivity.this, CropImageActivity.class);
             intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
-            startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE,TransitionScreen.RIGHT_TO_LEFT);
+            startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
         } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
             String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
             Utils.displayImage(EditProfileActivity.this, imgAvatar, imgPath);
@@ -340,7 +376,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 Intent intent = new Intent(EditProfileActivity.this, AlbumActivity.class);
                 intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
                 intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
-                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE,TransitionScreen.RIGHT_TO_LEFT);
+                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
         pickImageDialog.showView();
