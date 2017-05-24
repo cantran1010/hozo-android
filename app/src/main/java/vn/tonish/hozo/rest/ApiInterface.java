@@ -20,7 +20,6 @@ import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
-import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.rest.responseRes.BidResponse;
 import vn.tonish.hozo.rest.responseRes.CancelOfferResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
@@ -54,7 +53,7 @@ public interface ApiInterface {
     Call<OtpReponse> senOtp(@Body RequestBody body);
 
     @PUT("users")
-    Call<User> updateUser(@Header("Authorization") String token, @Body RequestBody body);
+    Call<UserEntity> updateUser(@Header("Authorization") String token, @Body RequestBody body);
 
     @GET("tasks")
     Call<List<TaskResponse>> getDetailTask(@Header("Authorization") String token, @QueryMap Map<String, String> params);
@@ -65,7 +64,7 @@ public interface ApiInterface {
     @GET("users/{user_id}")
     Call<UserEntity> getUser(@Header("Authorization") String token, @Path("user_id") int id);
 
-    @POST("user/logout")
+    @POST("users/logout")
     Call<Void> logOut(@Header("Authorization") String token);
 
     @GET("users/{user_id}/reviews")

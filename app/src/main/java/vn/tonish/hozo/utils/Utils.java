@@ -279,7 +279,7 @@ public class Utils {
         return false;
     }
 
-    public static String converGender(Context context, String gender) {
+    public static String converGenderVn(Context context, String gender) {
         String sex = "";
         if (gender.equals(context.getString(R.string.gender_male)))
             sex = context.getString(R.string.gender_vn_male);
@@ -287,6 +287,18 @@ public class Utils {
             sex = context.getString(R.string.gender_vn_mafele);
         } else {
             sex = context.getString(R.string.gender_vn_any);
+        }
+        return sex;
+    }
+
+    public static String converGenderEn(Context context, String gender) {
+        String sex = "";
+        if (gender.equals(context.getString(R.string.gender_vn_male)))
+            sex = context.getString(R.string.gender_male);
+        else if (gender.equals(context.getString(R.string.gender_vn_mafele))) {
+            sex = context.getString(R.string.gender_mafele);
+        } else {
+            sex = context.getString(R.string.gender_any);
         }
         return sex;
     }

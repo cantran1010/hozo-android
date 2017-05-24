@@ -45,7 +45,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="1px"
             android:layout_alignParentBottom="true"
             android:background="@color/gray" />
 
@@ -64,7 +64,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_border_gray">
+                android:background="@color/white">
 
                 <vn.tonish.hozo.view.CircleImageView
                     android:id="@+id/img_avatar"
@@ -120,6 +120,12 @@
                     android:layout_marginTop="5dp"
                     android:textColor="@color/text_item_address"
                     android:textSize="@dimen/tv_size_xtiny" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/gray" />
             </RelativeLayout>
 
             <LinearLayout
@@ -159,8 +165,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="16dp">
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:id="@+id/img_verify_mobile"

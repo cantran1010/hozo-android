@@ -12,6 +12,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,15 +25,12 @@ import vn.tonish.hozo.activity.ReviewsActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.database.entity.UserEntity;
-import vn.tonish.hozo.database.manager.ReviewManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
-import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
-import vn.tonish.hozo.rest.responseRes.Token;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
@@ -45,7 +43,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 import static vn.tonish.hozo.common.Constants.REVIEW_TYPE_POSTER;
 import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyDateFromIso;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
-import static vn.tonish.hozo.utils.Utils.converGender;
+import static vn.tonish.hozo.utils.Utils.converGenderVn;
 import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
 
@@ -165,8 +163,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     private void doEdit() {
         Intent intent = new Intent(this, EditProfileActivity.class);
-        UserEntity userEntity = UserManager.getMyUser();
-        intent.putExtra(Constants.USER, DataParse.convertUserEntityToUser(userEntity));
+        intent.putExtra(Constants.USER_ID, userId);
         startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_PROFILE, TransitionScreen.RIGHT_TO_LEFT);
     }
 
@@ -186,11 +183,27 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 ApiClient.getApiService().logOut(UserManager.getUserToken()).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        ProgressDialogUtils.dismissProgressDialog();
-                        if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
-                            UserManager.deleteAll();
-                            ReviewManager.deleteAll();
-                            startActivityAndClearAllTask(new Intent(ProfileActivity.this, HomeActivity.class), TransitionScreen.FADE_IN);
+                        if (response.isSuccessful()) {
+                            if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                                Realm realm = Realm.getDefaultInstance();
+                                realm.beginTransaction();
+                                realm.deleteAll();
+                                realm.commitTransaction();
+                                startActivityAndClearAllTask(new Intent(ProfileActivity.this, HomeActivity.class), TransitionScreen.FADE_IN);
+                            } else {
+                                showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+                                        logOut();
+                                    }
+
+                                    @Override
+                                    public void onCancel() {
+
+                                    }
+                                });
+
+                            }
                         } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                             NetworkUtils.refreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
                                 @Override
@@ -199,18 +212,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                                 }
                             });
                         } else {
-                            DialogUtils.showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
-                                    logOut();
-                                }
+                            APIError error = ErrorUtils.parseError(response);
+                            LogUtils.d(TAG, "errorBody" + error.toString());
+                            Toast.makeText(ProfileActivity.this, error.message(), Toast.LENGTH_SHORT).show();
 
-                                @Override
-                                public void onCancel() {
-
-                                }
-                            });
                         }
+                        ProgressDialogUtils.dismissProgressDialog();
                     }
 
                     @Override
@@ -254,7 +261,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     LogUtils.d(TAG, "onResponse updateUserFromServer body : " + response.body());
                     if (response.code() == Constants.HTTP_CODE_OK) {
                         UserEntity userEntity = response.body();
-                        Token token = new Token();
                         if (isMyUser) {
                             userEntity.setAccessToken(UserManager.getMyUser().getAccessToken());
                             userEntity.setTokenExp(UserManager.getMyUser().getTokenExp());
@@ -334,8 +340,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             retaCountWorker = userEntity.getTaskerReviewCount();
             ratingTasker = userEntity.getTaskerAverageRating();
             tvName.setText(userEntity.getFullName());
-            tvDateOfBirth.setText(getOnlyDateFromIso(userEntity.getDateOfBirth()));
-            tvGender.setText(converGender(this, userEntity.getGender()));
+            if (userEntity.getDateOfBirth().equals(getString(R.string.timezero))) {
+                tvDateOfBirth.setText("");
+            } else {
+                tvDateOfBirth.setText(getOnlyDateFromIso(userEntity.getDateOfBirth()));
+            }
+            tvGender.setText(converGenderVn(this, userEntity.getGender()));
             if (isMyUser) {
                 layoutInfor.setVisibility(View.VISIBLE);
                 tvAddress.setText(userEntity.getAddress());

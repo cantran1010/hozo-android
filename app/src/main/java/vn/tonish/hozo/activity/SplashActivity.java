@@ -36,9 +36,10 @@ public class SplashActivity extends BaseActivity {
                 } else {
                     startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                 }
+                finish();
             }
         }, SPLASH_TIME);
-        finish();
+
     }
 
     @Override

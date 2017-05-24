@@ -29,7 +29,6 @@ import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
-import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
@@ -140,14 +139,14 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
         }
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
-        ApiClient.getApiService().updateUser(UserManager.getUserToken(), body).enqueue(new Callback<User>() {
+        ApiClient.getApiService().updateUser(UserManager.getUserToken(), body).enqueue(new Callback<UserEntity>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
                 LogUtils.d(TAG, "onResponse updateFullName code : " + response.code());
 
                 if (response.isSuccessful()) {
                     LogUtils.d(TAG, "onResponse updateFullName body : " + response.body());
-                    if (response.code() == 200) {
+                    if (response.code() == Constants.HTTP_CODE_OK) {
                         if (response.body() != null) {
                             UserEntity myUser = UserManager.getMyUser();
                             Realm realm = Realm.getDefaultInstance();
@@ -176,7 +175,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<UserEntity> call, Throwable t) {
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
