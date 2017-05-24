@@ -106,7 +106,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     private File fileAttach;
     private TextViewHozo tvSeeMore;
     private TextViewHozo tvCancel;
-    private TextViewHozo tvCommentCount,tvBidderCount,tvAssignCount;
+    private TextViewHozo tvCommentCount, tvBidderCount, tvAssignCount;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
     @Override
@@ -557,6 +557,8 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         }
 
         LogUtils.d(TAG, "commentTask data request : " + jsonRequest.toString());
+        LogUtils.d(TAG, "commentTask taskId : " + taskId);
+        LogUtils.d(TAG, "commentTask token : " + UserManager.getUserToken());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
         ApiClient.getApiService().commentTask(UserManager.getUserToken(), taskId, body).enqueue(new Callback<Comment>() {
@@ -598,6 +600,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
             @Override
             public void onFailure(Call<Comment> call, Throwable t) {
+                LogUtils.e(TAG, "commentTask onFailure : " + t.getMessage());
                 DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {

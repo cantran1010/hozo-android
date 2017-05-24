@@ -37,7 +37,7 @@ public class EdittextHozo extends AppCompatEditText {
                         tf = TypefaceContainer.TYPEFACE_REGULAR;
                         break;
                     case 1:
-                        tf = TypefaceContainer.TYPEFACE_BOLD;
+                        tf = TypefaceContainer.TYPEFACE_MEDIUM;
                         break;
                     case 2:
                         tf = TypefaceContainer.TYPEFACE_LIGHT;

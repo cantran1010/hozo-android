@@ -113,7 +113,7 @@
     <!-- style title -->
     <style name="tv_title">
         <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">normal</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/hozo_bg</item>
     </style>
 

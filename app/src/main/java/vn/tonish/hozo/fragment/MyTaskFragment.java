@@ -285,11 +285,13 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
         switch (v.getId()) {
             case R.id.tv_worker:
+                if (role.equals(Constants.ROLE_TASKER)) break;
                 resetSelectedTab(1);
                 selectedTab(1);
                 break;
 
             case R.id.tv_poster:
+                if (role.equals(Constants.ROLE_POSTER)) break;
                 resetSelectedTab(2);
                 selectedTab(2);
                 break;

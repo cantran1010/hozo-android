@@ -98,7 +98,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/assign_people"
                     android:textColor="@color/tv_black"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_assign_count"
@@ -107,7 +108,8 @@
                     android:layout_marginLeft="2dp"
                     android:text="(0)"
                     android:textColor="@color/hozo_bg"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -128,7 +130,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/make_an_offer_question"
                     android:textColor="@color/tv_black"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_comment_count"
@@ -137,7 +140,8 @@
                     android:layout_marginLeft="2dp"
                     android:text="(0)"
                     android:textColor="@color/hozo_bg"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

@@ -233,8 +233,8 @@
     <string name="profile_rate">Đánh giá</string>
     <string name="retry_title">Lỗi</string>
     <string name="retry_content">Đã xảy ra lỗi trong quá trình kết nối. Bạn có muốn thử lại không ?</string>
-    <string name="retry_ok">Có</string>
-    <string name="retry_cancel">Không</string>
+    <string name="retry_ok">CÓ</string>
+    <string name="retry_cancel">KHÔNG</string>
     <string name="bidder">Người ứng tuyển</string>
     <string name="text_test">Text Test</string>
     <string name="just_now">vừa xong</string>
@@ -279,8 +279,8 @@
     <string name="call_err">Rất tiếc điện thoại của bạn không hỗ trợ chức năng gọi điện</string>
     <string name="title_cancel_task">Hủy việc</string>
     <string name="content_cancel_task">Bạn có chắc chắn muốn hủy việc này ?</string>
-    <string name="cancel_task_ok">Có</string>
-    <string name="cancel_task_cancel">Không</string>
+    <string name="cancel_task_ok">CÓ</string>
+    <string name="cancel_task_cancel">KHÔNG</string>
     <string name="task_type">Loại công việc</string>
     <string name="hint_min">Giá thấp nhất </string>
     <string name="edt_max">Giá cao nhất</string>
