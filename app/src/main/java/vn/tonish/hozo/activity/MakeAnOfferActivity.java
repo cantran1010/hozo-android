@@ -100,11 +100,12 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
     private ImageView imgComment;
 
-    private int taskId = 123;
+    private int taskId = 0;
     private GoogleMap googleMap;
     private int tempId = 0;
     private File fileAttach;
     private TextViewHozo tvSeeMore;
+    private TextViewHozo tvCommentCount,tvBidderCount,tvAssignCount;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
     @Override
@@ -142,6 +143,10 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         tvSeeMore = (TextViewHozo) findViewById(R.id.tv_see_more_comment);
         tvSeeMore.setOnClickListener(this);
 
+        tvBidderCount = (TextViewHozo) findViewById(R.id.tv_bidder_count);
+        tvAssignCount = (TextViewHozo) findViewById(R.id.tv_assign_count);
+        tvCommentCount = (TextViewHozo) findViewById(R.id.tv_comment_count);
+
         scv = (ScrollView) findViewById(R.id.scv);
 
         WorkAroundMapFragment mapFragment = (WorkAroundMapFragment) getSupportFragmentManager()
@@ -160,7 +165,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     @Override
     protected void initData() {
 
-        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 123);
+        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
 
         workDetailView.updateBtnCallRate(false, false, getString(R.string.empty));
         workDetailView.updateStatus(getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
@@ -180,7 +185,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     }
 
     private void useCacheData() {
-        TaskEntity taskEntity = TaskManager.getTaskById(this, 123);
+        TaskEntity taskEntity = TaskManager.getTaskById(this, taskId);
         if (taskEntity != null) {
             taskResponse = DataParse.converTaskEntityToTaskReponse(taskEntity);
             updateUi();
@@ -271,6 +276,10 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         //update comments
         comments = (ArrayList<Comment>) taskResponse.getComments();
         commentViewFull.updateData(comments);
+
+        tvBidderCount.setText("(" + taskResponse.getBidderCount() + ")");
+        tvAssignCount.setText("(" + taskResponse.getAssigneeCount() + ")");
+        tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");
 
     }
 

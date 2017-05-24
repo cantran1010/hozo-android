@@ -91,12 +91,13 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
 
     private ImageView imgComment;
 
-    private int taskId = 123;
+    private int taskId = 0;
     private GoogleMap googleMap;
     private int tempId = 0;
     private File fileAttach;
     private TextViewHozo tvSeeMore;
     private TextViewHozo tvCancel;
+    private TextViewHozo tvCommentCount;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
     private TaskStatus taskStatus;
 
@@ -134,6 +135,8 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
 
         tvSeeMore = (TextViewHozo) findViewById(R.id.tv_see_more_comment);
         tvSeeMore.setOnClickListener(this);
+
+        tvCommentCount = (TextViewHozo) findViewById(R.id.tv_comment_count);
 
         scv = (ScrollView) findViewById(R.id.scv);
 
@@ -200,7 +203,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
     }
 
     private void useCacheData() {
-        TaskEntity taskEntity = TaskManager.getTaskById(this, 123);
+        TaskEntity taskEntity = TaskManager.getTaskById(this, taskId);
         if (taskEntity != null) {
             taskResponse = DataParse.converTaskEntityToTaskReponse(taskEntity);
             updateUi();
@@ -283,6 +286,8 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
         //update comments
         comments = (ArrayList<Comment>) taskResponse.getComments();
         commentViewFull.updateData(comments);
+
+        tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");
     }
 
     @Override

@@ -77,7 +77,7 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
             workHolder.tvName.setText(taskResponse.getTitle());
             workHolder.tvPrice.setText(Utils.formatNumber(taskResponse.getWorkerRate() * taskResponse.getWorkerCount()) + " " + context.getString(R.string.currency));
 
-            if (taskResponse.getRole().equals(Constants.ROLE_WORKER)) {
+            if (taskResponse.getRole().equals(Constants.ROLE_TASKER)) {
                 if (taskResponse.getStatus().equals(Constants.TASK_STATUS_OPEN)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_open));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_recruitment));
