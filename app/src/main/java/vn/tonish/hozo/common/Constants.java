@@ -125,7 +125,7 @@ public class Constants {
     public static final String TASK_STATUS_COMPLETED = "completed";
 
     // my task role
-    public static final String ROLE_WORKER = "worker";
+    public static final String ROLE_TASKER = "tasker";
     public static final String ROLE_POSTER = "poster";
 
     // post task

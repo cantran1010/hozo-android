@@ -122,7 +122,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
         LogUtils.d(TAG, "updateWork , taskResponse : " + taskResponse.toString());
 
-        Utils.displayImage(getContext(), imgAvatar, taskResponse.getPoster().getAvatar());
+        Utils.displayImageAvatar(getContext(), imgAvatar, taskResponse.getPoster().getAvatar());
         tvName.setText(taskResponse.getPoster().getFullName());
         rbRate.setRating(taskResponse.getPoster().getPosterAverageRating());
         tvTitle.setText(taskResponse.getTitle());

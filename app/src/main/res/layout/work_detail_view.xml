@@ -101,8 +101,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
-                android:layout_toEndOf="@id/tv_title"
                 android:layout_marginTop="5dp"
+                android:layout_toEndOf="@id/tv_title"
                 android:layout_toRightOf="@id/tv_title"
                 android:background="@drawable/bg_border_recruitment"
                 android:gravity="center"
@@ -120,6 +120,7 @@
             android:id="@+id/tv_time_ago"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:text="Dang 15 phut truoc"
             android:textColor="@color/tv_gray" />
 
@@ -157,7 +158,7 @@
             android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="task description"
             android:textColor="@color/tv_black" />
 
