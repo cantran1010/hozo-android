@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 
+import io.realm.Realm;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -188,7 +189,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     }
 
     private void useCacheData() {
-        TaskEntity taskEntity = TaskManager.getTaskById(this, taskId);
+        TaskEntity taskEntity = TaskManager.getTaskById(taskId);
         if (taskEntity != null) {
             taskResponse = DataParse.converTaskEntityToTaskReponse(taskEntity);
             updateUi();
@@ -280,11 +281,19 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
         //update comments
         comments = (ArrayList<Comment>) taskResponse.getComments();
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        for (int i = 0; i < comments.size(); i++) comments.get(i).setTaskId(taskId);
+        realm.commitTransaction();
+
         commentViewFull.updateData(comments);
 
         tvBidderCount.setText("(" + taskResponse.getBidderCount() + ")");
         tvAssignCount.setText("(" + taskResponse.getAssigneeCount() + ")");
         tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");
+
+        updateSeeMoreComment();
     }
 
     private void refreshAssignerList() {
@@ -474,6 +483,9 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     }
 
     private void doSeeMoreComment() {
+        Intent intent = new Intent(this, CommentsActivity.class);
+        intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
     }
 
     private void doSend() {
@@ -566,10 +578,16 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
             public void onResponse(Call<Comment> call, Response<Comment> response) {
                 LogUtils.d(TAG, "commentTask , code : " + response.code());
                 LogUtils.d(TAG, "commentTask , body : " + response.body());
+                LogUtils.d(TAG, "commentTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    comments.add(response.body());
+
+                    response.body().setTaskId(taskId);
+                    comments.add(0, response.body());
                     commentViewFull.updateData(comments);
+                    taskResponse.setCommentsCount(taskResponse.getCommentsCount() + 1);
+                    tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");
+                    updateSeeMoreComment();
 
                     imgPath = null;
                     edtComment.setText(getString(R.string.empty));
@@ -622,6 +640,12 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
         return imgUri;
+    }
+
+    private void updateSeeMoreComment() {
+        if (taskResponse.getCommentsCount() > 5)
+            tvSeeMore.setVisibility(View.VISIBLE);
+        else tvSeeMore.setVisibility(View.GONE);
     }
 
     @Override

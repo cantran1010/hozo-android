@@ -1,7 +1,5 @@
 package vn.tonish.hozo.database.manager;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +40,7 @@ public class TaskManager {
         return realm.where(TaskEntity.class).findAll();
     }
 
-    public static TaskEntity getTaskById(Context context, int taskId) {
+    public static TaskEntity getTaskById(int taskId) {
         Realm realm = Realm.getDefaultInstance();
         return realm.where(TaskEntity.class).equalTo("id", taskId).findFirst();
     }
