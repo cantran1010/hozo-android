@@ -244,10 +244,16 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         try {
             jsonRequest.put(Constants.PARAMETER_FULL_NAME, edtName.getText().toString());
             jsonRequest.put(Constants.PARAMETER_ADDRESS, edtAddress.getText().toString());
-            jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, getOnlyIsoFromDate(tvBirthday.getText().toString()));
-            jsonRequest.put(Constants.PARAMETER_GENDER, converGenderEn(this, ckSelected.getText().toString()));
+
+            if (!tvBirthday.getText().toString().equals(""))
+                jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, getOnlyIsoFromDate(tvBirthday.getText().toString()));
+
+            if (ckSelected != null)
+                jsonRequest.put(Constants.PARAMETER_GENDER, converGenderEn(this, ckSelected.getText().toString()));
+
             if (isUpdateAvata)
                 jsonRequest.put(Constants.PARAMETER_AVATA_ID, avataId);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
