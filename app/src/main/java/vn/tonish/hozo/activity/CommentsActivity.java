@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -15,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +45,8 @@ import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
@@ -64,7 +68,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     private RelativeLayout imgLayout;
     protected RecyclerView lvList;
     private EdittextHozo edtComment;
-    private ImageView imgAttach, imgAttached, imgDelete, imgComment;
+    private ImageView imgAttach, imgAttached, imgDelete, imgComment, imgBack;
     private List<Comment> mComments = new ArrayList<>();
     private File fileAttach;
     private String imgPath;
@@ -91,14 +95,16 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         imgDelete = (ImageView) findViewById(R.id.img_delete);
         imgAttached = (ImageView) findViewById(R.id.img_attached);
         imgComment = (ImageView) findViewById(R.id.img_send);
+        imgBack = (ImageView) findViewById(R.id.img_back);
         imgComment.setOnClickListener(this);
+        imgBack.setOnClickListener(this);
         createSwipeToRefresh();
 
     }
 
     @Override
     protected void initData() {
-        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA,0);
+        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
 
         imgAttach.setOnClickListener(this);
         imgDelete.setOnClickListener(this);
@@ -111,26 +117,23 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
     private void getCacheDataFirstPage() {
         LogUtils.d(TAG, "getCacheDataFirstPage start");
-        List<Comment> comments = CommentsManager.getFirstPage();
+        List<Comment> comments = CommentsManager.getFirstPage(taskId);
         if (comments.size() > 0)
             sinceDate = comments.get(comments.size() - 1).getCraeatedDateAt();
         mComments.addAll(comments);
-
-        if (comments.size() < LIMIT) isLoadingMoreFromDb = false;
         refreshList();
+        if (comments.size() < LIMIT) isLoadingMoreFromDb = false;
     }
 
     private void getCacheDataPage() {
         LogUtils.d(TAG, "getCacheDataPage start");
-        List<Comment> comments = CommentsManager.getCommentsSince(sinceDate);
-
+        List<Comment> comments = CommentsManager.getCommentsSince(sinceDate, taskId);
         if (comments.size() > 0)
             sinceDate = comments.get(comments.size() - 1).getCraeatedDateAt();
-
-        if (comments.size() < LIMIT) isLoadingMoreFromDb = false;
-
         mComments.addAll(comments);
         refreshList();
+        if (comments.size() < LIMIT) isLoadingMoreFromDb = false;
+
     }
 
     public void getComments(final boolean isSince, final int taskId) {
@@ -143,28 +146,31 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         Map<String, String> params = new HashMap<>();
 
         if (isSince && since != null)
-            params.put("since", "2017-04-24T07:13:41+07:00");
+            params.put("since", since);
         params.put("limit", LIMIT + "");
 
         ApiClient.getApiService().getCommens(UserManager.getUserToken(), taskId, params).enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 LogUtils.d(TAG, "getCommens code : " + response.code());
+
                 LogUtils.d(TAG, "getCommens body : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    List<Comment> comments = response.body();
-                    for (int i = 0; i < comments.size(); i++) {
-                        if (!checkContainsComments(mComments, comments.get(i)))
-                            mComments.add(comments.get(i));
+                    if (response.body() != null || response.body().size() > 0) {
+                        List<Comment> comments = response.body();
+                        if (comments.size() > 0)
+                            since = comments.get(comments.size() - 1).getCreatedAt();
+                        for (Comment comment : comments) {
+                            if (!checkContainsComments(mComments, comment))
+                                mComments.add(comment);
+                        }
+                        CommentsManager.insertComments(comments);
+                        if (comments.size() < LIMIT) {
+                            isLoadingMoreFromServer = false;
+                            commentsAdapter.stopLoadMore();
+                        }
+                        refreshList();
                     }
-                    since = comments.get(comments.size() - 1).getCreatedAt();
-
-                    if (comments.size() < LIMIT) {
-                        isLoadingMoreFromServer = false;
-                        commentsAdapter.stopLoadMore();
-                    }
-                    refreshList();
-                    CommentsManager.insertComments(comments);
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(CommentsActivity.this, new NetworkUtils.RefreshListener() {
@@ -173,23 +179,14 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                             getComments(isSince, taskId);
                         }
                     });
+
                 } else {
-                    DialogUtils.showRetryDialog(CommentsActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            getComments(isSince, taskId);
-                        }
-
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.d(TAG, "errorBody" + error.toString());
+                    Toast.makeText(CommentsActivity.this, error.message(), Toast.LENGTH_SHORT).show();
                 }
                 isLoadingFromServer = false;
                 onStopRefresh();
-
-
             }
 
             @Override
@@ -211,7 +208,6 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                 isLoadingFromServer = false;
                 onStopRefresh();
 
-
             }
         });
     }
@@ -222,6 +218,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
             linearLayoutManager = new LinearLayoutManager(CommentsActivity.this);
             lvList.setLayoutManager(linearLayoutManager);
             lvList.setAdapter(commentsAdapter);
+//            lvList.scrollToPosition(mComments.size()-1);
 
             lvList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
                 @Override
@@ -330,6 +327,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         }
         if (imgPath == null) {
             doComment();
+            lvList.scrollToPosition(0);
         } else {
             doAttachImage();
         }
@@ -395,6 +393,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void resumeData() {
+        registerReceiver(broadcastReceiver, new IntentFilter("MyBroadcast"));
 
     }
 
@@ -402,6 +401,12 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     public void onRefresh() {
         super.onRefresh();
         getComments(false, taskId);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
     }
 
     protected void checkPermission() {
@@ -425,6 +430,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         this.imgPath = file.getAbsolutePath();
         return imgUri;
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -488,6 +494,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         }
 
     }
+
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -498,4 +505,5 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
             edtComment.setSelection(edtComment.getText().length());
         }
     };
+
 }

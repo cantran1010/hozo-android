@@ -273,7 +273,10 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         // update bidder list
         bidders = (ArrayList<Bidder>) taskResponse.getBidders();
         refreshBidderList();
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
         for (int i = 0; i < bidders.size(); i++) bidders.get(i).setTaskId(taskResponse.getId());
+        realm.commitTransaction();
 
         //update assigners list
         assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
@@ -282,7 +285,6 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         //update comments
         comments = (ArrayList<Comment>) taskResponse.getComments();
 
-        Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         for (int i = 0; i < comments.size(); i++) comments.get(i).setTaskId(taskId);
         realm.commitTransaction();
