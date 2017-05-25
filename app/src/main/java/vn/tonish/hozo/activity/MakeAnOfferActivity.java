@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 
+import io.realm.Realm;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -105,7 +106,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     private int tempId = 0;
     private File fileAttach;
     private TextViewHozo tvSeeMore;
-    private TextViewHozo tvCommentCount,tvBidderCount,tvAssignCount;
+    private TextViewHozo tvCommentCount, tvBidderCount, tvAssignCount;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
     @Override
@@ -185,7 +186,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     }
 
     private void useCacheData() {
-        TaskEntity taskEntity = TaskManager.getTaskById(this, taskId);
+        TaskEntity taskEntity = TaskManager.getTaskById(taskId);
         if (taskEntity != null) {
             taskResponse = DataParse.converTaskEntityToTaskReponse(taskEntity);
             updateUi();
@@ -275,6 +276,10 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
         //update comments
         comments = (ArrayList<Comment>) taskResponse.getComments();
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        for (int i = 0; i < comments.size(); i++) comments.get(i).setTaskId(taskId);
+        realm.commitTransaction();
         commentViewFull.updateData(comments);
 
         tvBidderCount.setText("(" + taskResponse.getBidderCount() + ")");
@@ -392,6 +397,9 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     }
 
     private void doSeeMoreComment() {
+        Intent intent = new Intent(this, CommentsActivity.class);
+        intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
     }
 
     private void doSend() {
@@ -485,8 +493,13 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                 LogUtils.d(TAG, "commentTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    comments.add(response.body());
+
+                    response.body().setTaskId(taskId);
+                    comments.add(0, response.body());
                     commentViewFull.updateData(comments);
+                    taskResponse.setCommentsCount(taskResponse.getCommentsCount() + 1);
+                    tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");
+                    updateSeeMoreComment();
 
                     imgPath = null;
                     edtComment.setText(getString(R.string.empty));
@@ -538,6 +551,12 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
         return imgUri;
+    }
+
+    private void updateSeeMoreComment() {
+        if (taskResponse.getCommentsCount() > 5)
+            tvSeeMore.setVisibility(View.VISIBLE);
+        else tvSeeMore.setVisibility(View.GONE);
     }
 
     @Override

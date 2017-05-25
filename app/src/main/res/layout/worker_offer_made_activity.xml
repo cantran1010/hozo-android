@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/make_an_offer_question"
                     android:textColor="@color/tv_black"
-                    android:textSize="15sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <vn.tonish.hozo.view.TextViewHozo
@@ -109,7 +109,7 @@
                     android:layout_marginLeft="2dp"
                     android:text="(0)"
                     android:textColor="@color/hozo_bg"
-                    android:textSize="15sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
             </LinearLayout>

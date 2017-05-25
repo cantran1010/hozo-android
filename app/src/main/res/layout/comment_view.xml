@@ -36,7 +36,8 @@
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/img_setting"
                     android:layout_toStartOf="@+id/img_setting"
-                    android:textSize="15sp" />
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/img_setting"
@@ -45,7 +46,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                     android:contentDescription="@string/adjust_image"
+                    android:contentDescription="@string/adjust_image"
                     android:paddingBottom="2dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="2dp"
@@ -57,19 +58,23 @@
                 android:id="@+id/tv_comment"
                 style="@style/tv_style_normal_black"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textStyle="italic" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_time_ago"
                 style="@style/tv_style_normal_gray"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="9sp"
+                android:textStyle="italic" />
 
             <ImageView
                 android:id="@+id/img_attach"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="0dp"
                 android:contentDescription="@string/just_image"
                 android:src="@drawable/avatar_default" />
 
@@ -80,7 +85,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="0dp"
         android:background="@color/gray" />
 
 </LinearLayout>

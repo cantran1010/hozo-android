@@ -23,6 +23,7 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PreviewImageListActivity;
 import vn.tonish.hozo.activity.RateActivity;
+import vn.tonish.hozo.activity.other.ProfileActivity;
 import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.CategoryManager;
@@ -84,6 +85,8 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         layoutInflater.inflate(R.layout.work_detail_view, this, true);
 
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
+        imgAvatar.setOnClickListener(this);
+
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
 
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
@@ -230,6 +233,13 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
             case R.id.btn_offer:
                 doOffer();
+                break;
+
+            case R.id.img_avatar:
+                Intent intent = new Intent(getContext(), ProfileActivity.class);
+                intent.putExtra(Constants.USER_ID, taskResponse.getPoster().getId());
+                intent.putExtra(Constants.IS_MY_USER, taskResponse.getPoster().getId() == UserManager.getMyUser().getId());
+                getContext().startActivity(intent);
                 break;
 
         }

@@ -42,8 +42,8 @@
                         android:layout_height="wrap_content"
                         android:text="Bui Duc Long"
                         android:textColor="@color/tv_black"
-                        android:textStyle="bold"
-                        android:textSize="15sp" />
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -108,12 +108,13 @@
                 android:background="@drawable/bg_border_recruitment"
                 android:gravity="center"
                 android:minWidth="80dp"
-                android:paddingBottom="0dp"
+                android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:paddingTop="0dp"
+                android:paddingTop="5dp"
                 android:text="@string/recruitment"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="11sp" />
         </RelativeLayout>
 
 
@@ -123,7 +124,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="Dang 15 phut truoc"
-            android:textColor="@color/tv_gray" />
+            android:textColor="@color/tv_gray"
+            android:textSize="11sp" />
 
         <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->
@@ -161,7 +163,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="task description"
-            android:textColor="@color/tv_black" />
+            android:textColor="@color/tv_black"
+            android:textSize="12sp" />
 
         <vn.tonish.hozo.view.ButtonHozo
             android:id="@+id/btn_offer"
@@ -209,11 +212,13 @@
             android:orientation="horizontal">
 
             <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/textViewHozo"
                 style="@style/tv_style_normal_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/work_detail_view_price"
                 android:textColor="@color/tv_black"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -223,6 +228,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
+                android:textSize="12sp"
                 android:textStyle="italic" />
 
         </LinearLayout>
@@ -239,6 +245,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/work_detail_view_date"
                 android:textColor="@color/tv_black"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -248,6 +255,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
+                android:textSize="12sp"
                 android:textStyle="italic" />
 
         </LinearLayout>
@@ -265,6 +273,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/work_detail_view_time"
                 android:textColor="@color/tv_black"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -274,6 +283,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
+                android:textSize="12sp"
                 android:textStyle="italic" />
 
         </LinearLayout>
@@ -285,6 +295,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/task_detail_attach_image_hint"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <vn.tonish.hozo.view.MyGridView
@@ -306,6 +317,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/work_detail_view_address"
                 android:textColor="@color/tv_black"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -315,6 +327,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
+                android:textSize="12sp"
                 android:textStyle="italic" />
 
         </LinearLayout>
