@@ -71,7 +71,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     private String since;
     private Date sinceDate;
     private int tempId = 0;
-    private int taskId = 123;
+    private int taskId = 0;
     boolean isLoadingMoreFromServer = true;
     boolean isLoadingMoreFromDb = true;
     boolean isLoadingFromServer = false;
@@ -98,12 +98,14 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initData() {
+        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA,0);
+
         imgAttach.setOnClickListener(this);
         imgDelete.setOnClickListener(this);
         imgAttached.setOnClickListener(this);
         imgComment.setOnClickListener(this);
         getCacheDataFirstPage();
-        getComments(false, 0);
+        getComments(false, taskId);
 
     }
 
@@ -131,7 +133,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         refreshList();
     }
 
-    public void getComments(final boolean isSince, int taskId) {
+    public void getComments(final boolean isSince, final int taskId) {
 
         if (isLoadingFromServer) return;
         isLoadingFromServer = true;
@@ -168,14 +170,14 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                     NetworkUtils.refreshToken(CommentsActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            getComments(isSince, 123);
+                            getComments(isSince, taskId);
                         }
                     });
                 } else {
                     DialogUtils.showRetryDialog(CommentsActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            getComments(isSince, 123);
+                            getComments(isSince, taskId);
                         }
 
                         @Override
@@ -196,7 +198,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                 DialogUtils.showRetryDialog(CommentsActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        getComments(isSince, 123);
+                        getComments(isSince, taskId);
                     }
 
                     @Override
@@ -228,7 +230,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                     LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 
                     if (isLoadingMoreFromDb) getCacheDataPage();
-                    if (isLoadingMoreFromServer) getComments(true, 0);
+                    if (isLoadingMoreFromServer) getComments(true, taskId);
 
                 }
             });
@@ -399,7 +401,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onRefresh() {
         super.onRefresh();
-        getComments(false, 0);
+        getComments(false, taskId);
     }
 
     protected void checkPermission() {
