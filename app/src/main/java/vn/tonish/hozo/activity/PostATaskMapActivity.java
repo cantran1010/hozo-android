@@ -70,6 +70,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     private Category category;
     private final String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     private Marker marker;
+    private boolean isOnLocation = true;
 
     @Override
     protected int getLayout() {
@@ -112,11 +113,15 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
     @Override
     protected void resumeData() {
-//        GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
-//        if (!gpsTracker.canGetLocation()) {
-//        mLocationProvider.connect();
-//        }
+        if (!isOnLocation) {
+//            GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
+//            if (!gpsTracker.canGetLocation()) {
+            mLocationProvider.connect();
+            isOnLocation = true;
+//            }
+        }
     }
+
 
     protected void checkPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
@@ -133,6 +138,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         LogUtils.d(TAG, "onMapReady start");
         GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
         if (gpsTracker.canGetLocation()) {
+            isOnLocation = true;
             LogUtils.d(TAG, "onMapReady canGetLocation");
             latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
@@ -144,20 +150,22 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             getAddress(true);
 
         } else {
+            isOnLocation = false;
             mLocationProvider.connect();
             LogUtils.d(TAG, "onMapReady !!!!!! canGetLocation");
-            DialogUtils.showOkDialog(this, "", getString(R.string.msg_err_gps), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+            DialogUtils.showOkDialog(this, getString(R.string.app_name), getString(R.string.msg_err_gps), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                 @Override
                 public void onSubmit() {
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                    startActivity(intent);
                 }
             });
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode != Constants.PERMISSION_REQUEST_CODE
                 || grantResults.length == 0
@@ -204,6 +212,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 }
                 strReturnedAddress = strReturnedAddress.substring(0, strReturnedAddress.length() - 2);
                 tvAddress.setText(strReturnedAddress);
+                tvAddress.setError(null);
             }
 
             if (addRess.getMaxAddressLineIndex() > 1) {
@@ -241,17 +250,25 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                     latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
 
-                    marker.setPosition(latLng);
+                    if (marker == null) {
+                        marker = mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(latLng.latitude, latLng.longitude))
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
+                    } else
+                        marker.setPosition(latLng);
+
                     getAddress(true);
                 }
                 break;
 
             case R.id.img_map_zoom_in:
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, mMap.getCameraPosition().zoom + 1));
+                if (latLng != null)
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, mMap.getCameraPosition().zoom + 1));
                 break;
 
             case R.id.img_map_zoom_out:
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, mMap.getCameraPosition().zoom - 1));
+                if (latLng != null)
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, mMap.getCameraPosition().zoom - 1));
                 break;
 
             case R.id.tv_address:
@@ -262,8 +279,10 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                     startActivityForResult(intent, Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE);
                 } catch (GooglePlayServicesRepairableException e) {
                     // TODO: Handle the error.
+                    e.printStackTrace();
                 } catch (GooglePlayServicesNotAvailableException e) {
                     // TODO: Handle the error.
+                    e.printStackTrace();
                 }
                 break;
         }
@@ -296,11 +315,17 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 Log.i(TAG, "Place: " + place.getName());
 
                 tvAddress.setText(place.getName());
-
+                tvAddress.setError(null);
                 latLng = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
                 getAddress(false);
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
-                marker.setPosition(latLng);
+
+                if (marker == null) {
+                    marker = mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(latLng.latitude, latLng.longitude))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
+                } else
+                    marker.setPosition(latLng);
 
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
@@ -319,6 +344,13 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         if (gpsTracker.canGetLocation()) {
             latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+            if (marker == null) {
+                marker = mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(latLng.latitude, latLng.longitude))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
+            } else
+                marker.setPosition(latLng);
+            getAddress(true);
         }
     }
 }

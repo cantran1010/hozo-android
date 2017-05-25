@@ -78,7 +78,7 @@
     <string name="err_pick_image">Vui lòng chọn ít nhất 1 ảnh</string>
 
     <!-- post a task map-->
-    <string name="msg_err_gps">Yêu cầu bật GPS</string>
+    <string name="msg_err_gps">Ứng dụng cần bật dịch vụ định vị GPS</string>
     <string name="msg_err_address">Vui lòng nhập địa chỉ</string>
     <string name="my_task_worker">Việc của tôi</string>
     <string name="my_task_poster">Việc đã đăng</string>
@@ -212,7 +212,7 @@
     <string name="content_description_verify">Đã xác thực</string>
     <string name="post_a_task_budget_error">Vui lòng nhập số tiền cho một người</string>
     <string name="post_a_task_number_worker_error">Vui lòng nhập số người cần thuê</string>
-    <string name="post_a_task_address_error">Vui lòng nhập địa chỉ trên 20 kí tự</string>
+    <string name="post_a_task_address_error">Vui lòng nhập địa chỉ làm việc</string>
     <string name="post_a_task_max_attach_err">Bạn chỉ được chọn tối đa 6 ảnh</string>
     <string name="select_age_title">Chọn Tuổi</string>
     <string name="select_age_to">Đến</string>

@@ -41,7 +41,7 @@
         android:paddingBottom="10dp"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
-        android:paddingTop="5dp"
+        android:paddingTop="10dp"
         android:text="@string/alert_dialog_yes"
         android:textColor="@color/hozo_red"
         android:textSize="14sp" />

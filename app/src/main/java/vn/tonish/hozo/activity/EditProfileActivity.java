@@ -194,7 +194,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     ImageResponse imageResponse = response.body();
                     avataId = imageResponse.getIdTemp();
                     updateProfile();
-                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -277,7 +276,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     Intent intent = new Intent();
                     setResult(Constants.RESULT_CODE_UPDATE_PROFILE, intent);
                     finish();
-
+                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
