@@ -273,10 +273,20 @@ public class Utils {
         tvContent.setContentDescription(spannable);
     }
 
-    public static boolean checkContainsTaskResponse(List<TaskResponse> taskResponses, TaskResponse taskResponse) {
-        for (int i = 0; i < taskResponses.size(); i++)
-            if (taskResponses.get(i).getId() == taskResponse.getId()) return true;
-        return false;
+    public static void checkContainsTaskResponse(List<TaskResponse> taskResponses, TaskResponse taskResponse) {
+        boolean isUpdate = false;
+        int index = 0;
+
+        for (int i = 0; i < taskResponses.size(); i++) {
+            if (taskResponses.get(i).getId() == taskResponse.getId()) {
+                isUpdate = true;
+                index = i;
+                break;
+            }
+        }
+
+        if (isUpdate) taskResponses.set(index, taskResponse);
+        else taskResponses.add(0, taskResponse);
     }
 
     public static String converGenderVn(Context context, String gender) {

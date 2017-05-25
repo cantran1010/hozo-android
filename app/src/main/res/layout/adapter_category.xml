@@ -34,7 +34,8 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/hozo_bg"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_description"

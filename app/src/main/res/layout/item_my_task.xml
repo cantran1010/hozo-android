@@ -55,7 +55,8 @@
             android:layout_marginTop="5dp"
             android:text="20/11/2017"
             android:textColor="@color/text_item_address"
-            android:textSize="@dimen/tv_size_tiny" />
+            android:textSize="@dimen/tv_size_tiny"
+            android:textStyle="italic" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_task_type"
@@ -64,7 +65,8 @@
             android:layout_marginTop="0dp"
             android:text="Phan loai : Cong nghe"
             android:textColor="@color/text_item_address"
-            android:textSize="@dimen/tv_size_tiny" />
+            android:textSize="@dimen/tv_size_tiny"
+            android:textStyle="italic" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_address"
@@ -73,7 +75,8 @@
             android:layout_marginTop="0dp"
             android:text="102 Truong Trinh"
             android:textColor="@color/text_item_address"
-            android:textSize="@dimen/tv_size_tiny" />
+            android:textSize="@dimen/tv_size_tiny"
+            android:textStyle="italic" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_price"

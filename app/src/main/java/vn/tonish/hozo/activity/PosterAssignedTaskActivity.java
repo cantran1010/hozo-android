@@ -95,12 +95,13 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
 
     private ImageView imgComment;
 
-    private int taskId = 123;
+    private int taskId = 0;
     private GoogleMap googleMap;
     private int tempId = 0;
     private File fileAttach;
     private TextViewHozo tvSeeMore;
     private TextViewHozo tvCancel;
+    private TextViewHozo tvCommentCount,tvAssignCount;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
 
@@ -141,6 +142,9 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
         tvSeeMore = (TextViewHozo) findViewById(R.id.tv_see_more_comment);
         tvSeeMore.setOnClickListener(this);
 
+        tvAssignCount = (TextViewHozo) findViewById(R.id.tv_assign_count);
+        tvCommentCount = (TextViewHozo) findViewById(R.id.tv_comment_count);
+
         scv = (ScrollView) findViewById(R.id.scv);
 
         WorkAroundMapFragment mapFragment = (WorkAroundMapFragment) getSupportFragmentManager()
@@ -178,7 +182,7 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
     }
 
     private void useCacheData() {
-        TaskEntity taskEntity = TaskManager.getTaskById(this, 123);
+        TaskEntity taskEntity = TaskManager.getTaskById(this, taskId);
         if (taskEntity != null) {
             taskResponse = DataParse.converTaskEntityToTaskReponse(taskEntity);
             updateUi();
@@ -265,6 +269,9 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
         //update comments
         comments = (ArrayList<Comment>) taskResponse.getComments();
         commentViewFull.updateData(comments);
+
+        tvAssignCount.setText("(" + taskResponse.getAssigneeCount() + ")");
+        tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");
 
     }
 

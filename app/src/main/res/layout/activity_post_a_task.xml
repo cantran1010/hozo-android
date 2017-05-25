@@ -53,7 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/tv_task_title" />
+                android:text="@string/tv_task_title"
+                android:textStyle="bold" />
 
             <vn.tonish.hozo.view.EdittextHozo
                 android:id="@+id/edt_task_name"
@@ -71,7 +72,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/tv_time_task" />
+                android:text="@string/tv_time_task"
+                android:textStyle="bold" />
 
             <RelativeLayout
                 android:id="@+id/date_layout"
@@ -129,7 +131,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/task_description_hint" />
+                android:text="@string/task_description_hint"
+                android:textStyle="bold" />
 
             <vn.tonish.hozo.view.EdittextHozo
                 android:id="@+id/edt_description"
@@ -148,7 +151,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/attach_image_hint" />
+                android:text="@string/attach_image_hint"
+                android:textStyle="bold" />
 
             <vn.tonish.hozo.view.MyGridView
                 android:id="@+id/gr_image"
@@ -162,7 +166,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/more_detail" />
+                android:text="@string/more_detail"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -198,9 +203,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginStart="5dp"
+                        android:clickable="false"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:clickable="false"
                         android:gravity="center"
                         android:hint="@string/age_from_hint"
                         android:minHeight="@dimen/edt_min_height" />

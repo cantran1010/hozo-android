@@ -100,6 +100,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
     private File fileAttach;
     private TextViewHozo tvSeeMore;
     private TextViewHozo tvCancel;
+    private TextViewHozo tvCommentCount,tvAssignCount;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
 
@@ -140,6 +141,9 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
         tvSeeMore = (TextViewHozo) findViewById(R.id.tv_see_more_comment);
         tvSeeMore.setOnClickListener(this);
 
+        tvAssignCount = (TextViewHozo) findViewById(R.id.tv_assign_count);
+        tvCommentCount = (TextViewHozo) findViewById(R.id.tv_comment_count);
+
         scv = (ScrollView) findViewById(R.id.scv);
 
         WorkAroundMapFragment mapFragment = (WorkAroundMapFragment) getSupportFragmentManager()
@@ -177,7 +181,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
     }
 
     private void useCacheData() {
-        TaskEntity taskEntity = TaskManager.getTaskById(this, 123);
+        TaskEntity taskEntity = TaskManager.getTaskById(this, taskId);
         if (taskEntity != null) {
             taskResponse = DataParse.converTaskEntityToTaskReponse(taskEntity);
             updateUi();
@@ -265,6 +269,9 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
         //update comments
         comments = (ArrayList<Comment>) taskResponse.getComments();
         commentViewFull.updateData(comments);
+
+        tvAssignCount.setText("(" + taskResponse.getAssigneeCount() + ")");
+        tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");
     }
 
     private void refreshAssignerList() {

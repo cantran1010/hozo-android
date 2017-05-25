@@ -150,7 +150,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 @Override
                 public void onSubmit() {
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivity(intent,TransitionScreen.RIGHT_TO_LEFT);
+                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 }
             });
         }
@@ -240,6 +240,9 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 if (gpsTracker.canGetLocation()) {
                     latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+
+                    marker.setPosition(latLng);
+                    getAddress(true);
                 }
                 break;
 

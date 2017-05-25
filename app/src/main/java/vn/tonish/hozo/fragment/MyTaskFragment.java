@@ -50,7 +50,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     private RecyclerView rcvTask;
     private List<TaskResponse> taskResponses = new ArrayList<>();
     private MyTaskAdapter myTaskAdapter;
-    private String role = "worker";
+    private String role = Constants.ROLE_TASKER;
     public static final int LIMIT = 15;
     private String sinceStr;
     private Date sinceDate;
@@ -92,7 +92,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         refreshList();
         if (taskResponses.size() < LIMIT) isLoadingMoreFromDb = false;
 
-        LogUtils.d(TAG,"getCacheData , taskResponses : " + taskResponses.toString());
+        LogUtils.d(TAG, "getCacheData , taskResponses : " + taskResponses.toString());
     }
 
     @Override
@@ -125,14 +125,17 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     List<TaskResponse> taskResponsesBody = response.body();
 
+                    LogUtils.d(TAG, "getTaskFromServer taskResponsesBody size : " + taskResponsesBody.size());
+
+                    if (taskResponsesBody.size() > 0)
+                        sinceStr = taskResponsesBody.get(taskResponsesBody.size() - 1).getCreatedAt();
+
                     for (int i = 0; i < taskResponsesBody.size(); i++)
                         taskResponsesBody.get(i).setRole(role);
 
                     for (int i = 0; i < taskResponsesBody.size(); i++)
-                        if (!Utils.checkContainsTaskResponse(taskResponses, taskResponsesBody.get(i)))
-                            taskResponses.add(taskResponsesBody.get(i));
+                        Utils.checkContainsTaskResponse(taskResponses, taskResponsesBody.get(i));
 
-                    sinceStr = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
                     TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponsesBody));
 
                     if (taskResponsesBody.size() < LIMIT) {
@@ -218,41 +221,40 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 //                    role = "poster";
 //                    taskResponse.setStatus("open");
 
-                    if (role.equals("worker")) {
-                        if (taskResponse.getStatus().equals("open")) {
+                    if (role.equals(Constants.ROLE_TASKER)) {
+                        if (taskResponse.getStatus().equals(Constants.TASK_STATUS_OPEN)) {
                             Intent intent = new Intent(getActivity(), WorkerOfferMadeActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                             intent.putExtra(Constants.TASK_STATUS_EXTRA, TaskStatus.WorkerOfferMade);
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        } else if (taskResponse.getStatus().equals("assigned")) {
+                        } else if (taskResponse.getStatus().equals(Constants.TASK_STATUS_ASSIGNED)) {
                             Intent intent = new Intent(getActivity(), WorkerOfferMadeActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                             intent.putExtra(Constants.TASK_STATUS_EXTRA, TaskStatus.WorkerAcceptedTask);
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                         }
-                        if (taskResponse.getStatus().equals("completed")) {
+                        if (taskResponse.getStatus().equals(Constants.TASK_STATUS_COMPLETED)) {
                             Intent intent = new Intent(getActivity(), WorkerOfferMadeActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                             intent.putExtra(Constants.TASK_STATUS_EXTRA, TaskStatus.WorkerDoneTask);
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                         }
-                    } else if (role.equals("poster")) {
-                        if (taskResponse.getStatus().equals("open")) {
+                    } else if (role.equals(Constants.ROLE_POSTER)) {
+                        if (taskResponse.getStatus().equals(Constants.TASK_STATUS_OPEN)) {
                             Intent intent = new Intent(getActivity(), PosterOpenTaskActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        } else if (taskResponse.getStatus().equals("assigned")) {
+                        } else if (taskResponse.getStatus().equals(Constants.TASK_STATUS_ASSIGNED)) {
                             Intent intent = new Intent(getActivity(), PosterAssignedTaskActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                         }
-                        if (taskResponse.getStatus().equals("completed")) {
+                        if (taskResponse.getStatus().equals(Constants.TASK_STATUS_COMPLETED)) {
                             Intent intent = new Intent(getActivity(), PosterCompletedTaskActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                         }
                     }
-
 
                 }
             });
@@ -283,11 +285,13 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
         switch (v.getId()) {
             case R.id.tv_worker:
+                if (role.equals(Constants.ROLE_TASKER)) break;
                 resetSelectedTab(1);
                 selectedTab(1);
                 break;
 
             case R.id.tv_poster:
+                if (role.equals(Constants.ROLE_POSTER)) break;
                 resetSelectedTab(2);
                 selectedTab(2);
                 break;
@@ -299,15 +303,15 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
         switch (position) {
             case 1:
-                role = "worker";
+                role = Constants.ROLE_TASKER;
                 break;
 
             case 2:
-                role = "poster";
+                role = Constants.ROLE_POSTER;
                 break;
 
             default:
-                role = "worker";
+                role = Constants.ROLE_TASKER;
                 break;
         }
 

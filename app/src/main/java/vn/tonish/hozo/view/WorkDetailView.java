@@ -122,7 +122,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
         LogUtils.d(TAG, "updateWork , taskResponse : " + taskResponse.toString());
 
-        Utils.displayImage(getContext(), imgAvatar, taskResponse.getPoster().getAvatar());
+        Utils.displayImageAvatar(getContext(), imgAvatar, taskResponse.getPoster().getAvatar());
         tvName.setText(taskResponse.getPoster().getFullName());
         rbRate.setRating(taskResponse.getPoster().getPosterAverageRating());
         tvTitle.setText(taskResponse.getTitle());
@@ -140,9 +140,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         tvAddress.setText(taskResponse.getAddress());
 
         final ArrayList<String> attachments = (ArrayList<String>) taskResponse.getAttachments();
-        attachments.addAll(attachments);
-        attachments.addAll(attachments);
-        attachments.addAll(attachments);
+        LogUtils.d(TAG, "updateWork , attachments : " + attachments.toString());
 
         if (attachments.size() > 0) {
             ImageDetailTaskAdapter imageDetailTaskAdapter = new ImageDetailTaskAdapter(getContext(), attachments);
@@ -157,6 +155,9 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                     getContext().startActivity(intent);
                 }
             });
+            imageDetailTaskAdapter.notifyDataSetChanged();
+            tvImageAttachTitle.setVisibility(View.VISIBLE);
+            myGridView.setVisibility(View.VISIBLE);
         } else {
             tvImageAttachTitle.setVisibility(View.GONE);
             myGridView.setVisibility(View.GONE);
