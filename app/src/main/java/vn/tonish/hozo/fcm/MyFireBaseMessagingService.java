@@ -16,9 +16,20 @@
 
 package vn.tonish.hozo.fcm;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Vibrator;
+import android.support.v4.app.NotificationCompat;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.utils.LogUtils;
 
 /**
@@ -44,8 +55,8 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         LogUtils.d(TAG,"onMessageReceived start");
 
 //        LogUtils.d(TAG, "From: " + remoteMessage.getFrom());
-        LogUtils.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
-//        LogUtils.d(TAG, "Notification Message Data " + remoteMessage.getData().toString());
+//        LogUtils.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
+        LogUtils.d(TAG, "Notification Message Data " + remoteMessage.getData().toString());
 //        LogUtils.d(TAG, "Notification Message Data data: " + remoteMessage.getData().get("body"));
 
 //        String title = remoteMessage.getNotification().getTitle().toString();
@@ -56,38 +67,40 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 //        LogUtils.d("remoteMessage message", message);
 //        LogUtils.d("remoteMessage click", click_action);
 
+        sendNotification("test",remoteMessage.getData().toString());
+
     }
     // [END receive_message]
 
-//    private void sendNotification(String titleP, String messageP, PushModel pushModel) {
-//
-//        // vibrator when receive push notification from server
-//        Vibrator v = (Vibrator) getApplicationContext()
-//                .getSystemService(Context.VIBRATOR_SERVICE);
-//        v.vibrate(1000);
-//
-//        int requestID = (int) System.currentTimeMillis();
-//
-//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+    private void sendNotification(String titleP, String messageP) {
+
+        // vibrator when receive push notification from server
+        Vibrator v = (Vibrator) getApplicationContext()
+                .getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(1000);
+
+        int requestID = (int) System.currentTimeMillis();
+
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 //        intent.putExtra(Constants.EXTRA_PUSH_MODEL, pushModel);
-//
-//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, requestID /* Request code */, intent,
-//                PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-//                .setSmallIcon(R.drawable.icon)
-//                .setContentTitle(titleP)
-//                .setContentText(messageP)
-//                .setAutoCancel(true)
-//                .setSound(defaultSoundUri)
-//                .setContentIntent(pendingIntent);
-//
-//        NotificationManager notificationManager =
-//                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//        notificationManager.notify(requestID /* ID of notification */, notificationBuilder.build());
-//    }
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, requestID /* Request code */, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(titleP)
+                .setContentText(messageP)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(requestID /* ID of notification */, notificationBuilder.build());
+    }
 }

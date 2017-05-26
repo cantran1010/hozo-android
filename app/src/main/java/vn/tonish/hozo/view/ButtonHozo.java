@@ -33,13 +33,13 @@ public class ButtonHozo extends AppCompatButton {
             try {
                 int style = getTypeface().getStyle();
                 switch (style) {
-                    case 0:
+                    case Typeface.NORMAL:
                         tf = TypefaceContainer.TYPEFACE_REGULAR;
                         break;
-                    case 1:
+                    case Typeface.BOLD:
                         tf = TypefaceContainer.TYPEFACE_MEDIUM;
                         break;
-                    case 2:
+                    case Typeface.ITALIC:
                         tf = TypefaceContainer.TYPEFACE_LIGHT;
                         break;
                     default:

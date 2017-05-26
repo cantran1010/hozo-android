@@ -6,10 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
-import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TypefaceContainer;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by LongBui on 5/4/2017.
@@ -38,16 +35,14 @@ public class TextViewHozo extends AppCompatTextView {
             try {
                int styleTxt = getTypeface().getStyle();
 
-                LogUtils.d(TAG,"TextViewHozo , styleTxt : " + styleTxt);
-
                 switch (styleTxt) {
-                    case 0:
+                    case Typeface.NORMAL:
                         tf = TypefaceContainer.TYPEFACE_REGULAR;
                         break;
-                    case 1:
+                    case Typeface.BOLD:
                         tf = TypefaceContainer.TYPEFACE_MEDIUM;
                         break;
-                    case 2:
+                    case Typeface.ITALIC:
                         tf = TypefaceContainer.TYPEFACE_LIGHT;
                         break;
                     default:
