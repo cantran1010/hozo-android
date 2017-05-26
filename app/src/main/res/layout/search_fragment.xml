@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -19,6 +20,7 @@
             android:visibility="visible">
 
             <vn.tonish.hozo.view.TextViewHozo
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
@@ -126,7 +128,9 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swpRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lv_list"

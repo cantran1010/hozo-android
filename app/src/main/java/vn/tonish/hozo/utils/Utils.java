@@ -170,6 +170,7 @@ public class Utils {
     }
 
     public static String getNameCategoryById(int id) {
+        LogUtils.d(TAG,"id category :"+id);
         return CategoryManager.getCategoryById(id).getName();
     }
 

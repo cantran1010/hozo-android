@@ -8,6 +8,7 @@ import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyDateFromIso;
@@ -18,7 +19,7 @@ import static vn.tonish.hozo.utils.Utils.getNameCategoryById;
  */
 
 public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolder, LoadingHolder> {
-
+    private final static String TAG = TaskAdapter.class.getSimpleName();
     private List<TaskResponse> taskResponses;
     private Context context;
 
@@ -26,6 +27,20 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
         super(context, taskResponses);
         this.context = context;
         this.taskResponses = taskResponses;
+    }
+
+    public interface TaskAdapterListener {
+        public void onTaskAdapterClickListener(int position);
+    }
+
+    private TaskAdapterListener taskAdapterListener;
+
+    public TaskAdapterListener getTaskAdapterListener() {
+        return taskAdapterListener;
+    }
+
+    public void setTaskAdapterListener(TaskAdapterListener taskAdapterListener) {
+        this.taskAdapterListener = taskAdapterListener;
     }
 
     @Override
@@ -52,14 +67,15 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof WorkHolder) {
             WorkHolder workHolder = ((WorkHolder) holder);
+            LogUtils.d(TAG, "adapter " + taskResponses.get(position).toString());
             workHolder.tvName.setText(taskResponses.get(position).getTitle());
-            workHolder.tvDes.setText(context.getString(R.string.find_time_start)+" "+  getOnlyDateFromIso(taskResponses.get(position).getStartTime()) + context.getString(R.string.find_task_category)+ getNameCategoryById(taskResponses.get(position).getCategoryId()));
+            workHolder.tvDes.setText(context.getString(R.string.find_time_start) + " " + getOnlyDateFromIso(taskResponses.get(position).getStartTime()) + context.getString(R.string.find_task_category) + getNameCategoryById(taskResponses.get(position).getCategoryId()));
             workHolder.tvPrice.setText(context.getString(R.string.all_vnd) + " " + taskResponses.get(position).getWorkerRate());
-            workHolder.tvAddress.setText(context.getString(R.string.find_task_address) +" "+ taskResponses.get(position).getAddress());
+            workHolder.tvAddress.setText(context.getString(R.string.find_task_address) + " " + taskResponses.get(position).getAddress());
         }
     }
 
-    class WorkHolder extends BaseHolder {
+    class WorkHolder extends BaseHolder implements View.OnClickListener {
         private TextViewHozo tvName;
         private TextViewHozo tvDes;
         private TextViewHozo tvPrice;
@@ -72,8 +88,16 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
             tvDes = (TextViewHozo) itemView.findViewById(R.id.tv_des);
             tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
             tvAddress = (TextViewHozo) itemView.findViewById(R.id.tv_address);
+            itemView.setOnClickListener(this);
         }
 
 
+        @Override
+        public void onClick(View v) {
+            if (taskAdapterListener != null) {
+                taskAdapterListener.onTaskAdapterClickListener(getAdapterPosition());
+            }
+
+        }
     }
 }
