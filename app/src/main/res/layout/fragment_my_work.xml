@@ -2,10 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:background="@color/white"
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize">
@@ -19,6 +21,13 @@
             android:layout_marginStart="@dimen/title_margin_left"
             android:text="@string/my_task_title" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray" />
+
     </RelativeLayout>
 
     <LinearLayout
@@ -26,6 +35,7 @@
         android:layout_height="28.5dp"
         android:layout_marginLeft="@dimen/margin_left_screen"
         android:layout_marginRight="@dimen/margin_right_screen"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <vn.tonish.hozo.view.TextViewHozo
@@ -56,18 +66,12 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
-        android:background="@color/gray" />
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swpRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F8F8F8"
+        android:layout_marginTop="10dp"
+        android:background="@color/bg"
         android:paddingLeft="8dp"
         android:paddingRight="8dp">
 

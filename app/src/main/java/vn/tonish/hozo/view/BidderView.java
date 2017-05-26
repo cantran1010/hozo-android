@@ -64,6 +64,7 @@ public class BidderView extends LinearLayout {
         Utils.displayImageAvatar(getContext(), imgAvatar, bidder.getAvatar());
         tvName.setText(bidder.getFullName());
         ratingBar.setRating(bidder.getTaskerAverageRating());
-        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(bidder.getBidedAt(), getContext()));
+        if (bidder.getBidedAt() != null)
+            tvTimeAgo.setText(DateTimeUtils.getTimeAgo(bidder.getBidedAt(), getContext()));
     }
 }

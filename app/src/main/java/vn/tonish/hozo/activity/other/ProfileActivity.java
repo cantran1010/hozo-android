@@ -12,7 +12,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,7 +19,6 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AddVerifyActivity;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.EditProfileActivity;
-import vn.tonish.hozo.activity.HomeActivity;
 import vn.tonish.hozo.activity.ReviewsActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.ReviewEntity;
@@ -42,7 +40,6 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.REVIEW_TYPE_POSTER;
 import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyDateFromIso;
-import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 import static vn.tonish.hozo.utils.Utils.converGenderVn;
 import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
@@ -138,7 +135,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 doEdit();
                 break;
             case R.id.btn_logout:
-                logOut();
+//                logOut();
+                NetworkUtils.logOut(this);
                 break;
             case R.id.btn_poster:
                 if (tabIndex == 1) break;
@@ -175,78 +173,78 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private void logOut() {
-        ProgressDialogUtils.showProgressDialog(this);
-        DialogUtils.showOkAndCancelDialog(this, getString(R.string.msg_logOut), getString(R.string.msg_contten_logOut), "Có", "huỷ", new AlertDialogOkAndCancel.AlertDialogListener() {
-            @Override
-            public void onSubmit() {
-                ApiClient.getApiService().logOut(UserManager.getUserToken()).enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
-                                Realm realm = Realm.getDefaultInstance();
-                                realm.beginTransaction();
-                                realm.deleteAll();
-                                realm.commitTransaction();
-                                startActivityAndClearAllTask(new Intent(ProfileActivity.this, HomeActivity.class), TransitionScreen.FADE_IN);
-                            } else {
-                                showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                                    @Override
-                                    public void onSubmit() {
-                                        logOut();
-                                    }
-
-                                    @Override
-                                    public void onCancel() {
-
-                                    }
-                                });
-
-                            }
-                        } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                            NetworkUtils.refreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
-                                @Override
-                                public void onRefreshFinish() {
-                                    logOut();
-                                }
-                            });
-                        } else {
-                            APIError error = ErrorUtils.parseError(response);
-                            LogUtils.d(TAG, "errorBody" + error.toString());
-                            Toast.makeText(ProfileActivity.this, error.message(), Toast.LENGTH_SHORT).show();
-
-                        }
-                        ProgressDialogUtils.dismissProgressDialog();
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        ProgressDialogUtils.dismissProgressDialog();
-                        showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
-                                logOut();
-                            }
-
-                            @Override
-                            public void onCancel() {
-
-                            }
-                        });
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-        });
-
-    }
+//    private void logOut() {
+//        DialogUtils.showOkAndCancelDialog(this, getString(R.string.msg_logOut), getString(R.string.msg_contten_logOut), "Có", "huỷ", new AlertDialogOkAndCancel.AlertDialogListener() {
+//            @Override
+//            public void onSubmit() {
+//                ProgressDialogUtils.showProgressDialog(ProfileActivity.this);
+//                ApiClient.getApiService().logOut(UserManager.getUserToken()).enqueue(new Callback<Void>() {
+//                    @Override
+//                    public void onResponse(Call<Void> call, Response<Void> response) {
+//                        if (response.isSuccessful()) {
+//                            if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+//                                Realm realm = Realm.getDefaultInstance();
+//                                realm.beginTransaction();
+//                                realm.deleteAll();
+//                                realm.commitTransaction();
+//                                startActivityAndClearAllTask(new Intent(ProfileActivity.this, HomeActivity.class), TransitionScreen.FADE_IN);
+//                            } else {
+//                                showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+//                                    @Override
+//                                    public void onSubmit() {
+//                                        logOut();
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancel() {
+//
+//                                    }
+//                                });
+//
+//                            }
+//                        } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+//                            NetworkUtils.refreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
+//                                @Override
+//                                public void onRefreshFinish() {
+//                                    logOut();
+//                                }
+//                            });
+//                        } else {
+//                            APIError error = ErrorUtils.parseError(response);
+//                            LogUtils.d(TAG, "errorBody" + error.toString());
+//                            Toast.makeText(ProfileActivity.this, error.message(), Toast.LENGTH_SHORT).show();
+//
+//                        }
+//                        ProgressDialogUtils.dismissProgressDialog();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<Void> call, Throwable t) {
+//                        ProgressDialogUtils.dismissProgressDialog();
+//                        showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+//                            @Override
+//                            public void onSubmit() {
+//                                logOut();
+//                            }
+//
+//                            @Override
+//                            public void onCancel() {
+//
+//                            }
+//                        });
+//
+//                    }
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//
+//            }
+//        });
+//
+//    }
 
     private void updateUserFromServer() {
         if (mUserEntity == null) {

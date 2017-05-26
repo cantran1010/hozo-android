@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,17 +28,18 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AdvanceSettingsActivity;
 import vn.tonish.hozo.activity.BrowerTaskMapActivity;
+import vn.tonish.hozo.activity.MakeAnOfferActivity;
 import vn.tonish.hozo.adapter.TaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.TaskEntity;
-import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.MiniTask;
 import vn.tonish.hozo.network.DataParse;
-import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
@@ -139,19 +141,18 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     private void getCacheDataFirstPage() {
-        LogUtils.d(TAG, "getCacheDataFirstPage start");
-        List<TaskEntity> taskEntities = TaskManager.getTaskEntitiesSince(null);
+        LogUtils.d(TAG, "getCacheDataFirstPage start" + taskList.size());
+        List<TaskEntity> taskEntities = TaskManager.getTaskEntitiesSince(null, Constants.ROLE_FIND_TASK);
         if (taskEntities.size() > 0)
             sinceDate = taskEntities.get(taskEntities.size() - 1).getCreatedAt();
         taskList = DataParse.converListTaskEntityToTaskResponse(taskEntities);
-
         if (taskEntities.size() < limit) isLoadingMoreFromDb = false;
         refreshList();
     }
 
     private void getCacheDataPage() {
         LogUtils.d(TAG, "getCacheDataPage start");
-        List<TaskEntity> taskEntities = TaskManager.getTaskEntitiesSince(sinceDate);
+        List<TaskEntity> taskEntities = TaskManager.getTaskEntitiesSince(sinceDate, Constants.ROLE_FIND_TASK);
 
         if (taskEntities.size() > 0)
             sinceDate = taskEntities.get(taskEntities.size() - 1).getCreatedAt();
@@ -173,33 +174,35 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         if (!(isSince && since != null))
             since = "";
 
-        option = DataParse.setParameterGetTasks(SettingManager.getSettingEntiny(), SortBy, String.valueOf(limit), since, query);
+//        option = DataParse.setParameterGetTasks(SettingManager.getSettingEntiny(), SortBy, String.valueOf(limit), since, query);
         ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), option).enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
                 LogUtils.d(TAG, "getTaskResponse code : " + response.code());
-                LogUtils.d(TAG, "getTaskResponse body : " + response.body());
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    List<TaskResponse> taskResponses = response.body();
-                    for (int i = 0; i < taskResponses.size(); i++) {
-                        if (!checkContainsTaskResponse(taskList, taskResponses.get(i)))
-                            taskList.add(taskResponses.get(i));
-                    }
-                    since = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
-                    if (taskResponses.size() < limit) {
-                        isLoadingMoreFromServer = false;
-                        taskAdapter.stopLoadMore();
-                    }
-                    refreshList();
-                    TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
-                    LogUtils.d(TAG, "getTasksonResponse size : " + taskList.size());
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            getTaskResponse(isSince, "", "");
+                if (response.isSuccessful()) {
+                    LogUtils.d(TAG, "getTaskResponse body : " + response.body());
+                    if (response.code() == Constants.HTTP_CODE_OK) {
+                        List<TaskResponse> taskResponses = response.body();
+                        for (TaskResponse res : taskResponses
+                                ) {
+                            res.setRole(Constants.ROLE_FIND_TASK);
+                            if (!checkContainsTaskResponse(taskList, res))
+                                taskList.add(res);
                         }
-                    });
+                        since = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
+                        if (taskResponses.size() < limit) {
+                            isLoadingMoreFromServer = false;
+                            taskAdapter.stopLoadMore();
+                        }
+                        refreshList();
+                        TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
+                        LogUtils.d(TAG, "getTasksonResponse size : " + taskList.size());
+                    } else {
+                    }
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.d(TAG, "errorBody" + error.toString());
+                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
 
                 } else {
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
@@ -236,6 +239,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
                 taskAdapter.stopLoadMore();
                 isLoadingFromServer = false;
+                if (taskAdapter == null) taskAdapter.notifyDataSetChanged();
                 onStopRefresh();
             }
         });
@@ -257,6 +261,15 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     if (isLoadingMoreFromDb) getCacheDataPage();
                     if (isLoadingMoreFromServer) getTaskResponse(false, "", "");
 
+                }
+            });
+            taskAdapter.setTaskAdapterListener(new TaskAdapter.TaskAdapterListener() {
+                @Override
+                public void onTaskAdapterClickListener(int position) {
+                    TaskResponse taskResponse = taskList.get(position);
+                    Intent intent = new Intent(getActivity(), MakeAnOfferActivity.class);
+                    intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 }
             });
 
@@ -282,12 +295,12 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 goToMapScren();
                 break;
             case R.id.img_search:
-                showSearch(layoutSearch, 200, true);
-                showSearch(layoutHeader, 200, false);
+                showSearch(layoutSearch, Constants.DURATION, true);
+                showSearch(layoutHeader, Constants.DURATION, false);
                 break;
             case R.id.img_back:
-                showSearch(layoutHeader, 200, true);
-                showSearch(layoutSearch, 200, false);
+                showSearch(layoutHeader, Constants.DURATION, true);
+                showSearch(layoutSearch, Constants.DURATION, false);
                 break;
             case R.id.img_clear:
                 edtSearch.setText("");

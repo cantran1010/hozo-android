@@ -45,7 +45,7 @@ public class TaskManager {
         return realm.where(TaskEntity.class).equalTo("id", taskId).findFirst();
     }
 
-    public static List<TaskEntity> getTaskEntitiesSince(Date sinceDate) {
+    public static List<TaskEntity> getTaskEntitiesSince(Date sinceDate, String role) {
         LogUtils.d(TAG, "getTaskEntitiesSince");
         List<TaskEntity> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
@@ -53,7 +53,7 @@ public class TaskManager {
         if (sinceDate == null) {
             taskEntities = realm.where(TaskEntity.class).findAll().sort("createdAt");
         } else {
-            taskEntities = realm.where(TaskEntity.class).lessThan("createdAt", sinceDate).findAll().sort("createdAt");
+            taskEntities = realm.where(TaskEntity.class).equalTo("role", role).lessThan("createdAt", sinceDate).findAll().sort("createdAt");
         }
         if (taskEntities.size() > 0) {
 

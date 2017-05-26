@@ -90,6 +90,8 @@ public class Constants {
     public static final String LIST_TASK_EXTRA = "list_task_extra";
     public static final String IS_MY_USER = "is_my_user";
     public static final String PARAMETER_GENDER = "gender";
+    public static final int DURATION =200 ;
+    public static final String ROLE_FIND_TASK ="find_task" ;
     public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
 
     public static final String USER_POSTER_REVIEWS = "poster_reviews";
