@@ -51,9 +51,9 @@ public class TaskManager {
         Realm realm = Realm.getDefaultInstance();
         List<TaskEntity> taskEntities;
         if (sinceDate == null) {
-            taskEntities = realm.where(TaskEntity.class).findAll().sort("createdAt");
+            taskEntities = realm.where(TaskEntity.class).equalTo("role", role).findAll().sort("createdAt", Sort.DESCENDING);
         } else {
-            taskEntities = realm.where(TaskEntity.class).equalTo("role", role).lessThan("createdAt", sinceDate).findAll().sort("createdAt");
+            taskEntities = realm.where(TaskEntity.class).equalTo("role", role).lessThan("createdAt", sinceDate).findAll().sort("createdAt", Sort.DESCENDING);
         }
         if (taskEntities.size() > 0) {
 
