@@ -22,11 +22,10 @@ public class CommentsManager {
         LogUtils.d(TAG, "insertComments start ");
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-
         for (int i = 0; i < comments.size(); i++) {
             comments.get(i).setCraeatedDateAt(getDateFromStringIso(comments.get(i).getCreatedAt()));
-            realm.insertOrUpdate(comments.get(i));
         }
+        realm.insertOrUpdate(comments);
         realm.commitTransaction();
 
     }

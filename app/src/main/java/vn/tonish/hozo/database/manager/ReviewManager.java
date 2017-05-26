@@ -24,8 +24,8 @@ public class ReviewManager {
         realm.beginTransaction();
         for (int i = 0; i < reviews.size(); i++) {
             reviews.get(i).setCraeatedDateAt(getDateFromStringIso(reviews.get(i).getCreatedAt()));
-            realm.insertOrUpdate(reviews.get(i));
         }
+        realm.insertOrUpdate(reviews);
         realm.commitTransaction();
     }
 

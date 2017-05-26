@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AgeDialog;
 import vn.tonish.hozo.dialog.AlertDialogCancelTask;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Image;
@@ -45,6 +47,7 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
@@ -81,10 +84,13 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private ImageView imgClose;
     private int imageAttachCount;
     private Integer[] imagesArr;
-    private int ageFrom, ageTo;
+    private int ageFrom = 18;
+    private int ageTo = 80;
     private EdittextHozo edtWorkingHour;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
     private LinearLayout layoutAge;
+    private DatePickerDialog datePickerDialog;
+    private TimePickerDialog timeEndPickerDialog;
 
     protected int getLayout() {
         return R.layout.activity_post_a_task;
@@ -251,6 +257,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.layout_age:
                 AgeDialog ageDialog = new AgeDialog(PostATaskActivity.this);
+                ageDialog.setAgeFrom(ageFrom);
+                ageDialog.setAgeTo(ageTo);
                 ageDialog.setAgeDialogListener(new AgeDialog.AgeDialogListener() {
                     @Override
                     public void onAgeDialogLister(int from, int to) {
@@ -355,7 +363,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             intent.putExtra(Constants.EXTRA_TASK, taskResponse);
             intent.putExtra(Constants.EXTRA_CATEGORY, category);
 
-            LogUtils.d(TAG,"doNext , taskResponse : " + taskResponse.toString());
+            LogUtils.d(TAG, "doNext , taskResponse : " + taskResponse.toString());
 
             startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
         } else {
@@ -374,16 +382,29 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
     private void attachAllFile() {
 
-        ProgressDialogUtils.showProgressDialog(this);
+        if (Utils.isNetworkAvailable(this)) {
+            ProgressDialogUtils.showProgressDialog(this);
+            //because images attach have icon '+' so size file = size image -1
+            imageAttachCount = images.size() - 1;
+            imagesArr = new Integer[images.size() - 1];
 
-        //because images attach have icon '+' so size file = size image -1
-        imageAttachCount = images.size() - 1;
-        imagesArr = new Integer[images.size() - 1];
+            for (int i = 0; i < images.size() - 1; i++) {
+                LogUtils.d(TAG, " attachAllFile image " + i + " : " + images.get(i).getPath());
+                File file = new File(images.get(i).getPath());
+                attachFile(file, i);
+            }
+        } else {
+            DialogUtils.showRetryDialog(this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                @Override
+                public void onSubmit() {
+                    attachAllFile();
+                }
 
-        for (int i = 0; i < images.size() - 1; i++) {
-            LogUtils.d(TAG, " attachAllFile image " + i + " : " + images.get(i).getPath());
-            File file = new File(images.get(i).getPath());
-            attachFile(file, i);
+                @Override
+                public void onCancel() {
+
+                }
+            });
         }
 
     }
@@ -400,7 +421,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                 ImageResponse imageResponse = response.body();
 
                 imageAttachCount--;
-                imagesArr[position] = imageResponse.getIdTemp();
+                if (imageResponse != null)
+                    imagesArr[position] = imageResponse.getIdTemp();
                 finishAttachImage();
 
             }
@@ -408,6 +430,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onFailure(Call<ImageResponse> call, Throwable t) {
                 LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
+                imageAttachCount--;
+                finishAttachImage();
             }
         });
     }
@@ -442,31 +466,52 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             ProgressDialogUtils.dismissProgressDialog();
         }
 
-
     }
 
+
     private void openDatePicker() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+        datePickerDialog = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, final int year,
                                           final int monthOfYear, final int dayOfMonth) {
 
-
-                        TimePickerDialog timeEndPickerDialog = new TimePickerDialog(PostATaskActivity.this,
+                        timeEndPickerDialog = new TimePickerDialog(PostATaskActivity.this,
                                 new TimePickerDialog.OnTimeSetListener() {
 
                                     @Override
                                     public void onTimeSet(TimePicker view, int hourOfDay,
                                                           int minute) {
-                                        calendar.set(year, monthOfYear, dayOfMonth);
-                                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                        calendar.set(Calendar.MINUTE, minute);
 
-                                        tvDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year + " " + hourOfDay + ":" + minute);
-                                        tvDate.setError(null);
+                                        LogUtils.d(TAG, "openDatePicker onTimeSet , year : " + year + " , monthOfYear : " + monthOfYear + " , dayOfMonth : " + dayOfMonth);
+                                        LogUtils.d(TAG, "openDatePicker onTimeSet , hourOfDay : " + hourOfDay + " , minute : " + minute + " , dayOfMonth : " + dayOfMonth);
+
+                                        Calendar c2 = Calendar.getInstance();
+
+                                        if (year == c2.get(Calendar.YEAR)
+                                                && monthOfYear == c2.get(Calendar.MONTH)
+                                                && dayOfMonth == c2.get(Calendar.DAY_OF_MONTH)
+                                                && (hourOfDay < c2.get(Calendar.HOUR_OF_DAY) || (hourOfDay == c2.get(Calendar.HOUR_OF_DAY) && minute <= (c2.get(Calendar.MINUTE) + 10)))) {
+                                            Toast.makeText(PostATaskActivity.this, getString(R.string.post_task_time_start_error), Toast.LENGTH_LONG).show();
+
+//                                            Handler handler = new Handler();
+//                                            handler.postDelayed(new Runnable() {
+//                                                @Override
+//                                                public void run() {
+//                                                    timeEndPickerDialog.show();
+//                                                }
+//                                            }, 100);
+                                        } else {
+                                            calendar.set(year, monthOfYear, dayOfMonth);
+                                            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                            calendar.set(Calendar.MINUTE, minute);
+
+                                            tvDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year + " " + hourOfDay + ":" + minute);
+                                            tvDate.setError(null);
+                                        }
                                     }
                                 }, calendar.get((Calendar.HOUR_OF_DAY)), calendar.get(Calendar.MINUTE), false);
+                        timeEndPickerDialog.setTitle(getString(R.string.post_task_time_picker_title));
                         timeEndPickerDialog.show();
 
 //                        tvDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
@@ -477,7 +522,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
         datePickerDialog.getDatePicker().setMinDate(new Date().getTime() - 10000);
-
+        datePickerDialog.setTitle(getString(R.string.post_task_date_picker_title));
         datePickerDialog.show();
     }
 
