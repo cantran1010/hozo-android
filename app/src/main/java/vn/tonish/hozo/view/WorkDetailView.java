@@ -28,11 +28,13 @@ import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.BidSuccessDialog;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
-import vn.tonish.hozo.rest.responseRes.BidResponse;
+import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
@@ -246,12 +248,11 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
     }
 
     private void doOffer() {
-        ApiClient.getApiService().bidsTask(UserManager.getUserToken(), taskResponse.getId()).enqueue(new Callback<BidResponse>() {
+        ApiClient.getApiService().bidsTask(UserManager.getUserToken(), taskResponse.getId()).enqueue(new Callback<TaskResponse>() {
             @Override
-            public void onResponse(Call<BidResponse> call, Response<BidResponse> response) {
+            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                 LogUtils.d(TAG, "bidsTask status code : " + response.code());
                 LogUtils.d(TAG, "bidsTask body : " + response.body());
-
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     final BidSuccessDialog bidSuccessDialog = new BidSuccessDialog(getContext());
@@ -262,10 +263,19 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                         @Override
                         public void run() {
                             bidSuccessDialog.hideView();
+                            btnOffer.setVisibility(View.GONE);
                         }
-                    }, 1500);
+                    }, 1000);
 
+                } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.e(TAG, "createNewTask errorBody" + error.toString());
+                    DialogUtils.showOkDialog(getContext(), getContext().getString(R.string.error), error.message(), getContext().getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
 
+                        }
+                    });
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getContext(), new NetworkUtils.RefreshListener() {
                         @Override
@@ -290,7 +300,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
             }
 
             @Override
-            public void onFailure(Call<BidResponse> call, Throwable t) {
+            public void onFailure(Call<TaskResponse> call, Throwable t) {
                 DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
