@@ -268,4 +268,39 @@ public class TaskEntity extends RealmObject {
     public void setWorkerCount(Integer workerCount) {
         this.workerCount = workerCount;
     }
+
+
+    @Override
+    public String toString() {
+        return "TaskEntity{" +
+                "id=" + id +
+                ", categoryId=" + categoryId +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", createdAt=" + createdAt +
+                ", status='" + status + '\'' +
+                ", commentsCount=" + commentsCount +
+                ", gender='" + gender + '\'' +
+                ", minAge=" + minAge +
+                ", maxAge=" + maxAge +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", city='" + city + '\'' +
+                ", district='" + district + '\'' +
+                ", address='" + address + '\'' +
+                ", workerRate=" + workerRate +
+                ", workerCount=" + workerCount +
+                ", assigneeCount=" + assigneeCount +
+                ", bidderCount=" + bidderCount +
+                ", attachments='" + attachments + '\'' +
+                ", currency='" + currency + '\'' +
+                ", role='" + role + '\'' +
+                ", poster=" + poster +
+                ", bidders=" + bidders +
+                ", assignees=" + assignees +
+                ", comments=" + comments +
+                '}';
+    }
 }

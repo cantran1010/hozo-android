@@ -27,11 +27,11 @@ public class TaskManager {
     }
 
     public static void insertTasks(List<TaskEntity> taskEntities) {
+        LogUtils.d(TAG, "insertTasks start , task size : " + taskEntities.size());
+        LogUtils.d(TAG, "insertTasks start , tasks: " + taskEntities.toString());
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        for (int i = 0; i < taskEntities.size(); i++) {
-            realm.insertOrUpdate(taskEntities.get(i));
-        }
+        realm.insertOrUpdate(taskEntities);
         realm.commitTransaction();
     }
 
@@ -73,7 +73,7 @@ public class TaskManager {
     }
 
     public static List<TaskEntity> getTaskSince(Date sinceDate, String role) {
-        LogUtils.d(TAG, "getTaskSince start ");
+        LogUtils.d(TAG, "getTaskSince start , sinceDate : " + sinceDate + " , role : " + role);
         List<TaskEntity> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
 
@@ -85,6 +85,7 @@ public class TaskManager {
         }
 
         List<TaskEntity> taskEntities = taskEntityRealmQuery.findAll().sort("createdAt", Sort.DESCENDING);
+
         if (taskEntities.size() > 0) {
 
             if (taskEntities.size() >= MyTaskFragment.LIMIT)
@@ -92,6 +93,9 @@ public class TaskManager {
             else result = taskEntities;
 
         }
+
+        LogUtils.d(TAG, "getTaskSince " + result);
+        LogUtils.d(TAG, "getTaskSince taskEntities size : " + result.size());
         return result;
     }
 

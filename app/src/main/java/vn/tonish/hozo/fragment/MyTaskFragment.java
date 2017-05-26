@@ -88,11 +88,12 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         List<TaskEntity> taskEntities = TaskManager.getTaskSince(sinceDateIn, role);
         if (taskEntities.size() > 0)
             sinceDate = taskEntities.get(taskEntities.size() - 1).getCreatedAt();
-        taskResponses = DataParse.converListTaskEntityToTaskResponse(taskEntities);
+        taskResponses.addAll(DataParse.converListTaskEntityToTaskResponse(taskEntities));
         refreshList();
         if (taskResponses.size() < LIMIT) isLoadingMoreFromDb = false;
 
         LogUtils.d(TAG, "getCacheData , taskResponses : " + taskResponses.toString());
+        LogUtils.d(TAG, "getCacheData , taskResponses size : " + taskResponses.size());
     }
 
     @Override
@@ -133,7 +134,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                     for (int i = 0; i < taskResponsesBody.size(); i++)
                         taskResponsesBody.get(i).setRole(role);
 
-                    for (int i = 0; i < taskResponsesBody.size(); i++)
+                    for (int i = taskResponsesBody.size() - 1; i >= 0; i--)
                         Utils.checkContainsTaskResponse(taskResponses, taskResponsesBody.get(i));
 
                     TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponsesBody));
@@ -260,7 +261,13 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
             });
 
         } else {
+
             myTaskAdapter.notifyDataSetChanged();
+//            rcvTask.post(new Runnable() {
+//                public void run() {
+//                    myTaskAdapter.notifyItemInserted(taskResponses.size() - 2);
+//                }
+//            });
         }
 
         LogUtils.d(TAG, "refreshList , taskReponse size : " + taskResponses.size());

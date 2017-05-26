@@ -17,11 +17,7 @@ public class CategoryManager {
         LogUtils.d(TAG, "insertCategories start ");
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-
-        for (int i = 0; i < categories.size(); i++) {
-            realm.insertOrUpdate(categories.get(i));
-        }
-
+        realm.insertOrUpdate(categories);
         realm.commitTransaction();
     }
 

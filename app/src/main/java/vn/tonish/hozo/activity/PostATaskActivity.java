@@ -39,6 +39,7 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AgeDialog;
 import vn.tonish.hozo.dialog.AlertDialogCancelTask;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Image;
@@ -46,6 +47,7 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
@@ -380,16 +382,29 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
     private void attachAllFile() {
 
-        ProgressDialogUtils.showProgressDialog(this);
+        if (Utils.isNetworkAvailable(this)) {
+            ProgressDialogUtils.showProgressDialog(this);
+            //because images attach have icon '+' so size file = size image -1
+            imageAttachCount = images.size() - 1;
+            imagesArr = new Integer[images.size() - 1];
 
-        //because images attach have icon '+' so size file = size image -1
-        imageAttachCount = images.size() - 1;
-        imagesArr = new Integer[images.size() - 1];
+            for (int i = 0; i < images.size() - 1; i++) {
+                LogUtils.d(TAG, " attachAllFile image " + i + " : " + images.get(i).getPath());
+                File file = new File(images.get(i).getPath());
+                attachFile(file, i);
+            }
+        } else {
+            DialogUtils.showRetryDialog(this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                @Override
+                public void onSubmit() {
+                    attachAllFile();
+                }
 
-        for (int i = 0; i < images.size() - 1; i++) {
-            LogUtils.d(TAG, " attachAllFile image " + i + " : " + images.get(i).getPath());
-            File file = new File(images.get(i).getPath());
-            attachFile(file, i);
+                @Override
+                public void onCancel() {
+
+                }
+            });
         }
 
     }
@@ -450,7 +465,6 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
             ProgressDialogUtils.dismissProgressDialog();
         }
-
 
     }
 

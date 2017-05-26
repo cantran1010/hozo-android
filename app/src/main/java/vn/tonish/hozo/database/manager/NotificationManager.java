@@ -20,11 +20,7 @@ public class NotificationManager {
         LogUtils.d(TAG, "insertNotifications start ");
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-
-        for (int i = 0; i < notifications.size(); i++) {
-            realm.insertOrUpdate(notifications.get(i));
-        }
-
+        realm.insertOrUpdate(notifications);
         realm.commitTransaction();
     }
 
@@ -64,6 +60,7 @@ public class NotificationManager {
         }
         return result;
     }
+
     public static void deleteAll() {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();

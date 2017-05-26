@@ -209,7 +209,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
                 LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
                 LogUtils.d(TAG, "createNewTask code : " + response.code());
 
-                if (response.code() == Constants.HTTP_CODE_OK) {
+                if (response.code() == Constants.HTTP_CODE_CREATED) {
                     DialogUtils.showOkDialog(PostATaskFinishActivity.this, getString(R.string.post_a_task_complete_title), getString(R.string.post_a_task_complete), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
