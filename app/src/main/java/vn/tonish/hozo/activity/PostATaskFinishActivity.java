@@ -20,6 +20,8 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -205,8 +207,9 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             @Override
             public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                 LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
+                LogUtils.d(TAG, "createNewTask code : " + response.code());
 
-                if (response.isSuccessful()) {
+                if (response.code() == Constants.HTTP_CODE_OK) {
                     DialogUtils.showOkDialog(PostATaskFinishActivity.this, getString(R.string.post_a_task_complete_title), getString(R.string.post_a_task_complete), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
@@ -214,12 +217,22 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
                             finish();
                         }
                     });
+                } else {
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.e(TAG, "createNewTask errorBody" + error.toString());
+                    DialogUtils.showOkDialog(PostATaskFinishActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+
+                        }
+                    });
+
                 }
             }
 
             @Override
             public void onFailure(Call<TaskResponse> call, Throwable t) {
-
+                LogUtils.e(TAG, "createNewTask onFailure : " + t.getMessage());
             }
         });
     }

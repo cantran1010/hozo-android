@@ -31,6 +31,9 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
 
     private NumberPicker npAgeFrom, npAgeTo;
 
+    private int ageFrom;
+    private int ageTo;
+
     private static final int minAge = 18;
     private static final int maxAge = 80;
 
@@ -55,12 +58,12 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
         npAgeFrom.setMinValue(minAge);
         npAgeFrom.setMaxValue(maxAge);
         npAgeFrom.setWrapSelectorWheel(true);
-        npAgeFrom.setValue(minAge);
+        npAgeFrom.setValue(ageFrom);
 
         npAgeTo.setMinValue(minAge);
         npAgeTo.setMaxValue(maxAge);
         npAgeTo.setWrapSelectorWheel(true);
-        npAgeTo.setValue(maxAge);
+        npAgeTo.setValue(ageTo);
 
     }
 
@@ -86,5 +89,21 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
             ageDialogListener.onAgeDialogLister(npAgeFrom.getValue(), npAgeTo.getValue());
         hideView();
 
+    }
+
+    public int getAgeFrom() {
+        return ageFrom;
+    }
+
+    public void setAgeFrom(int ageFrom) {
+        this.ageFrom = ageFrom;
+    }
+
+    public int getAgeTo() {
+        return ageTo;
+    }
+
+    public void setAgeTo(int ageTo) {
+        this.ageTo = ageTo;
     }
 }
