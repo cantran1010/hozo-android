@@ -37,11 +37,11 @@ public class CommentsManager {
         return realm.where(Comment.class).findAll();
     }
 
-    public static List<Comment> getFirstPage() {
+    public static List<Comment> getFirstPage(int taskId) {
         LogUtils.d(TAG, "getFirstPageComment start ");
         List<Comment> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
-        List<Comment> comments = realm.where(Comment.class).findAll().sort("createdAt");
+        List<Comment> comments = realm.where(Comment.class).equalTo("taskId",taskId).findAll().sort("createdAt");
         if (comments.size() > 0) {
 
             if (comments.size() >= CommentsActivity.LIMIT)
@@ -53,12 +53,12 @@ public class CommentsManager {
         return result;
     }
 
-    public static List<Comment> getCommentsSince(Date sinceDate) {
+    public static List<Comment> getCommentsSince(Date sinceDate,int taskId) {
 
         LogUtils.d(TAG, "getCommentsSince start ");
         List<Comment> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
-        List<Comment> comments = realm.where(Comment.class).lessThan("craeatedDateAt", sinceDate).findAll().sort("createdAt");
+        List<Comment> comments = realm.where(Comment.class).equalTo("taskId",taskId).lessThan("craeatedDateAt", sinceDate).findAll().sort("createdAt");
         if (comments.size() > 0) {
 
             if (comments.size() >= CommentsActivity.LIMIT)
