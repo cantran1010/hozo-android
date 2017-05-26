@@ -53,7 +53,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
-import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyDateFromIso;
+import static vn.tonish.hozo.utils.DateTimeUtils.getDateBirthDayFromIso;
 import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyIsoFromDate;
 import static vn.tonish.hozo.utils.Utils.converGenderEn;
 
@@ -120,7 +120,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         if (userEntity.getDateOfBirth().equals(getString(R.string.timezero))) {
             tvBirthday.setText("");
         } else {
-            tvBirthday.setText(getOnlyDateFromIso(userEntity.getDateOfBirth()));
+            tvBirthday.setText(getDateBirthDayFromIso(userEntity.getDateOfBirth()));
         }
 
         if (userEntity.getAvatar() != null)

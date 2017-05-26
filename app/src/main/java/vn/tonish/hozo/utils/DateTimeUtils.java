@@ -35,6 +35,19 @@ public class DateTimeUtils {
         return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date);
     }
 
+    public static String getDateBirthDayFromIso(String input) {
+        Date date = null;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        try {
+            date = sdf.parse(input);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date);
+    }
+
 
     public static String getOnlyIsoFromDate(String input) {
         Date date = null;

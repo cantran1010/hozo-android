@@ -39,7 +39,7 @@ import vn.tonish.hozo.view.ReviewsListView;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.REVIEW_TYPE_POSTER;
-import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyDateFromIso;
+import static vn.tonish.hozo.utils.DateTimeUtils.getDateBirthDayFromIso;
 import static vn.tonish.hozo.utils.Utils.converGenderVn;
 import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
@@ -341,7 +341,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             if (userEntity.getDateOfBirth().equals(getString(R.string.timezero))) {
                 tvDateOfBirth.setText("");
             } else {
-                tvDateOfBirth.setText(getOnlyDateFromIso(userEntity.getDateOfBirth()));
+                tvDateOfBirth.setText(getDateBirthDayFromIso(userEntity.getDateOfBirth()));
             }
             tvGender.setText(converGenderVn(this, userEntity.getGender()));
             if (isMyUser) {

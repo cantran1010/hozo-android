@@ -7,12 +7,12 @@ import android.view.View;
 import java.util.List;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
-
-import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyDateFromIso;
-import static vn.tonish.hozo.utils.Utils.getNameCategoryById;
 
 /**
  * Created by Can Tran on 14/05/2017.
@@ -69,26 +69,33 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
             WorkHolder workHolder = ((WorkHolder) holder);
             LogUtils.d(TAG, "adapter " + taskResponses.get(position).toString());
             workHolder.tvName.setText(taskResponses.get(position).getTitle());
-            workHolder.tvDes.setText(context.getString(R.string.find_time_start) + " " + getOnlyDateFromIso(taskResponses.get(position).getStartTime()) + context.getString(R.string.find_task_category) + getNameCategoryById(taskResponses.get(position).getCategoryId()));
-            workHolder.tvPrice.setText(context.getString(R.string.all_vnd) + " " + taskResponses.get(position).getWorkerRate());
-            workHolder.tvAddress.setText(context.getString(R.string.find_task_address) + " " + taskResponses.get(position).getAddress());
+            workHolder.tvPrice.setText(Utils.formatNumber(taskResponses.get(position).getWorkerRate() * taskResponses.get(position).getWorkerCount()) + " " + context.getString(R.string.currency));
+            workHolder.tvStartTime.setText(context.getString(R.string.my_task_adapter_start_time) + " " + DateTimeUtils.getOnlyDateFromIso(taskResponses.get(position).getStartTime()));
+            workHolder.tvTaskType.setText(context.getString(R.string.my_task_adapter_task_type) + " " + CategoryManager.getCategoryById(taskResponses.get(position).getCategoryId()).getName());
+            workHolder.tvAddress.setText(context.getString(R.string.my_task_adapter_address) + " " + taskResponses.get(position).getAddress());
         }
     }
 
     class WorkHolder extends BaseHolder implements View.OnClickListener {
         private TextViewHozo tvName;
-        private TextViewHozo tvDes;
-        private TextViewHozo tvPrice;
         private TextViewHozo tvAddress;
+        private TextViewHozo tvStartTime;
+        private TextViewHozo tvTaskType;
+        private TextViewHozo tvPrice;
 
 
         public WorkHolder(View itemView, final Context context) {
             super(itemView);
+//            tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
+//            tvDes = (TextViewHozo) itemView.findViewById(R.id.tv_des);
+//            tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
+//            tvAddress = (TextViewHozo) itemView.findViewById(R.id.tv_address);
+//            itemView.setOnClickListener(this);
             tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
-            tvDes = (TextViewHozo) itemView.findViewById(R.id.tv_des);
-            tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
             tvAddress = (TextViewHozo) itemView.findViewById(R.id.tv_address);
-            itemView.setOnClickListener(this);
+            tvStartTime = (TextViewHozo) itemView.findViewById(R.id.tv_start_time);
+            tvTaskType = (TextViewHozo) itemView.findViewById(R.id.tv_task_type);
+            tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
         }
 
 

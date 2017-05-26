@@ -169,10 +169,14 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         if (isLoadingFromServer) return;
         isLoadingFromServer = true;
         taskAdapter.stopLoadMore();
-        LogUtils.d(TAG, "getTaskList start");
         Map<String, String> option = new HashMap<>();
-        if (!(isSince && since != null))
-            since = "";
+
+        if(isSince) option.put("since",since);
+
+        LogUtils.d(TAG, "getTaskResponse data request : " + option.toString());
+
+//        if (!(isSince && since != null))
+//            since = "";
 
 //        option = DataParse.setParameterGetTasks(SettingManager.getSettingEntiny(), SortBy, String.valueOf(limit), since, query);
         ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), option).enqueue(new Callback<List<TaskResponse>>() {
@@ -183,12 +187,12 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     LogUtils.d(TAG, "getTaskResponse body : " + response.body());
                     if (response.code() == Constants.HTTP_CODE_OK) {
                         List<TaskResponse> taskResponses = response.body();
-                        for (TaskResponse res : taskResponses
-                                ) {
-                            res.setRole(Constants.ROLE_FIND_TASK);
-                            if (!checkContainsTaskResponse(taskList, res))
-                                taskList.add(res);
+                        for (int i = taskResponses.size() - 1; i >= 0; i--) {
+                            taskResponses.get(i).setRole(Constants.ROLE_FIND_TASK);
+                            if (!checkContainsTaskResponse(taskList, taskResponses.get(i)))
+                                taskList.add(taskResponses.get(i));
                         }
+
                         since = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
                         if (taskResponses.size() < limit) {
                             isLoadingMoreFromServer = false;
@@ -196,7 +200,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                         }
                         refreshList();
                         TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
-                        LogUtils.d(TAG, "getTasksonResponse size : " + taskList.size());
+                        LogUtils.d(TAG, "getTasksonResponse size : " + taskResponses.size());
                     } else {
                     }
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -259,7 +263,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 
                     if (isLoadingMoreFromDb) getCacheDataPage();
-                    if (isLoadingMoreFromServer) getTaskResponse(false, "", "");
+                    if (isLoadingMoreFromServer) getTaskResponse(true, "", "");
 
                 }
             });

@@ -53,7 +53,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="20/11/2017"
             android:textColor="@color/text_item_address"
             android:textSize="@dimen/tv_size_tiny"
             android:textStyle="italic" />
@@ -63,7 +62,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:text="Phan loai : Cong nghe"
             android:textColor="@color/text_item_address"
             android:textSize="@dimen/tv_size_tiny"
             android:textStyle="italic" />
@@ -73,7 +71,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:text="102 Truong Trinh"
             android:textColor="@color/text_item_address"
             android:textSize="@dimen/tv_size_tiny"
             android:textStyle="italic" />
@@ -83,7 +80,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="d 500,000"
             android:textColor="@color/text_money"
             android:textSize="@dimen/tv_size_medium" />
 

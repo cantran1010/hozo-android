@@ -20,7 +20,6 @@
             android:visibility="visible">
 
             <vn.tonish.hozo.view.TextViewHozo
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
@@ -28,7 +27,8 @@
                 android:paddingLeft="16dp"
                 android:text="@string/share_task"
                 android:textColor="@color/blue"
-                android:textSize="@dimen/tv_size_title" />
+                android:textSize="@dimen/tv_size_title"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/img_search"
@@ -135,7 +135,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lv_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

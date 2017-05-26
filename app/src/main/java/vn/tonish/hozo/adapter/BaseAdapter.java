@@ -20,11 +20,9 @@ public abstract class BaseAdapter<T, H extends BaseHolder, L extends BaseHolder>
     public void stopLoadMore() {
         isLoad = false;
     }
-
     public void onLoadMore() {
         isLoad = true;
     }
-
     private boolean isLoad = true;
 
     final Context context;
