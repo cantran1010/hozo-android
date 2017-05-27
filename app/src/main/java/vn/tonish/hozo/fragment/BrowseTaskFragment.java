@@ -214,7 +214,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
             @Override
             public void onFailure(Call<List<TaskResponse>> call, Throwable t) {
-                LogUtils.e(TAG, "getNotifications , onFailure : " + t.getMessage());
+                LogUtils.e(TAG, "getTaskResponse , onFailure : " + t.getMessage());
                 DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
@@ -257,6 +257,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             taskAdapter.setTaskAdapterListener(new TaskAdapter.TaskAdapterListener() {
                 @Override
                 public void onTaskAdapterClickListener(int position) {
+                    LogUtils.d(TAG,"onclick");
                     TaskResponse taskResponse = taskList.get(position);
                     Intent intent = new Intent(getActivity(), MakeAnOfferActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
@@ -268,7 +269,12 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             LogUtils.d(TAG, "loadMoreTasks , TaskResponse size : " + taskList.size());
 
         } else {
-            taskAdapter.notifyDataSetChanged();
+            rcvTask.post(new Runnable() {
+                public void run() {
+                    taskAdapter.notifyDataSetChanged();
+                }
+            });
+//            taskAdapter.notifyDataSetChanged();
         }
         LogUtils.d(TAG, "refreshList , taskReponse size : " + taskList.size());
     }

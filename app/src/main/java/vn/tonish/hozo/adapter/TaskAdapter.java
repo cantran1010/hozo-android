@@ -91,6 +91,7 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
             tvStartTime = (TextViewHozo) itemView.findViewById(R.id.tv_start_time);
             tvTaskType = (TextViewHozo) itemView.findViewById(R.id.tv_task_type);
             tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
+            itemView.setOnClickListener(this);
         }
 
 
