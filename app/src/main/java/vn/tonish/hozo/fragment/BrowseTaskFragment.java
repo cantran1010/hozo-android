@@ -37,6 +37,7 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.MiniTask;
 import vn.tonish.hozo.network.DataParse;
+import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
@@ -45,6 +46,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.R.id.edt_search;
@@ -62,14 +64,15 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private RelativeLayout layoutHeader, layoutSearch;
     private EdittextHozo edtSearch;
     private RecyclerView rcvTask;
-    private TaskAdapter taskAdapter;
+    private TaskAdapter taskAdapter = null;
     private LinearLayoutManager lvManager;
     private List<TaskResponse> taskList = new ArrayList<>();
-    private String since;
     boolean isLoadingMoreFromServer = true;
     boolean isLoadingMoreFromDb = true;
     boolean isLoadingFromServer = false;
-    private Date sinceDate;
+    private Date sinceDate = null;
+    private String sinceStr = null;
+    private String query = null;
     private Animation rtAnimation;
     private Animation lanimation;
 
@@ -130,8 +133,8 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
             }
         });
-        getCacheDataFirstPage();
-        getTaskResponse(false, "", "");
+        getCacheDataPage();
+        getTaskResponse(sinceStr, null, query);
 
     }
 
@@ -140,44 +143,25 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     }
 
-    private void getCacheDataFirstPage() {
-        LogUtils.d(TAG, "getCacheDataFirstPage start" + taskList.size());
-        List<TaskEntity> taskEntities = TaskManager.getTaskEntitiesSince(null, Constants.ROLE_FIND_TASK);
-        if (taskEntities.size() > 0)
-            sinceDate = taskEntities.get(taskEntities.size() - 1).getCreatedAt();
-        taskList = DataParse.converListTaskEntityToTaskResponse(taskEntities);
-        if (taskEntities.size() < limit) isLoadingMoreFromDb = false;
-        refreshList();
-    }
-
     private void getCacheDataPage() {
-        LogUtils.d(TAG, "getCacheDataPage start");
-        List<TaskEntity> taskEntities = TaskManager.getTaskEntitiesSince(sinceDate, Constants.ROLE_FIND_TASK);
-
+        List<TaskEntity> taskEntities = TaskManager.getTaskEntitiesOpen(sinceDate, Constants.ROLE_FIND_TASK);
         if (taskEntities.size() > 0)
             sinceDate = taskEntities.get(taskEntities.size() - 1).getCreatedAt();
-
-        if (taskEntities.size() < limit) isLoadingMoreFromDb = false;
-
         taskList.addAll(DataParse.converListTaskEntityToTaskResponse(taskEntities));
-        refreshList();
+        loadMoreTasks();
+        if (taskList.size() < limit) isLoadingMoreFromDb = false;
+        LogUtils.d(TAG, "getCacheDataPage size" + taskList.size());
     }
 
 
-    public void getTaskResponse(final boolean isSince, String SortBy, String query) {
-
+    public void getTaskResponse(final String since, final String SortBy, final String query) {
         if (isLoadingFromServer) return;
         isLoadingFromServer = true;
         taskAdapter.stopLoadMore();
         Map<String, String> option = new HashMap<>();
-
-        if(isSince) option.put("since",since);
-
-        LogUtils.d(TAG, "getTaskResponse data request : " + option.toString());
-
-//        if (!(isSince && since != null))
-//            since = "";
-
+        if (since != null) option.put("since", since);
+        if (query != null) option.put("query", query);
+        option.put("limit", String.valueOf(limit));
 //        option = DataParse.setParameterGetTasks(SettingManager.getSettingEntiny(), SortBy, String.valueOf(limit), since, query);
         ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), option).enqueue(new Callback<List<TaskResponse>>() {
             @Override
@@ -187,39 +171,41 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     LogUtils.d(TAG, "getTaskResponse body : " + response.body());
                     if (response.code() == Constants.HTTP_CODE_OK) {
                         List<TaskResponse> taskResponses = response.body();
-                        for (int i = taskResponses.size() - 1; i >= 0; i--) {
-                            taskResponses.get(i).setRole(Constants.ROLE_FIND_TASK);
-                            if (!checkContainsTaskResponse(taskList, taskResponses.get(i)))
-                                taskList.add(taskResponses.get(i));
-                        }
+                        LogUtils.d(TAG, "getTaskFromServer taskResponses size : " + taskResponses.size());
 
-                        since = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
-                        if (taskResponses.size() < limit) {
-                            isLoadingMoreFromServer = false;
-                            taskAdapter.stopLoadMore();
-                        }
-                        refreshList();
+                        if (taskResponses.size() > 0)
+                            sinceStr = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
+
+                        if (taskResponses.size() > 0)
+                            for (TaskResponse response1 : taskResponses
+                                    ) {
+                                response1.setRole(Constants.ROLE_FIND_TASK);
+                                Utils.checkContainsTaskResponse(taskList, response1);
+                            }
+                        for (int i = taskResponses.size() - 1; i >= 0; i--)
+                            Utils.checkContainsTaskResponse(taskList, taskResponses.get(i));
+
+
                         TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
-                        LogUtils.d(TAG, "getTasksonResponse size : " + taskResponses.size());
-                    } else {
+
+                        if (taskResponses.size() < limit) {
+                            taskAdapter.stopLoadMore();
+                            isLoadingMoreFromServer = false;
+                        }
+                        loadMoreTasks();
                     }
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            getTaskResponse(since, SortBy, query);
+                        }
+                    });
+
+                } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
                     Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
-
-                } else {
-                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            getTaskResponse(isSince, "", "");
-                        }
-
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
                 }
 
                 isLoadingFromServer = false;
@@ -232,7 +218,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        getTaskResponse(isSince, "", "");
+                        getTaskResponse(since, SortBy, query);
                     }
 
                     @Override
@@ -249,12 +235,13 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         });
     }
 
-    private void refreshList() {
+    private void loadMoreTasks() {
         if (taskAdapter == null) {
             taskAdapter = new TaskAdapter(getActivity(), taskList);
             lvManager = new LinearLayoutManager(getActivity());
             rcvTask.setLayoutManager(lvManager);
             rcvTask.setAdapter(taskAdapter);
+
 
             rcvTask.addOnScrollListener(new EndlessRecyclerViewScrollListener(lvManager) {
                 @Override
@@ -263,7 +250,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 
                     if (isLoadingMoreFromDb) getCacheDataPage();
-                    if (isLoadingMoreFromServer) getTaskResponse(true, "", "");
+                    if (isLoadingMoreFromServer) getTaskResponse(sinceStr, null, query);
 
                 }
             });
@@ -277,18 +264,13 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 }
             });
 
+
+            LogUtils.d(TAG, "loadMoreTasks , TaskResponse size : " + taskList.size());
+
         } else {
             taskAdapter.notifyDataSetChanged();
         }
-
-        LogUtils.d(TAG, "refreshList , TaskResponse size : " + taskList.size());
-
-    }
-
-    private boolean checkContainsTaskResponse(List<TaskResponse> taskResponses, TaskResponse response) {
-        for (int i = 0; i < taskResponses.size(); i++)
-            if (taskResponses.get(i).getId() == response.getId()) return true;
-        return false;
+        LogUtils.d(TAG, "refreshList , taskReponse size : " + taskList.size());
     }
 
 
@@ -354,7 +336,15 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onRefresh() {
         super.onRefresh();
-        getTaskResponse(false, "", "");
+        taskList.clear();
+        isLoadingMoreFromServer = true;
+        isLoadingMoreFromDb = true;
+        isLoadingFromServer = false;
+        sinceDate = null;
+        sinceStr = null;
+        query = null;
+        taskAdapter=null;
+        getCacheDataPage();
     }
 
 }

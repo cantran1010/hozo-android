@@ -86,11 +86,6 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
 
         public WorkHolder(View itemView, final Context context) {
             super(itemView);
-//            tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
-//            tvDes = (TextViewHozo) itemView.findViewById(R.id.tv_des);
-//            tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
-//            tvAddress = (TextViewHozo) itemView.findViewById(R.id.tv_address);
-//            itemView.setOnClickListener(this);
             tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
             tvAddress = (TextViewHozo) itemView.findViewById(R.id.tv_address);
             tvStartTime = (TextViewHozo) itemView.findViewById(R.id.tv_start_time);
