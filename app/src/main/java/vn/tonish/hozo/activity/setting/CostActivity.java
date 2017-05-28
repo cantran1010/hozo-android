@@ -19,7 +19,7 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
     private TextViewHozo tvReset, edtMinPrice, edtMaxPrice;
     private TextViewHozo btnSave;
     private int minCost;
-    private int mãCost;
+    private int maxCost;
 
     @Override
     protected int getLayout() {
@@ -44,7 +44,7 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
     protected void initData() {
         Intent intent = getIntent();
         minCost = intent.getExtras().getInt(Constants.EXTRA_MIN_PRICE);
-        mãCost = intent.getExtras().getInt(Constants.EXTRA_MAX_PRICE);
+        maxCost = intent.getExtras().getInt(Constants.EXTRA_MAX_PRICE);
 
 
     }
@@ -70,6 +70,8 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void reset() {
+        edtMinPrice.setText(minCost);
+        edtMaxPrice.setText(maxCost);
 
     }
 

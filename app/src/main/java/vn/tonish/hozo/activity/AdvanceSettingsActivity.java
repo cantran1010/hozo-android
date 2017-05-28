@@ -325,4 +325,42 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         }
     }
 
+    private void settingDefault() {
+        if (SettingManager.getSettingEntiny() != null) {
+            SettingEntiny settingEntiny = new SettingEntiny();
+            RealmList<CategoryEntity> realmList = new RealmList<>();
+            realmList.addAll(CategoryManager.getAllCategories());
+            setIsSelected(CategoryManager.getAllCategories());
+            insertRealmListCategory(settingEntiny, realmList);
+            SettingManager.insertSetting(settingEntiny);
+            settingEntiny.setUserId(UserManager.getMyUser().getId());
+            settingEntiny.setLatitude(21.028511);
+            settingEntiny.setLongitude(105.804817);
+            settingEntiny.setRadius(50);
+            settingEntiny.setGender(getString(R.string.gender_any));
+            settingEntiny.setMinWorkerRate(1000);
+            settingEntiny.setMaxWorkerRate(100000000);
+            SettingManager.insertSetting(settingEntiny);
+
+        } else {
+            SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
+            List<CategoryEntity> allCategories = CategoryManager.getAllCategories();
+//            for (CategoryEntity categoryEntity:allCategories
+//                 ) {
+//                categoryEntity instanceof CategoryEntityRealmProxy ? ((CategoryEntityRealmProxy) categoryEntity) : null;
+//
+//            }
+
+        }
+    }
+
+//    private boolean checkCategory(CategoryEntity entity,List<CategoryEntity> entities) {
+//        for (CategoryEntity entity1:entities
+//             ) {
+//            if ()
+//
+//        }
+//        return false;
+//    }
+
 }
