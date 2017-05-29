@@ -190,6 +190,7 @@ public class DataParse {
         taskResponse.setStartTime(taskEntity.getStartTime());
         taskResponse.setEndTime(taskEntity.getEndTime());
         taskResponse.setStatus(taskEntity.getStatus());
+        taskResponse.setOfferStatus(taskEntity.getOfferStatus());
         taskResponse.setCommentsCount(taskEntity.getCommentsCount());
         taskResponse.setGender(taskEntity.getGender());
         taskResponse.setMinAge(taskEntity.getMinAge());
@@ -247,6 +248,7 @@ public class DataParse {
         taskEntity.setStartTime(taskResponse.getStartTime());
         taskEntity.setEndTime(taskResponse.getEndTime());
         taskEntity.setStatus(taskResponse.getStatus());
+        taskEntity.setOfferStatus(taskResponse.getOfferStatus());
         taskEntity.setCommentsCount(taskResponse.getCommentsCount());
         taskEntity.setGender(taskResponse.getGender());
         taskEntity.setMinAge(taskResponse.getMinAge());

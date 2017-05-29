@@ -245,6 +245,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taskResponse = response.body();
+                    taskResponse.setRole(Constants.ROLE_TASKER);
                     updateUi();
                     storeTaskToDatabase();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {

@@ -27,6 +27,8 @@ public class TaskResponse implements Serializable {
     @SerializedName("created_at")
     private String createdAt;
     private String status;
+    @SerializedName("offer_status")
+    private String offerStatus;
     @SerializedName("comments_count")
     private Integer commentsCount;
     private String gender;
@@ -55,6 +57,14 @@ public class TaskResponse implements Serializable {
     private List<Bidder> bidders = new ArrayList<>();
     private List<Assigner> assignees = new ArrayList<>();
     private List<Comment> comments = new ArrayList<>();
+
+    public String getOfferStatus() {
+        return offerStatus;
+    }
+
+    public void setOfferStatus(String offerStatus) {
+        this.offerStatus = offerStatus;
+    }
 
     public int getAssigneeCount() {
         return assigneeCount;
@@ -299,6 +309,7 @@ public class TaskResponse implements Serializable {
                 ", endTime='" + endTime + '\'' +
                 ", createdAt='" + createdAt + '\'' +
                 ", status='" + status + '\'' +
+                ", offerStatus='" + offerStatus + '\'' +
                 ", commentsCount=" + commentsCount +
                 ", gender='" + gender + '\'' +
                 ", minAge=" + minAge +

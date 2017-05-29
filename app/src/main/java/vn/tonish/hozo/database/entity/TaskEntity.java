@@ -24,6 +24,7 @@ public class TaskEntity extends RealmObject {
     private String endTime;
     private Date createdAt;
     private String status;
+    private String offerStatus;
     private Integer commentsCount;
     private String gender;
     private Integer minAge;
@@ -44,6 +45,14 @@ public class TaskEntity extends RealmObject {
     private RealmList<Bidder> bidders = null;
     private RealmList<Assigner> assignees = null;
     private RealmList<Comment> comments = null;
+
+    public String getOfferStatus() {
+        return offerStatus;
+    }
+
+    public void setOfferStatus(String offerStatus) {
+        this.offerStatus = offerStatus;
+    }
 
     public int getAssigneeCount() {
         return assigneeCount;
@@ -269,7 +278,6 @@ public class TaskEntity extends RealmObject {
         this.workerCount = workerCount;
     }
 
-
     @Override
     public String toString() {
         return "TaskEntity{" +
@@ -281,6 +289,7 @@ public class TaskEntity extends RealmObject {
                 ", endTime='" + endTime + '\'' +
                 ", createdAt=" + createdAt +
                 ", status='" + status + '\'' +
+                ", offerStatus='" + offerStatus + '\'' +
                 ", commentsCount=" + commentsCount +
                 ", gender='" + gender + '\'' +
                 ", minAge=" + minAge +
