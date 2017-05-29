@@ -101,7 +101,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
     private File fileAttach;
     private TextViewHozo tvSeeMore;
     private TextViewHozo tvCancel;
-    private TextViewHozo tvCommentCount,tvAssignCount;
+    private TextViewHozo tvCommentCount, tvAssignCount;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
 
@@ -250,7 +250,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
         TaskManager.insertTask(taskEntity);
     }
 
-    private void updateUi(){
+    private void updateUi() {
         workDetailView.updateWork(taskResponse);
 
         if (googleMap != null) {
@@ -560,6 +560,7 @@ public class PosterCompletedTaskActivity extends BaseActivity implements OnMapRe
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     response.body().setTaskId(taskId);
                     comments.add(0, response.body());
+                    if (comments.size() > 5) comments.remove(comments.size() - 1);
                     commentViewFull.updateData(comments);
                     taskResponse.setCommentsCount(taskResponse.getCommentsCount() + 1);
                     tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");

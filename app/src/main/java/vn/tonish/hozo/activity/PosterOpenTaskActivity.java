@@ -586,6 +586,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
                     response.body().setTaskId(taskId);
                     comments.add(0, response.body());
+                    if (comments.size() > 5) comments.remove(comments.size() - 1);
                     commentViewFull.updateData(comments);
                     taskResponse.setCommentsCount(taskResponse.getCommentsCount() + 1);
                     tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");

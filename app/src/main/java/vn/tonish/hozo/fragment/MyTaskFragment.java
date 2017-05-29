@@ -58,6 +58,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     boolean isLoadingMoreFromServer = true;
     boolean isLoadingMoreFromDb = true;
     boolean isLoadingFromServer = false;
+    private Call<List<TaskResponse>> call;
 
     @Override
     protected int getLayout() {
@@ -116,7 +117,8 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
         LogUtils.d(TAG, "getTaskFromServer start , param : " + params);
 
-        ApiClient.getApiService().getMyTask(UserManager.getUserToken(), params).enqueue(new Callback<List<TaskResponse>>() {
+        call = ApiClient.getApiService().getMyTask(UserManager.getUserToken(), params);
+        call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
 
@@ -218,9 +220,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                 public void onMyTaskAdapterClickListener(int position) {
                     TaskResponse taskResponse = taskResponses.get(position);
 
-//                    //for test
-//                    role = "poster";
-//                    taskResponse.setStatus("open");
+                    LogUtils.d(TAG, "myTaskAdapter.setMyTaskAdapterListener , taskResponse : " + taskResponse);
 
                     if (role.equals(Constants.ROLE_TASKER)) {
                         if (taskResponse.getStatus().equals(Constants.TASK_STATUS_OPEN)) {
@@ -322,7 +322,8 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                 break;
         }
 
-        taskResponses = new ArrayList<>();
+        call.cancel();
+        taskResponses.clear();
         myTaskAdapter = null;
         sinceStr = null;
         sinceDate = null;

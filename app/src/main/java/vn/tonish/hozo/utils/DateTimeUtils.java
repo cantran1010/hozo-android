@@ -167,28 +167,28 @@ public class DateTimeUtils {
         return local;
     }
 
-    private static final int SECOND_MILLIS = 1000;
-    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
-    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
-    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
-    private static final int MONTH_MILLIS = 30 * DAY_MILLIS;
-    private static final int YEAR_MILLIS = 12 * MONTH_MILLIS;
+    private static final long SECOND_MILLIS = 1000;
+    private static final long MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final long HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final long DAY_MILLIS = 24 * HOUR_MILLIS;
+    private static final long MONTH_MILLIS = 30 * DAY_MILLIS;
+    private static final long YEAR_MILLIS = 12 * MONTH_MILLIS;
 
     public static String getTimeAgo(String date, Context context) {
         String result = "";
         long time;
         try {
             time = toCalendar(date).getTimeInMillis();
-            if (time < 1000000000000L) {
-                // if timestamp given in seconds, convert to millis
-                time *= 1000;
-            }
+//            if (time < 1000000000000L) {
+//                // if timestamp given in seconds, convert to millis
+//                time *= 1000;
+//            }
             Calendar calendar = Calendar.getInstance();
             long now = calendar.getTimeInMillis();
             if (time > now || time <= 0) {
                 return context.getResources().getString(R.string.just_now);
             }
-            final long diff = now - time;
+            long diff = now - time;
             if (diff < MINUTE_MILLIS) {
                 result = context.getResources().getString(R.string.just_now);
             } else if (diff < 2 * MINUTE_MILLIS) {

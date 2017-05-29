@@ -118,7 +118,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rcv_bidders"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -154,7 +155,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_left_screen"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
@@ -164,8 +165,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/make_an_offer_question"
                     android:textColor="@color/tv_black"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:textSize="12sp" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_comment_count"
@@ -174,8 +174,7 @@
                     android:layout_marginLeft="2dp"
                     android:text="(0)"
                     android:textColor="@color/hozo_bg"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
