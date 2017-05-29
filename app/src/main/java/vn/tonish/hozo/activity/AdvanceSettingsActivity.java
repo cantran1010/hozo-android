@@ -35,8 +35,10 @@ import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE;
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_COST;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_TASK_TYPE;
 import static vn.tonish.hozo.common.Constants.RESULT_CODE_COST;
+import static vn.tonish.hozo.common.Constants.RESULT_CODE_TASK_TYPE;
 import static vn.tonish.hozo.database.manager.CategoryManager.insertIsSelected;
 import static vn.tonish.hozo.network.DataParse.convertSettingToSettingEntiny;
 import static vn.tonish.hozo.utils.Utils.formatNumber;
@@ -52,10 +54,12 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     private double lat;
     private double lng;
     private Category mCategory;
-    private int minWorkerRate=0;
-    private int maxWorkerRate=0;
+    private int minWorkerRate = 0;
+    private int maxWorkerRate = 0;
     private String mGender;
     private int mRadius;
+    private int mIndex;
+    private String strRadius;
 
 
     @Override
@@ -89,7 +93,9 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         btnSave.setOnClickListener(this);
         if (SettingManager.getSettingEntiny() == null)
             settingDefault();
+        setDefaultRadius();
         setDataforView();
+
     }
 
     @Override
@@ -110,7 +116,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
                 Intent i2 = new Intent(this, CostActivity.class);
                 i2.putExtra(Constants.EXTRA_MIN_PRICE, minWorkerRate);
                 i2.putExtra(Constants.EXTRA_MAX_PRICE, maxWorkerRate);
-                startActivityForResult(i2, Constants.REQUEST_CODE_COST, TransitionScreen.DOWN_TO_UP);
+                startActivityForResult(i2, REQUEST_CODE_COST, TransitionScreen.DOWN_TO_UP);
 
                 break;
             case R.id.tab_location:
@@ -167,12 +173,16 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
 
     private void setRadius() {
-        final RadiusSettingDialog radiusSettingDialog = new RadiusSettingDialog(this);
+        final RadiusSettingDialog radiusSettingDialog = new RadiusSettingDialog(this, mIndex);
         radiusSettingDialog.setRadiusDialogListener(new RadiusSettingDialog.RadiusDialogListener() {
             @Override
-            public void onRadiusDialogLister(String radius) {
+            public void onRadiusDialogLister(String radius,int index) {
                 tvRadius.setText(radius);
-                mRadius = Integer.valueOf((radius.trim().replace(".", "")).replace("km", "").replace(" ", ""));
+                if (!radius.equals(getString(R.string.radius_everywhere)))
+                    mRadius = Integer.valueOf((radius.trim().replace(".", "")).replace("km", "").replace(" ", ""));
+                else
+                    mRadius = 0;
+                mIndex = index;
             }
         });
         radiusSettingDialog.showView();
@@ -245,7 +255,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         tvWorkType.setText(getNameRealmCategorys());
         tvPrice.setText(formatNumber(settingEntiny.getMinWorkerRate()) + " - " + formatNumber(settingEntiny.getMaxWorkerRate()));
         tvLocation.setText(getCompleteAddressString(settingEntiny.getLatitude(), settingEntiny.getLongitude()));
-        tvRadius.setText(settingEntiny.getRadius() + " km");
+        tvRadius.setText(SettingManager.getSettingEntiny().getRadius()+" km");
         tvGender.setText(settingEntiny.getGender());
 
     }
@@ -261,7 +271,8 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_TASK_TYPE && data != null) {
+        Log.i(TAG, "requestCode: " + requestCode);
+        if (requestCode == REQUEST_CODE_TASK_TYPE && resultCode == RESULT_CODE_TASK_TYPE && data != null) {
             Category category = (Category) data.getExtras().get(Constants.EXTRA_CATEGORY_ID);
             List<Category> list = new ArrayList<>();
             mCategory = new Category();
@@ -292,11 +303,11 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             }
         }
 
-        if (requestCode == RESULT_CODE_COST && data != null) {
-            LogUtils.d(TAG,"RESULT_CODE_COST"+minWorkerRate+"-"+maxWorkerRate);
-            minWorkerRate= (int) data.getExtras().get(Constants.EXTRA_MIN_PRICE);
-            maxWorkerRate= (int) data.getExtras().get(Constants.EXTRA_MAX_PRICE);
-            tvPrice.setText(formatNumber(minWorkerRate) + " - " + formatNumber( maxWorkerRate));
+        if (requestCode == REQUEST_CODE_COST && resultCode == RESULT_CODE_COST && data != null) {
+            LogUtils.d(TAG, "REQUEST_CODE_COST" + minWorkerRate + "-" + maxWorkerRate);
+            minWorkerRate = (int) data.getExtras().get(Constants.EXTRA_MIN_PRICE);
+            maxWorkerRate = (int) data.getExtras().get(Constants.EXTRA_MAX_PRICE);
+            tvPrice.setText(formatNumber(minWorkerRate) + " - " + formatNumber(maxWorkerRate));
 
         }
     }
@@ -307,10 +318,20 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         settingEntiny.setUserId(UserManager.getMyUser().getId());
         settingEntiny.setLatitude(21.028511);
         settingEntiny.setLongitude(105.804817);
-        settingEntiny.setRadius(50);
+        settingEntiny.setRadius(0);
         settingEntiny.setGender(getString(R.string.gender_any));
         settingEntiny.setMinWorkerRate(10000);
         settingEntiny.setMaxWorkerRate(100000000);
         SettingManager.insertSetting(settingEntiny);
+    }
+
+    private void setDefaultRadius() {
+        if (SettingManager.getSettingEntiny().getRadius() == 0) {
+            mIndex = R.string.radius_everywhere;
+            strRadius=getString(R.string.radius_everywhere);
+        } else {
+            strRadius = SettingManager.getSettingEntiny() + " km";
+        }
+
     }
 }

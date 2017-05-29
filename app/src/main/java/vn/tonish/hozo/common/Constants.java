@@ -94,6 +94,7 @@ public class Constants {
     public static final String ROLE_FIND_TASK ="find_task" ;
     public static final int RESULT_CODE_COST = 1999;
     public static final int REQUEST_CODE_COST =2001 ;
+    public static final int RESULT_CODE_TASK_TYPE =2020 ;
     public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
 
     public static final String USER_POSTER_REVIEWS = "poster_reviews";

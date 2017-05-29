@@ -7,6 +7,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -17,6 +18,7 @@ public class RadiusSettingDialog extends BaseDialog implements View.OnClickListe
     private TextViewHozo tvCancel, tvOk;
     private RadioGroup rgRadius;
     private RadiusDialogListener radiusDialogListener;
+    private int mIndex;
 
     public RadiusDialogListener getRadiusDialogListener() {
         return radiusDialogListener;
@@ -27,13 +29,13 @@ public class RadiusSettingDialog extends BaseDialog implements View.OnClickListe
     }
 
     public interface RadiusDialogListener {
-        void onRadiusDialogLister(String radius);
+        void onRadiusDialogLister(String radius, int indexx);
     }
 
-    public RadiusSettingDialog(@NonNull Context context) {
+    public RadiusSettingDialog(@NonNull Context context, int mIndex) {
         super(context);
+        this.mIndex = mIndex;
     }
-
 
     @Override
     protected int getLayout() {
@@ -44,10 +46,10 @@ public class RadiusSettingDialog extends BaseDialog implements View.OnClickListe
     protected void initData() {
         tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
         tvOk = (TextViewHozo) findViewById(R.id.tv_ok);
+        rgRadius = (RadioGroup) findViewById(R.id.rg_radius);
+        setCheckedDefault();
         tvCancel.setOnClickListener(this);
         tvOk.setOnClickListener(this);
-        rgRadius = (RadioGroup) findViewById(R.id.rg_radius);
-
     }
 
     @Override
@@ -70,36 +72,48 @@ public class RadiusSettingDialog extends BaseDialog implements View.OnClickListe
         switch (selectedId) {
             case R.id.rb_5:
                 if (radiusDialogListener != null)
-                    radiusDialogListener.onRadiusDialogLister(ckSelected.getText().toString());
+                    radiusDialogListener.onRadiusDialogLister(ckSelected.getText().toString(), selectedId);
                 hideView();
                 break;
             case R.id.rb_10:
                 if (radiusDialogListener != null)
-                    radiusDialogListener.onRadiusDialogLister(ckSelected.getText().toString());
+                    radiusDialogListener.onRadiusDialogLister(ckSelected.getText().toString(), selectedId);
                 hideView();
                 break;
             case R.id.rb_15:
                 if (radiusDialogListener != null)
-                    radiusDialogListener.onRadiusDialogLister(ckSelected.getText().toString());
+                    radiusDialogListener.onRadiusDialogLister(ckSelected.getText().toString(), selectedId);
                 hideView();
                 break;
 
             case R.id.rb_20:
                 if (radiusDialogListener != null)
-                    radiusDialogListener.onRadiusDialogLister(ckSelected.getText().toString());
+                    radiusDialogListener.onRadiusDialogLister(ckSelected.getText().toString(), selectedId);
                 hideView();
                 break;
 
             case R.id.rb_25:
                 if (radiusDialogListener != null)
-                    radiusDialogListener.onRadiusDialogLister(ckSelected.getText().toString());
+                    radiusDialogListener.onRadiusDialogLister(ckSelected.getText().toString(), selectedId);
                 hideView();
                 break;
             case R.id.rb_50:
                 if (radiusDialogListener != null)
-                    radiusDialogListener.onRadiusDialogLister(ckSelected.getText().toString());
+                    radiusDialogListener.onRadiusDialogLister(ckSelected.getText().toString(), selectedId);
+                hideView();
+                break;
+            case R.id.rb_everywhere:
+                if (radiusDialogListener != null)
+                    radiusDialogListener.onRadiusDialogLister(ckSelected.getText().toString(), selectedId);
+                LogUtils.d("index", selectedId + "");
                 hideView();
                 break;
         }
+    }
+
+    private void setCheckedDefault() {
+        RadioButton radioButton = (RadioButton) findViewById(mIndex);
+        radioButton.setChecked(true);
+
     }
 }

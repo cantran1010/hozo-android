@@ -378,5 +378,6 @@
     <string name="post_task_time_start_error">Vui lòng chọn thời gian bắt đầu sớm nhất có thể sau 10 phút nữa</string>
     <string name="post_task_date_picker_title">Chọn ngày làm việc</string>
     <string name="post_task_time_picker_title">Chọn thời gian bắt đầu</string>
+    <string name="radius_everywhere">mọi nơi</string>
 
 </resources>
