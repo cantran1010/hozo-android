@@ -27,8 +27,8 @@ import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.GenderDialog;
 import vn.tonish.hozo.dialog.RadiusSettingDialog;
-import vn.tonish.hozo.model.AddvanceSetting;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.ButtonHozo;
@@ -39,8 +39,6 @@ import static vn.tonish.hozo.common.Constants.REQUEST_CODE_COST;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_TASK_TYPE;
 import static vn.tonish.hozo.common.Constants.RESULT_CODE_COST;
 import static vn.tonish.hozo.common.Constants.RESULT_CODE_TASK_TYPE;
-import static vn.tonish.hozo.database.manager.CategoryManager.insertIsSelected;
-import static vn.tonish.hozo.network.DataParse.convertSettingToSettingEntiny;
 import static vn.tonish.hozo.utils.Utils.formatNumber;
 
 /**
@@ -56,10 +54,10 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     private Category mCategory;
     private int minWorkerRate = 0;
     private int maxWorkerRate = 0;
-    private String mGender;
     private int mRadius;
-    private int mIndex;
+    private int idRadius;
     private String strRadius;
+    private String strGender;
 
 
     @Override
@@ -93,7 +91,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         btnSave.setOnClickListener(this);
         if (SettingManager.getSettingEntiny() == null)
             settingDefault();
-        setDefaultRadius();
+        setDefaultvalues();
         setDataforView();
 
     }
@@ -150,39 +148,40 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     }
 
     private void save() {
-        AddvanceSetting addvanceSetting = new AddvanceSetting();
-        addvanceSetting.setUserId(UserManager.getMyUser().getId());
-        addvanceSetting.setCategories(mCategory.getCategories());
-        addvanceSetting.setMinWorkerRate(minWorkerRate);
-        addvanceSetting.setMaxWorkerRate(maxWorkerRate);
-        addvanceSetting.setLatitude(lat);
-        addvanceSetting.setLongitude(lng);
-        addvanceSetting.setGender(mGender);
-        addvanceSetting.setRadius(mRadius);
+        LogUtils.d(TAG, "latlong: " + lat + "va: " + lng);
         SettingEntiny settingEntiny = new SettingEntiny();
-        settingEntiny = convertSettingToSettingEntiny(addvanceSetting);
+        settingEntiny.setUserId(UserManager.getMyUser().getId());
+        settingEntiny.setMinWorkerRate(minWorkerRate);
+        settingEntiny.setMaxWorkerRate(maxWorkerRate);
+        settingEntiny.setLatitude(lat);
+        settingEntiny.setLongitude(lng);
+        settingEntiny.setGender(strGender);
+        settingEntiny.setRadius(mRadius);
         SettingManager.insertSetting(settingEntiny);
+        CategoryManager.insertCategories(DataParse.convertListCategoryToListCategoryEntity(mCategory.getCategories()));
         finish();
 
 
     }
 
     private void reset() {
+        setDefaultvalues();
+        setDataforView();
 
     }
 
 
     private void setRadius() {
-        final RadiusSettingDialog radiusSettingDialog = new RadiusSettingDialog(this, mIndex);
+        final RadiusSettingDialog radiusSettingDialog = new RadiusSettingDialog(this, idRadius);
         radiusSettingDialog.setRadiusDialogListener(new RadiusSettingDialog.RadiusDialogListener() {
             @Override
-            public void onRadiusDialogLister(String radius,int index) {
+            public void onRadiusDialogLister(String radius, int index) {
                 tvRadius.setText(radius);
                 if (!radius.equals(getString(R.string.radius_everywhere)))
                     mRadius = Integer.valueOf((radius.trim().replace(".", "")).replace("km", "").replace(" ", ""));
                 else
                     mRadius = 0;
-                mIndex = index;
+                idRadius = index;
             }
         });
         radiusSettingDialog.showView();
@@ -190,13 +189,12 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     }
 
     private void setGender() {
-        final GenderDialog ageDialog = new GenderDialog(this);
+        final GenderDialog ageDialog = new GenderDialog(this, strGender);
         ageDialog.setAgeDialogListener(new GenderDialog.AgeDialogListener() {
             @Override
             public void onAgeDialogLister(String gender) {
                 tvGender.setText(gender);
-                mGender = gender;
-
+                strGender = gender;
             }
         });
 
@@ -254,19 +252,11 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
         tvWorkType.setText(getNameRealmCategorys());
         tvPrice.setText(formatNumber(settingEntiny.getMinWorkerRate()) + " - " + formatNumber(settingEntiny.getMaxWorkerRate()));
-        tvLocation.setText(getCompleteAddressString(settingEntiny.getLatitude(), settingEntiny.getLongitude()));
-        tvRadius.setText(SettingManager.getSettingEntiny().getRadius()+" km");
+        tvLocation.setText(getCompleteAddressString(lat, lng));
+        tvRadius.setText(strRadius);
         tvGender.setText(settingEntiny.getGender());
 
     }
-
-    private void setIsSelected(List<CategoryEntity> categoryEntities) {
-        for (CategoryEntity categoryEntity : categoryEntities) {
-            insertIsSelected(categoryEntity, true);
-        }
-        CategoryManager.insertCategories(categoryEntities);
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -274,16 +264,18 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         Log.i(TAG, "requestCode: " + requestCode);
         if (requestCode == REQUEST_CODE_TASK_TYPE && resultCode == RESULT_CODE_TASK_TYPE && data != null) {
             Category category = (Category) data.getExtras().get(Constants.EXTRA_CATEGORY_ID);
-            List<Category> list = new ArrayList<>();
-            mCategory = new Category();
-            mCategory = category;
-            for (Category cat : mCategory.getCategories()) {
-                if (cat.isSelected()) {
-                    list.add(cat);
-                }
+            if (category.getCategories().size() > 0) {
+                List<Category> list = new ArrayList<>();
+                mCategory = new Category();
+                mCategory = category;
+                for (Category cat : mCategory.getCategories()) {
+                    if (cat.isSelected()) {
+                        list.add(cat);
+                    }
 
+                }
+                tvWorkType.setText(getNameCategorys((ArrayList<Category>) list));
             }
-            tvWorkType.setText(getNameCategorys((ArrayList<Category>) list));
 
         }
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
@@ -294,6 +286,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
                 lat = place.getLatLng().latitude;
                 lng = place.getLatLng().longitude;
                 tvLocation.setText(place.getName());
+                LogUtils.d(TAG, "latlong: " + lat + "va: " + lng);
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
                 // TODO: Handle the error.
@@ -319,19 +312,55 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         settingEntiny.setLatitude(21.028511);
         settingEntiny.setLongitude(105.804817);
         settingEntiny.setRadius(0);
-        settingEntiny.setGender(getString(R.string.gender_any));
+        settingEntiny.setGender(getString(R.string.gender_vn_any));
         settingEntiny.setMinWorkerRate(10000);
         settingEntiny.setMaxWorkerRate(100000000);
         SettingManager.insertSetting(settingEntiny);
     }
 
-    private void setDefaultRadius() {
+    private void setDefaultvalues() {
+        minWorkerRate = (int) SettingManager.getSettingEntiny().getMinWorkerRate();
+        maxWorkerRate = (int) SettingManager.getSettingEntiny().getMaxWorkerRate();
+        mCategory = new Category();
+        mCategory.setCategories((ArrayList<Category>) DataParse.convertListCategoryEntityToListCategory(CategoryManager.getAllCategories()));
+        lat = SettingManager.getSettingEntiny().getLatitude();
+        lng = SettingManager.getSettingEntiny().getLongitude();
+        strGender = SettingManager.getSettingEntiny().getGender();
         if (SettingManager.getSettingEntiny().getRadius() == 0) {
-            mIndex = R.string.radius_everywhere;
-            strRadius=getString(R.string.radius_everywhere);
+            idRadius = R.id.rb_everywhere;
+            strRadius = getString(R.string.radius_everywhere);
         } else {
-            strRadius = SettingManager.getSettingEntiny() + " km";
+            int rad = SettingManager.getSettingEntiny().getRadius();
+            switch (rad) {
+                case 5:
+                    idRadius = R.id.rb_5;
+                    strRadius = getString(R.string.radius_5km);
+                    break;
+                case 10:
+                    idRadius = R.id.rb_10;
+                    strRadius = getString(R.string.radius_10km);
+                    break;
+                case 15:
+                    idRadius = R.id.rb_15;
+                    strRadius = getString(R.string.radius_15km);
+                    break;
+                case 20:
+                    idRadius = R.id.rb_20;
+                    strRadius = getString(R.string.radius_20km);
+                    break;
+                case 25:
+                    idRadius = R.id.rb_25;
+                    strRadius = getString(R.string.radius_25km);
+                    break;
+                case 50:
+                    idRadius = R.id.rb_50;
+                    strRadius = getString(R.string.radius_50km);
+                    break;
+            }
+
         }
 
     }
+
+
 }

@@ -16,6 +16,8 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class GenderDialog extends BaseDialog implements View.OnClickListener {
     private TextViewHozo tvCancel, tvOk;
     private RadioGroup rgGender;
+    private RadioButton rbAny, rbMale, rbFemale;
+    private String gender;
 
     public interface AgeDialogListener {
         void onAgeDialogLister(String gender);
@@ -31,8 +33,9 @@ public class GenderDialog extends BaseDialog implements View.OnClickListener {
         this.ageDialogListener = ageDialogListener;
     }
 
-    public GenderDialog(@NonNull Context context) {
+    public GenderDialog(@NonNull Context context, String gender) {
         super(context);
+        this.gender = gender;
     }
 
     @Override
@@ -43,10 +46,25 @@ public class GenderDialog extends BaseDialog implements View.OnClickListener {
     @Override
     protected void initData() {
         tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
+        rbAny = (RadioButton) findViewById(R.id.rb_any);
+        rbMale = (RadioButton) findViewById(R.id.rb_male);
+        rbFemale = (RadioButton) findViewById(R.id.rb_female);
+        rgGender = (RadioGroup) findViewById(R.id.rg_gender);
         tvOk = (TextViewHozo) findViewById(R.id.tv_ok);
         tvCancel.setOnClickListener(this);
         tvOk.setOnClickListener(this);
-        rgGender = (RadioGroup) findViewById(R.id.rg_gender);
+        setDefault();
+    }
+
+    private void setDefault() {
+        if (gender.equals(this.getContext().getString(R.string.gender_vn_any))) {
+            rbAny.setChecked(true);
+        } else if (gender.equals(this.getContext().getString(R.string.gender_vn_male))) {
+            rbMale.setChecked(true);
+        } else {
+            rbFemale.setChecked(true);
+        }
+
     }
 
     public void doGender() {
