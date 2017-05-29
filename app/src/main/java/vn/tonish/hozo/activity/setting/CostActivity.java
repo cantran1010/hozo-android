@@ -7,7 +7,9 @@ import android.widget.ImageView;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.utils.NumberTextWatcher;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -16,8 +18,8 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 public class CostActivity extends BaseActivity implements View.OnClickListener {
     private ImageView imgBack;
-    private TextViewHozo tvReset, edtMinPrice, edtMaxPrice;
-    private TextViewHozo btnSave;
+    private EdittextHozo edtMinPrice, edtMaxPrice;
+    private TextViewHozo tvReset, btnSave;
     private int minCost;
     private int maxCost;
 
@@ -30,8 +32,8 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
     protected void initView() {
         imgBack = (ImageView) findViewById(R.id.img_back);
         tvReset = (TextViewHozo) findViewById(R.id.tv_reset);
-        edtMinPrice = (TextViewHozo) findViewById(R.id.edt_min_price);
-        edtMaxPrice = (TextViewHozo) findViewById(R.id.edt_max_price);
+        edtMinPrice = (EdittextHozo) findViewById(R.id.edt_min_price);
+        edtMaxPrice = (EdittextHozo) findViewById(R.id.edt_max_price);
         btnSave = (TextViewHozo) findViewById(R.id.btn_done);
 
         imgBack.setOnClickListener(this);
@@ -45,6 +47,8 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
         Intent intent = getIntent();
         minCost = intent.getExtras().getInt(Constants.EXTRA_MIN_PRICE);
         maxCost = intent.getExtras().getInt(Constants.EXTRA_MAX_PRICE);
+        edtMinPrice.addTextChangedListener(new NumberTextWatcher(edtMinPrice));
+        edtMaxPrice.addTextChangedListener(new NumberTextWatcher(edtMinPrice));
 
 
     }
