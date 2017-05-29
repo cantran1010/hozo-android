@@ -201,6 +201,7 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taskResponse = response.body();
+                    taskResponse.setRole(Constants.ROLE_POSTER);
                     updateUi();
                     storeTaskToDatabase();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {

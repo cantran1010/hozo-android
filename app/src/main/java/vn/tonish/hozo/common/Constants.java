@@ -90,11 +90,11 @@ public class Constants {
     public static final String LIST_TASK_EXTRA = "list_task_extra";
     public static final String IS_MY_USER = "is_my_user";
     public static final String PARAMETER_GENDER = "gender";
-    public static final int DURATION =200 ;
-    public static final String ROLE_FIND_TASK ="find_task" ;
+    public static final int DURATION = 200;
+    public static final String ROLE_FIND_TASK = "find_task";
     public static final int RESULT_CODE_COST = 1999;
-    public static final int REQUEST_CODE_COST =2001 ;
     public static final int RESULT_CODE_TASK_TYPE =2020 ;
+    public static final int REQUEST_CODE_COST = 2001;
     public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
 
     public static final String USER_POSTER_REVIEWS = "poster_reviews";
@@ -114,7 +114,6 @@ public class Constants {
     public static final int REQUEST_CODE_TASK_TYPE = 456;
     public static final int REQUEST_CODE_SETTING_PRICE = 406;
 
-
     // accept offer
     public static final String PARAMETER_ACCEPT_OFFER = "status";
     public static final String PARAMETER_ACCEPTED_OFFER = "accepted";
@@ -125,6 +124,12 @@ public class Constants {
     public static final String PARAM_UPDATE_TASK_CANCEL = "canceled";
 
     //task status
+    public static final String OFFER_STATUS_PENDING = "pending";
+    public static final String OFFER_STATUS_ACCEPTED = "accepted";
+    public static final String OFFER_STATUS_MISSED = "missed";
+    public static final String OFFER_STATUS_CANCELED = "canceled";
+
+    //offer status
     public static final String TASK_STATUS_OPEN = "open";
     public static final String TASK_STATUS_ASSIGNED = "assigned";
     public static final String TASK_STATUS_COMPLETED = "completed";

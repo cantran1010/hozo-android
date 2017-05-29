@@ -207,6 +207,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taskResponse = response.body();
+                    taskResponse.setRole(Constants.ROLE_POSTER);
                     updateUi();
                     storeTaskToDatabase();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -687,4 +688,12 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        LogUtils.d(TAG,"onBackPressed close realm");
+        Realm realm = Realm.getDefaultInstance();
+        realm.close();
+    }
 }

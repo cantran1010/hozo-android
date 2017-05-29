@@ -21,10 +21,12 @@ public class TaskManager {
     private static final String TAG = TaskManager.class.getName();
 
     public static void insertTask(TaskEntity taskEntity) {
+        LogUtils.d(TAG, "insertTasks start , taskEntity : " + taskEntity.toString());
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.insertOrUpdate(taskEntity);
         realm.commitTransaction();
+        realm.close();
     }
 
     public static void insertTasks(List<TaskEntity> taskEntities) {
@@ -34,16 +36,25 @@ public class TaskManager {
         realm.beginTransaction();
         realm.insertOrUpdate(taskEntities);
         realm.commitTransaction();
+        realm.close();
     }
 
     public static List<TaskEntity> getAllTasks() {
         Realm realm = Realm.getDefaultInstance();
-        return realm.where(TaskEntity.class).findAll();
+        try {
+            return realm.where(TaskEntity.class).findAll();
+        } finally {
+            realm.close();
+        }
     }
 
     public static TaskEntity getTaskById(int taskId) {
         Realm realm = Realm.getDefaultInstance();
-        return realm.where(TaskEntity.class).equalTo("id", taskId).findFirst();
+        try {
+            return realm.where(TaskEntity.class).equalTo("id", taskId).findFirst();
+        }finally {
+            realm.close();
+        }
     }
 
 
@@ -67,6 +78,7 @@ public class TaskManager {
         }
         LogUtils.d(TAG, "result" + result.toString() + " getTaskEntitiesOpen size" + result.size());
         LogUtils.d(TAG, " getTaskEntitiesOpen size" + result.size());
+        realm.close();
         return result;
     }
 
@@ -95,6 +107,7 @@ public class TaskManager {
 
         LogUtils.d(TAG, "getTaskSince " + result.toString());
         LogUtils.d(TAG, "getTaskSince taskEntities size : " + result.size());
+        realm.close();
         return result;
     }
 
@@ -103,6 +116,7 @@ public class TaskManager {
         realm.beginTransaction();
         realm.where(TaskEntity.class).findAll().deleteAllFromRealm();
         realm.commitTransaction();
+        realm.close();
     }
 
 

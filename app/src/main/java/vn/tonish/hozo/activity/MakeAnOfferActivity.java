@@ -204,6 +204,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taskResponse = response.body();
+                    taskResponse.setRole(Constants.ROLE_FIND_TASK);
                     updateUi();
                     storeTaskToDatabase();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {

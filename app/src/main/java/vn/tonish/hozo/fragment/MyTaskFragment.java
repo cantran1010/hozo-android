@@ -223,18 +223,17 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                     LogUtils.d(TAG, "myTaskAdapter.setMyTaskAdapterListener , taskResponse : " + taskResponse);
 
                     if (role.equals(Constants.ROLE_TASKER)) {
-                        if (taskResponse.getStatus().equals(Constants.TASK_STATUS_OPEN)) {
+                        if (taskResponse.getOfferStatus().equals(Constants.OFFER_STATUS_PENDING)) {
                             Intent intent = new Intent(getActivity(), WorkerOfferMadeActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                             intent.putExtra(Constants.TASK_STATUS_EXTRA, TaskStatus.WorkerOfferMade);
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        } else if (taskResponse.getStatus().equals(Constants.TASK_STATUS_ASSIGNED)) {
+                        } else if (taskResponse.getOfferStatus().equals(Constants.OFFER_STATUS_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_STATUS_COMPLETED)) {
                             Intent intent = new Intent(getActivity(), WorkerOfferMadeActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                             intent.putExtra(Constants.TASK_STATUS_EXTRA, TaskStatus.WorkerAcceptedTask);
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        }
-                        if (taskResponse.getStatus().equals(Constants.TASK_STATUS_COMPLETED)) {
+                        } else if (taskResponse.getOfferStatus().equals(Constants.OFFER_STATUS_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_STATUS_COMPLETED)) {
                             Intent intent = new Intent(getActivity(), WorkerOfferMadeActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                             intent.putExtra(Constants.TASK_STATUS_EXTRA, TaskStatus.WorkerDoneTask);
@@ -249,8 +248,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                             Intent intent = new Intent(getActivity(), PosterAssignedTaskActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        }
-                        if (taskResponse.getStatus().equals(Constants.TASK_STATUS_COMPLETED)) {
+                        } else if (taskResponse.getStatus().equals(Constants.TASK_STATUS_COMPLETED)) {
                             Intent intent = new Intent(getActivity(), PosterCompletedTaskActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
