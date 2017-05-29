@@ -20,7 +20,6 @@ import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
-import vn.tonish.hozo.rest.responseRes.BidResponse;
 import vn.tonish.hozo.rest.responseRes.CancelOfferResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
@@ -77,7 +76,7 @@ public interface ApiInterface {
     Call<Void> report(@Header("Authorization") String token, @Path("commentId") int commentId, @Body RequestBody body);
 
     @POST("tasks/{taskId}/bids")
-    Call<BidResponse> bidsTask(@Header("Authorization") String token, @Path("taskId") int taskId);
+    Call<TaskResponse> bidsTask(@Header("Authorization") String token, @Path("taskId") int taskId);
 
 //    @POST("bids/{bidId}")
 //    Call<AcceptOfferResponse> acceptOffer(@Header("Authorization") String token, @Path("bidId") int bidId, @Body RequestBody body);

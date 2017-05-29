@@ -12,6 +12,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -38,6 +40,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.adapter.AssignerAdapter;
+import vn.tonish.hozo.adapter.BidderAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.TaskStatus;
 import vn.tonish.hozo.database.entity.TaskEntity;
@@ -50,6 +54,8 @@ import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.Assigner;
+import vn.tonish.hozo.rest.responseRes.Bidder;
 import vn.tonish.hozo.rest.responseRes.CancelOfferResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
@@ -76,8 +82,7 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener {
 
-
-    private static final String TAG = PosterOpenTaskActivity.class.getSimpleName();
+    private static final String TAG = WorkerOfferMadeActivity.class.getSimpleName();
     private CommentViewFull commentViewFull;
     private WorkDetailView workDetailView;
     private ArrayList<Comment> comments = new ArrayList<>();
@@ -90,6 +95,14 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
     private ScrollView scv;
     private ImageView imgBack;
 
+    private RecyclerView rcvBidder;
+    private ArrayList<Bidder> bidders = new ArrayList<>();
+    private BidderAdapter bidderAdapter;
+
+    private RecyclerView rcvAssign;
+    private ArrayList<Assigner> assigners = new ArrayList<>();
+    private AssignerAdapter assignerAdapter;
+
     private ImageView imgComment;
 
     private int taskId = 0;
@@ -97,14 +110,14 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
     private int tempId = 0;
     private File fileAttach;
     private TextViewHozo tvSeeMore;
-    private TextViewHozo tvCancel;
-    private TextViewHozo tvCommentCount;
+    private TextViewHozo tvCommentCount, tvBidderCount, tvAssignCount;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
     private TaskStatus taskStatus;
+    private TextViewHozo tvCancel;
 
     @Override
     protected int getLayout() {
-        return R.layout.worker_offer_made_activity;
+        return R.layout.worker_detail_task_activity;
     }
 
     @Override
@@ -126,17 +139,22 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
+        rcvBidder = (RecyclerView) findViewById(R.id.rcv_bidders);
+        rcvAssign = (RecyclerView) findViewById(R.id.rcv_assign);
+
         imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
 
         imgComment = (ImageView) findViewById(R.id.img_send);
         imgComment.setOnClickListener(this);
 
-        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
-        tvCancel.setOnClickListener(this);
-
         tvSeeMore = (TextViewHozo) findViewById(R.id.tv_see_more_comment);
         tvSeeMore.setOnClickListener(this);
 
+        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
+        tvCancel.setOnClickListener(this);
+
+        tvBidderCount = (TextViewHozo) findViewById(R.id.tv_bidder_count);
+        tvAssignCount = (TextViewHozo) findViewById(R.id.tv_assign_count);
         tvCommentCount = (TextViewHozo) findViewById(R.id.tv_comment_count);
 
         scv = (ScrollView) findViewById(R.id.scv);
@@ -156,12 +174,20 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
 
     @Override
     protected void initData() {
+//        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
+//
+//        workDetailView.updateBtnCallRate(false, false, getString(R.string.empty));
+//        workDetailView.updateStatus(getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
+//        useCacheData();
+//        getData();
 
         taskStatus = (TaskStatus) getIntent().getSerializableExtra(Constants.TASK_STATUS_EXTRA);
         taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
 
-        //test data
-        taskStatus = TaskStatus.WorkerDoneTask;
+//        workDetailView.updateBtnOffer(false);
+//        workDetailView.updateStatus(getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
+//        workDetailView.updateBtnCallRate(false, false, "");
+//        workDetailView.updateTaskProgressViewVisibility(false);
 
         switch (taskStatus) {
 
@@ -169,21 +195,18 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
                 workDetailView.updateBtnOffer(false);
                 workDetailView.updateStatus(getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
                 workDetailView.updateBtnCallRate(false, false, "");
-                workDetailView.updateTaskProgressViewVisibility(false);
                 break;
 
             case WorkerAcceptedTask:
                 workDetailView.updateBtnOffer(false);
                 workDetailView.updateStatus(getString(R.string.received), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
                 workDetailView.updateBtnCallRate(true, true, getString(call));
-                workDetailView.updateTaskProgressViewVisibility(false);
                 break;
 
             case WorkerDoneTask:
                 workDetailView.updateBtnOffer(false);
                 workDetailView.updateStatus(getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
                 workDetailView.updateBtnCallRate(true, false, getString(R.string.rate));
-                workDetailView.updateTaskProgressViewVisibility(false);
                 break;
 
         }
@@ -274,7 +297,6 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
 
     private void updateUi() {
         workDetailView.updateWork(taskResponse);
-
         if (googleMap != null) {
             LatLng latLng = new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude());
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
@@ -284,6 +306,14 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
             googleMap.addMarker(marker);
         }
 
+        // update bidder list
+        bidders = (ArrayList<Bidder>) taskResponse.getBidders();
+        refreshBidderList();
+
+        //update assigners list
+        assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
+        refreshAssignerList();
+
         //update comments
         comments = (ArrayList<Comment>) taskResponse.getComments();
         Realm realm = Realm.getDefaultInstance();
@@ -292,7 +322,24 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
         realm.commitTransaction();
         commentViewFull.updateData(comments);
 
+        tvBidderCount.setText("(" + taskResponse.getBidderCount() + ")");
+        tvAssignCount.setText("(" + taskResponse.getAssigneeCount() + ")");
         tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");
+
+    }
+
+    private void refreshAssignerList() {
+        assignerAdapter = new AssignerAdapter(assigners);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rcvAssign.setLayoutManager(linearLayoutManager);
+        rcvAssign.setAdapter(assignerAdapter);
+    }
+
+    private void refreshBidderList() {
+        bidderAdapter = new BidderAdapter(bidders);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rcvBidder.setLayoutManager(linearLayoutManager);
+        rcvBidder.setAdapter(bidderAdapter);
     }
 
     @Override
@@ -314,6 +361,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_attach:
+
                 PickImageDialog pickImageDialog = new PickImageDialog(WorkerOfferMadeActivity.this);
                 pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
                     @Override
@@ -372,38 +420,6 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
 
         }
     }
-
-    protected void checkPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            permissionGranted();
-        } else {
-            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode != Constants.PERMISSION_REQUEST_CODE
-                || grantResults.length == 0
-                || grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            permissionDenied();
-        } else {
-            permissionGranted();
-        }
-    }
-
-    private void permissionGranted() {
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
-    }
-
-    private void permissionDenied() {
-        LogUtils.d(TAG, "permissionDenied camera");
-    }
-
 
     private void doCancelOfferTask() {
         ProgressDialogUtils.showProgressDialog(this);
@@ -467,6 +483,37 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
         });
     }
 
+    protected void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            permissionGranted();
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != Constants.PERMISSION_REQUEST_CODE
+                || grantResults.length == 0
+                || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            permissionDenied();
+        } else {
+            permissionGranted();
+        }
+    }
+
+    private void permissionDenied() {
+        LogUtils.d(TAG, "permissionDenied camera");
+    }
+
+    private void permissionGranted() {
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+    }
+
     private void doSeeMoreComment() {
         Intent intent = new Intent(this, CommentsActivity.class);
         intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
@@ -501,7 +548,6 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
                     ImageResponse imageResponse = response.body();
                     tempId = imageResponse.getIdTemp();
                     doComment();
-                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(WorkerOfferMadeActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -522,6 +568,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
                         }
                     });
                 }
+
             }
 
             @Override
@@ -543,6 +590,7 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
     }
 
     private void doComment() {
+
         ProgressDialogUtils.showProgressDialog(this);
         final JSONObject jsonRequest = new JSONObject();
         try {
@@ -563,8 +611,10 @@ public class WorkerOfferMadeActivity extends BaseActivity implements OnMapReadyC
                 LogUtils.d(TAG, "commentTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
+
                     response.body().setTaskId(taskId);
                     comments.add(0, response.body());
+                    if (comments.size() > 5) comments.remove(comments.size() - 1);
                     commentViewFull.updateData(comments);
                     taskResponse.setCommentsCount(taskResponse.getCommentsCount() + 1);
                     tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");

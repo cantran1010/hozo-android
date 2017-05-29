@@ -266,8 +266,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         }
 
         // update bidder list
-        if (taskResponse.getBidders() != null)
-            bidders = (ArrayList<Bidder>) taskResponse.getBidders();
+        bidders = (ArrayList<Bidder>) taskResponse.getBidders();
         refreshBidderList();
 
         //update assigners list

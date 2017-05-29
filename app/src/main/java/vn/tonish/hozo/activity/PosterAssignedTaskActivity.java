@@ -77,7 +77,7 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 public class PosterAssignedTaskActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener {
 
-    private static final String TAG = PosterOpenTaskActivity.class.getSimpleName();
+    private static final String TAG = PosterAssignedTaskActivity.class.getSimpleName();
     private CommentViewFull commentViewFull;
     private WorkDetailView workDetailView;
     private ArrayList<Comment> comments = new ArrayList<>();
@@ -102,7 +102,7 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
     private File fileAttach;
     private TextViewHozo tvSeeMore;
     private TextViewHozo tvCancel;
-    private TextViewHozo tvCommentCount,tvAssignCount;
+    private TextViewHozo tvCommentCount, tvAssignCount;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
 
@@ -251,7 +251,7 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
         TaskManager.insertTask(taskEntity);
     }
 
-    private void updateUi(){
+    private void updateUi() {
         workDetailView.updateWork(taskResponse);
 
         if (googleMap != null) {
@@ -561,6 +561,7 @@ public class PosterAssignedTaskActivity extends BaseActivity implements OnMapRea
 
                     response.body().setTaskId(taskId);
                     comments.add(0, response.body());
+                    if (comments.size() > 5) comments.remove(comments.size() - 1);
                     commentViewFull.updateData(comments);
                     taskResponse.setCommentsCount(taskResponse.getCommentsCount() + 1);
                     tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");

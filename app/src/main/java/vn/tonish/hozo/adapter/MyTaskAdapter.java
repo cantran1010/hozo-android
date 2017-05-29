@@ -12,11 +12,8 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
-import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Can Tran on 14/05/2017.
@@ -102,10 +99,6 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
             }
 
             workHolder.tvStartTime.setText(context.getString(R.string.my_task_adapter_start_time) + " " + DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
-
-            LogUtils.d(TAG, "getCategoryId , getCategoryId : " + taskResponse.getCategoryId());
-            LogUtils.d(TAG, "getCategoryId , getCategoryById : " + CategoryManager.getCategoryById(taskResponse.getCategoryId()));
-
             workHolder.tvTaskType.setText(context.getString(R.string.my_task_adapter_task_type) + " " + CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName());
             workHolder.tvAddress.setText(context.getString(R.string.my_task_adapter_address) + " " + taskResponse.getAddress());
         }
