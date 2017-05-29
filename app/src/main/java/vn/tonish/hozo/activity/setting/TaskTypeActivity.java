@@ -17,9 +17,7 @@ import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.view.ButtonHozo;
-
-import static vn.tonish.hozo.common.Constants.EXTRA_CATEGORY;
-import static vn.tonish.hozo.network.DataParse.convertListCategoryToListCategoryEntity;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by CanTran on 5/16/17.
@@ -30,7 +28,8 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
     private ImageView imgback;
     private RecyclerView mRecyclerView;
     private TaskTypeAdapter mAdapter;
-    private ButtonHozo btnReset, btnSave;
+    private ButtonHozo btnSave;
+    private TextViewHozo btnReset;
     private ArrayList<Category> taskTypes;
     private Category mCategory;
 
@@ -44,27 +43,27 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
     protected void initView() {
         imgback = (ImageView) findViewById(R.id.img_back);
         mRecyclerView = (RecyclerView) findViewById(R.id.rcv_task_type);
-        btnReset = (ButtonHozo) findViewById(R.id.btn_reset);
+        btnReset = (TextViewHozo) findViewById(R.id.tv_reset);
         btnSave = (ButtonHozo) findViewById(R.id.btn_save);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         taskTypes = new ArrayList<>();
-        mAdapter = new TaskTypeAdapter(taskTypes);
-        mRecyclerView.setAdapter(mAdapter);
+
 
     }
 
     @Override
     protected void initData() {
-        mCategory = new Category();
         Intent intent = getIntent();
-
-        if (intent.hasExtra(EXTRA_CATEGORY)) {
-            mCategory = (Category) intent.getExtras().get(EXTRA_CATEGORY);
-        }
-        getTaskTypes();
+        mCategory = (Category) intent.getExtras().get(Constants.EXTRA_CATEGORY);
+        if (mCategory != null)
+            taskTypes.addAll(mCategory.getCategories());
+        else
+            getTaskTypes();
         imgback.setOnClickListener(this);
         btnReset.setOnClickListener(this);
         btnSave.setOnClickListener(this);
+        mAdapter = new TaskTypeAdapter(taskTypes);
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 
@@ -80,7 +79,7 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
             case R.id.img_back:
                 finish();
                 break;
-            case R.id.btn_reset:
+            case R.id.tv_reset:
                 clearSelected();
                 break;
             case R.id.btn_save:
@@ -91,26 +90,24 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
 
 
     private void clearSelected() {
-        for (int i = 0; i < taskTypes.size(); i++) {
-            taskTypes.get(i).setSelected(false);
-        }
-        List<CategoryEntity> categoryEntities = new ArrayList<>();
-        categoryEntities.addAll(convertListCategoryToListCategoryEntity(taskTypes));
-        CategoryManager.insertCategories(categoryEntities);
+        taskTypes.clear();
+        if (mCategory != null)
+            taskTypes.addAll(mCategory.getCategories());
+        else
+            getTaskTypes();
+
         mAdapter.notifyDataSetChanged();
     }
 
     public List<Category> getTaskTypes() {
-        if (mCategory.getCategories()==null||mCategory.getCategories().size()==0) {
-            for (int i = 0; i < CategoryManager.getAllCategories().size(); i++) {
-                Category taskType = new Category();
-                taskType.setId(CategoryManager.getAllCategories().get(i).getId());
-                taskType.setName(CategoryManager.getAllCategories().get(i).getName());
-                taskType.setSelected(CategoryManager.getAllCategories().get(i).isSelected());
-                taskTypes.add(taskType);
-            }
-        } else {
-            taskTypes.addAll(mCategory.getCategories());
+        for (CategoryEntity categoryEntity : CategoryManager.getAllCategories()
+                ) {
+            Category taskType = new Category();
+            taskType.setId(categoryEntity.getId());
+            taskType.setName(categoryEntity.getName());
+            taskType.setSelected(categoryEntity.isSelected());
+            taskTypes.add(taskType);
+
         }
         return taskTypes;
     }

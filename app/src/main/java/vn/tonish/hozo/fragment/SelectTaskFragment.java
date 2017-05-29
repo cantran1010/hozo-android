@@ -26,6 +26,9 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 
+import static vn.tonish.hozo.database.manager.CategoryManager.checkCategoryById;
+import static vn.tonish.hozo.database.manager.CategoryManager.insertIsSelected;
+
 /**
  * Created by LongBui on 4/4/2017.
  */
@@ -76,8 +79,9 @@ public class SelectTaskFragment extends BaseFragment {
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     refreshCategory();
-                    CategoryManager.deleteAll();
-                    CategoryManager.insertCategories(DataParse.convertListCategoryToListCategoryEntity(categories));
+                    inserCategory(categories);
+//                    CategoryManager.deleteAll();
+//                    CategoryManager.insertCategories(DataParse.convertListCategoryToListCategoryEntity(categories));
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
@@ -121,6 +125,32 @@ public class SelectTaskFragment extends BaseFragment {
 //                ProgressDialogUtils.dismissProgressDialog();
             }
         });
+    }
+
+    private void inserCategory(List<Category> categoryList) {
+        List<CategoryEntity> list = new ArrayList<>();
+        if (CategoryManager.getAllCategories().size()==0) {
+            list = DataParse.convertListCategoryToListCategoryEntity(categoryList);
+            setIsSelected(list);
+            CategoryManager.insertCategories(list);
+        } else {
+            for (Category category : categoryList
+                    ) {
+                category.setSelected(checkCategoryById(category.getId()));
+            }
+            list = DataParse.convertListCategoryToListCategoryEntity(categoryList);
+            CategoryManager.insertCategories(list);
+        }
+        LogUtils.d(TAG,"setIsSelected : "+CategoryManager.getAllCategories().toString());
+
+    }
+
+    private void setIsSelected(List<CategoryEntity> categoryEntities) {
+        for (CategoryEntity categoryEntity : categoryEntities) {
+            insertIsSelected(categoryEntity, true);
+        }
+        CategoryManager.insertCategories(categoryEntities);
+        LogUtils.d(TAG,"setIsSelected null "+CategoryManager.getAllCategories().toString());
     }
 
 

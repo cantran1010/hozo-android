@@ -143,30 +143,10 @@ public class DataParse {
         return categoryEntity;
     }
 
-    public static UserEntity convertUserToUserEntity(User user) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(user.getId());
-        userEntity.setAddress(user.getAddress());
-        userEntity.setAvatar(user.getAvatar());
-        userEntity.setDateOfBirth(user.getDateOfBirth());
-        userEntity.setDescription(user.getDescription());
-        userEntity.setEmail(user.getEmail());
-        userEntity.setFacebookId(user.getFacebookId());
-        userEntity.setFullName(user.getFullName());
-        userEntity.setPhone(user.getPhoneNumber());
-        userEntity.setPosterAverageRating(user.getPosterAverageRating());
-//        userEntity.setPosterReviewCount(user.getPosterReviewCount());
-//        userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
-//        userEntity.setTaskerReviewCount(user.getTaskerReviewCount());
-        return userEntity;
-    }
-
     public static SettingEntiny convertSettingToSettingEntiny(AddvanceSetting addvanceSetting) {
         RealmList<CategoryEntity> categoryEntities = new RealmList<>();
         SettingEntiny entiny = new SettingEntiny();
         entiny.setUserId(addvanceSetting.getUserId());
-        categoryEntities.addAll(convertListCategoryToListCategoryEntity(addvanceSetting.getCategories()));
-        entiny.setCategoryEntities(categoryEntities);
         entiny.setMinWorkerRate(addvanceSetting.getMinWorkerRate());
         entiny.setMaxWorkerRate(addvanceSetting.getMaxWorkerRate());
         entiny.setLatitude(addvanceSetting.getLatitude());

@@ -75,6 +75,7 @@ public class CategoryEntity extends RealmObject implements Serializable{
         isSelected = selected;
     }
 
+
     @Override
     public String toString() {
         return "CategoryEntity{" +
@@ -84,7 +85,7 @@ public class CategoryEntity extends RealmObject implements Serializable{
                 ", suggestTitle='" + suggestTitle + '\'' +
                 ", suggestDescription='" + suggestDescription + '\'' +
                 ", presentPath='" + presentPath + '\'' +
+                ", isSelected=" + isSelected +
                 '}';
     }
-
 }
