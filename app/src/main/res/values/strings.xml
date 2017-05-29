@@ -282,12 +282,12 @@
     <string name="cancel_task_ok">CÓ</string>
     <string name="cancel_task_cancel">KHÔNG</string>
     <string name="task_type">Loại công việc</string>
-    <string name="hint_min">Giá thấp nhất </string>
-    <string name="edt_max">Giá cao nhất</string>
+    <string name="hint_min">Chi phí thấp nhất </string>
+    <string name="edt_max">Chi phí cao nhất</string>
     <string name="hint_time_start">Thời gian bắt đầu</string>
     <string name="hint_time_done">Thới gian kết thúc</string>
-    <string name="erro_emply_price">Lỗi! bạn chưa nhập giá trị</string>
-    <string name="erro_price">Giá trị bên trái phải bé hơn giá trị bên phải  </string>
+    <string name="erro_emply_price">mức giá cho phép là 10,000-100,000,000 VND</string>
+    <string name="erro_price">Lỗi! Giá trị xung đột, đề nghị nhập lại. </string>
     <string name="select_gender_title">Chọn giới tính</string>
     <string name="gender_any">any</string>
     <string name="gender_male">male</string>

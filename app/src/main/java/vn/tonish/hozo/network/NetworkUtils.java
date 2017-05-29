@@ -58,7 +58,7 @@ public class NetworkUtils {
                 LogUtils.d(TAG, "refreshToken onResponse body : " + response.body());
                 LogUtils.d(TAG, "refreshToken onResponse status code : " + response.code());
 
-                if (response.code() == 200) {
+                if (response.code() == Constants.HTTP_CODE_OK) {
                     //retry call api after refresh success
                     Token token = response.body();
                     //update new token to database - user table
@@ -72,8 +72,13 @@ public class NetworkUtils {
 
                     if (refreshListener != null) refreshListener.onRefreshFinish();
                 } else {
-                    logOut(context);
-
+                    Realm realm = Realm.getDefaultInstance();
+                    realm.beginTransaction();
+                    realm.deleteAll();
+                    realm.commitTransaction();
+                    Intent intent = new Intent(context, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
                 }
             }
 
