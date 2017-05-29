@@ -175,7 +175,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 LogUtils.d(TAG, "onResponse status code : " + response.code());
-                if (response.isSuccessful() && response.code() == 204) {
+                if (response.isSuccessful() && response.code() == Constants.HTTP_CODE_NO_CONTENT) {
                     LogUtils.d(TAG, "onResponse body : " + response.body());
                     Bundle bundle = new Bundle();
                     bundle.putString(Constants.USER_MOBILE, finalMobile);

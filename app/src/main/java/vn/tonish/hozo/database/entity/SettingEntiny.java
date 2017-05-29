@@ -2,7 +2,6 @@ package vn.tonish.hozo.database.entity;
 
 import java.io.Serializable;
 
-import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -13,7 +12,6 @@ import io.realm.annotations.PrimaryKey;
 public class SettingEntiny extends RealmObject implements Serializable {
     @PrimaryKey
     private int userId;
-    private RealmList<CategoryEntity> categoryEntities;
     private long minWorkerRate;
     private long maxWorkerRate;
     private double latitude;
@@ -28,14 +26,6 @@ public class SettingEntiny extends RealmObject implements Serializable {
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public RealmList<CategoryEntity> getCategoryEntities() {
-        return categoryEntities;
-    }
-
-    public void setCategoryEntities(RealmList<CategoryEntity> categoryEntities) {
-        this.categoryEntities = categoryEntities;
     }
 
     public long getMinWorkerRate() {
@@ -91,12 +81,11 @@ public class SettingEntiny extends RealmObject implements Serializable {
     public String toString() {
         return "SettingEntiny{" +
                 "userId=" + userId +
-                ", categoryEntities=" + categoryEntities +
-                ", minWorkerRate='" + minWorkerRate + '\'' +
-                ", maxWorkerRate='" + maxWorkerRate + '\'' +
+                ", minWorkerRate=" + minWorkerRate +
+                ", maxWorkerRate=" + maxWorkerRate +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
-                ", radius='" + radius + '\'' +
+                ", radius=" + radius +
                 ", gender='" + gender + '\'' +
                 '}';
     }

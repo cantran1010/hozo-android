@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import io.realm.RealmList;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.setting.CostActivity;
 import vn.tonish.hozo.activity.setting.TaskTypeActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.CategoryEntity;
@@ -26,7 +26,6 @@ import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.GenderDialog;
-import vn.tonish.hozo.dialog.PriceSettingDialog;
 import vn.tonish.hozo.dialog.RadiusSettingDialog;
 import vn.tonish.hozo.model.AddvanceSetting;
 import vn.tonish.hozo.model.Category;
@@ -37,9 +36,8 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_TASK_TYPE;
+import static vn.tonish.hozo.common.Constants.RESULT_CODE_COST;
 import static vn.tonish.hozo.database.manager.CategoryManager.insertIsSelected;
-import static vn.tonish.hozo.database.manager.SettingManager.insertRealmListCategory;
-import static vn.tonish.hozo.network.DataParse.convertCatogoryEntityToCategory;
 import static vn.tonish.hozo.network.DataParse.convertSettingToSettingEntiny;
 import static vn.tonish.hozo.utils.Utils.formatNumber;
 
@@ -54,8 +52,8 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     private double lat;
     private double lng;
     private Category mCategory;
-    private long minWorkerRate;
-    private long maxWorkerRate;
+    private int minWorkerRate=0;
+    private int maxWorkerRate=0;
     private String mGender;
     private int mRadius;
 
@@ -89,7 +87,8 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         findViewById(R.id.tab_radius).setOnClickListener(this);
         btnReset.setOnClickListener(this);
         btnSave.setOnClickListener(this);
-        setDefaultAddvanceSetting();
+        if (SettingManager.getSettingEntiny() == null)
+            settingDefault();
         setDataforView();
     }
 
@@ -108,7 +107,11 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
                 startActivityForResult(i, Constants.REQUEST_CODE_TASK_TYPE, TransitionScreen.DOWN_TO_UP);
                 break;
             case R.id.tab_price:
-                setPrice();
+                Intent i2 = new Intent(this, CostActivity.class);
+                i2.putExtra(Constants.EXTRA_MIN_PRICE, minWorkerRate);
+                i2.putExtra(Constants.EXTRA_MAX_PRICE, maxWorkerRate);
+                startActivityForResult(i2, Constants.REQUEST_CODE_COST, TransitionScreen.DOWN_TO_UP);
+
                 break;
             case R.id.tab_location:
                 try {
@@ -159,35 +162,9 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     }
 
     private void reset() {
-        setDefaultAddvanceSetting();
 
     }
 
-    private void setDefaultAddvanceSetting() {
-        SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
-        if (settingEntiny.getCategoryEntities() == null || settingEntiny.getCategoryEntities().size() == 0) {
-            RealmList<CategoryEntity> realmList = new RealmList<>();
-            realmList.addAll(CategoryManager.getAllCategories());
-            setIsSelected(CategoryManager.getAllCategories());
-            insertRealmListCategory(settingEntiny, realmList);
-            SettingManager.insertSetting(settingEntiny);
-
-        }
-        mCategory = new Category();
-        RealmList<CategoryEntity> realmList = new RealmList<>();
-        List<Category> categoryList = new ArrayList<>();
-        realmList.addAll(SettingManager.getSettingEntiny().getCategoryEntities());
-        for (CategoryEntity categoryEntity : realmList) {
-            categoryList.add(convertCatogoryEntityToCategory(categoryEntity));
-        }
-        mCategory.setCategories((ArrayList<Category>) categoryList);
-        lat = SettingManager.getSettingEntiny().getLatitude();
-        lng = SettingManager.getSettingEntiny().getLongitude();
-        minWorkerRate = SettingManager.getSettingEntiny().getMinWorkerRate();
-        maxWorkerRate = SettingManager.getSettingEntiny().getMaxWorkerRate();
-        mRadius = SettingManager.getSettingEntiny().getRadius();
-        mGender = SettingManager.getSettingEntiny().getGender();
-    }
 
     private void setRadius() {
         final RadiusSettingDialog radiusSettingDialog = new RadiusSettingDialog(this);
@@ -217,25 +194,15 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     }
 
-    private void setPrice() {
-        final PriceSettingDialog priceSettingDialog = new PriceSettingDialog(this);
-        priceSettingDialog.setPriceDialogListener(new PriceSettingDialog.PriceDialogListener() {
-            @Override
-            public void onPriceDialogLister(long minPrice, long maxPrice) {
-                tvPrice.setText(formatNumber(minPrice) + " - " + formatNumber(maxPrice));
-                minWorkerRate = minPrice;
-                maxWorkerRate = maxPrice;
-            }
-        });
-        priceSettingDialog.showView();
 
-
-    }
-
-    private String getNameRealmCategorys(List<Category> realmList) {
+    private String getNameRealmCategorys() {
         String name = "";
-        for (int i = 0; i < realmList.size(); i++) {
-            name = name + realmList.get(i).getName() + "-";
+        for (CategoryEntity entity : CategoryManager.getAllCategories()
+                ) {
+            if (entity.isSelected()) {
+                name = name + entity.getName() + "-";
+            }
+
         }
         return name;
     }
@@ -274,11 +241,12 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     }
 
     private void setDataforView() {
-        tvWorkType.setText(getNameRealmCategorys(mCategory.getCategories()));
-        tvPrice.setText(formatNumber(minWorkerRate) + " - " + formatNumber(maxWorkerRate));
-        tvLocation.setText(getCompleteAddressString(lat, lng));
-        tvRadius.setText(mRadius + " km");
-        tvGender.setText(mGender);
+        SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
+        tvWorkType.setText(getNameRealmCategorys());
+        tvPrice.setText(formatNumber(settingEntiny.getMinWorkerRate()) + " - " + formatNumber(settingEntiny.getMaxWorkerRate()));
+        tvLocation.setText(getCompleteAddressString(settingEntiny.getLatitude(), settingEntiny.getLongitude()));
+        tvRadius.setText(settingEntiny.getRadius() + " km");
+        tvGender.setText(settingEntiny.getGender());
 
     }
 
@@ -323,44 +291,26 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
                 // The user canceled the operation.
             }
         }
-    }
 
-    private void settingDefault() {
-        if (SettingManager.getSettingEntiny() != null) {
-            SettingEntiny settingEntiny = new SettingEntiny();
-            RealmList<CategoryEntity> realmList = new RealmList<>();
-            realmList.addAll(CategoryManager.getAllCategories());
-            setIsSelected(CategoryManager.getAllCategories());
-            insertRealmListCategory(settingEntiny, realmList);
-            SettingManager.insertSetting(settingEntiny);
-            settingEntiny.setUserId(UserManager.getMyUser().getId());
-            settingEntiny.setLatitude(21.028511);
-            settingEntiny.setLongitude(105.804817);
-            settingEntiny.setRadius(50);
-            settingEntiny.setGender(getString(R.string.gender_any));
-            settingEntiny.setMinWorkerRate(1000);
-            settingEntiny.setMaxWorkerRate(100000000);
-            SettingManager.insertSetting(settingEntiny);
-
-        } else {
-            SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
-            List<CategoryEntity> allCategories = CategoryManager.getAllCategories();
-//            for (CategoryEntity categoryEntity:allCategories
-//                 ) {
-//                categoryEntity instanceof CategoryEntityRealmProxy ? ((CategoryEntityRealmProxy) categoryEntity) : null;
-//
-//            }
+        if (requestCode == RESULT_CODE_COST && data != null) {
+            LogUtils.d(TAG,"RESULT_CODE_COST"+minWorkerRate+"-"+maxWorkerRate);
+            minWorkerRate= (int) data.getExtras().get(Constants.EXTRA_MIN_PRICE);
+            maxWorkerRate= (int) data.getExtras().get(Constants.EXTRA_MAX_PRICE);
+            tvPrice.setText(formatNumber(minWorkerRate) + " - " + formatNumber( maxWorkerRate));
 
         }
     }
 
-//    private boolean checkCategory(CategoryEntity entity,List<CategoryEntity> entities) {
-//        for (CategoryEntity entity1:entities
-//             ) {
-//            if ()
-//
-//        }
-//        return false;
-//    }
-
+    private void settingDefault() {
+        LogUtils.d(TAG, "settingDefault start");
+        SettingEntiny settingEntiny = new SettingEntiny();
+        settingEntiny.setUserId(UserManager.getMyUser().getId());
+        settingEntiny.setLatitude(21.028511);
+        settingEntiny.setLongitude(105.804817);
+        settingEntiny.setRadius(50);
+        settingEntiny.setGender(getString(R.string.gender_any));
+        settingEntiny.setMinWorkerRate(10000);
+        settingEntiny.setMaxWorkerRate(100000000);
+        SettingManager.insertSetting(settingEntiny);
+    }
 }

@@ -51,6 +51,16 @@ public class CategoryManager {
     }
 
 
+    public static boolean checkCategoryById(int id) {
+        boolean ck;
+        LogUtils.d(TAG, "getAllCategories start ");
+        Realm realm = Realm.getDefaultInstance();
+        if (realm.where(CategoryEntity.class).equalTo("id", id).findFirst() == null)
+            ck = false;
+        else ck = realm.where(CategoryEntity.class).equalTo("id", id).findFirst().isSelected();
+        return ck;
+    }
+
     public static void deleteAll() {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
