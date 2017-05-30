@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.Sort;
 import vn.tonish.hozo.database.entity.NotificationEntity;
 import vn.tonish.hozo.fragment.InboxFragment;
 import vn.tonish.hozo.utils.LogUtils;
@@ -22,51 +24,26 @@ public class NotificationManager {
         realm.beginTransaction();
         realm.insertOrUpdate(notifications);
         realm.commitTransaction();
-    }
-
-    public static List<NotificationEntity> getAllNotifications() {
-        LogUtils.d(TAG, "getAllNotifications start ");
-        Realm realm = Realm.getDefaultInstance();
-        return realm.where(NotificationEntity.class).findAll();
-    }
-
-    public static List<NotificationEntity> getFirstPage() {
-        LogUtils.d(TAG, "getAllNotifications start ");
-        List<NotificationEntity> result = new ArrayList<>();
-        Realm realm = Realm.getDefaultInstance();
-        List<NotificationEntity> notifications = realm.where(NotificationEntity.class).findAll().sort("createdAt");
-        if (notifications.size() > 0) {
-
-            if (notifications.size() >= InboxFragment.LIMIT)
-                result = notifications.subList(0, InboxFragment.LIMIT);
-            else
-                result = notifications;
-
-        }
-        return result;
+        realm.close();
     }
 
     public static List<NotificationEntity> getNotificationsSince(Date sinceDate) {
-        LogUtils.d(TAG, "getAllNotifications start ");
+        LogUtils.d(TAG, "getAllNotifications start , sinceDate : " + sinceDate);
         List<NotificationEntity> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
-        List<NotificationEntity> notificationEntities = realm.where(NotificationEntity.class).lessThan("createdAt", sinceDate).findAll().sort("createdAt");
-        if (notificationEntities.size() > 0) {
 
+        RealmQuery<NotificationEntity> notificationEntityRealmQuery = realm.where(NotificationEntity.class);
+        if (sinceDate != null)
+            notificationEntityRealmQuery = notificationEntityRealmQuery.lessThan("createdAt", sinceDate);
+        List<NotificationEntity> notificationEntities = notificationEntityRealmQuery.findAll().sort("createdAt", Sort.DESCENDING);
+        if (notificationEntities.size() > 0) {
             if (notificationEntities.size() >= InboxFragment.LIMIT)
                 result = notificationEntities.subList(0, InboxFragment.LIMIT);
             else result = notificationEntities;
 
         }
+        realm.close();
         return result;
     }
-
-    public static void deleteAll() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.where(NotificationEntity.class).findAll().deleteAllFromRealm();
-        realm.commitTransaction();
-    }
-
 
 }

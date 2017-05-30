@@ -48,10 +48,10 @@ public class TaskProgressView extends LinearLayout {
         tvNumberBid = (TextViewHozo) findViewById(R.id.tv_number_bid);
     }
 
-    public void updateData(int numberEmploy, int numberRemain, int numberBid) {
-        tvNumberEmploy.setText(numberEmploy + " " + getContext().getString(R.string.number_employ_footer));
-        tvNumberRemain.setText(numberRemain + " " + getContext().getString(R.string.number_remain_footer));
+    public void updateData(int numberBid, int numberRemain, int numberEmploy) {
         tvNumberBid.setText(numberBid + " " + getContext().getString(R.string.number_bit_footer));
+        tvNumberRemain.setText(numberRemain + " " + getContext().getString(R.string.number_remain_footer));
+        tvNumberEmploy.setText(numberEmploy + " " + getContext().getString(R.string.number_employ_footer));
     }
 
 }

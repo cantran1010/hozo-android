@@ -137,7 +137,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 //        tvWorkType.setText(getContext().getString(R.string.task_detail_category_type) + " " + CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName());
         tvDescription.setText(taskResponse.getDescription());
 
-        taskProgressView.updateData(taskResponse.getBidderCount(), (taskResponse.getWorkerCount() - taskResponse.getBidderCount() - taskResponse.getAssigneeCount()), taskResponse.getAssigneeCount());
+        taskProgressView.updateData(taskResponse.getBidderCount(), (taskResponse.getWorkerCount() - taskResponse.getAssigneeCount()), taskResponse.getAssigneeCount());
 
         tvPrice.setText(Utils.formatNumber(taskResponse.getWorkerCount() * taskResponse.getWorkerRate()) + " VND");
         tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
@@ -177,16 +177,17 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
             btnOffer.setVisibility(View.GONE);
     }
 
-    public void updateStatus(String status, Drawable drawable) {
-//        tvStatus.setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.bg_border_recruitment));
-
-        tvStatus.setText(status);
-        final int sdk = Build.VERSION.SDK_INT;
-        if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
-            tvStatus.setBackgroundDrawable(drawable);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            tvStatus.setBackground(drawable);
-        }
+    public void updateStatus(boolean isShow, String status, Drawable drawable) {
+        if (isShow) {
+            tvStatus.setVisibility(View.VISIBLE);
+            tvStatus.setText(status);
+            final int sdk = Build.VERSION.SDK_INT;
+            if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
+                tvStatus.setBackgroundDrawable(drawable);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                tvStatus.setBackground(drawable);
+            }
+        } else tvStatus.setVisibility(View.GONE);
     }
 
     public void updateTaskProgressViewVisibility(boolean isVisibility) {

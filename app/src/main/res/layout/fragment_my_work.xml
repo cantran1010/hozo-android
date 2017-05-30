@@ -7,10 +7,10 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:background="@color/white"
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize">
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/white">
 
         <vn.tonish.hozo.view.TextViewHozo
             style="@style/tv_title"
@@ -71,9 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
-        android:background="@color/bg"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp">
+        android:background="@color/bg">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rcv_task"

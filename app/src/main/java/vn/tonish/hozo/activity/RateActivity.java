@@ -15,9 +15,12 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.RateResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -129,6 +132,15 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     finish();
+                } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.e(TAG, "doRate errorBody" + error.toString());
+                    DialogUtils.showOkDialog(RateActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+
+                        }
+                    });
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(RateActivity.this, new NetworkUtils.RefreshListener() {
                         @Override

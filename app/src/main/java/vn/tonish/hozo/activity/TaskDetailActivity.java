@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
@@ -40,8 +41,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.adapter.AssignerAdapter;
-import vn.tonish.hozo.adapter.BidderAdapter;
+import vn.tonish.hozo.adapter.AssignerCallAdapter;
+import vn.tonish.hozo.adapter.PosterOpenAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.database.manager.TaskManager;
@@ -69,16 +70,17 @@ import vn.tonish.hozo.view.TextViewHozo;
 import vn.tonish.hozo.view.WorkAroundMapFragment;
 import vn.tonish.hozo.view.WorkDetailView;
 
+import static vn.tonish.hozo.R.string.call;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**
- * Created by LongBui on 4/21/2017.
+ * Created by LongBui on 5/30/17.
  */
 
-public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener {
+public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener {
 
-    private static final String TAG = MakeAnOfferActivity.class.getSimpleName();
+    private static final String TAG = TaskDetailActivity.class.getSimpleName();
     private CommentViewFull commentViewFull;
     private WorkDetailView workDetailView;
     private ArrayList<Comment> comments = new ArrayList<>();
@@ -93,25 +95,28 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
     private RecyclerView rcvBidder;
     private ArrayList<Bidder> bidders = new ArrayList<>();
-    private BidderAdapter bidderAdapter;
+    private PosterOpenAdapter posterOpenAdapter;
 
     private RecyclerView rcvAssign;
     private ArrayList<Assigner> assigners = new ArrayList<>();
-    private AssignerAdapter assignerAdapter;
+    private AssignerCallAdapter assignerAdapter;
 
     private ImageView imgComment;
 
     private int taskId = 0;
+    private String taskType;
     private GoogleMap googleMap;
     private int tempId = 0;
     private File fileAttach;
     private TextViewHozo tvSeeMore;
     private TextViewHozo tvCommentCount, tvBidderCount, tvAssignCount;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
+    private LinearLayout layoutFooter;
+    private TextViewHozo tvCancel;
 
     @Override
     protected int getLayout() {
-        return R.layout.make_an_offer_activity;
+        return R.layout.task_detail_activity;
     }
 
     @Override
@@ -148,6 +153,11 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         tvAssignCount = (TextViewHozo) findViewById(R.id.tv_assign_count);
         tvCommentCount = (TextViewHozo) findViewById(R.id.tv_comment_count);
 
+        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
+        tvCancel.setOnClickListener(this);
+
+        layoutFooter = (LinearLayout) findViewById(R.id.layout_footer);
+
         scv = (ScrollView) findViewById(R.id.scv);
 
         WorkAroundMapFragment mapFragment = (WorkAroundMapFragment) getSupportFragmentManager()
@@ -165,11 +175,9 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
     @Override
     protected void initData() {
-
         taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
+        taskType = getIntent().getStringExtra(Constants.TASK_TYPE);
 
-        workDetailView.updateBtnCallRate(false, false, getString(R.string.empty));
-        workDetailView.updateStatus(getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
         useCacheData();
         getData();
     }
@@ -204,17 +212,27 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taskResponse = response.body();
+                    if (taskType.equals(Constants.TASK_TYPE_POSTER_OPEN) || taskType.equals(Constants.TASK_TYPE_POSTER_ASSIGNED) || taskType.equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+                        taskResponse.setRole(Constants.ROLE_POSTER);
+                    } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_PENDING) || taskType.equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) ||
+                            taskType.equals(Constants.TASK_TYPE_BIDDER_MISSED) || taskType.equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
+                        taskResponse.setRole(Constants.ROLE_TASKER);
+                    } else if (taskType.equals(Constants.TASK_TYPE_MAKE_OFFER)) {
+                        taskResponse.setRole(Constants.ROLE_FIND_TASK);
+                    }
+
                     updateUi();
                     storeTaskToDatabase();
+
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(MakeAnOfferActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(TaskDetailActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             getData();
                         }
                     });
                 } else {
-                    DialogUtils.showRetryDialog(MakeAnOfferActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             getData();
@@ -232,7 +250,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
             @Override
             public void onFailure(Call<TaskResponse> call, Throwable t) {
                 LogUtils.e(TAG, "getDetailTask , error : " + t.getMessage());
-                DialogUtils.showRetryDialog(MakeAnOfferActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         getData();
@@ -255,6 +273,57 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     }
 
     private void updateUi() {
+
+        String bidderType = "";
+        String assigerType = "";
+
+        if (taskType.equals(Constants.TASK_TYPE_POSTER_OPEN)) {
+            workDetailView.updateStatus(true, getString(R.string.update_task), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnCallRate(false, false, "");
+            bidderType = getString(R.string.assign);
+            assigerType = getString(R.string.call);
+        } else if (taskType.equals(Constants.TASK_TYPE_POSTER_ASSIGNED)) {
+            workDetailView.updateStatus(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnCallRate(false, false, "");
+            assigerType = getString(R.string.call);
+        } else if (taskType.equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+            workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnCallRate(false, false, "");
+            layoutFooter.setVisibility(View.GONE);
+            assigerType = getString(R.string.rate);
+        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateStatus(false, getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
+            workDetailView.updateBtnCallRate(false, false, "");
+        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateStatus(true, getString(R.string.received), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
+            workDetailView.updateBtnCallRate(true, true, getString(call));
+        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
+            workDetailView.updateBtnCallRate(true, false, getString(R.string.rate));
+            layoutFooter.setVisibility(View.GONE);
+        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
+
+        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
+
+        } else if (taskType.equals(Constants.TASK_TYPE_MAKE_OFFER)) {
+            workDetailView.updateBtnOffer(true);
+            workDetailView.updateStatus(false, "", ContextCompat.getDrawable(this, R.drawable.bg_border_done));
+            workDetailView.updateBtnCallRate(false, false, "");
+            tvCancel.setVisibility(View.GONE);
+        } else if (taskType.equals(Constants.TASK_TYPE_ONLY_VIEW)) {
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateStatus(false, "", ContextCompat.getDrawable(this, R.drawable.bg_border_done));
+            workDetailView.updateBtnCallRate(false, false, "");
+            tvCancel.setVisibility(View.GONE);
+            layoutFooter.setVisibility(View.GONE);
+        }
+
         workDetailView.updateWork(taskResponse);
         if (googleMap != null) {
             LatLng latLng = new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude());
@@ -267,11 +336,11 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
         // update bidder list
         bidders = (ArrayList<Bidder>) taskResponse.getBidders();
-        refreshBidderList();
+        refreshBidderList(bidderType);
 
         //update assigners list
         assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
-        refreshAssignerList();
+        refreshAssignerList(assigerType);
 
         //update comments
         comments = (ArrayList<Comment>) taskResponse.getComments();
@@ -285,20 +354,23 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         tvAssignCount.setText("(" + taskResponse.getAssigneeCount() + ")");
         tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");
 
+        updateSeeMoreComment();
     }
 
-    private void refreshAssignerList() {
-        assignerAdapter = new AssignerAdapter(assigners);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        rcvAssign.setLayoutManager(linearLayoutManager);
-        rcvAssign.setAdapter(assignerAdapter);
-    }
-
-    private void refreshBidderList() {
-        bidderAdapter = new BidderAdapter(bidders);
+    private void refreshBidderList(String bidderType) {
+        posterOpenAdapter = new PosterOpenAdapter(bidders, bidderType);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvBidder.setLayoutManager(linearLayoutManager);
-        rcvBidder.setAdapter(bidderAdapter);
+        posterOpenAdapter.setTaskId(taskId);
+        rcvBidder.setAdapter(posterOpenAdapter);
+    }
+
+    private void refreshAssignerList(String assignType) {
+        assignerAdapter = new AssignerCallAdapter(assigners, assignType);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rcvAssign.setLayoutManager(linearLayoutManager);
+        assignerAdapter.setTaskId(taskId);
+        rcvAssign.setAdapter(assignerAdapter);
     }
 
     @Override
@@ -321,7 +393,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
         switch (v.getId()) {
             case R.id.img_attach:
 
-                PickImageDialog pickImageDialog = new PickImageDialog(MakeAnOfferActivity.this);
+                PickImageDialog pickImageDialog = new PickImageDialog(TaskDetailActivity.this);
                 pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
                     @Override
                     public void onCamera() {
@@ -330,7 +402,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
                     @Override
                     public void onGallery() {
-                        Intent intent = new Intent(MakeAnOfferActivity.this, AlbumActivity.class);
+                        Intent intent = new Intent(TaskDetailActivity.this, AlbumActivity.class);
                         intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
                         startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
                     }
@@ -344,7 +416,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                 break;
 
             case R.id.img_attached:
-                Intent intent = new Intent(MakeAnOfferActivity.this, PreviewImageActivity.class);
+                Intent intent = new Intent(TaskDetailActivity.this, PreviewImageActivity.class);
                 intent.putExtra(Constants.EXTRA_IMAGE_PATH, imgPath);
                 startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 break;
@@ -361,7 +433,76 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                 doSeeMoreComment();
                 break;
 
+            case R.id.tv_cancel:
+                DialogUtils.showOkAndCancelDialog(
+                        this, getString(R.string.title_cancel_task), getString(R.string.content_cancel_task), getString(R.string.cancel_task_ok), getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                doCacelTask();
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
+
+                break;
+
         }
+    }
+
+    private void doCacelTask() {
+        ProgressDialogUtils.showProgressDialog(this);
+
+        ApiClient.getApiService().cancelTask(UserManager.getUserToken(), taskId).enqueue(new Callback<TaskResponse>() {
+            @Override
+            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+                LogUtils.d(TAG, "doCacelTask , code : " + response.code());
+                LogUtils.d(TAG, "doCacelTask , body : " + response.body());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    finish();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(TaskDetailActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doCacelTask();
+                        }
+                    });
+                } else {
+                    DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doCacelTask();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<TaskResponse> call, Throwable t) {
+                DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doCacelTask();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
     }
 
     protected void checkPermission() {
@@ -430,14 +571,14 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                     tempId = imageResponse.getIdTemp();
                     doComment();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(MakeAnOfferActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(TaskDetailActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doAttachImage();
                         }
                     });
                 } else {
-                    DialogUtils.showRetryDialog(MakeAnOfferActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             doAttachImage();
@@ -455,7 +596,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
             @Override
             public void onFailure(Call<ImageResponse> call, Throwable t) {
                 LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
-                DialogUtils.showRetryDialog(MakeAnOfferActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         doAttachImage();
@@ -495,6 +636,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
                     response.body().setTaskId(taskId);
                     comments.add(0, response.body());
+                    if (comments.size() > 5) comments.remove(comments.size() - 1);
                     commentViewFull.updateData(comments);
                     taskResponse.setCommentsCount(taskResponse.getCommentsCount() + 1);
                     tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");
@@ -504,14 +646,14 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                     edtComment.setText(getString(R.string.empty));
                     imgLayout.setVisibility(View.GONE);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(MakeAnOfferActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(TaskDetailActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doComment();
                         }
                     });
                 } else {
-                    DialogUtils.showRetryDialog(MakeAnOfferActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             doComment();
@@ -529,7 +671,7 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
 
             @Override
             public void onFailure(Call<Comment> call, Throwable t) {
-                DialogUtils.showRetryDialog(MakeAnOfferActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         doComment();
@@ -566,11 +708,11 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
             imgPath = imagesSelected.get(0).getPath();
-            Utils.displayImage(MakeAnOfferActivity.this, imgAttached, imgPath);
+            Utils.displayImage(TaskDetailActivity.this, imgAttached, imgPath);
             imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
-            Utils.displayImage(MakeAnOfferActivity.this, imgAttached, imgPath);
+            Utils.displayImage(TaskDetailActivity.this, imgAttached, imgPath);
             imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
         }
@@ -580,11 +722,18 @@ public class MakeAnOfferActivity extends BaseActivity implements OnMapReadyCallb
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Comment comment = (Comment) intent.getSerializableExtra(Constants.COMMENT_EXTRA);
-            LogUtils.d(TAG, "broadcastReceiver , comment : " + comment.toString());
-            edtComment.setText("@" + comment.getFullName() + " \n");
 
-            edtComment.setSelection(edtComment.getText().length());
+            if (intent.hasExtra(Constants.COMMENT_EXTRA)) {
+                Comment comment = (Comment) intent.getSerializableExtra(Constants.COMMENT_EXTRA);
+                LogUtils.d(TAG, "broadcastReceiver , comment : " + comment.toString());
+                edtComment.setText("@" + comment.getFullName() + " \n");
+                edtComment.setSelection(edtComment.getText().length());
+            } else if (intent.hasExtra(Constants.EXTRA_TASK)) {
+                taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
+                updateUi();
+                storeTaskToDatabase();
+            }
+
         }
     };
 }
