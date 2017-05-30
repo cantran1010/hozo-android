@@ -123,13 +123,6 @@ public class DataParse {
         return category;
     }
 
-    public static List<CategoryEntity> convertListCategoryToListCategoryEntity(List<Category> categories) {
-        List<CategoryEntity> categoryEntities = new ArrayList<>();
-        for (int i = 0; i < categories.size(); i++) {
-            categoryEntities.add(convertCatogoryToCategoryEntity(categories.get(i)));
-        }
-        return categoryEntities;
-    }
 
     public static CategoryEntity convertCatogoryToCategoryEntity(Category category) {
         CategoryEntity categoryEntity = new CategoryEntity();
@@ -142,6 +135,23 @@ public class DataParse {
         categoryEntity.setSelected(category.isSelected());
         return categoryEntity;
     }
+
+    public static List<CategoryEntity> convertListCategoryToListCategoryEntity(List<Category> categories) {
+        List<CategoryEntity> categoryEntities = new ArrayList<>();
+        for (int i = 0; i < categories.size(); i++) {
+            categoryEntities.add(convertCatogoryToCategoryEntity(categories.get(i)));
+        }
+        return categoryEntities;
+    }
+
+    public static List<Category> convertListCategoryEntityToListCategory(List<CategoryEntity> categories) {
+        List<Category> categories1 = new ArrayList<>();
+        for (int i = 0; i < categories.size(); i++) {
+            categories1.add(convertCatogoryEntityToCategory(categories.get(i)));
+        }
+        return categories1;
+    }
+
 
     public static SettingEntiny convertSettingToSettingEntiny(AddvanceSetting addvanceSetting) {
         RealmList<CategoryEntity> categoryEntities = new RealmList<>();

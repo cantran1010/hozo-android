@@ -52,16 +52,7 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
         maxCost = intent.getExtras().getInt(Constants.EXTRA_MAX_PRICE);
         edtMinPrice.addTextChangedListener(new NumberTextWatcher(edtMinPrice));
         edtMaxPrice.addTextChangedListener(new NumberTextWatcher(edtMaxPrice));
-        if (minCost == 0)
-            edtMinPrice.setText((int) SettingManager.getSettingEntiny().getMinWorkerRate()+"");
-        else
-            edtMinPrice.setText(minCost+"");
-        if (maxCost == 0)
-            edtMaxPrice.setText((int) SettingManager.getSettingEntiny().getMaxWorkerRate()+"");
-        else
-            edtMaxPrice.setText(maxCost+"");
-
-
+        setDataForView();
     }
 
     @Override
@@ -85,16 +76,27 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void reset() {
-        edtMinPrice.setText(minCost);
-        edtMaxPrice.setText(maxCost);
+        setDataForView();
+
+    }
+
+    private void setDataForView() {
+        if (minCost == 0)
+            edtMinPrice.setText((int) SettingManager.getSettingEntiny().getMinWorkerRate() + "");
+        else
+            edtMinPrice.setText(minCost + "");
+        if (maxCost == 0)
+            edtMaxPrice.setText((int) SettingManager.getSettingEntiny().getMaxWorkerRate() + "");
+        else
+            edtMaxPrice.setText(maxCost + "");
 
     }
 
     private void save() {
         String strMin = edtMinPrice.getText().toString().trim();
         String strMax = edtMaxPrice.getText().toString().trim();
-        long minPrice = Long.valueOf(edtMinPrice.getText().toString().replace(".", ""));
-        long maxPrice = Long.valueOf(edtMaxPrice.getText().toString().replace(".", ""));
+        int minPrice = Integer.parseInt(edtMinPrice.getText().toString().replace(".", ""));
+        int maxPrice = Integer.valueOf(edtMaxPrice.getText().toString().replace(".", ""));
         if (strMin.isEmpty() || minPrice < 10000) {
             edtMinPrice.setError(getString(R.string.erro_emply_price));
         } else if (strMax.isEmpty() || maxPrice > 100000000) {

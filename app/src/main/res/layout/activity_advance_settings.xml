@@ -93,7 +93,8 @@
 
                     <TableRow
                         android:id="@+id/tab_type"
-                        android:layout_height="50dp">
+                        android:layout_height="50dp"
+                        android:background="@drawable/btn_back_selector">
 
                         <vn.tonish.hozo.view.TextViewHozo
                             style="@style/tv_advance_setting"
@@ -114,9 +115,9 @@
                     <include layout="@layout/line" />
 
                     <TableRow
-
                         android:id="@+id/tab_price"
-                        android:layout_height="50dp">
+                        android:layout_height="50dp"
+                        android:background="@drawable/btn_back_selector">
 
                         <vn.tonish.hozo.view.TextViewHozo
                             style="@style/tv_advance_setting"
@@ -134,7 +135,8 @@
 
                     <TableRow
                         android:id="@+id/tab_location"
-                        android:layout_height="50dp">
+                        android:layout_height="50dp"
+                        android:background="@drawable/btn_back_selector">
 
                         <vn.tonish.hozo.view.TextViewHozo
                             style="@style/tv_advance_setting"
@@ -154,7 +156,8 @@
 
                     <TableRow
                         android:id="@+id/tab_radius"
-                        android:layout_height="50dp">
+                        android:layout_height="50dp"
+                        android:background="@drawable/btn_back_selector">
 
                         <vn.tonish.hozo.view.TextViewHozo
                             style="@style/tv_advance_setting"
@@ -174,7 +177,8 @@
 
                     <TableRow
                         android:id="@+id/tab_gender"
-                        android:layout_height="50dp">
+                        android:layout_height="50dp"
+                        android:background="@drawable/btn_back_selector">
 
                         <vn.tonish.hozo.view.TextViewHozo
                             style="@style/tv_advance_setting"
@@ -204,7 +208,7 @@
                     android:id="@+id/btn_reset"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@color/white"
+                    android:background="@drawable/btn_back_selector"
                     android:gravity="center_vertical"
                     android:paddingLeft="16dp"
                     android:text="@string/btn_reset"
