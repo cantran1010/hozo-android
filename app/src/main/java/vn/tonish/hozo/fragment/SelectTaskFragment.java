@@ -15,7 +15,9 @@ import vn.tonish.hozo.activity.PostATaskActivity;
 import vn.tonish.hozo.adapter.CategoryAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.CategoryEntity;
+import vn.tonish.hozo.database.entity.SettingEntiny;
 import vn.tonish.hozo.database.manager.CategoryManager;
+import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.Category;
@@ -55,6 +57,8 @@ public class SelectTaskFragment extends BaseFragment {
     protected void initData() {
         getCacheData();
         getCategory();
+        if (SettingManager.getSettingEntiny() == null)
+            settingDefault();
     }
 
     private void getCacheData() {
@@ -129,7 +133,7 @@ public class SelectTaskFragment extends BaseFragment {
 
     private void inserCategory(List<Category> categoryList) {
         List<CategoryEntity> list = new ArrayList<>();
-        if (CategoryManager.getAllCategories().size()==0) {
+        if (CategoryManager.getAllCategories().size() == 0) {
             list = DataParse.convertListCategoryToListCategoryEntity(categoryList);
             setIsSelected(list);
             CategoryManager.insertCategories(list);
@@ -141,7 +145,7 @@ public class SelectTaskFragment extends BaseFragment {
             list = DataParse.convertListCategoryToListCategoryEntity(categoryList);
             CategoryManager.insertCategories(list);
         }
-        LogUtils.d(TAG,"setIsSelected : "+CategoryManager.getAllCategories().toString());
+        LogUtils.d(TAG, "setIsSelected : " + CategoryManager.getAllCategories().toString());
 
     }
 
@@ -150,7 +154,7 @@ public class SelectTaskFragment extends BaseFragment {
             insertIsSelected(categoryEntity, true);
         }
         CategoryManager.insertCategories(categoryEntities);
-        LogUtils.d(TAG,"setIsSelected null "+CategoryManager.getAllCategories().toString());
+        LogUtils.d(TAG, "setIsSelected null " + CategoryManager.getAllCategories().toString());
     }
 
 
@@ -181,6 +185,20 @@ public class SelectTaskFragment extends BaseFragment {
             updateMenuUi(3);
             openFragment(R.id.layout_container, MyTaskFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
         }
+    }
+
+    private void settingDefault() {
+        LogUtils.d(TAG, "settingDefault start");
+        SettingEntiny settingEntiny = new SettingEntiny();
+        settingEntiny.setUserId(UserManager.getMyUser().getId());
+        settingEntiny.setLatitude(21.028511);
+        settingEntiny.setLongitude(105.804817);
+        settingEntiny.setLocation("Hà Nội");
+        settingEntiny.setRadius(0);
+        settingEntiny.setGender(getString(R.string.gender_vn_any));
+        settingEntiny.setMinWorkerRate(10000);
+        settingEntiny.setMaxWorkerRate(100000000);
+        SettingManager.insertSetting(settingEntiny);
     }
 
 

@@ -16,6 +16,7 @@ public class SettingEntiny extends RealmObject implements Serializable {
     private long maxWorkerRate;
     private double latitude;
     private double longitude;
+    private String location;
     private int radius;
     private String gender;
 
@@ -60,6 +61,13 @@ public class SettingEntiny extends RealmObject implements Serializable {
         this.longitude = longitude;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public int getRadius() {
         return radius;

@@ -233,6 +233,7 @@
     <string name="profile_rate">Đánh giá</string>
     <string name="retry_title">Lỗi</string>
     <string name="retry_content">Đã xảy ra lỗi trong quá trình kết nối. Bạn có muốn thử lại không ?</string>
+    <string name="internet_error">Đã xảy ra lỗi trong quá trình kết nối. vui lòng kiểm tra lại kết nối  ?</string>
     <string name="retry_ok">CÓ</string>
     <string name="retry_cancel">KHÔNG</string>
     <string name="bidder">Người ứng tuyển</string>
@@ -379,5 +380,7 @@
     <string name="post_task_date_picker_title">Chọn ngày làm việc</string>
     <string name="post_task_time_picker_title">Chọn thời gian bắt đầu</string>
     <string name="radius_everywhere">mọi nơi</string>
+    <string name="empty_search">bạn chưa nhập từ khoá</string>
+    <string name="taks_type_empty">bạn chưa chọn loại công việc</string>
 
 </resources>

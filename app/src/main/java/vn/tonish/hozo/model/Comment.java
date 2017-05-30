@@ -87,7 +87,7 @@ public class Comment extends RealmObject implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public Date getCraeatedDateAt() {
+    public Date getCreatedDateAt() {
         return craeatedDateAt;
     }
 

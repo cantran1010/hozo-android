@@ -135,7 +135,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 doEdit();
                 break;
             case R.id.btn_logout:
-//                logOut();
                 NetworkUtils.logOut(this);
                 break;
             case R.id.btn_poster:
@@ -173,78 +172,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-//    private void logOut() {
-//        DialogUtils.showOkAndCancelDialog(this, getString(R.string.msg_logOut), getString(R.string.msg_contten_logOut), "Có", "huỷ", new AlertDialogOkAndCancel.AlertDialogListener() {
-//            @Override
-//            public void onSubmit() {
-//                ProgressDialogUtils.showProgressDialog(ProfileActivity.this);
-//                ApiClient.getApiService().logOut(UserManager.getUserToken()).enqueue(new Callback<Void>() {
-//                    @Override
-//                    public void onResponse(Call<Void> call, Response<Void> response) {
-//                        if (response.isSuccessful()) {
-//                            if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
-//                                Realm realm = Realm.getDefaultInstance();
-//                                realm.beginTransaction();
-//                                realm.deleteAll();
-//                                realm.commitTransaction();
-//                                startActivityAndClearAllTask(new Intent(ProfileActivity.this, HomeActivity.class), TransitionScreen.FADE_IN);
-//                            } else {
-//                                showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-//                                    @Override
-//                                    public void onSubmit() {
-//                                        logOut();
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancel() {
-//
-//                                    }
-//                                });
-//
-//                            }
-//                        } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-//                            NetworkUtils.refreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
-//                                @Override
-//                                public void onRefreshFinish() {
-//                                    logOut();
-//                                }
-//                            });
-//                        } else {
-//                            APIError error = ErrorUtils.parseError(response);
-//                            LogUtils.d(TAG, "errorBody" + error.toString());
-//                            Toast.makeText(ProfileActivity.this, error.message(), Toast.LENGTH_SHORT).show();
-//
-//                        }
-//                        ProgressDialogUtils.dismissProgressDialog();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<Void> call, Throwable t) {
-//                        ProgressDialogUtils.dismissProgressDialog();
-//                        showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-//                            @Override
-//                            public void onSubmit() {
-//                                logOut();
-//                            }
-//
-//                            @Override
-//                            public void onCancel() {
-//
-//                            }
-//                        });
-//
-//                    }
-//                });
-//
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//
-//            }
-//        });
-//
-//    }
 
     private void updateUserFromServer() {
         if (mUserEntity == null) {
@@ -351,7 +278,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 btnAddVerify.setVisibility(View.VISIBLE);
                 btnAddVerify.setEnabled(true);
                 btnLogOut.setVisibility(View.VISIBLE);
+                imgEdit.setVisibility(View.VISIBLE);
             } else {
+                imgEdit.setVisibility(View.GONE);
                 layoutInfor.setVisibility(View.GONE);
                 btnAddVerify.setVisibility(View.GONE);
                 btnAddVerify.setEnabled(false);

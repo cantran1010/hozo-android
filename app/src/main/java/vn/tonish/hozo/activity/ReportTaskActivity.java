@@ -27,7 +27,8 @@ import vn.tonish.hozo.view.EdittextHozo;
  * Created by LongBui on 4/25/2017.
  */
 
-public class ReportTaskActivity extends BaseActivity implements View.OnClickListener {
+public class
+ReportTaskActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = ReportTaskActivity.class.getSimpleName();
 

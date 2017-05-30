@@ -1,8 +1,6 @@
 package vn.tonish.hozo.activity;
 
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.util.Log;
 import android.view.View;
 
@@ -14,7 +12,6 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.setting.CostActivity;
@@ -58,6 +55,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     private int idRadius;
     private String strRadius;
     private String strGender;
+    private String strLocation;
 
 
     @Override
@@ -89,8 +87,6 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         findViewById(R.id.tab_radius).setOnClickListener(this);
         btnReset.setOnClickListener(this);
         btnSave.setOnClickListener(this);
-        if (SettingManager.getSettingEntiny() == null)
-            settingDefault();
         setDefaultvalues();
         setDataforView();
 
@@ -157,6 +153,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         settingEntiny.setLongitude(lng);
         settingEntiny.setGender(strGender);
         settingEntiny.setRadius(mRadius);
+        settingEntiny.setLocation(strLocation);
         SettingManager.insertSetting(settingEntiny);
         CategoryManager.insertCategories(DataParse.convertListCategoryToListCategoryEntity(mCategory.getCategories()));
         finish();
@@ -223,36 +220,12 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         return name;
     }
 
-    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
-        String strAdd = "";
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        try {
-            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
-            if (addresses != null) {
-                Address returnedAddress = addresses.get(0);
-
-                if (returnedAddress.getMaxAddressLineIndex() > 1) {
-                    strAdd = returnedAddress.getAddressLine(returnedAddress.getMaxAddressLineIndex() - 1);
-                }
-
-                if (returnedAddress.getMaxAddressLineIndex() > 2) {
-                    strAdd = returnedAddress.getAddressLine(returnedAddress.getMaxAddressLineIndex() - 1);
-                }
-
-            } else {
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return strAdd;
-    }
 
     private void setDataforView() {
         SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
         tvWorkType.setText(getNameRealmCategorys());
         tvPrice.setText(formatNumber(settingEntiny.getMinWorkerRate()) + " - " + formatNumber(settingEntiny.getMaxWorkerRate()));
-        tvLocation.setText(getCompleteAddressString(lat, lng));
+        tvLocation.setText(strLocation);
         tvRadius.setText(strRadius);
         tvGender.setText(settingEntiny.getGender());
 
@@ -282,10 +255,10 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(this, data);
                 Log.i(TAG, "Place: " + place.getName());
-                tvLocation.setText(place.getName());
                 lat = place.getLatLng().latitude;
                 lng = place.getLatLng().longitude;
-                tvLocation.setText(place.getName());
+                strLocation = (String) place.getName();
+                tvLocation.setText(strLocation);
                 LogUtils.d(TAG, "latlong: " + lat + "va: " + lng);
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
@@ -305,32 +278,21 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         }
     }
 
-    private void settingDefault() {
-        LogUtils.d(TAG, "settingDefault start");
-        SettingEntiny settingEntiny = new SettingEntiny();
-        settingEntiny.setUserId(UserManager.getMyUser().getId());
-        settingEntiny.setLatitude(21.028511);
-        settingEntiny.setLongitude(105.804817);
-        settingEntiny.setRadius(0);
-        settingEntiny.setGender(getString(R.string.gender_vn_any));
-        settingEntiny.setMinWorkerRate(10000);
-        settingEntiny.setMaxWorkerRate(100000000);
-        SettingManager.insertSetting(settingEntiny);
-    }
-
     private void setDefaultvalues() {
-        minWorkerRate = (int) SettingManager.getSettingEntiny().getMinWorkerRate();
-        maxWorkerRate = (int) SettingManager.getSettingEntiny().getMaxWorkerRate();
+        SettingEntiny settingEntiny=SettingManager.getSettingEntiny();
+        strLocation = settingEntiny.getLocation();
+        minWorkerRate = (int) settingEntiny.getMinWorkerRate();
+        maxWorkerRate = (int) settingEntiny.getMaxWorkerRate();
         mCategory = new Category();
         mCategory.setCategories((ArrayList<Category>) DataParse.convertListCategoryEntityToListCategory(CategoryManager.getAllCategories()));
-        lat = SettingManager.getSettingEntiny().getLatitude();
-        lng = SettingManager.getSettingEntiny().getLongitude();
-        strGender = SettingManager.getSettingEntiny().getGender();
-        if (SettingManager.getSettingEntiny().getRadius() == 0) {
+        lat = settingEntiny.getLatitude();
+        lng = settingEntiny.getLongitude();
+        strGender = settingEntiny.getGender();
+        if (settingEntiny.getRadius() == 0) {
             idRadius = R.id.rb_everywhere;
             strRadius = getString(R.string.radius_everywhere);
         } else {
-            int rad = SettingManager.getSettingEntiny().getRadius();
+            int rad = settingEntiny.getRadius();
             switch (rad) {
                 case 5:
                     idRadius = R.id.rb_5;
