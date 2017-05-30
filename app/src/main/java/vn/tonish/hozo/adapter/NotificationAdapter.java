@@ -1,12 +1,16 @@
 package vn.tonish.hozo.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.List;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.other.ProfileActivity;
+import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -17,17 +21,32 @@ import vn.tonish.hozo.view.TextViewHozo;
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by CanTran on 12/04/2017.
- * Edited by HuyQuynh on 19/04/2017
+ * Created by LongBui on 4/12/17.
  */
 
 public class NotificationAdapter extends BaseAdapter<Notification, NotificationAdapter.NotificationHolder, LoadingHolder> {
 
     public List<Notification> notifications;
+    private Context context;
 
     public NotificationAdapter(Context context, List<Notification> notifications) {
         super(context, notifications);
         this.notifications = notifications;
+        this.context = context;
+    }
+
+    public interface NotificationAdapterListener {
+        public void onNotificationAdapterListener(int position);
+    }
+
+    private NotificationAdapterListener notificationAdapterListener;
+
+    public NotificationAdapterListener getNotificationAdapterListener() {
+        return notificationAdapterListener;
+    }
+
+    public void setNotificationAdapterListener(NotificationAdapterListener notificationAdapterListener) {
+        this.notificationAdapterListener = notificationAdapterListener;
     }
 
     @Override
@@ -51,19 +70,29 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof NotificationHolder) {
             NotificationHolder notificationHolder = (NotificationHolder) holder;
 
             Utils.displayImageAvatar(context, notificationHolder.imgAvata, notifications.get(position).getAvatar());
-            Utils.setContentMessage(context,notificationHolder.tvContent,notifications.get(position));
+            Utils.setContentMessage(context, notificationHolder.tvContent, notifications.get(position));
             notificationHolder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(notifications.get(position).getCreatedAt(), context));
+
+            notificationHolder.imgAvata.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ProfileActivity.class);
+                    intent.putExtra(Constants.USER_ID, notifications.get(position).getUserId());
+                    intent.putExtra(Constants.IS_MY_USER, notifications.get(position).getUserId() == UserManager.getMyUser().getId());
+                    context.startActivity(intent);
+                }
+            });
 
             LogUtils.d(TAG, "NotificationAdapter , notification : " + notifications.get(position).toString());
         }
     }
 
-    public class NotificationHolder extends BaseHolder {
+    public class NotificationHolder extends BaseHolder implements View.OnClickListener {
 
         private CircleImageView imgAvata;
         private TextViewHozo tvContent, tvTimeAgo;
@@ -73,6 +102,14 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
             imgAvata = (CircleImageView) itemView.findViewById(R.id.img_avatar);
             tvContent = (TextViewHozo) itemView.findViewById(R.id.tv_content);
             tvTimeAgo = (TextViewHozo) itemView.findViewById(R.id.tv_time_ago);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (notificationAdapterListener != null)
+                notificationAdapterListener.onNotificationAdapterListener(getAdapterPosition());
         }
     }
 }

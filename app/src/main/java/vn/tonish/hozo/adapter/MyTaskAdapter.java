@@ -75,24 +75,24 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
             workHolder.tvPrice.setText(Utils.formatNumber(taskResponse.getWorkerRate() * taskResponse.getWorkerCount()) + " " + context.getString(R.string.currency));
 
             if (taskResponse.getRole().equals(Constants.ROLE_TASKER)) {
-                if (taskResponse.getStatus().equals(Constants.TASK_STATUS_OPEN)) {
+                if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_open));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_recruitment));
-                } else if (taskResponse.getStatus().equals(Constants.TASK_STATUS_ASSIGNED)) {
+                } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_assigned));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_received));
-                } else if (taskResponse.getStatus().equals(Constants.TASK_STATUS_COMPLETED)) {
+                } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_completed));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
                 }
             } else if (taskResponse.getRole().equals(Constants.ROLE_POSTER)) {
-                if (taskResponse.getStatus().equals(Constants.TASK_STATUS_OPEN)) {
+                if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_open));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_recruitment));
-                } else if (taskResponse.getStatus().equals(Constants.TASK_STATUS_ASSIGNED)) {
+                } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_assigned));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_received));
-                } else if (taskResponse.getStatus().equals(Constants.TASK_STATUS_COMPLETED)) {
+                } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_completed));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
                 }

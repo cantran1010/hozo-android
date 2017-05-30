@@ -38,7 +38,8 @@
             android:layout_height="50dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:visibility="gone">
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"
@@ -62,14 +63,35 @@
             android:layout_marginLeft="@dimen/margin_left_screen"
             android:layout_marginRight="@dimen/margin_right_screen">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/lvList"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_left_screen"
-                android:layout_marginRight="@dimen/margin_right_screen"
-                android:background="@drawable/border_gray"
-                android:scrollbars="vertical" />
+                android:background="@color/white">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/lvList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical" />
+
+                <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1px"-->
+                <!--android:background="@color/gray" />-->
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/gray" />
+
+            </RelativeLayout>
+
 
         </android.support.v4.widget.SwipeRefreshLayout>
 

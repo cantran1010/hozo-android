@@ -12,7 +12,9 @@ import android.widget.RatingBar;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.RateActivity;
+import vn.tonish.hozo.activity.other.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -24,13 +26,14 @@ import static android.content.ContentValues.TAG;
  * Created by LongBui on 4/21/2017.
  */
 
-public class CompleteView extends LinearLayout {
+public class CompleteView extends LinearLayout implements View.OnClickListener{
 
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvTimeAgo, tvPrice;
     private RatingBar rbRate;
     private ButtonHozo btnRate;
     private int taskId;
+    private Assigner assigner;
 
     public CompleteView(Context context) {
         super(context);
@@ -57,7 +60,7 @@ public class CompleteView extends LinearLayout {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.complete_view, this, true);
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
-
+        imgAvatar.setOnClickListener(this);
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
         rbRate = (RatingBar) findViewById(R.id.rb_rate);
@@ -67,6 +70,7 @@ public class CompleteView extends LinearLayout {
 
     public void updateData(final Assigner assigner) {
         LogUtils.d(TAG, "updateData bidder : " + assigner.toString());
+        this.assigner = assigner;
         Utils.displayImageAvatar(getContext(), imgAvatar, assigner.getAvatar());
         tvName.setText(assigner.getFullName());
         rbRate.setRating(assigner.getTaskerAverageRating());
@@ -89,5 +93,20 @@ public class CompleteView extends LinearLayout {
 
     public void setTaskId(int taskId) {
         this.taskId = taskId;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.img_avatar:
+                Intent intent = new Intent(getContext(), ProfileActivity.class);
+                intent.putExtra(Constants.USER_ID, assigner.getId());
+                intent.putExtra(Constants.IS_MY_USER, assigner.getId() == UserManager.getMyUser().getId());
+                getContext().startActivity(intent);
+                break;
+
+        }
+
     }
 }

@@ -95,6 +95,7 @@ public class Constants {
     public static final int RESULT_CODE_COST = 1999;
     public static final int RESULT_CODE_TASK_TYPE =2020 ;
     public static final int REQUEST_CODE_COST = 2001;
+    public static final String TASK_TYPE = "task_type";
     public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
 
     public static final String USER_POSTER_REVIEWS = "poster_reviews";
@@ -123,16 +124,16 @@ public class Constants {
     public static final String PARAM_UPDATE_TASK = "status";
     public static final String PARAM_UPDATE_TASK_CANCEL = "canceled";
 
-    //task status
-    public static final String OFFER_STATUS_PENDING = "pending";
-    public static final String OFFER_STATUS_ACCEPTED = "accepted";
-    public static final String OFFER_STATUS_MISSED = "missed";
-    public static final String OFFER_STATUS_CANCELED = "canceled";
+//    //task status
+//    public static final String OFFER_STATUS_PENDING = "pending";
+//    public static final String OFFER_STATUS_ACCEPTED = "accepted";
+//    public static final String OFFER_STATUS_MISSED = "missed";
+//    public static final String OFFER_STATUS_CANCELED = "canceled";
 
-    //offer status
-    public static final String TASK_STATUS_OPEN = "open";
-    public static final String TASK_STATUS_ASSIGNED = "assigned";
-    public static final String TASK_STATUS_COMPLETED = "completed";
+//    //offer status
+//    public static final String TASK_STATUS_OPEN = "open";
+//    public static final String TASK_STATUS_ASSIGNED = "assigned";
+//    public static final String TASK_STATUS_COMPLETED = "completed";
 
     // my task role
     public static final String ROLE_TASKER = "tasker";
@@ -141,5 +142,16 @@ public class Constants {
     // post task
     public static final String GENDER_MALE = "male";
     public static final String GENDER_FEMALE = "female";
+
+    //task type
+    public static final String TASK_TYPE_BIDDER_PENDING = "pending";
+    public static final String TASK_TYPE_BIDDER_ACCEPTED = "accepted";
+    public static final String TASK_TYPE_BIDDER_MISSED = "missed";
+    public static final String TASK_TYPE_BIDDER_CANCELED = "canceled";
+    public static final String TASK_TYPE_POSTER_OPEN = "open";
+    public static final String TASK_TYPE_POSTER_ASSIGNED = "assigned";
+    public static final String TASK_TYPE_POSTER_COMPLETED = "completed";
+    public static final String TASK_TYPE_MAKE_OFFER = "make_offer";
+    public static final String TASK_TYPE_ONLY_VIEW = "only_view";
 
 }
