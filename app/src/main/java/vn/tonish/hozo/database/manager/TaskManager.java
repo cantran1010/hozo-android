@@ -64,9 +64,9 @@ public class TaskManager {
         Realm realm = Realm.getDefaultInstance();
         RealmQuery<TaskEntity> taskEntityRealmQuery;
         if (sinceDate == null) {
-            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).equalTo("status", Constants.TASK_STATUS_OPEN);
+            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).equalTo("status", Constants.TASK_TYPE_POSTER_OPEN);
         } else {
-            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).equalTo("status", Constants.TASK_STATUS_OPEN).lessThan("createdAt", sinceDate);
+            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).equalTo("status", Constants.TASK_TYPE_POSTER_OPEN).lessThan("createdAt", sinceDate);
         }
         List<TaskEntity> taskEntities = taskEntityRealmQuery.findAll().sort("createdAt", Sort.DESCENDING);
         if (taskEntities.size() > 0) {

@@ -34,6 +34,19 @@
             android:layout_toRightOf="@id/img_back"
             android:text="@string/make_an_offer_title" />
 
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_cancel"
+            style="@style/tv_title_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_back_selector"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/cancel_task" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"

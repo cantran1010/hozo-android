@@ -16,13 +16,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.PosterAssignedTaskActivity;
-import vn.tonish.hozo.activity.PosterCompletedTaskActivity;
-import vn.tonish.hozo.activity.PosterOpenTaskActivity;
-import vn.tonish.hozo.activity.WorkerOfferMadeActivity;
+import vn.tonish.hozo.activity.TaskDetailActivity;
 import vn.tonish.hozo.adapter.MyTaskAdapter;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.common.TaskStatus;
 import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -219,38 +215,44 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                 @Override
                 public void onMyTaskAdapterClickListener(int position) {
                     TaskResponse taskResponse = taskResponses.get(position);
-
                     LogUtils.d(TAG, "myTaskAdapter.setMyTaskAdapterListener , taskResponse : " + taskResponse);
+//                    Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+//                    intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+//                    intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_POSTER_OPEN);
+//                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
 
                     if (role.equals(Constants.ROLE_TASKER)) {
-                        if (taskResponse.getOfferStatus().equals(Constants.OFFER_STATUS_PENDING)) {
-                            Intent intent = new Intent(getActivity(), WorkerOfferMadeActivity.class);
+                        if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
+                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                            intent.putExtra(Constants.TASK_STATUS_EXTRA, TaskStatus.WorkerOfferMade);
+                            intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_BIDDER_PENDING);
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        } else if (taskResponse.getOfferStatus().equals(Constants.OFFER_STATUS_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_STATUS_COMPLETED)) {
-                            Intent intent = new Intent(getActivity(), WorkerOfferMadeActivity.class);
+                        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                            intent.putExtra(Constants.TASK_STATUS_EXTRA, TaskStatus.WorkerAcceptedTask);
+                            intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_BIDDER_ACCEPTED);
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        } else if (taskResponse.getOfferStatus().equals(Constants.OFFER_STATUS_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_STATUS_COMPLETED)) {
-                            Intent intent = new Intent(getActivity(), WorkerOfferMadeActivity.class);
+                        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                            intent.putExtra(Constants.TASK_STATUS_EXTRA, TaskStatus.WorkerDoneTask);
+                            intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_BIDDER_ACCEPTED);
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                         }
                     } else if (role.equals(Constants.ROLE_POSTER)) {
-                        if (taskResponse.getStatus().equals(Constants.TASK_STATUS_OPEN)) {
-                            Intent intent = new Intent(getActivity(), PosterOpenTaskActivity.class);
+                        if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN)) {
+                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+                            intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_POSTER_OPEN);
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        } else if (taskResponse.getStatus().equals(Constants.TASK_STATUS_ASSIGNED)) {
-                            Intent intent = new Intent(getActivity(), PosterAssignedTaskActivity.class);
+                        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED)) {
+                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+                            intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_POSTER_ASSIGNED);
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        } else if (taskResponse.getStatus().equals(Constants.TASK_STATUS_COMPLETED)) {
-                            Intent intent = new Intent(getActivity(), PosterCompletedTaskActivity.class);
+                        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+                            intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_POSTER_COMPLETED);
                             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                         }
                     }

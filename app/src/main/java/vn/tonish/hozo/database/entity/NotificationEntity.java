@@ -93,4 +93,19 @@ public class NotificationEntity extends RealmObject {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
+    @Override
+    public String toString() {
+        return "NotificationEntity{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", fullName='" + fullName + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", taskId=" + taskId +
+                ", taskName='" + taskName + '\'' +
+                ", event='" + event + '\'' +
+                ", read=" + read +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

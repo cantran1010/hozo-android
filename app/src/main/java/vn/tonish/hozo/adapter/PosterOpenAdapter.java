@@ -18,9 +18,12 @@ import vn.tonish.hozo.view.BidderOpenView;
 public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.MyViewHolder> {
 
     private ArrayList<Bidder> bidders;
+    private String type;
+    private int taskId;
 
-    public PosterOpenAdapter(ArrayList<Bidder> bidders){
+    public PosterOpenAdapter(ArrayList<Bidder> bidders,String type){
         this.bidders = bidders;
+        this.type = type;
     }
 
     @Override
@@ -31,7 +34,8 @@ public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.bidderOpenView.updateData(bidders.get(position));
+        holder.bidderOpenView.updateData(bidders.get(position),type);
+        holder.bidderOpenView.setTaskId(getTaskId());
     }
 
     @Override
@@ -48,5 +52,13 @@ public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.My
             bidderOpenView = (BidderOpenView) itemView.findViewById(R.id.bidder_open_view);
         }
 
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
     }
 }

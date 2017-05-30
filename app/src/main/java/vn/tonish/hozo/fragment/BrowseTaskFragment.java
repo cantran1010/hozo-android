@@ -28,7 +28,7 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AdvanceSettingsActivity;
 import vn.tonish.hozo.activity.BrowerTaskMapActivity;
-import vn.tonish.hozo.activity.MakeAnOfferActivity;
+import vn.tonish.hozo.activity.TaskDetailActivity;
 import vn.tonish.hozo.adapter.TaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.TaskEntity;
@@ -259,8 +259,10 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 public void onTaskAdapterClickListener(int position) {
                     LogUtils.d(TAG,"onclick");
                     TaskResponse taskResponse = taskList.get(position);
-                    Intent intent = new Intent(getActivity(), MakeAnOfferActivity.class);
+
+                    Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+                    intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_MAKE_OFFER);
                     startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 }
             });

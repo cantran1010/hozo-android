@@ -1,5 +1,6 @@
 package vn.tonish.hozo.fragment;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.TaskDetailActivity;
 import vn.tonish.hozo.adapter.NotificationAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.NotificationEntity;
@@ -26,6 +28,7 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -43,7 +46,7 @@ public class InboxFragment extends BaseFragment {
     protected TextViewHozo tvUnread;
     private String since;
     private Date sinceDate;
-    public static final int LIMIT = 10;
+    public static final int LIMIT = 15;
     boolean isLoadingMoreFromServer = true;
     boolean isLoadingMoreFromDb = true;
     boolean isLoadingFromServer = false;
@@ -62,24 +65,26 @@ public class InboxFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        getCacheDataFirstPage();
+        getCacheDataPage(sinceDate);
         getNotifications(false);
     }
 
-    private void getCacheDataFirstPage() {
-        LogUtils.d(TAG, "getCacheDataFirstPage start");
-        List<NotificationEntity> notificationEntities = NotificationManager.getFirstPage();
-        if (notificationEntities.size() > 0)
-            sinceDate = notificationEntities.get(notificationEntities.size() - 1).getCreatedAt();
-        notifications = DataParse.converListNotificationEntity(notificationEntities);
+//    private void getCacheDataFirstPage() {
+//        LogUtils.d(TAG, "getCacheDataFirstPage start");
+//        List<NotificationEntity> notificationEntities = NotificationManager.getFirstPage();
+//        if (notificationEntities.size() > 0)
+//            sinceDate = notificationEntities.get(notificationEntities.size() - 1).getCreatedAt();
+//        notifications = DataParse.converListNotificationEntity(notificationEntities);
+//
+//        if (notificationEntities.size() < LIMIT) isLoadingMoreFromDb = false;
+//        refreshList();
+//    }
 
-        if (notificationEntities.size() < LIMIT) isLoadingMoreFromDb = false;
-        refreshList();
-    }
-
-    private void getCacheDataPage() {
+    private void getCacheDataPage(Date sinceDateSearch) {
         LogUtils.d(TAG, "getCacheDataPage start");
-        List<NotificationEntity> notificationEntities = NotificationManager.getNotificationsSince(sinceDate);
+        List<NotificationEntity> notificationEntities = NotificationManager.getNotificationsSince(sinceDateSearch);
+        LogUtils.d(TAG, "getCacheDataPage notificationEntities : " + notificationEntities.toString());
+        LogUtils.d(TAG, "getCacheDataPage notificationEntities size : " + notificationEntities.size());
 
         if (notificationEntities.size() > 0)
             sinceDate = notificationEntities.get(notificationEntities.size() - 1).getCreatedAt();
@@ -117,7 +122,8 @@ public class InboxFragment extends BaseFragment {
                         if (!checkContainsNotification(notifications, notificationResponse.get(i)))
                             notifications.add(notificationResponse.get(i));
                     }
-                    since = notificationResponse.get(notificationResponse.size() - 1).getCreatedAt();
+                    if (notificationResponse.size() > 0)
+                        since = notificationResponse.get(notificationResponse.size() - 1).getCreatedAt();
 
                     if (notificationResponse.size() < LIMIT) {
                         isLoadingMoreFromServer = false;
@@ -188,9 +194,19 @@ public class InboxFragment extends BaseFragment {
 
                     LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 
-                    if (isLoadingMoreFromDb) getCacheDataPage();
+                    if (isLoadingMoreFromDb) getCacheDataPage(sinceDate);
                     if (isLoadingMoreFromServer) getNotifications(true);
 
+                }
+            });
+
+            notificationAdapter.setNotificationAdapterListener(new NotificationAdapter.NotificationAdapterListener() {
+                @Override
+                public void onNotificationAdapterListener(int position) {
+                    Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+                    intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
+                    intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_ONLY_VIEW);
+                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 }
             });
 

@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
@@ -69,16 +70,17 @@ import vn.tonish.hozo.view.TextViewHozo;
 import vn.tonish.hozo.view.WorkAroundMapFragment;
 import vn.tonish.hozo.view.WorkDetailView;
 
+import static vn.tonish.hozo.R.string.call;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 /**
- * Created by LongBui on 5/3/2017.
+ * Created by LongBui on 5/30/17.
  */
 
-public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener {
+public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener {
 
-    private static final String TAG = PosterOpenTaskActivity.class.getSimpleName();
+    private static final String TAG = TaskDetailActivity.class.getSimpleName();
     private CommentViewFull commentViewFull;
     private WorkDetailView workDetailView;
     private ArrayList<Comment> comments = new ArrayList<>();
@@ -102,17 +104,19 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     private ImageView imgComment;
 
     private int taskId = 0;
+    private String taskType;
     private GoogleMap googleMap;
     private int tempId = 0;
     private File fileAttach;
     private TextViewHozo tvSeeMore;
-    private TextViewHozo tvCancel;
     private TextViewHozo tvCommentCount, tvBidderCount, tvAssignCount;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
+    private LinearLayout layoutFooter;
+    private TextViewHozo tvCancel;
 
     @Override
     protected int getLayout() {
-        return R.layout.poster_open_task_activity;
+        return R.layout.task_detail_activity;
     }
 
     @Override
@@ -142,15 +146,17 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         imgComment = (ImageView) findViewById(R.id.img_send);
         imgComment.setOnClickListener(this);
 
-        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
-        tvCancel.setOnClickListener(this);
-
         tvSeeMore = (TextViewHozo) findViewById(R.id.tv_see_more_comment);
         tvSeeMore.setOnClickListener(this);
 
         tvBidderCount = (TextViewHozo) findViewById(R.id.tv_bidder_count);
         tvAssignCount = (TextViewHozo) findViewById(R.id.tv_assign_count);
         tvCommentCount = (TextViewHozo) findViewById(R.id.tv_comment_count);
+
+        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
+        tvCancel.setOnClickListener(this);
+
+        layoutFooter = (LinearLayout) findViewById(R.id.layout_footer);
 
         scv = (ScrollView) findViewById(R.id.scv);
 
@@ -170,9 +176,8 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     @Override
     protected void initData() {
         taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
-        workDetailView.updateStatus(getString(R.string.update_task), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
-        workDetailView.updateBtnOffer(false);
-        workDetailView.updateBtnCallRate(false, false, "");
+        taskType = getIntent().getStringExtra(Constants.TASK_TYPE);
+
         useCacheData();
         getData();
     }
@@ -207,18 +212,27 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taskResponse = response.body();
-                    taskResponse.setRole(Constants.ROLE_POSTER);
+                    if (taskType.equals(Constants.TASK_TYPE_POSTER_OPEN) || taskType.equals(Constants.TASK_TYPE_POSTER_ASSIGNED) || taskType.equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+                        taskResponse.setRole(Constants.ROLE_POSTER);
+                    } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_PENDING) || taskType.equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) ||
+                            taskType.equals(Constants.TASK_TYPE_BIDDER_MISSED) || taskType.equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
+                        taskResponse.setRole(Constants.ROLE_TASKER);
+                    } else if (taskType.equals(Constants.TASK_TYPE_MAKE_OFFER)) {
+                        taskResponse.setRole(Constants.ROLE_FIND_TASK);
+                    }
+
                     updateUi();
                     storeTaskToDatabase();
+
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(PosterOpenTaskActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(TaskDetailActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             getData();
                         }
                     });
                 } else {
-                    DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             getData();
@@ -236,7 +250,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
             @Override
             public void onFailure(Call<TaskResponse> call, Throwable t) {
                 LogUtils.e(TAG, "getDetailTask , error : " + t.getMessage());
-                DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         getData();
@@ -259,9 +273,58 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     }
 
     private void updateUi() {
-        LogUtils.d(TAG, "updateUi start");
-        workDetailView.updateWork(taskResponse);
 
+        String bidderType = "";
+        String assigerType = "";
+
+        if (taskType.equals(Constants.TASK_TYPE_POSTER_OPEN)) {
+            workDetailView.updateStatus(true, getString(R.string.update_task), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnCallRate(false, false, "");
+            bidderType = getString(R.string.assign);
+            assigerType = getString(R.string.call);
+        } else if (taskType.equals(Constants.TASK_TYPE_POSTER_ASSIGNED)) {
+            workDetailView.updateStatus(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnCallRate(false, false, "");
+            assigerType = getString(R.string.call);
+        } else if (taskType.equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+            workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnCallRate(false, false, "");
+            layoutFooter.setVisibility(View.GONE);
+            assigerType = getString(R.string.rate);
+        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateStatus(false, getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
+            workDetailView.updateBtnCallRate(false, false, "");
+        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateStatus(true, getString(R.string.received), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
+            workDetailView.updateBtnCallRate(true, true, getString(call));
+        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
+            workDetailView.updateBtnCallRate(true, false, getString(R.string.rate));
+            layoutFooter.setVisibility(View.GONE);
+        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
+
+        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
+
+        } else if (taskType.equals(Constants.TASK_TYPE_MAKE_OFFER)) {
+            workDetailView.updateBtnOffer(true);
+            workDetailView.updateStatus(false, "", ContextCompat.getDrawable(this, R.drawable.bg_border_done));
+            workDetailView.updateBtnCallRate(false, false, "");
+            tvCancel.setVisibility(View.GONE);
+        } else if (taskType.equals(Constants.TASK_TYPE_ONLY_VIEW)) {
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateStatus(false, "", ContextCompat.getDrawable(this, R.drawable.bg_border_done));
+            workDetailView.updateBtnCallRate(false, false, "");
+            tvCancel.setVisibility(View.GONE);
+            layoutFooter.setVisibility(View.GONE);
+        }
+
+        workDetailView.updateWork(taskResponse);
         if (googleMap != null) {
             LatLng latLng = new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude());
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
@@ -273,23 +336,18 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
         // update bidder list
         bidders = (ArrayList<Bidder>) taskResponse.getBidders();
-        refreshBidderList();
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        for (int i = 0; i < bidders.size(); i++) bidders.get(i).setTaskId(taskResponse.getId());
-        realm.commitTransaction();
+        refreshBidderList(bidderType);
 
         //update assigners list
         assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
-        refreshAssignerList();
+        refreshAssignerList(assigerType);
 
         //update comments
         comments = (ArrayList<Comment>) taskResponse.getComments();
-
+        Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         for (int i = 0; i < comments.size(); i++) comments.get(i).setTaskId(taskId);
         realm.commitTransaction();
-
         commentViewFull.updateData(comments);
 
         tvBidderCount.setText("(" + taskResponse.getBidderCount() + ")");
@@ -299,18 +357,20 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         updateSeeMoreComment();
     }
 
-    private void refreshAssignerList() {
-        assignerAdapter = new AssignerCallAdapter(assigners);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        rcvAssign.setLayoutManager(linearLayoutManager);
-        rcvAssign.setAdapter(assignerAdapter);
-    }
-
-    private void refreshBidderList() {
-        posterOpenAdapter = new PosterOpenAdapter(bidders);
+    private void refreshBidderList(String bidderType) {
+        posterOpenAdapter = new PosterOpenAdapter(bidders, bidderType);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvBidder.setLayoutManager(linearLayoutManager);
+        posterOpenAdapter.setTaskId(taskId);
         rcvBidder.setAdapter(posterOpenAdapter);
+    }
+
+    private void refreshAssignerList(String assignType) {
+        assignerAdapter = new AssignerCallAdapter(assigners, assignType);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rcvAssign.setLayoutManager(linearLayoutManager);
+        assignerAdapter.setTaskId(taskId);
+        rcvAssign.setAdapter(assignerAdapter);
     }
 
     @Override
@@ -332,7 +392,8 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_attach:
-                PickImageDialog pickImageDialog = new PickImageDialog(PosterOpenTaskActivity.this);
+
+                PickImageDialog pickImageDialog = new PickImageDialog(TaskDetailActivity.this);
                 pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
                     @Override
                     public void onCamera() {
@@ -341,7 +402,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
                     @Override
                     public void onGallery() {
-                        Intent intent = new Intent(PosterOpenTaskActivity.this, AlbumActivity.class);
+                        Intent intent = new Intent(TaskDetailActivity.this, AlbumActivity.class);
                         intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
                         startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
                     }
@@ -355,7 +416,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
                 break;
 
             case R.id.img_attached:
-                Intent intent = new Intent(PosterOpenTaskActivity.this, PreviewImageActivity.class);
+                Intent intent = new Intent(TaskDetailActivity.this, PreviewImageActivity.class);
                 intent.putExtra(Constants.EXTRA_IMAGE_PATH, imgPath);
                 startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 break;
@@ -391,6 +452,59 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         }
     }
 
+    private void doCacelTask() {
+        ProgressDialogUtils.showProgressDialog(this);
+
+        ApiClient.getApiService().cancelTask(UserManager.getUserToken(), taskId).enqueue(new Callback<TaskResponse>() {
+            @Override
+            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+                LogUtils.d(TAG, "doCacelTask , code : " + response.code());
+                LogUtils.d(TAG, "doCacelTask , body : " + response.body());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    finish();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(TaskDetailActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doCacelTask();
+                        }
+                    });
+                } else {
+                    DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doCacelTask();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<TaskResponse> call, Throwable t) {
+                DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doCacelTask();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
+    }
+
     protected void checkPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
@@ -412,77 +526,14 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         }
     }
 
-    private void permissionGranted() {
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
-    }
-
     private void permissionDenied() {
         LogUtils.d(TAG, "permissionDenied camera");
     }
 
-
-    private void doCacelTask() {
-        ProgressDialogUtils.showProgressDialog(this);
-        final JSONObject jsonRequest = new JSONObject();
-        try {
-            jsonRequest.put(Constants.PARAM_UPDATE_TASK, Constants.PARAM_UPDATE_TASK_CANCEL);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        LogUtils.d(TAG, "doCacelTask data request : " + jsonRequest.toString());
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-
-        ApiClient.getApiService().updateTask(UserManager.getUserToken(), taskId, body).enqueue(new Callback<TaskResponse>() {
-            @Override
-            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
-                LogUtils.d(TAG, "doCacelTask , code : " + response.code());
-                LogUtils.d(TAG, "doCacelTask , body : " + response.body());
-
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    finish();
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(PosterOpenTaskActivity.this, new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            doCacelTask();
-                        }
-                    });
-                } else {
-                    DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            doCacelTask();
-                        }
-
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
-                }
-
-                ProgressDialogUtils.dismissProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<TaskResponse> call, Throwable t) {
-                DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        doCacelTask();
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
-                ProgressDialogUtils.dismissProgressDialog();
-            }
-        });
+    private void permissionGranted() {
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
     }
 
     private void doSeeMoreComment() {
@@ -519,16 +570,15 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
                     ImageResponse imageResponse = response.body();
                     tempId = imageResponse.getIdTemp();
                     doComment();
-                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(PosterOpenTaskActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(TaskDetailActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doAttachImage();
                         }
                     });
                 } else {
-                    DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             doAttachImage();
@@ -540,12 +590,13 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
                         }
                     });
                 }
+
             }
 
             @Override
             public void onFailure(Call<ImageResponse> call, Throwable t) {
                 LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
-                DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         doAttachImage();
@@ -561,6 +612,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
     }
 
     private void doComment() {
+
         ProgressDialogUtils.showProgressDialog(this);
         final JSONObject jsonRequest = new JSONObject();
         try {
@@ -572,15 +624,12 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
         }
 
         LogUtils.d(TAG, "commentTask data request : " + jsonRequest.toString());
-        LogUtils.d(TAG, "commentTask taskId : " + taskId);
-        LogUtils.d(TAG, "commentTask token : " + UserManager.getUserToken());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
         ApiClient.getApiService().commentTask(UserManager.getUserToken(), taskId, body).enqueue(new Callback<Comment>() {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
                 LogUtils.d(TAG, "commentTask , code : " + response.code());
-                LogUtils.d(TAG, "commentTask , body : " + response.body());
                 LogUtils.d(TAG, "commentTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
@@ -597,14 +646,14 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
                     edtComment.setText(getString(R.string.empty));
                     imgLayout.setVisibility(View.GONE);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(PosterOpenTaskActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(TaskDetailActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doComment();
                         }
                     });
                 } else {
-                    DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             doComment();
@@ -622,8 +671,7 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
             @Override
             public void onFailure(Call<Comment> call, Throwable t) {
-                LogUtils.e(TAG, "commentTask onFailure : " + t.getMessage());
-                DialogUtils.showRetryDialog(PosterOpenTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         doComment();
@@ -660,11 +708,11 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
             imgPath = imagesSelected.get(0).getPath();
-            Utils.displayImage(PosterOpenTaskActivity.this, imgAttached, imgPath);
+            Utils.displayImage(TaskDetailActivity.this, imgAttached, imgPath);
             imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
-            Utils.displayImage(PosterOpenTaskActivity.this, imgAttached, imgPath);
+            Utils.displayImage(TaskDetailActivity.this, imgAttached, imgPath);
             imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
         }
@@ -688,12 +736,4 @@ public class PosterOpenTaskActivity extends BaseActivity implements OnMapReadyCa
 
         }
     };
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        LogUtils.d(TAG,"onBackPressed close realm");
-        Realm realm = Realm.getDefaultInstance();
-        realm.close();
-    }
 }

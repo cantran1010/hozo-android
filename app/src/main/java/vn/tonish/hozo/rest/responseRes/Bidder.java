@@ -21,15 +21,6 @@ public class Bidder extends RealmObject implements Serializable{
     @SerializedName("bidded_at")
     private String bidedAt;
     private String phone;
-    private int taskId;
-
-    public int getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
-    }
 
     public String getFullName() {
         return fullName;
