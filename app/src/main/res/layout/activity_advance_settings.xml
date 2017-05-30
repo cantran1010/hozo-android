@@ -146,6 +146,7 @@
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_location"
                             style="@style/tv_advance_setting"
+                            android:layout_width="200dp"
                             android:ellipsize="end"
                             android:gravity="right"
                             android:maxLines="1" />

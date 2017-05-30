@@ -91,7 +91,7 @@ public class ReviewManager {
         for (int i = 0; i < reviewEntities.size(); i++) {
             reviewEntities.get(i).setCraeatedDateAt(getDateFromStringIso(reviewEntities.get(i).getCreatedAt()));
             realm.insertOrUpdate(reviewEntities.get(i));
-            LogUtils.d(TAG, "getCraeatedDateAt  " + reviewEntities.get(i).getCraeatedDateAt().toString());
+            LogUtils.d(TAG, "getCreatedDateAt  " + reviewEntities.get(i).getCraeatedDateAt().toString());
         }
 
         realm.commitTransaction();

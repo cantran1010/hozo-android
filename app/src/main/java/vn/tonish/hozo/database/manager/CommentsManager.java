@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.Sort;
 import vn.tonish.hozo.activity.CommentsActivity;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.utils.LogUtils;
@@ -30,17 +31,11 @@ public class CommentsManager {
 
     }
 
-    public static List<Comment> getAllComment() {
-        LogUtils.d(TAG, "getAllComment start ");
-        Realm realm = Realm.getDefaultInstance();
-        return realm.where(Comment.class).findAll();
-    }
-
     public static List<Comment> getFirstPage(int taskId) {
         LogUtils.d(TAG, "getFirstPageComment start ");
         List<Comment> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
-        List<Comment> comments = realm.where(Comment.class).equalTo("taskId",taskId).findAll().sort("createdAt");
+        List<Comment> comments = realm.where(Comment.class).equalTo("taskId", taskId).findAll().sort("createdAt", Sort.DESCENDING);
         if (comments.size() > 0) {
 
             if (comments.size() >= CommentsActivity.LIMIT)
@@ -52,12 +47,12 @@ public class CommentsManager {
         return result;
     }
 
-    public static List<Comment> getCommentsSince(Date sinceDate,int taskId) {
+    public static List<Comment> getCommentsSince(Date sinceDate, int taskId) {
 
         LogUtils.d(TAG, "getCommentsSince start ");
         List<Comment> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
-        List<Comment> comments = realm.where(Comment.class).equalTo("taskId",taskId).lessThan("craeatedDateAt", sinceDate).findAll().sort("createdAt");
+        List<Comment> comments = realm.where(Comment.class).equalTo("taskId", taskId).lessThan("craeatedDateAt", sinceDate).findAll().sort("createdAt", Sort.DESCENDING);
         if (comments.size() > 0) {
 
             if (comments.size() >= CommentsActivity.LIMIT)

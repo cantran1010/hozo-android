@@ -19,8 +19,8 @@ import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.ReviewManager;
+import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
-import vn.tonish.hozo.model.AddvanceSetting;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
@@ -153,19 +153,6 @@ public class DataParse {
     }
 
 
-    public static SettingEntiny convertSettingToSettingEntiny(AddvanceSetting addvanceSetting) {
-        RealmList<CategoryEntity> categoryEntities = new RealmList<>();
-        SettingEntiny entiny = new SettingEntiny();
-        entiny.setUserId(addvanceSetting.getUserId());
-        entiny.setMinWorkerRate(addvanceSetting.getMinWorkerRate());
-        entiny.setMaxWorkerRate(addvanceSetting.getMaxWorkerRate());
-        entiny.setLatitude(addvanceSetting.getLatitude());
-        entiny.setLongitude(addvanceSetting.getLongitude());
-        entiny.setRadius(addvanceSetting.getRadius());
-        entiny.setGender(addvanceSetting.getGender());
-        return entiny;
-    }
-
     //update data reviewEntities
 
     public static void insertReviewtoDb(User user) {
@@ -197,8 +184,8 @@ public class DataParse {
         taskResponse.setCategoryId(taskEntity.getCategoryId());
         taskResponse.setTitle(taskEntity.getTitle());
         taskResponse.setDescription(taskEntity.getDescription());
-        taskResponse.setStartTime(taskEntity.getStartTime());
-        taskResponse.setEndTime(taskEntity.getEndTime());
+        taskResponse.setStartTime(DateTimeUtils.fromDateIso(taskEntity.getStartTime()));
+        taskResponse.setEndTime(DateTimeUtils.fromDateIso(taskEntity.getEndTime()));
         taskResponse.setStatus(taskEntity.getStatus());
         taskResponse.setOfferStatus(taskEntity.getOfferStatus());
         taskResponse.setCommentsCount(taskEntity.getCommentsCount());
@@ -255,8 +242,8 @@ public class DataParse {
         taskEntity.setCategoryId(taskResponse.getCategoryId());
         taskEntity.setTitle(taskResponse.getTitle());
         taskEntity.setDescription(taskResponse.getDescription());
-        taskEntity.setStartTime(taskResponse.getStartTime());
-        taskEntity.setEndTime(taskResponse.getEndTime());
+        taskEntity.setStartTime(DateTimeUtils.getDateFromStringIso(taskResponse.getStartTime()));
+        taskEntity.setEndTime(DateTimeUtils.getDateFromStringIso(taskResponse.getEndTime()));
         taskEntity.setStatus(taskResponse.getStatus());
         taskEntity.setOfferStatus(taskResponse.getOfferStatus());
         taskEntity.setCommentsCount(taskResponse.getCommentsCount());
@@ -373,36 +360,33 @@ public class DataParse {
         return result;
     }
 
-    public static Map<String, String> setParameterGetTasks(SettingEntiny addvanceSetting, String sortBy, String limit, String since, String query) {
+    public static Map<String, String> setParameterGetTasks(String sortBy, String limit, String since, String query) {
+        SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
         Map<String, String> option = new HashMap<>();
-        option.put("category_id", getIds2(CategoryManager.getAllCategories()));
-        option.put("min_worker_rate", String.valueOf(addvanceSetting.getMinWorkerRate()));
-        option.put("min_worker_rate", String.valueOf(addvanceSetting.getMaxWorkerRate()));
-        option.put("latitude", String.valueOf(addvanceSetting.getLatitude()));
-        option.put("longitude", String.valueOf(addvanceSetting.getLongitude()));
-        option.put("distance", String.valueOf(addvanceSetting.getRadius()));
-        option.put("sort_by", sortBy);
+        option.put("category_id", getIds());
+        option.put("min_worker_rate", String.valueOf(settingEntiny.getMinWorkerRate()));
+        option.put("min_worker_rate", String.valueOf(settingEntiny.getMaxWorkerRate()));
+        option.put("latitude", String.valueOf(settingEntiny.getLatitude()));
+        option.put("longitude", String.valueOf(settingEntiny.getLongitude()));
+        option.put("distance", String.valueOf(settingEntiny.getRadius()));
+        if (sortBy != null) option.put("sort_by", sortBy);
         option.put("limit", limit);
-        option.put("since", since);
-        option.put("query", query);
+        if (since != null) option.put("since", since);
+        if (query != null) option.put("query", query);
+        LogUtils.d(TAG, " set option :" + option.toString());
         return option;
     }
 
-    public static String getIds(RealmList<CategoryEntity> entityRealmList) {
+    public static String getIds() {
+        List<CategoryEntity> entityRealmList= CategoryManager.getAllCategories();
         String ids = "";
         for (CategoryEntity categoryEntity : entityRealmList) {
-            ids = "ids[]=" + categoryEntity.getId() + "&";
+            if (categoryEntity.isSelected())
+                ids = ids+"ids[]=" + categoryEntity.getId() + "&";
         }
-        return ids.substring(0, ids.length() - 2);
+        LogUtils.d(TAG, "getIds" + ids);
 
-    }
-
-    public static String getIds2(List<CategoryEntity> entityRealmList) {
-        String ids = "";
-        for (CategoryEntity categoryEntity : entityRealmList) {
-            ids = "ids[]=" + categoryEntity.getId() + "&";
-        }
-        return ids.substring(0, ids.length() - 2);
+        return ids.substring(0, ids.length() -2);
 
     }
 

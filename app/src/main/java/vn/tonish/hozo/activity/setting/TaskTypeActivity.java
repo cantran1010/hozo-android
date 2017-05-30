@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,12 +115,16 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
 
 
     private void saveData() {
-        Intent intent = new Intent();
-        Category category = new Category();
-        category.setCategories((ArrayList<Category>) taskTypes);
-        intent.putExtra(Constants.EXTRA_CATEGORY_ID, category);
-        setResult(Constants.RESULT_CODE_TASK_TYPE, intent);
-        finish();//finishing
+        if (taskTypes.size() > 0) {
+            Intent intent = new Intent();
+            Category category = new Category();
+            category.setCategories((ArrayList<Category>) taskTypes);
+            intent.putExtra(Constants.EXTRA_CATEGORY_ID, category);
+            setResult(Constants.RESULT_CODE_TASK_TYPE, intent);
+            finish();//finishing
+        } else {
+            Toast.makeText(this, getString(R.string.taks_type_empty), Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

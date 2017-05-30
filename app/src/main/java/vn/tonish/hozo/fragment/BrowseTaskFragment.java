@@ -73,6 +73,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private Date sinceDate = null;
     private String sinceStr = null;
     private String query = null;
+    private String strSortBy = null;
     private Animation rtAnimation;
     private Animation lanimation;
 
@@ -108,7 +109,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                hideKeyBoard(getActivity());
+                search();
                 return actionId == EditorInfo.IME_ACTION_SEARCH;
             }
         });
@@ -140,6 +141,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void resumeData() {
+        getTaskResponse(null, null, query);
 
     }
 
@@ -159,10 +161,8 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         isLoadingFromServer = true;
         taskAdapter.stopLoadMore();
         Map<String, String> option = new HashMap<>();
-        if (since != null) option.put("since", since);
-        if (query != null) option.put("query", query);
-        option.put("limit", String.valueOf(limit));
-//        option = DataParse.setParameterGetTasks(SettingManager.getSettingEntiny(), SortBy, String.valueOf(limit), since, query);
+        option = DataParse.setParameterGetTasks( SortBy, String.valueOf(limit), since, query);
+        LogUtils.d(TAG, "option : " + option.toString());
         ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), option).enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
@@ -179,12 +179,11 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                         if (taskResponses.size() > 0)
                             for (TaskResponse response1 : taskResponses
                                     ) {
-                                response1.setRole(Constants.ROLE_FIND_TASK);
+                                response1.setRole(Constants.TASK_TYPE_POSTER_OPEN);
                                 Utils.checkContainsTaskResponse(taskList, response1);
                             }
                         for (int i = taskResponses.size() - 1; i >= 0; i--)
                             Utils.checkContainsTaskResponse(taskList, taskResponses.get(i));
-
 
                         TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
 
@@ -257,7 +256,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             taskAdapter.setTaskAdapterListener(new TaskAdapter.TaskAdapterListener() {
                 @Override
                 public void onTaskAdapterClickListener(int position) {
-                    LogUtils.d(TAG,"onclick");
+                    LogUtils.d(TAG, "onclick");
                     TaskResponse taskResponse = taskList.get(position);
 
                     Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
@@ -276,7 +275,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     taskAdapter.notifyDataSetChanged();
                 }
             });
-//            taskAdapter.notifyDataSetChanged();
         }
         LogUtils.d(TAG, "refreshList , taskReponse size : " + taskList.size());
     }
@@ -291,10 +289,14 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             case R.id.img_search:
                 showSearch(layoutSearch, Constants.DURATION, true);
                 showSearch(layoutHeader, Constants.DURATION, false);
+
                 break;
             case R.id.img_back:
+                query = null;
+                edtSearch.setText("");
                 showSearch(layoutHeader, Constants.DURATION, true);
                 showSearch(layoutSearch, Constants.DURATION, false);
+                getTaskResponse(null, null, query);
                 break;
             case R.id.img_clear:
                 edtSearch.setText("");
@@ -303,6 +305,19 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 startActivity(new Intent(getActivity(), AdvanceSettingsActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
+
+    }
+
+    private void search() {
+
+        if (edtSearch.getText().toString().isEmpty()) {
+            edtSearch.setError(getActivity().getString(R.string.empty_search));
+        } else {
+            taskList.clear();
+            query = edtSearch.getText().toString();
+            getTaskResponse(sinceStr, strSortBy, query);
+        }
+        hideKeyBoard(getActivity());
 
     }
 
@@ -344,15 +359,8 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onRefresh() {
         super.onRefresh();
-        taskList.clear();
-        isLoadingMoreFromServer = true;
-        isLoadingMoreFromDb = true;
-        isLoadingFromServer = false;
-        sinceDate = null;
-        sinceStr = null;
-        query = null;
-        taskAdapter=null;
-        getCacheDataPage();
+        getTaskResponse(null, null, query);
+
     }
 
 }

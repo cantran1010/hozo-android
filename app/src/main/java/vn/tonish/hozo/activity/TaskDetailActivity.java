@@ -539,7 +539,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private void doSeeMoreComment() {
         Intent intent = new Intent(this, CommentsActivity.class);
         intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+        startActivity(intent, TransitionScreen.DOWN_TO_UP);
     }
 
     private void doSend() {

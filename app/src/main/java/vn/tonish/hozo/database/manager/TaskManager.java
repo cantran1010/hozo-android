@@ -1,6 +1,7 @@
 package vn.tonish.hozo.database.manager;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -64,9 +65,9 @@ public class TaskManager {
         Realm realm = Realm.getDefaultInstance();
         RealmQuery<TaskEntity> taskEntityRealmQuery;
         if (sinceDate == null) {
-            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).equalTo("status", Constants.TASK_TYPE_POSTER_OPEN);
+            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).equalTo("status", Constants.TASK_TYPE_POSTER_OPEN).greaterThan("endTime", Calendar.getInstance().getTime());
         } else {
-            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).equalTo("status", Constants.TASK_TYPE_POSTER_OPEN).lessThan("createdAt", sinceDate);
+            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).equalTo("status", Constants.TASK_TYPE_POSTER_OPEN).lessThan("createdAt", sinceDate).greaterThan("endTime", Calendar.getInstance().getTime());
         }
         List<TaskEntity> taskEntities = taskEntityRealmQuery.findAll().sort("createdAt", Sort.DESCENDING);
         if (taskEntities.size() > 0) {
