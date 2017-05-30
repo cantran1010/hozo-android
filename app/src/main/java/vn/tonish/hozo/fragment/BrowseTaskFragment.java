@@ -179,7 +179,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                         if (taskResponses.size() > 0)
                             for (TaskResponse response1 : taskResponses
                                     ) {
-                                response1.setRole(Constants.ROLE_FIND_TASK);
+                                response1.setRole(Constants.TASK_TYPE_POSTER_OPEN);
                                 Utils.checkContainsTaskResponse(taskList, response1);
                             }
                         for (int i = taskResponses.size() - 1; i >= 0; i--)
