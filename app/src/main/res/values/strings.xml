@@ -229,6 +229,7 @@
     <string name="accout_is_not_exist">Tài khoản không tồn tại</string>
     <string name="show_all">Xem thêm</string>
     <string name="my_account">Tài khoản của tôi</string>
+    <string name="user_account">Tài khoản</string>
     <string name="profile_verifyed">Verified</string>
     <string name="profile_rate">Đánh giá</string>
     <string name="retry_title">Lỗi</string>
@@ -294,7 +295,7 @@
     <string name="gender_male">male</string>
     <string name="gender_mafele">female</string>
     <string name="tv_radius">Bán kính</string>
-    <string name="setting_radius">Chọn bán kính</string>
+    <string name="setting_radius">Chọn khoảng cách</string>
 
     <string name="radius_5km">5 km</string>
     <string name="radius_10km">10 km</string>

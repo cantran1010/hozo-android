@@ -52,7 +52,6 @@ public class ReviewManager {
         Realm realm = Realm.getDefaultInstance();
         List<ReviewEntity> reviewEntities = realm.where(ReviewEntity.class).lessThan("craeatedDateAt", sinceDate).findAll().sort("createdAt");
         if (reviewEntities.size() > 0) {
-
             if (reviewEntities.size() >= CommentsActivity.LIMIT)
                 result = reviewEntities.subList(0, CommentsActivity.LIMIT);
             else result = reviewEntities;

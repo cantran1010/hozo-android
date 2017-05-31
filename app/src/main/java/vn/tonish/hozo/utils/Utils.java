@@ -317,6 +317,27 @@ public class Utils {
         else taskResponses.add(0, taskResponse);
     }
 
+    public static void checkContainsFindTask(List<TaskResponse> taskResponses, TaskResponse taskResponse) {
+        for (TaskResponse response : taskResponses
+                ) {
+            if (taskResponse.getId() == response.getId()) {
+            }
+
+        }
+//        boolean isUpdate = false;
+//        int index = 0;
+//
+//        for (int i = 0; i < taskResponses.size(); i++) {
+//            if (taskResponses.get(i).getId() == taskResponse.getId()) {
+//                isUpdate = true;
+//                index = i;
+//                break;
+//            }
+//        }
+//
+//        if (isUpdate) taskResponses.set(index, taskResponse);
+//        else taskResponses.add(taskResponses.size(), taskResponse);
+    }
 
 
     public static String converGenderVn(Context context, String gender) {

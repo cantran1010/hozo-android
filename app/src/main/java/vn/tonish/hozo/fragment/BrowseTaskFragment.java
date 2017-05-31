@@ -183,10 +183,9 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                             for (TaskResponse response1 : taskResponses
                                     ) {
                                 response1.setRole(Constants.ROLE_FIND_TASK);
-                                Utils.checkContainsTaskResponse(taskList, response1);
                             }
                         for (int i = taskResponses.size() - 1; i >= 0; i--)
-                            Utils.checkContainsTaskResponse(taskList, taskResponses.get(i));
+                            Utils.checkContainsFindTask(taskList, taskResponses.get(i));
 
                         TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
 
