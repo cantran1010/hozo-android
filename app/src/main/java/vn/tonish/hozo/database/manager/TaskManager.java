@@ -1,7 +1,6 @@
 package vn.tonish.hozo.database.manager;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class TaskManager {
         Realm realm = Realm.getDefaultInstance();
         try {
             return realm.where(TaskEntity.class).equalTo("id", taskId).findFirst();
-        }finally {
+        } finally {
             realm.close();
         }
     }
@@ -65,11 +64,11 @@ public class TaskManager {
         Realm realm = Realm.getDefaultInstance();
         RealmQuery<TaskEntity> taskEntityRealmQuery;
         if (sinceDate == null) {
-            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).equalTo("status", Constants.TASK_TYPE_POSTER_OPEN).greaterThan("endTime", Calendar.getInstance().getTime());
+            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).equalTo("status", Constants.TASK_TYPE_POSTER_OPEN);
         } else {
-            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).equalTo("status", Constants.TASK_TYPE_POSTER_OPEN).lessThan("createdAt", sinceDate).greaterThan("endTime", Calendar.getInstance().getTime());
+            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).equalTo("status", Constants.TASK_TYPE_POSTER_OPEN).lessThan("createdAt", sinceDate);
         }
-        List<TaskEntity> taskEntities = taskEntityRealmQuery.findAll().sort("createdAt", Sort.DESCENDING);
+        List<TaskEntity> taskEntities = taskEntityRealmQuery.findAll();
         if (taskEntities.size() > 0) {
 
             if (taskEntities.size() >= BrowseTaskFragment.limit)
@@ -88,7 +87,6 @@ public class TaskManager {
         LogUtils.d(TAG, "getTaskSince start , sinceDate : " + sinceDate + " , role : " + role);
         List<TaskEntity> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
-
         RealmQuery<TaskEntity> taskEntityRealmQuery;
         if (sinceDate == null) {
             taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role);

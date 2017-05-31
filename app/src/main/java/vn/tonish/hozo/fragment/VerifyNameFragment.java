@@ -124,6 +124,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        LogUtils.d(TAG, "aaaa onResponse updateFullName UserManager.getUserToken() : " + UserManager.getUserToken());
 
         ApiClient.getApiService().updateUser(UserManager.getUserToken(), body).enqueue(new Callback<UserEntity>() {
             @Override

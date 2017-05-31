@@ -141,18 +141,21 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void resumeData() {
+        sinceDate = null;
+        sinceStr = null;
         getTaskResponse(null, null, query);
 
     }
 
     private void getCacheDataPage() {
+        LogUtils.d(TAG, "sinceDate " + sinceDate);
         List<TaskEntity> taskEntities = TaskManager.getTaskEntitiesOpen(sinceDate, Constants.ROLE_FIND_TASK);
         if (taskEntities.size() > 0)
             sinceDate = taskEntities.get(taskEntities.size() - 1).getCreatedAt();
         taskList.addAll(DataParse.converListTaskEntityToTaskResponse(taskEntities));
         loadMoreTasks();
         if (taskList.size() < limit) isLoadingMoreFromDb = false;
-        LogUtils.d(TAG, "getCacheDataPage size" + taskList.size());
+        LogUtils.d(TAG, "getCacheDataPage taskList" + taskList.toString());
     }
 
 
@@ -161,7 +164,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         isLoadingFromServer = true;
         taskAdapter.stopLoadMore();
         Map<String, String> option = new HashMap<>();
-        option = DataParse.setParameterGetTasks( SortBy, String.valueOf(limit), since, query);
+        option = DataParse.setParameterGetTasks(SortBy, String.valueOf(limit), null, query);
         LogUtils.d(TAG, "option : " + option.toString());
         ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), option).enqueue(new Callback<List<TaskResponse>>() {
             @Override
@@ -179,7 +182,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                         if (taskResponses.size() > 0)
                             for (TaskResponse response1 : taskResponses
                                     ) {
-                                response1.setRole(Constants.TASK_TYPE_POSTER_OPEN);
+                                response1.setRole(Constants.ROLE_FIND_TASK);
                                 Utils.checkContainsTaskResponse(taskList, response1);
                             }
                         for (int i = taskResponses.size() - 1; i >= 0; i--)
@@ -191,6 +194,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                             taskAdapter.stopLoadMore();
                             isLoadingMoreFromServer = false;
                         }
+                        LogUtils.d(TAG, "getTaskResponse taskList : " + taskList.toString());
                         loadMoreTasks();
                     }
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
