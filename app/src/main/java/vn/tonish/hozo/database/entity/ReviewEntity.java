@@ -17,7 +17,7 @@ public class ReviewEntity extends RealmObject {
     @SerializedName("user_id")
     private int userId;
     @SerializedName("author_id")
-    private Integer authorId;
+    private int authorId;
     @SerializedName("author_avatar")
     private String authorAvatar;
     @SerializedName("author_name")
@@ -26,13 +26,10 @@ public class ReviewEntity extends RealmObject {
     private String taskName;
     private String type;
     private String body;
-    private Integer rating;
+    private int rating;
     @SerializedName("created_at")
     private String createdAt;
     private Date craeatedDateAt;
-
-    public ReviewEntity() {
-    }
 
     public int getId() {
         return id;
@@ -50,11 +47,11 @@ public class ReviewEntity extends RealmObject {
         this.userId = userId;
     }
 
-    public Integer getAuthorId() {
+    public int getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(Integer authorId) {
+    public void setAuthorId(int authorId) {
         this.authorId = authorId;
     }
 
@@ -98,11 +95,11 @@ public class ReviewEntity extends RealmObject {
         this.body = body;
     }
 
-    public Integer getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 
@@ -126,6 +123,7 @@ public class ReviewEntity extends RealmObject {
     public String toString() {
         return "ReviewEntity{" +
                 "id=" + id +
+                ", userId=" + userId +
                 ", authorId=" + authorId +
                 ", authorAvatar='" + authorAvatar + '\'' +
                 ", authorName='" + authorName + '\'' +

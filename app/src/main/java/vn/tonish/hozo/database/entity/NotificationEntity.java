@@ -12,29 +12,29 @@ import io.realm.annotations.PrimaryKey;
 public class NotificationEntity extends RealmObject {
 
     @PrimaryKey
-    private Integer id;
-    private Integer userId;
+    private int id;
+    private int userId;
     private String fullName;
     private String avatar;
-    private Integer taskId;
+    private int taskId;
     private String taskName;
     private String event;
     private Boolean read;
     private Date createdAt;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -54,11 +54,11 @@ public class NotificationEntity extends RealmObject {
         this.avatar = avatar;
     }
 
-    public Integer getTaskId() {
+    public int getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(Integer taskId) {
+    public void setTaskId(int taskId) {
         this.taskId = taskId;
     }
 

@@ -18,7 +18,9 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
@@ -210,11 +212,21 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
                 LogUtils.d(TAG, "createNewTask code : " + response.code());
 
                 if (response.code() == Constants.HTTP_CODE_CREATED) {
-                    DialogUtils.showOkDialog(PostATaskFinishActivity.this, getString(R.string.post_a_task_complete_title), getString(R.string.post_a_task_complete), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+//                    DialogUtils.showOkDialog(PostATaskFinishActivity.this, getString(R.string.post_a_task_complete_title), getString(R.string.post_a_task_complete), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+//                        @Override
+//                        public void onSubmit() {
+//                            setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+//                            finish();
+//                        }
+//                    });
+                    Utils.showLongToast(PostATaskFinishActivity.this, getString(R.string.post_a_task_complete));
+                    setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+                    finish();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(PostATaskFinishActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
-                        public void onSubmit() {
-                            setResult(Constants.POST_A_TASK_RESPONSE_CODE);
-                            finish();
+                        public void onRefreshFinish() {
+                            doDone();
                         }
                     });
                 } else {
@@ -233,6 +245,17 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             @Override
             public void onFailure(Call<TaskResponse> call, Throwable t) {
                 LogUtils.e(TAG, "createNewTask onFailure : " + t.getMessage());
+                DialogUtils.showRetryDialog(PostATaskFinishActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doDone();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
             }
         });
     }

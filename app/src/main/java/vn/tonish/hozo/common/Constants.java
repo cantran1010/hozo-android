@@ -41,7 +41,7 @@ public class Constants {
     public static final String COUNT_IMAGE_ATTACH_EXTRA = "extra_count_image";
 
     public static final boolean DEBUG = true;
-    public static final int SPLASH_TIME = 1500;
+    public static final int SPLASH_TIME = 1000;
     public static final String DB_NAME = "hozo";
     public static final String KEY_ENCRYPTION_DEFAULT = "abcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefgh";
 
@@ -95,7 +95,10 @@ public class Constants {
     public static final int RESULT_CODE_COST = 1999;
     public static final int RESULT_CODE_TASK_TYPE =2020 ;
     public static final int REQUEST_CODE_COST = 2001;
-    public static final String TASK_TYPE = "task_type";
+//    public static final String TASK_TYPE = "task_type";
+    public static final int RESULT_CODE_TASK_EDIT = 234;
+    public static final int REQUEST_CODE_TASK_EDIT = 432;
+    public static final String NOTIFICATION_EXTRA = "notification_extra";
     public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
 
     public static final String USER_POSTER_REVIEWS = "poster_reviews";
@@ -148,10 +151,20 @@ public class Constants {
     public static final String TASK_TYPE_BIDDER_ACCEPTED = "accepted";
     public static final String TASK_TYPE_BIDDER_MISSED = "missed";
     public static final String TASK_TYPE_BIDDER_CANCELED = "canceled";
+
     public static final String TASK_TYPE_POSTER_OPEN = "open";
     public static final String TASK_TYPE_POSTER_ASSIGNED = "assigned";
     public static final String TASK_TYPE_POSTER_COMPLETED = "completed";
+    public static final String TASK_TYPE_POSTER_OVERDUE = "overdue";
+    public static final String TASK_TYPE_POSTER_CANCELED = "canceled";
+
     public static final String TASK_TYPE_MAKE_OFFER = "make_offer";
     public static final String TASK_TYPE_ONLY_VIEW = "only_view";
+
+
+    // parameter update device token
+    public static final String UPDATE_TOKEN_DEVICE_TOKEN = "device_token";
+    public static final String UPDATE_TOKEN_DEVICE_TYPE = "device_type";
+    public static final String UPDATE_TOKEN_DEVICE_TYPE_ANDROID = "android";
 
 }

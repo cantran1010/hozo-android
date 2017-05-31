@@ -216,46 +216,56 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                 public void onMyTaskAdapterClickListener(int position) {
                     TaskResponse taskResponse = taskResponses.get(position);
                     LogUtils.d(TAG, "myTaskAdapter.setMyTaskAdapterListener , taskResponse : " + taskResponse);
-//                    Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
-//                    intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-//                    intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_POSTER_OPEN);
-//                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
 
-                    if (role.equals(Constants.ROLE_TASKER)) {
-                        if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
-                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
-                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                            intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_BIDDER_PENDING);
-                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
-                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
-                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                            intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_BIDDER_ACCEPTED);
-                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
-                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
-                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                            intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_BIDDER_ACCEPTED);
-                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        }
-                    } else if (role.equals(Constants.ROLE_POSTER)) {
-                        if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN)) {
-                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
-                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                            intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_POSTER_OPEN);
-                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED)) {
-                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
-                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                            intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_POSTER_ASSIGNED);
-                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
-                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
-                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                            intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_POSTER_COMPLETED);
-                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                        }
-                    }
+                    Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+                    intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+                    startActivityForResult(intent, Constants.REQUEST_CODE_TASK_EDIT, TransitionScreen.RIGHT_TO_LEFT);
+
+//                    if (role.equals(Constants.ROLE_TASKER)) {
+//                        if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
+//                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+//                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+//                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+//                        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+//                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+//                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+//                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+//                        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+//                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+//                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+//                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+//                        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
+//                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+//                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+//                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+//                        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
+//                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+//                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+//                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+//                        }
+//                    } else if (role.equals(Constants.ROLE_POSTER)) {
+//                        if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN)) {
+//                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+//                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+//                            startActivityForResult(intent, Constants.REQUEST_CODE_TASK_EDIT, TransitionScreen.RIGHT_TO_LEFT);
+//                        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED)) {
+//                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+//                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+//                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+//                        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+//                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+//                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+//                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+//                        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
+//                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+//                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+//                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+//                        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
+//                            Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+//                            intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+//                            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+//                        }
+//                    }
 
                 }
             });
@@ -271,6 +281,21 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         }
 
         LogUtils.d(TAG, "refreshList , taskReponse size : " + taskResponses.size());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.RESULT_CODE_TASK_EDIT) {
+            TaskResponse taskEdit = (TaskResponse) data.getSerializableExtra(Constants.EXTRA_TASK);
+            for (int i = 0; i < taskResponses.size(); i++) {
+                if (taskResponses.get(i).getId() == taskEdit.getId()) {
+                    taskResponses.set(i, taskEdit);
+                    myTaskAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+        }
     }
 
     private void selectedTab(int position) {

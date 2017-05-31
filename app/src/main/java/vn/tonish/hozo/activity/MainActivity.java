@@ -1,11 +1,13 @@
 package vn.tonish.hozo.activity;
 
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
 import vn.tonish.hozo.fragment.SettingFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
@@ -61,6 +63,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         layoutMyTask.setOnClickListener(this);
         layoutInBox.setOnClickListener(this);
         layoutOther.setOnClickListener(this);
+
+        if(getIntent().hasExtra(Constants.TASK_ID_EXTRA)){
+            int taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA,0);
+            Intent intent = new Intent(this,TaskDetailActivity.class);
+            intent.putExtra(Constants.TASK_ID_EXTRA,taskId);
+            startActivity(intent,TransitionScreen.RIGHT_TO_LEFT);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if(intent.hasExtra(Constants.TASK_ID_EXTRA)){
+            int taskId = intent.getIntExtra(Constants.TASK_ID_EXTRA,0);
+            Intent intentDetail = new Intent(this,TaskDetailActivity.class);
+            intentDetail.putExtra(Constants.TASK_ID_EXTRA,taskId);
+            startActivity(intentDetail,TransitionScreen.RIGHT_TO_LEFT);
+        }
     }
 
     @Override

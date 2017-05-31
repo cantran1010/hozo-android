@@ -35,6 +35,7 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
     private ImageView imgAttach;
     private ImageView imgSetting;
     private Comment comment;
+    private String commentType;
 
     public CommentView(Context context) {
         super(context);
@@ -83,14 +84,20 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
         tvTimeAgo.setText(DateTimeUtils.getTimeAgo(comment.getCreatedAt(), getContext()));
         LogUtils.d(TAG, "update Data time ago : " + DateTimeUtils.getTimeAgo(comment.getCreatedAt(), getContext()));
 
+        if (comment.getBody().equals("")) tvComment.setVisibility(View.GONE);
+
         if (comment.getImgAttach() != null && !comment.getImgAttach().trim().equals("") && !comment.equals("null"))
             Utils.displayImage(getContext(), imgAttach, comment.getImgAttach());
         else imgAttach.setVisibility(View.GONE);
 
-        if (comment.getAuthorId() == UserManager.getMyUser().getId())
+        if (getCommentType().equals(getContext().getString(R.string.comment_setting_invisible))) {
             imgSetting.setVisibility(View.GONE);
-        else
-            imgSetting.setVisibility(View.VISIBLE);
+        } else {
+            if (comment.getAuthorId() == UserManager.getMyUser().getId())
+                imgSetting.setVisibility(View.GONE);
+            else
+                imgSetting.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -167,4 +174,11 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
         popup.show();//showing popup menu
     }
 
+    public String getCommentType() {
+        return commentType;
+    }
+
+    public void setCommentType(String commentType) {
+        this.commentType = commentType;
+    }
 }

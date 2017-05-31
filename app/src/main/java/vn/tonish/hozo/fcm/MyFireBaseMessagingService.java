@@ -27,10 +27,15 @@ import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.MainActivity;
+import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.Utils;
 
 /**
  * When implement FCM, add project on fire base console, and change google-service.json
@@ -67,12 +72,19 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 //        LogUtils.d("remoteMessage message", message);
 //        LogUtils.d("remoteMessage click", click_action);
 
-        sendNotification("test",remoteMessage.getData().toString());
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        Notification notification = gson.fromJson(remoteMessage.getData().toString(),Notification.class);
+
+        sendNotification(notification);
 
     }
     // [END receive_message]
 
-    private void sendNotification(String titleP, String messageP) {
+    private void sendNotification(Notification notification) {
+
+        String title = notification.getTaskName();
+        String content = Utils.getContentFromNotification(getApplicationContext(),notification);
 
         // vibrator when receive push notification from server
         Vibrator v = (Vibrator) getApplicationContext()
@@ -82,7 +94,8 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         int requestID = (int) System.currentTimeMillis();
 
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//        intent.putExtra(Constants.EXTRA_PUSH_MODEL, pushModel);
+//        intent.putExtra(Constants.NOTIFICATION_EXTRA, notification);
+        intent.putExtra(Constants.TASK_ID_EXTRA, notification.getTaskId());
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
@@ -92,8 +105,8 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher)
-                .setContentTitle(titleP)
-                .setContentText(messageP)
+                .setContentTitle(title)
+                .setContentText(content)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);

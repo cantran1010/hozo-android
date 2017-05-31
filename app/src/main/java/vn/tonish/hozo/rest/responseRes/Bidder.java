@@ -11,16 +11,24 @@ import io.realm.RealmObject;
  */
 
 public class Bidder extends RealmObject implements Serializable{
-    private Integer id;
+    private int id;
     @SerializedName("full_name")
     private String fullName;
     @SerializedName("tasker_average_rating")
     private float taskerAverageRating;
-    private Integer verify;
+    private int verify;
     private String avatar;
     @SerializedName("bidded_at")
     private String bidedAt;
     private String phone;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFullName() {
         return fullName;
@@ -38,11 +46,11 @@ public class Bidder extends RealmObject implements Serializable{
         this.taskerAverageRating = taskerAverageRating;
     }
 
-    public Integer getVerify() {
+    public int getVerify() {
         return verify;
     }
 
-    public void setVerify(Integer verify) {
+    public void setVerify(int verify) {
         this.verify = verify;
     }
 
@@ -52,14 +60,6 @@ public class Bidder extends RealmObject implements Serializable{
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getBidedAt() {
@@ -90,5 +90,4 @@ public class Bidder extends RealmObject implements Serializable{
                 ", phone='" + phone + '\'' +
                 '}';
     }
-
 }

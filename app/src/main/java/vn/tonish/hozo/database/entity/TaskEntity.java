@@ -16,8 +16,8 @@ import vn.tonish.hozo.rest.responseRes.Poster;
 
 public class TaskEntity extends RealmObject {
     @PrimaryKey
-    private Integer id;
-    private Integer categoryId;
+    private int id;
+    private int categoryId;
     private String title;
     private String description;
     private Date startTime;
@@ -25,17 +25,17 @@ public class TaskEntity extends RealmObject {
     private Date createdAt;
     private String status;
     private String offerStatus;
-    private Integer commentsCount;
+    private int commentsCount;
     private String gender;
-    private Integer minAge;
-    private Integer maxAge;
-    private Double latitude;
-    private Double longitude;
+    private int minAge;
+    private int maxAge;
+    private double latitude;
+    private double longitude;
     private String city;
     private String district;
     private String address;
-    private Integer workerRate;
-    private Integer workerCount;
+    private int workerRate;
+    private int workerCount;
     private int assigneeCount;
     private int bidderCount;
     private String attachments;
@@ -46,107 +46,19 @@ public class TaskEntity extends RealmObject {
     private RealmList<Assigner> assignees = null;
     private RealmList<Comment> comments = null;
 
-    public String getOfferStatus() {
-        return offerStatus;
-    }
-
-    public void setOfferStatus(String offerStatus) {
-        this.offerStatus = offerStatus;
-    }
-
-    public int getAssigneeCount() {
-        return assigneeCount;
-    }
-
-    public void setAssigneeCount(int assigneeCount) {
-        this.assigneeCount = assigneeCount;
-    }
-
-    public int getBidderCount() {
-        return bidderCount;
-    }
-
-    public void setBidderCount(int bidderCount) {
-        this.bidderCount = bidderCount;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public RealmList<Bidder> getBidders() {
-        return bidders;
-    }
-
-    public void setBidders(RealmList<Bidder> bidders) {
-        this.bidders = bidders;
-    }
-
-    public RealmList<Assigner> getAssignees() {
-        return assignees;
-    }
-
-    public void setAssignees(RealmList<Assigner> assignees) {
-        this.assignees = assignees;
-    }
-
-    public RealmList<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(RealmList<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public String getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(String attachments) {
-        this.attachments = attachments;
-    }
-
-    public Poster getPoster() {
-        return poster;
-    }
-
-    public void setPoster(Poster poster) {
-        this.poster = poster;
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -182,6 +94,14 @@ public class TaskEntity extends RealmObject {
         this.endTime = endTime;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -190,11 +110,19 @@ public class TaskEntity extends RealmObject {
         this.status = status;
     }
 
-    public Integer getCommentsCount() {
+    public String getOfferStatus() {
+        return offerStatus;
+    }
+
+    public void setOfferStatus(String offerStatus) {
+        this.offerStatus = offerStatus;
+    }
+
+    public int getCommentsCount() {
         return commentsCount;
     }
 
-    public void setCommentsCount(Integer commentsCount) {
+    public void setCommentsCount(int commentsCount) {
         this.commentsCount = commentsCount;
     }
 
@@ -206,35 +134,35 @@ public class TaskEntity extends RealmObject {
         this.gender = gender;
     }
 
-    public Integer getMinAge() {
+    public int getMinAge() {
         return minAge;
     }
 
-    public void setMinAge(Integer minAge) {
+    public void setMinAge(int minAge) {
         this.minAge = minAge;
     }
 
-    public Integer getMaxAge() {
+    public int getMaxAge() {
         return maxAge;
     }
 
-    public void setMaxAge(Integer maxAge) {
+    public void setMaxAge(int maxAge) {
         this.maxAge = maxAge;
     }
 
-    public Double getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public Double getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Double longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
@@ -262,20 +190,92 @@ public class TaskEntity extends RealmObject {
         this.address = address;
     }
 
-    public Integer getWorkerRate() {
+    public int getWorkerRate() {
         return workerRate;
     }
 
-    public void setWorkerRate(Integer workerRate) {
+    public void setWorkerRate(int workerRate) {
         this.workerRate = workerRate;
     }
 
-    public Integer getWorkerCount() {
+    public int getWorkerCount() {
         return workerCount;
     }
 
-    public void setWorkerCount(Integer workerCount) {
+    public void setWorkerCount(int workerCount) {
         this.workerCount = workerCount;
+    }
+
+    public int getAssigneeCount() {
+        return assigneeCount;
+    }
+
+    public void setAssigneeCount(int assigneeCount) {
+        this.assigneeCount = assigneeCount;
+    }
+
+    public int getBidderCount() {
+        return bidderCount;
+    }
+
+    public void setBidderCount(int bidderCount) {
+        this.bidderCount = bidderCount;
+    }
+
+    public String getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(String attachments) {
+        this.attachments = attachments;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Poster getPoster() {
+        return poster;
+    }
+
+    public void setPoster(Poster poster) {
+        this.poster = poster;
+    }
+
+    public RealmList<Bidder> getBidders() {
+        return bidders;
+    }
+
+    public void setBidders(RealmList<Bidder> bidders) {
+        this.bidders = bidders;
+    }
+
+    public RealmList<Assigner> getAssignees() {
+        return assignees;
+    }
+
+    public void setAssignees(RealmList<Assigner> assignees) {
+        this.assignees = assignees;
+    }
+
+    public RealmList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(RealmList<Comment> comments) {
+        this.comments = comments;
     }
 
     @Override

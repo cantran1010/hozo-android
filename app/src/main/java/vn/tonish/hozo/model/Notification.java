@@ -13,14 +13,14 @@ import io.realm.RealmObject;
 
 public class Notification extends RealmObject implements Serializable {
 
-    private Integer id;
+    private int id;
     @SerializedName("user_id")
-    private Integer userId;
+    private int userId;
     @SerializedName("full_name")
     private String fullName;
     private String avatar;
     @SerializedName("task_id")
-    private Integer taskId;
+    private int taskId;
     @SerializedName("task_name")
     private String taskName;
     private String event;
@@ -29,19 +29,20 @@ public class Notification extends RealmObject implements Serializable {
     private String createdAt;
     private Date dateAt;
 
-    public Integer getId() {
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -53,11 +54,19 @@ public class Notification extends RealmObject implements Serializable {
         this.fullName = fullName;
     }
 
-    public Integer getTaskId() {
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public int getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(Integer taskId) {
+    public void setTaskId(int taskId) {
         this.taskId = taskId;
     }
 
@@ -93,12 +102,12 @@ public class Notification extends RealmObject implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public Date getDateAt() {
+        return dateAt;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setDateAt(Date dateAt) {
+        this.dateAt = dateAt;
     }
 
     @Override
@@ -113,7 +122,7 @@ public class Notification extends RealmObject implements Serializable {
                 ", event='" + event + '\'' +
                 ", read=" + read +
                 ", createdAt='" + createdAt + '\'' +
+                ", dateAt=" + dateAt +
                 '}';
     }
-
 }

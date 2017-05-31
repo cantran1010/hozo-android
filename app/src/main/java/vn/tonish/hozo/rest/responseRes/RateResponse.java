@@ -8,9 +8,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class RateResponse {
     @SerializedName("user_id")
-    private Integer userId;
+    private int userId;
     @SerializedName("author_id")
-    private Integer authorId;
+    private int authorId;
     @SerializedName("author_avatar")
     private String authorAvatar;
     @SerializedName("author_name")
@@ -19,23 +19,23 @@ public class RateResponse {
     private String taskName;
     private String type;
     private String body;
-    private Integer rating;
+    private int rating;
     @SerializedName("created_at")
     private String createdAt;
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public Integer getAuthorId() {
+    public int getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(Integer authorId) {
+    public void setAuthorId(int authorId) {
         this.authorId = authorId;
     }
 
@@ -79,11 +79,11 @@ public class RateResponse {
         this.body = body;
     }
 
-    public Integer getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 
@@ -109,5 +109,4 @@ public class RateResponse {
                 ", createdAt='" + createdAt + '\'' +
                 '}';
     }
-
 }

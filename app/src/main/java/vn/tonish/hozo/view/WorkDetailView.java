@@ -61,6 +61,20 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
     private TaskResponse taskResponse;
     private View vTaskProgressView;
 
+    public interface WorkDetailViewListener {
+        public void onWorkDetailViewListener(TaskResponse taskResponse);
+    }
+
+    private WorkDetailViewListener workDetailViewListener;
+
+    public WorkDetailViewListener getWorkDetailViewListener() {
+        return workDetailViewListener;
+    }
+
+    public void setWorkDetailViewListener(WorkDetailViewListener workDetailViewListener) {
+        this.workDetailViewListener = workDetailViewListener;
+    }
+
     public WorkDetailView(Context context) {
         super(context);
         init();
@@ -251,7 +265,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
     private void doOffer() {
         ApiClient.getApiService().bidsTask(UserManager.getUserToken(), taskResponse.getId()).enqueue(new Callback<TaskResponse>() {
             @Override
-            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+            public void onResponse(Call<TaskResponse> call, final Response<TaskResponse> response) {
                 LogUtils.d(TAG, "bidsTask status code : " + response.code());
                 LogUtils.d(TAG, "bidsTask body : " + response.body());
 
@@ -263,8 +277,11 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+
+                            if (workDetailViewListener != null)
+                                workDetailViewListener.onWorkDetailViewListener(response.body());
                             bidSuccessDialog.hideView();
-                            btnOffer.setVisibility(View.GONE);
+//                            btnOffer.setVisibility(View.GONE);
                         }
                     }, 1000);
 
