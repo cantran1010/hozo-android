@@ -59,7 +59,7 @@ import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 
 public class BrowseTaskFragment extends BaseFragment implements View.OnClickListener {
     private final static String TAG = BrowseTaskFragment.class.getSimpleName();
-    public final static int limit = 10;
+    public final static int limit = 20;
     private ImageView imgSearch, imgLocation, imgControls, imgBack, imgClear;
     private RelativeLayout layoutHeader, layoutSearch;
     private EdittextHozo edtSearch;
@@ -159,12 +159,12 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     }
 
 
-    public void getTaskResponse(final String since, final String SortBy, final String query) {
+    public void getTaskResponse(final String since, final String sortBytask, final String query) {
         if (isLoadingFromServer) return;
         isLoadingFromServer = true;
         taskAdapter.stopLoadMore();
         Map<String, String> option = new HashMap<>();
-        option = DataParse.setParameterGetTasks(SortBy, String.valueOf(limit), null, query);
+        option = DataParse.setParameterGetTasks(sortBytask, String.valueOf(limit), null, query);
         LogUtils.d(TAG, "option : " + option.toString());
         ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), option).enqueue(new Callback<List<TaskResponse>>() {
             @Override
@@ -180,12 +180,10 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                             sinceStr = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
 
                         if (taskResponses.size() > 0)
-                            for (TaskResponse response1 : taskResponses
-                                    ) {
-                                response1.setRole(Constants.ROLE_FIND_TASK);
+                            for (int i = taskResponses.size() - 1; i >= 0; i--) {
+                                taskResponses.get(i).setRole(Constants.ROLE_FIND_TASK);
+                                Utils.checkContainsTaskResponse(taskList, taskResponses.get(i));
                             }
-                        for (int i = taskResponses.size() - 1; i >= 0; i--)
-                            Utils.checkContainsFindTask(taskList, taskResponses.get(i));
 
                         TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
 
@@ -200,7 +198,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            getTaskResponse(since, SortBy, query);
+                            getTaskResponse(since, sortBytask, query);
                         }
                     });
 
@@ -220,7 +218,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        getTaskResponse(since, SortBy, query);
+                        getTaskResponse(since, sortBytask, query);
                     }
 
                     @Override
