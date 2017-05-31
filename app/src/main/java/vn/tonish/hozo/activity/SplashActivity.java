@@ -1,11 +1,11 @@
 package vn.tonish.hozo.activity;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.utils.TransitionScreen;
 
 import static vn.tonish.hozo.common.Constants.SPLASH_TIME;
 
@@ -31,11 +31,11 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (UserManager.checkLogin()) {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                } else {
-                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-                }
+                if (UserManager.checkLogin())
+                    startActivity(MainActivity.class, TransitionScreen.FADE_IN);
+                else
+                    startActivity(HomeActivity.class, TransitionScreen.FADE_IN);
+
                 finish();
             }
         }, SPLASH_TIME);

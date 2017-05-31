@@ -25,7 +25,7 @@ public class User implements Serializable {
     @SerializedName("date_of_birth")
     private String dateOfBirth;
     private String description;
-    private Integer verified;
+    private int verified;
     @SerializedName("poster_average_rating")
     private float posterAverageRating;
     @SerializedName("tasker_average_rating")
@@ -108,16 +108,12 @@ public class User implements Serializable {
         this.description = description;
     }
 
-    public Integer getVerified() {
+    public int getVerified() {
         return verified;
     }
 
-    public void setVerified(Integer verified) {
+    public void setVerified(int verified) {
         this.verified = verified;
-    }
-
-    public void setTaskerReviewCount(Integer taskerReviewCount) {
-        this.taskerReviewCount = taskerReviewCount;
     }
 
     public float getPosterAverageRating() {
@@ -135,7 +131,6 @@ public class User implements Serializable {
     public void setTaskerAverageRating(float taskerAverageRating) {
         this.taskerAverageRating = taskerAverageRating;
     }
-
 
     public int getPosterReviewCount() {
         return posterReviewCount;
@@ -160,7 +155,6 @@ public class User implements Serializable {
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
-
 
     @Override
     public String toString() {

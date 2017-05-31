@@ -12,9 +12,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Review implements Parcelable {
 
-    private Integer id;
+    private int id;
     @SerializedName("author_id")
-    private Integer authorId;
+    private int authorId;
     @SerializedName("author_avatar")
     private String authorAvatar;
     @SerializedName("author_name")
@@ -23,11 +23,12 @@ public class Review implements Parcelable {
     private String taskName;
     private String type;
     private String body;
-    private Integer rating;
+    private int rating;
     @SerializedName("created_at")
     private String createdAt;
 
     public Review() {
+
     }
 
     protected Review(Parcel in) {
@@ -50,19 +51,33 @@ public class Review implements Parcelable {
         }
     };
 
-    public Integer getId() {
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(authorAvatar);
+        dest.writeString(authorName);
+        dest.writeString(taskName);
+        dest.writeString(body);
+        dest.writeString(createdAt);
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getAuthorId() {
+    public int getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(Integer authorId) {
+    public void setAuthorId(int authorId) {
         this.authorId = authorId;
     }
 
@@ -106,11 +121,11 @@ public class Review implements Parcelable {
         this.body = body;
     }
 
-    public Integer getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 
@@ -124,29 +139,16 @@ public class Review implements Parcelable {
 
     @Override
     public String toString() {
-        return "{" +
-                "authorId=" + authorId +
+        return "Review{" +
+                "id=" + id +
+                ", authorId=" + authorId +
                 ", authorAvatar='" + authorAvatar + '\'' +
                 ", authorName='" + authorName + '\'' +
                 ", taskName='" + taskName + '\'' +
-                ", type=" + type +
+                ", type='" + type + '\'' +
                 ", body='" + body + '\'' +
                 ", rating=" + rating +
                 ", createdAt='" + createdAt + '\'' +
                 '}';
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(authorAvatar);
-        dest.writeString(authorName);
-        dest.writeString(taskName);
-        dest.writeString(body);
-        dest.writeString(createdAt);
     }
 }

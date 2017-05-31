@@ -96,10 +96,10 @@ public class InboxFragment extends BaseFragment {
     }
 
     public void getNotifications(final boolean isSince) {
-
+//        ProgressDialogUtils.showProgressDialog(getActivity());
         if (isLoadingFromServer) return;
         isLoadingFromServer = true;
-        notificationAdapter.stopLoadMore();
+//        notificationAdapter.stopLoadMore();
 
         LogUtils.d(TAG, "getNotifications start");
         Map<String, String> params = new HashMap<>();
@@ -157,6 +157,7 @@ public class InboxFragment extends BaseFragment {
 
                 isLoadingFromServer = false;
                 onStopRefresh();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -177,6 +178,7 @@ public class InboxFragment extends BaseFragment {
                 notificationAdapter.stopLoadMore();
                 isLoadingFromServer = false;
                 onStopRefresh();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
@@ -205,7 +207,6 @@ public class InboxFragment extends BaseFragment {
                 public void onNotificationAdapterListener(int position) {
                     Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
-                    intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_ONLY_VIEW);
                     startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 }
             });

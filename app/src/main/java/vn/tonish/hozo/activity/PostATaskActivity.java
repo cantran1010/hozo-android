@@ -83,7 +83,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private Category category;
     private ImageView imgClose;
     private int imageAttachCount;
-    private Integer[] imagesArr;
+    private int[] imagesArr;
     private int ageFrom = 18;
     private int ageTo = 80;
     private EdittextHozo edtWorkingHour;
@@ -386,7 +386,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             ProgressDialogUtils.showProgressDialog(this);
             //because images attach have icon '+' so size file = size image -1
             imageAttachCount = images.size() - 1;
-            imagesArr = new Integer[images.size() - 1];
+            imagesArr = new int[images.size() - 1];
 
             for (int i = 0; i < images.size() - 1; i++) {
                 LogUtils.d(TAG, " attachAllFile image " + i + " : " + images.get(i).getPath());

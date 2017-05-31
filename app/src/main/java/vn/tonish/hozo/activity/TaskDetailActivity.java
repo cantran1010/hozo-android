@@ -104,7 +104,6 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private ImageView imgComment;
 
     private int taskId = 0;
-    private String taskType;
     private GoogleMap googleMap;
     private int tempId = 0;
     private File fileAttach;
@@ -176,8 +175,6 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     @Override
     protected void initData() {
         taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
-        taskType = getIntent().getStringExtra(Constants.TASK_TYPE);
-
         useCacheData();
         getData();
     }
@@ -212,15 +209,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taskResponse = response.body();
-                    if (taskType.equals(Constants.TASK_TYPE_POSTER_OPEN) || taskType.equals(Constants.TASK_TYPE_POSTER_ASSIGNED) || taskType.equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
-                        taskResponse.setRole(Constants.ROLE_POSTER);
-                    } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_PENDING) || taskType.equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) ||
-                            taskType.equals(Constants.TASK_TYPE_BIDDER_MISSED) || taskType.equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
-                        taskResponse.setRole(Constants.ROLE_TASKER);
-                    } else if (taskType.equals(Constants.TASK_TYPE_MAKE_OFFER)) {
-                        taskResponse.setRole(Constants.ROLE_FIND_TASK);
-                    }
-
+                    updateRole();
                     updateUi();
                     storeTaskToDatabase();
 
@@ -272,59 +261,120 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         TaskManager.insertTask(taskEntity);
     }
 
-    private void updateUi() {
+    private void updateRole() {
+        //poster
+        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            taskResponse.setRole(Constants.ROLE_POSTER);
+        }
+        //bidder
+        else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)
+                || (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED))
+                || (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED))
+                || taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)
+                || taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
+            taskResponse.setRole(Constants.ROLE_TASKER);
+        }
+        // find task
+        else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
+            taskResponse.setRole(Constants.ROLE_FIND_TASK);
+        }
+    }
 
+    private void updateUi() {
+        LogUtils.d(TAG, "task detail view , update ui : " + taskResponse.toString());
         String bidderType = "";
         String assigerType = "";
+        String commentType = getString(R.string.comment_setting_visible);
 
-        if (taskType.equals(Constants.TASK_TYPE_POSTER_OPEN)) {
+        tvCancel.setVisibility(View.VISIBLE);
+        layoutFooter.setVisibility(View.VISIBLE);
+
+        //poster
+        if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.update_task), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
             bidderType = getString(R.string.assign);
             assigerType = getString(R.string.call);
-        } else if (taskType.equals(Constants.TASK_TYPE_POSTER_ASSIGNED)) {
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
             assigerType = getString(R.string.call);
-        } else if (taskType.equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
+            tvCancel.setVisibility(View.GONE);
             layoutFooter.setVisibility(View.GONE);
             assigerType = getString(R.string.rate);
-        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
+            commentType = getString(R.string.comment_setting_invisible);
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnCallRate(false, false, "");
+            tvCancel.setVisibility(View.GONE);
+            layoutFooter.setVisibility(View.GONE);
+            commentType = getString(R.string.comment_setting_invisible);
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnCallRate(false, false, "");
+            tvCancel.setVisibility(View.GONE);
+            layoutFooter.setVisibility(View.GONE);
+            commentType = getString(R.string.comment_setting_invisible);
+        }
+
+        //bidder
+        else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
             workDetailView.updateBtnOffer(false);
             workDetailView.updateStatus(false, getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
             workDetailView.updateBtnCallRate(false, false, "");
-        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
             workDetailView.updateBtnOffer(false);
             workDetailView.updateStatus(true, getString(R.string.received), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
             workDetailView.updateBtnCallRate(true, true, getString(call));
-        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
             workDetailView.updateBtnOffer(false);
             workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
             workDetailView.updateBtnCallRate(true, false, getString(R.string.rate));
+            tvCancel.setVisibility(View.GONE);
             layoutFooter.setVisibility(View.GONE);
-        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
+            commentType = getString(R.string.comment_setting_invisible);
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
+            workDetailView.updateStatus(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnCallRate(false, false, "");
+            tvCancel.setVisibility(View.GONE);
+            layoutFooter.setVisibility(View.GONE);
+            commentType = getString(R.string.comment_setting_invisible);
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
+            workDetailView.updateStatus(true, getString(R.string.my_task_status_worker_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnCallRate(false, false, "");
+            tvCancel.setVisibility(View.GONE);
+            layoutFooter.setVisibility(View.GONE);
+            commentType = getString(R.string.comment_setting_invisible);
+        }
 
-        } else if (taskType.equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
-
-        } else if (taskType.equals(Constants.TASK_TYPE_MAKE_OFFER)) {
+        // make an offer
+        else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
             workDetailView.updateBtnOffer(true);
             workDetailView.updateStatus(false, "", ContextCompat.getDrawable(this, R.drawable.bg_border_done));
             workDetailView.updateBtnCallRate(false, false, "");
             tvCancel.setVisibility(View.GONE);
-        } else if (taskType.equals(Constants.TASK_TYPE_ONLY_VIEW)) {
-            workDetailView.updateBtnOffer(false);
-            workDetailView.updateStatus(false, "", ContextCompat.getDrawable(this, R.drawable.bg_border_done));
-            workDetailView.updateBtnCallRate(false, false, "");
-            tvCancel.setVisibility(View.GONE);
-            layoutFooter.setVisibility(View.GONE);
         }
 
         workDetailView.updateWork(taskResponse);
+
+        workDetailView.setWorkDetailViewListener(new WorkDetailView.WorkDetailViewListener() {
+            @Override
+            public void onWorkDetailViewListener(TaskResponse taskResponseOffer) {
+                taskResponse = taskResponseOffer;
+                updateUi();
+            }
+        });
+
         if (googleMap != null) {
             LatLng latLng = new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude());
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, Constants.DEFAULT_MAP_ZOOM_LEVEL));
@@ -348,6 +398,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         realm.beginTransaction();
         for (int i = 0; i < comments.size(); i++) comments.get(i).setTaskId(taskId);
         realm.commitTransaction();
+        commentViewFull.setCommentType(commentType);
         commentViewFull.updateData(comments);
 
         tvBidderCount.setText("(" + taskResponse.getBidderCount() + ")");
@@ -422,7 +473,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 break;
 
             case R.id.img_back:
-                finish();
+                onBackPressed();
                 break;
 
             case R.id.img_send:
@@ -462,7 +513,11 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 LogUtils.d(TAG, "doCacelTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    finish();
+                    Utils.showLongToast(TaskDetailActivity.this,getString(R.string.cancel_task_success_msg));
+                    taskResponse = response.body();
+                    updateRole();
+                    storeTaskToDatabase();
+                    onBackPressed();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(TaskDetailActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -730,10 +785,21 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 edtComment.setSelection(edtComment.getText().length());
             } else if (intent.hasExtra(Constants.EXTRA_TASK)) {
                 taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
+                updateRole();
+                LogUtils.d(TAG, "broadcastReceiver , taskResponse : " + taskResponse.toString());
                 updateUi();
                 storeTaskToDatabase();
             }
 
         }
     };
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        Intent intent = new Intent();
+        intent.putExtra(Constants.EXTRA_TASK, taskResponse);
+        setResult(Constants.RESULT_CODE_TASK_EDIT, intent);
+        finish();
+    }
 }

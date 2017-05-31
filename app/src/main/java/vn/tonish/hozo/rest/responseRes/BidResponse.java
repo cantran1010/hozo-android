@@ -7,28 +7,28 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class BidResponse {
-    private Integer id;
+    private int id;
     @SerializedName("bidder_id")
-    private Integer bidderId;
+    private int bidderId;
     private String status;
     @SerializedName("created_at")
     private String createdAt;
     @SerializedName("updated_at")
     private String updatedAt;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getBidderId() {
+    public int getBidderId() {
         return bidderId;
     }
 
-    public void setBidderId(Integer bidderId) {
+    public void setBidderId(int bidderId) {
         this.bidderId = bidderId;
     }
 

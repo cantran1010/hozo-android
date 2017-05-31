@@ -10,16 +10,16 @@ import io.realm.RealmObject;
  * Created by LongBui on 5/11/2017.
  */
 
-public class Poster extends RealmObject implements Serializable{
+public class Poster extends RealmObject implements Serializable {
 
     private int taskId;
     @SerializedName("full_name")
     private String fullName;
     @SerializedName("poster_average_rating")
     private float posterAverageRating;
-    private Integer verify;
+    private int verify;
     private String avatar;
-    private Integer id;
+    private int id;
 
     public int getTaskId() {
         return taskId;
@@ -45,11 +45,11 @@ public class Poster extends RealmObject implements Serializable{
         this.posterAverageRating = posterAverageRating;
     }
 
-    public Integer getVerify() {
+    public int getVerify() {
         return verify;
     }
 
-    public void setVerify(Integer verify) {
+    public void setVerify(int verify) {
         this.verify = verify;
     }
 
@@ -61,22 +61,24 @@ public class Poster extends RealmObject implements Serializable{
         this.avatar = avatar;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
     @Override
     public String toString() {
         return "Poster{" +
-                "fullName='" + fullName + '\'' +
+                "taskId=" + taskId +
+                ", fullName='" + fullName + '\'' +
                 ", posterAverageRating=" + posterAverageRating +
                 ", verify=" + verify +
                 ", avatar='" + avatar + '\'' +
                 ", id=" + id +
                 '}';
     }
+
 }

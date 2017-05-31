@@ -19,6 +19,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
 
     private final ArrayList<Comment> comments;
+    private String commentType;
 
     public CommentAdapter(ArrayList<Comment> comments) {
         this.comments = comments;
@@ -33,6 +34,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        holder.commentView.setCommentType(commentType);
         holder.commentView.updateData(comments.get(position));
     }
 
@@ -50,5 +52,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
             super(itemView);
             commentView = (CommentView) itemView.findViewById(R.id.comment_view);
         }
+    }
+
+    public String getCommentType() {
+        return commentType;
+    }
+
+    public void setCommentType(String commentType) {
+        this.commentType = commentType;
     }
 }

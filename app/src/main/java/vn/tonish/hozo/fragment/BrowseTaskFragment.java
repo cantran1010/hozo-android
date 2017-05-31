@@ -265,7 +265,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
                     Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                    intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_MAKE_OFFER);
                     startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 }
             });

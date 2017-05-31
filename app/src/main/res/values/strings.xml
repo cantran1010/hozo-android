@@ -225,7 +225,7 @@
     <string name="post_a_task_working_hour_hint">Số giờ làm việc</string>
     <string name="post_a_task_time_working_error">Vui lòng nhập số giờ làm việc</string>
     <string name="post_a_task_age_error">Vui lòng chọn tuổi</string>
-    <string name="post_a_task_complete">Chúc mừng,bạn đã đăng tuyển thành công</string>
+    <string name="post_a_task_complete">Chúc mừng bạn đã đăng tuyển thành công</string>
     <string name="accout_is_not_exist">Tài khoản không tồn tại</string>
     <string name="show_all">Xem thêm</string>
     <string name="my_account">Tài khoản của tôi</string>
@@ -361,9 +361,13 @@
     <string name="my_task_status_worker_open">Ứng tuyển</string>
     <string name="my_task_status_worker_assigned">Đã nhận</string>
     <string name="my_task_status_worker_completed">Hoàn thành</string>
+    <string name="my_task_status_worker_missed">Bỏ lỡ</string>
+    <string name="my_task_status_worker_canceled">Đã hủy</string>
     <string name="my_task_status_poster_open">Đã đăng</string>
     <string name="my_task_status_poster_assigned">Đã giao</string>
     <string name="my_task_status_poster_completed">Hoàn thành</string>
+    <string name="my_task_status_poster_overdue">Hết hạn</string>
+    <string name="my_task_status_poster_canceled">Đã hủy</string>
     <!-- share app -->
     <string name="share_app_title">Chọn ứng dụng bạn muốn chia sẻ</string>
     <string name="share_app_content">Hãy chia sẻ cho bạn bè ứng dụng tuyệt vời này \n</string>
@@ -382,5 +386,9 @@
     <string name="radius_everywhere">mọi nơi</string>
     <string name="empty_search">bạn chưa nhập từ khoá</string>
     <string name="taks_type_empty">bạn chưa chọn loại công việc</string>
+
+    <string name="comment_setting_visible">visible</string>
+    <string name="comment_setting_invisible">invisible</string>
+    <string name="cancel_task_success_msg">Bạn đã hủy việc thành công</string>
 
 </resources>

@@ -22,6 +22,7 @@ import vn.tonish.hozo.model.Comment;
 public class CommentViewFull extends RelativeLayout {
 
     private RecyclerView rcvComment;
+    private String commentType;
 
     public CommentViewFull(Context context) {
         super(context);
@@ -55,7 +56,15 @@ public class CommentViewFull extends RelativeLayout {
         CommentAdapter commentAdapter = new CommentAdapter(comments);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rcvComment.setLayoutManager(layoutManager);
+        commentAdapter.setCommentType(getCommentType());
         rcvComment.setAdapter(commentAdapter);
     }
 
+    public String getCommentType() {
+        return commentType;
+    }
+
+    public void setCommentType(String commentType) {
+        this.commentType = commentType;
+    }
 }

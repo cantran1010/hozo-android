@@ -100,7 +100,6 @@ public class BrowerTaskMapActivity extends BaseActivity implements View.OnClickL
 
                 Intent intent = new Intent(BrowerTaskMapActivity.this, TaskDetailActivity.class);
                 intent.putExtra(Constants.TASK_ID_EXTRA, miniTasks.get(position).getId());
-                intent.putExtra(Constants.TASK_TYPE, Constants.TASK_TYPE_MAKE_OFFER);
                 startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
