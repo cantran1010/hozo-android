@@ -98,6 +98,7 @@ public class Constants {
 //    public static final String TASK_TYPE = "task_type";
     public static final int RESULT_CODE_TASK_EDIT = 234;
     public static final int REQUEST_CODE_TASK_EDIT = 432;
+    public static final String NOTIFICATION_EXTRA = "notification_extra";
     public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
 
     public static final String USER_POSTER_REVIEWS = "poster_reviews";
@@ -159,5 +160,11 @@ public class Constants {
 
     public static final String TASK_TYPE_MAKE_OFFER = "make_offer";
     public static final String TASK_TYPE_ONLY_VIEW = "only_view";
+
+
+    // parameter update device token
+    public static final String UPDATE_TOKEN_DEVICE_TOKEN = "device_token";
+    public static final String UPDATE_TOKEN_DEVICE_TYPE = "device_type";
+    public static final String UPDATE_TOKEN_DEVICE_TYPE_ANDROID = "android";
 
 }

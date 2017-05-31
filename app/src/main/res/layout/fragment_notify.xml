@@ -59,9 +59,7 @@
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swpRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_left_screen"
-            android:layout_marginRight="@dimen/margin_right_screen">
+            android:layout_height="match_parent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -78,17 +76,15 @@
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="1px"-->
                 <!--android:background="@color/gray" />-->
-
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
-                    android:background="@color/gray" />
-
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:background="@color/gray" />
+                <!--<View-->
+                <!--android:layout_width="1px"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@color/gray" />-->
+                <!--<View-->
+                <!--android:layout_width="1px"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:background="@color/gray" />-->
 
             </RelativeLayout>
 

@@ -180,6 +180,14 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        taskId = intent.getIntExtra(Constants.TASK_ID_EXTRA, 0);
+        useCacheData();
+        getData();
+    }
+
+    @Override
     protected void resumeData() {
         registerReceiver(broadcastReceiver, new IntentFilter("MyBroadcast"));
     }
@@ -513,7 +521,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 LogUtils.d(TAG, "doCacelTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    Utils.showLongToast(TaskDetailActivity.this,getString(R.string.cancel_task_success_msg));
+                    Utils.showLongToast(TaskDetailActivity.this, getString(R.string.cancel_task_success_msg));
                     taskResponse = response.body();
                     updateRole();
                     storeTaskToDatabase();

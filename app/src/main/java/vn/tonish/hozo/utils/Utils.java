@@ -172,7 +172,7 @@ public class Utils {
     }
 
     public static String getNameCategoryById(int id) {
-        LogUtils.d(TAG,"id category :"+id);
+        LogUtils.d(TAG, "id category :" + id);
         return CategoryManager.getCategoryById(id).getName();
     }
 
@@ -274,6 +274,31 @@ public class Utils {
         }
         tvContent.setText(spannable);
         tvContent.setContentDescription(spannable);
+    }
+
+    public static String getContentFromNotification(Context context, Notification notification) {
+
+        String content = "";
+
+        if (notification.getEvent().equals("review_received")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_review_received);
+        } else if (notification.getEvent().equals("comment_received")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received);
+        } else if (notification.getEvent().equals("bidder_canceled")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled);
+        } else if (notification.getEvent().equals("bid_received")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received);
+        } else if (notification.getEvent().equals("bid_accepted")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted);
+        } else if (notification.getEvent().equals("task_reminder")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_task_reminder);
+        } else if (notification.getEvent().equals("new_task_alert")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert);
+        } else if (notification.getEvent().equals("poster_canceled")) {
+            content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled);
+        }
+
+        return content;
     }
 
     public static void checkContainsTaskResponse(List<TaskResponse> taskResponses, TaskResponse taskResponse) {

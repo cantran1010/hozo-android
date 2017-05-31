@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,6 +28,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
+import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
@@ -300,6 +303,7 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
                     } else {
                         startActivityAndClearAllTask(new Intent(getActivity(), MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                     }
+                    sendRegistrationToServer();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
@@ -338,5 +342,29 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
         });
     }
 
+    private void sendRegistrationToServer() {
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put(Constants.UPDATE_TOKEN_DEVICE_TOKEN, FirebaseInstanceId.getInstance().getToken());
+            jsonRequest.put(Constants.UPDATE_TOKEN_DEVICE_TYPE, Constants.UPDATE_TOKEN_DEVICE_TYPE_ANDROID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+        LogUtils.d(TAG, "sendRegistrationToServer , jsonRequest : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().updateDeviceToken(UserManager.getUserToken(), body).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                LogUtils.d(TAG, "sendRegistrationToServer , body : " + response.body());
+                LogUtils.d(TAG, "sendRegistrationToServer , code : " + response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                LogUtils.e(TAG, "sendRegistrationToServer , onFailure : " + t.getMessage());
+            }
+        });
+    }
 }
