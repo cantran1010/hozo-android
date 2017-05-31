@@ -291,6 +291,9 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
                     user.setRefreshToken(token.getRefreshToken());
                     user.setTokenExp(token.getTokenExpires());
                     insertUser(user, true);
+
+                    LogUtils.d(TAG, "aaaa onResponse body : " + token.toString());
+
                     // inser User
                     if (user.getFullName().isEmpty()) {
                         openFragment(R.id.layout_container, VerifyNameFragment.class, true, TransitionScreen.RIGHT_TO_LEFT);

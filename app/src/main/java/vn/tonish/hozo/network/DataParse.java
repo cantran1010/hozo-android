@@ -386,7 +386,7 @@ public class DataParse {
         }
         LogUtils.d(TAG, "getIds" + ids);
 
-        return ids.substring(0, ids.length() -2);
+        return ids.substring(0, ids.length() -1);
 
     }
 
