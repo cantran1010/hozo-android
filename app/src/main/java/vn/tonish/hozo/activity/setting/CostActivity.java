@@ -95,19 +95,20 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
     private void save() {
         String strMin = edtMinPrice.getText().toString().trim();
         String strMax = edtMaxPrice.getText().toString().trim();
-        int minPrice = Integer.parseInt(edtMinPrice.getText().toString().replace(".", ""));
-        int maxPrice = Integer.valueOf(edtMaxPrice.getText().toString().replace(".", ""));
-        if (strMin.isEmpty() || minPrice < 10000) {
+        if (strMin.isEmpty()) {
             edtMinPrice.setError(getString(R.string.erro_emply_price));
-        } else if (strMax.isEmpty() || maxPrice > 100000000) {
-            edtMaxPrice.setError(getString(R.string.erro_emply_price));
-        } else if (edtMaxPrice.getText().toString().trim().isEmpty()) {
+        } else if (strMax.isEmpty()) {
             edtMaxPrice.setError(getString(R.string.erro_emply_price));
         } else {
-            if (maxPrice < minPrice) {
+            int minPrice = Integer.parseInt(edtMinPrice.getText().toString().replace(".", ""));
+            int maxPrice = Integer.valueOf(edtMaxPrice.getText().toString().replace(".", ""));
+            if (minPrice < 10000) {
+                edtMinPrice.setError(getString(R.string.erro_emply_price));
+            } else if (maxPrice > 100000000)
+                edtMaxPrice.setError(getString(R.string.erro_emply_price));
+            else if (maxPrice < minPrice)
                 Utils.showLongToast(this, getString(R.string.erro_price));
-                return;
-            } else {
+            else {
                 Intent intent = new Intent();
                 intent.putExtra(Constants.EXTRA_MIN_PRICE, minPrice);
                 intent.putExtra(Constants.EXTRA_MAX_PRICE, maxPrice);

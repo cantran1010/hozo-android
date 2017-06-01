@@ -384,7 +384,6 @@ public class Utils {
         else taskResponses.add(0, taskResponse);
     }
 
-
     public static String converGenderVn(Context context, String gender) {
         String sex = "";
         if (gender.equals(context.getString(R.string.gender_male)))

@@ -62,6 +62,7 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
         imgRotate.setOnClickListener(this);
 
         String uriStr = getIntent().getStringExtra(Constants.EXTRA_IMAGE_PATH);
+
         Uri uri = Uri.fromFile(new File(uriStr));
 
         cropImageView.setImageUriAsync(uri);
