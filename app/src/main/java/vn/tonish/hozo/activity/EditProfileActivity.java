@@ -214,7 +214,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                         }
                     });
                 }
-
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -231,6 +231,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
                     }
                 });
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
@@ -350,7 +351,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 && data != null) {
             String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
             Utils.displayImage(EditProfileActivity.this, imgAvatar, imgPath);
-
             file = new File(imgPath);
             isUpdateAvata = true;
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
@@ -360,7 +360,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
             String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
             Utils.displayImage(EditProfileActivity.this, imgAvatar, imgPath);
-
             file = new File(imgPath);
             isUpdateAvata = true;
         }

@@ -58,7 +58,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -139,8 +139,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
                     android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
                     android:orientation="horizontal">
 
                     <vn.tonish.hozo.view.TextViewHozo
@@ -262,7 +262,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/bg_border_gray"
                 android:orientation="vertical">
@@ -325,8 +325,11 @@
                 <vn.tonish.hozo.view.ReviewsListView
                     android:id="@+id/rcv_reviews"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp" />
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="5dp"/>
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_more_reviews"
@@ -347,10 +350,12 @@
 
 
             <FrameLayout
+                android:id="@+id/layout_logout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/bg_border_gray">
+                android:background="@drawable/bg_border_gray"
+                android:visibility="gone">
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/btn_logout"

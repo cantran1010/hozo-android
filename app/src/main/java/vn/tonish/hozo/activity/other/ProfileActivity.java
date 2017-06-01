@@ -3,6 +3,7 @@ package vn.tonish.hozo.activity.other;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -52,13 +53,14 @@ import static vn.tonish.hozo.utils.Utils.setViewBackground;
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private ImageView imgback, imgEdit;
-    private TextView btnWorker, btnPoster, btnAddVerify;
+    private TextView btnWorker, btnPoster, btnAddVerify, tvTitle;
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvGender, tvRateCount, btnMoreReview, btnLogOut;
     private RatingBar ratingBar;
     private LinearLayout layoutInfor;
     private float ratingPoster, ratingTasker;
     private ReviewsListView reviewsListView;
+    private FrameLayout layoutLogout;
     private int tabIndex = 0;
     private boolean isMyUser;
     private int rateCountPoster, retaCountWorker;
@@ -91,6 +93,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btnPoster = (TextViewHozo) findViewById(R.id.btn_poster);
         btnAddVerify = (TextViewHozo) findViewById(R.id.tv_add_verify);
         tvRateCount = (TextViewHozo) findViewById(R.id.tv_rate);
+        tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
+        layoutLogout = (FrameLayout) findViewById(R.id.layout_logout);
         reviewsListView = (ReviewsListView) findViewById(R.id.rcv_reviews);
         btnMoreReview = (TextViewHozo) findViewById(R.id.tv_more_reviews);
         ratingPoster = 0f;
@@ -277,14 +281,16 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 tvMobile.setText(userEntity.getPhone());
                 btnAddVerify.setVisibility(View.VISIBLE);
                 btnAddVerify.setEnabled(true);
-                btnLogOut.setVisibility(View.VISIBLE);
+                layoutLogout.setVisibility(View.VISIBLE);
                 imgEdit.setVisibility(View.VISIBLE);
+                tvTitle.setText(getString(R.string.my_account));
             } else {
                 imgEdit.setVisibility(View.GONE);
                 layoutInfor.setVisibility(View.GONE);
                 btnAddVerify.setVisibility(View.GONE);
                 btnAddVerify.setEnabled(false);
-                btnLogOut.setVisibility(View.GONE);
+                layoutLogout.setVisibility(View.GONE);
+                tvTitle.setText(getString(R.string.user_account));
             }
             if (reviewEntities.size() > 5) {
                 btnMoreReview.setVisibility(View.VISIBLE);
