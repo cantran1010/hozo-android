@@ -33,8 +33,9 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     private ImageSelectAdapter imageSelectAdapter;
     private ArrayList<Image> images;
     private final String[] projection = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA};
-    protected ImageView imgBack;
-    protected TextViewHozo tvDone, tvAlbumName;
+    private ImageView imgBack;
+    private TextViewHozo tvDone;
+    private TextViewHozo tvAlbumName;
     private boolean isOnlyImage = false;
     private boolean isCropProfile = false;
     private int countImageAttach = 0;

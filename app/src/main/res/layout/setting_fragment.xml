@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_marginStart="@dimen/title_margin_left"
             android:text="@string/other_title" />
 
         <View

@@ -86,22 +86,17 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private ArrayList<Comment> comments = new ArrayList<>();
     private TaskResponse taskResponse;
 
-    private ImageView imgAttach, imgAttached, imgDelete;
+    private ImageView imgAttached;
     private EdittextHozo edtComment;
     private RelativeLayout imgLayout;
     private String imgPath;
     private ScrollView scv;
-    private ImageView imgBack;
 
     private RecyclerView rcvBidder;
     private ArrayList<Bidder> bidders = new ArrayList<>();
-    private PosterOpenAdapter posterOpenAdapter;
 
     private RecyclerView rcvAssign;
     private ArrayList<Assigner> assigners = new ArrayList<>();
-    private AssignerCallAdapter assignerAdapter;
-
-    private ImageView imgComment;
 
     private int taskId = 0;
     private GoogleMap googleMap;
@@ -125,16 +120,16 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
         edtComment = (EdittextHozo) findViewById(R.id.edt_comment);
 
-        imgAttach = (ImageView) findViewById(R.id.img_attach);
+        ImageView imgAttach = (ImageView) findViewById(R.id.img_attach);
         imgAttach.setOnClickListener(this);
 
         imgAttached = (ImageView) findViewById(R.id.img_attached);
         imgAttached.setOnClickListener(this);
 
-        imgDelete = (ImageView) findViewById(R.id.img_delete);
+        ImageView imgDelete = (ImageView) findViewById(R.id.img_delete);
         imgDelete.setOnClickListener(this);
 
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
         rcvBidder = (RecyclerView) findViewById(R.id.rcv_bidders);
@@ -142,7 +137,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
         imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
 
-        imgComment = (ImageView) findViewById(R.id.img_send);
+        ImageView imgComment = (ImageView) findViewById(R.id.img_send);
         imgComment.setOnClickListener(this);
 
         tvSeeMore = (TextViewHozo) findViewById(R.id.tv_see_more_comment);
@@ -417,7 +412,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     }
 
     private void refreshBidderList(String bidderType) {
-        posterOpenAdapter = new PosterOpenAdapter(bidders, bidderType);
+        PosterOpenAdapter posterOpenAdapter = new PosterOpenAdapter(bidders, bidderType);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvBidder.setLayoutManager(linearLayoutManager);
         posterOpenAdapter.setTaskId(taskId);
@@ -425,7 +420,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     }
 
     private void refreshAssignerList(String assignType) {
-        assignerAdapter = new AssignerCallAdapter(assigners, assignType);
+        AssignerCallAdapter assignerAdapter = new AssignerCallAdapter(assigners, assignType);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvAssign.setLayoutManager(linearLayoutManager);
         assignerAdapter.setTaskId(taskId);

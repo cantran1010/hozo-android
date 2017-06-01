@@ -27,7 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AdvanceSettingsActivity;
-import vn.tonish.hozo.activity.BrowerTaskMapActivity;
+import vn.tonish.hozo.activity.BrowserTaskMapActivity;
 import vn.tonish.hozo.activity.TaskDetailActivity;
 import vn.tonish.hozo.adapter.TaskAdapter;
 import vn.tonish.hozo.common.Constants;
@@ -335,7 +335,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             miniTasks.add(miniTask);
         }
 
-        Intent intent = new Intent(getActivity(), BrowerTaskMapActivity.class);
+        Intent intent = new Intent(getActivity(), BrowserTaskMapActivity.class);
         intent.putParcelableArrayListExtra(Constants.LIST_TASK_EXTRA, miniTasks);
         startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
     }

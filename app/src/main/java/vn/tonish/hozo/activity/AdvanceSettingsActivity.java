@@ -119,9 +119,8 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
                             new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
                                     .build(this);
                     startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-                } catch (GooglePlayServicesRepairableException e) {
-                    LogUtils.e(TAG, e.toString());
-                } catch (GooglePlayServicesNotAvailableException e) {
+                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
                     LogUtils.e(TAG, e.toString());
                 }
                 break;

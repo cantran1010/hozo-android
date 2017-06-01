@@ -57,24 +57,13 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
 
-        LogUtils.d(TAG,"onMessageReceived start");
-
-//        LogUtils.d(TAG, "From: " + remoteMessage.getFrom());
-//        LogUtils.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
-        LogUtils.d(TAG, "Notification Message Data " + remoteMessage.getData().toString());
-//        LogUtils.d(TAG, "Notification Message Data data: " + remoteMessage.getData().get("body"));
-
-//        String title = remoteMessage.getNotification().getTitle().toString();
-//        String message = remoteMessage.getNotification().getBody().toString();
-//        String click_action = remoteMessage.getNotification().getClickAction();
-//
-//        LogUtils.d("remoteMessage title", title);
-//        LogUtils.d("remoteMessage message", message);
-//        LogUtils.d("remoteMessage click", click_action);
+        LogUtils.d(TAG, "onMessageReceived start");
+        LogUtils.d(TAG, "onMessageReceived Message Data : " + remoteMessage.getData().toString());
+        LogUtils.d(TAG, "onMessageReceived Message Data data : " + remoteMessage.getData().get("data"));
 
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
-        Notification notification = gson.fromJson(remoteMessage.getData().toString(),Notification.class);
+        Notification notification = gson.fromJson(remoteMessage.getData().get("data"), Notification.class);
 
         sendNotification(notification);
 
@@ -84,7 +73,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
     private void sendNotification(Notification notification) {
 
         String title = notification.getTaskName();
-        String content = Utils.getContentFromNotification(getApplicationContext(),notification);
+        String content = Utils.getContentFromNotification(getApplicationContext(), notification);
 
         // vibrator when receive push notification from server
         Vibrator v = (Vibrator) getApplicationContext()

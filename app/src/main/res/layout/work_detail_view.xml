@@ -7,8 +7,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_right_screen"
         android:layout_marginLeft="@dimen/margin_left_screen"
         android:layout_marginRight="@dimen/margin_right_screen"
+        android:layout_marginStart="@dimen/margin_left_screen"
         android:layout_marginTop="10dp"
         android:orientation="vertical">
 
@@ -40,7 +42,6 @@
                         android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bui Duc Long"
                         android:textColor="@color/tv_black"
                         android:textSize="13sp"
                         android:textStyle="bold" />
@@ -91,7 +92,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:maxWidth="250dp"
-                android:text="@string/just_image"
                 android:textColor="@color/tv_black"
                 android:textSize="19sp"
                 android:textStyle="bold" />
@@ -123,7 +123,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Dang 15 phut truoc"
             android:textColor="@color/tv_gray"
             android:textSize="11sp" />
 
@@ -162,7 +161,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="task description"
             android:textColor="@color/tv_black"
             android:textSize="12sp" />
 
@@ -188,8 +186,10 @@
         android:id="@+id/task_progress_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_right_screen"
         android:layout_marginLeft="@dimen/margin_left_screen"
         android:layout_marginRight="@dimen/margin_right_screen"
+        android:layout_marginStart="@dimen/margin_left_screen"
         android:layout_marginTop="10dp" />
 
     <View
@@ -201,8 +201,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_right_screen"
         android:layout_marginLeft="@dimen/margin_left_screen"
         android:layout_marginRight="@dimen/margin_right_screen"
+        android:layout_marginStart="@dimen/margin_left_screen"
         android:orientation="vertical">
 
         <LinearLayout

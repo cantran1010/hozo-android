@@ -1,9 +1,5 @@
 package vn.tonish.hozo.utils;
 
-/**
- * Created by LongBui on 5/6/2017.
- */
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
@@ -54,10 +50,9 @@ public class NumberTextWatcher implements TextWatcher {
                 // place cursor at the end?
                 et.setSelection(et.getText().length() - 1);
             }
-        } catch (NumberFormatException nfe) {
+        } catch (NumberFormatException | ParseException nfe) {
             // do nothing?
-        } catch (ParseException e) {
-            // do nothing?
+            nfe.printStackTrace();
         }
 
         et.addTextChangedListener(this);

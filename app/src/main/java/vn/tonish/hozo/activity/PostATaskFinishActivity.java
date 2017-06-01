@@ -40,7 +40,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class PostATaskFinishActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = PostATaskFinishActivity.class.getSimpleName();
-    protected ButtonHozo btnDone;
+    private ButtonHozo btnDone;
     private EdittextHozo edtBudget, edtNumberWorker;
     private TextViewHozo tvTotal;
     private TaskResponse work;

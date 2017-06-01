@@ -69,8 +69,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
     private static final String TAG = PostATaskActivity.class.getSimpleName();
     private TextViewHozo tvTitle, tvAge;
-    protected ButtonHozo btnNext;
-    protected RelativeLayout layoutDate;
+    private ButtonHozo btnNext;
+    private RelativeLayout layoutDate;
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private ArrayList<Image> images = new ArrayList<>();
@@ -191,7 +191,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    protected void checkPermission() {
+    private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             permissionGranted();
@@ -575,14 +575,14 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    public Uri setImageUri() {
+    private Uri setImageUri() {
         File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
         return imgUri;
     }
 
-    public String getImagePath() {
+    private String getImagePath() {
         return imgPath;
     }
 

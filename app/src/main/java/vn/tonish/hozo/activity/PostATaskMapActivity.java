@@ -56,9 +56,11 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
     private static final String TAG = PostATaskMapActivity.class.getSimpleName();
     private GoogleMap mMap;
-    protected ImageView imgBack;
-    protected ButtonHozo btnNext;
-    protected ImageView imgCurrentLocation, imgZoomIn, imgZoomOut;
+    private ImageView imgBack;
+    private ButtonHozo btnNext;
+    private ImageView imgCurrentLocation;
+    private ImageView imgZoomIn;
+    private ImageView imgZoomOut;
 
     //    private static double lat = 21.000030;
 //    private static double lon = 105.837400;
@@ -123,7 +125,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     }
 
 
-    protected void checkPermission() {
+    private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
@@ -277,10 +279,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                             new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
                                     .build(this);
                     startActivityForResult(intent, Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE);
-                } catch (GooglePlayServicesRepairableException e) {
-                    // TODO: Handle the error.
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
+                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
                     // TODO: Handle the error.
                     e.printStackTrace();
                 }

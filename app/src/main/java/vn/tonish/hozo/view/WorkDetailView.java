@@ -49,11 +49,10 @@ import static android.content.ContentValues.TAG;
 
 public class WorkDetailView extends LinearLayout implements View.OnClickListener {
 
-    protected CircleImageView imgAvatar;
+    private CircleImageView imgAvatar;
 
     private TextViewHozo tvName, tvTitle, tvTimeAgo, tvDescription, tvImageAttachTitle;
     private RatingBar rbRate;
-    private ImageView imgMobile, imgEmail, imgFacebook;
     private TextViewHozo tvPrice, tvDate, tvTime, tvAddress, tvStatus;
     private ButtonHozo btnOffer, btnCallRate;
     private MyGridView myGridView;
@@ -62,7 +61,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
     private View vTaskProgressView;
 
     public interface WorkDetailViewListener {
-        public void onWorkDetailViewListener(TaskResponse taskResponse);
+        void onWorkDetailViewListener(TaskResponse taskResponse);
     }
 
     private WorkDetailViewListener workDetailViewListener;
@@ -111,9 +110,9 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         tvDescription = (TextViewHozo) findViewById(R.id.tv_description);
         rbRate = (RatingBar) findViewById(R.id.rb_rate);
 
-        imgMobile = (ImageView) findViewById(R.id.img_mobile_verify);
-        imgEmail = (ImageView) findViewById(R.id.img_email_verify);
-        imgFacebook = (ImageView) findViewById(R.id.img_facebook_verify);
+        ImageView imgMobile = (ImageView) findViewById(R.id.img_mobile_verify);
+        ImageView imgEmail = (ImageView) findViewById(R.id.img_email_verify);
+        ImageView imgFacebook = (ImageView) findViewById(R.id.img_facebook_verify);
 
         tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
         tvDate = (TextViewHozo) findViewById(R.id.tv_date);

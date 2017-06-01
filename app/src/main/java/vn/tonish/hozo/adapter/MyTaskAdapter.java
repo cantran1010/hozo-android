@@ -31,7 +31,7 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
     }
 
     public interface MyTaskAdapterListener {
-        public void onMyTaskAdapterClickListener(int position);
+        void onMyTaskAdapterClickListener(int position);
     }
 
     private MyTaskAdapterListener myTaskAdapterListener;
@@ -92,21 +92,27 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
                 }
             } else if (taskResponse.getRole().equals(Constants.ROLE_POSTER)) {
-                if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN)) {
-                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_open));
-                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_recruitment));
-                } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED)) {
-                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_assigned));
-                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_received));
-                } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
-                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_completed));
-                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
-                } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
-                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_overdue));
-                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
-                } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
-                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_canceled));
-                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
+                switch (taskResponse.getStatus()) {
+                    case Constants.TASK_TYPE_POSTER_OPEN:
+                        workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_open));
+                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_recruitment));
+                        break;
+                    case Constants.TASK_TYPE_POSTER_ASSIGNED:
+                        workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_assigned));
+                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_received));
+                        break;
+                    case Constants.TASK_TYPE_POSTER_COMPLETED:
+                        workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_completed));
+                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
+                        break;
+                    case Constants.TASK_TYPE_POSTER_OVERDUE:
+                        workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_overdue));
+                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
+                        break;
+                    case Constants.TASK_TYPE_POSTER_CANCELED:
+                        workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_canceled));
+                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
+                        break;
                 }
             }
 

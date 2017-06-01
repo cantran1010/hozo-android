@@ -1,14 +1,7 @@
 package vn.tonish.hozo.utils;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.BatteryManager;
 import android.os.Build;
-import android.provider.Settings;
-import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
@@ -16,71 +9,6 @@ import android.view.WindowManager;
  * Created by LongBui.
  */
 public class DeviceUtils {
-
-    public static String getUDID(Context context) {
-        String imei = getImei(context);
-        if (imei != null) return Utils.md5(imei);
-
-        String androidId = getAndroidId(context);
-        if (androidId != null) return Utils.md5(androidId);
-
-        String serialNumber = getSerialNumber();
-        if (serialNumber != null) return Utils.md5(serialNumber);
-
-        return "";
-    }
-
-    private static String getImei(Context context) {
-        TelephonyManager tm = (TelephonyManager) context
-                .getSystemService(Context.TELEPHONY_SERVICE);
-        return tm.getDeviceId();
-    }
-
-    public static String getAndroidId(Context context) {
-        return Settings.Secure
-                .getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-    }
-
-    public static String getSerialNumber() {
-        return Build.SERIAL;
-    }
-
-    public static AppVersionInfo getVersionInfo(Context context) {
-
-        AppVersionInfo sVersionInfo = new AppVersionInfo();
-        String pkg = context.getPackageName();
-        PackageManager pm = context.getPackageManager();
-        try {
-            PackageInfo pi = pm.getPackageInfo(pkg, 0);
-            sVersionInfo.versionCode = pi.versionCode;
-            sVersionInfo.versionName = pi.versionName;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return sVersionInfo;
-    }
-
-    public static class AppVersionInfo {
-        private String versionName;
-        private int versionCode;
-
-        public int getVersionCode() {
-            return versionCode;
-        }
-
-        public void setVersionCode(int versionCode) {
-            this.versionCode = versionCode;
-        }
-
-        public String getVersionName() {
-            return versionName;
-        }
-
-        public void setVersionName(String versionName) {
-            this.versionName = versionName;
-        }
-
-    }
 
     public static DisplayInfo getDisplayInfo(Context context) {
         DisplayInfo sDisplayInfo = new DisplayInfo();
@@ -140,33 +68,6 @@ public class DeviceUtils {
 
     public static String getModel() {
         return Build.MODEL;
-    }
-
-    public static float getBatteryTemp(Context context) {
-        Intent intent = context.registerReceiver(null, new IntentFilter(
-                Intent.ACTION_BATTERY_CHANGED));
-        return ((float) (intent != null ? intent.getIntExtra(
-                BatteryManager.EXTRA_TEMPERATURE, 0) : 0)) / 10;
-    }
-
-    public static String getManufacturer() {
-        return Build.MANUFACTURER;
-    }
-
-
-    //Graphics Processing Unit
-    public static String getGpuVendor(Context context) {
-        return null;
-    }
-
-    public static String getPhoneNumber(Context context) {
-        TelephonyManager tMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return tMgr.getLine1Number();
-
-//        TelephonyManager telemamanger = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-//        String getSimSerialNumber = telemamanger.getSimSerialNumber();
-//        return getSimSerialNumber;
-
     }
 
 

@@ -9,8 +9,8 @@ import vn.tonish.hozo.dialog.LoadingDialog;
  */
 public class ProgressDialogUtils {
 //    public static ProgressDialog progressDialog;
-    public static final String TAG = ProgressDialogUtils.class.getName();
-    public static LoadingDialog mLoadingDialog;
+    private static final String TAG = ProgressDialogUtils.class.getName();
+    private static LoadingDialog mLoadingDialog;
 
     public static void showProgressDialog(Context context) {
         LogUtils.d(TAG, "------- ProgressDialog showProgressDialog start ------");

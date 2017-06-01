@@ -5,13 +5,11 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <include layout="@layout/header" />
-
     <ImageView
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:contentDescription="@string/just_image"
-        android:src="@mipmap/ic_launcher_round" />
+        android:src="@drawable/avatar_default" />
 
     <vn.tonish.hozo.view.TextViewHozo
         android:layout_width="match_parent"
@@ -30,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/just_image"
-            android:src="@mipmap/ic_launcher_round" />
+            android:src="@drawable/avatar_default" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -38,13 +36,13 @@
             android:contentDescription="@string/just_image"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:src="@mipmap/ic_launcher_round" />
+            android:src="@drawable/avatar_default" />
 
         <ImageView
             android:contentDescription="@string/just_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher_round" />
+            android:src="@drawable/avatar_default" />
 
     </LinearLayout>
 

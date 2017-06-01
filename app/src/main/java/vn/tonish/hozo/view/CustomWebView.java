@@ -1,5 +1,5 @@
-/**
- *
+/*
+
  */
 package vn.tonish.hozo.view;
 

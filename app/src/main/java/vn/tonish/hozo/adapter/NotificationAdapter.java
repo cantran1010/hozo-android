@@ -26,7 +26,7 @@ import static android.content.ContentValues.TAG;
 
 public class NotificationAdapter extends BaseAdapter<Notification, NotificationAdapter.NotificationHolder, LoadingHolder> {
 
-    public List<Notification> notifications;
+    private List<Notification> notifications;
     private Context context;
 
     public NotificationAdapter(Context context, List<Notification> notifications) {
@@ -36,7 +36,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
     }
 
     public interface NotificationAdapterListener {
-        public void onNotificationAdapterListener(int position);
+        void onNotificationAdapterListener(int position);
     }
 
     private NotificationAdapterListener notificationAdapterListener;
@@ -70,7 +70,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NotificationHolder) {
             NotificationHolder notificationHolder = (NotificationHolder) holder;
 
@@ -82,8 +82,8 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ProfileActivity.class);
-                    intent.putExtra(Constants.USER_ID, notifications.get(position).getUserId());
-                    intent.putExtra(Constants.IS_MY_USER, notifications.get(position).getUserId() == UserManager.getMyUser().getId());
+                    intent.putExtra(Constants.USER_ID, notifications.get(holder.getAdapterPosition()).getUserId());
+                    intent.putExtra(Constants.IS_MY_USER, notifications.get(holder.getAdapterPosition()).getUserId() == UserManager.getMyUser().getId());
                     context.startActivity(intent);
                 }
             });

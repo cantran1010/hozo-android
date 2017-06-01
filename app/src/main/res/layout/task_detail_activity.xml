@@ -41,6 +41,8 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_toEndOf="@id/tv_title"
+            android:layout_toRightOf="@id/tv_title"
             android:background="@drawable/btn_back_selector"
             android:gravity="center"
             android:paddingLeft="10dp"
@@ -79,8 +81,10 @@
                 android:name="vn.tonish.hozo.view.WorkAroundMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/detail_task_map_height"
+                android:layout_marginEnd="@dimen/margin_right_screen"
                 android:layout_marginLeft="@dimen/margin_left_screen"
                 android:layout_marginRight="@dimen/margin_right_screen"
+                android:layout_marginStart="@dimen/margin_left_screen"
                 android:layout_marginTop="10dp" />
 
             <View
@@ -93,6 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_left_screen"
+                android:layout_marginStart="@dimen/margin_left_screen"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
@@ -109,7 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:text="(0)"
+                    android:layout_marginStart="2dp"
                     android:textColor="@color/hozo_bg"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -126,6 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_left_screen"
+                android:layout_marginStart="@dimen/margin_left_screen"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
@@ -142,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:text="(0)"
+                    android:layout_marginStart="2dp"
                     android:textColor="@color/hozo_bg"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -158,6 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_left_screen"
+                android:layout_marginStart="@dimen/margin_left_screen"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
@@ -174,7 +181,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:text="(0)"
+                    android:layout_marginStart="2dp"
                     android:textColor="@color/hozo_bg"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -193,8 +200,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
+                android:drawableEnd="@drawable/dropdown"
                 android:drawableLeft="@drawable/dropdown"
                 android:drawableRight="@drawable/dropdown"
+                android:drawableStart="@drawable/dropdown"
                 android:gravity="center"
                 android:text="@string/see_more"
                 android:textColor="@color/tv_gray" />

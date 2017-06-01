@@ -13,13 +13,15 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 public class AlertDialogOk extends BaseDialog implements View.OnClickListener {
 
-    private String title, content, submit;
+    private final String title;
+    private final String content;
+    private final String submit;
 
     public interface AlertDialogListener {
         void onSubmit();
     }
 
-    private AlertDialogListener alertDialogListener;
+    private final AlertDialogListener alertDialogListener;
 
     public AlertDialogOk(@NonNull Context context, String title, String content, String submit, AlertDialogListener alertDialogListener) {
         super(context);

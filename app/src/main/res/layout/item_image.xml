@@ -8,6 +8,7 @@
         android:id="@+id/img_image"
         android:layout_width="match_parent"
         android:layout_height="@dimen/image_attach_post_task_height"
+        android:layout_marginEnd="1dp"
         android:layout_marginRight="1dp"
         android:contentDescription="@string/just_image" />
 
@@ -17,6 +18,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:layout_marginRight="1dp"
+        android:layout_marginEnd="1dp"
         android:contentDescription="@string/adjust_image"
         android:src="@drawable/img_add_image" />
 

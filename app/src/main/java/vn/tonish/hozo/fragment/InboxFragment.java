@@ -39,17 +39,17 @@ public class InboxFragment extends BaseFragment {
 
     private static final String TAG = InboxFragment.class.getSimpleName();
 
-    protected LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager linearLayoutManager;
     private NotificationAdapter notificationAdapter;
-    protected RecyclerView lvList;
+    private RecyclerView lvList;
     private List<Notification> notifications = new ArrayList<>();
-    protected TextViewHozo tvUnread;
+    private TextViewHozo tvUnread;
     private String since;
     private Date sinceDate;
     public static final int LIMIT = 15;
-    boolean isLoadingMoreFromServer = true;
-    boolean isLoadingMoreFromDb = true;
-    boolean isLoadingFromServer = false;
+    private boolean isLoadingMoreFromServer = true;
+    private boolean isLoadingMoreFromDb = true;
+    private boolean isLoadingFromServer = false;
 
     @Override
     protected int getLayout() {
@@ -95,7 +95,7 @@ public class InboxFragment extends BaseFragment {
         refreshList();
     }
 
-    public void getNotifications(final boolean isSince) {
+    private void getNotifications(final boolean isSince) {
 //        ProgressDialogUtils.showProgressDialog(getActivity());
         if (isLoadingFromServer) return;
         isLoadingFromServer = true;

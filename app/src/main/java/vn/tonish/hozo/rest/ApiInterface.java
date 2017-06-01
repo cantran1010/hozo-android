@@ -103,7 +103,7 @@ public interface ApiInterface {
     Call<List<TaskResponse>> getMyTask(@Header("Authorization") String token, @QueryMap Map<String, String> option);
 
     @GET("tasks/{taskId}/comments")
-    Call<List<Comment>> getCommens(@Header("Authorization") String token, @Path("taskId") int taskId, @QueryMap Map<String, String> params);
+    Call<List<Comment>> getComments(@Header("Authorization") String token, @Path("taskId") int taskId, @QueryMap Map<String, String> params);
 
     @PUT("notifications/device")
     Call<Void> updateDeviceToken(@Header("Authorization") String token, @Body RequestBody body);

@@ -25,10 +25,9 @@ import vn.tonish.hozo.view.TextViewHozo;
  * Created by LongBui on 5/18/17.
  */
 
-public class BrowerTaskMapActivity extends BaseActivity implements View.OnClickListener, OnMapReadyCallback {
+public class BrowserTaskMapActivity extends BaseActivity implements View.OnClickListener, OnMapReadyCallback {
 
-    private static final String TAG = BrowerTaskMapActivity.class.getSimpleName();
-    private ImageView imgBack;
+    private static final String TAG = BrowserTaskMapActivity.class.getSimpleName();
     private GoogleMap mMap;
     private ArrayList<MiniTask> miniTasks = new ArrayList<>();
 
@@ -39,7 +38,7 @@ public class BrowerTaskMapActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initView() {
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -98,7 +97,7 @@ public class BrowerTaskMapActivity extends BaseActivity implements View.OnClickL
             public void onInfoWindowClick(Marker marker) {
                 int position = (int) marker.getTag();
 
-                Intent intent = new Intent(BrowerTaskMapActivity.this, TaskDetailActivity.class);
+                Intent intent = new Intent(BrowserTaskMapActivity.this, TaskDetailActivity.class);
                 intent.putExtra(Constants.TASK_ID_EXTRA, miniTasks.get(position).getId());
                 startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
             }
@@ -108,7 +107,7 @@ public class BrowerTaskMapActivity extends BaseActivity implements View.OnClickL
     private class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
 
-        private View view;
+        private final View view;
 
         public CustomInfoWindowAdapter() {
 

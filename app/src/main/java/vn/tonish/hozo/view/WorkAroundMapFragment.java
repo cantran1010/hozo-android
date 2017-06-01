@@ -2,6 +2,7 @@ package vn.tonish.hozo.view;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.google.android.gms.maps.SupportMapFragment;
+
+import vn.tonish.hozo.R;
 
 /**
  * Created by LongBui on 4/28/2017.
@@ -23,7 +26,7 @@ public class WorkAroundMapFragment extends SupportMapFragment {
 
         TouchableWrapper frameLayout = new TouchableWrapper(getActivity());
 
-        frameLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        frameLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.transparent));
 
         ((ViewGroup) layout).addView(frameLayout,
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));

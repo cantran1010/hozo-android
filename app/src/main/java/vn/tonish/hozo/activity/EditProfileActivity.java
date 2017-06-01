@@ -65,11 +65,9 @@ import static vn.tonish.hozo.utils.Utils.converGenderEn;
 public class EditProfileActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = EditProfileActivity.class.getSimpleName();
 
-    protected ButtonHozo btnSave;
+    private ButtonHozo btnSave;
     private CircleImageView imgAvatar;
     private String imgPath;
-    private ImageView imgCancel;
-    private ImageView imgCamera;
     private RadioButton rbMale, rbFemale;
     private EdittextHozo edtName, edtAddress;
     private TextViewHozo tvBirthday;
@@ -94,10 +92,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         btnSave = (ButtonHozo) findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
 
-        imgCancel = (ImageView) findViewById(R.id.img_cancel);
+        ImageView imgCancel = (ImageView) findViewById(R.id.img_cancel);
         imgCancel.setOnClickListener(this);
 
-        imgCamera = (ImageView) findViewById(R.id.img_camera);
+        ImageView imgCamera = (ImageView) findViewById(R.id.img_camera);
         imgCamera.setOnClickListener(this);
 
         edtName = (EdittextHozo) findViewById(R.id.edt_name);
@@ -385,7 +383,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         pickImageDialog.showView();
     }
 
-    protected void checkPermission() {
+    private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             permissionGranted();
@@ -416,14 +414,14 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
     }
 
-    public Uri setImageUri() {
+    private Uri setImageUri() {
         File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
         return imgUri;
     }
 
-    public String getImagePath() {
+    private String getImagePath() {
         return imgPath;
     }
 }

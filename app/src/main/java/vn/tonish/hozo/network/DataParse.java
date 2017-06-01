@@ -178,6 +178,7 @@ public class DataParse {
         LogUtils.d("update data reviewEntities: ", reviewEntities.toString());
     }
 
+    @SuppressWarnings("ForLoopReplaceableByForEach")
     public static TaskResponse converTaskEntityToTaskReponse(TaskEntity taskEntity) {
         TaskResponse taskResponse = new TaskResponse();
         taskResponse.setId(taskEntity.getId());
@@ -271,7 +272,7 @@ public class DataParse {
         }
         taskEntity.setAttachments(strAtachments);
 
-        RealmList<Bidder> bidders = new RealmList<Bidder>();
+        RealmList<Bidder> bidders = new RealmList<>();
         if (taskResponse.getBidders() != null)
             for (int i = 0; i < taskResponse.getBidders().size(); i++)
                 bidders.add(taskResponse.getBidders().get(i));

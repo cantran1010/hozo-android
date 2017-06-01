@@ -117,7 +117,7 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
         }
     }
 
-    public int getTaskId() {
+    private int getTaskId() {
         return taskId;
     }
 

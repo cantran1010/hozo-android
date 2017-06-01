@@ -4,19 +4,22 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
     android:layout_marginTop="5dp"
+    android:baselineAligned="false"
     android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
+        android:layout_gravity="start"
         android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/just_image"
             android:src="@drawable/img_bid" />
 
         <vn.tonish.hozo.view.TextViewHozo
@@ -41,6 +44,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/just_image"
             android:src="@drawable/img_remain" />
 
         <vn.tonish.hozo.view.TextViewHozo
@@ -57,15 +61,20 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
+        android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingLeft="20dp">
+        android:paddingEnd="1dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="1dp"
+        android:paddingStart="20dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/just_image"
             android:src="@drawable/img_employ" />
 
         <vn.tonish.hozo.view.TextViewHozo

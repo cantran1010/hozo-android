@@ -17,9 +17,9 @@ import vn.tonish.hozo.view.SimpleViewPagerIndicator;
  */
 public class PreviewImageListActivity extends BaseActivity implements View.OnClickListener {
 
-    public ViewPager pager;
-    public SimpleViewPagerIndicator mIndicator;
-    public int startPosition;
+    private ViewPager pager;
+    private SimpleViewPagerIndicator mIndicator;
+    private int startPosition;
 
     public static final String EXTRA_POSITION = "extra_position";
     private ImageView imgBack;

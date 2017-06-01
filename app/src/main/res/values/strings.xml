@@ -1,10 +1,6 @@
 <resources>
     <!--all screen-->
     <string name="app_name">Hozo</string>
-    <string name="all_ok">Đồng ý</string>
-    <string name="all_cancel">Hủy</string>
-    <string name="all_retry">Retry</string>
-    <string name="all_network_error_msg">Error !</string>
     <string name="continue_up_case">TIẾP TỤC</string>
 
 
@@ -12,7 +8,6 @@
     <string name="notification_notify">Thông báo chưa đọc</string>
 
     <!--profile Screen-->
-    <string name="profile_tv_header">Hồ sơ cá nhân</string>
     <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
     <string name="btn_save">LƯU LẠI</string>
     <string name="tv_type_of_work">Loại công việc</string>
@@ -21,16 +16,9 @@
     <!--advance setting screen -->
     <string name="advance_setting_title">Cài Đặt Nâng Cao</string>
     <string name="tv_location">Địa điểm</string>
-    <string name="setting_time">Thời gian</string>
     <string name="tv_sex">Giới tính</string>
-    <string name="tv_age">Độ tuổi</string>
-    <string name="tv_notification">Thông báo công việc</string>
-    <string name="vnd">(VND)</string>
     <string name="share_content">Hãy chia sẻ ứng dụng Hozo để tạo nên \n kết nối hữu ích cho mọi người</string>
-    <string name="share_title">Chia sẻ với bạn bè</string>
     <string name="other_profile">Hồ sơ cá nhân</string>
-    <string name="other_history">Lịch sử giao dịch</string>
-    <string name="other_menthod">Hình thức thanh toán</string>
     <string name="other_condition">Điều khoản sử dụng</string>
     <string name="other_nad">Chính sách bảo mật</string>
     <string name="other_share">Chia sẻ với bạn bè</string>
@@ -40,7 +28,6 @@
     <string name="login_zone">+84</string>
     <string name="login_continue">Tiếp tục</string>
     <string name="login_enter_otp">Nhập 4 mã số được gửi tới điện thoại</string>
-    <string name="login_create_account">Tạo tài khoản</string>
     <string name="login_resend_otp">Gửi lại mã code</string>
     <string name="tv_label_name">Họ và tên của bạn là gì?</string>
     <string name="tv_login_save">Lưu lại</string>
@@ -63,12 +50,7 @@
 
     <string name="post_a_task_name_error">Tiêu đề công việc trên 10 kí tự</string>
     <string name="post_a_task_date_error">Vui lòng nhập thời gian bắt đầu làm việc</string>
-    <string name="post_a_task_day_error">Vui lòng nhập số ngày làm việc</string>
-    <string name="post_a_task_start_time_error">Vui lòng nhập thời gian bắt đầu</string>
-    <string name="post_a_task_end_time_error">Vui lòng nhập thời gian kết thúc</string>
     <string name="post_a_task_description_error">Mô tả công việc phải trên 25 kí tự</string>
-    <string name="post_a_task_age_from_error">Vui lòng nhập tuổi bắt đầu</string>
-    <string name="post_a_task_age_to_error">Vui lòng nhập tuổi kết thúc</string>
 
     <string name="notify_title">Thông báo</string>
 
@@ -79,15 +61,12 @@
 
     <!-- post a task map-->
     <string name="msg_err_gps">Ứng dụng cần bật dịch vụ định vị GPS</string>
-    <string name="msg_err_address">Vui lòng nhập địa chỉ</string>
     <string name="my_task_worker">Việc của tôi</string>
     <string name="my_task_poster">Việc đã đăng</string>
 
     <!-- make an offer-->
     <string name="make_an_offer_title">Chi tiết</string>
-    <string name="network_error_msg">Kết nối máy chủ không thành công, vui lòng kiểm tra cài đặt mạng!</string>
     <string name="msg_logOut">Bạn muốn thoát ?</string>
-    <string name="login_account">Đăng nhập</string>
 
     <!-- pick image dialog -->
     <string name="attach_img_title">Chọn ảnh đính kèm</string>
@@ -98,23 +77,13 @@
     <!-- preview image -->
     <string name="preview_image_title">Xem ảnh</string>
 
-    <!-- report task -->
-    <string name="report_task_title">Báo sai phạm</string>
-    <string name="btn_report">Báo xấu</string>
-
     <!-- comment -->
     <string name="btn_comment">Bình luận</string>
     <string name="comment_title">Bình luận</string>
 
-    <!-- report dialog -->
-    <string name="btn_reply_report">Trả lời tin nhắn</string>
-    <string name="btn_report_report">Thông báo tin nhắn xấu</string>
-    <string name="btn_cancel">Hủy</string>
-
     <!-- rate screen -->
     <string name="rate"> Bình Chọn </string>
     <string name="rate_title">Bạn có hài lòng với công việc và \n khách hàng này không ?</string>
-    <string name="rate_des">Totally Awesome</string>
     <string name="just_image">just_image</string>
 
     <string-array name="gender">
@@ -124,31 +93,20 @@
     </string-array>
 
     <!-- make an offer-->
-    <string name="tv_start_time">Chọn ngày bắt đầu</string>
-    <string name="tv_end_time">Chọn ngày kết thúc</string>
-    <string name="tv_amount">Số tiền</string>
-    <string name="et_max">Max</string>
-    <string name="et_min">Min</string>
     <string name="adjust_image">adjust_image</string>
     <string name="login_hotline">19009669</string>
-    <string name="login_erro">Có lỗi</string>
 
     <!-- post a task -->
     <string name="tv_time_task">Thời gian làm việc</string>
-    <string name="edt_number_day_hint">Số ngày làm việc</string>
-    <string name="start_time_hint">Thời gian bắt đầu</string>
-    <string name="end_time_hint">Thời gian kết thúc</string>
     <string name="task_description_hint">Mô tả công việc</string>
     <string name="attach_image_hint">Đăng hình ảnh</string>
     <string name="more_detail">Tùy chọn thêm</string>
     <string name="date_pick_hint">Chọn thời gian bắt đầu làm việc</string>
     <string name="btn_next">TIẾP TỤC</string>
     <string name="age_from_hint">Từ 20 tuổi</string>
-    <string name="age_to_hint">Đến 60 tuổi</string>
     <string name="map_hint_input1">Nhập địa điểm</string>
     <string name="map_hint_input2">(hoặc di chuyển pin trên bản đồ)</string>
     <string name="post_a_task_map_title">Địa điểm làm việc</string>
-    <string name="err_input_data">Vui lòng điền đủ thông tin</string>
     <string name="post_a_task_finish_title">Chi phí</string>
     <string name="post_task_finish_offer">Số tiền cho một người</string>
     <string name="post_task_finish_number">Số người cần thuê</string>
@@ -165,32 +123,21 @@
     <string name="content_description_back">Trở lại</string>
     <string name="crop_image_title">Chỉnh sửa</string>
     <string name="crop_image_done">Tiếp tục</string>
-    <string name="report_task_title_hint">Nhập tiêu đề</string>
     <string name="report_task_content_hint">Hãy cho chúng tôi biết lý do khác của bạn là gì</string>
     <string name="next">Tiếp tục</string>
     <string name="call">Gọi</string>
-    <string name="make_an_offer_worker">Người làm</string>
     <string name="make_an_offer_question">Hỏi đáp</string>
-    <string name="rate_content_hint">Nhập nội dung</string>
     <string name="reply_title_hint">Nhập tiêu đề</string>
     <string name="reply_content_hint">Nhập nội dung</string>
-    <string name="time_picker_title">Chọn thời gian</string>
     <string name="done">Hoàn thành</string>
     <string name="work_detail_view_bit">Ứng Tuyển</string>
     <string name="work_detail_view_price">Giá tiền :</string>
     <string name="work_detail_view_date">Ngày :</string>
     <string name="work_detail_view_time">Thời gian :</string>
     <string name="work_detail_view_address">Địa điểm :</string>
-    <string name="rate_professional">Profressional</string>
-    <string name="rate_hard_working">Hard Working</string>
-    <string name="rate_good_attitude">Good Attitude</string>
-    <string name="rate_other">Other</string>
-    <string name="network_account_is_not_exist">Tài khoản không tồn tại</string>
     <string name="type_your_text">Type your text …</string>
     <string name="assign_people">Người làm</string>
     <string name="assign">Chọn</string>
-    <string name="view_all">Xem tất cả</string>
-    <string name="worker">Người làm</string>
     <string name="cancel_task">Hủy Việc</string>
     <string name="recruitment">Ứng tuyển</string>
     <string name="received">Đã nhận</string>
@@ -198,7 +145,6 @@
     <string name="delivered">Đã giao</string>
     <string name="gallery">Gallery</string>
     <string name="share_task">Tìm Việc</string>
-    <string name="tv_type_of_task">Phân loại công việc</string>
     <string name="img_content_des">Quay trở lại</string>
     <string name="search">Tìm kiếm</string>
     <string name="btn_reset">Reset</string>
@@ -226,7 +172,6 @@
     <string name="post_a_task_time_working_error">Vui lòng nhập số giờ làm việc</string>
     <string name="post_a_task_age_error">Vui lòng chọn tuổi</string>
     <string name="post_a_task_complete">Chúc mừng bạn đã đăng tuyển thành công</string>
-    <string name="accout_is_not_exist">Tài khoản không tồn tại</string>
     <string name="show_all">Xem thêm</string>
     <string name="my_account">Tài khoản của tôi</string>
     <string name="user_account">Tài khoản</string>
@@ -234,7 +179,6 @@
     <string name="profile_rate">Đánh giá</string>
     <string name="retry_title">Lỗi</string>
     <string name="retry_content">Đã xảy ra lỗi trong quá trình kết nối. Bạn có muốn thử lại không ?</string>
-    <string name="internet_error">Đã xảy ra lỗi trong quá trình kết nối. vui lòng kiểm tra lại kết nối  ?</string>
     <string name="retry_ok">CÓ</string>
     <string name="retry_cancel">KHÔNG</string>
     <string name="bidder">Người ứng tuyển</string>
@@ -286,8 +230,6 @@
     <string name="task_type">Loại công việc</string>
     <string name="hint_min">Chi phí thấp nhất </string>
     <string name="edt_max">Chi phí cao nhất</string>
-    <string name="hint_time_start">Thời gian bắt đầu</string>
-    <string name="hint_time_done">Thới gian kết thúc</string>
     <string name="erro_emply_price">mức giá cho phép là 10,000-100,000,000 VND</string>
     <string name="erro_price">Lỗi! Giá trị xung đột, đề nghị nhập lại. </string>
     <string name="select_gender_title">Chọn giới tính</string>
@@ -315,15 +257,6 @@
     <string name="rate_content_4_star">Khá tốt !</string>
     <string name="rate_content_5_star">Rất hài lòng !</string>
     <string name="rate_msg_no_content_error">Vui lòng xếp hạng</string>
-    <string name="title_cancel_offer">Hủy ứng tuyển</string>
-    <string name="content_cancel_offer">Bạn có muốn hủy việc đã ứng tuyển ?</string>
-    <string name="cancel_offer">Hủy</string>
-
-    <!--find task-->
-    <string name="find_task_address">Đia chỉ:</string>
-    <string name="all_vnd">đ</string>
-    <string name="find_time_start">Ngày làm:</string>
-    <string name="find_task_category"><b>.</b>  Phân loại:</string>
 
     <string name="brower_task_map_activity">Tìm việc gần đây</string>
 
@@ -373,7 +306,6 @@
     <string name="share_app_title">Chọn ứng dụng bạn muốn chia sẻ</string>
     <string name="share_app_content">Hãy chia sẻ cho bạn bè ứng dụng tuyệt vời này \n</string>
     <string name="share_app_error">Rất tiếc,điện thoại bạn không cài đặt ứng dụng có thể chia sẻ</string>
-    <string name="post_a_task_complete_title">Thành công</string>
     <string name="currency">VND</string>
     <string name="gender_vn_any">Bất kỳ</string>
     <string name="gender_vn_mafele">Nữ</string>
