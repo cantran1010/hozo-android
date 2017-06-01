@@ -26,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
+            android:contentDescription="@string/just_image"
             android:src="@drawable/img_rate_1_star" />
 
         <vn.tonish.hozo.view.TextViewHozo

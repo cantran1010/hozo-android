@@ -118,7 +118,7 @@
         <item name="android:textColor">@color/hozo_bg</item>
     </style>
 
-    <style name="btn_style_nomal">
+    <style name="btn_style_normal">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/white</item>

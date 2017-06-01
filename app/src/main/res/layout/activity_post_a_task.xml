@@ -220,7 +220,7 @@
 
     <vn.tonish.hozo.view.ButtonHozo
         android:id="@+id/btn_next"
-        style="@style/btn_style_nomal"
+        style="@style/btn_style_normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

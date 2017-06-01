@@ -7,8 +7,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_right_screen"
         android:layout_marginLeft="@dimen/margin_left_screen"
         android:layout_marginRight="@dimen/margin_right_screen"
+        android:layout_marginStart="@dimen/margin_left_screen"
         android:orientation="horizontal"
         android:paddingBottom="5dp"
         android:paddingTop="5dp">
@@ -23,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -48,7 +51,10 @@
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/adjust_image"
                     android:paddingBottom="2dp"
+                    android:paddingEnd="1dp"
                     android:paddingLeft="10dp"
+                    android:paddingRight="1dp"
+                    android:paddingStart="10dp"
                     android:paddingTop="2dp"
                     android:src="@drawable/img_comment_setting" />
 
@@ -59,7 +65,6 @@
                 style="@style/tv_style_normal_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="afdasfdsafsadf"
                 android:textSize="11sp"
                 android:textStyle="italic" />
 
@@ -78,7 +83,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="15 minute ago"
                 android:textSize="9sp"
                 android:textStyle="italic" />
 

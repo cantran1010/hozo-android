@@ -25,7 +25,7 @@ public class DateTimeUtils {
     public static String getOnlyDateFromIso(String input) {
         Date date = null;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         try {
             date = sdf.parse(input);
@@ -38,7 +38,7 @@ public class DateTimeUtils {
     public static String getDateBirthDayFromIso(String input) {
         Date date = null;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         try {
             date = sdf.parse(input);
@@ -51,7 +51,7 @@ public class DateTimeUtils {
 
     public static String getOnlyIsoFromDate(String input) {
         Date date = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         try {
             date = sdf.parse(input);
@@ -65,7 +65,7 @@ public class DateTimeUtils {
     public static String getHourMinuteFromIso(String input) {
         Date date = null;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         try {
@@ -117,9 +117,8 @@ public class DateTimeUtils {
      * Transform Calendar to ISO 8601 string.
      */
     public static String fromDateIso(Date date) {
-        String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
                 .format(date);
-        return formatted;
     }
 
     /**
@@ -127,11 +126,10 @@ public class DateTimeUtils {
      */
     public static String fromCalendarIso(final Calendar calendar) {
         Date date = calendar.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        String formatted = sdf
+        return sdf
                 .format(date);
-        return formatted;
     }
 
     /**
@@ -162,22 +160,8 @@ public class DateTimeUtils {
     public static String getTime(int hr, int min) {
         Time tme = new Time(hr, min, 0);//seconds by default set to zero
         Format formatter;
-        formatter = new SimpleDateFormat("h:mm a");
+        formatter = new SimpleDateFormat("h:mm a", Locale.getDefault());
         return formatter.format(tme);
-    }
-
-    public static Date localToGMT(Calendar calendar) {
-        Date date = calendar.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date gmt = new Date(sdf.format(date));
-        return gmt;
-    }
-
-    public static Date gmttoLocalDate(Date date) {
-        String timeZone = Calendar.getInstance().getTimeZone().getID();
-        Date local = new Date(date.getTime() + TimeZone.getTimeZone(timeZone).getOffset(date.getTime()));
-        return local;
     }
 
     private static final long SECOND_MILLIS = 1000;

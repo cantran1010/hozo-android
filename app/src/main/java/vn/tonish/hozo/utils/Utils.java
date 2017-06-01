@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -16,7 +15,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.telephony.SmsManager;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -28,23 +26,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.view.EdittextHozo;
@@ -56,34 +47,8 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class Utils {
 
     private static final String TAG = Utils.class.getName();
-    public static final int MAXSIZE = 1000;
+    private static final int MAXSIZE = 1000;
     public static final int MAXSIZE_AVATA = 300;
-
-    public static String md5(String data) {
-        StringBuilder hexString = new StringBuilder();
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        byte[] hash;
-        try {
-            hash = md != null ? md.digest() : new byte[0];
-            for (byte aHash : hash) {
-                if ((0xff & aHash) < 0x10) {
-                    hexString.append("0").append(Integer.toHexString((0xFF & aHash)));
-                } else {
-                    hexString.append(Integer.toHexString(0xFF & aHash));
-                }
-            }
-            return hexString.toString();
-        } catch (NullPointerException ignored) {
-            ignored.printStackTrace();
-        }
-        return null;
-
-    }
 
     public static void displayImage(Context context, ImageView img, String url) {
         Glide.with(context).load(url)
@@ -135,12 +100,6 @@ public class Utils {
         Toast.makeText(context, content, Toast.LENGTH_LONG).show();
     }
 
-    public static void sendSMS(Context context, String phoneNumber, String message) {
-        SmsManager sms = SmsManager.getDefault();
-        ArrayList<String> parts = sms.divideMessage(message);
-        sms.sendMultipartTextMessage(phoneNumber, null, parts, null, null);
-    }
-
     public static String formatNumber(int input) {
         DecimalFormat myFormatter = new DecimalFormat("###,###.###");
         return myFormatter.format(input);
@@ -149,38 +108,6 @@ public class Utils {
     public static String formatNumber(Long input) {
         DecimalFormat myFormatter = new DecimalFormat("###,###.###");
         return myFormatter.format(input);
-    }
-
-    public static boolean isNullOrEmpty(Object obj) {
-        String inputString = String.valueOf(obj);
-        return obj == null || (inputString.isEmpty() || inputString.equals("null"));
-    }
-
-    public static int getScreenWidth() {
-        return Resources.getSystem().getDisplayMetrics().widthPixels;
-    }
-
-    public static int getScreenHeight() {
-        return Resources.getSystem().getDisplayMetrics().heightPixels;
-    }
-
-    public static String getStringInJsonObj(JSONObject jsonObject, String key) {
-        if (jsonObject.has(key)) {
-            try {
-                String e = String.valueOf(jsonObject.get(key));
-                return e.equalsIgnoreCase("null") ? "" : e;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return "";
-            }
-        } else {
-            return "";
-        }
-    }
-
-    public static String getNameCategoryById(int id) {
-        LogUtils.d(TAG, "id category :" + id);
-        return CategoryManager.getCategoryById(id).getName();
     }
 
     @SuppressWarnings("deprecation")
@@ -267,8 +194,7 @@ public class Utils {
     public static Bitmap scaleBitmap(Bitmap bmInput, int maxsize) {
         if (bmInput.getWidth() > maxsize || bmInput.getHeight() > maxsize) {
             float scale = bmInput.getWidth() > bmInput.getHeight() ? bmInput.getWidth() / maxsize : bmInput.getHeight() / maxsize;
-            Bitmap bmOut = bmInput.createScaledBitmap(bmInput, (int) (bmInput.getWidth() / scale), (int) (bmInput.getHeight() / scale), false);
-            return bmOut;
+            return bmInput.createScaledBitmap(bmInput, (int) (bmInput.getWidth() / scale), (int) (bmInput.getHeight() / scale), false);
         } else
             return bmInput;
     }
@@ -289,38 +215,47 @@ public class Utils {
         String matcher = "";
         String matcherColor = "#00A2E5";
 
-        if (notification.getEvent().equals("review_received")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_review_received);
-            matcher = context.getString(R.string.notification_review_received_matcher);
-            matcherColor = context.getString(R.string.notification_review_received_color);
-        } else if (notification.getEvent().equals("comment_received")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received);
-            matcher = context.getString(R.string.notification_comment_received_matcher);
-            matcherColor = context.getString(R.string.notification_comment_received_color);
-        } else if (notification.getEvent().equals("bidder_canceled")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled);
-            matcher = context.getString(R.string.notification_bidder_canceled_matcher);
-            matcherColor = context.getString(R.string.notification_bidder_canceled_color);
-        } else if (notification.getEvent().equals("bid_received")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received);
-            matcher = context.getString(R.string.notification_bid_received_matcher);
-            matcherColor = context.getString(R.string.notification_bid_received_color);
-        } else if (notification.getEvent().equals("bid_accepted")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted);
-            matcher = context.getString(R.string.notification_bid_accepted_matcher);
-            matcherColor = context.getString(R.string.notification_bid_accepted_color);
-        } else if (notification.getEvent().equals("task_reminder")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_task_reminder);
-            matcher = context.getString(R.string.notification_task_reminder_matcher);
-            matcherColor = context.getString(R.string.notification_task_reminder_color);
-        } else if (notification.getEvent().equals("new_task_alert")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert);
-            matcher = context.getString(R.string.notification_new_task_alert_matcher);
-            matcherColor = context.getString(R.string.notification_new_task_alert_color);
-        } else if (notification.getEvent().equals("poster_canceled")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled);
-            matcher = context.getString(R.string.notification_poster_canceled_matcher);
-            matcherColor = context.getString(R.string.notification_poster_canceled_color);
+        switch (notification.getEvent()) {
+            case "review_received":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_review_received);
+                matcher = context.getString(R.string.notification_review_received_matcher);
+                matcherColor = context.getString(R.string.notification_review_received_color);
+                break;
+            case "comment_received":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received);
+                matcher = context.getString(R.string.notification_comment_received_matcher);
+                matcherColor = context.getString(R.string.notification_comment_received_color);
+                break;
+            case "bidder_canceled":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled);
+                matcher = context.getString(R.string.notification_bidder_canceled_matcher);
+                matcherColor = context.getString(R.string.notification_bidder_canceled_color);
+                break;
+            case "bid_received":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received);
+                matcher = context.getString(R.string.notification_bid_received_matcher);
+                matcherColor = context.getString(R.string.notification_bid_received_color);
+                break;
+            case "bid_accepted":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted);
+                matcher = context.getString(R.string.notification_bid_accepted_matcher);
+                matcherColor = context.getString(R.string.notification_bid_accepted_color);
+                break;
+            case "task_reminder":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_task_reminder);
+                matcher = context.getString(R.string.notification_task_reminder_matcher);
+                matcherColor = context.getString(R.string.notification_task_reminder_color);
+                break;
+            case "new_task_alert":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert);
+                matcher = context.getString(R.string.notification_new_task_alert_matcher);
+                matcherColor = context.getString(R.string.notification_new_task_alert_color);
+                break;
+            case "poster_canceled":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled);
+                matcher = context.getString(R.string.notification_poster_canceled_matcher);
+                matcherColor = context.getString(R.string.notification_poster_canceled_color);
+                break;
         }
 
         tvContent.setText(content);
@@ -347,22 +282,31 @@ public class Utils {
 
         String content = "";
 
-        if (notification.getEvent().equals("review_received")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_review_received);
-        } else if (notification.getEvent().equals("comment_received")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received);
-        } else if (notification.getEvent().equals("bidder_canceled")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled);
-        } else if (notification.getEvent().equals("bid_received")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received);
-        } else if (notification.getEvent().equals("bid_accepted")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted);
-        } else if (notification.getEvent().equals("task_reminder")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_task_reminder);
-        } else if (notification.getEvent().equals("new_task_alert")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert);
-        } else if (notification.getEvent().equals("poster_canceled")) {
-            content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled);
+        switch (notification.getEvent()) {
+            case "review_received":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_review_received);
+                break;
+            case "comment_received":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received);
+                break;
+            case "bidder_canceled":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled);
+                break;
+            case "bid_received":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received);
+                break;
+            case "bid_accepted":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted);
+                break;
+            case "task_reminder":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_task_reminder);
+                break;
+            case "new_task_alert":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert);
+                break;
+            case "poster_canceled":
+                content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled);
+                break;
         }
 
         return content;

@@ -61,7 +61,7 @@ public class SimpleViewPagerIndicator extends RelativeLayout implements ViewPage
 
             itemContainer = (LinearLayout) findViewById(R.id.pager_indicator_container);
 
-            items = new ArrayList<ImageView>();
+            items = new ArrayList<>();
         }
     }
 
@@ -111,7 +111,7 @@ public class SimpleViewPagerIndicator extends RelativeLayout implements ViewPage
 
     public void setViewPager(ViewPager pager) {
         this.pager = pager;
-        this.pager.setOnPageChangeListener(this);
+        this.pager.addOnPageChangeListener(this);
         notifyDataSetChanged();
     }
 

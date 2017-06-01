@@ -36,7 +36,6 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     protected LinearLayoutManager linearLayoutManager;
     private CommentsAdapter commentsAdapter;
     protected RecyclerView lvList;
-    private ImageView imgBack;
     private List<Comment> mComments = new ArrayList<>();
     private String since;
     private Date sinceDate;
@@ -53,7 +52,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initView() {
         lvList = (RecyclerView) findViewById(R.id.lvList);
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
         createSwipeToRefresh();
 
@@ -101,12 +100,12 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
             params.put("since", since);
         params.put("limit", LIMIT + "");
 
-        ApiClient.getApiService().getCommens(UserManager.getUserToken(), taskId, params).enqueue(new Callback<List<Comment>>() {
+        ApiClient.getApiService().getComments(UserManager.getUserToken(), taskId, params).enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
-                LogUtils.d(TAG, "getCommens code : " + response.code());
+                LogUtils.d(TAG, "getComments code : " + response.code());
 
-                LogUtils.d(TAG, "getCommens body : " + response.body());
+                LogUtils.d(TAG, "getComments body : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     if (response.body() != null || response.body().size() > 0) {
                         List<Comment> comments = response.body();
@@ -144,7 +143,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             public void onFailure(Call<List<Comment>> call, Throwable t) {
-                LogUtils.e(TAG, "getCommens , onFailure : " + t.getMessage());
+                LogUtils.e(TAG, "getComments , onFailure : " + t.getMessage());
                 DialogUtils.showRetryDialog(CommentsActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
@@ -167,7 +166,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
     private void refreshList() {
         if (commentsAdapter == null) {
-            commentsAdapter = new CommentsAdapter(CommentsActivity.this, (ArrayList<Comment>) mComments);
+            commentsAdapter = new CommentsAdapter(CommentsActivity.this, mComments);
             linearLayoutManager = new LinearLayoutManager(CommentsActivity.this);
             lvList.setLayoutManager(linearLayoutManager);
             lvList.setAdapter(commentsAdapter);

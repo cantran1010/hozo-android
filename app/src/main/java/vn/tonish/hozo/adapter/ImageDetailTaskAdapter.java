@@ -47,7 +47,7 @@ public class ImageDetailTaskAdapter extends android.widget.BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final String item = attachments.get(position);
 
-        LogUtils.d(TAG, "getView , item : " + item.toString());
+        LogUtils.d(TAG, "getView , item : " + item);
 
         final ViewHolder holder;
         if (convertView == null) {

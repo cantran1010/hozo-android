@@ -58,9 +58,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_marginTop="10dp"
-        android:gravity="right">
+        android:gravity="end">
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_cancel"

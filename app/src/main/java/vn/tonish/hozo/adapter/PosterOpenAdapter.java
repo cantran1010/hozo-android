@@ -54,7 +54,7 @@ public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.My
 
     }
 
-    public int getTaskId() {
+    private int getTaskId() {
         return taskId;
     }
 

@@ -15,7 +15,7 @@
             android:layout_height="?android:attr/actionBarSize"
             android:background="@drawable/btn_back_selector"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_back_blue" />
+            android:src="@drawable/img_back" />
 
         <vn.tonish.hozo.view.TextViewHozo
             style="@style/tv_title"

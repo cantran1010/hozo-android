@@ -45,7 +45,7 @@ import static android.content.ContentValues.TAG;
 public class BidderOpenView extends LinearLayout implements View.OnClickListener {
 
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName, tvTimeAgo, tvPrice;
+    private TextViewHozo tvName, tvTimeAgo;
     private RatingBar rbRate;
     private ButtonHozo btnAssign;
     private Bidder bidder;
@@ -81,7 +81,6 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
         rbRate = (RatingBar) findViewById(R.id.rb_rate);
         btnAssign = (ButtonHozo) findViewById(R.id.btn_assign);
-        tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
     }
 
     public void updateData(final Bidder bidder, String type) {
@@ -196,7 +195,7 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
         }
     }
 
-    public int getTaskId() {
+    private int getTaskId() {
         return taskId;
     }
 

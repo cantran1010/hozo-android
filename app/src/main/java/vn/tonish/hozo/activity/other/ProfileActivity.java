@@ -68,9 +68,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private int rateCountPoster, retaCountWorker;
     private int userId;
     private UserEntity mUserEntity;
-    List<ReviewEntity> reviewEntities = new ArrayList<>();
-    List<ReviewEntity> posterReviewEntity = new ArrayList<>();
-    List<ReviewEntity> taskerReviewEntity = new ArrayList<>();
+    private List<ReviewEntity> reviewEntities = new ArrayList<>();
+    private List<ReviewEntity> posterReviewEntity = new ArrayList<>();
+    private List<ReviewEntity> taskerReviewEntity = new ArrayList<>();
 
     @Override
     protected int getLayout() {

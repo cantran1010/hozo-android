@@ -11,9 +11,9 @@ import java.util.ArrayList;
 
 public class Image implements Parcelable {
 
-    public long id;
-    public String name;
-    public String path;
+    private long id;
+    private String name;
+    private String path;
     public boolean isSelected;
     public boolean isAdd;
 

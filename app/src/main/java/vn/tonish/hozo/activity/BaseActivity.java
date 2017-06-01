@@ -18,7 +18,6 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.EdittextHozo;
-import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 4/12/17.
@@ -43,19 +42,9 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
 
     }
 
-    public void createSwipeToRefresh() {
+    void createSwipeToRefresh() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
-    }
-
-    protected void setBackButtonHozo() {
-
-        findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
 
     @Override
@@ -83,7 +72,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     }
 
 
-    public void onStopRefresh() {
+    void onStopRefresh() {
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -96,12 +85,6 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     @Override
     protected void onPause() {
         super.onPause();
-    }
-
-
-    protected void setTitleHeader(String text) {
-        TextViewHozo tv_title = (TextViewHozo) findViewById(R.id.tvTitleHeader);
-        tv_title.setText(text.trim());
     }
 
     @Override
@@ -117,13 +100,13 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         TransitionScreen.overridePendingTransition(this, transitionScreen);
     }
 
-    public void startActivity(Intent intent, TransitionScreen transitionScreen) {
+    protected void startActivity(Intent intent, TransitionScreen transitionScreen) {
         intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
         startActivity(intent);
         TransitionScreen.overridePendingTransition(this, transitionScreen);
     }
 
-    protected void startActivityAndClearAllTask(Intent intent, TransitionScreen transitionScreen) {
+    private void startActivityAndClearAllTask(Intent intent, TransitionScreen transitionScreen) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
         startActivity(intent);
@@ -135,7 +118,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         startActivityAndClearAllTask(intent, transitionScreen);
     }
 
-    public void startActivity(Class<?> cls, TransitionScreen transitionScreen) {
+    void startActivity(Class<?> cls, TransitionScreen transitionScreen) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
         TransitionScreen.overridePendingTransition(this, transitionScreen);

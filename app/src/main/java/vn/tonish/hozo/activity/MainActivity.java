@@ -9,10 +9,10 @@ import android.widget.LinearLayout;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
-import vn.tonish.hozo.fragment.SettingFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
 import vn.tonish.hozo.fragment.MyTaskFragment;
 import vn.tonish.hozo.fragment.SelectTaskFragment;
+import vn.tonish.hozo.fragment.SettingFragment;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.TextViewHozo;
 

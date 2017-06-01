@@ -118,7 +118,7 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
         if (taskTypes.size() > 0) {
             Intent intent = new Intent();
             Category category = new Category();
-            category.setCategories((ArrayList<Category>) taskTypes);
+            category.setCategories(taskTypes);
             intent.putExtra(Constants.EXTRA_CATEGORY_ID, category);
             setResult(Constants.RESULT_CODE_TASK_TYPE, intent);
             finish();//finishing

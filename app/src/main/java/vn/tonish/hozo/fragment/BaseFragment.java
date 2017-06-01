@@ -63,11 +63,11 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         resumeData();
     }
 
-    protected View findViewById(int id) {
+    View findViewById(int id) {
         return view.findViewById(id);
     }
 
-    public void createSwipeToRefresh() {
+    void createSwipeToRefresh() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
@@ -80,7 +80,7 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
             swipeRefreshLayout.setRefreshing(true);
     }
 
-    public void onStopRefresh() {
+    void onStopRefresh() {
         swipeRefreshLayout.setRefreshing(false);
     }
 

@@ -151,7 +151,6 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
                         @Override
                         public void onSubmit() {
                             getReviews(isSince, user_id);
-                            ;
                         }
 
                         @Override

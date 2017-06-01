@@ -12,7 +12,7 @@ public class FileUtils {
 
     public final static String OUTPUT_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "hozo";
 
-    public static FileUtils fileUtils;
+    private static FileUtils fileUtils;
 
     public static FileUtils getInstance() {
         if (fileUtils == null) {
@@ -22,21 +22,19 @@ public class FileUtils {
         return fileUtils;
     }
 
-    public static boolean init() {
+    private static void init() {
         File folder = new File(OUTPUT_DIR);
-        boolean success = true;
         if (!folder.exists()) {
-            success = folder.mkdirs();
+            folder.mkdirs();
         }
-        return success;
     }
 
     //delete all temp file after used
-    public static boolean deleteDirectory(File path) {
+    public static void deleteDirectory(File path) {
         if (path.exists()) {
             File[] files = path.listFiles();
             if (files == null) {
-                return true;
+                return;
             }
 
             for (File file : files) {
@@ -48,7 +46,7 @@ public class FileUtils {
             }
 
         }
-        return (path.delete());
+        path.delete();
     }
 
     public static String getHozoDirectory() {

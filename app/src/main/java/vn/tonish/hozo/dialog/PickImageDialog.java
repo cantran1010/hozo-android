@@ -29,8 +29,6 @@ public class PickImageDialog extends BaseDialog implements View.OnClickListener 
         this.pickImageListener = pickImageListener;
     }
 
-    private ButtonHozo btnCamera, btnGallery;
-
     public PickImageDialog(@NonNull Context context) {
         super(context);
     }
@@ -42,10 +40,10 @@ public class PickImageDialog extends BaseDialog implements View.OnClickListener 
 
     @Override
     protected void initData() {
-        btnCamera = (ButtonHozo) findViewById(R.id.btn_camera);
+        ButtonHozo btnCamera = (ButtonHozo) findViewById(R.id.btn_camera);
         btnCamera.setOnClickListener(this);
 
-        btnGallery = (ButtonHozo) findViewById(R.id.btn_gallery);
+        ButtonHozo btnGallery = (ButtonHozo) findViewById(R.id.btn_gallery);
         btnGallery.setOnClickListener(this);
     }
 

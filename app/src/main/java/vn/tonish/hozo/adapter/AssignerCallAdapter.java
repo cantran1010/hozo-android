@@ -55,7 +55,7 @@ public class AssignerCallAdapter extends RecyclerView.Adapter<AssignerCallAdapte
 
     }
 
-    public int getTaskId() {
+    private int getTaskId() {
         return taskId;
     }
 

@@ -31,7 +31,6 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
     private static final String TAG = CropImageActivity.class.getName();
     private CropImageView cropImageView;
     private TextViewHozo tvCrop;
-    private static Bitmap bitmapCrop;
     private ImageView imgBack;
     private CropImageViewOptions mCropImageViewOptions = new CropImageViewOptions();
     private ImageView imgRotate;
@@ -139,9 +138,9 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
 //                        ? CropImage.toOvalBitmap(result.getBitmap())
 //                        : result.getBitmap();
 
-                bitmapCrop = cropImageView.getCropShape() == CropImageView.CropShape.OVAL
-                        ? Utils.scaleBitmap(CropImage.toOvalBitmap(result.getBitmap()),Utils.MAXSIZE_AVATA)
-                        : Utils.scaleBitmap(result.getBitmap(),Utils.MAXSIZE_AVATA);
+                Bitmap bitmapCrop = cropImageView.getCropShape() == CropImageView.CropShape.OVAL
+                        ? Utils.scaleBitmap(CropImage.toOvalBitmap(result.getBitmap()), Utils.MAXSIZE_AVATA)
+                        : Utils.scaleBitmap(result.getBitmap(), Utils.MAXSIZE_AVATA);
 
                 File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
                 Utils.compressBitmapToFile(bitmapCrop, fileSave.getPath());

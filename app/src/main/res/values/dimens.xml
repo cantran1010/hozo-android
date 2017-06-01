@@ -1,18 +1,11 @@
 <resources>
 
     <!-- common-->
-    <dimen name="header_height">45dp</dimen>
-    <dimen name="divider_height">5dp</dimen>
-    <dimen name="pin_content_layout_padding">40dp</dimen>
-    <dimen name="pin_label_margin">10dp</dimen>
-    <dimen name="pin_min_width">32dp</dimen>
     <dimen name="edt_min_height">37dp</dimen>
     <dimen name="tv_size_nomal">14sp</dimen>
     <dimen name="edt_size_nomal">14sp</dimen>
     <dimen name="menu_text_size">10sp</dimen>
     <dimen name="tv_size_lager">17sp</dimen>
-    <dimen name="logo_width">257dp</dimen>
-    <dimen name="logo_height">94dp</dimen>
     <dimen name="login_layout_width">300dp</dimen>
     <dimen name="tv_size_tiny">11sp</dimen>
     <dimen name="tv_size_xtiny">12sp</dimen>
