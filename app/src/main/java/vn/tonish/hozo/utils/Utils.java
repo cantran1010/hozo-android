@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -28,6 +29,7 @@ import com.bumptech.glide.Glide;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -46,11 +48,13 @@ import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
- * Created by LongBui.
+ * Created by LongBui on 4/12/17.
  */
 public class Utils {
 
     private static final String TAG = Utils.class.getName();
+    public static final int MAXSIZE = 1000;
+    public static final int MAXSIZE_AVATA = 300;
 
     public static String md5(String data) {
         StringBuilder hexString = new StringBuilder();
@@ -206,6 +210,32 @@ public class Utils {
         }
     }
 
+    public static File compressFile(File fileIn) {
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        Bitmap bitmap = BitmapFactory.decodeFile(fileIn.getPath(), options);
+
+        if (bitmap.getWidth() > MAXSIZE || bitmap.getHeight() > MAXSIZE) {
+            float scale = bitmap.getWidth() > bitmap.getHeight() ? bitmap.getWidth() / MAXSIZE : bitmap.getHeight() / MAXSIZE;
+            Bitmap destinationBitmap = bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() / scale), (int) (bitmap.getHeight() / scale), false);
+
+            File fileOut = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".png");
+            Utils.compressBitmapToFile(destinationBitmap, fileOut.getPath());
+            return fileOut;
+        } else
+            return fileIn;
+    }
+
+    public static Bitmap scaleBitmap(Bitmap bmInput, int maxsize) {
+        if (bmInput.getWidth() > maxsize || bmInput.getHeight() > maxsize) {
+            float scale = bmInput.getWidth() > bmInput.getHeight() ? bmInput.getWidth() / maxsize : bmInput.getHeight() / maxsize;
+            Bitmap bmOut = bmInput.createScaledBitmap(bmInput, (int) (bmInput.getWidth() / scale), (int) (bmInput.getHeight() / scale), false);
+            return bmOut;
+        } else
+            return bmInput;
+    }
+
     public static void call(Context context, String phoneNumber) {
         try {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null));
@@ -316,7 +346,6 @@ public class Utils {
         if (isUpdate) taskResponses.set(index, taskResponse);
         else taskResponses.add(0, taskResponse);
     }
-
 
 
     public static String converGenderVn(Context context, String gender) {

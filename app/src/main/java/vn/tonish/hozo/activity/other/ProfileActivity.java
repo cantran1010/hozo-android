@@ -9,6 +9,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.utils.DialogUtils;
+import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
@@ -169,6 +171,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_UPDATE_PROFILE && resultCode == Constants.RESULT_CODE_UPDATE_PROFILE) {
             updateUi(UserManager.getMyUser());
+            FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
         }
     }
 
