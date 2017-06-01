@@ -7,8 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -28,6 +31,8 @@ import com.bumptech.glide.Glide;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -46,11 +51,13 @@ import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
- * Created by LongBui.
+ * Created by LongBui on 4/12/17.
  */
 public class Utils {
 
     private static final String TAG = Utils.class.getName();
+    public static final int MAXSIZE = 1000;
+    public static final int MAXSIZE_AVATA = 300;
 
     public static String md5(String data) {
         StringBuilder hexString = new StringBuilder();
@@ -192,7 +199,7 @@ public class Utils {
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(path);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, out); // bmp is your Bitmap instance
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -204,6 +211,66 @@ public class Utils {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static File compressFile(File fileIn) {
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        Bitmap bitmap = BitmapFactory.decodeFile(fileIn.getPath(), options);
+        LogUtils.d(TAG, "compressFile , width : " + bitmap.getWidth() + " , height : " + bitmap.getHeight());
+        if (bitmap.getWidth() > MAXSIZE || bitmap.getHeight() > MAXSIZE) {
+            float scale = bitmap.getWidth() > bitmap.getHeight() ? bitmap.getWidth() / MAXSIZE : bitmap.getHeight() / MAXSIZE;
+            try {
+                File fileOut;
+                Bitmap destinationBitmap;
+                Bitmap bmp = BitmapFactory.decodeStream(new FileInputStream(fileIn), null, null);
+
+                // fix right orientation of image after capture
+
+                ExifInterface exif = new ExifInterface(fileIn.getPath());
+                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+                int angle = 0;
+
+                if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
+                    angle = 90;
+                } else if (orientation == ExifInterface.ORIENTATION_ROTATE_180) {
+                    angle = 180;
+                } else if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
+                    angle = 270;
+                }
+
+                if (angle != 0) {
+                    Matrix mat = new Matrix();
+                    mat.postRotate(angle);
+
+                    Bitmap correctBmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), mat, true);
+                    destinationBitmap = bitmap.createScaledBitmap(correctBmp, (int) (correctBmp.getWidth() / scale), (int) (correctBmp.getHeight() / scale), false);
+                } else {
+                    destinationBitmap = bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() / scale), (int) (bmp.getHeight() / scale), false);
+                }
+
+
+                fileOut = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+                Utils.compressBitmapToFile(destinationBitmap, fileOut.getPath());
+                return fileOut;
+            } catch (Exception e) {
+                LogUtils.e(TAG, "compressFile , error : " + e.getMessage());
+                return fileIn;
+            }
+
+        } else
+            return fileIn;
+    }
+
+    public static Bitmap scaleBitmap(Bitmap bmInput, int maxsize) {
+        if (bmInput.getWidth() > maxsize || bmInput.getHeight() > maxsize) {
+            float scale = bmInput.getWidth() > bmInput.getHeight() ? bmInput.getWidth() / maxsize : bmInput.getHeight() / maxsize;
+            Bitmap bmOut = bmInput.createScaledBitmap(bmInput, (int) (bmInput.getWidth() / scale), (int) (bmInput.getHeight() / scale), false);
+            return bmOut;
+        } else
+            return bmInput;
     }
 
     public static void call(Context context, String phoneNumber) {
@@ -316,9 +383,6 @@ public class Utils {
         if (isUpdate) taskResponses.set(index, taskResponse);
         else taskResponses.add(0, taskResponse);
     }
-
-
-
 
     public static String converGenderVn(Context context, String gender) {
         String sex = "";

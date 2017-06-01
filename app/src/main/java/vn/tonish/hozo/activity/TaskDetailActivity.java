@@ -620,8 +620,10 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private void doAttachImage() {
         ProgressDialogUtils.showProgressDialog(this);
 
-        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileAttach);
-        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileAttach.getName(), requestBody);
+        File fileUp = Utils.compressFile(fileAttach);
+
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
+        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
 
         ApiClient.getApiService().uploadImage(UserManager.getUserToken(), itemPart).enqueue(new Callback<ImageResponse>() {
             @Override
@@ -728,7 +730,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                         }
                     });
                 }
-
+//                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 ProgressDialogUtils.dismissProgressDialog();
             }
 
@@ -745,13 +747,14 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
                     }
                 });
+//                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
 
     public Uri setImageUri() {
-        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".png");
+        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
         return imgUri;

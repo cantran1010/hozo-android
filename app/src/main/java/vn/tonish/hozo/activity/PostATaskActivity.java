@@ -410,9 +410,10 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void attachFile(final File file, final int position) {
+        File fileUp = Utils.compressFile(file);
 
-        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
+        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
 
         ApiClient.getApiService().uploadImage(UserManager.getUserToken(), itemPart).enqueue(new Callback<ImageResponse>() {
             @Override
@@ -464,6 +465,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
 
             ProgressDialogUtils.dismissProgressDialog();
+
+            FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
         }
 
     }
@@ -573,7 +576,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     }
 
     public Uri setImageUri() {
-        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".png");
+        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
         return imgUri;

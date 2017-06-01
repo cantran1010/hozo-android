@@ -23,7 +23,7 @@ import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
- * Created by LongBD.
+ * Created by LongBui on 4/12/17.
  */
 
 public class CropImageActivity extends BaseActivity implements View.OnClickListener, CropImageView.OnSetImageUriCompleteListener, CropImageView.OnCropImageCompleteListener {
@@ -140,25 +140,10 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
 //                        : result.getBitmap();
 
                 bitmapCrop = cropImageView.getCropShape() == CropImageView.CropShape.OVAL
-                        ? CropImage.toOvalBitmap(result.getBitmap())
-                        : result.getBitmap();
+                        ? Utils.scaleBitmap(CropImage.toOvalBitmap(result.getBitmap()),Utils.MAXSIZE_AVATA)
+                        : Utils.scaleBitmap(result.getBitmap(),Utils.MAXSIZE_AVATA);
 
-//                int width = bitmapCrop.getWidth();
-//                int height = bitmapCrop.getHeight();
-//
-//                int expected = 1000;
-//
-//                LogUtils.d(TAG, "handleCropResult , width: " + width + " , height : " + height);
-//
-//                if (width > height && width > expected) {
-//                    float scale = width / expected;
-//                    bitmapCrop = Bitmap.createScaledBitmap(bitmapCrop, expected, (int) (height / scale), false);
-//                } else if (height > width && height > expected) {
-//                    float scale = height / expected;
-//                    bitmapCrop = Bitmap.createScaledBitmap(bitmapCrop, (int) (width / scale), expected, false);
-//                }
-
-                File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".png");
+                File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
                 Utils.compressBitmapToFile(bitmapCrop, fileSave.getPath());
 
                 Intent intent = new Intent();

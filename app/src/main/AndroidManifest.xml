@@ -88,10 +88,7 @@
             android:name=".activity.CropImageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activity.PreviewImageActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activity.PreviewImageActivity" />
         <activity
             android:name=".activity.ReportTaskActivity"
             android:screenOrientation="portrait"
@@ -104,9 +101,7 @@
             android:name=".activity.RateActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activity.PreviewImageListActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".activity.PreviewImageListActivity" />
         <activity
             android:name=".activity.BrowerTaskMapActivity"
             android:screenOrientation="portrait" />

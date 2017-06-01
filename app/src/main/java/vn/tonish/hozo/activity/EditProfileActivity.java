@@ -277,7 +277,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     Intent intent = new Intent();
                     setResult(Constants.RESULT_CODE_UPDATE_PROFILE, intent);
                     finish();
-                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -418,7 +417,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     public Uri setImageUri() {
-        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".png");
+        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
         return imgUri;
