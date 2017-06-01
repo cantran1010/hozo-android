@@ -730,7 +730,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                         }
                     });
                 }
-                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+//                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 ProgressDialogUtils.dismissProgressDialog();
             }
 
@@ -747,14 +747,14 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
                     }
                 });
-                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+//                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
 
     public Uri setImageUri() {
-        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".png");
+        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
         return imgUri;

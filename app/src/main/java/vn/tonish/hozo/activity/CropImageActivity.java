@@ -142,7 +142,7 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
                         ? Utils.scaleBitmap(CropImage.toOvalBitmap(result.getBitmap()),Utils.MAXSIZE_AVATA)
                         : Utils.scaleBitmap(result.getBitmap(),Utils.MAXSIZE_AVATA);
 
-                File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".png");
+                File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
                 Utils.compressBitmapToFile(bitmapCrop, fileSave.getPath());
 
                 Intent intent = new Intent();
