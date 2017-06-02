@@ -1,5 +1,9 @@
 package vn.tonish.hozo.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -43,8 +47,29 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     protected void resumeData() {
-
+        getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK));
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
+    }
+
+    private BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (role.equals(Constants.ROLE_TASKER)) {
+                Intent intentAnswer = new Intent();
+                intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER);
+                getActivity().sendBroadcast(intentAnswer);
+            } else if (role.equals(Constants.ROLE_POSTER)) {
+                Intent intentAnswer = new Intent();
+                intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER);
+                getActivity().sendBroadcast(intentAnswer);
+            }
+        }
+    };
 
     private void selectedTab(int position) {
         if (position == 1) {
@@ -65,14 +90,24 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
         switch (v.getId()) {
             case R.id.tv_worker:
-                if (role.equals(Constants.ROLE_TASKER)) break;
+                if (role.equals(Constants.ROLE_TASKER)) {
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER);
+                    getActivity().sendBroadcast(intentAnswer);
+                    break;
+                }
                 role = Constants.ROLE_TASKER;
                 showChildFragment(R.id.layout_container_my_task, MyTaskWorkerFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 selectedTab(1);
                 break;
 
             case R.id.tv_poster:
-                if (role.equals(Constants.ROLE_POSTER)) break;
+                if (role.equals(Constants.ROLE_POSTER)) {
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER);
+                    getActivity().sendBroadcast(intentAnswer);
+                    break;
+                }
                 role = Constants.ROLE_POSTER;
                 showChildFragment(R.id.layout_container_my_task, MyTaskPosterFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 selectedTab(2);
