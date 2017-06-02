@@ -29,6 +29,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     private TransitionScreen transitionScreen;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Stack<StackEntry> fragmentsStack = new Stack<>();
+    private FragmentTransaction transaction;
 
     protected abstract int getLayout();
 
@@ -127,76 +128,66 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     }
 
     private void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack, TransitionScreen transitionScreen) {
-        FragmentManager manager = getSupportFragmentManager();
+        transaction = fragmentManager.beginTransaction();
         String tag = fragmentClazz.getName();
+        Fragment fragment = null;
         try {
-            Fragment fragment;
-            try {
-                fragment = fragmentClazz.newInstance();
-                if (args != null) {
-                    fragment.setArguments(args);
-                }
-                FragmentTransaction transaction = manager.beginTransaction();
-                TransitionScreen.setCustomAnimationsFragment(transaction, transitionScreen);
-                transaction.replace(resId, fragment, tag);
-
-                if (addBackStack) {
-                    transaction.addToBackStack(tag);
-                }
-                transaction.commitAllowingStateLoss();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
+            fragment = fragmentClazz.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+
+        if (args != null) {
+            fragment.setArguments(args);
+        }
+        TransitionScreen.setCustomAnimationsFragment(transaction, transitionScreen);
+        transaction.replace(resId, fragment, tag);
+
+        if (addBackStack) {
+            transaction.addToBackStack(tag);
+        }
+        transaction.commitAllowingStateLoss();
     }
 
     public void showFragment(int resLayout, Class<?> newFragClass,
-                             boolean putStack, Bundle bundle,TransitionScreen transitionScreen) {
+                             boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
 
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
+        transaction = fragmentManager.beginTransaction();
         TransitionScreen.setCustomAnimationsFragment(transaction, transitionScreen);
+        String newTag = newFragClass.getName();
 
-        try {
-            Fragment newFragment = null;
-            String newTag = null;
-            if (newFragClass != null)
-                newTag = newFragClass.getName();
-
-            Fragment lastFragment = getLastFragment();
-            if (lastFragment != null) {
-                transaction.hide(lastFragment);
-            }
-
-            // find the fragment in fragment manager
-            newFragment = manager.findFragmentByTag(newTag);
-            if (newFragment != null && !newFragment.isRemoving()) {
-                transaction.show(newFragment).commit();
-            } else {
-                try {
-                    Fragment nFrag = (Fragment) newFragClass.newInstance();
-                    nFrag.setArguments(bundle);
-
-                    if (putStack) {
-                        transaction.add(resLayout, nFrag, newTag)
-                                .addToBackStack(newTag).commit();
-                    } else {
-                        transaction.add(resLayout, nFrag, newTag).commit();
-                    }
-
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            fragmentsStack.push(new StackEntry(newTag));
-        } catch (Exception e) {
-            e.printStackTrace();
+        Fragment lastFragment = getLastFragment();
+        if (lastFragment != null) {
+            transaction.hide(lastFragment);
         }
+
+        // find the fragment in fragment manager
+        Fragment newFragment = fragmentManager.findFragmentByTag(newTag);
+        if (newFragment != null && !newFragment.isRemoving()) {
+            transaction.show(newFragment).commit();
+        } else {
+            Fragment nFrag = null;
+            try {
+                nFrag = (Fragment) newFragClass.newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            nFrag.setArguments(bundle);
+
+            if (putStack) {
+                transaction.add(resLayout, nFrag, newTag)
+                        .addToBackStack(newTag).commit();
+            } else {
+                transaction.add(resLayout, nFrag, newTag).commit();
+            }
+
+        }
+
+        fragmentsStack.push(new StackEntry(newTag));
     }
 
     private Fragment getLastFragment() {
