@@ -21,4 +21,9 @@
     <dimen name="avatar_width_height">52dp</dimen>
     <dimen name="image_attach_post_task_height">85dp</dimen>
 
+    <dimen name="icon_size_gigatic2">20dp</dimen>
+    <dimen name="text_size_gigatic">15sp</dimen>
+    <dimen name="main_menu_height">48dp</dimen>
+    <dimen name="toast_offset">20dp</dimen>
+
 </resources>

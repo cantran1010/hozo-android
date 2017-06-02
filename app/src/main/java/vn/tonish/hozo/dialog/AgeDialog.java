@@ -81,7 +81,7 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
     private void doDone() {
 
         if (npAgeFrom.getValue() >= npAgeTo.getValue()) {
-            Utils.showLongToast(getContext(), getContext().getString(R.string.select_age_error));
+            Utils.showLongToast(getContext(), getContext().getString(R.string.select_age_error),true,false);
             return;
         }
 

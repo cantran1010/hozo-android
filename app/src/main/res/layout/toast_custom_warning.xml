@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/toast_error_bg"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="10dp">
+
+    <ImageView
+        android:id="@+id/imgToast"
+        android:layout_width="@dimen/icon_size_gigatic2"
+        android:layout_height="@dimen/icon_size_gigatic2"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:src="@android:drawable/stat_sys_warning" />
+
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/toastDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/imgToast"
+        android:maxLines="1"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_gigatic" />
+
+</RelativeLayout>

@@ -103,7 +103,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             startActivity(Intent.createChooser(i, getString(R.string.share_app_title)));
         } catch (Exception e) {
             e.printStackTrace();
-            Utils.showLongToast(getContext(), getString(R.string.share_app_error));
+            Utils.showLongToast(getContext(), getString(R.string.share_app_error),true,false);
         }
 
     }
