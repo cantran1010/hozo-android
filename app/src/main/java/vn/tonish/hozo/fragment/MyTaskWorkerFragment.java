@@ -1,6 +1,9 @@
 package vn.tonish.hozo.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -83,8 +86,21 @@ public class MyTaskWorkerFragment extends BaseFragment {
 
     @Override
     protected void resumeData() {
-
+        getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER));
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
+    }
+
+    private BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            rcvTask.smoothScrollToPosition(0);
+        }
+    };
 
     private void getTaskFromServer(final String role, final String since, final int limit) {
 

@@ -102,7 +102,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
 
-//                openFragment(R.id.layout_container, SelectTaskFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
                 tabIndex = 1;
                 updateMenuUi(1);
                 break;
@@ -119,9 +118,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.layout_my_task:
-                if (tabIndex == 3) break;
-
-//                showFragment(R.id.layout_container, MyTaskFragment.class, false, new Bundle());
+                if (tabIndex == 3) {
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK);
+                    sendBroadcast(intentAnswer);
+                    break;
+                }
 
                 if (tabIndex > 3) {
                     showFragment(R.id.layout_container, MyTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
@@ -133,9 +135,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.layout_inbox:
-                if (tabIndex == 4) break;
 
-//                showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle());
+                if (tabIndex == 4) {
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_INBOX);
+                    sendBroadcast(intentAnswer);
+                    break;
+                }
 
                 if (tabIndex > 4) {
                     showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
@@ -149,9 +155,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.layout_other:
                 if (tabIndex == 5) break;
 
-//                showFragment(R.id.layout_container, SettingFragment.class, false, new Bundle());
-
-                showFragment(R.id.layout_container, SettingFragment.class, false, new Bundle(),TransitionScreen.RIGHT_TO_LEFT);
+                showFragment(R.id.layout_container, SettingFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 tabIndex = 5;
                 updateMenuUi(5);
                 break;
