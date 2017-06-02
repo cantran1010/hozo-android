@@ -180,7 +180,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.tv_done:
                 if (getSelectedImage().size() == 0) {
-                    Utils.showLongToast(ImageSelectActivity.this, getString(R.string.err_pick_image));
+                    Utils.showLongToast(ImageSelectActivity.this, getString(R.string.err_pick_image),false,false);
                 } else {
 
                     if (isCropProfile) {

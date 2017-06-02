@@ -323,5 +323,6 @@
     <string name="comment_setting_visible">visible</string>
     <string name="comment_setting_invisible">invisible</string>
     <string name="cancel_task_success_msg">Bạn đã hủy việc thành công</string>
+    <string name="message_exit_app">Nhấn lần nữa để thoát ứng dụng !</string>
 
 </resources>

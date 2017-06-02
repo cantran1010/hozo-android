@@ -217,7 +217,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 //                            finish();
 //                        }
 //                    });
-                    Utils.showLongToast(PostATaskFinishActivity.this, getString(R.string.post_a_task_complete));
+                    Utils.showLongToast(PostATaskFinishActivity.this, getString(R.string.post_a_task_complete),false,false);
                     setResult(Constants.POST_A_TASK_RESPONSE_CODE);
                     finish();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {

@@ -107,7 +107,7 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
     private void doRate() {
 
         if (ratingBar.getRating() == 0) {
-            Utils.showLongToast(this, getString(R.string.rate_msg_no_content_error));
+            Utils.showLongToast(this, getString(R.string.rate_msg_no_content_error),true,false);
             return;
         }
 
