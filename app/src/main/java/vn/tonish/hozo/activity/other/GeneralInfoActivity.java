@@ -17,7 +17,6 @@ public class GeneralInfoActivity extends BaseActivity implements View.OnClickLis
 
     private static final String TAG = GeneralInfoActivity.class.getSimpleName();
     private CustomWebView customWebView;
-    private ImageView imgBack;
     private TextViewHozo tvTitle;
 
     @Override
@@ -29,7 +28,7 @@ public class GeneralInfoActivity extends BaseActivity implements View.OnClickLis
     protected void initView() {
         customWebView = (CustomWebView) findViewById(R.id.custom_web_view);
 
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);

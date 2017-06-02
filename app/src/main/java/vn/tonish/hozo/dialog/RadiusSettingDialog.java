@@ -15,7 +15,6 @@ import vn.tonish.hozo.view.TextViewHozo;
  */
 
 public class RadiusSettingDialog extends BaseDialog implements View.OnClickListener {
-    private TextViewHozo tvCancel, tvOk;
     private RadioGroup rgRadius;
     private RadiusDialogListener radiusDialogListener;
     private int mIndex;
@@ -44,8 +43,8 @@ public class RadiusSettingDialog extends BaseDialog implements View.OnClickListe
 
     @Override
     protected void initData() {
-        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
-        tvOk = (TextViewHozo) findViewById(R.id.tv_ok);
+        TextViewHozo tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
+        TextViewHozo tvOk = (TextViewHozo) findViewById(R.id.tv_ok);
         rgRadius = (RadioGroup) findViewById(R.id.rg_radius);
         setCheckedDefault();
         tvCancel.setOnClickListener(this);

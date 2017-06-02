@@ -33,8 +33,6 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     private ImageSelectAdapter imageSelectAdapter;
     private ArrayList<Image> images;
     private final String[] projection = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA};
-    private ImageView imgBack;
-    private TextViewHozo tvDone;
     private TextViewHozo tvAlbumName;
     private boolean isOnlyImage = false;
     private boolean isCropProfile = false;
@@ -47,10 +45,10 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        tvDone = (TextViewHozo) findViewById(R.id.tv_done);
+        TextViewHozo tvDone = (TextViewHozo) findViewById(R.id.tv_done);
         tvDone.setOnClickListener(this);
 
         tvAlbumName = (TextViewHozo) findViewById(R.id.tv_album_name);

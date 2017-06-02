@@ -32,9 +32,7 @@ ReportTaskActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = ReportTaskActivity.class.getSimpleName();
 
-    private ButtonHozo btnReport;
     private EdittextHozo edtContent;
-    private ImageView imgClose;
     private int commentId;
 
     @Override
@@ -47,10 +45,10 @@ ReportTaskActivity extends BaseActivity implements View.OnClickListener {
 
         edtContent = (EdittextHozo) findViewById(R.id.edt_content);
 
-        btnReport = (ButtonHozo) findViewById(R.id.btn_report);
+        ButtonHozo btnReport = (ButtonHozo) findViewById(R.id.btn_report);
         btnReport.setOnClickListener(this);
 
-        imgClose = (ImageView) findViewById(R.id.img_close);
+        ImageView imgClose = (ImageView) findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
     }
 

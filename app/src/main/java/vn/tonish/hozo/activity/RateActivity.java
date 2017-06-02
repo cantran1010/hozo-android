@@ -38,7 +38,6 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
     private ImageView imgRate;
     private TextViewHozo tvRateContent;
     private RatingBar ratingBar;
-    private ButtonHozo btnRate;
     private int taskId, userId;
 
     @Override
@@ -52,7 +51,7 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
         tvRateContent = (TextViewHozo) findViewById(R.id.tv_rate_content);
         ratingBar = (RatingBar) findViewById(R.id.rb_rate);
 
-        btnRate = (ButtonHozo) findViewById(R.id.btn_rate);
+        ButtonHozo btnRate = (ButtonHozo) findViewById(R.id.btn_rate);
         btnRate.setOnClickListener(this);
     }
 

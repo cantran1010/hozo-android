@@ -65,7 +65,6 @@ import static vn.tonish.hozo.utils.Utils.converGenderEn;
 public class EditProfileActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = EditProfileActivity.class.getSimpleName();
 
-    private ButtonHozo btnSave;
     private CircleImageView imgAvatar;
     private String imgPath;
     private RadioButton rbMale, rbFemale;
@@ -89,7 +88,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
 
-        btnSave = (ButtonHozo) findViewById(R.id.btn_save);
+        ButtonHozo btnSave = (ButtonHozo) findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
 
         ImageView imgCancel = (ImageView) findViewById(R.id.img_cancel);

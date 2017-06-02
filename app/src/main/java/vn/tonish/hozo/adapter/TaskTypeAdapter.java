@@ -1,5 +1,6 @@
 package vn.tonish.hozo.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,7 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
     @Override
     public TaskTypeAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(
+        @SuppressLint("InflateParams") View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.item_task_type, null);
         ViewHolder viewHolder = new ViewHolder(itemLayoutView);
         return viewHolder;

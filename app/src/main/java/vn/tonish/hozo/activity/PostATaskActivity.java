@@ -69,8 +69,6 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
     private static final String TAG = PostATaskActivity.class.getSimpleName();
     private TextViewHozo tvTitle, tvAge;
-    private ButtonHozo btnNext;
-    private RelativeLayout layoutDate;
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private ArrayList<Image> images = new ArrayList<>();
@@ -81,15 +79,12 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private EdittextHozo edtWorkName, edtDescription;
     private Spinner spGender;
     private Category category;
-    private ImageView imgClose;
     private int imageAttachCount;
     private int[] imagesArr;
     private int ageFrom = 18;
     private int ageTo = 80;
     private EdittextHozo edtWorkingHour;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
-    private LinearLayout layoutAge;
-    private DatePickerDialog datePickerDialog;
     private TimePickerDialog timeEndPickerDialog;
 
     protected int getLayout() {
@@ -99,13 +94,13 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initView() {
 
-        imgClose = (ImageView) findViewById(R.id.img_close);
+        ImageView imgClose = (ImageView) findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
 
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         tvTitle.setOnClickListener(this);
 
-        btnNext = (ButtonHozo) findViewById(R.id.btn_next);
+        ButtonHozo btnNext = (ButtonHozo) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
 
         tvDate = (TextViewHozo) findViewById(R.id.tv_date);
@@ -130,10 +125,10 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 //        layoutEndTime = (RelativeLayout) findViewById(R.id.layout_end_time);
 //        layoutEndTime.setOnClickListener(this);
 
-        layoutDate = (RelativeLayout) findViewById(R.id.date_layout);
+        RelativeLayout layoutDate = (RelativeLayout) findViewById(R.id.date_layout);
         layoutDate.setOnClickListener(this);
 
-        layoutAge = (LinearLayout) findViewById(R.id.layout_age);
+        LinearLayout layoutAge = (LinearLayout) findViewById(R.id.layout_age);
         layoutAge.setOnClickListener(this);
     }
 
@@ -473,7 +468,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
 
     private void openDatePicker() {
-        datePickerDialog = new DatePickerDialog(this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, final int year,

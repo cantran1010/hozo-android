@@ -35,9 +35,7 @@ import static android.content.ContentValues.TAG;
 
 public class ReportDialog extends BaseDialog implements View.OnClickListener {
 
-    private TextViewHozo tvCancel, tvOk;
     private RadioGroup rgReport;
-    private RadioButton rbSpam, rbLanguage, rbPolicy, rbOther;
     private Comment comment;
 
     public ReportDialog(@NonNull Context context, Comment comment) {
@@ -52,16 +50,16 @@ public class ReportDialog extends BaseDialog implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
+        TextViewHozo tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
         tvCancel.setOnClickListener(this);
-        tvOk = (TextViewHozo) findViewById(R.id.tv_ok);
+        TextViewHozo tvOk = (TextViewHozo) findViewById(R.id.tv_ok);
         tvOk.setOnClickListener(this);
 
         rgReport = (RadioGroup) findViewById(R.id.rg_report);
-        rbSpam = (RadioButton) findViewById(R.id.rb_spam);
-        rbLanguage = (RadioButton) findViewById(R.id.rb_language);
-        rbPolicy = (RadioButton) findViewById(R.id.rb_policy);
-        rbOther = (RadioButton) findViewById(R.id.rb_other);
+        RadioButton rbSpam = (RadioButton) findViewById(R.id.rb_spam);
+        RadioButton rbLanguage = (RadioButton) findViewById(R.id.rb_language);
+        RadioButton rbPolicy = (RadioButton) findViewById(R.id.rb_policy);
+        RadioButton rbOther = (RadioButton) findViewById(R.id.rb_other);
     }
 
     @Override

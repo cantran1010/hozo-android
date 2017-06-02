@@ -30,7 +30,7 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
     }
 
     public interface TaskAdapterListener {
-        public void onTaskAdapterClickListener(int position);
+        void onTaskAdapterClickListener(int position);
     }
 
     private TaskAdapterListener taskAdapterListener;

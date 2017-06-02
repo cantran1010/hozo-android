@@ -58,8 +58,6 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
     private EdittextHozo mPinForthDigitEditText;
     private EdittextHozo mPinHiddenEditText;
     private TextView btnSigIn;
-    private ImageView btnBack;
-    private TextView btnResetOtp;
     private String mobile;
 
     @Override
@@ -74,9 +72,9 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
         mPinThirdDigitEditText = (EdittextHozo) findViewById(R.id.pin_third_edittext);
         mPinForthDigitEditText = (EdittextHozo) findViewById(R.id.pin_forth_edittext);
         mPinHiddenEditText = (EdittextHozo) findViewById(R.id.pin_hidden_edittext);
-        btnBack = (ImageView) findViewById(R.id.btnBack);
+        ImageView btnBack = (ImageView) findViewById(R.id.btnBack);
         btnSigIn = (TextView) findViewById(R.id.btn_sigin);
-        btnResetOtp = (TextView) findViewById(R.id.btn_reset_otp);
+        TextView btnResetOtp = (TextView) findViewById(R.id.btn_reset_otp);
         mPinHiddenEditText.addTextChangedListener(this);
         mPinFirstDigitEditText.setOnFocusChangeListener(this);
         mPinSecondDigitEditText.setOnFocusChangeListener(this);

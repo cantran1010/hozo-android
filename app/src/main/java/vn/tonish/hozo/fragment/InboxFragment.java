@@ -39,11 +39,9 @@ public class InboxFragment extends BaseFragment {
 
     private static final String TAG = InboxFragment.class.getSimpleName();
 
-    private LinearLayoutManager linearLayoutManager;
     private NotificationAdapter notificationAdapter;
     private RecyclerView lvList;
     private List<Notification> notifications = new ArrayList<>();
-    private TextViewHozo tvUnread;
     private String since;
     private Date sinceDate;
     public static final int LIMIT = 15;
@@ -58,7 +56,7 @@ public class InboxFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        tvUnread = (TextViewHozo) findViewById(R.id.tv_unread);
+        TextViewHozo tvUnread = (TextViewHozo) findViewById(R.id.tv_unread);
         lvList = (RecyclerView) findViewById(R.id.lvList);
         createSwipeToRefresh();
     }
@@ -186,7 +184,7 @@ public class InboxFragment extends BaseFragment {
     private void refreshList() {
         if (notificationAdapter == null) {
             notificationAdapter = new NotificationAdapter(getActivity(), notifications);
-            linearLayoutManager = new LinearLayoutManager(getActivity());
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
             lvList.setLayoutManager(linearLayoutManager);
             lvList.setAdapter(notificationAdapter);
 

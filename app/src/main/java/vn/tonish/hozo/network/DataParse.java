@@ -156,9 +156,9 @@ public class DataParse {
     //update data reviewEntities
 
     public static void insertReviewtoDb(User user) {
-        List<Review> reviews = new ArrayList();
+        ArrayList<Review> reviews = new ArrayList();
         reviews.addAll(user.getReviews());
-        List<ReviewEntity> reviewEntities = new ArrayList();
+        ArrayList<ReviewEntity> reviewEntities = new ArrayList();
         for (int i = 0; i < reviews.size(); i++) {
             ReviewEntity reviewEntity = new ReviewEntity();
             Review review = reviews.get(i);
@@ -178,7 +178,6 @@ public class DataParse {
         LogUtils.d("update data reviewEntities: ", reviewEntities.toString());
     }
 
-    @SuppressWarnings("ForLoopReplaceableByForEach")
     public static TaskResponse converTaskEntityToTaskReponse(TaskEntity taskEntity) {
         TaskResponse taskResponse = new TaskResponse();
         taskResponse.setId(taskEntity.getId());
@@ -364,9 +363,9 @@ public class DataParse {
     public static Map<String, String> setParameterGetTasks(String sortBy, String limit, String since, String query) {
         SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
         Map<String, String> option = new HashMap<>();
-        option.put("category_id", getIds());
+        option.put("category_ids[]", getIds());
         option.put("min_worker_rate", String.valueOf(settingEntiny.getMinWorkerRate()));
-        option.put("min_worker_rate", String.valueOf(settingEntiny.getMaxWorkerRate()));
+        option.put("max_worker_rate", String.valueOf(settingEntiny.getMaxWorkerRate()));
         option.put("latitude", String.valueOf(settingEntiny.getLatitude()));
         option.put("longitude", String.valueOf(settingEntiny.getLongitude()));
         option.put("distance", String.valueOf(settingEntiny.getRadius()));
@@ -379,15 +378,15 @@ public class DataParse {
     }
 
     public static String getIds() {
-        List<CategoryEntity> entityRealmList= CategoryManager.getAllCategories();
+        List<CategoryEntity> entityRealmList = CategoryManager.getAllCategories();
         String ids = "";
         for (CategoryEntity categoryEntity : entityRealmList) {
             if (categoryEntity.isSelected())
-                ids = ids+"ids[]=" + categoryEntity.getId() + "&";
+                ids = ids + categoryEntity.getId() + ",";
         }
-        LogUtils.d(TAG, "getIds" + ids);
+        LogUtils.d(TAG, "getIds" + ids.substring(0, ids.length() - 1));
 
-        return ids.substring(0, ids.length() -1);
+        return ids.substring(0, ids.length() - 1);
 
     }
 

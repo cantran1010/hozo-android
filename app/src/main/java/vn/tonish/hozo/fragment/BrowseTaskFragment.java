@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +30,6 @@ import vn.tonish.hozo.activity.BrowserTaskMapActivity;
 import vn.tonish.hozo.activity.TaskDetailActivity;
 import vn.tonish.hozo.adapter.TaskAdapter;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
@@ -46,7 +44,6 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
-import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.R.id.edt_search;
@@ -59,18 +56,14 @@ import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 
 public class BrowseTaskFragment extends BaseFragment implements View.OnClickListener {
     private final static String TAG = BrowseTaskFragment.class.getSimpleName();
-    public final static int limit = 20;
+    public final static int limit = 10;
     private ImageView imgSearch, imgLocation, imgControls, imgBack, imgClear;
     private RelativeLayout layoutHeader, layoutSearch;
     private EdittextHozo edtSearch;
     private RecyclerView rcvTask;
-    private TaskAdapter taskAdapter = null;
-    private LinearLayoutManager lvManager;
-    private List<TaskResponse> taskList = new ArrayList<>();
+    private TaskAdapter taskAdapter;
+    private List<TaskResponse> taskList;
     boolean isLoadingMoreFromServer = true;
-    boolean isLoadingMoreFromDb = true;
-    boolean isLoadingFromServer = false;
-    private Date sinceDate = null;
     private String sinceStr = null;
     private String query = null;
     private String strSortBy = null;
@@ -134,37 +127,39 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
             }
         });
-        getCacheDataPage();
-        getTaskResponse(sinceStr, null, query);
+        taskList = new ArrayList<>();
+        taskAdapter = new TaskAdapter(getActivity(), taskList);
+        LinearLayoutManager lvManager = new LinearLayoutManager(getActivity());
+        rcvTask.setLayoutManager(lvManager);
+        rcvTask.setAdapter(taskAdapter);
 
+        rcvTask.addOnScrollListener(new EndlessRecyclerViewScrollListener(lvManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                if (isLoadingMoreFromServer) getTaskResponse(sinceStr, strSortBy, query);
+            }
+        });
+
+        taskAdapter.setTaskAdapterListener(new TaskAdapter.TaskAdapterListener() {
+            @Override
+            public void onTaskAdapterClickListener(int position) {
+                LogUtils.d(TAG, "onclick");
+                TaskResponse taskResponse = taskList.get(position);
+                Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+                intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+                startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
     }
 
     @Override
     protected void resumeData() {
-        sinceDate = null;
-        sinceStr = null;
-        getTaskResponse(null, null, query);
 
     }
-
-    private void getCacheDataPage() {
-        LogUtils.d(TAG, "sinceDate " + sinceDate);
-        List<TaskEntity> taskEntities = TaskManager.getTaskEntitiesOpen(sinceDate, Constants.ROLE_FIND_TASK);
-        if (taskEntities.size() > 0)
-            sinceDate = taskEntities.get(taskEntities.size() - 1).getCreatedAt();
-        taskList.addAll(DataParse.converListTaskEntityToTaskResponse(taskEntities));
-        loadMoreTasks();
-        if (taskList.size() < limit) isLoadingMoreFromDb = false;
-        LogUtils.d(TAG, "getCacheDataPage taskList" + taskList.toString());
-    }
-
 
     public void getTaskResponse(final String since, final String sortBytask, final String query) {
-        if (isLoadingFromServer) return;
-        isLoadingFromServer = true;
-        taskAdapter.stopLoadMore();
         Map<String, String> option = new HashMap<>();
-        option = DataParse.setParameterGetTasks(sortBytask, String.valueOf(limit), null, query);
+        option = DataParse.setParameterGetTasks(sortBytask, String.valueOf(limit), since, query);
         LogUtils.d(TAG, "option : " + option.toString());
         ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), option).enqueue(new Callback<List<TaskResponse>>() {
             @Override
@@ -176,23 +171,22 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                         List<TaskResponse> taskResponses = response.body();
                         LogUtils.d(TAG, "getTaskFromServer taskResponses size : " + taskResponses.size());
 
-                        if (taskResponses.size() > 0)
-                            sinceStr = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
-
-                        if (taskResponses.size() > 0)
-                            for (int i = taskResponses.size() - 1; i >= 0; i--) {
-                                taskResponses.get(i).setRole(Constants.ROLE_FIND_TASK);
-                                Utils.checkContainsTaskResponse(taskList, taskResponses.get(i));
+                        if (taskResponses.size() > 0) {
+                            if (since == null) {
+                                taskList.clear();
                             }
-
-                        TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
+                            sinceStr = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
+                            taskList.addAll(taskResponses);
+                            taskAdapter.notifyDataSetChanged();
+                            TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
+                            LogUtils.d(TAG, "getTaskResponse size : " + taskList.size());
+                        }
 
                         if (taskResponses.size() < limit) {
                             taskAdapter.stopLoadMore();
                             isLoadingMoreFromServer = false;
                         }
-                        LogUtils.d(TAG, "getTaskResponse taskList : " + taskList.toString());
-                        loadMoreTasks();
+
                     }
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
@@ -208,16 +202,24 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
                 }
 
-                isLoadingFromServer = false;
                 onStopRefresh();
+
             }
 
             @Override
             public void onFailure(Call<List<TaskResponse>> call, Throwable t) {
+                onStopRefresh();
+                if (taskAdapter != null) {
+                    taskAdapter.stopLoadMore();
+                    taskAdapter.notifyDataSetChanged();
+                }
+                isLoadingMoreFromServer = false;
                 LogUtils.e(TAG, "getTaskResponse , onFailure : " + t.getMessage());
                 DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
+                        taskAdapter.onLoadMore();
+                        isLoadingMoreFromServer = true;
                         getTaskResponse(since, sortBytask, query);
                     }
 
@@ -227,58 +229,10 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     }
                 });
 
-                taskAdapter.stopLoadMore();
-                isLoadingFromServer = false;
-                if (taskAdapter == null) taskAdapter.notifyDataSetChanged();
-                onStopRefresh();
+
             }
         });
     }
-
-    private void loadMoreTasks() {
-        if (taskAdapter == null) {
-            taskAdapter = new TaskAdapter(getActivity(), taskList);
-            lvManager = new LinearLayoutManager(getActivity());
-            rcvTask.setLayoutManager(lvManager);
-            rcvTask.setAdapter(taskAdapter);
-
-
-            rcvTask.addOnScrollListener(new EndlessRecyclerViewScrollListener(lvManager) {
-                @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-
-                    LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
-
-                    if (isLoadingMoreFromDb) getCacheDataPage();
-                    if (isLoadingMoreFromServer) getTaskResponse(sinceStr, null, query);
-
-                }
-            });
-            taskAdapter.setTaskAdapterListener(new TaskAdapter.TaskAdapterListener() {
-                @Override
-                public void onTaskAdapterClickListener(int position) {
-                    LogUtils.d(TAG, "onclick");
-                    TaskResponse taskResponse = taskList.get(position);
-
-                    Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
-                    intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                }
-            });
-
-
-            LogUtils.d(TAG, "loadMoreTasks , TaskResponse size : " + taskList.size());
-
-        } else {
-            rcvTask.post(new Runnable() {
-                public void run() {
-                    taskAdapter.notifyDataSetChanged();
-                }
-            });
-        }
-        LogUtils.d(TAG, "refreshList , taskReponse size : " + taskList.size());
-    }
-
 
     @Override
     public void onClick(View view) {
@@ -293,10 +247,12 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.img_back:
                 query = null;
+                strSortBy = null;
+                sinceStr = null;
                 edtSearch.setText("");
                 showSearch(layoutHeader, Constants.DURATION, true);
                 showSearch(layoutSearch, Constants.DURATION, false);
-                getTaskResponse(null, null, query);
+                onRefresh();
                 break;
             case R.id.img_clear:
                 edtSearch.setText("");
@@ -309,11 +265,12 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     private void search() {
-
+        isLoadingMoreFromServer = true;
+        taskAdapter.onLoadMore();
         if (edtSearch.getText().toString().isEmpty()) {
             edtSearch.setError(getActivity().getString(R.string.empty_search));
         } else {
-            taskList.clear();
+            sinceStr = null;
             query = edtSearch.getText().toString();
             getTaskResponse(sinceStr, strSortBy, query);
         }
@@ -359,7 +316,9 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onRefresh() {
         super.onRefresh();
-        getTaskResponse(null, null, query);
+        isLoadingMoreFromServer = true;
+        taskAdapter.onLoadMore();
+        getTaskResponse(null, strSortBy, query);
 
     }
 

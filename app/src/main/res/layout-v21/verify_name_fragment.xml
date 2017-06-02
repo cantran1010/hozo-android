@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue"
-    android:padding="30dp">
+    android:padding="30dp"
+    tools:ignore="Overdraw">
 
     <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tv_verify_question"
@@ -16,37 +17,25 @@
         android:textSize="@dimen/tv_size_lager"
         tools:ignore="RtlHardcoded" />
 
-    <RelativeLayout
-        android:id="@+id/layout_name"
+
+    <vn.tonish.hozo.view.EdittextHozo
+        android:id="@+id/edt_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_verify_question"
-        android:minHeight="30dp">
-
-        <vn.tonish.hozo.view.EdittextHozo
-            android:id="@+id/edt_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:ellipsize="end"
-            android:inputType="text"
-            android:maxLines="2"
-            android:textColor="@color/white" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_alignParentBottom="true"
-            android:background="@color/white" />
-
-    </RelativeLayout>
+        android:backgroundTint="@color/white"
+        android:ellipsize="end"
+        android:inputType="text"
+        android:maxLines="2"
+        android:minHeight="30dp"
+        android:textColor="@color/white" />
 
 
     <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tv_policy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layout_name"
+        android:layout_below="@id/edt_name"
         android:layout_marginTop="25dp"
         android:ellipsize="end"
         android:maxLines="3"
@@ -55,10 +44,10 @@
         android:textSize="@dimen/tv_size_xtiny" />
 
     <vn.tonish.hozo.view.TextViewHozo
+        android:layout_below="@+id/tv_policy"
         android:id="@+id/btn_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_policy"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:alpha="0.5"

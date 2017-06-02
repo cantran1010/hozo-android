@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -37,11 +36,11 @@
             android:id="@+id/tv_reset"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:layout_alignParentRight="true"
-            android:paddingRight="16dp"
-            android:paddingLeft="16dp"
             android:background="@drawable/btn_back_selector"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:text="@string/btn_reset"
             android:textColor="@color/red"
             android:textSize="@dimen/tv_size_lager"
@@ -58,7 +57,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -152,7 +152,6 @@
                     android:textSize="20sp" />
 
             </RelativeLayout>
-
 
 
         </LinearLayout>

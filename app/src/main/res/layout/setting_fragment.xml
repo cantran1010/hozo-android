@@ -33,7 +33,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -44,7 +44,6 @@
                 android:orientation="horizontal">
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tv_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -65,7 +64,6 @@
                 android:orientation="horizontal">
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tv_condition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -86,7 +84,6 @@
                 android:orientation="horizontal">
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tv_nda"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -106,7 +103,6 @@
                 android:orientation="horizontal">
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tv_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -127,7 +123,6 @@
                 android:orientation="horizontal">
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tv_share"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -147,7 +142,6 @@
                 android:orientation="horizontal">
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tv_about"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"

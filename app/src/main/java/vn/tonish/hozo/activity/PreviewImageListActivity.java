@@ -19,10 +19,8 @@ public class PreviewImageListActivity extends BaseActivity implements View.OnCli
 
     private ViewPager pager;
     private SimpleViewPagerIndicator mIndicator;
-    private int startPosition;
 
     public static final String EXTRA_POSITION = "extra_position";
-    private ImageView imgBack;
 
     @Override
     protected int getLayout() {
@@ -34,14 +32,14 @@ public class PreviewImageListActivity extends BaseActivity implements View.OnCli
         pager = (ViewPager) findViewById(R.id.pager);
         mIndicator = (SimpleViewPagerIndicator) findViewById(R.id.indicator);
 
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
         Intent intent = getIntent();
-        startPosition = intent.getIntExtra(Constants.IMAGE_POSITITON_EXTRA, 0);
+        int startPosition = intent.getIntExtra(Constants.IMAGE_POSITITON_EXTRA, 0);
         ArrayList<String> attachments = intent.getStringArrayListExtra(Constants.IMAGE_ATTACHS_EXTRA);
 
         PreviewPagerAdapter adapter = new PreviewPagerAdapter(this, attachments);
