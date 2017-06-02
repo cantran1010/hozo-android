@@ -1,6 +1,7 @@
 package vn.tonish.hozo.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
@@ -55,7 +56,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        openFragment(R.id.layout_container, SelectTaskFragment.class, false, TransitionScreen.FADE_IN);
+
+        showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
+
+//        openFragment(R.id.layout_container, SelectTaskFragment.class, false, TransitionScreen.FADE_IN);
         updateMenuUi(1);
 
         layoutPostATask.setOnClickListener(this);
@@ -64,22 +68,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         layoutInBox.setOnClickListener(this);
         layoutOther.setOnClickListener(this);
 
-        if(getIntent().hasExtra(Constants.TASK_ID_EXTRA)){
-            int taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA,0);
-            Intent intent = new Intent(this,TaskDetailActivity.class);
-            intent.putExtra(Constants.TASK_ID_EXTRA,taskId);
-            startActivity(intent,TransitionScreen.RIGHT_TO_LEFT);
+        if (getIntent().hasExtra(Constants.TASK_ID_EXTRA)) {
+            int taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
+            Intent intent = new Intent(this, TaskDetailActivity.class);
+            intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
+            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
         }
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if(intent.hasExtra(Constants.TASK_ID_EXTRA)){
-            int taskId = intent.getIntExtra(Constants.TASK_ID_EXTRA,0);
-            Intent intentDetail = new Intent(this,TaskDetailActivity.class);
-            intentDetail.putExtra(Constants.TASK_ID_EXTRA,taskId);
-            startActivity(intentDetail,TransitionScreen.RIGHT_TO_LEFT);
+        if (intent.hasExtra(Constants.TASK_ID_EXTRA)) {
+            int taskId = intent.getIntExtra(Constants.TASK_ID_EXTRA, 0);
+            Intent intentDetail = new Intent(this, TaskDetailActivity.class);
+            intentDetail.putExtra(Constants.TASK_ID_EXTRA, taskId);
+            startActivity(intentDetail, TransitionScreen.RIGHT_TO_LEFT);
         }
     }
 
@@ -94,8 +98,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
 
             case R.id.layout_post_a_task:
-                if (tabIndex == 1) break;
-                openFragment(R.id.layout_container, SelectTaskFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
+//                if (tabIndex == 1) break;
+
+                showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
+
+//                openFragment(R.id.layout_container, SelectTaskFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
                 tabIndex = 1;
                 updateMenuUi(1);
                 break;
@@ -103,9 +110,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.layout_browser_task:
                 if (tabIndex == 2) break;
                 if (tabIndex > 2) {
-                    openFragment(R.id.layout_container, BrowseTaskFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
+                    showFragment(R.id.layout_container, BrowseTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 } else {
-                    openFragment(R.id.layout_container, BrowseTaskFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+                    showFragment(R.id.layout_container, BrowseTaskFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 }
                 tabIndex = 2;
                 updateMenuUi(2);
@@ -113,10 +120,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_my_task:
                 if (tabIndex == 3) break;
+
+//                showFragment(R.id.layout_container, MyTaskFragment.class, false, new Bundle());
+
                 if (tabIndex > 3) {
-                    openFragment(R.id.layout_container, MyTaskFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
+                    showFragment(R.id.layout_container, MyTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 } else {
-                    openFragment(R.id.layout_container, MyTaskFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+                    showFragment(R.id.layout_container, MyTaskFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 }
                 tabIndex = 3;
                 updateMenuUi(3);
@@ -124,10 +134,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_inbox:
                 if (tabIndex == 4) break;
+
+//                showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle());
+
                 if (tabIndex > 4) {
-                    openFragment(R.id.layout_container, InboxFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
+                    showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 } else {
-                    openFragment(R.id.layout_container, InboxFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+                    showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 }
                 tabIndex = 4;
                 updateMenuUi(4);
@@ -135,7 +148,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_other:
                 if (tabIndex == 5) break;
-                openFragment(R.id.layout_container, SettingFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+
+//                showFragment(R.id.layout_container, SettingFragment.class, false, new Bundle());
+
+                showFragment(R.id.layout_container, SettingFragment.class, false, new Bundle(),TransitionScreen.RIGHT_TO_LEFT);
                 tabIndex = 5;
                 updateMenuUi(5);
                 break;

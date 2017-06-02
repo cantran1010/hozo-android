@@ -63,6 +63,7 @@ public class InboxFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        LogUtils.d(TAG,"InboxFragment life cycle , initData");
         getCacheDataPage(sinceDate);
         getNotifications(false);
     }
@@ -225,7 +226,13 @@ public class InboxFragment extends BaseFragment {
 
     @Override
     protected void resumeData() {
+        LogUtils.d(TAG,"InboxFragment life cycle , resume data");
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        LogUtils.d(TAG,"InboxFragment life cycle , onStop");
     }
 
     @Override
