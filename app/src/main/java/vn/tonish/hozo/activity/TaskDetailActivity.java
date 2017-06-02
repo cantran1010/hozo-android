@@ -203,6 +203,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
     private void getData() {
         ProgressDialogUtils.showProgressDialog(this);
+        LogUtils.d(TAG, "getDetailTask , taskId : " + taskId);
+        LogUtils.d(TAG, "getDetailTask , UserManager.getUserToken() : " + UserManager.getUserToken());
 
         ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId).enqueue(new Callback<TaskResponse>() {
             @Override
