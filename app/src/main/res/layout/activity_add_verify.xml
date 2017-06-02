@@ -14,6 +14,7 @@
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
             android:background="@drawable/btn_back_selector"
+            android:contentDescription="@string/just_image"
             android:scaleType="centerInside"
             android:src="@drawable/img_back" />
 
@@ -22,8 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
             android:layout_toRightOf="@id/img_back"
             android:ellipsize="end"
             android:maxLines="1"
@@ -47,7 +50,6 @@
             android:orientation="vertical">
 
             <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/textViewHozo2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
@@ -93,7 +95,6 @@
                     android:weightSum="3">
 
                     <vn.tonish.hozo.view.EdittextHozo
-                        android:id="@+id/edt_verify_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -168,7 +169,6 @@
                     android:textSize="@dimen/title_margin_left" />
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/btn_verify_bank"
                     style="@style/verify_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -209,7 +209,6 @@
                     android:textSize="@dimen/title_margin_left" />
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/btn_verify_call"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_verify_other"

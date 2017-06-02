@@ -24,14 +24,15 @@
             android:src="@drawable/img_back" />
 
         <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_title"
             style="@style/tv_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/title_margin_left"
             android:layout_marginStart="@dimen/title_margin_left"
-            android:layout_toEndOf="@id/img_back"
             android:layout_toRightOf="@id/img_back"
+            android:layout_toLeftOf="@+id/tv_cancel"
             android:text="@string/make_an_offer_title" />
 
         <vn.tonish.hozo.view.TextViewHozo
@@ -41,8 +42,6 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_toEndOf="@id/tv_title"
-            android:layout_toRightOf="@id/tv_title"
             android:background="@drawable/btn_back_selector"
             android:gravity="center"
             android:paddingLeft="10dp"

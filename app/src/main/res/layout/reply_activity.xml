@@ -12,7 +12,6 @@
         android:background="@color/hozo_bg">
 
         <RelativeLayout
-            android:id="@+id/layout_back"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
             android:background="@drawable/btn_selector">

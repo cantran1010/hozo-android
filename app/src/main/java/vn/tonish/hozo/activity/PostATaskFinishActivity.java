@@ -40,11 +40,9 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class PostATaskFinishActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = PostATaskFinishActivity.class.getSimpleName();
-    private ButtonHozo btnDone;
     private EdittextHozo edtBudget, edtNumberWorker;
     private TextViewHozo tvTotal;
     private TaskResponse work;
-    private ImageView imgBack;
     private Category category;
 
     @Override
@@ -54,14 +52,14 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initView() {
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
         edtBudget = (EdittextHozo) findViewById(R.id.edt_budget);
         edtNumberWorker = (EdittextHozo) findViewById(R.id.edt_number_worker);
         tvTotal = (TextViewHozo) findViewById(R.id.tv_total);
 
-        btnDone = (ButtonHozo) findViewById(R.id.btn_done);
+        ButtonHozo btnDone = (ButtonHozo) findViewById(R.id.btn_done);
         btnDone.setOnClickListener(this);
     }
 

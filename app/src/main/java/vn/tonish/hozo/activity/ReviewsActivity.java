@@ -47,7 +47,6 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
     boolean isLoadingFromServer = false;
     private Date sinceDate;
     private ImageView imgBack;
-    private String typeReview = "worker";
     private int user_id;
 
     @Override
@@ -117,6 +116,7 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
         if (isSince && since != null)
             params.put("since", "");
         params.put("limit", LIMIT + "");
+        String typeReview = "worker";
         params.put("review_type", typeReview);
 
         ApiClient.getApiService().getUserReviews(UserManager.getUserToken(), userId, params).enqueue(new Callback<List<ReviewEntity>>() {

@@ -16,7 +16,6 @@ import vn.tonish.hozo.view.TouchImageView;
 
 public class PreviewPagerAdapter extends PagerAdapter {
     private ArrayList<String> pagerItems;
-    private LayoutInflater inflater;
     private Activity context;
     private static final String TAG = PreviewPagerAdapter.class.getName();
 
@@ -34,7 +33,7 @@ public class PreviewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
         LogUtils.d(TAG, "PreviewPagerAdapter instantiateItem position : " + position);
-        inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
         final RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.item_viewpager_view, container, false);
         final TouchImageView imageView = (TouchImageView) layout.findViewById(R.id.imgNewsFeed);
         Utils.displayImage(context, imageView, pagerItems.get(position));

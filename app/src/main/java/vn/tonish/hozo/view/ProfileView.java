@@ -21,7 +21,6 @@ public class ProfileView extends LinearLayout implements View.OnClickListener {
 
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvGender, btnAddVerify;
-    private RatingBar ratingBar;
     private ImageView imgVerifyMobile, imgVerifyFacebook, imgverifyMail, imgVerifyCard, imgVerifyBank;
     private LinearLayout layoutInfor;
 
@@ -52,7 +51,7 @@ public class ProfileView extends LinearLayout implements View.OnClickListener {
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         layoutInfor = (LinearLayout) findViewById(R.id.layout_infor);
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
-        ratingBar = (RatingBar) findViewById(R.id.rating);
+        RatingBar ratingBar = (RatingBar) findViewById(R.id.rating);
         tvDateOfBirth = (TextViewHozo) findViewById(R.id.tv_birthday);
         tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
         tvMobile = (TextViewHozo) findViewById(R.id.tv_phone);

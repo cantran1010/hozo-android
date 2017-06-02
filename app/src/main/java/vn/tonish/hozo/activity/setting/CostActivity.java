@@ -19,10 +19,7 @@ import vn.tonish.hozo.view.TextViewHozo;
  */
 
 public class CostActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView imgBack;
     private EdittextHozo edtMinPrice, edtMaxPrice;
-    private TextViewHozo tvReset;
-    private ButtonHozo btnSave;
     private int minCost;
     private int maxCost;
 
@@ -33,11 +30,11 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initView() {
-        imgBack = (ImageView) findViewById(R.id.img_back);
-        tvReset = (TextViewHozo) findViewById(R.id.tv_reset);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
+        TextViewHozo tvReset = (TextViewHozo) findViewById(R.id.tv_reset);
         edtMinPrice = (EdittextHozo) findViewById(R.id.edt_min_price);
         edtMaxPrice = (EdittextHozo) findViewById(R.id.edt_max_price);
-        btnSave = (ButtonHozo) findViewById(R.id.btn_done);
+        ButtonHozo btnSave = (ButtonHozo) findViewById(R.id.btn_done);
 
         imgBack.setOnClickListener(this);
         tvReset.setOnClickListener(this);
@@ -82,13 +79,13 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
 
     private void setDataForView() {
         if (minCost == 0)
-            edtMinPrice.setText((int) SettingManager.getSettingEntiny().getMinWorkerRate() + "");
+            edtMinPrice.setText(String.valueOf((int) SettingManager.getSettingEntiny().getMinWorkerRate()));
         else
-            edtMinPrice.setText(minCost + "");
+            edtMinPrice.setText(String.valueOf(minCost));
         if (maxCost == 0)
-            edtMaxPrice.setText((int) SettingManager.getSettingEntiny().getMaxWorkerRate() + "");
+            edtMaxPrice.setText(String.valueOf((int) SettingManager.getSettingEntiny().getMaxWorkerRate()));
         else
-            edtMaxPrice.setText(maxCost + "");
+            edtMaxPrice.setText(String.valueOf(maxCost));
 
     }
 

@@ -14,7 +14,6 @@ import static vn.tonish.hozo.common.Constants.SPLASH_TIME;
  */
 
 public class SplashActivity extends BaseActivity {
-    private ImageView imgLogo;
 
     @Override
     protected int getLayout() {
@@ -23,7 +22,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        imgLogo = (ImageView) findViewById(R.id.img_logo);
+        ImageView imgLogo = (ImageView) findViewById(R.id.img_logo);
     }
 
     @Override

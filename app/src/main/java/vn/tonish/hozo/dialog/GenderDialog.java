@@ -14,7 +14,6 @@ import vn.tonish.hozo.view.TextViewHozo;
  */
 
 public class GenderDialog extends BaseDialog implements View.OnClickListener {
-    private TextViewHozo tvCancel, tvOk;
     private RadioGroup rgGender;
     private RadioButton rbAny, rbMale, rbFemale;
     private String gender;
@@ -45,12 +44,12 @@ public class GenderDialog extends BaseDialog implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
+        TextViewHozo tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
         rbAny = (RadioButton) findViewById(R.id.rb_any);
         rbMale = (RadioButton) findViewById(R.id.rb_male);
         rbFemale = (RadioButton) findViewById(R.id.rb_female);
         rgGender = (RadioGroup) findViewById(R.id.rg_gender);
-        tvOk = (TextViewHozo) findViewById(R.id.tv_ok);
+        TextViewHozo tvOk = (TextViewHozo) findViewById(R.id.tv_ok);
         tvCancel.setOnClickListener(this);
         tvOk.setOnClickListener(this);
         setDefault();

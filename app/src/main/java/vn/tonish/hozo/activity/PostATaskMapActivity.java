@@ -56,11 +56,6 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
     private static final String TAG = PostATaskMapActivity.class.getSimpleName();
     private GoogleMap mMap;
-    private ImageView imgBack;
-    private ButtonHozo btnNext;
-    private ImageView imgCurrentLocation;
-    private ImageView imgZoomIn;
-    private ImageView imgZoomOut;
 
     //    private static double lat = 21.000030;
 //    private static double lon = 105.837400;
@@ -82,19 +77,19 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     @Override
     protected void initView() {
 
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        btnNext = (ButtonHozo) findViewById(R.id.btn_next);
+        ButtonHozo btnNext = (ButtonHozo) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
 
-        imgCurrentLocation = (ImageView) findViewById(R.id.img_current_location);
+        ImageView imgCurrentLocation = (ImageView) findViewById(R.id.img_current_location);
         imgCurrentLocation.setOnClickListener(this);
 
-        imgZoomIn = (ImageView) findViewById(R.id.img_map_zoom_in);
+        ImageView imgZoomIn = (ImageView) findViewById(R.id.img_map_zoom_in);
         imgZoomIn.setOnClickListener(this);
 
-        imgZoomOut = (ImageView) findViewById(R.id.img_map_zoom_out);
+        ImageView imgZoomOut = (ImageView) findViewById(R.id.img_map_zoom_out);
         imgZoomOut.setOnClickListener(this);
 
         tvAddress = (TextViewHozo) findViewById(R.id.tv_address);

@@ -38,9 +38,7 @@ import static vn.tonish.hozo.database.manager.CategoryManager.insertIsSelected;
 public class SelectTaskFragment extends BaseFragment {
     private static final String TAG = SelectTaskFragment.class.getSimpleName();
     private RecyclerView rcvTask;
-    private CategoryAdapter categoryAdapter;
     private List<Category> categories = new ArrayList<>();
-    private List<CategoryEntity> categoryEntities = new ArrayList<>();
     protected LinearLayoutManager linearLayoutManager;
 
     @Override
@@ -62,7 +60,7 @@ public class SelectTaskFragment extends BaseFragment {
     }
 
     private void getCacheData() {
-        categoryEntities = CategoryManager.getAllCategories();
+        List<CategoryEntity> categoryEntities = CategoryManager.getAllCategories();
         for (int i = 0; i < categoryEntities.size(); i++) {
             categories.add(DataParse.convertCatogoryEntityToCategory(categoryEntities.get(i)));
         }
@@ -164,7 +162,7 @@ public class SelectTaskFragment extends BaseFragment {
     }
 
     private void refreshCategory() {
-        categoryAdapter = new CategoryAdapter(categories);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(categories);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         rcvTask.setLayoutManager(linearLayoutManager);
         rcvTask.setAdapter(categoryAdapter);

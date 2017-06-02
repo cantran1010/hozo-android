@@ -26,8 +26,6 @@ public abstract class BaseAdapter<T, H extends BaseHolder, L extends BaseHolder>
     private boolean isLoad = true;
 
     final Context context;
-    private View view;
-    private View loading;
 
     private final List<T> list;
 
@@ -47,10 +45,10 @@ public abstract class BaseAdapter<T, H extends BaseHolder, L extends BaseHolder>
     @Override
     public BaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
-            view = LayoutInflater.from(context).inflate(getItemLayout(), parent, false);
+            View view = LayoutInflater.from(context).inflate(getItemLayout(), parent, false);
             return returnItemHolder(view);
         } else {
-            loading = LayoutInflater.from(context).inflate(getLoadingLayout(), parent, false);
+            View loading = LayoutInflater.from(context).inflate(getLoadingLayout(), parent, false);
             return returnLoadingHolder(loading);
         }
     }
