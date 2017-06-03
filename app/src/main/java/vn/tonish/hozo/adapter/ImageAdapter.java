@@ -22,7 +22,7 @@ import vn.tonish.hozo.utils.LogUtils;
 
 public class ImageAdapter extends ArrayAdapter<Image> {
     private static final String TAG = ImageAdapter.class.getName();
-    private ArrayList<Image> images;
+    private final ArrayList<Image> images;
 
     public ImageAdapter(Context _context, ArrayList<Image> images) {
         super(_context, R.layout.item_image, images);
@@ -73,7 +73,7 @@ public class ImageAdapter extends ArrayAdapter<Image> {
 //                .into(holder.imgImage);
 
         Glide.with(getContext())
-                .load(item.getPath())
+                .load(item != null ? item.getPath() : null)
                 .centerCrop().into(holder.imgImage);
 
 //        Utils.displayImage(getContext(), holder.imgImage, item.getPath());

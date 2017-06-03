@@ -39,7 +39,6 @@ public class SelectTaskFragment extends BaseFragment {
     private static final String TAG = SelectTaskFragment.class.getSimpleName();
     private RecyclerView rcvTask;
     private List<Category> categories = new ArrayList<>();
-    protected LinearLayoutManager linearLayoutManager;
 
     @Override
     protected int getLayout() {
@@ -82,8 +81,6 @@ public class SelectTaskFragment extends BaseFragment {
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     refreshCategory();
                     inserCategory(categories);
-//                    CategoryManager.deleteAll();
-//                    CategoryManager.insertCategories(DataParse.convertListCategoryToListCategoryEntity(categories));
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
@@ -130,7 +127,7 @@ public class SelectTaskFragment extends BaseFragment {
     }
 
     private void inserCategory(List<Category> categoryList) {
-        List<CategoryEntity> list = new ArrayList<>();
+        List<CategoryEntity> list;
         if (CategoryManager.getAllCategories().size() == 0) {
             list = DataParse.convertListCategoryToListCategoryEntity(categoryList);
             setIsSelected(list);
@@ -149,7 +146,7 @@ public class SelectTaskFragment extends BaseFragment {
 
     private void setIsSelected(List<CategoryEntity> categoryEntities) {
         for (CategoryEntity categoryEntity : categoryEntities) {
-            insertIsSelected(categoryEntity, true);
+            insertIsSelected(categoryEntity);
         }
         CategoryManager.insertCategories(categoryEntities);
         LogUtils.d(TAG, "setIsSelected null " + CategoryManager.getAllCategories().toString());
@@ -163,7 +160,7 @@ public class SelectTaskFragment extends BaseFragment {
 
     private void refreshCategory() {
         CategoryAdapter categoryAdapter = new CategoryAdapter(categories);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rcvTask.setLayoutManager(linearLayoutManager);
         rcvTask.setAdapter(categoryAdapter);
         categoryAdapter.setCategoryAdapterLister(new CategoryAdapter.CategoryAdapterLister() {

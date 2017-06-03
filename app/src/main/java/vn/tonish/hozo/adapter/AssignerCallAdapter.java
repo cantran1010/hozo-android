@@ -17,8 +17,8 @@ import vn.tonish.hozo.view.AssignerCallView;
 
 public class AssignerCallAdapter extends RecyclerView.Adapter<AssignerCallAdapter.MyViewHolder> {
 
-    private ArrayList<Assigner> assigners;
-    private String assignType;
+    private final ArrayList<Assigner> assigners;
+    private final String assignType;
     private int taskId;
 
     public AssignerCallAdapter(ArrayList<Assigner> assigners, String assignType) {
@@ -46,7 +46,7 @@ public class AssignerCallAdapter extends RecyclerView.Adapter<AssignerCallAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private AssignerCallView assignerCallView;
+        private final AssignerCallView assignerCallView;
 
         public MyViewHolder(View itemView) {
             super(itemView);

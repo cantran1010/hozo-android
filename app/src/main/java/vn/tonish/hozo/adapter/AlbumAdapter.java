@@ -51,9 +51,9 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        LogUtils.d(TAG, "AlbumAdapter , item name : " + item.getName());
+        LogUtils.d(TAG, "AlbumAdapter , item name : " + (item != null ? item.getName() : null));
 
-        holder.tvName.setText(item != null ? item.getName() : "");
+        holder.tvName.setText(item.getName());
 //        Utils.displayImage(getContext(), holder.imgAlbum, item.getCoverPath());
 
         Glide.with(getContext())

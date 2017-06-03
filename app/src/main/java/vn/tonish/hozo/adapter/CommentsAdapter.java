@@ -11,13 +11,13 @@ import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.view.CommentView;
 
 /**
- * Created by Can Tran on 14/05/2017.
+ * Created by CanTran on 14/05/2017.
  */
 
 public class CommentsAdapter extends BaseAdapter<Comment, CommentsAdapter.WorkHolder, LoadingHolder> {
 
-    private List<Comment> comments;
-    private Context context;
+    private final List<Comment> comments;
+    private final Context context;
 
     public CommentsAdapter(Context context, List<Comment> comments) {
         super(context, comments);

@@ -16,7 +16,7 @@ import vn.tonish.hozo.adapter.ReviewsAdapter;
 import vn.tonish.hozo.database.entity.ReviewEntity;
 
 /**
- * Created by Can Tran on 14/05/2017.
+ * Created by CanTran on 14/05/2017.
  */
 
 public class ReviewsListView extends RelativeLayout {

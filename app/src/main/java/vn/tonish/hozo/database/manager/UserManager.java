@@ -58,17 +58,10 @@ public class UserManager {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         if (isMyUser)
-            userEntity.setMyUser(true);
+            userEntity.setMyUser();
         realm.copyToRealmOrUpdate(userEntity);
         realm.commitTransaction();
     }
 
-
-    public static void deleteAll() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.where(UserEntity.class).findAll().deleteAllFromRealm();
-        realm.commitTransaction();
-    }
 
 }

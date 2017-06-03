@@ -5,7 +5,7 @@ import vn.tonish.hozo.fragment.LoginFragment;
 import vn.tonish.hozo.utils.TransitionScreen;
 
 /**
- * Created by tonish1 on 5/9/17.
+ * Created by CanTran on 5/9/17.
  */
 
 public class HomeActivity extends BaseActivity {

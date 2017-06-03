@@ -8,8 +8,6 @@ import android.widget.GridView;
  */
 public class MyGridView extends GridView {
 
-    private static final String TAG = MyGridView.class.getName();
-
     public MyGridView(Context context) {
         super(context);
     }

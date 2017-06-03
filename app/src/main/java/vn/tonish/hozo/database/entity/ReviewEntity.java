@@ -8,7 +8,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by tonish1 on 5/10/17.
+ * Created by CanTran on 5/10/17.
  */
 
 public class ReviewEntity extends RealmObject {

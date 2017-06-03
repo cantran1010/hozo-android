@@ -41,7 +41,7 @@ public class InboxFragment extends BaseFragment {
 
     private NotificationAdapter notificationAdapter;
     private RecyclerView lvList;
-    private List<Notification> notifications = new ArrayList<>();
+    private final List<Notification> notifications = new ArrayList<>();
     private String since;
     private Date sinceDate;
     public static final int LIMIT = 15;

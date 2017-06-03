@@ -131,7 +131,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         tvImageAttachTitle = (TextViewHozo) findViewById(R.id.tv_img_attach_title);
 
         taskProgressView = (TaskProgressView) findViewById(R.id.task_progress_view);
-        vTaskProgressView = findViewById(R.id.v_task_progress_view);
+        View vTaskProgressView = findViewById(R.id.v_task_progress_view);
 
     }
 

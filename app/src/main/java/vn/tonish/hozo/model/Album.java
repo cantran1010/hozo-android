@@ -9,9 +9,6 @@ public class Album {
     private String name;
     private String coverPath;
 
-    public Album() {
-
-    }
 
     public Album(long id, String name, String coverPath) {
         this.id = id;
@@ -23,16 +20,8 @@ public class Album {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getCoverPath() {

@@ -173,9 +173,9 @@ public class Utils {
                     mat.postRotate(angle);
 
                     Bitmap correctBmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), mat, true);
-                    destinationBitmap = bitmap.createScaledBitmap(correctBmp, (int) (correctBmp.getWidth() / scale), (int) (correctBmp.getHeight() / scale), false);
+                    destinationBitmap = Bitmap.createScaledBitmap(correctBmp, (int) (correctBmp.getWidth() / scale), (int) (correctBmp.getHeight() / scale), false);
                 } else {
-                    destinationBitmap = bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() / scale), (int) (bmp.getHeight() / scale), false);
+                    destinationBitmap = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() / scale), (int) (bmp.getHeight() / scale), false);
                 }
 
 
@@ -194,7 +194,7 @@ public class Utils {
     public static Bitmap scaleBitmap(Bitmap bmInput, int maxsize) {
         if (bmInput.getWidth() > maxsize || bmInput.getHeight() > maxsize) {
             float scale = bmInput.getWidth() > bmInput.getHeight() ? bmInput.getWidth() / maxsize : bmInput.getHeight() / maxsize;
-            return bmInput.createScaledBitmap(bmInput, (int) (bmInput.getWidth() / scale), (int) (bmInput.getHeight() / scale), false);
+            return Bitmap.createScaledBitmap(bmInput, (int) (bmInput.getWidth() / scale), (int) (bmInput.getHeight() / scale), false);
         } else
             return bmInput;
     }

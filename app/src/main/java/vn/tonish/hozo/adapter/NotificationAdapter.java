@@ -26,8 +26,8 @@ import static android.content.ContentValues.TAG;
 
 public class NotificationAdapter extends BaseAdapter<Notification, NotificationAdapter.NotificationHolder, LoadingHolder> {
 
-    private List<Notification> notifications;
-    private Context context;
+    private final List<Notification> notifications;
+    private final Context context;
 
     public NotificationAdapter(Context context, List<Notification> notifications) {
         super(context, notifications);
@@ -94,8 +94,9 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
 
     public class NotificationHolder extends BaseHolder implements View.OnClickListener {
 
-        private CircleImageView imgAvata;
-        private TextViewHozo tvContent, tvTimeAgo;
+        private final CircleImageView imgAvata;
+        private final TextViewHozo tvContent;
+        private final TextViewHozo tvTimeAgo;
 
         public NotificationHolder(View itemView, Context context) {
             super(itemView, context);

@@ -15,10 +15,6 @@ public class ImageResponse {
         return idTemp;
     }
 
-    public void setIdTemp(int idTemp) {
-        this.idTemp = idTemp;
-    }
-
     @Override
     public String toString() {
         return "ImageResponse{" +

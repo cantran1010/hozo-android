@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -27,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_marginStart="@dimen/title_margin_left"
             android:layout_toEndOf="@id/img_back"
             android:layout_toLeftOf="@+id/img_edit"
             android:layout_toRightOf="@id/img_back"
@@ -37,6 +39,7 @@
             android:id="@+id/img_edit"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/btn_back_selector"
@@ -95,6 +98,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/tv_name"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/tv_name"
                     android:layout_toRightOf="@+id/tv_name"
                     android:background="@drawable/bg_verify_profile"
                     android:gravity="center"
@@ -163,7 +168,8 @@
                         android:padding="5dp"
                         android:text="@string/profile_add_verify"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/tv_size_tiny" />
+                        android:textSize="@dimen/tv_size_tiny"
+                        tools:ignore="RtlHardcoded" />
 
                 </FrameLayout>
 
@@ -171,6 +177,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:gravity="center_vertical">
 
                     <ImageView
@@ -231,6 +238,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
                         android:padding="5dp"
                         android:text="@string/profile_address"
                         android:textColor="@color/blue"
@@ -241,6 +249,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
                         android:padding="5dp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/tv_size_nomal" />
@@ -251,6 +260,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
                         android:padding="5dp"
                         android:text="@string/profile_phone"
                         android:textColor="@color/blue"
@@ -261,6 +271,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
                         android:padding="5dp"
                         android:textColor="@color/black" />
 
@@ -289,6 +300,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="24dp"
+                        android:layout_marginStart="24dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_profile_left_selector"
                         android:gravity="center"
@@ -301,6 +313,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:layout_marginEnd="24dp"
                         android:layout_marginRight="24dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_profile_right_selector"
@@ -326,6 +339,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="25dp"
                     android:text="@string/profile_rate"
                     android:textColor="@color/blue" />
@@ -346,9 +360,11 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/btn_back_selector"
+                    android:drawableEnd="@drawable/dropdown"
                     android:drawableLeft="@drawable/dropdown"
                     android:drawablePadding="5dp"
                     android:drawableRight="@drawable/dropdown"
+                    android:drawableStart="@drawable/dropdown"
                     android:gravity="center"
                     android:minHeight="@dimen/edt_min_height"
                     android:padding="5dp"
@@ -372,6 +388,7 @@
                     android:layout_gravity="center"
                     android:background="@drawable/btn_back_selector"
                     android:drawableLeft="@drawable/ic_logout"
+                    android:drawableStart="@drawable/ic_logout"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="@string/profile_log_out"

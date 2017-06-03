@@ -60,7 +60,7 @@ public class CommentViewFull extends RelativeLayout {
         rcvComment.setAdapter(commentAdapter);
     }
 
-    public String getCommentType() {
+    private String getCommentType() {
         return commentType;
     }
 

@@ -32,7 +32,7 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
     private CropImageView cropImageView;
     private TextViewHozo tvCrop;
     private ImageView imgBack;
-    private CropImageViewOptions mCropImageViewOptions = new CropImageViewOptions();
+    private final CropImageViewOptions mCropImageViewOptions = new CropImageViewOptions();
     private ImageView imgRotate;
 
     @Override

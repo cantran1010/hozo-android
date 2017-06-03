@@ -26,7 +26,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         this.categories = categories;
     }
 
-    private List<Category> categories;
+    private final List<Category> categories;
 
     public interface CategoryAdapterLister {
         void onCallBack(int position);
@@ -34,9 +34,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     private CategoryAdapterLister categoryAdapterLister;
 
-    public CategoryAdapterLister getCategoryAdapterLister() {
-        return categoryAdapterLister;
-    }
 
     public void setCategoryAdapterLister(CategoryAdapterLister categoryAdapterLister) {
         this.categoryAdapterLister = categoryAdapterLister;
@@ -64,8 +61,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private CircleImageView imgPresent;
-        private TextViewHozo tvName, tvDes;
+        private final CircleImageView imgPresent;
+        private final TextViewHozo tvName;
+        private final TextViewHozo tvDes;
 
         public MyViewHolder(View itemView) {
             super(itemView);

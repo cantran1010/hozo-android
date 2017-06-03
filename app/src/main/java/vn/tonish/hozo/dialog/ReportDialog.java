@@ -36,7 +36,7 @@ import static android.content.ContentValues.TAG;
 public class ReportDialog extends BaseDialog implements View.OnClickListener {
 
     private RadioGroup rgReport;
-    private Comment comment;
+    private final Comment comment;
 
     public ReportDialog(@NonNull Context context, Comment comment) {
         super(context);

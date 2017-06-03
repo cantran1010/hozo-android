@@ -15,8 +15,8 @@ import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TouchImageView;
 
 public class PreviewPagerAdapter extends PagerAdapter {
-    private ArrayList<String> pagerItems;
-    private Activity context;
+    private final ArrayList<String> pagerItems;
+    private final Activity context;
     private static final String TAG = PreviewPagerAdapter.class.getName();
 
     public interface ItemClickListListener {

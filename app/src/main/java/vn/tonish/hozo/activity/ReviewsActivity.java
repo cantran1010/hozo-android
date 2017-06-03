@@ -1,5 +1,6 @@
 package vn.tonish.hozo.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -31,20 +32,20 @@ import static vn.tonish.hozo.R.id.lvList;
 import static vn.tonish.hozo.fragment.BrowseTaskFragment.limit;
 
 /**
- * Created by Can Tran on 14/05/2017.
+ * Created by CanTran on 14/05/2017.
  */
 
 public class ReviewsActivity extends BaseActivity implements View.OnClickListener {
     private final static String TAG = ReviewsActivity.class.getSimpleName();
-    public final static int LIMIT = 10;
+    private final static int LIMIT = 10;
     private LinearLayoutManager linearLayoutManager;
     private RecyclerView rcvReviews;
     private List<ReviewEntity> mReviewEntities = new ArrayList<>();
     private ReviewsAdapter reviewsAdapter;
     private String since;
-    boolean isLoadingMoreFromServer = true;
-    boolean isLoadingMoreFromDb = true;
-    boolean isLoadingFromServer = false;
+    private boolean isLoadingMoreFromServer = true;
+    private boolean isLoadingMoreFromDb = true;
+    private boolean isLoadingFromServer = false;
     private Date sinceDate;
     private ImageView imgBack;
     private int user_id;
@@ -66,8 +67,8 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initData() {
         imgBack.setOnClickListener(this);
-//        Intent i = getIntent();
-//        user_id = i.getExtras().getInt(Constants.USER_ID);
+        Intent i = getIntent();
+        user_id = i.getExtras().getInt(Constants.USER_ID);
         getCacheDataFirstPage();
         getReviews(false, user_id);
 
@@ -104,7 +105,7 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
         refreshList();
     }
 
-    public void getReviews(final boolean isSince, final int userId) {
+    private void getReviews(final boolean isSince, final int userId) {
 
         if (isLoadingFromServer) return;
         isLoadingFromServer = true;
@@ -127,7 +128,7 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     List<ReviewEntity> reviewEntities = response.body();
                     for (int i = 0; i < reviewEntities.size(); i++) {
-                        if (!checkContainsReviews(mReviewEntities, reviewEntities.get(i)))
+                        if (checkContainsReviews(mReviewEntities, reviewEntities.get(i)))
                             mReviewEntities.add(reviewEntities.get(i));
                     }
                     since = reviewEntities.get(reviewEntities.size() - 1).getCreatedAt();
@@ -220,8 +221,8 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
 
     private boolean checkContainsReviews(List<ReviewEntity> reviewEntities, ReviewEntity reviewEntity) {
         for (int i = 0; i < reviewEntities.size(); i++)
-            if (reviewEntities.get(i).getId() == reviewEntity.getId()) return true;
-        return false;
+            if (reviewEntities.get(i).getId() == reviewEntity.getId()) return false;
+        return true;
     }
 
     @Override

@@ -82,7 +82,7 @@ public class ReviewManager {
         realm.commitTransaction();
     }
 
-    public static void insertDateSincereviewEntities(List<ReviewEntity> reviewEntities) {
+    private static void insertDateSincereviewEntities(List<ReviewEntity> reviewEntities) {
         LogUtils.d(TAG, "insertComments start ");
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();

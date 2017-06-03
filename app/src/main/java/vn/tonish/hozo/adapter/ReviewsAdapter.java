@@ -11,12 +11,12 @@ import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.view.ReviewsView;
 
 /**
- * Created by Can Tran on 14/05/2017.
+ * Created by CanTran on 14/05/2017.
  */
 
 public class ReviewsAdapter extends BaseAdapter<ReviewEntity, ReviewsAdapter.MyViewHolder, LoadingHolder> {
-    private Context context;
-    private List<ReviewEntity> reviews;
+    private final Context context;
+    private final List<ReviewEntity> reviews;
 
 
     public ReviewsAdapter(Context context, List<ReviewEntity> reviews) {

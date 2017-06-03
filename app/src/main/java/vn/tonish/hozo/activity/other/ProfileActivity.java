@@ -48,7 +48,7 @@ import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
 
 /**
- * Created by Can Tran on 4/11/17.
+ * Created by CanTran on 4/11/17.
  */
 
 
@@ -68,9 +68,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private int rateCountPoster, retaCountWorker;
     private int userId;
     private UserEntity mUserEntity;
-    private List<ReviewEntity> reviewEntities = new ArrayList<>();
-    private List<ReviewEntity> posterReviewEntity = new ArrayList<>();
-    private List<ReviewEntity> taskerReviewEntity = new ArrayList<>();
+    private final List<ReviewEntity> reviewEntities = new ArrayList<>();
+    private final List<ReviewEntity> posterReviewEntity = new ArrayList<>();
+    private final List<ReviewEntity> taskerReviewEntity = new ArrayList<>();
 
     @Override
     protected int getLayout() {
@@ -301,8 +301,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 btnMoreReview.setVisibility(View.GONE);
             }
             setDataSelected(true);
-        } else {
-
         }
 
     }

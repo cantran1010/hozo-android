@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +50,7 @@ import static vn.tonish.hozo.R.id.fr_search;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 
 /**
- * Created by Can Tran on 4/11/17.
+ * Created by CanTran on 4/11/17.
  */
 
 public class BrowseTaskFragment extends BaseFragment implements View.OnClickListener {
@@ -63,7 +62,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private RecyclerView rcvTask;
     private TaskAdapter taskAdapter;
     private List<TaskResponse> taskList;
-    boolean isLoadingMoreFromServer = true;
+    private boolean isLoadingMoreFromServer = true;
     private String sinceStr = null;
     private String query = null;
     private String strSortBy = null;
@@ -157,8 +156,8 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     }
 
-    public void getTaskResponse(final String since, final String sortBytask, final String query) {
-        Map<String, String> option = new HashMap<>();
+    private void getTaskResponse(final String since, final String sortBytask, final String query) {
+        Map<String, String> option;
         option = DataParse.setParameterGetTasks(sortBytask, String.valueOf(limit), since, query);
         LogUtils.d(TAG, "option : " + option.toString());
         ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), option).enqueue(new Callback<List<TaskResponse>>() {
@@ -241,8 +240,8 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 goToMapScren();
                 break;
             case R.id.img_search:
-                showSearch(layoutSearch, Constants.DURATION, true);
-                showSearch(layoutHeader, Constants.DURATION, false);
+                showSearch(layoutSearch, true);
+                showSearch(layoutHeader, false);
 
                 break;
             case R.id.img_back:
@@ -250,8 +249,8 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 strSortBy = null;
                 sinceStr = null;
                 edtSearch.setText("");
-                showSearch(layoutHeader, Constants.DURATION, true);
-                showSearch(layoutSearch, Constants.DURATION, false);
+                showSearch(layoutHeader, true);
+                showSearch(layoutSearch, false);
                 onRefresh();
                 break;
             case R.id.img_clear:
@@ -297,7 +296,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
     }
 
-    private void showSearch(final View view, int duration, boolean isShow) {
+    private void showSearch(final View view, boolean isShow) {
         if (isShow) {
             view.setVisibility(View.VISIBLE);
             view.startAnimation(rtAnimation);
@@ -309,7 +308,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 public void run() {
                     view.setVisibility(View.GONE);
                 }
-            }, duration);
+            }, Constants.DURATION);
         }
     }
 

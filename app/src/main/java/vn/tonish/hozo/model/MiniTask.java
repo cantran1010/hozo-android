@@ -18,7 +18,7 @@ public class MiniTask implements Parcelable {
 
     }
 
-    protected MiniTask(Parcel in) {
+    private MiniTask(Parcel in) {
         id = in.readInt();
         title = in.readString();
         address = in.readString();

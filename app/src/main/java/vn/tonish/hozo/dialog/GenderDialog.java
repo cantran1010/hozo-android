@@ -16,17 +16,13 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class GenderDialog extends BaseDialog implements View.OnClickListener {
     private RadioGroup rgGender;
     private RadioButton rbAny, rbMale, rbFemale;
-    private String gender;
+    private final String gender;
 
     public interface AgeDialogListener {
         void onAgeDialogLister(String gender);
     }
 
     private AgeDialogListener ageDialogListener;
-
-    public AgeDialogListener getAgeDialogListener() {
-        return ageDialogListener;
-    }
 
     public void setAgeDialogListener(AgeDialogListener ageDialogListener) {
         this.ageDialogListener = ageDialogListener;
@@ -66,7 +62,7 @@ public class GenderDialog extends BaseDialog implements View.OnClickListener {
 
     }
 
-    public void doGender() {
+    private void doGender() {
         int selectedId = rgGender.getCheckedRadioButtonId();
         RadioButton radioSelected = (RadioButton) findViewById(selectedId);
         switch (selectedId) {

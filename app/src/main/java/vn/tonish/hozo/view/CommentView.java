@@ -174,7 +174,7 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
         popup.show();//showing popup menu
     }
 
-    public String getCommentType() {
+    private String getCommentType() {
         return commentType;
     }
 

@@ -87,7 +87,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    public void getComments(final boolean isSince, final int taskId) {
+    private void getComments(final boolean isSince, final int taskId) {
 
         if (isLoadingFromServer) return;
         isLoadingFromServer = true;
@@ -112,7 +112,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                         if (comments.size() > 0)
                             since = comments.get(comments.size() - 1).getCreatedAt();
                         for (Comment comment : comments) {
-                            if (!checkContainsComments(mComments, comment))
+                            if (checkContainsComments(mComments, comment))
                                 mComments.add(comment);
                         }
                         commentsAdapter.notifyDataSetChanged();

@@ -13,7 +13,10 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 public class AlertDialogOkAndCancel extends BaseDialog implements View.OnClickListener {
 
-    private String title, content, submit, cancel;
+    private final String title;
+    private final String content;
+    private final String submit;
+    private final String cancel;
 
     public interface AlertDialogListener {
         void onSubmit();
@@ -21,7 +24,7 @@ public class AlertDialogOkAndCancel extends BaseDialog implements View.OnClickLi
         void onCancel();
     }
 
-    private AlertDialogListener alertDialogListener;
+    private final AlertDialogListener alertDialogListener;
 
     public AlertDialogOkAndCancel(@NonNull Context context, String title, String content, String submit, String cancel, AlertDialogListener alertDialogListener) {
         super(context);

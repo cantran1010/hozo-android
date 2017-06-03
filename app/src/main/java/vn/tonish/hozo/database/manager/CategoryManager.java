@@ -21,19 +21,11 @@ public class CategoryManager {
         realm.commitTransaction();
     }
 
-    public static void insertCategory(CategoryEntity category) {
+    public static void insertIsSelected(CategoryEntity categoryEntity) {
         LogUtils.d(TAG, "insertCategories start ");
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        realm.insertOrUpdate(category);
-        realm.commitTransaction();
-    }
-
-    public static void insertIsSelected(CategoryEntity categoryEntity, boolean isSelected) {
-        LogUtils.d(TAG, "insertCategories start ");
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        categoryEntity.setSelected(isSelected);
+        categoryEntity.setSelected(true);
         realm.commitTransaction();
     }
 
@@ -55,17 +47,8 @@ public class CategoryManager {
         boolean ck;
         LogUtils.d(TAG, "getAllCategories start ");
         Realm realm = Realm.getDefaultInstance();
-        if (realm.where(CategoryEntity.class).equalTo("id", id).findFirst() == null)
-            ck = false;
-        else ck = realm.where(CategoryEntity.class).equalTo("id", id).findFirst().isSelected();
+        ck = realm.where(CategoryEntity.class).equalTo("id", id).findFirst() != null && realm.where(CategoryEntity.class).equalTo("id", id).findFirst().isSelected();
         return ck;
-    }
-
-    public static void deleteAll() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.where(CategoryEntity.class).findAll().deleteAllFromRealm();
-        realm.commitTransaction();
     }
 
 }

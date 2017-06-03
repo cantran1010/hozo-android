@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by LongBui on 5/16/17.
  */
 
-public class BidResponse {
+class BidResponse {
     private int id;
     @SerializedName("bidder_id")
     private int bidderId;

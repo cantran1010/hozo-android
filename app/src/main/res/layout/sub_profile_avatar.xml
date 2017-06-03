@@ -8,10 +8,10 @@
         android:id="@+id/img_avatar"
         android:layout_width="84dp"
         android:layout_height="84dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="23dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/avatar_default"
-        android:layout_centerHorizontal="true" />
+        android:src="@drawable/avatar_default" />
 
 
     <vn.tonish.hozo.view.TextViewHozo
@@ -30,6 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tv_name"
         android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/tv_name"
         android:layout_toRightOf="@+id/tv_name"
         android:background="@drawable/bg_verify_profile"
         android:gravity="center"

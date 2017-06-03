@@ -25,7 +25,7 @@ public abstract class BaseAdapter<T, H extends BaseHolder, L extends BaseHolder>
     }
     private boolean isLoad = true;
 
-    final Context context;
+    private final Context context;
 
     private final List<T> list;
 

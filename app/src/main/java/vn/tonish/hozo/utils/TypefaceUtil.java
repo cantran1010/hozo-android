@@ -12,7 +12,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 /**
  * Created by LongBui.
  */
-public class TypefaceUtil {
+class TypefaceUtil {
 
     private static final String FONT_NORMAL = "Roboto-Medium.ttf";
     private static Typeface robotoMediumTtf;

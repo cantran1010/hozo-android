@@ -11,8 +11,6 @@ import android.widget.FrameLayout;
 
 import com.google.android.gms.maps.SupportMapFragment;
 
-import vn.tonish.hozo.R;
-
 /**
  * Created by LongBui on 4/28/2017.
  */
@@ -28,6 +26,7 @@ public class WorkAroundMapFragment extends SupportMapFragment {
 
         frameLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.transparent));
 
+        assert ((ViewGroup) layout) != null;
         ((ViewGroup) layout).addView(frameLayout,
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 

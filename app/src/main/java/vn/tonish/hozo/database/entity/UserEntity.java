@@ -189,8 +189,8 @@ public class UserEntity extends RealmObject implements Serializable {
         return isMyUser;
     }
 
-    public void setMyUser(boolean myUser) {
-        isMyUser = myUser;
+    public void setMyUser() {
+        isMyUser = true;
     }
 
     @Override

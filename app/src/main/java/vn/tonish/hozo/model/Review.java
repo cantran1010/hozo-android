@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Can Tran on 4/11/17.
+ * Created by CanTran on 4/11/17.
  */
 
 
@@ -31,7 +31,7 @@ public class Review implements Parcelable {
 
     }
 
-    protected Review(Parcel in) {
+    private Review(Parcel in) {
         authorAvatar = in.readString();
         authorName = in.readString();
         taskName = in.readString();

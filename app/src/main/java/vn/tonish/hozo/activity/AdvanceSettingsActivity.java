@@ -236,7 +236,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         Log.i(TAG, "requestCode: " + requestCode);
         if (requestCode == REQUEST_CODE_TASK_TYPE && resultCode == RESULT_CODE_TASK_TYPE && data != null) {
             Category category = (Category) data.getExtras().get(Constants.EXTRA_CATEGORY_ID);
-            if (category.getCategories().size() > 0) {
+            if ((category != null ? category.getCategories().size() : 0) > 0) {
                 List<Category> list = new ArrayList<>();
                 mCategory = new Category();
                 mCategory = category;
@@ -263,8 +263,6 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
                 Status status = PlaceAutocomplete.getStatus(this, data);
                 // TODO: Handle the error.
                 Log.i(TAG, status.getStatusMessage());
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
             }
         }
 
