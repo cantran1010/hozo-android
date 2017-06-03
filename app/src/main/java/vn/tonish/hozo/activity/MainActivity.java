@@ -21,6 +21,7 @@ import vn.tonish.hozo.view.TextViewHozo;
  */
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private LinearLayout layoutPostATask, layoutBrowserTask, layoutMyTask, layoutInBox, layoutOther;
     private ImageView imgPostATask, imgBrowserTask, imgMyTask, imgInbox, imgOther;
     private TextViewHozo tvPostATask, tvBrowserTask, tvMyTask, tvInbox, tvOther;
@@ -54,7 +55,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        openFragment(SelectTaskFragment.class, TransitionScreen.FADE_IN);
+        openFragment(R.id.layout_container, SelectTaskFragment.class, false, TransitionScreen.FADE_IN);
         updateMenuUi(1);
 
         layoutPostATask.setOnClickListener(this);
@@ -94,7 +95,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_post_a_task:
                 if (tabIndex == 1) break;
-                openFragment(SelectTaskFragment.class, TransitionScreen.LEFT_TO_RIGHT);
+                openFragment(R.id.layout_container, SelectTaskFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
                 tabIndex = 1;
                 updateMenuUi(1);
                 break;
@@ -102,9 +103,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.layout_browser_task:
                 if (tabIndex == 2) break;
                 if (tabIndex > 2) {
-                    openFragment(BrowseTaskFragment.class, TransitionScreen.LEFT_TO_RIGHT);
+                    openFragment(R.id.layout_container, BrowseTaskFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
                 } else {
-                    openFragment(BrowseTaskFragment.class, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, BrowseTaskFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
                 }
                 tabIndex = 2;
                 updateMenuUi(2);
@@ -113,9 +114,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.layout_my_task:
                 if (tabIndex == 3) break;
                 if (tabIndex > 3) {
-                    openFragment(MyTaskFragment.class, TransitionScreen.LEFT_TO_RIGHT);
+                    openFragment(R.id.layout_container, MyTaskFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
                 } else {
-                    openFragment(MyTaskFragment.class, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, MyTaskFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
                 }
                 tabIndex = 3;
                 updateMenuUi(3);
@@ -124,9 +125,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.layout_inbox:
                 if (tabIndex == 4) break;
                 if (tabIndex > 4) {
-                    openFragment(InboxFragment.class, TransitionScreen.LEFT_TO_RIGHT);
+                    openFragment(R.id.layout_container, InboxFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
                 } else {
-                    openFragment(InboxFragment.class, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, InboxFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
                 }
                 tabIndex = 4;
                 updateMenuUi(4);
@@ -134,7 +135,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_other:
                 if (tabIndex == 5) break;
-                openFragment(SettingFragment.class, TransitionScreen.RIGHT_TO_LEFT);
+                openFragment(R.id.layout_container, SettingFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
                 tabIndex = 5;
                 updateMenuUi(5);
                 break;

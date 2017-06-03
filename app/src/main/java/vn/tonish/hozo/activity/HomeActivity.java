@@ -21,7 +21,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        openFragment(LoginFragment.class, TransitionScreen.FADE_IN);
+        openFragment(R.id.layout_container, LoginFragment.class, false, TransitionScreen.FADE_IN);
     }
 
     @Override

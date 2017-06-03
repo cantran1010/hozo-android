@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.utils.TransitionScreen;
 
 import static vn.tonish.hozo.common.Constants.SPLASH_TIME;
 
@@ -28,9 +29,9 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 if (UserManager.checkLogin())
-                    startActivity(MainActivity.class);
+                    startActivity(MainActivity.class, TransitionScreen.FADE_IN);
                 else
-                    startActivity(HomeActivity.class);
+                    startActivity(HomeActivity.class, TransitionScreen.FADE_IN);
 
                 finish();
             }

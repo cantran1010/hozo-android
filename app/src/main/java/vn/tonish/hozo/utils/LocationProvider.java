@@ -33,10 +33,10 @@ public class LocationProvider implements
         LocationListener {
 
     public interface LocationCallback {
-        void handleNewLocation();
+        void handleNewLocation(Location location);
     }
 
-    private static final String TAG = LocationProvider.class.getSimpleName();
+    public static final String TAG = LocationProvider.class.getSimpleName();
 
     /*
      * Define a request code to send to Google Play services
@@ -92,7 +92,7 @@ public class LocationProvider implements
         if (location == null) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         } else {
-            mLocationCallback.handleNewLocation();
+            mLocationCallback.handleNewLocation(location);
         }
     }
 
@@ -133,7 +133,7 @@ public class LocationProvider implements
 
     @Override
     public void onLocationChanged(Location location) {
-        mLocationCallback.handleNewLocation();
+        mLocationCallback.handleNewLocation(location);
         Log.i(TAG, "Location :" + location.getLatitude() + ":" + location.getLongitude());
     }
 

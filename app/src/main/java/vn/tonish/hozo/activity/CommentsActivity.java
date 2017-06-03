@@ -33,15 +33,16 @@ import vn.tonish.hozo.utils.LogUtils;
 public class CommentsActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = CommentsActivity.class.getSimpleName();
     public final static int LIMIT = 10;
+    protected LinearLayoutManager linearLayoutManager;
     private CommentsAdapter commentsAdapter;
-    private RecyclerView lvList;
-    private final List<Comment> mComments = new ArrayList<>();
+    protected RecyclerView lvList;
+    private List<Comment> mComments = new ArrayList<>();
     private String since;
     private Date sinceDate;
     private int taskId = 0;
-    private boolean isLoadingMoreFromServer = true;
-    private boolean isLoadingMoreFromDb = true;
-    private boolean isLoadingFromServer = false;
+    boolean isLoadingMoreFromServer = true;
+    boolean isLoadingMoreFromDb = true;
+    boolean isLoadingFromServer = false;
 
     @Override
     protected int getLayout() {
@@ -166,13 +167,13 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     private void refreshList() {
         if (commentsAdapter == null) {
             commentsAdapter = new CommentsAdapter(CommentsActivity.this, mComments);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CommentsActivity.this);
+            linearLayoutManager = new LinearLayoutManager(CommentsActivity.this);
             lvList.setLayoutManager(linearLayoutManager);
             lvList.setAdapter(commentsAdapter);
 
             lvList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
                 @Override
-                public void onLoadMore(int page, int totalItemsCount) {
+                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
 
                     LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 
@@ -193,8 +194,8 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
     private boolean checkContainsComments(List<Comment> comments, Comment comment) {
         for (int i = 0; i < comments.size(); i++)
-            if (mComments.get(i).getId() == comment.getId()) return false;
-        return true;
+            if (mComments.get(i).getId() == comment.getId()) return true;
+        return false;
     }
 
 

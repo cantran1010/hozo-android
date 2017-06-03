@@ -243,7 +243,7 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().getOtpCode(body).enqueue(new Callback<Void>() {
+        ApiClient.getApiService().getOtpCode("XXXX", body).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 LogUtils.d(TAG, "onResponse status code : " + response.code());

@@ -134,7 +134,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
         rcvTask.addOnScrollListener(new EndlessRecyclerViewScrollListener(lvManager) {
             @Override
-            public void onLoadMore(int page, int totalItemsCount) {
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 if (isLoadingMoreFromServer) getTaskResponse(sinceStr, strSortBy, query);
             }
         });

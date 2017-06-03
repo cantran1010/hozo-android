@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -324,12 +325,14 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 Status status = PlaceAutocomplete.getStatus(this, data);
                 // TODO: Handle the error.
                 Log.i(TAG, status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
             }
         }
     }
 
     @Override
-    public void handleNewLocation() {
+    public void handleNewLocation(Location location) {
         LogUtils.d(TAG, "handleNewLocation start");
         GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
         if (gpsTracker.canGetLocation()) {

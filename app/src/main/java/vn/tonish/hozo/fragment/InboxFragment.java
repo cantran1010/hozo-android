@@ -190,7 +190,7 @@ public class InboxFragment extends BaseFragment {
 
             lvList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
                 @Override
-                public void onLoadMore(int page, int totalItemsCount) {
+                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
 
                     LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 

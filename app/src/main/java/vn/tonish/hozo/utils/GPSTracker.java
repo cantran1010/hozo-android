@@ -19,14 +19,21 @@ import android.util.Log;
  */
 public final class GPSTracker implements LocationListener {
 
+    private static final String TAG = GPSTracker.class.getSimpleName();
     private final Context mContext;
 
     // flag for GPS status
-    private boolean canGetLocation = false;
+    public boolean isGPSEnabled = false;
 
-    private Location location; // location
-    private double latitude; // latitude
-    private double longitude; // longitude
+    // flag for network status
+    boolean isNetworkEnabled = false;
+
+    // flag for GPS status
+    boolean canGetLocation = false;
+
+    Location location; // location
+    double latitude; // latitude
+    double longitude; // longitude
 
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
@@ -35,26 +42,26 @@ public final class GPSTracker implements LocationListener {
     private static final long MIN_TIME_BW_UPDATES = 1; // 1 minute
 
     // Declaring a Location Manager
-    private LocationManager locationManager;
+    protected LocationManager locationManager;
 
     public GPSTracker(Context context) {
         this.mContext = context;
         getLocation();
     }
 
-    private Location getLocation() {
+    public Location getLocation() {
         try {
             locationManager = (LocationManager) mContext
                     .getSystemService(Context.LOCATION_SERVICE);
 
             // getting GPS status
-            boolean isGPSEnabled = locationManager
+            isGPSEnabled = locationManager
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
             Log.v("isGPSEnabled", "=" + isGPSEnabled);
 
             // getting network status
-            boolean isNetworkEnabled = locationManager
+            isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             Log.v("isNetworkEnabled", "=" + isNetworkEnabled);
