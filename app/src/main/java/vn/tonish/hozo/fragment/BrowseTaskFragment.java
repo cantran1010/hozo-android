@@ -66,6 +66,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private TaskAdapter taskAdapter;
     private List<TaskResponse> taskList;
     private boolean isLoadingMoreFromServer = true;
+    boolean isLoadingFromServer = false;
     private String sinceStr = null;
     private String query = null;
     private String strSortBy = null;
@@ -166,6 +167,8 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     private void getTaskResponse(final String since, final String sortBytask, final String query) {
+        if (isLoadingFromServer) return;
+        isLoadingFromServer = true;
         Map<String, String> option;
         option = DataParse.setParameterGetTasks(sortBytask, String.valueOf(limit), since, query);
         LogUtils.d(TAG, "option : " + option.toString());
@@ -187,13 +190,15 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                             taskList.addAll(taskResponses);
                             taskAdapter.notifyDataSetChanged();
                             TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
-                            LogUtils.d(TAG, "getTaskResponse size : " + taskList.size());
+                            LogUtils.d(TAG, "getTaskResponse size : " + taskList.size() + "size sinceStr" + sinceStr);
                         }
 
                         if (taskResponses.size() < limit) {
                             taskAdapter.stopLoadMore();
+                            taskAdapter.notifyDataSetChanged();
                             isLoadingMoreFromServer = false;
                         }
+                        LogUtils.d(TAG, "getTaskResponse isLoadingMoreFromServer : " + isLoadingMoreFromServer);
 
                     }
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -273,6 +278,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     private void search() {
+        taskList.clear();
         isLoadingMoreFromServer = true;
         taskAdapter.onLoadMore();
         if (edtSearch.getText().toString().isEmpty()) {
@@ -324,9 +330,13 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onRefresh() {
         super.onRefresh();
-        isLoadingMoreFromServer = true;
-        taskAdapter.onLoadMore();
-        getTaskResponse(null, strSortBy, query);
+        if (isLoadingFromServer) {
+            isLoadingMoreFromServer = true;
+            taskAdapter.onLoadMore();
+            getTaskResponse(null, strSortBy, query);
+        } else {
+            onStopRefresh();
+        }
 
     }
 
