@@ -10,21 +10,26 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -32,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.model.Category;
@@ -41,33 +47,43 @@ import vn.tonish.hozo.utils.GPSTracker;
 import vn.tonish.hozo.utils.LocationProvider;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
-import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.drawable.location;
 import static vn.tonish.hozo.R.id.map;
-import static vn.tonish.hozo.common.Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE;
 
 /**
  * Created by LongBui on 4/18/2017.
  */
 
-public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener, LocationProvider.LocationCallback {
+public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCallback, View.OnClickListener, LocationProvider.LocationCallback, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = PostATaskMapActivity.class.getSimpleName();
-    private GoogleMap mMap;
+    /**
+     * GoogleApiClient wraps our service connection to Google Play Services and provides access
+     * to the user's sign in state as well as the Google's APIs.
+     */
+    protected GoogleApiClient googleApiClient;
+    private PlaceAutocompleteAdapter placeAutocompleteAdapter;
+    private AutoCompleteTextView autocompleteView;
+    private static final LatLngBounds BOUNDS_VIETNAM = new LatLngBounds(
+            new LatLng(7.000030, 101.837400), new LatLng(23.000030, 108.837400));
+
+    private GoogleMap googleMap;
 
     //    private static double lat = 21.000030;
 //    private static double lon = 105.837400;
     private LatLng latLng;
     private LocationProvider mLocationProvider;
-    private TextViewHozo tvAddress;
+    //    private TextViewHozo tvAddress;
     private TaskResponse work;
     //    private HozoLocation location = new HozoLocation();
     private Category category;
     private final String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     private Marker marker;
     private boolean isOnLocation = true;
+    private ImageView imgClear;
 
     @Override
     protected int getLayout() {
@@ -76,6 +92,22 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
     @Override
     protected void initView() {
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, 0 /* clientId */, this)
+                .addApi(Places.GEO_DATA_API)
+                .build();
+        // Retrieve the AutoCompleteTextView that will display Place suggestions.
+        autocompleteView = (AutoCompleteTextView)
+                findViewById(R.id.autocomplete_places);
+
+        // Register a listener that receives callbacks when a suggestion has been selected
+        autocompleteView.setOnItemClickListener(mAutocompleteClickListener);
+
+        // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
+        // the entire world.
+        placeAutocompleteAdapter = new PlaceAutocompleteAdapter(this, googleApiClient, BOUNDS_VIETNAM,
+                null);
+        autocompleteView.setAdapter(placeAutocompleteAdapter);
 
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
@@ -92,8 +124,11 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         ImageView imgZoomOut = (ImageView) findViewById(R.id.img_map_zoom_out);
         imgZoomOut.setOnClickListener(this);
 
-        tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
-        tvAddress.setOnClickListener(this);
+        imgClear = (ImageView) findViewById(R.id.img_clear);
+        imgClear.setOnClickListener(this);
+
+//        tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
+//        tvAddress.setOnClickListener(this);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(map);
@@ -138,9 +173,9 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             isOnLocation = true;
             LogUtils.d(TAG, "onMapReady canGetLocation");
             latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
 
-            marker = mMap.addMarker(new MarkerOptions()
+            marker = googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(latLng.latitude, latLng.longitude))
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
 
@@ -187,9 +222,117 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         LogUtils.d(TAG, "onMapReady start");
-        mMap = googleMap;
+        this.googleMap = googleMap;
         checkPermission();
+
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng arg0) {
+                // TODO Auto-generated method stub
+                Utils.hideKeyBoard(PostATaskMapActivity.this);
+            }
+        });
+
+//        googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+//            @Override
+//            public void onCameraIdle() {
+//                Utils.hideKeyBoard(PostATaskMapActivity.this);
+//            }
+//        });
+
+        googleMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
+            @Override
+            public void onCameraMoveStarted(int i) {
+                Utils.hideKeyBoard(PostATaskMapActivity.this);
+            }
+        });
     }
+
+    /**
+     * Listener that handles selections from suggestions from the AutoCompleteTextView that
+     * displays Place suggestions.
+     * Gets the place id of the selected item and issues a request to the Places Geo Data API
+     * to retrieve more details about the place.
+     *
+     * @see com.google.android.gms.location.places.GeoDataApi#getPlaceById(com.google.android.gms.common.api.GoogleApiClient,
+     * String...)
+     */
+    private AdapterView.OnItemClickListener mAutocompleteClickListener
+            = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            /*
+             Retrieve the place ID of the selected item from the Adapter.
+             The adapter stores each Place suggestion in a AutocompletePrediction from which we
+             read the place ID and title.
+              */
+            final AutocompletePrediction item = placeAutocompleteAdapter.getItem(position);
+            final String placeId = item.getPlaceId();
+            final CharSequence primaryText = item.getPrimaryText(null);
+
+            LogUtils.i(TAG, "Autocomplete item selected: " + primaryText);
+
+            /*
+             Issue a request to the Places Geo Data API to retrieve a Place object with additional
+             details about the place.
+              */
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                    .getPlaceById(googleApiClient, placeId);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+
+            LogUtils.i(TAG, "Called getPlaceById to get Place details for " + placeId);
+        }
+    };
+
+    /**
+     * Callback for results from a Places Geo Data API query that shows the first place result in
+     * the details view on screen.
+     */
+    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
+            = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+                // Request did not complete successfully
+                LogUtils.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
+                places.release();
+                return;
+            }
+            // Get the Place object from the buffer.
+            final Place place = places.get(0);
+
+            latLng = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
+            getAddress(false);
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+
+            if (marker == null) {
+                marker = googleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(latLng.latitude, latLng.longitude))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
+            } else
+                marker.setPosition(latLng);
+
+            Utils.hideKeyBoard(PostATaskMapActivity.this);
+
+//            // Format details of the place for display and show it in a TextView.
+//            mPlaceDetailsText.setText(formatPlaceDetails(getResources(), place.getName(),
+//                    place.getId(), place.getAddress(), place.getPhoneNumber(),
+//                    place.getWebsiteUri()));
+//
+//            // Display the third party attributions if set.
+//            final CharSequence thirdPartyAttribution = places.getAttributions();
+//            if (thirdPartyAttribution == null) {
+//                mPlaceDetailsAttribution.setVisibility(View.GONE);
+//            } else {
+//                mPlaceDetailsAttribution.setVisibility(View.VISIBLE);
+//                mPlaceDetailsAttribution.setText(Html.fromHtml(thirdPartyAttribution.toString()));
+//            }
+
+            LogUtils.i(TAG, "Place details received: " + place.getName());
+
+            places.release();
+        }
+    };
 
     private void getAddress(boolean isAddAddress) {
         try {
@@ -208,8 +351,9 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                     strReturnedAddress = strReturnedAddress + addRess.getAddressLine(i) + ", ";
                 }
                 strReturnedAddress = strReturnedAddress.substring(0, strReturnedAddress.length() - 2);
-                tvAddress.setText(strReturnedAddress);
-                tvAddress.setError(null);
+                autocompleteView.setText(strReturnedAddress);
+//                tvAddress.setText(strReturnedAddress);
+//                tvAddress.setError(null);
             }
 
             if (addRess.getMaxAddressLineIndex() > 1) {
@@ -220,10 +364,10 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 work.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
             }
 
-            work.setAddress(tvAddress.getText().toString());
+            work.setAddress(autocompleteView.getText().toString());
             work.setLatitude(latLng.latitude);
             work.setLongitude(latLng.longitude);
-
+            autocompleteView.clearFocus();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -245,10 +389,10 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
                 if (gpsTracker.canGetLocation()) {
                     latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
 
                     if (marker == null) {
-                        marker = mMap.addMarker(new MarkerOptions()
+                        marker = googleMap.addMarker(new MarkerOptions()
                                 .position(new LatLng(latLng.latitude, latLng.longitude))
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
                     } else
@@ -260,35 +404,39 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
             case R.id.img_map_zoom_in:
                 if (latLng != null)
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, mMap.getCameraPosition().zoom + 1));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, googleMap.getCameraPosition().zoom + 1));
                 break;
 
             case R.id.img_map_zoom_out:
                 if (latLng != null)
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, mMap.getCameraPosition().zoom - 1));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, googleMap.getCameraPosition().zoom - 1));
                 break;
 
-            case R.id.tv_address:
-                try {
-                    Intent intent =
-                            new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                                    .build(this);
-                    startActivityForResult(intent, Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE);
-                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
-                    // TODO: Handle the error.
-                    e.printStackTrace();
-                }
+            case R.id.img_clear:
+                autocompleteView.setText("");
                 break;
+
+//            case R.id.tv_address:
+//                try {
+//                    Intent intent =
+//                            new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+//                                    .build(this);
+//                    startActivityForResult(intent, Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE);
+//                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+//                    // TODO: Handle the error.
+//                    e.printStackTrace();
+//                }
+//                break;
         }
     }
 
     private void doNext() {
 
-        if (tvAddress.getText().toString().trim().equals("")) {
-            tvAddress.requestFocus();
-            tvAddress.setError(getString(R.string.post_a_task_address_error));
-            return;
-        }
+//        if (tvAddress.getText().toString().trim().equals("")) {
+//            tvAddress.requestFocus();
+//            tvAddress.setError(getString(R.string.post_a_task_address_error));
+//            return;
+//        }
 
         Intent intent = new Intent(PostATaskMapActivity.this, PostATaskFinishActivity.class);
         intent.putExtra(Constants.EXTRA_ADDRESS, location);
@@ -303,32 +451,34 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             setResult(Constants.POST_A_TASK_RESPONSE_CODE);
             finish();
-        } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Place place = PlaceAutocomplete.getPlace(this, data);
-                Log.i(TAG, "Place: " + place.getName());
-
-                tvAddress.setText(place.getName());
-                tvAddress.setError(null);
-                latLng = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
-                getAddress(false);
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
-
-                if (marker == null) {
-                    marker = mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(latLng.latitude, latLng.longitude))
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
-                } else
-                    marker.setPosition(latLng);
-
-            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-                Status status = PlaceAutocomplete.getStatus(this, data);
-                // TODO: Handle the error.
-                Log.i(TAG, status.getStatusMessage());
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
-            }
         }
+
+//        else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+//            if (resultCode == RESULT_OK) {
+//                Place place = PlaceAutocomplete.getPlace(this, data);
+//                LogUtils.i(TAG, "Place: " + place.getName());
+//
+//                tvAddress.setText(place.getName());
+//                tvAddress.setError(null);
+//                latLng = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
+//                getAddress(false);
+//                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+//
+//                if (marker == null) {
+//                    marker = googleMap.addMarker(new MarkerOptions()
+//                            .position(new LatLng(latLng.latitude, latLng.longitude))
+//                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
+//                } else
+//                    marker.setPosition(latLng);
+//
+//            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+//                Status status = PlaceAutocomplete.getStatus(this, data);
+//                // TODO: Handle the error.
+//                LogUtils.i(TAG, status.getStatusMessage());
+//            } else if (resultCode == RESULT_CANCELED) {
+//                // The user canceled the operation.
+//            }
+//        }
     }
 
     @Override
@@ -337,14 +487,35 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
         if (gpsTracker.canGetLocation()) {
             latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
             if (marker == null) {
-                marker = mMap.addMarker(new MarkerOptions()
+                marker = googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(latLng.latitude, latLng.longitude))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
             } else
                 marker.setPosition(latLng);
             getAddress(true);
         }
+    }
+
+    /**
+     * Called when the Activity could not connect to Google Play services and the auto manager
+     * could resolve the error automatically.
+     * In this case the API is not available and notify the user.
+     *
+     * @param connectionResult can be inspected to determine the cause of the failure
+     */
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+        LogUtils.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
+                + connectionResult.getErrorCode());
+
+//        // TODO(Developer): Check error code and notify the user of error state and resolution.
+//        Toast.makeText(this,
+//                "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
+//                Toast.LENGTH_SHORT).show();
+
+        Utils.showLongToast(this, getString(R.string.gg_api_error), true, false);
     }
 }

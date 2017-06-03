@@ -128,7 +128,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
                     } else if (countImageSelected() + countImageAttach >= Constants.MAX_IMAGE_ATTACH && item.isSelected) {
                         item.setSelected(false);
                     } else {
-                        Utils.showLongToast(getContext(), getContext().getResources().getString(R.string.post_a_task_max_attach_err));
+                        Utils.showLongToast(getContext(), getContext().getResources().getString(R.string.post_a_task_max_attach_err),true,false);
                     }
                     notifyDataSetChanged();
                 }

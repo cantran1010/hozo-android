@@ -19,6 +19,8 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -96,9 +98,37 @@ public class Utils {
     }
 
 
-    public static void showLongToast(Context context, String content) {
-        Toast.makeText(context, content, Toast.LENGTH_LONG).show();
+    public static void showLongToast(Context context, String content, boolean isError, boolean isShort) {
+        if (((Activity) context).isFinishing()) {
+            return;
+        }
+        showToastCustom(context, content, isError, isShort);
     }
+
+    private static Toast toastCustom;
+    private static View viewToastCustom;
+
+    private static void showToastCustom(Context context, String content,
+                                        boolean isError, boolean isShort) {
+        toastCustom = new Toast(context);
+        if (isError) {
+            viewToastCustom = LayoutInflater.from(context).inflate(
+                    R.layout.toast_custom_warning, null);
+        } else {
+            viewToastCustom = LayoutInflater.from(context).inflate(
+                    R.layout.toast_custom_info, null);
+        }
+        toastCustom.setDuration(isShort ? Toast.LENGTH_SHORT
+                : Toast.LENGTH_LONG);
+        toastCustom.setGravity(Gravity.BOTTOM, 0,
+                (int) PxUtils.pxFromDp(context, context.getResources().getDimension(R.dimen.toast_offset)));
+        toastCustom.setMargin(0, 0);
+        toastCustom.setView(viewToastCustom);
+        ((TextViewHozo) viewToastCustom.findViewById(R.id.toastDescription))
+                .setText(content);
+        toastCustom.show();
+    }
+
 
     public static String formatNumber(int input) {
         DecimalFormat myFormatter = new DecimalFormat("###,###.###");
@@ -205,7 +235,7 @@ public class Utils {
             context.startActivity(intent);
         } catch (Exception ex) {
             ex.printStackTrace();
-            showLongToast(context, context.getString(R.string.call_err));
+            showLongToast(context, context.getString(R.string.call_err), true, false);
         }
     }
 

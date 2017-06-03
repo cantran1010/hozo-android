@@ -1,6 +1,9 @@
 package vn.tonish.hozo.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -63,6 +66,7 @@ public class InboxFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        LogUtils.d(TAG, "InboxFragment life cycle , initData");
         getCacheDataPage(sinceDate);
         getNotifications(false);
     }
@@ -225,7 +229,15 @@ public class InboxFragment extends BaseFragment {
 
     @Override
     protected void resumeData() {
+        LogUtils.d(TAG, "InboxFragment life cycle , resume data");
+        getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_INBOX));
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        LogUtils.d(TAG, "InboxFragment life cycle , onStop");
+        getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
     }
 
     @Override
@@ -233,4 +245,11 @@ public class InboxFragment extends BaseFragment {
         super.onRefresh();
         getNotifications(false);
     }
+
+    private BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            lvList.smoothScrollToPosition(0);
+        }
+    };
 }

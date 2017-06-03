@@ -76,6 +76,15 @@ public class Constants {
     public static final String NOTIFICATION_EXTRA = "notification_extra";
     public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
 
+    public static final String BROAD_CAST_SMOOTH_TOP_INBOX = "broad_cast_smooth_top_inbox";
+    public static final String BROAD_CAST_SMOOTH_TOP_SEARCH = "broad_cast_smooth_top_search";
+    public static final String BROAD_CAST_SMOOTH_TOP_MY_TASK = "broad_cast_smooth_top_my_task";
+    public static final String BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER = "broad_cast_smooth_top_mytask_worker";
+    public static final String BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER = "broad_cast_smooth_top_mytask_poster";
+
+    public static final String USER_POSTER_REVIEWS = "poster_reviews";
+    public static final String USER_TASKER_REVIEWS = "tasker_reviews";
+
 
     public static final String REVIEW_TYPE_POSTER = "poster";
 

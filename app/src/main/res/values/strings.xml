@@ -103,7 +103,7 @@
     <string name="more_detail">Tùy chọn thêm</string>
     <string name="date_pick_hint">Chọn thời gian bắt đầu làm việc</string>
     <string name="btn_next">TIẾP TỤC</string>
-    <string name="age_from_hint">Từ 20 tuổi</string>
+    <string name="age_from_hint">18 ~ 80</string>
     <string name="map_hint_input1">Nhập địa điểm</string>
     <string name="map_hint_input2">(hoặc di chuyển pin trên bản đồ)</string>
     <string name="post_a_task_map_title">Địa điểm làm việc</string>
@@ -183,7 +183,7 @@
     <string name="retry_cancel">KHÔNG</string>
     <string name="bidder">Người ứng tuyển</string>
     <string name="text_test">Text Test</string>
-    <string name="just_now">vừa xong</string>
+    <string name="just_now">Vừa xong</string>
     <string name="minute_ago">1 phút trước</string>
     <string name="minutes_ago">phút trước</string>
     <string name="hour_ago">1 giờ trước</string>
@@ -323,5 +323,8 @@
     <string name="comment_setting_visible">visible</string>
     <string name="comment_setting_invisible">invisible</string>
     <string name="cancel_task_success_msg">Bạn đã hủy việc thành công</string>
+    <string name="message_exit_app">Nhấn lần nữa để thoát ứng dụng !</string>
+    <string name="gg_api_error">Không thể kết nối tới dịch vụ của Google</string>
+    <string name="contacting_api_autocomplete_error">Lỗi kết nối tới dịch vụ của google</string>
 
 </resources>

@@ -1,6 +1,8 @@
 package vn.tonish.hozo.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +16,7 @@ import vn.tonish.hozo.fragment.MyTaskFragment;
 import vn.tonish.hozo.fragment.SelectTaskFragment;
 import vn.tonish.hozo.fragment.SettingFragment;
 import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -55,7 +58,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        openFragment(R.id.layout_container, SelectTaskFragment.class, false, TransitionScreen.FADE_IN);
+
+        showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
+
+//        openFragment(R.id.layout_container, SelectTaskFragment.class, false, TransitionScreen.FADE_IN);
         updateMenuUi(1);
 
         layoutPostATask.setOnClickListener(this);
@@ -64,22 +70,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         layoutInBox.setOnClickListener(this);
         layoutOther.setOnClickListener(this);
 
-        if(getIntent().hasExtra(Constants.TASK_ID_EXTRA)){
-            int taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA,0);
-            Intent intent = new Intent(this,TaskDetailActivity.class);
-            intent.putExtra(Constants.TASK_ID_EXTRA,taskId);
-            startActivity(intent,TransitionScreen.RIGHT_TO_LEFT);
+        if (getIntent().hasExtra(Constants.TASK_ID_EXTRA)) {
+            int taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
+            Intent intent = new Intent(this, TaskDetailActivity.class);
+            intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
+            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
         }
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if(intent.hasExtra(Constants.TASK_ID_EXTRA)){
-            int taskId = intent.getIntExtra(Constants.TASK_ID_EXTRA,0);
-            Intent intentDetail = new Intent(this,TaskDetailActivity.class);
-            intentDetail.putExtra(Constants.TASK_ID_EXTRA,taskId);
-            startActivity(intentDetail,TransitionScreen.RIGHT_TO_LEFT);
+        if (intent.hasExtra(Constants.TASK_ID_EXTRA)) {
+            int taskId = intent.getIntExtra(Constants.TASK_ID_EXTRA, 0);
+            Intent intentDetail = new Intent(this, TaskDetailActivity.class);
+            intentDetail.putExtra(Constants.TASK_ID_EXTRA, taskId);
+            startActivity(intentDetail, TransitionScreen.RIGHT_TO_LEFT);
         }
     }
 
@@ -95,39 +101,58 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_post_a_task:
                 if (tabIndex == 1) break;
-                openFragment(R.id.layout_container, SelectTaskFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
+                showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
+
                 tabIndex = 1;
                 updateMenuUi(1);
                 break;
 
             case R.id.layout_browser_task:
-                if (tabIndex == 2) break;
+                if (tabIndex == 2) {
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_SEARCH);
+                    sendBroadcast(intentAnswer);
+                    break;
+                }
                 if (tabIndex > 2) {
-                    openFragment(R.id.layout_container, BrowseTaskFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
+                    showFragment(R.id.layout_container, BrowseTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 } else {
-                    openFragment(R.id.layout_container, BrowseTaskFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+                    showFragment(R.id.layout_container, BrowseTaskFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 }
                 tabIndex = 2;
                 updateMenuUi(2);
                 break;
 
             case R.id.layout_my_task:
-                if (tabIndex == 3) break;
+                if (tabIndex == 3) {
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK);
+                    sendBroadcast(intentAnswer);
+                    break;
+                }
+
                 if (tabIndex > 3) {
-                    openFragment(R.id.layout_container, MyTaskFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
+                    showFragment(R.id.layout_container, MyTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 } else {
-                    openFragment(R.id.layout_container, MyTaskFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+                    showFragment(R.id.layout_container, MyTaskFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 }
                 tabIndex = 3;
                 updateMenuUi(3);
                 break;
 
             case R.id.layout_inbox:
-                if (tabIndex == 4) break;
+
+                if (tabIndex == 4) {
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_INBOX);
+                    sendBroadcast(intentAnswer);
+                    break;
+                }
+
                 if (tabIndex > 4) {
-                    openFragment(R.id.layout_container, InboxFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
+                    showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 } else {
-                    openFragment(R.id.layout_container, InboxFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+                    showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 }
                 tabIndex = 4;
                 updateMenuUi(4);
@@ -135,7 +160,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_other:
                 if (tabIndex == 5) break;
-                openFragment(R.id.layout_container, SettingFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+
+                showFragment(R.id.layout_container, SettingFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 tabIndex = 5;
                 updateMenuUi(5);
                 break;
@@ -180,6 +206,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
 
+    }
+
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Utils.showLongToast(this, getString(R.string.message_exit_app), true, false);
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 
 //    @Override

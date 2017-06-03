@@ -1,6 +1,5 @@
 package vn.tonish.hozo.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +12,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import java.io.Serializable;
+import java.util.Stack;
+
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.EdittextHozo;
 
@@ -25,9 +26,10 @@ import vn.tonish.hozo.view.EdittextHozo;
 public abstract class BaseActivity extends FragmentActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = BaseActivity.class.getName();
     private FragmentManager fragmentManager;
-    private ProgressDialog progressDialog;
     private TransitionScreen transitionScreen;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Stack<StackEntry> fragmentsStack = new Stack<>();
+    private FragmentTransaction transaction;
 
     protected abstract int getLayout();
 
@@ -50,21 +52,8 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            getWindow().setStatusBarColor(getResources().getColor(R.color.pink));
-//        }
-
         if (getIntent().hasExtra(Constants.TRANSITION_EXTRA))
             transitionScreen = (TransitionScreen) getIntent().getSerializableExtra(Constants.TRANSITION_EXTRA);
-
-        LogUtils.d(TAG, "BaseActivity , transitionScreen : " + transitionScreen);
-
         fragmentManager = getSupportFragmentManager();
         setContentView(getLayout());
         initView();
@@ -139,28 +128,87 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     }
 
     private void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack, TransitionScreen transitionScreen) {
-        FragmentManager manager = getSupportFragmentManager();
+        transaction = fragmentManager.beginTransaction();
         String tag = fragmentClazz.getName();
+        Fragment fragment = null;
         try {
-            Fragment fragment;
-            try {
-                fragment = fragmentClazz.newInstance();
-                if (args != null) {
-                    fragment.setArguments(args);
-                }
-                FragmentTransaction transaction = manager.beginTransaction();
-                TransitionScreen.setCustomAnimationsFragment(transaction,transitionScreen);
-                transaction.replace(resId, fragment, tag);
+            fragment = fragmentClazz.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
-                if (addBackStack) {
-                    transaction.addToBackStack(tag);
-                }
-                transaction.commitAllowingStateLoss();
+        if (args != null) {
+            fragment.setArguments(args);
+        }
+        TransitionScreen.setCustomAnimationsFragment(transaction, transitionScreen);
+        transaction.replace(resId, fragment, tag);
+
+        if (addBackStack) {
+            transaction.addToBackStack(tag);
+        }
+        transaction.commitAllowingStateLoss();
+    }
+
+    public void showFragment(int resLayout, Class<?> newFragClass,
+                             boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
+
+        transaction = fragmentManager.beginTransaction();
+        TransitionScreen.setCustomAnimationsFragment(transaction, transitionScreen);
+        String newTag = newFragClass.getName();
+
+        Fragment lastFragment = getLastFragment();
+        if (lastFragment != null) {
+            transaction.hide(lastFragment);
+        }
+
+        // find the fragment in fragment manager
+        Fragment newFragment = fragmentManager.findFragmentByTag(newTag);
+        if (newFragment != null && !newFragment.isRemoving()) {
+            transaction.show(newFragment).commit();
+        } else {
+            Fragment nFrag = null;
+            try {
+                nFrag = (Fragment) newFragClass.newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            nFrag.setArguments(bundle);
+
+            if (putStack) {
+                transaction.add(resLayout, nFrag, newTag)
+                        .addToBackStack(newTag).commit();
+            } else {
+                transaction.add(resLayout, nFrag, newTag).commit();
+            }
+
+        }
+
+        fragmentsStack.push(new StackEntry(newTag));
+    }
+
+    private Fragment getLastFragment() {
+        if (fragmentsStack.isEmpty())
+            return null;
+        String fragTag = fragmentsStack.peek().getFragTag();
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(
+                fragTag);
+        return fragment;
+    }
+
+    private static class StackEntry implements Serializable {
+        private String fragTag = null;
+
+        public StackEntry(String fragTag) {
+            super();
+            this.fragTag = fragTag;
+        }
+
+        public String getFragTag() {
+            return fragTag;
         }
     }
 
@@ -185,19 +233,6 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
             super.onBackPressed();
         } else {
             fragmentManager.popBackStack();
-        }
-    }
-
-    protected void showLoadingProgress(String msg) {
-        progressDialog = new ProgressDialog(BaseActivity.this);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage(msg);
-        progressDialog.show();
-    }
-
-    protected void hideLoadingProgress() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
         }
     }
 

@@ -203,6 +203,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
     private void getData() {
         ProgressDialogUtils.showProgressDialog(this);
+        LogUtils.d(TAG, "getDetailTask , taskId : " + taskId);
+        LogUtils.d(TAG, "getDetailTask , UserManager.getUserToken() : " + UserManager.getUserToken());
 
         ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId).enqueue(new Callback<TaskResponse>() {
             @Override
@@ -516,7 +518,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 LogUtils.d(TAG, "doCacelTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    Utils.showLongToast(TaskDetailActivity.this, getString(R.string.cancel_task_success_msg));
+                    Utils.showLongToast(TaskDetailActivity.this, getString(R.string.cancel_task_success_msg),false,false);
                     taskResponse = response.body();
                     updateRole();
                     storeTaskToDatabase();
@@ -602,7 +604,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
     private void doSend() {
         if (edtComment.getText().toString().trim().equals("")) {
-            Utils.showLongToast(this, getString(R.string.empty_content_comment_error));
+            Utils.showLongToast(this, getString(R.string.empty_content_comment_error),true,false);
             return;
         }
         if (imgPath == null) {
