@@ -21,10 +21,6 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
 
     private AgeDialogListener ageDialogListener;
 
-    public AgeDialogListener getAgeDialogListener() {
-        return ageDialogListener;
-    }
-
     public void setAgeDialogListener(AgeDialogListener ageDialogListener) {
         this.ageDialogListener = ageDialogListener;
     }
@@ -91,17 +87,10 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
 
     }
 
-    public int getAgeFrom() {
-        return ageFrom;
-    }
-
     public void setAgeFrom(int ageFrom) {
         this.ageFrom = ageFrom;
     }
 
-    public int getAgeTo() {
-        return ageTo;
-    }
 
     public void setAgeTo(int ageTo) {
         this.ageTo = ageTo;

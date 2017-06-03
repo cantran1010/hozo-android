@@ -24,7 +24,7 @@ public class Comment extends RealmObject implements Serializable {
     private String body;
     @SerializedName("created_at")
     private String createdAt;
-    private Date craeatedDateAt;
+    private Date craetedDateAt;
     private int taskId;
 
     public Comment() {
@@ -88,11 +88,11 @@ public class Comment extends RealmObject implements Serializable {
     }
 
     public Date getCreatedDateAt() {
-        return craeatedDateAt;
+        return craetedDateAt;
     }
 
-    public void setCraeatedDateAt(Date craeatedDateAt) {
-        this.craeatedDateAt = craeatedDateAt;
+    public void setCraetedDateAt(Date craetedDateAt) {
+        this.craetedDateAt = craetedDateAt;
     }
 
     public int getTaskId() {
@@ -113,7 +113,7 @@ public class Comment extends RealmObject implements Serializable {
                 ", imgAttach='" + imgAttach + '\'' +
                 ", body='" + body + '\'' +
                 ", createdAt='" + createdAt + '\'' +
-                ", craeatedDateAt=" + craeatedDateAt +
+                ", craetedDateAt=" + craetedDateAt +
                 ", taskId='" + taskId + '\'' +
                 '}';
     }

@@ -31,8 +31,10 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/title_margin_left"
             android:layout_marginStart="@dimen/title_margin_left"
-            android:layout_toRightOf="@id/img_back"
+            android:layout_toEndOf="@id/img_back"
             android:layout_toLeftOf="@+id/tv_cancel"
+            android:layout_toRightOf="@id/img_back"
+            android:layout_toStartOf="@+id/tv_cancel"
             android:text="@string/make_an_offer_title" />
 
         <vn.tonish.hozo.view.TextViewHozo

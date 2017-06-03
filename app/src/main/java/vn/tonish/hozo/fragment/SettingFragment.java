@@ -12,9 +12,8 @@ import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 
 /**
- * Created by Admin on 4/4/2017.
+ * Created by CanTran on 5/17/17.
  */
-
 public class SettingFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected int getLayout() {
@@ -26,8 +25,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     protected void initView() {
         findViewById(R.id.layout_profile).setOnClickListener(this);
         findViewById(R.id.layout_share).setOnClickListener(this);
-//        findViewById(R.id.tv_history).setOnClickListener(this);
-//        findViewById(R.id.tv_payment).setOnClickListener(this);
         findViewById(R.id.layout_condition).setOnClickListener(this);
         findViewById(R.id.layout_nda).setOnClickListener(this);
         findViewById(R.id.layout_nda).setOnClickListener(this);

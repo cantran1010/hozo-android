@@ -563,7 +563,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         });
     }
 
-    protected void checkPermission() {
+    private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             permissionGranted();
@@ -748,7 +748,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         });
     }
 
-    public Uri setImageUri() {
+    private Uri setImageUri() {
         File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
@@ -780,7 +780,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
     }
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 

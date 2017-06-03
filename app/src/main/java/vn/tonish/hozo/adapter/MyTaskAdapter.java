@@ -16,13 +16,13 @@ import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
- * Created by Can Tran on 14/05/2017.
+ * Created by CanTran on 14/05/2017.
  */
 
 public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkHolder, LoadingHolder> {
 
-    private List<TaskResponse> taskResponses;
-    private Context context;
+    private final List<TaskResponse> taskResponses;
+    private final Context context;
 
     public MyTaskAdapter(Context context, List<TaskResponse> taskResponses) {
         super(context, taskResponses);
@@ -35,10 +35,6 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
     }
 
     private MyTaskAdapterListener myTaskAdapterListener;
-
-    public MyTaskAdapterListener getMyTaskAdapterListener() {
-        return myTaskAdapterListener;
-    }
 
     public void setMyTaskAdapterListener(MyTaskAdapterListener myTaskAdapterListener) {
         this.myTaskAdapterListener = myTaskAdapterListener;
@@ -124,7 +120,12 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
 
     class WorkHolder extends BaseHolder implements View.OnClickListener {
 
-        private TextViewHozo tvName, tvStatus, tvAddress, tvStartTime, tvTaskType, tvPrice;
+        private final TextViewHozo tvName;
+        private final TextViewHozo tvStatus;
+        private final TextViewHozo tvAddress;
+        private final TextViewHozo tvStartTime;
+        private final TextViewHozo tvTaskType;
+        private final TextViewHozo tvPrice;
 
         public WorkHolder(View itemView) {
             super(itemView);

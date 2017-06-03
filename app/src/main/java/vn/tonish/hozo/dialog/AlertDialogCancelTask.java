@@ -24,10 +24,6 @@ public class AlertDialogCancelTask extends BaseDialog implements View.OnClickLis
 
     private AlertConfirmDialogListener alertConfirmDialogListener;
 
-    public AlertConfirmDialogListener getAlertConfirmDialogListener() {
-        return alertConfirmDialogListener;
-    }
-
     public void setAlertConfirmDialogListener(AlertConfirmDialogListener alertConfirmDialogListener) {
         this.alertConfirmDialogListener = alertConfirmDialogListener;
     }

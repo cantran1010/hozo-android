@@ -44,16 +44,16 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     private static final String TAG = MyTaskFragment.class.getSimpleName();
     private TextViewHozo tvWorker, tvPoster;
     private RecyclerView rcvTask;
-    private List<TaskResponse> taskResponses = new ArrayList<>();
+    private final List<TaskResponse> taskResponses = new ArrayList<>();
     private MyTaskAdapter myTaskAdapter;
     private String role = Constants.ROLE_TASKER;
     public static final int LIMIT = 15;
     private String sinceStr;
     private Date sinceDate;
     private String query;
-    boolean isLoadingMoreFromServer = true;
-    boolean isLoadingMoreFromDb = true;
-    boolean isLoadingFromServer = false;
+    private boolean isLoadingMoreFromServer = true;
+    private boolean isLoadingMoreFromDb = true;
+    private boolean isLoadingFromServer = false;
     private Call<List<TaskResponse>> call;
 
     @Override
@@ -201,7 +201,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
             rcvTask.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
                 @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                public void onLoadMore(int page, int totalItemsCount) {
 
                     LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 

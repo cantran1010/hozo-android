@@ -49,6 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/tv_zone"
+                    android:layout_toEndOf="@id/tv_zone"
                     android:background="@null"
                     android:gravity="center_vertical"
                     android:hint="@string/ed_login_phone"

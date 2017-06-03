@@ -17,11 +17,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class RadiusSettingDialog extends BaseDialog implements View.OnClickListener {
     private RadioGroup rgRadius;
     private RadiusDialogListener radiusDialogListener;
-    private int mIndex;
-
-    public RadiusDialogListener getRadiusDialogListener() {
-        return radiusDialogListener;
-    }
+    private final int mIndex;
 
     public void setRadiusDialogListener(RadiusDialogListener radiusDialogListener) {
         this.radiusDialogListener = radiusDialogListener;

@@ -15,7 +15,6 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 public class GeneralInfoActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final String TAG = GeneralInfoActivity.class.getSimpleName();
     private CustomWebView customWebView;
     private TextViewHozo tvTitle;
 

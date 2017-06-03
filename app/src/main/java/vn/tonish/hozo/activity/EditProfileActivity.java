@@ -35,7 +35,6 @@ import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
-import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
@@ -70,10 +69,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private RadioButton rbMale, rbFemale;
     private EdittextHozo edtName, edtAddress;
     private TextViewHozo tvBirthday;
-    private Calendar calendar = Calendar.getInstance();
+    private final Calendar calendar = Calendar.getInstance();
     private RadioGroup rgRadius;
     private File file;
-    private User user;
     private int avataId;
     private boolean isUpdateAvata = false;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
@@ -319,9 +317,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     private void openDatePicker() {
 
-        if (tvBirthday.getText().toString().isEmpty()) {
-
-        } else {
+        if (!tvBirthday.getText().toString().isEmpty()) {
             Date date = DateTimeUtils.convertToDate(tvBirthday.getText().toString());
             calendar.setTime(date);
         }
@@ -354,7 +350,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
             startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
         } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
-            String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
+            String imgPath = data != null ? data.getStringExtra(Constants.EXTRA_IMAGE_PATH) : null;
             Utils.displayImage(EditProfileActivity.this, imgAvatar, imgPath);
             file = new File(imgPath);
             isUpdateAvata = true;

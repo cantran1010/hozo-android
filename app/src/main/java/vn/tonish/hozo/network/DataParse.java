@@ -1,10 +1,5 @@
 package vn.tonish.hozo.network;
 
-import android.content.Context;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,23 +8,16 @@ import java.util.Map;
 import io.realm.RealmList;
 import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.entity.NotificationEntity;
-import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.database.entity.SettingEntiny;
 import vn.tonish.hozo.database.entity.TaskEntity;
-import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.CategoryManager;
-import vn.tonish.hozo.database.manager.ReviewManager;
 import vn.tonish.hozo.database.manager.SettingManager;
-import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
-import vn.tonish.hozo.model.Review;
-import vn.tonish.hozo.model.User;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.Bidder;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
-import vn.tonish.hozo.rest.responseRes.Token;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
 
@@ -40,76 +28,6 @@ import vn.tonish.hozo.utils.LogUtils;
 public class DataParse {
     private final static String TAG = DataParse.class.getSimpleName();
 
-    //inser data UserEntity
-
-    public static void insertUsertoDb(User user, Token token, Context context) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(user.getId());
-        userEntity.setAddress(user.getAddress());
-        userEntity.setAvatar(user.getAvatar());
-        userEntity.setDateOfBirth(user.getDateOfBirth());
-        userEntity.setDescription(user.getDescription());
-        userEntity.setEmail(user.getEmail());
-        userEntity.setFacebookId(user.getFacebookId());
-        userEntity.setFullName(user.getFullName());
-        userEntity.setPhone(user.getPhoneNumber());
-//        userEntity.setVerified(user.getVerified());
-        userEntity.setPosterAverageRating(user.getPosterAverageRating());
-//        userEntity.setPosterReviewCount(user.getPosterReviewCount());
-//        userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
-//        userEntity.setTaskerReviewCount(user.getTaskerReviewCount());
-
-        userEntity.setAccessToken(token.getAccessToken());
-        userEntity.setRefreshToken(token.getRefreshToken());
-        userEntity.setTokenExp(token.getTokenExpires());
-
-        UserManager.insertUser(userEntity, true);
-        LogUtils.d("inser data UserEntity : ", userEntity.toString());
-    }
-
-    //update User to database
-
-
-    public static void updateUser(User user, Context context) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(user.getId());
-        userEntity.setAddress(user.getAddress());
-        userEntity.setAvatar(user.getAvatar());
-        userEntity.setDateOfBirth(user.getDateOfBirth());
-        userEntity.setDescription(user.getDescription());
-        userEntity.setEmail(user.getEmail());
-        userEntity.setFacebookId(user.getFacebookId());
-        userEntity.setFullName(user.getFullName());
-        userEntity.setPhone(user.getPhoneNumber());
-//        userEntity.setVerified(user.getVerified());
-
-        userEntity.setPosterAverageRating(user.getPosterAverageRating());
-//        userEntity.setPosterReviewCount(user.getPosterReviewCount());
-//        userEntity.setTaskerAverageRating(user.getTaskerAverageRating());
-//        userEntity.setTaskerReviewCount(user.getTaskerReviewCount());
-
-        UserManager.insertUser(userEntity, true);
-
-        LogUtils.d("update User to database: ", userEntity.toString());
-    }
-
-    public static User convertUserEntityToUser(UserEntity userEntity) {
-        User user = new User();
-        user.setId(userEntity.getId());
-        user.setAddress(userEntity.getAddress());
-        user.setAvatar(userEntity.getAvatar());
-        user.setDateOfBirth(userEntity.getDateOfBirth());
-        user.setDescription(userEntity.getDescription());
-        user.setEmail(userEntity.getEmail());
-        user.setFacebookId(userEntity.getFacebookId());
-        user.setFullName(userEntity.getFullName());
-        user.setPhoneNumber(userEntity.getPhone());
-        user.setPosterAverageRating(userEntity.getPosterAverageRating());
-        user.setPosterReviewCount(userEntity.getPosterReviewCount());
-        user.setTaskerAverageRating(userEntity.getTaskerAverageRating());
-        user.setTaskerReviewCount(userEntity.getTaskerReviewCount());
-        return user;
-    }
 
     public static Category convertCatogoryEntityToCategory(CategoryEntity categoryEntity) {
         Category category = new Category();
@@ -124,7 +42,7 @@ public class DataParse {
     }
 
 
-    public static CategoryEntity convertCatogoryToCategoryEntity(Category category) {
+    private static CategoryEntity convertCatogoryToCategoryEntity(Category category) {
         CategoryEntity categoryEntity = new CategoryEntity();
         categoryEntity.setId(category.getId());
         categoryEntity.setName(category.getName());
@@ -152,31 +70,6 @@ public class DataParse {
         return categories1;
     }
 
-
-    //update data reviewEntities
-
-    public static void insertReviewtoDb(User user) {
-        ArrayList<Review> reviews = new ArrayList();
-        reviews.addAll(user.getReviews());
-        ArrayList<ReviewEntity> reviewEntities = new ArrayList();
-        for (int i = 0; i < reviews.size(); i++) {
-            ReviewEntity reviewEntity = new ReviewEntity();
-            Review review = reviews.get(i);
-            reviewEntity.setId(review.getId());
-            reviewEntity.setAuthorId(review.getAuthorId());
-            reviewEntity.setAuthorAvatar(review.getAuthorAvatar());
-            reviewEntity.setAuthorName(review.getAuthorName());
-            reviewEntity.setBody(review.getBody());
-            reviewEntity.setCreatedAt(review.getCreatedAt());
-            reviewEntity.setRating(review.getRating());
-            reviewEntity.setTaskName(review.getTaskName());
-            reviewEntity.setType(review.getType());
-            reviewEntities.add(reviewEntity);
-        }
-
-        ReviewManager.insertReviews(reviewEntities);
-        LogUtils.d("update data reviewEntities: ", reviewEntities.toString());
-    }
 
     public static TaskResponse converTaskEntityToTaskReponse(TaskEntity taskEntity) {
         TaskResponse taskResponse = new TaskResponse();
@@ -210,9 +103,9 @@ public class DataParse {
 
         if (taskEntity.getAttachments() != null) {
             String[] arrAtachments = taskEntity.getAttachments().split(",");
-            for (int i = 0; i < arrAtachments.length; i++)
-                if (!arrAtachments[i].equals(""))
-                    listAttachments.add(arrAtachments[i]);
+            for (String arrAtachment : arrAtachments)
+                if (!arrAtachment.equals(""))
+                    listAttachments.add(arrAtachment);
         }
 
 //        List<String> listAttachments = new ArrayList<String>(Arrays.asList(arrAtachments));
@@ -307,7 +200,7 @@ public class DataParse {
         return taskEntities;
     }
 
-    public static Notification convertNotificationEntityToNotification(NotificationEntity notificationEntity) {
+    private static Notification convertNotificationEntityToNotification(NotificationEntity notificationEntity) {
         Notification notification = new Notification();
         notification.setId(notificationEntity.getId());
         notification.setUserId(notificationEntity.getUserId());
@@ -321,7 +214,7 @@ public class DataParse {
         return notification;
     }
 
-    public static NotificationEntity convertNotificationToNotificationEntity(Notification notification) {
+    private static NotificationEntity convertNotificationToNotificationEntity(Notification notification) {
         NotificationEntity notificationEntity = new NotificationEntity();
         notificationEntity.setId(notification.getId());
         notificationEntity.setUserId(notification.getUserId());
@@ -349,17 +242,6 @@ public class DataParse {
         return notificationEntities;
     }
 
-    public static int getAvatarTempId(String response) {
-        Integer result = 0;
-        try {
-            JSONObject jsonResponse = new JSONObject(response);
-            result = jsonResponse.getJSONObject("data").getInt("tmp_id");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
     public static Map<String, String> setParameterGetTasks(String sortBy, String limit, String since, String query) {
         SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
         Map<String, String> option = new HashMap<>();
@@ -377,7 +259,7 @@ public class DataParse {
         return option;
     }
 
-    public static String getIds() {
+    private static String getIds() {
         List<CategoryEntity> entityRealmList = CategoryManager.getAllCategories();
         String ids = "";
         for (CategoryEntity categoryEntity : entityRealmList) {

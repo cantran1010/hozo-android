@@ -29,7 +29,7 @@ public class PreferUtils {
     public SharedPreferences preferences;
 
     // just example method
-    public static void setMessage(String message) {
+    public static void setMessage() {
 
     }
 

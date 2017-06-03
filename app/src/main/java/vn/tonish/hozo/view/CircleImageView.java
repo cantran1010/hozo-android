@@ -39,6 +39,7 @@ import android.util.AttributeSet;
 
 import vn.tonish.hozo.R;
 
+@SuppressWarnings("ALL")
 public class CircleImageView extends AppCompatImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;

@@ -15,13 +15,13 @@ import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
- * Created by Can Tran on 14/05/2017.
+ * Created by CanTran on 14/05/2017.
  */
 
 public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolder, LoadingHolder> {
     private final static String TAG = TaskAdapter.class.getSimpleName();
-    private List<TaskResponse> taskResponses;
-    private Context context;
+    private final List<TaskResponse> taskResponses;
+    private final Context context;
 
     public TaskAdapter(Context context, List<TaskResponse> taskResponses) {
         super(context, taskResponses);
@@ -55,7 +55,7 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
 
     @Override
     public WorkHolder returnItemHolder(View view) {
-        return new WorkHolder(view, context);
+        return new WorkHolder(view);
     }
 
     @Override
@@ -77,14 +77,14 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
     }
 
     class WorkHolder extends BaseHolder implements View.OnClickListener {
-        private TextViewHozo tvName;
-        private TextViewHozo tvAddress;
-        private TextViewHozo tvStartTime;
-        private TextViewHozo tvTaskType;
-        private TextViewHozo tvPrice;
+        private final TextViewHozo tvName;
+        private final TextViewHozo tvAddress;
+        private final TextViewHozo tvStartTime;
+        private final TextViewHozo tvTaskType;
+        private final TextViewHozo tvPrice;
 
 
-        public WorkHolder(View itemView, final Context context) {
+        public WorkHolder(View itemView) {
             super(itemView);
             tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
             tvAddress = (TextViewHozo) itemView.findViewById(R.id.tv_address);

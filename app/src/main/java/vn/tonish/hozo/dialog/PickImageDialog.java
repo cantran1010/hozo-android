@@ -21,10 +21,6 @@ public class PickImageDialog extends BaseDialog implements View.OnClickListener 
 
     private PickImageListener pickImageListener;
 
-    public PickImageListener getPickImageListener() {
-        return pickImageListener;
-    }
-
     public void setPickImageListener(PickImageListener pickImageListener) {
         this.pickImageListener = pickImageListener;
     }

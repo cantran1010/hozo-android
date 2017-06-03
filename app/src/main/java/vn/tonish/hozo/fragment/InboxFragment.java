@@ -41,7 +41,7 @@ public class InboxFragment extends BaseFragment {
 
     private NotificationAdapter notificationAdapter;
     private RecyclerView lvList;
-    private List<Notification> notifications = new ArrayList<>();
+    private final List<Notification> notifications = new ArrayList<>();
     private String since;
     private Date sinceDate;
     public static final int LIMIT = 15;
@@ -190,7 +190,7 @@ public class InboxFragment extends BaseFragment {
 
             lvList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
                 @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                public void onLoadMore(int page, int totalItemsCount) {
 
                     LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 

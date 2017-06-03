@@ -27,7 +27,6 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 public class BrowserTaskMapActivity extends BaseActivity implements View.OnClickListener, OnMapReadyCallback {
 
-    private static final String TAG = BrowserTaskMapActivity.class.getSimpleName();
     private GoogleMap mMap;
     private ArrayList<MiniTask> miniTasks = new ArrayList<>();
 

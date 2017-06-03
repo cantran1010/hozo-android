@@ -20,8 +20,6 @@ import vn.tonish.hozo.R;
  */
 public class DateTimeUtils {
 
-    private static final String TAG = DateTimeUtils.class.getSimpleName();
-
     public static String getOnlyDateFromIso(String input) {
         Date date = null;
 
@@ -142,7 +140,7 @@ public class DateTimeUtils {
     /**
      * Transform ISO 8601 string to Calendar.
      */
-    public static Calendar toCalendar(final String iso8601string)
+    private static Calendar toCalendar(final String iso8601string)
             throws ParseException {
         String timeZone = Calendar.getInstance().getTimeZone().getID();
         Calendar calendar = GregorianCalendar.getInstance();
@@ -158,6 +156,7 @@ public class DateTimeUtils {
     }
 
     public static String getTime(int hr, int min) {
+        //noinspection deprecation
         Time tme = new Time(hr, min, 0);//seconds by default set to zero
         Format formatter;
         formatter = new SimpleDateFormat("h:mm a", Locale.getDefault());

@@ -33,7 +33,7 @@ import vn.tonish.hozo.rest.responseRes.Token;
 public interface ApiInterface {
 
     @POST("auth/otp_code")
-    Call<Void> getOtpCode(@Header("X-Hozo-API-Key") String apiKey, @Body RequestBody body);
+    Call<Void> getOtpCode(@Body RequestBody body);
 
     @PUT("auth/refresh_token")
     Call<Token> refreshToken(@Body RequestBody body);
@@ -77,9 +77,6 @@ public interface ApiInterface {
 
     @POST("tasks/{taskId}/bids")
     Call<TaskResponse> bidsTask(@Header("Authorization") String token, @Path("taskId") int taskId);
-
-//    @POST("bids/{bidId}")
-//    Call<AcceptOfferResponse> acceptOffer(@Header("Authorization") String token, @Path("bidId") int bidId, @Body RequestBody body);
 
     @POST("tasks/{taskId}/accept")
     Call<TaskResponse> acceptOffer(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);

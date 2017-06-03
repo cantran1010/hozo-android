@@ -20,7 +20,7 @@ import vn.tonish.hozo.model.Category;
 
 public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHolder> {
 
-    private List<Category> taskTypes;
+    private final List<Category> taskTypes;
 
     public TaskTypeAdapter(List<Category> taskTypes) {
         this.taskTypes = taskTypes;
@@ -32,8 +32,7 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
 
         @SuppressLint("InflateParams") View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.item_task_type, null);
-        ViewHolder viewHolder = new ViewHolder(itemLayoutView);
-        return viewHolder;
+        return new ViewHolder(itemLayoutView);
     }
 
     @Override
@@ -57,8 +56,8 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvName;
-        public CheckBox chkSelected;
+        public final TextView tvName;
+        public final CheckBox chkSelected;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);

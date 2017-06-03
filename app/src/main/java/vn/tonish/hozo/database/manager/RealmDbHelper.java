@@ -14,7 +14,6 @@ import vn.tonish.hozo.utils.PreferUtils;
  */
 public class RealmDbHelper {
 
-    private static final String TAG = RealmDbHelper.class.getName();
     private static RealmConfiguration realmConfiguration;
     private static String key = null;
 

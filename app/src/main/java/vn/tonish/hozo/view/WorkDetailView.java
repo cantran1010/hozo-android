@@ -58,17 +58,12 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
     private MyGridView myGridView;
     private TaskProgressView taskProgressView;
     private TaskResponse taskResponse;
-    private View vTaskProgressView;
 
     public interface WorkDetailViewListener {
         void onWorkDetailViewListener(TaskResponse taskResponse);
     }
 
     private WorkDetailViewListener workDetailViewListener;
-
-    public WorkDetailViewListener getWorkDetailViewListener() {
-        return workDetailViewListener;
-    }
 
     public void setWorkDetailViewListener(WorkDetailViewListener workDetailViewListener) {
         this.workDetailViewListener = workDetailViewListener;
@@ -131,7 +126,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         tvImageAttachTitle = (TextViewHozo) findViewById(R.id.tv_img_attach_title);
 
         taskProgressView = (TaskProgressView) findViewById(R.id.task_progress_view);
-        vTaskProgressView = findViewById(R.id.v_task_progress_view);
+        View vTaskProgressView = findViewById(R.id.v_task_progress_view);
 
     }
 
@@ -151,8 +146,8 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         tvDescription.setText(taskResponse.getDescription());
 
         taskProgressView.updateData(taskResponse.getBidderCount(), (taskResponse.getWorkerCount() - taskResponse.getAssigneeCount()), taskResponse.getAssigneeCount());
-
-        tvPrice.setText(Utils.formatNumber(taskResponse.getWorkerCount() * taskResponse.getWorkerRate()) + " VND");
+        String strPrice = Utils.formatNumber(taskResponse.getWorkerCount() * taskResponse.getWorkerRate()) + " VND";
+        tvPrice.setText(strPrice);
         tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
         tvTime.setText(DateTimeUtils.getHourMinuteFromIso(taskResponse.getStartTime()) + " " + getContext().getString(R.string.detail_task_time_to) + " " + DateTimeUtils.getHourMinuteFromIso(taskResponse.getEndTime()));
         tvAddress.setText(taskResponse.getAddress());
@@ -201,17 +196,6 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                 tvStatus.setBackground(drawable);
             }
         } else tvStatus.setVisibility(View.GONE);
-    }
-
-    public void updateTaskProgressViewVisibility(boolean isVisibility) {
-        if (isVisibility) {
-            vTaskProgressView.setVisibility(View.VISIBLE);
-            taskProgressView.setVisibility(View.VISIBLE);
-        } else {
-            vTaskProgressView.setVisibility(View.GONE);
-            taskProgressView.setVisibility(View.GONE);
-        }
-
     }
 
     public void updateBtnCallRate(boolean isShow, boolean isCall, String text) {

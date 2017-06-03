@@ -25,7 +25,6 @@ import vn.tonish.hozo.view.TextViewHozo;
  */
 
 public class TaskTypeActivity extends BaseActivity implements View.OnClickListener {
-    private final static String TAG = TaskTypeActivity.class.getSimpleName();
     private ImageView imgback;
     private RecyclerView mRecyclerView;
     private TaskTypeAdapter mAdapter;
@@ -100,7 +99,7 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
         mAdapter.notifyDataSetChanged();
     }
 
-    public List<Category> getTaskTypes() {
+    private List<Category> getTaskTypes() {
         for (CategoryEntity categoryEntity : CategoryManager.getAllCategories()
                 ) {
             Category taskType = new Category();

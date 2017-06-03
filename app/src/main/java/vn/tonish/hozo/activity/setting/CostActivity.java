@@ -15,7 +15,7 @@ import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
- * Created by Can Tran on 28/05/2017.
+ * Created by CanTran on 28/05/2017.
  */
 
 public class CostActivity extends BaseActivity implements View.OnClickListener {

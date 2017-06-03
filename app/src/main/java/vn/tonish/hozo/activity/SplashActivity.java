@@ -1,16 +1,14 @@
 package vn.tonish.hozo.activity;
 
 import android.os.Handler;
-import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.database.manager.UserManager;
-import vn.tonish.hozo.utils.TransitionScreen;
 
 import static vn.tonish.hozo.common.Constants.SPLASH_TIME;
 
 /**
- * Created by Can Tran on 4/11/17.
+ * Created by CanTran on 4/11/17.
  */
 
 public class SplashActivity extends BaseActivity {
@@ -22,7 +20,6 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        ImageView imgLogo = (ImageView) findViewById(R.id.img_logo);
     }
 
     @Override
@@ -31,9 +28,9 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 if (UserManager.checkLogin())
-                    startActivity(MainActivity.class, TransitionScreen.FADE_IN);
+                    startActivity(MainActivity.class);
                 else
-                    startActivity(HomeActivity.class, TransitionScreen.FADE_IN);
+                    startActivity(HomeActivity.class);
 
                 finish();
             }

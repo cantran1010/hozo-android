@@ -9,11 +9,11 @@ import java.text.ParseException;
 
 public class NumberTextWatcher implements TextWatcher {
 
-    private DecimalFormat df;
-    private DecimalFormat dfnd;
+    private final DecimalFormat df;
+    private final DecimalFormat dfnd;
     private boolean hasFractionalPart;
 
-    private EditText et;
+    private final EditText et;
 
     public NumberTextWatcher(EditText et) {
         df = new DecimalFormat("#,###.##");

@@ -71,11 +71,10 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private TextViewHozo tvTitle, tvAge;
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
-    private ArrayList<Image> images = new ArrayList<>();
+    private final ArrayList<Image> images = new ArrayList<>();
     private String imgPath;
     private TextViewHozo tvDate;
-    private Date dateWork;
-    private Calendar calendar = Calendar.getInstance();
+    private final Calendar calendar = Calendar.getInstance();
     private EdittextHozo edtWorkName, edtDescription;
     private Spinner spGender;
     private Category category;
@@ -306,10 +305,6 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                 openDatePicker();
                 break;
         }
-    }
-
-    private void attachImageListener() {
-
     }
 
     private void doNext() {

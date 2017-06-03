@@ -118,10 +118,10 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         startActivityAndClearAllTask(intent, transitionScreen);
     }
 
-    void startActivity(Class<?> cls, TransitionScreen transitionScreen) {
+    void startActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
-        TransitionScreen.overridePendingTransition(this, transitionScreen);
+        TransitionScreen.overridePendingTransition(this, TransitionScreen.FADE_IN);
     }
 
     public void startActivity(Class<?> cls, Bundle bundle, TransitionScreen transitionScreen) {
@@ -130,8 +130,8 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         startActivity(intent, transitionScreen);
     }
 
-    void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, TransitionScreen transitionScreen) {
-        openFragment(resId, fragmentClazz, null, addBackStack, transitionScreen);
+    void openFragment(Class<? extends Fragment> fragmentClazz, TransitionScreen transitionScreen) {
+        openFragment(R.id.layout_container, fragmentClazz, null, false, transitionScreen);
     }
 
     public void openFragmentBundle(int resId, Class<? extends Fragment> fragmentClazz, Bundle bundle, boolean addBackStack, TransitionScreen transitionScreen) {

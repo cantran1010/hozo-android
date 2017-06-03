@@ -17,8 +17,8 @@ import vn.tonish.hozo.view.BidderOpenView;
 
 public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.MyViewHolder> {
 
-    private ArrayList<Bidder> bidders;
-    private String type;
+    private final ArrayList<Bidder> bidders;
+    private final String type;
     private int taskId;
 
     public PosterOpenAdapter(ArrayList<Bidder> bidders,String type){
@@ -45,7 +45,7 @@ public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        private BidderOpenView bidderOpenView;
+        private final BidderOpenView bidderOpenView;
 
         public MyViewHolder(View itemView) {
             super(itemView);

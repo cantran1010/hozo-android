@@ -18,14 +18,13 @@ import vn.tonish.hozo.R;
  * Created by LongBui on 4/19/2017.
  */
 public class SimpleViewPagerIndicator extends RelativeLayout implements ViewPager.OnPageChangeListener {
-    private static final String TAG = SimpleViewPagerIndicator.class.getSimpleName();
 
-    private Context context;
+    private final Context context;
     private ViewPager pager;
     private ViewPager.OnPageChangeListener onPageChangeListener;
     private LinearLayout itemContainer;
     private List<ImageView> items;
-    private OnClickListener itemClickListener = new OnClickListener() {
+    private final OnClickListener itemClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             int position = (Integer) v.getTag();
@@ -70,7 +69,7 @@ public class SimpleViewPagerIndicator extends RelativeLayout implements ViewPage
      * Be sure to notify the pager as well (though you may wish to place
      * that call in here yourself).
      */
-    public void notifyDataSetChanged() {
+    private void notifyDataSetChanged() {
         if (pager != null && pager.getAdapter() != null) {
 
             // remove the old items (if any exist)

@@ -72,7 +72,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (item.isSelected) {
+        if (item != null ? item.isSelected : false) {
             holder.imgCheck.setVisibility(View.VISIBLE);
             final int sdk = android.os.Build.VERSION.SDK_INT;
             if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -120,7 +120,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
                 @Override
                 public void onClick(View v) {
                     if (countImageSelected() + countImageAttach < Constants.MAX_IMAGE_ATTACH) {
-                        if (item != null && item.isSelected) {
+                        if (item.isSelected) {
                             item.setSelected(false);
                         } else {
                             item.setSelected(true);
@@ -145,7 +145,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
         holder.imgImage.setLayoutParams(params);
 
         Glide.with(getContext())
-                .load(item != null ? item.getPath() : null)
+                .load(item.getPath())
                 .centerCrop().into(holder.imgImage);
 
         return convertView;

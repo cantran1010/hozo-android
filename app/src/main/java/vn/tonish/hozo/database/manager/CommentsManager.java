@@ -24,7 +24,7 @@ public class CommentsManager {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         for (int i = 0; i < comments.size(); i++) {
-            comments.get(i).setCraeatedDateAt(getDateFromStringIso(comments.get(i).getCreatedAt()));
+            comments.get(i).setCraetedDateAt(getDateFromStringIso(comments.get(i).getCreatedAt()));
         }
         realm.insertOrUpdate(comments);
         realm.commitTransaction();

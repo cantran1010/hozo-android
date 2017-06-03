@@ -3,7 +3,7 @@ package vn.tonish.hozo.rest.responseRes;
 import vn.tonish.hozo.database.entity.UserEntity;
 
 /**
- * Created by tonish1 on 5/10/17.
+ * Created by CanTran on 5/10/17.
  */
 
 public class OtpReponse {

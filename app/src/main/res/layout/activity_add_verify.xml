@@ -28,6 +28,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
             android:layout_toRightOf="@id/img_back"
+            android:layout_toEndOf="@id/img_back"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/title_add_verify" />
@@ -110,6 +111,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:layout_weight="2"
                         android:text="@string/all_verify" />
                 </LinearLayout>
@@ -133,6 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_verify_email"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:text="@string/all_verify" />
 
                 <vn.tonish.hozo.view.TextViewHozo
@@ -154,6 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_verify_card"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:text="@string/all_verify" />
 
                 <vn.tonish.hozo.view.TextViewHozo
@@ -175,6 +179,7 @@
                     android:layout_below="@id/tv_verify_bank"
                     android:layout_marginBottom="16dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:text="@string/all_verify" />
 
                 <View

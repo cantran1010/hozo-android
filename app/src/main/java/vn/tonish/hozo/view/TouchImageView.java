@@ -12,44 +12,38 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 
 public class TouchImageView extends AppCompatImageView {
-    Matrix matrix;
-    static final int NONE = 0;
-    static final int DRAG = 1;
-    static int ZOOM = 2;
-    static int mode = NONE;
-    public int iSunDo = 0;
-    PointF last = new PointF();
-    PointF start = new PointF();
-    float minScale = 0f;
-    float maxScale = 10f;
-    float[] m;
-    int viewWidth, viewHeight;
-    static final int CLICK = 3;
-    float saveScale = 1f;
-    protected float origWidth, origHeight;
-    int oldMeasuredWidth, oldMeasuredHeight;
-    float bmWidth, bmHeight;
-    ScaleGestureDetector mScaleDetector;
-    Context context;
+    private Matrix matrix;
+    private static final int NONE = 0;
+    private static final int DRAG = 1;
+    private static final int ZOOM = 2;
+    private static int mode = NONE;
+    private final int iSunDo = 0;
+    private final PointF last = new PointF();
+    private final PointF start = new PointF();
+    private float maxScale = 10f;
+    private float[] m;
+    private int viewWidth;
+    private int viewHeight;
+    private static final int CLICK = 3;
+    private float saveScale = 1f;
+    private float origWidth;
+    private float origHeight;
+    private int oldMeasuredHeight;
+    private ScaleGestureDetector mScaleDetector;
 
     public TouchImageView(Context context) {
         super(context);
-        if (iSunDo == 0) {
-            sharedConstructing(context);
-        }
+        sharedConstructing(context);
     }
 
     public TouchImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        if (iSunDo == 0) {
-            sharedConstructing(context);
-        }
+        sharedConstructing(context);
     }
 
     private void sharedConstructing(Context context) {
 
         super.setClickable(true);
-        this.context = context;
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
         matrix = new Matrix();
         m = new float[9];
@@ -60,37 +54,35 @@ public class TouchImageView extends AppCompatImageView {
             public boolean onTouch(View v, MotionEvent event) {
                 mScaleDetector.onTouchEvent(event);
                 PointF curr = new PointF(event.getX(), event.getY());
-                if (iSunDo == 0) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            last.set(curr);
-                            start.set(last);
-                            mode = DRAG;
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        last.set(curr);
+                        start.set(last);
+                        mode = DRAG;
 
-                            break;
+                        break;
 
-                        case MotionEvent.ACTION_MOVE:
-                            if (mode == DRAG) {
-                                float deltaX = curr.x - last.x;
-                                float deltaY = curr.y - last.y;
-                                matrix.postTranslate(deltaX, deltaY);
-                                fixTrans();
-                                last.set(curr.x, curr.y);
-                            }
-                            break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (mode == DRAG) {
+                            float deltaX = curr.x - last.x;
+                            float deltaY = curr.y - last.y;
+                            matrix.postTranslate(deltaX, deltaY);
+                            fixTrans();
+                            last.set(curr.x, curr.y);
+                        }
+                        break;
 
-                        case MotionEvent.ACTION_UP:
-                            mode = NONE;
-                            int xDiff = (int) Math.abs(curr.x - start.x);
-                            int yDiff = (int) Math.abs(curr.y - start.y);
-                            if (xDiff < CLICK && yDiff < CLICK)
-                                performClick();
-                            break;
+                    case MotionEvent.ACTION_UP:
+                        mode = NONE;
+                        int xDiff = (int) Math.abs(curr.x - start.x);
+                        int yDiff = (int) Math.abs(curr.y - start.y);
+                        if (xDiff < CLICK && yDiff < CLICK)
+                            performClick();
+                        break;
 
-                        case MotionEvent.ACTION_POINTER_UP:
-                            mode = NONE;
-                            break;
-                    }
+                    case MotionEvent.ACTION_POINTER_UP:
+                        mode = NONE;
+                        break;
                 }
 
                 setImageMatrix(matrix);
@@ -100,14 +92,6 @@ public class TouchImageView extends AppCompatImageView {
 
         });
 
-    }
-
-    public void stopInterceptEvent() {
-        getParent().requestDisallowInterceptTouchEvent(true);
-    }
-
-    public void startInterceptEvent() {
-        getParent().requestDisallowInterceptTouchEvent(false);
     }
 
     @Override
@@ -136,6 +120,7 @@ public class TouchImageView extends AppCompatImageView {
             float mScaleFactor = detector.getScaleFactor();
             float origScale = saveScale;
             saveScale *= mScaleFactor;
+            float minScale = 0f;
             if (saveScale > maxScale) {
                 saveScale = maxScale;
                 mScaleFactor = maxScale / origScale;
@@ -157,7 +142,7 @@ public class TouchImageView extends AppCompatImageView {
         }
     }
 
-    void fixTrans() {
+    private void fixTrans() {
         matrix.getValues(m);
         float transX = m[Matrix.MTRANS_X];
         float transY = m[Matrix.MTRANS_Y];
@@ -170,7 +155,7 @@ public class TouchImageView extends AppCompatImageView {
             matrix.postTranslate(fixTransX, fixTransY);
     }
 
-    float getFixTrans(float trans, float viewSize, float contentSize) {
+    private float getFixTrans(float trans, float viewSize, float contentSize) {
         float minTrans, maxTrans;
 
         if (contentSize <= viewSize) {
@@ -188,13 +173,6 @@ public class TouchImageView extends AppCompatImageView {
         return 0;
     }
 
-    float getFixDragTrans(float delta, float viewSize, float contentSize) {
-        if (contentSize <= viewSize) {
-            return 0;
-        }
-        return delta;
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -208,7 +186,6 @@ public class TouchImageView extends AppCompatImageView {
                 || viewWidth == 0 || viewHeight == 0)
             return;
         oldMeasuredHeight = viewHeight;
-        oldMeasuredWidth = viewWidth;
 
         if (saveScale == 1) {
             // Fit to screen.

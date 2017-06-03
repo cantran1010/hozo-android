@@ -46,7 +46,7 @@ import static vn.tonish.hozo.database.manager.UserManager.insertUser;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
 /**
- * Created by Can Tran on 4/11/17.
+ * Created by CanTran on 4/11/17.
  */
 
 public class OtpFragment extends BaseFragment implements View.OnFocusChangeListener, View.OnKeyListener, TextWatcher, View.OnClickListener {
@@ -114,22 +114,22 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
             mPinFirstDigitEditText.setText("");
             btnSigIn.setAlpha(0.5f);
         } else if (s.length() == 1) {
-            mPinFirstDigitEditText.setText(s.charAt(0) + "");
+            mPinFirstDigitEditText.setText(String.valueOf(s.charAt(0)));
             mPinSecondDigitEditText.setText("");
             mPinThirdDigitEditText.setText("");
             mPinForthDigitEditText.setText("");
             btnSigIn.setAlpha(0.5f);
         } else if (s.length() == 2) {
-            mPinSecondDigitEditText.setText(s.charAt(1) + "");
+            mPinSecondDigitEditText.setText(String.valueOf(s.charAt(1)));
             mPinThirdDigitEditText.setText("");
             mPinForthDigitEditText.setText("");
             btnSigIn.setAlpha(0.5f);
         } else if (s.length() == 3) {
-            mPinThirdDigitEditText.setText(s.charAt(2) + "");
+            mPinThirdDigitEditText.setText(String.valueOf(s.charAt(2)));
             mPinForthDigitEditText.setText("");
             btnSigIn.setAlpha(0.5f);
         } else if (s.length() == 4) {
-            mPinForthDigitEditText.setText(s.charAt(3) + "");
+            mPinForthDigitEditText.setText(String.valueOf(s.charAt(3)));
             hideSoftKeyboard(mPinForthDigitEditText);
             btnSigIn.setAlpha(1);
             new Handler().postDelayed(new Runnable() {
@@ -243,7 +243,7 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().getOtpCode("XXXX", body).enqueue(new Callback<Void>() {
+        ApiClient.getApiService().getOtpCode(body).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 LogUtils.d(TAG, "onResponse status code : " + response.code());
@@ -295,7 +295,6 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
 
                     LogUtils.d(TAG, "aaaa onResponse body : " + token.toString());
 
-                    // inser User
                     if (user.getFullName().isEmpty()) {
                         openFragment(R.id.layout_container, VerifyNameFragment.class, true, TransitionScreen.RIGHT_TO_LEFT);
                     } else {

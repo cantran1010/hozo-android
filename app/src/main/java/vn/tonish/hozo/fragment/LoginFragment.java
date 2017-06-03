@@ -36,7 +36,7 @@ import static vn.tonish.hozo.common.Constants.USER_MOBILE;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 /**
- * Created by Can Tran on 4/11/17.
+ * Created by CanTran on 4/11/17.
  */
 
 
@@ -120,12 +120,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     private boolean checkNumberPhone(String number) {
         Pattern pattern = Pattern.compile("^[0-9]*$");
         Matcher matcher = pattern.matcher(number);
-        if (!matcher.matches()) {
-            return false;
-        } else if (number.length() == 10 && number.substring(0, 2).equals("09")) {
-            return true;
-        } else
-            return number.length() == 10 && number.substring(0, 1).equals("1") || number.length() == 11 && number.substring(0, 2).equals("01") || number.length() == 9 && number.substring(0, 1).equals("9");
+        return matcher.matches() && (number.length() == 10 && number.substring(0, 2).equals("09") || number.length() == 10 && number.substring(0, 1).equals("1") || number.length() == 11 && number.substring(0, 2).equals("01") || number.length() == 9 && number.substring(0, 1).equals("9"));
     }
 
     private boolean CheckErrorEditText(String number) {
@@ -171,7 +166,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
         final String finalMobile = mobile;
-        ApiClient.getApiService().getOtpCode("XXXX", body).enqueue(new Callback<Void>() {
+        ApiClient.getApiService().getOtpCode(body).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 LogUtils.d(TAG, "onResponse status code : " + response.code());

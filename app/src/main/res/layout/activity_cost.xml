@@ -28,14 +28,18 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_marginStart="@dimen/title_margin_left"
+            android:layout_toEndOf="@id/img_back"
             android:layout_toLeftOf="@+id/tv_reset"
             android:layout_toRightOf="@id/img_back"
+            android:layout_toStartOf="@+id/tv_reset"
             android:text="@string/post_a_task_finish_title" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_reset"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:background="@drawable/btn_back_selector"
             android:gravity="center"

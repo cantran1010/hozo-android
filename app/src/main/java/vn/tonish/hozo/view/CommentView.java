@@ -53,7 +53,7 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public CommentView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private CommentView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView();
     }
@@ -90,7 +90,7 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
             Utils.displayImage(getContext(), imgAttach, comment.getImgAttach());
         else imgAttach.setVisibility(View.GONE);
 
-        if (getCommentType().equals(getContext().getString(R.string.comment_setting_invisible))) {
+        if (getCommentType()==getContext().getString(R.string.comment_setting_invisible)) {
             imgSetting.setVisibility(View.GONE);
         } else {
             if (comment.getAuthorId() == UserManager.getMyUser().getId())
@@ -174,7 +174,7 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
         popup.show();//showing popup menu
     }
 
-    public String getCommentType() {
+    private String getCommentType() {
         return commentType;
     }
 

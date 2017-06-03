@@ -33,16 +33,15 @@ import vn.tonish.hozo.utils.LogUtils;
 public class CommentsActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = CommentsActivity.class.getSimpleName();
     public final static int LIMIT = 10;
-    protected LinearLayoutManager linearLayoutManager;
     private CommentsAdapter commentsAdapter;
-    protected RecyclerView lvList;
-    private List<Comment> mComments = new ArrayList<>();
+    private RecyclerView lvList;
+    private final List<Comment> mComments = new ArrayList<>();
     private String since;
     private Date sinceDate;
     private int taskId = 0;
-    boolean isLoadingMoreFromServer = true;
-    boolean isLoadingMoreFromDb = true;
-    boolean isLoadingFromServer = false;
+    private boolean isLoadingMoreFromServer = true;
+    private boolean isLoadingMoreFromDb = true;
+    private boolean isLoadingFromServer = false;
 
     @Override
     protected int getLayout() {
@@ -87,7 +86,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    public void getComments(final boolean isSince, final int taskId) {
+    private void getComments(final boolean isSince, final int taskId) {
 
         if (isLoadingFromServer) return;
         isLoadingFromServer = true;
@@ -112,7 +111,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                         if (comments.size() > 0)
                             since = comments.get(comments.size() - 1).getCreatedAt();
                         for (Comment comment : comments) {
-                            if (!checkContainsComments(mComments, comment))
+                            if (checkContainsComments(mComments, comment))
                                 mComments.add(comment);
                         }
                         commentsAdapter.notifyDataSetChanged();
@@ -167,13 +166,13 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     private void refreshList() {
         if (commentsAdapter == null) {
             commentsAdapter = new CommentsAdapter(CommentsActivity.this, mComments);
-            linearLayoutManager = new LinearLayoutManager(CommentsActivity.this);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CommentsActivity.this);
             lvList.setLayoutManager(linearLayoutManager);
             lvList.setAdapter(commentsAdapter);
 
             lvList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
                 @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                public void onLoadMore(int page, int totalItemsCount) {
 
                     LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 
@@ -194,8 +193,8 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
     private boolean checkContainsComments(List<Comment> comments, Comment comment) {
         for (int i = 0; i < comments.size(); i++)
-            if (mComments.get(i).getId() == comment.getId()) return true;
-        return false;
+            if (mComments.get(i).getId() == comment.getId()) return false;
+        return true;
     }
 
 

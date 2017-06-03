@@ -20,8 +20,8 @@ import vn.tonish.hozo.utils.LogUtils;
 public class ImageDetailTaskAdapter extends android.widget.BaseAdapter {
     private static final String TAG = ImageDetailTaskAdapter.class.getName();
 
-    private List<String> attachments;
-    private Context context;
+    private final List<String> attachments;
+    private final Context context;
 
     public ImageDetailTaskAdapter(Context context, List<String> attachments) {
         this.attachments = attachments;
