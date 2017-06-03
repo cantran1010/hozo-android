@@ -28,7 +28,15 @@ public class Notification extends RealmObject implements Serializable {
     @SerializedName("created_at")
     private String createdAt;
     private Date dateAt;
+    private String content;
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public int getId() {
         return id;

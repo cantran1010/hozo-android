@@ -135,4 +135,18 @@ public class Constants {
     public static final String UPDATE_TOKEN_DEVICE_TYPE = "device_type";
     public static final String UPDATE_TOKEN_DEVICE_TYPE_ANDROID = "android";
 
+    public static final String PUSH_TITLE_EXTRA = "push_info_title";
+    public static final String PUSH_MESSAGE_EXTRA = "push_info_messageß";
+
+    // push type notification
+    public static final String PUSH_TYPE_REVIEW_RECEIVED = "review_received";
+    public static final String PUSH_TYPE_COMMENT_RECEIVED = "comment_received";
+    public static final String PUSH_TYPE_BIDDER_CANCELED = "bidder_canceled";
+    public static final String PUSH_TYPE_BID_RECEIVED = "bid_received";
+    public static final String PUSH_TYPE_BID_ACCEPTED = "bid_accepted";
+    public static final String PUSH_TYPE_TASK_REMINDER = "task_reminder";
+    public static final String PUSH_TYPE_NEW_TASK_ALERT = "new_task_alert";
+    public static final String PUSH_TYPE_POSTER_CANCELED = "poster_canceled";
+    public static final String PUSH_TYPE_ADMIN_PUSH = "admin_push";
+
 }

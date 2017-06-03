@@ -484,7 +484,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                                         if (year == c2.get(Calendar.YEAR)
                                                 && monthOfYear == c2.get(Calendar.MONTH)
                                                 && dayOfMonth == c2.get(Calendar.DAY_OF_MONTH)
-                                                && (hourOfDay < c2.get(Calendar.HOUR_OF_DAY) || (hourOfDay == c2.get(Calendar.HOUR_OF_DAY) && minute <= (c2.get(Calendar.MINUTE) + 10)))) {
+                                                && (hourOfDay < c2.get(Calendar.HOUR_OF_DAY) || (hourOfDay == c2.get(Calendar.HOUR_OF_DAY) && minute <= (c2.get(Calendar.MINUTE) + 30)))) {
                                             Toast.makeText(PostATaskActivity.this, getString(R.string.post_task_time_start_error), Toast.LENGTH_LONG).show();
 
 //                                            Handler handler = new Handler();

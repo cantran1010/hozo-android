@@ -23,6 +23,7 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.NotificationEntity;
 import vn.tonish.hozo.database.manager.NotificationManager;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.network.DataParse;
@@ -207,9 +208,19 @@ public class InboxFragment extends BaseFragment {
             notificationAdapter.setNotificationAdapterListener(new NotificationAdapter.NotificationAdapterListener() {
                 @Override
                 public void onNotificationAdapterListener(int position) {
-                    Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
-                    intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
-                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                    if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)) {
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.app_name), notifications.get(position).getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+
+                                    }
+                                }
+                        );
+                    } else {
+                        Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+                        intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
+                        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                    }
                 }
             });
 

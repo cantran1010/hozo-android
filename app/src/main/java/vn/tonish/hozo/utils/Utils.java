@@ -29,7 +29,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -38,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.view.EdittextHozo;
@@ -180,9 +180,6 @@ public class Utils {
             float scale = bitmap.getWidth() > bitmap.getHeight() ? bitmap.getWidth() / MAXSIZE : bitmap.getHeight() / MAXSIZE;
             try {
                 File fileOut;
-                Bitmap destinationBitmap;
-                Bitmap bmp = BitmapFactory.decodeStream(new FileInputStream(fileIn), null, null);
-
                 // fix right orientation of image after capture
 
                 ExifInterface exif = new ExifInterface(fileIn.getPath());
@@ -202,22 +199,69 @@ public class Utils {
                     Matrix mat = new Matrix();
                     mat.postRotate(angle);
 
-                    Bitmap correctBmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), mat, true);
-                    destinationBitmap = Bitmap.createScaledBitmap(correctBmp, (int) (correctBmp.getWidth() / scale), (int) (correctBmp.getHeight() / scale), false);
+                    Bitmap correctBmp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), mat, true);
+                    bitmap = Bitmap.createScaledBitmap(correctBmp, (int) (correctBmp.getWidth() / scale), (int) (correctBmp.getHeight() / scale), false);
+
+                    if (correctBmp != null) {
+                        correctBmp.recycle();
+                    }
+
                 } else {
-                    destinationBitmap = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() / scale), (int) (bmp.getHeight() / scale), false);
+                    bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() / scale), (int) (bitmap.getHeight() / scale), false);
                 }
 
                 fileOut = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
-                Utils.compressBitmapToFile(destinationBitmap, fileOut.getPath());
+                Utils.compressBitmapToFile(bitmap, fileOut.getPath());
+
+                //recycle bitmap
+                bitmap.recycle();
+
                 return fileOut;
             } catch (Exception e) {
                 LogUtils.e(TAG, "compressFile , error : " + e.getMessage());
                 return fileIn;
             }
 
-        } else
-            return fileIn;
+        } else {
+            if (!fileIn.getName().endsWith("jpg")) {
+                try {
+                    File fileOut;
+
+                    // fix right orientation of image after capture
+                    ExifInterface exif = new ExifInterface(fileIn.getPath());
+
+                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+                    int angle = 0;
+
+                    if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
+                        angle = 90;
+                    } else if (orientation == ExifInterface.ORIENTATION_ROTATE_180) {
+                        angle = 180;
+                    } else if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
+                        angle = 270;
+                    }
+
+                    if (angle != 0) {
+                        Matrix mat = new Matrix();
+                        mat.postRotate(angle);
+                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), mat, true);
+                    }
+
+                    fileOut = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+                    Utils.compressBitmapToFile(bitmap, fileOut.getPath());
+
+                    bitmap.recycle();
+                    return fileOut;
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return fileIn;
+                }
+            } else
+                return fileIn;
+
+        }
     }
 
     public static Bitmap scaleBitmap(Bitmap bmInput, int maxsize) {
@@ -245,42 +289,42 @@ public class Utils {
         String matcherColor = "#00A2E5";
 
         switch (notification.getEvent()) {
-            case "review_received":
+            case Constants.PUSH_TYPE_REVIEW_RECEIVED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_review_received);
                 matcher = context.getString(R.string.notification_review_received_matcher);
                 matcherColor = context.getString(R.string.notification_review_received_color);
                 break;
-            case "comment_received":
+            case Constants.PUSH_TYPE_COMMENT_RECEIVED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received);
                 matcher = context.getString(R.string.notification_comment_received_matcher);
                 matcherColor = context.getString(R.string.notification_comment_received_color);
                 break;
-            case "bidder_canceled":
+            case Constants.PUSH_TYPE_BIDDER_CANCELED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled);
                 matcher = context.getString(R.string.notification_bidder_canceled_matcher);
                 matcherColor = context.getString(R.string.notification_bidder_canceled_color);
                 break;
-            case "bid_received":
+            case Constants.PUSH_TYPE_BID_RECEIVED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received);
                 matcher = context.getString(R.string.notification_bid_received_matcher);
                 matcherColor = context.getString(R.string.notification_bid_received_color);
                 break;
-            case "bid_accepted":
+            case Constants.PUSH_TYPE_BID_ACCEPTED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted);
                 matcher = context.getString(R.string.notification_bid_accepted_matcher);
                 matcherColor = context.getString(R.string.notification_bid_accepted_color);
                 break;
-            case "task_reminder":
+            case Constants.PUSH_TYPE_TASK_REMINDER:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_task_reminder);
                 matcher = context.getString(R.string.notification_task_reminder_matcher);
                 matcherColor = context.getString(R.string.notification_task_reminder_color);
                 break;
-            case "new_task_alert":
+            case Constants.PUSH_TYPE_NEW_TASK_ALERT:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert);
                 matcher = context.getString(R.string.notification_new_task_alert_matcher);
                 matcherColor = context.getString(R.string.notification_new_task_alert_color);
                 break;
-            case "poster_canceled":
+            case Constants.PUSH_TYPE_POSTER_CANCELED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled);
                 matcher = context.getString(R.string.notification_poster_canceled_matcher);
                 matcherColor = context.getString(R.string.notification_poster_canceled_color);
@@ -312,28 +356,28 @@ public class Utils {
         String content = "";
 
         switch (notification.getEvent()) {
-            case "review_received":
+            case Constants.PUSH_TYPE_REVIEW_RECEIVED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_review_received);
                 break;
-            case "comment_received":
+            case Constants.PUSH_TYPE_COMMENT_RECEIVED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received);
                 break;
-            case "bidder_canceled":
+            case Constants.PUSH_TYPE_BIDDER_CANCELED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled);
                 break;
-            case "bid_received":
+            case Constants.PUSH_TYPE_BID_RECEIVED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received);
                 break;
-            case "bid_accepted":
+            case Constants.PUSH_TYPE_BID_ACCEPTED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted);
                 break;
-            case "task_reminder":
+            case Constants.PUSH_TYPE_TASK_REMINDER:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_task_reminder);
                 break;
-            case "new_task_alert":
+            case Constants.PUSH_TYPE_NEW_TASK_ALERT:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert);
                 break;
-            case "poster_canceled":
+            case Constants.PUSH_TYPE_POSTER_CANCELED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled);
                 break;
         }

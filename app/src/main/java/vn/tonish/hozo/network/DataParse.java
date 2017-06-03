@@ -211,6 +211,7 @@ public class DataParse {
         notification.setEvent(notificationEntity.getEvent());
         notification.setRead(notificationEntity.getRead());
         notification.setCreatedAt(DateTimeUtils.fromDateIso(notificationEntity.getCreatedAt()));
+        notification.setContent(notificationEntity.getContent());
         return notification;
     }
 
@@ -225,6 +226,7 @@ public class DataParse {
         notificationEntity.setEvent(notification.getEvent());
         notificationEntity.setRead(notification.getRead());
         notificationEntity.setCreatedAt(DateTimeUtils.getDateFromStringIso(notification.getCreatedAt()));
+        notificationEntity.setContent(notification.getContent());
         return notificationEntity;
     }
 

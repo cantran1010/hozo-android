@@ -21,6 +21,16 @@ public class NotificationEntity extends RealmObject {
     private String event;
     private Boolean read;
     private Date createdAt;
+    private String content;
+
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public int getId() {
         return id;
