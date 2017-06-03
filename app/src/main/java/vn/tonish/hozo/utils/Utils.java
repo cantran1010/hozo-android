@@ -208,7 +208,6 @@ public class Utils {
                     destinationBitmap = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() / scale), (int) (bmp.getHeight() / scale), false);
                 }
 
-
                 fileOut = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
                 Utils.compressBitmapToFile(destinationBitmap, fileOut.getPath());
                 return fileOut;

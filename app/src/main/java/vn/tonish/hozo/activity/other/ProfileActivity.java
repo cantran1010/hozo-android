@@ -175,7 +175,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_UPDATE_PROFILE && resultCode == Constants.RESULT_CODE_UPDATE_PROFILE) {
             updateUi(UserManager.getMyUser());
-            FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
         }
     }
 
