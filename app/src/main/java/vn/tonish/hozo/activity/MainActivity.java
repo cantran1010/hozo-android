@@ -108,7 +108,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.layout_browser_task:
-                if (tabIndex == 2) break;
+                if (tabIndex == 2) {
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_SEARCH);
+                    sendBroadcast(intentAnswer);
+                    break;
+                }
                 if (tabIndex > 2) {
                     showFragment(R.id.layout_container, BrowseTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 } else {

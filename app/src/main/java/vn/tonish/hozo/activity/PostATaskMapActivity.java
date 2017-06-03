@@ -71,11 +71,6 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             new LatLng(7.000030, 101.837400), new LatLng(23.000030, 108.837400));
 
     private GoogleMap googleMap;
-    private ImageView imgBack;
-    private ButtonHozo btnNext;
-    private ImageView imgCurrentLocation;
-    private ImageView imgZoomIn;
-    private ImageView imgZoomOut;
 
     //    private static double lat = 21.000030;
 //    private static double lon = 105.837400;
@@ -101,7 +96,6 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 .enableAutoManage(this, 0 /* clientId */, this)
                 .addApi(Places.GEO_DATA_API)
                 .build();
-
         // Retrieve the AutoCompleteTextView that will display Place suggestions.
         autocompleteView = (AutoCompleteTextView)
                 findViewById(R.id.autocomplete_places);
@@ -373,7 +367,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             work.setAddress(autocompleteView.getText().toString());
             work.setLatitude(latLng.latitude);
             work.setLongitude(latLng.longitude);
-
+            autocompleteView.clearFocus();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -405,7 +399,6 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                         marker.setPosition(latLng);
 
                     getAddress(true);
-                    autocompleteView.clearFocus();
                 }
                 break;
 

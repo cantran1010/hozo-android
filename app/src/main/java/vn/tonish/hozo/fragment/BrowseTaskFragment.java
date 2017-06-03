@@ -1,6 +1,9 @@
 package vn.tonish.hozo.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -153,7 +156,13 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void resumeData() {
+        getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_SEARCH));
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
     }
 
     private void getTaskResponse(final String since, final String sortBytask, final String query) {
@@ -320,6 +329,13 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         getTaskResponse(null, strSortBy, query);
 
     }
+
+    private BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            rcvTask.smoothScrollToPosition(0);
+        }
+    };
 
 }
 
