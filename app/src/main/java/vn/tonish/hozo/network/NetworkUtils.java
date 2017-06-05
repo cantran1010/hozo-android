@@ -2,7 +2,6 @@ package vn.tonish.hozo.network;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +24,7 @@ import vn.tonish.hozo.rest.responseRes.Token;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.Utils;
 
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
@@ -137,7 +137,8 @@ public class NetworkUtils {
                         } else {
                             APIError error = ErrorUtils.parseError(response);
                             LogUtils.d(TAG, "errorBody" + error.toString());
-                            Toast.makeText(context, error.message(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, error.message(), Toast.LENGTH_SHORT).show();
+                            Utils.showLongToast(context,error.message(),true,false);
 
                         }
                         ProgressDialogUtils.dismissProgressDialog();

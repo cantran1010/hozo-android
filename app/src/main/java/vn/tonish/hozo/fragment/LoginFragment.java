@@ -6,7 +6,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +29,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.common.Constants.USER_MOBILE;
@@ -186,7 +186,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
+                    Utils.showLongToast(getActivity(),error.message(),true,false);
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

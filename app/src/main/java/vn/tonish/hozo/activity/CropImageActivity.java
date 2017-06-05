@@ -8,7 +8,6 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -152,7 +151,8 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
             }
         } else {
             Log.e(TAG, "Failed to crop image", result.getError());
-            Toast.makeText(this, "Image crop failed: " + result.getError().getMessage(), Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Image crop failed: " + result.getError().getMessage(), Toast.LENGTH_LONG).show();
+            Utils.showLongToast(this,getString(R.string.crop_image_error_message),true,false);
         }
     }
 

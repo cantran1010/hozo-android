@@ -4,7 +4,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +28,7 @@ import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.Utils;
 
 public class CommentsActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = CommentsActivity.class.getSimpleName();
@@ -135,7 +135,8 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-                    Toast.makeText(CommentsActivity.this, error.message(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(CommentsActivity.this, error.message(), Toast.LENGTH_SHORT).show();
+                    Utils.showLongToast(CommentsActivity.this, error.message(), false, true);
                 }
                 isLoadingFromServer = false;
                 onStopRefresh();

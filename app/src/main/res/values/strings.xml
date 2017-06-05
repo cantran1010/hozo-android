@@ -326,5 +326,7 @@
     <string name="message_exit_app">Nhấn lần nữa để thoát ứng dụng !</string>
     <string name="gg_api_error">Không thể kết nối tới dịch vụ của Google</string>
     <string name="contacting_api_autocomplete_error">Lỗi kết nối tới dịch vụ của google</string>
+    <string name="post_a_task_map_get_location_error">Không thể lấy vị trí của bạn,vui lòng kiểm tra lại kết nối mạng !</string>
+    <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
 
 </resources>

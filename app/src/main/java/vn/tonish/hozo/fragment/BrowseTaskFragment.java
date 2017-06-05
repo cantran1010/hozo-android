@@ -17,7 +17,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +45,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.R.id.edt_search;
@@ -207,7 +207,8 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
+                    Utils.showLongToast(getActivity(),error.message(),true,false);
                 }
 
                 onStopRefresh();

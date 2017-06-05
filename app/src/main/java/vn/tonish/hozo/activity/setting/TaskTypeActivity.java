@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,7 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -122,7 +122,8 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
             setResult(Constants.RESULT_CODE_TASK_TYPE, intent);
             finish();//finishing
         } else {
-            Toast.makeText(this, getString(R.string.taks_type_empty), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, getString(R.string.taks_type_empty), Toast.LENGTH_SHORT).show();
+            Utils.showLongToast(this,getString(R.string.taks_type_empty),true,false);
         }
     }
 

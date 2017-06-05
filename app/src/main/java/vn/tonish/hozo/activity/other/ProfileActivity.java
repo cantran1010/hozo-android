@@ -8,9 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +30,6 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.utils.DialogUtils;
-import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
@@ -223,7 +220,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-                    Toast.makeText(ProfileActivity.this, error.message(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ProfileActivity.this, error.message(), Toast.LENGTH_SHORT).show();
+                    Utils.showLongToast(ProfileActivity.this,error.message(),true,false);
 
                 }
                 ProgressDialogUtils.dismissProgressDialog();

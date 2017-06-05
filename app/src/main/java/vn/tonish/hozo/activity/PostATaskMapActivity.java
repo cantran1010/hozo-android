@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -368,8 +369,9 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             work.setLatitude(latLng.latitude);
             work.setLongitude(latLng.longitude);
             autocompleteView.clearFocus();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
+            Utils.showLongToast(this,getString(R.string.post_a_task_map_get_location_error),true,false);
         }
 
     }
