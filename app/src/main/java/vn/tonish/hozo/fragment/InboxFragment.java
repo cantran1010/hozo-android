@@ -34,6 +34,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -152,6 +153,8 @@ public class InboxFragment extends BaseFragment {
                     LogUtils.d(TAG, "getNotifications notificationResponse size : " + notificationResponse.size());
                     LogUtils.d(TAG, "getNotifications notifications size : " + notifications.size());
                     NotificationManager.insertNotifications(notificationResponse);
+
+                    if (!isSince) Utils.cancelAllNotification(getActivity());
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {

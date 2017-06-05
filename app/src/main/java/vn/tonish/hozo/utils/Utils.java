@@ -2,6 +2,7 @@ package vn.tonish.hozo.utils;
 
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -430,6 +431,17 @@ public class Utils {
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static void cancelNotification(Context context, int notifyId) {
+        String notificationService = Context.NOTIFICATION_SERVICE;
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(notificationService);
+        notificationManager.cancel(notifyId);
+    }
+
+    public static void cancelAllNotification(Context context) {
+        NotificationManager notifManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notifManager.cancelAll();
     }
 
 }

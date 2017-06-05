@@ -27,6 +27,15 @@ public class NotificationManager {
         realm.close();
     }
 
+    public static void insertNotification(Notification notification) {
+        LogUtils.d(TAG, "insertNotification start ");
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.insertOrUpdate(notification);
+        realm.commitTransaction();
+        realm.close();
+    }
+
     public static List<Notification> getNotificationsSince(Date sinceDate) {
         LogUtils.d(TAG, "getAllNotifications start , sinceDate : " + sinceDate);
         List<Notification> result = new ArrayList<>();
