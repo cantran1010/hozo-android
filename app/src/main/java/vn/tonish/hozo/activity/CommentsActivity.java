@@ -41,7 +41,6 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     private String since;
     private Date sinceDate;
     private boolean isLoadingMoreFromServer = true;
-    private boolean isLoadingMoreFromDb = true;
     private boolean isLoadingFromServer = false;
     String commentType = "";
 
@@ -64,21 +63,20 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         taskId = getIntent().getExtras().getInt(Constants.TASK_ID_EXTRA);
         commentType = getIntent().getStringExtra(Constants.COMMENT_STATUS_EXTRA);
         LogUtils.d(TAG, "intent :" + taskId + ": " + commentType);
-        getCacheDataPage();
+//        getCacheDataPage();
         getComments(false);
 
     }
 
-    private void getCacheDataPage() {
-        LogUtils.d(TAG, "getCacheDataPage start");
-        List<Comment> comments = CommentsManager.getCommentsSince(sinceDate, taskId);
-        if (comments.size() > 0)
-            sinceDate = comments.get(comments.size() - 1).getCreatedDateAt();
-        if (comments.size() < LIMIT) isLoadingMoreFromDb = false;
-        mComments.addAll(comments);
-        refreshList();
-
-    }
+//    private void getCacheDataPage() {
+//        LogUtils.d(TAG, "getCacheDataPage start");
+//        List<Comment> comments = CommentsManager.getCommentsSince(sinceDate, taskId);
+//        if (comments.size() > 0) sinceDate = comments.get(comments.size() - 1).getCreatedDateAt();
+//        isLoadingMoreFromDb = false;
+//        mComments.addAll(comments);
+//        refreshList();
+//
+//    }
 
     private void getComments(final boolean isSince) {
         if (isLoadingFromServer) return;
@@ -107,9 +105,8 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                         commentsAdapter.stopLoadMore();
                     }
                     LogUtils.d(TAG, "getComments size : " + mComments.size());
-
-                    refreshList();
                     CommentsManager.insertComments(comments);
+                    refreshList();
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(CommentsActivity.this, new NetworkUtils.RefreshListener() {
@@ -122,7 +119,6 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-//                    Toast.makeText(CommentsActivity.this, error.message(), Toast.LENGTH_SHORT).show();
                     Utils.showLongToast(CommentsActivity.this, error.message(), false, true);
                 }
                 isLoadingFromServer = false;
@@ -166,7 +162,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
                     LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 
-                    if (isLoadingMoreFromDb) getCacheDataPage();
+//                    if (isLoadingMoreFromDb) getCacheDataPage();
                     if (isLoadingMoreFromServer) getComments(true);
 
                 }
@@ -201,7 +197,8 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onRefresh() {
         super.onRefresh();
-        since = null;
+        isLoadingMoreFromServer = true;
+        isLoadingFromServer = false;
         getComments(false);
     }
 

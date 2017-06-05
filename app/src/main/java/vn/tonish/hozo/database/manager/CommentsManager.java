@@ -44,7 +44,6 @@ public class CommentsManager {
             if (comments.size() >= CommentsActivity.LIMIT)
                 result = comments.subList(0, CommentsActivity.LIMIT);
             else result = comments;
-
         }
         realm.close();
         return result;
