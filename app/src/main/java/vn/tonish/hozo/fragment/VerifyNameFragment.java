@@ -22,6 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.MainActivity;
+import vn.tonish.hozo.activity.other.GeneralInfoActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -111,8 +112,6 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
     }
 
 
-
-
     private void updateFullName() {
         ProgressDialogUtils.showProgressDialog(getActivity());
         JSONObject jsonRequest = new JSONObject();
@@ -156,7 +155,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
 //                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
-                    Utils.showLongToast(getActivity(),error.message(),true,false);
+                    Utils.showLongToast(getActivity(), error.message(), true, false);
                 }
                 ProgressDialogUtils.dismissProgressDialog();
 
@@ -186,7 +185,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View textView) {
-//                Toast.makeText(getContext(), "dang xay dung", Toast.LENGTH_SHORT).show();
+                openGeneralInfoActivity(getString(R.string.other_condition), "https://tonish.vn/terms.html");
             }
 
             @Override
@@ -200,5 +199,12 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
         textViewHozo.setText(ss);
         textViewHozo.setMovementMethod(LinkMovementMethod.getInstance());
         textViewHozo.setHighlightColor(Color.TRANSPARENT);
+    }
+
+    private void openGeneralInfoActivity(String title, String url) {
+        Intent intent = new Intent(getActivity(), GeneralInfoActivity.class);
+        intent.putExtra(Constants.URL_EXTRA, url);
+        intent.putExtra(Constants.TITLE_INFO_EXTRA, title);
+        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
     }
 }

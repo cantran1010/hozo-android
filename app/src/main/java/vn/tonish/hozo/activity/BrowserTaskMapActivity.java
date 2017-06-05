@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -20,6 +22,8 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.MiniTask;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.TextViewHozo;
+
+import static vn.tonish.hozo.R.id.map;
 
 /**
  * Created by LongBui on 5/18/17.
@@ -41,7 +45,7 @@ public class BrowserTaskMapActivity extends BaseActivity implements View.OnClick
         imgBack.setOnClickListener(this);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(map);
         mapFragment.getMapAsync(this);
     }
 
@@ -57,20 +61,30 @@ public class BrowserTaskMapActivity extends BaseActivity implements View.OnClick
 
     private void updateMap() {
 
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
         for (int i = 0; i < miniTasks.size(); i++) {
 
             MiniTask miniTask = miniTasks.get(i);
 
             LatLng latLng = new LatLng(miniTask.getLat(), miniTask.getLon());
-
-            if (i == miniTasks.size() - 1)
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
-
             // create marker
             MarkerOptions markerOption = new MarkerOptions().position(new LatLng(miniTask.getLat(), miniTask.getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
             Marker marker = mMap.addMarker(markerOption);
             marker.setTag(i);
+
+            builder.include(marker.getPosition());
         }
+
+        LatLngBounds bounds = builder.build();
+
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+        int padding = (int) (width * 0.10); // offset from edges of the map 10% of screen
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+
+        mMap.moveCamera(cameraUpdate);
     }
 
     @Override
