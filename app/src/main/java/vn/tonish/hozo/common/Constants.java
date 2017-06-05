@@ -58,6 +58,7 @@ public class Constants {
     public static final String EXTRA_MIN_PRICE = "min_price";
     public static final String EXTRA_MAX_PRICE = "max_price";
     public static final String TASK_ID_EXTRA = "task_id_extra";
+    public static final String COMMENT_STATUS_EXTRA = "task_status_extra";
     public static final String USER_ID_EXTRA = "user_id_extra";
     public static final String COMMENT_ID_EXTRA = "comment_id_extra";
     public static final String URL_EXTRA = "url_extra";

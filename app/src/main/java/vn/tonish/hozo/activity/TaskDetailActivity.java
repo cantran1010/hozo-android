@@ -107,7 +107,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private final String[] permissions = new String[]{Manifest.permission.CAMERA};
     private LinearLayout layoutFooter;
     private TextViewHozo tvCancel;
-
+    private String commentType;
     @Override
     protected int getLayout() {
         return R.layout.task_detail_activity;
@@ -289,7 +289,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         LogUtils.d(TAG, "task detail view , update ui : " + taskResponse.toString());
         String bidderType = "";
         String assigerType = "";
-        String commentType = getString(R.string.comment_setting_visible);
+        commentType = getString(R.string.comment_setting_visible);
 
         tvCancel.setVisibility(View.VISIBLE);
         layoutFooter.setVisibility(View.VISIBLE);
@@ -599,6 +599,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private void doSeeMoreComment() {
         Intent intent = new Intent(this, CommentsActivity.class);
         intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+        intent.putExtra(Constants.COMMENT_STATUS_EXTRA, commentType);
         startActivity(intent, TransitionScreen.DOWN_TO_UP);
     }
 
