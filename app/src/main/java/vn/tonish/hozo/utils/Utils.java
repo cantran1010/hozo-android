@@ -398,7 +398,7 @@ public class Utils {
         }
 
         if (isUpdate) taskResponses.set(index, taskResponse);
-        else taskResponses.add(0, taskResponse);
+        else taskResponses.add(taskResponse);
     }
 
     public static String converGenderVn(Context context, String gender) {

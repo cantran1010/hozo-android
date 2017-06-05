@@ -129,9 +129,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
 
             case R.id.layout_post_a_task:
-                if (tabIndex == 1) break;
-                showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
 
+                Intent intentRefresh = new Intent();
+                intentRefresh.setAction(Constants.BROAD_CAST_REFRESH_CATEGORY);
+                sendBroadcast(intentRefresh);
+
+                if (tabIndex == 1) break;
+
+                showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 tabIndex = 1;
                 updateMenuUi(1);
                 break;
@@ -143,6 +148,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     sendBroadcast(intentAnswer);
                     break;
                 }
+
                 if (tabIndex > 2) {
                     showFragment(R.id.layout_container, BrowseTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 } else {

@@ -33,7 +33,6 @@
                 style="@style/tv_style_normal_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="abc"
                 android:textSize="12sp" />
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -41,15 +40,12 @@
                 style="@style/tv_style_normal_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="def"
                 android:textSize="12sp" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_time_ago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="15 minute ago"
                 android:textColor="#747474"
                 android:textSize="10sp" />
 

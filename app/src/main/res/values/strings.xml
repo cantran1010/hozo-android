@@ -264,7 +264,7 @@
     <string name="notification_review_received">đã gửi đánh giá về bạn</string>
     <string name="notification_comment_received">đã gửi một tin nhắn cho bạn</string>
     <string name="notification_bidder_canceled">đã hủy việc đã ứng tuyển</string>
-    <string name="notification_bid_received">đã nhận được một đề nghị làm việc</string>
+    <string name="notification_bid_received">đề nghị làm việc cho bạn</string>
     <string name="notification_bid_accepted">đã chấp nhận đề nghị làm việc của bạn</string>
     <string name="notification_task_reminder">chuẩn bị đi làm</string>
     <string name="notification_new_task_alert">có một việc phù hợp với bạn</string>

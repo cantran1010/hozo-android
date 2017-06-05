@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Can Tran on 12/04/2017.
@@ -13,6 +14,7 @@ import io.realm.RealmObject;
 
 public class Notification extends RealmObject implements Serializable {
 
+    @PrimaryKey
     private int id;
     @SerializedName("user_id")
     private int userId;
@@ -27,7 +29,7 @@ public class Notification extends RealmObject implements Serializable {
     private Boolean read;
     @SerializedName("created_at")
     private String createdAt;
-    private Date dateAt;
+    private Date createdDateAt;
     private String content;
 
     public String getContent() {
@@ -110,12 +112,12 @@ public class Notification extends RealmObject implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public Date getDateAt() {
-        return dateAt;
+    public Date getCreatedDateAt() {
+        return createdDateAt;
     }
 
-    public void setDateAt(Date dateAt) {
-        this.dateAt = dateAt;
+    public void setCreatedDateAt(Date createdDateAt) {
+        this.createdDateAt = createdDateAt;
     }
 
     @Override
@@ -130,7 +132,9 @@ public class Notification extends RealmObject implements Serializable {
                 ", event='" + event + '\'' +
                 ", read=" + read +
                 ", createdAt='" + createdAt + '\'' +
-                ", dateAt=" + dateAt +
+                ", createdDateAt=" + createdDateAt +
+                ", content='" + content + '\'' +
                 '}';
     }
+
 }

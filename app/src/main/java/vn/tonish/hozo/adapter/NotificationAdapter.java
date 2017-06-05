@@ -74,7 +74,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
         if (holder instanceof NotificationHolder) {
             NotificationHolder notificationHolder = (NotificationHolder) holder;
 
-            Notification notification = notifications.get(position);
+            final Notification notification = notifications.get(position);
 
             if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)) {
                 notificationHolder.imgAvata.setImageResource(R.drawable.ic_launcher);
@@ -92,14 +92,16 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
             notificationHolder.imgAvata.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, ProfileActivity.class);
-                    intent.putExtra(Constants.USER_ID, notifications.get(holder.getAdapterPosition()).getUserId());
-                    intent.putExtra(Constants.IS_MY_USER, notifications.get(holder.getAdapterPosition()).getUserId() == UserManager.getMyUser().getId());
-                    context.startActivity(intent);
+                    if (!notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)) {
+                        Intent intent = new Intent(context, ProfileActivity.class);
+                        intent.putExtra(Constants.USER_ID, notification.getUserId());
+                        intent.putExtra(Constants.IS_MY_USER, notification.getUserId() == UserManager.getMyUser().getId());
+                        context.startActivity(intent);
+                    }
                 }
             });
 
-            LogUtils.d(TAG, "NotificationAdapter , notification : " + notifications.get(position).toString());
+            LogUtils.d(TAG, "NotificationAdapter , notification : " + notification.toString());
         }
     }
 
