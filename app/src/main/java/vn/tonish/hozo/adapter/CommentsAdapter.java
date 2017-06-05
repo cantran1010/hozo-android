@@ -18,6 +18,7 @@ public class CommentsAdapter extends BaseAdapter<Comment, CommentsAdapter.WorkHo
 
     private final List<Comment> comments;
     private final Context context;
+    private String commentType;
 
     public CommentsAdapter(Context context, List<Comment> comments) {
         super(context, comments);
@@ -48,6 +49,7 @@ public class CommentsAdapter extends BaseAdapter<Comment, CommentsAdapter.WorkHo
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof WorkHolder) {
+            ((WorkHolder) holder).commentView.setCommentType(commentType);
             ((WorkHolder) holder).commentView.updateData(comments.get(position));
         }
     }
@@ -62,5 +64,13 @@ public class CommentsAdapter extends BaseAdapter<Comment, CommentsAdapter.WorkHo
         }
 
 
+    }
+
+    public String getCommentType() {
+        return commentType;
+    }
+
+    public void setCommentType(String commentType) {
+        this.commentType = commentType;
     }
 }

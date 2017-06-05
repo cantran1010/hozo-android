@@ -37,12 +37,13 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     private CommentsAdapter commentsAdapter;
     protected RecyclerView lvList;
     private List<Comment> mComments = new ArrayList<>();
+    private int taskId = 0;
     private String since;
     private Date sinceDate;
-    private int taskId = 0;
-    boolean isLoadingMoreFromServer = true;
-    boolean isLoadingMoreFromDb = true;
-    boolean isLoadingFromServer = false;
+    private boolean isLoadingMoreFromServer = true;
+    private boolean isLoadingMoreFromDb = true;
+    private boolean isLoadingFromServer = false;
+    String commentType = "";
 
     @Override
     protected int getLayout() {
@@ -60,20 +61,12 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initData() {
-        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
-        getCacheDataFirstPage();
-        getComments(false, taskId);
+        taskId = getIntent().getExtras().getInt(Constants.TASK_ID_EXTRA);
+        commentType = getIntent().getStringExtra(Constants.COMMENT_STATUS_EXTRA);
+        LogUtils.d(TAG, "intent :" + taskId + ": " + commentType);
+        getCacheDataPage();
+        getComments(false);
 
-    }
-
-    private void getCacheDataFirstPage() {
-        LogUtils.d(TAG, "getCacheDataFirstPage start");
-        List<Comment> comments = CommentsManager.getFirstPage(taskId);
-        if (comments.size() > 0)
-            sinceDate = comments.get(comments.size() - 1).getCreatedDateAt();
-        mComments.addAll(comments);
-        refreshList();
-        if (comments.size() < LIMIT) isLoadingMoreFromDb = false;
     }
 
     private void getCacheDataPage() {
@@ -81,54 +74,48 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         List<Comment> comments = CommentsManager.getCommentsSince(sinceDate, taskId);
         if (comments.size() > 0)
             sinceDate = comments.get(comments.size() - 1).getCreatedDateAt();
+        if (comments.size() < LIMIT) isLoadingMoreFromDb = false;
         mComments.addAll(comments);
         refreshList();
-        if (comments.size() < LIMIT) isLoadingMoreFromDb = false;
 
     }
 
-    private void getComments(final boolean isSince, final int taskId) {
-
+    private void getComments(final boolean isSince) {
         if (isLoadingFromServer) return;
         isLoadingFromServer = true;
-        commentsAdapter.stopLoadMore();
-
         LogUtils.d(TAG, "getComments start");
         Map<String, String> params = new HashMap<>();
-
         if (isSince && since != null)
             params.put("since", since);
         params.put("limit", LIMIT + "");
-
         ApiClient.getApiService().getComments(UserManager.getUserToken(), taskId, params).enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 LogUtils.d(TAG, "getComments code : " + response.code());
-
                 LogUtils.d(TAG, "getComments body : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    if (response.body() != null || response.body().size() > 0) {
-                        List<Comment> comments = response.body();
-                        if (comments.size() > 0)
-                            since = comments.get(comments.size() - 1).getCreatedAt();
-                        for (Comment comment : comments) {
-                            if (checkContainsComments(mComments, comment))
-                                mComments.add(comment);
-                        }
-                        commentsAdapter.notifyDataSetChanged();
-                        CommentsManager.insertComments(comments);
-                        if (comments.size() < LIMIT) {
-                            isLoadingMoreFromServer = false;
-                            commentsAdapter.stopLoadMore();
-                        }
-                        refreshList();
+                    List<Comment> comments = response.body();
+                    if (comments.size() > 0)
+                        since = comments.get(comments.size() - 1).getCreatedAt();
+                    for (Comment comment : comments) {
+                        comment.setTaskId(taskId);
+                        if (!checkContainsComments(mComments, comment))
+                            mComments.add(comment);
                     }
+                    if (comments.size() < LIMIT) {
+                        isLoadingMoreFromServer = false;
+                        commentsAdapter.stopLoadMore();
+                    }
+                    LogUtils.d(TAG, "getComments size : " + mComments.size());
+
+                    refreshList();
+                    CommentsManager.insertComments(comments);
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(CommentsActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            getComments(isSince, taskId);
+                            getComments(isSince);
                         }
                     });
 
@@ -147,7 +134,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                 DialogUtils.showRetryDialog(CommentsActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        getComments(isSince, taskId);
+                        getComments(isSince);
                     }
 
                     @Override
@@ -169,6 +156,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
             commentsAdapter = new CommentsAdapter(CommentsActivity.this, mComments);
             linearLayoutManager = new LinearLayoutManager(CommentsActivity.this);
             lvList.setLayoutManager(linearLayoutManager);
+            commentsAdapter.setCommentType(commentType);
             lvList.setAdapter(commentsAdapter);
 
             lvList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -178,13 +166,18 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                     LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 
                     if (isLoadingMoreFromDb) getCacheDataPage();
-                    if (isLoadingMoreFromServer) getComments(true, taskId);
+                    if (isLoadingMoreFromServer) getComments(true);
 
                 }
             });
 
         } else {
-            commentsAdapter.notifyDataSetChanged();
+            lvList.post(new Runnable() {
+                public void run() {
+                    commentsAdapter.notifyDataSetChanged();
+                }
+            });
+
         }
 
         LogUtils.d(TAG, "refreshList , comments size : " + mComments.size());
@@ -207,7 +200,8 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onRefresh() {
         super.onRefresh();
-        getComments(false, taskId);
+        since = null;
+        getComments(false);
     }
 
 

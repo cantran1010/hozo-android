@@ -7,9 +7,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.Sort;
-import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.TaskEntity;
-import vn.tonish.hozo.fragment.BrowseTaskFragment;
 import vn.tonish.hozo.fragment.MyTaskFragment;
 import vn.tonish.hozo.utils.LogUtils;
 
@@ -55,31 +53,6 @@ public class TaskManager {
         } finally {
             realm.close();
         }
-    }
-
-
-    public static List<TaskEntity> getTaskEntitiesOpen(Date sinceDate, String role) {
-        LogUtils.d(TAG, "getTaskEntitiesSince");
-        List<TaskEntity> result = new ArrayList<>();
-        Realm realm = Realm.getDefaultInstance();
-        RealmQuery<TaskEntity> taskEntityRealmQuery;
-        if (sinceDate == null) {
-            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).equalTo("status", Constants.TASK_TYPE_POSTER_OPEN);
-        } else {
-            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).equalTo("status", Constants.TASK_TYPE_POSTER_OPEN).lessThan("createdAt", sinceDate);
-        }
-        List<TaskEntity> taskEntities = taskEntityRealmQuery.findAll();
-        if (taskEntities.size() > 0) {
-
-            if (taskEntities.size() >= BrowseTaskFragment.limit)
-                result = taskEntities.subList(0, BrowseTaskFragment.limit);
-            else result = taskEntities;
-
-        }
-        LogUtils.d(TAG, "result" + result.toString() + " getTaskEntitiesOpen size" + result.size());
-        LogUtils.d(TAG, " getTaskEntitiesOpen size" + result.size());
-        realm.close();
-        return result;
     }
 
 

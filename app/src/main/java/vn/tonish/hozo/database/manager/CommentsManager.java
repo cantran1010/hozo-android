@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmQuery;
 import io.realm.Sort;
 import vn.tonish.hozo.activity.CommentsActivity;
 import vn.tonish.hozo.model.Comment;
@@ -28,46 +29,25 @@ public class CommentsManager {
         }
         realm.insertOrUpdate(comments);
         realm.commitTransaction();
-
-    }
-
-    public static List<Comment> getFirstPage(int taskId) {
-        LogUtils.d(TAG, "getFirstPageComment start ");
-        List<Comment> result = new ArrayList<>();
-        Realm realm = Realm.getDefaultInstance();
-        List<Comment> comments = realm.where(Comment.class).equalTo("taskId", taskId).findAll().sort("createdAt", Sort.DESCENDING);
-        if (comments.size() > 0) {
-
-            if (comments.size() >= CommentsActivity.LIMIT)
-                result = comments.subList(0, CommentsActivity.LIMIT);
-            else
-                result = comments;
-
-        }
-        return result;
+        realm.close();
     }
 
     public static List<Comment> getCommentsSince(Date sinceDate, int taskId) {
-
-        LogUtils.d(TAG, "getCommentsSince start ");
+        LogUtils.d(TAG, "getCommentsSince  sinceDate : " + sinceDate);
         List<Comment> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
-        List<Comment> comments = realm.where(Comment.class).equalTo("taskId", taskId).lessThan("craeatedDateAt", sinceDate).findAll().sort("createdAt", Sort.DESCENDING);
+        RealmQuery<Comment> commentRealmQuery = realm.where(Comment.class).equalTo("taskId", taskId);
+        if (sinceDate != null)
+            commentRealmQuery = commentRealmQuery.lessThan("createdDateAt", sinceDate);
+        List<Comment> comments = commentRealmQuery.findAll().sort("createdDateAt", Sort.DESCENDING);
         if (comments.size() > 0) {
-
             if (comments.size() >= CommentsActivity.LIMIT)
                 result = comments.subList(0, CommentsActivity.LIMIT);
             else result = comments;
 
         }
+        realm.close();
         return result;
-    }
-
-    public static void deleteAll() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.where(Comment.class).findAll().deleteAllFromRealm();
-        realm.commitTransaction();
     }
 
 }
