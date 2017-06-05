@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +33,7 @@ import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -155,7 +155,8 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
                     btnSave.setAlpha(0.5f);
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
+                    Utils.showLongToast(getActivity(),error.message(),true,false);
                 }
                 ProgressDialogUtils.dismissProgressDialog();
 
@@ -185,7 +186,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View textView) {
-                Toast.makeText(getContext(), "dang xay dung", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "dang xay dung", Toast.LENGTH_SHORT).show();
             }
 
             @Override

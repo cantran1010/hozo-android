@@ -17,8 +17,8 @@ public class FileUtils {
     public static FileUtils getInstance() {
         if (fileUtils == null) {
             fileUtils = new FileUtils();
-            init();
         }
+        init();
         return fileUtils;
     }
 

@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -132,11 +134,17 @@ public class MyTaskPosterFragment extends BaseFragment {
                     if (taskResponsesBody.size() > 0)
                         sinceStr = taskResponsesBody.get(taskResponsesBody.size() - 1).getCreatedAt();
 
-                    for (int i = 0; i < taskResponsesBody.size(); i++)
+                    for (int i = taskResponsesBody.size() - 1; i >= 0; i--){
                         taskResponsesBody.get(i).setRole(role);
-
-                    for (int i = taskResponsesBody.size() - 1; i >= 0; i--)
                         Utils.checkContainsTaskResponse(taskResponses, taskResponsesBody.get(i));
+                    }
+
+                    Collections.sort(taskResponses, new Comparator<TaskResponse>() {
+                        @Override
+                        public int compare(TaskResponse o1, TaskResponse o2) {
+                            return o2.getCreatedAt().compareTo(o1.getCreatedAt());
+                        }
+                    });
 
                     TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponsesBody));
 

@@ -209,6 +209,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                         }
                     });
                 }
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 ProgressDialogUtils.dismissProgressDialog();
             }
 
@@ -226,6 +227,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
                     }
                 });
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 ProgressDialogUtils.dismissProgressDialog();
             }
         });

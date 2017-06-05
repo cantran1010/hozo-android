@@ -1,6 +1,9 @@
 package vn.tonish.hozo.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -155,7 +158,13 @@ public class SelectTaskFragment extends BaseFragment {
 
     @Override
     protected void resumeData() {
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(Constants.BROAD_CAST_REFRESH_CATEGORY));
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(broadcastReceiver);
     }
 
     private void refreshCategory() {
@@ -196,5 +205,11 @@ public class SelectTaskFragment extends BaseFragment {
         SettingManager.insertSetting(settingEntiny);
     }
 
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getCategory();
+        }
+    };
 
 }

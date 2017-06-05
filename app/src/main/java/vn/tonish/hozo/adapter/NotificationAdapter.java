@@ -74,21 +74,34 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
         if (holder instanceof NotificationHolder) {
             NotificationHolder notificationHolder = (NotificationHolder) holder;
 
-            Utils.displayImageAvatar(context, notificationHolder.imgAvata, notifications.get(position).getAvatar());
-            Utils.setContentMessage(context, notificationHolder.tvContent, notifications.get(position));
+            final Notification notification = notifications.get(position);
+
+            if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)) {
+                notificationHolder.imgAvata.setImageResource(R.drawable.ic_launcher);
+                notificationHolder.tvContent.setText(notification.getContent());
+                notificationHolder.tvTask.setVisibility(View.GONE);
+            } else {
+                Utils.displayImageAvatar(context, notificationHolder.imgAvata, notifications.get(position).getAvatar());
+                Utils.setContentMessage(context, notificationHolder.tvContent, notifications.get(position));
+                notificationHolder.tvTask.setVisibility(View.VISIBLE);
+                notificationHolder.tvTask.setText(notifications.get(position).getTaskName());
+            }
+
             notificationHolder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(notifications.get(position).getCreatedAt(), context));
 
             notificationHolder.imgAvata.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, ProfileActivity.class);
-                    intent.putExtra(Constants.USER_ID, notifications.get(holder.getAdapterPosition()).getUserId());
-                    intent.putExtra(Constants.IS_MY_USER, notifications.get(holder.getAdapterPosition()).getUserId() == UserManager.getMyUser().getId());
-                    context.startActivity(intent);
+                    if (!notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)) {
+                        Intent intent = new Intent(context, ProfileActivity.class);
+                        intent.putExtra(Constants.USER_ID, notification.getUserId());
+                        intent.putExtra(Constants.IS_MY_USER, notification.getUserId() == UserManager.getMyUser().getId());
+                        context.startActivity(intent);
+                    }
                 }
             });
 
-            LogUtils.d(TAG, "NotificationAdapter , notification : " + notifications.get(position).toString());
+            LogUtils.d(TAG, "NotificationAdapter , notification : " + notification.toString());
         }
     }
 
@@ -96,6 +109,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
 
         private final CircleImageView imgAvata;
         private final TextViewHozo tvContent;
+        private final TextViewHozo tvTask;
         private final TextViewHozo tvTimeAgo;
 
         public NotificationHolder(View itemView, Context context) {
@@ -103,7 +117,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
             imgAvata = (CircleImageView) itemView.findViewById(R.id.img_avatar);
             tvContent = (TextViewHozo) itemView.findViewById(R.id.tv_content);
             tvTimeAgo = (TextViewHozo) itemView.findViewById(R.id.tv_time_ago);
-
+            tvTask = (TextViewHozo) itemView.findViewById(R.id.tv_task);
             itemView.setOnClickListener(this);
         }
 

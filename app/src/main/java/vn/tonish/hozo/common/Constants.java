@@ -81,6 +81,7 @@ public class Constants {
     public static final String BROAD_CAST_SMOOTH_TOP_MY_TASK = "broad_cast_smooth_top_my_task";
     public static final String BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER = "broad_cast_smooth_top_mytask_worker";
     public static final String BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER = "broad_cast_smooth_top_mytask_poster";
+    public static final String BROAD_CAST_REFRESH_CATEGORY = "broad_cast_refresh_category";
 
     public static final String USER_POSTER_REVIEWS = "poster_reviews";
     public static final String USER_TASKER_REVIEWS = "tasker_reviews";
@@ -134,5 +135,19 @@ public class Constants {
     public static final String UPDATE_TOKEN_DEVICE_TOKEN = "device_token";
     public static final String UPDATE_TOKEN_DEVICE_TYPE = "device_type";
     public static final String UPDATE_TOKEN_DEVICE_TYPE_ANDROID = "android";
+
+    public static final String PUSH_TITLE_EXTRA = "push_info_title";
+    public static final String PUSH_MESSAGE_EXTRA = "push_info_messageß";
+
+    // push type notification
+    public static final String PUSH_TYPE_REVIEW_RECEIVED = "review_received";
+    public static final String PUSH_TYPE_COMMENT_RECEIVED = "comment_received";
+    public static final String PUSH_TYPE_BIDDER_CANCELED = "bidder_canceled";
+    public static final String PUSH_TYPE_BID_RECEIVED = "bid_received";
+    public static final String PUSH_TYPE_BID_ACCEPTED = "bid_accepted";
+    public static final String PUSH_TYPE_TASK_REMINDER = "task_reminder";
+    public static final String PUSH_TYPE_NEW_TASK_ALERT = "new_task_alert";
+    public static final String PUSH_TYPE_POSTER_CANCELED = "poster_canceled";
+    public static final String PUSH_TYPE_ADMIN_PUSH = "admin_push";
 
 }

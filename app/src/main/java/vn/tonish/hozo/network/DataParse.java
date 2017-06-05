@@ -7,14 +7,12 @@ import java.util.Map;
 
 import io.realm.RealmList;
 import vn.tonish.hozo.database.entity.CategoryEntity;
-import vn.tonish.hozo.database.entity.NotificationEntity;
 import vn.tonish.hozo.database.entity.SettingEntiny;
 import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
-import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.Bidder;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
@@ -200,47 +198,49 @@ public class DataParse {
         return taskEntities;
     }
 
-    private static Notification convertNotificationEntityToNotification(NotificationEntity notificationEntity) {
-        Notification notification = new Notification();
-        notification.setId(notificationEntity.getId());
-        notification.setUserId(notificationEntity.getUserId());
-        notification.setFullName(notificationEntity.getFullName());
-        notification.setAvatar(notificationEntity.getAvatar());
-        notification.setTaskId(notificationEntity.getTaskId());
-        notification.setTaskName(notificationEntity.getTaskName());
-        notification.setEvent(notificationEntity.getEvent());
-        notification.setRead(notificationEntity.getRead());
-        notification.setCreatedAt(DateTimeUtils.fromDateIso(notificationEntity.getCreatedAt()));
-        return notification;
-    }
-
-    private static NotificationEntity convertNotificationToNotificationEntity(Notification notification) {
-        NotificationEntity notificationEntity = new NotificationEntity();
-        notificationEntity.setId(notification.getId());
-        notificationEntity.setUserId(notification.getUserId());
-        notificationEntity.setFullName(notification.getFullName());
-        notificationEntity.setAvatar(notification.getAvatar());
-        notificationEntity.setTaskId(notification.getTaskId());
-        notificationEntity.setTaskName(notification.getTaskName());
-        notificationEntity.setEvent(notification.getEvent());
-        notificationEntity.setRead(notification.getRead());
-        notificationEntity.setCreatedAt(DateTimeUtils.getDateFromStringIso(notification.getCreatedAt()));
-        return notificationEntity;
-    }
-
-    public static List<Notification> converListNotificationEntity(List<NotificationEntity> notificationEntities) {
-        List<Notification> notifications = new ArrayList<>();
-        for (int i = 0; i < notificationEntities.size(); i++)
-            notifications.add(convertNotificationEntityToNotification(notificationEntities.get(i)));
-        return notifications;
-    }
-
-    public static List<NotificationEntity> convertListNotification(List<Notification> notifications) {
-        List<NotificationEntity> notificationEntities = new ArrayList<>();
-        for (int i = 0; i < notifications.size(); i++)
-            notificationEntities.add(convertNotificationToNotificationEntity(notifications.get(i)));
-        return notificationEntities;
-    }
+//    private static Notification convertNotificationEntityToNotification(NotificationEntity notificationEntity) {
+//        Notification notification = new Notification();
+//        notification.setId(notificationEntity.getId());
+//        notification.setUserId(notificationEntity.getUserId());
+//        notification.setFullName(notificationEntity.getFullName());
+//        notification.setAvatar(notificationEntity.getAvatar());
+//        notification.setTaskId(notificationEntity.getTaskId());
+//        notification.setTaskName(notificationEntity.getTaskName());
+//        notification.setEvent(notificationEntity.getEvent());
+//        notification.setRead(notificationEntity.getRead());
+//        notification.setCreatedAt(DateTimeUtils.fromDateIso(notificationEntity.getCreatedAt()));
+//        notification.setContent(notificationEntity.getContent());
+//        return notification;
+//    }
+//
+//    private static NotificationEntity convertNotificationToNotificationEntity(Notification notification) {
+//        NotificationEntity notificationEntity = new NotificationEntity();
+//        notificationEntity.setId(notification.getId());
+//        notificationEntity.setUserId(notification.getUserId());
+//        notificationEntity.setFullName(notification.getFullName());
+//        notificationEntity.setAvatar(notification.getAvatar());
+//        notificationEntity.setTaskId(notification.getTaskId());
+//        notificationEntity.setTaskName(notification.getTaskName());
+//        notificationEntity.setEvent(notification.getEvent());
+//        notificationEntity.setRead(notification.getRead());
+//        notificationEntity.setCreatedAt(DateTimeUtils.getDateFromStringIso(notification.getCreatedAt()));
+//        notificationEntity.setContent(notification.getContent());
+//        return notificationEntity;
+//    }
+//
+//    public static List<Notification> converListNotificationEntity(List<NotificationEntity> notificationEntities) {
+//        List<Notification> notifications = new ArrayList<>();
+//        for (int i = 0; i < notificationEntities.size(); i++)
+//            notifications.add(convertNotificationEntityToNotification(notificationEntities.get(i)));
+//        return notifications;
+//    }
+//
+//    public static List<NotificationEntity> convertListNotification(List<Notification> notifications) {
+//        List<NotificationEntity> notificationEntities = new ArrayList<>();
+//        for (int i = 0; i < notifications.size(); i++)
+//            notificationEntities.add(convertNotificationToNotificationEntity(notifications.get(i)));
+//        return notificationEntities;
+//    }
 
     public static Map<String, String> setParameterGetTasks(String sortBy, String limit, String since, String query) {
         SettingEntiny settingEntiny = SettingManager.getSettingEntiny();

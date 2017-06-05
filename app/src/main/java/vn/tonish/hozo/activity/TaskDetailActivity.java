@@ -619,6 +619,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
         File fileUp = Utils.compressFile(fileAttach);
 
+        LogUtils.d(TAG,"doAttachImage , file Name : " + fileUp.getName());
+
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
         MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
 
@@ -640,6 +642,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                         }
                     });
                 } else {
+                    ProgressDialogUtils.dismissProgressDialog();
                     DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
@@ -652,7 +655,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                         }
                     });
                 }
-
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
             }
 
             @Override
@@ -669,6 +672,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
                     }
                 });
+                ProgressDialogUtils.dismissProgressDialog();
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
             }
         });
     }
@@ -727,7 +732,6 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                         }
                     });
                 }
-//                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 ProgressDialogUtils.dismissProgressDialog();
             }
 
@@ -744,7 +748,6 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
                     }
                 });
-//                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 ProgressDialogUtils.dismissProgressDialog();
             }
         });

@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -39,6 +38,7 @@ import vn.tonish.hozo.rest.responseRes.Token;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.common.Constants.USER_MOBILE;
@@ -313,7 +313,8 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
                     btnSigIn.setAlpha(0.5f);
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
+                    Utils.showLongToast(getActivity(),error.message(),true,false);
                 }
 
                 ProgressDialogUtils.dismissProgressDialog();

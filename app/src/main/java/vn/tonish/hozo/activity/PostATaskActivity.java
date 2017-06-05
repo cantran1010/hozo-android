@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -484,8 +483,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                                         if (year == c2.get(Calendar.YEAR)
                                                 && monthOfYear == c2.get(Calendar.MONTH)
                                                 && dayOfMonth == c2.get(Calendar.DAY_OF_MONTH)
-                                                && (hourOfDay < c2.get(Calendar.HOUR_OF_DAY) || (hourOfDay == c2.get(Calendar.HOUR_OF_DAY) && minute <= (c2.get(Calendar.MINUTE) + 10)))) {
-                                            Toast.makeText(PostATaskActivity.this, getString(R.string.post_task_time_start_error), Toast.LENGTH_LONG).show();
+                                                && (hourOfDay < c2.get(Calendar.HOUR_OF_DAY) || (hourOfDay == c2.get(Calendar.HOUR_OF_DAY) && minute <= (c2.get(Calendar.MINUTE) + 30)))) {
+                                            Utils.showLongToast(PostATaskActivity.this,getString(R.string.post_task_time_start_error),true,false);
 
 //                                            Handler handler = new Handler();
 //                                            handler.postDelayed(new Runnable() {

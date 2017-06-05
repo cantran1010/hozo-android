@@ -264,7 +264,7 @@
     <string name="notification_review_received">đã gửi đánh giá về bạn</string>
     <string name="notification_comment_received">đã gửi một tin nhắn cho bạn</string>
     <string name="notification_bidder_canceled">đã hủy việc đã ứng tuyển</string>
-    <string name="notification_bid_received">đã nhận được một đề nghị làm việc</string>
+    <string name="notification_bid_received">đề nghị làm việc cho bạn</string>
     <string name="notification_bid_accepted">đã chấp nhận đề nghị làm việc của bạn</string>
     <string name="notification_task_reminder">chuẩn bị đi làm</string>
     <string name="notification_new_task_alert">có một việc phù hợp với bạn</string>
@@ -313,7 +313,7 @@
     <string name="gender_edit">Giới tính</string>
     <string name="timezero">0001–01–01</string>
     <string name="error">Lỗi</string>
-    <string name="post_task_time_start_error">Vui lòng chọn thời gian bắt đầu sớm nhất có thể sau 10 phút nữa</string>
+    <string name="post_task_time_start_error">Vui lòng chọn thời gian bắt đầu sớm nhất có thể sau 30 phút nữa</string>
     <string name="post_task_date_picker_title">Chọn ngày làm việc</string>
     <string name="post_task_time_picker_title">Chọn thời gian bắt đầu</string>
     <string name="radius_everywhere">mọi nơi</string>
@@ -326,5 +326,7 @@
     <string name="message_exit_app">Nhấn lần nữa để thoát ứng dụng !</string>
     <string name="gg_api_error">Không thể kết nối tới dịch vụ của Google</string>
     <string name="contacting_api_autocomplete_error">Lỗi kết nối tới dịch vụ của google</string>
+    <string name="post_a_task_map_get_location_error">Không thể lấy vị trí của bạn,vui lòng kiểm tra lại kết nối mạng !</string>
+    <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
 
 </resources>

@@ -23,10 +23,16 @@
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_album_name"
             style="@style/tv_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_toEndOf="@id/img_back"
+            android:layout_toLeftOf="@+id/tv_done"
+            android:layout_toRightOf="@id/img_back"
+            android:layout_toStartOf="@+id/tv_done"
+            android:ellipsize="end"
             android:gravity="center"
+            android:maxLines="1"
             android:text="@string/gallery" />
 
         <vn.tonish.hozo.view.TextViewHozo
@@ -37,8 +43,6 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/tv_album_name"
-            android:layout_toRightOf="@id/tv_album_name"
             android:gravity="end"
             android:padding="10dp"
             android:text="@string/next" />

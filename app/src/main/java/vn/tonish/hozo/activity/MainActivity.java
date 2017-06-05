@@ -10,11 +10,14 @@ import android.widget.LinearLayout;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
 import vn.tonish.hozo.fragment.MyTaskFragment;
 import vn.tonish.hozo.fragment.SelectTaskFragment;
 import vn.tonish.hozo.fragment.SettingFragment;
+import vn.tonish.hozo.model.Notification;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -60,8 +63,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void initData() {
 
         showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
-
-//        openFragment(R.id.layout_container, SelectTaskFragment.class, false, TransitionScreen.FADE_IN);
         updateMenuUi(1);
 
         layoutPostATask.setOnClickListener(this);
@@ -70,22 +71,50 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         layoutInBox.setOnClickListener(this);
         layoutOther.setOnClickListener(this);
 
-        if (getIntent().hasExtra(Constants.TASK_ID_EXTRA)) {
-            int taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
-            Intent intent = new Intent(this, TaskDetailActivity.class);
-            intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
-            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+        Intent intentPush = getIntent();
+        if (intentPush.hasExtra(Constants.NOTIFICATION_EXTRA)) {
+            Notification notification = (Notification) intentPush.getSerializableExtra(Constants.NOTIFICATION_EXTRA);
+
+            if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)) {
+                DialogUtils.showOkDialog(this, getString(R.string.app_name), notification.getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        }
+                );
+            } else {
+                int taskId = notification.getTaskId();
+                Intent intent = new Intent(this, TaskDetailActivity.class);
+                intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
+                startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+            }
+
         }
+
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (intent.hasExtra(Constants.TASK_ID_EXTRA)) {
-            int taskId = intent.getIntExtra(Constants.TASK_ID_EXTRA, 0);
-            Intent intentDetail = new Intent(this, TaskDetailActivity.class);
-            intentDetail.putExtra(Constants.TASK_ID_EXTRA, taskId);
-            startActivity(intentDetail, TransitionScreen.RIGHT_TO_LEFT);
+        if (intent.hasExtra(Constants.NOTIFICATION_EXTRA)) {
+            Notification notification = (Notification) intent.getSerializableExtra(Constants.NOTIFICATION_EXTRA);
+
+            if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)) {
+                DialogUtils.showOkDialog(this, getString(R.string.app_name), notification.getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        }
+                );
+            } else {
+                int taskId = notification.getTaskId();
+                Intent intentDetail = new Intent(this, TaskDetailActivity.class);
+                intentDetail.putExtra(Constants.TASK_ID_EXTRA, taskId);
+                startActivity(intentDetail, TransitionScreen.RIGHT_TO_LEFT);
+            }
+
         }
     }
 
@@ -100,9 +129,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
 
             case R.id.layout_post_a_task:
-                if (tabIndex == 1) break;
-                showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
 
+                Intent intentRefresh = new Intent();
+                intentRefresh.setAction(Constants.BROAD_CAST_REFRESH_CATEGORY);
+                sendBroadcast(intentRefresh);
+
+                if (tabIndex == 1) break;
+
+                showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 tabIndex = 1;
                 updateMenuUi(1);
                 break;
@@ -114,6 +148,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     sendBroadcast(intentAnswer);
                     break;
                 }
+
                 if (tabIndex > 2) {
                     showFragment(R.id.layout_container, BrowseTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 } else {
