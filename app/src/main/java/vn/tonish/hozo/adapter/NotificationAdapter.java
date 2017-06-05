@@ -77,7 +77,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
             final Notification notification = notifications.get(position);
 
             if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)) {
-                notificationHolder.imgAvata.setImageResource(R.drawable.ic_launcher);
+                notificationHolder.imgAvata.setImageResource(R.mipmap.app_icon);
                 notificationHolder.tvContent.setText(notification.getContent());
                 notificationHolder.tvTask.setVisibility(View.GONE);
             } else {

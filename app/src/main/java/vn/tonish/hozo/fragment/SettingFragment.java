@@ -71,19 +71,19 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 //                break;
 
             case R.id.layout_condition:
-                openGeneralInfoActivity(getString(R.string.other_condition), "http://vnexpress.net/");
+                openGeneralInfoActivity(getString(R.string.other_condition), "https://tonish.vn/terms.html");
                 break;
 
             case R.id.layout_nda:
-                openGeneralInfoActivity(getString(R.string.other_nad), "http://vnexpress.net/");
+                openGeneralInfoActivity(getString(R.string.other_nad), "https://tonish.vn/policy.html");
                 break;
 
             case R.id.layout_info:
-                openGeneralInfoActivity(getString(R.string.other_info), "http://vnexpress.net/");
+                openGeneralInfoActivity(getString(R.string.other_info), "https://tonish.vn/overview.html");
                 break;
 
             case R.id.layout_about:
-                openGeneralInfoActivity(getString(R.string.other_about), "http://vnexpress.net/");
+                openGeneralInfoActivity(getString(R.string.other_about), "https://tonish.vn/overview.html");
                 break;
 
         }
