@@ -84,7 +84,8 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
     @Override
     public void onRefresh() {
         if (swipeRefreshLayout.isRefreshing()) {
-            onStopRefresh();
+//            onStopRefresh();
+            return;
         } else
             swipeRefreshLayout.setRefreshing(true);
     }
@@ -145,7 +146,7 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
     }
 
     void showFragment(int resLayout, Class<?> newFragClass,
-                             boolean putStack, Bundle bundle,TransitionScreen transitionScreen) {
+                      boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
         Activity activity = getActivity();
         if (activity instanceof BaseActivity) {
             BaseActivity baseActivity = (BaseActivity) activity;
@@ -154,7 +155,7 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
     }
 
     public void showChildFragment(int resLayout, Class<?> newFragClass,
-                             boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
+                                  boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
 
         FragmentManager manager = getChildFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();

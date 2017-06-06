@@ -8,9 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,14 +19,12 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.TaskDetailActivity;
 import vn.tonish.hozo.adapter.NotificationAdapter;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.database.manager.NotificationManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
-import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
@@ -49,11 +44,13 @@ public class InboxFragment extends BaseFragment {
     private RecyclerView lvList;
     private final List<Notification> notifications = new ArrayList<>();
     private String since;
-    private Date sinceDate;
-    public static final int LIMIT = 15;
+    //    private Date sinceDate;
+    public static final int LIMIT = 20;
     private boolean isLoadingMoreFromServer = true;
-    private boolean isLoadingMoreFromDb = true;
-    private boolean isLoadingFromServer = false;
+    //    private boolean isLoadingMoreFromDb = true;
+//    private boolean isLoadingFromServer = false;
+    private Call<List<Notification>> call;
+    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 
     @Override
     protected int getLayout() {
@@ -70,52 +67,83 @@ public class InboxFragment extends BaseFragment {
     @Override
     protected void initData() {
         LogUtils.d(TAG, "InboxFragment life cycle , initData");
-        getCacheDataPage(sinceDate);
-        getNotifications(false);
+        initList();
+//        getCacheDataPage(sinceDate);
+//        getNotifications(false);
     }
 
-//    private void getCacheDataFirstPage() {
-//        LogUtils.d(TAG, "getCacheDataFirstPage start");
-//        List<NotificationEntity> notificationEntities = NotificationManager.getFirstPage();
+    private void initList() {
+        notificationAdapter = new NotificationAdapter(getActivity(), notifications);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        lvList.setLayoutManager(linearLayoutManager);
+        lvList.setAdapter(notificationAdapter);
+
+        endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+
+                LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
+
+//                    if (isLoadingMoreFromDb) getCacheDataPage(sinceDate);
+                if (isLoadingMoreFromServer) getNotifications();
+
+            }
+        };
+
+        lvList.addOnScrollListener(endlessRecyclerViewScrollListener);
+
+        notificationAdapter.setNotificationAdapterListener(new NotificationAdapter.NotificationAdapterListener() {
+            @Override
+            public void onNotificationAdapterListener(int position) {
+                if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)) {
+                    DialogUtils.showOkDialog(getActivity(), getString(R.string.app_name), notifications.get(position).getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            }
+                    );
+                } else {
+                    Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+                    intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
+                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                }
+            }
+        });
+    }
+
+//    private void getCacheDataPage(Date sinceDateSearch) {
+//        LogUtils.d(TAG, "getCacheDataPage start");
+//        List<Notification> notificationEntities = NotificationManager.getNotificationsSince(sinceDateSearch);
+//        LogUtils.d(TAG, "getCacheDataPage notificationEntities : " + notificationEntities.toString());
+//        LogUtils.d(TAG, "getCacheDataPage notificationEntities size : " + notificationEntities.size());
+//
 //        if (notificationEntities.size() > 0)
-//            sinceDate = notificationEntities.get(notificationEntities.size() - 1).getCreatedAt();
-//        notifications = DataParse.converListNotificationEntity(notificationEntities);
+//            sinceDate = notificationEntities.get(notificationEntities.size() - 1).getCreatedDateAt();
 //
 //        if (notificationEntities.size() < LIMIT) isLoadingMoreFromDb = false;
+//
+//        notifications.addAll(notificationEntities);
 //        refreshList();
 //    }
 
-    private void getCacheDataPage(Date sinceDateSearch) {
-        LogUtils.d(TAG, "getCacheDataPage start");
-        List<Notification> notificationEntities = NotificationManager.getNotificationsSince(sinceDateSearch);
-        LogUtils.d(TAG, "getCacheDataPage notificationEntities : " + notificationEntities.toString());
-        LogUtils.d(TAG, "getCacheDataPage notificationEntities size : " + notificationEntities.size());
-
-        if (notificationEntities.size() > 0)
-            sinceDate = notificationEntities.get(notificationEntities.size() - 1).getCreatedDateAt();
-
-        if (notificationEntities.size() < LIMIT) isLoadingMoreFromDb = false;
-
-        notifications.addAll(notificationEntities);
-        refreshList();
-    }
-
-    private void getNotifications(final boolean isSince) {
+    private void getNotifications() {
 //        ProgressDialogUtils.showProgressDialog(getActivity());
-        if (isLoadingFromServer) return;
-        isLoadingFromServer = true;
+//        if (isLoadingFromServer) return;
+//        isLoadingFromServer = true;
 //        notificationAdapter.stopLoadMore();
 
         LogUtils.d(TAG, "getNotifications start");
         Map<String, String> params = new HashMap<>();
 
-        if (isSince && since != null)
+        if (since != null)
             params.put("since", since);
 
         params.put("limit", LIMIT + "");
         LogUtils.d(TAG, "getNotifications params : " + params.toString());
 
-        ApiClient.getApiService().getMyNotifications(UserManager.getUserToken(), params).enqueue(new Callback<List<Notification>>() {
+        call = ApiClient.getApiService().getMyNotifications(UserManager.getUserToken(), params);
+        call.enqueue(new Callback<List<Notification>>() {
             @Override
             public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {
                 LogUtils.d(TAG, "getNotifications code : " + response.code());
@@ -124,22 +152,29 @@ public class InboxFragment extends BaseFragment {
                 if (response.code() == Constants.HTTP_CODE_OK) {
 
                     List<Notification> notificationResponse = response.body();
-                    for (int i = 0; i < notificationResponse.size(); i++) {
-                        notificationResponse.get(i).setCreatedDateAt(DateTimeUtils.getDateFromStringIso(notificationResponse.get(i).getCreatedAt()));
-
-//                        if (!notifications.contains(notificationResponse.get(i)))
+//                    for (int i = 0; i < notificationResponse.size(); i++) {
+//                        notificationResponse.get(i).setCreatedDateAt(DateTimeUtils.getDateFromStringIso(notificationResponse.get(i).getCreatedAt()));
+//
+////                        if (!notifications.contains(notificationResponse.get(i)))
+////                            notifications.add(notificationResponse.get(i));
+//
+////                        if (!checkContainsNotification(notifications, notificationResponse.get(i)))
 //                            notifications.add(notificationResponse.get(i));
+//                    }
 
-                        if (!checkContainsNotification(notifications, notificationResponse.get(i)))
-                            notifications.add(notificationResponse.get(i));
+                    if (since == null) {
+                        notifications.clear();
+                        endlessRecyclerViewScrollListener.resetState();
                     }
 
-                    Collections.sort(notifications, new Comparator<Notification>() {
-                        @Override
-                        public int compare(Notification o1, Notification o2) {
-                            return o2.getCreatedDateAt().compareTo(o1.getCreatedDateAt());
-                        }
-                    });
+                    notifications.addAll(notificationResponse);
+
+//                    Collections.sort(notifications, new Comparator<Notification>() {
+//                        @Override
+//                        public int compare(Notification o1, Notification o2) {
+//                            return o2.getCreatedDateAt().compareTo(o1.getCreatedDateAt());
+//                        }
+//                    });
 
                     if (notificationResponse.size() > 0)
                         since = notificationResponse.get(notificationResponse.size() - 1).getCreatedAt();
@@ -152,22 +187,22 @@ public class InboxFragment extends BaseFragment {
                     refreshList();
                     LogUtils.d(TAG, "getNotifications notificationResponse size : " + notificationResponse.size());
                     LogUtils.d(TAG, "getNotifications notifications size : " + notifications.size());
-                    NotificationManager.insertNotifications(notificationResponse);
+//                    NotificationManager.insertNotifications(notificationResponse);
 
-                    if (!isSince) Utils.cancelAllNotification(getActivity());
+                    if (since == null) Utils.cancelAllNotification(getActivity());
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            getNotifications(isSince);
+                            getNotifications();
                         }
                     });
                 } else {
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            getNotifications(isSince);
+                            getNotifications();
                         }
 
                         @Override
@@ -177,78 +212,42 @@ public class InboxFragment extends BaseFragment {
                     });
                 }
 
-                isLoadingFromServer = false;
+//                isLoadingFromServer = false;
                 onStopRefresh();
+                refreshList();
 //                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
             public void onFailure(Call<List<Notification>> call, Throwable t) {
                 LogUtils.e(TAG, "getNotifications , onFailure : " + t.getMessage());
-//                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-//                    @Override
-//                    public void onSubmit() {
-//                        getNotifications(isSince);
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//
-//                    }
-//                });
+                if (!t.getMessage().equals("Canceled")) {
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            notificationAdapter.onLoadMore();
+                            getNotifications();
+                        }
 
-                notificationAdapter.stopLoadMore();
-                isLoadingFromServer = false;
-                onStopRefresh();
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+
+                    notificationAdapter.stopLoadMore();
+//                isLoadingFromServer = false;
+                    onStopRefresh();
+                    refreshList();
 //                ProgressDialogUtils.dismissProgressDialog();
+                }
             }
         });
     }
 
     private void refreshList() {
-        if (notificationAdapter == null) {
-            notificationAdapter = new NotificationAdapter(getActivity(), notifications);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-            lvList.setLayoutManager(linearLayoutManager);
-            lvList.setAdapter(notificationAdapter);
-
-            lvList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-                @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-
-                    LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
-
-                    if (isLoadingMoreFromDb) getCacheDataPage(sinceDate);
-                    if (isLoadingMoreFromServer) getNotifications(true);
-
-                }
-            });
-
-            notificationAdapter.setNotificationAdapterListener(new NotificationAdapter.NotificationAdapterListener() {
-                @Override
-                public void onNotificationAdapterListener(int position) {
-                    if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)) {
-                        DialogUtils.showOkDialog(getActivity(), getString(R.string.app_name), notifications.get(position).getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                    @Override
-                                    public void onSubmit() {
-
-                                    }
-                                }
-                        );
-                    } else {
-                        Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
-                        intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
-                        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                    }
-                }
-            });
-
-        } else {
-            notificationAdapter.notifyDataSetChanged();
-        }
-
+        notificationAdapter.notifyDataSetChanged();
         LogUtils.d(TAG, "refreshList , notification size : " + notifications.size());
-
     }
 
     private boolean checkContainsNotification(List<Notification> notifications, Notification notification) {
@@ -271,7 +270,11 @@ public class InboxFragment extends BaseFragment {
     @Override
     public void onRefresh() {
         super.onRefresh();
-        getNotifications(false);
+        if (call != null) call.cancel();
+        isLoadingMoreFromServer = true;
+        since = null;
+        notificationAdapter.onLoadMore();
+        getNotifications();
     }
 
     private BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
