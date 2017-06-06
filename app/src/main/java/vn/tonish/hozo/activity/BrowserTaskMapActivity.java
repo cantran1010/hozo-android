@@ -67,7 +67,6 @@ public class BrowserTaskMapActivity extends BaseActivity implements View.OnClick
 
             MiniTask miniTask = miniTasks.get(i);
 
-            LatLng latLng = new LatLng(miniTask.getLat(), miniTask.getLon());
             // create marker
             MarkerOptions markerOption = new MarkerOptions().position(new LatLng(miniTask.getLat(), miniTask.getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
             Marker marker = mMap.addMarker(markerOption);
@@ -76,15 +75,18 @@ public class BrowserTaskMapActivity extends BaseActivity implements View.OnClick
             builder.include(marker.getPosition());
         }
 
-        LatLngBounds bounds = builder.build();
+        if(miniTasks.size() > 0){
+            LatLngBounds bounds = builder.build();
 
-        int width = getResources().getDisplayMetrics().widthPixels;
-        int height = getResources().getDisplayMetrics().heightPixels;
-        int padding = (int) (width * 0.10); // offset from edges of the map 10% of screen
+            int width = getResources().getDisplayMetrics().widthPixels;
+            int height = getResources().getDisplayMetrics().heightPixels;
+            int padding = (int) (width * 0.10); // offset from edges of the map 10% of screen
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
 
-        mMap.moveCamera(cameraUpdate);
+            mMap.moveCamera(cameraUpdate);
+        }
+
     }
 
     @Override

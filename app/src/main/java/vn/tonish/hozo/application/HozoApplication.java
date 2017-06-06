@@ -22,8 +22,6 @@ public class HozoApplication extends Application {
 
         TypefaceContainer.init(getApplicationContext());
 
-//        Fabric.with(this, new Crashlytics());
-
         final Fabric fabric = new Fabric.Builder(this)
                 .kits(new Crashlytics())
                 .debuggable(true)
