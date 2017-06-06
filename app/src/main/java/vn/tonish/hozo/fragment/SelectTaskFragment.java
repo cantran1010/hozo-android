@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -187,7 +188,9 @@ public class SelectTaskFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             updateMenuUi(3);
-            openFragment(R.id.layout_container, MyTaskFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.ROLE_EXTRA, Constants.ROLE_POSTER);
+            openFragment(R.id.layout_container, MyTaskFragment.class, bundle, false, TransitionScreen.RIGHT_TO_LEFT);
         }
     }
 
