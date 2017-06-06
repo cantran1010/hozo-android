@@ -50,6 +50,7 @@ public class InboxFragment extends BaseFragment {
     //    private boolean isLoadingMoreFromDb = true;
 //    private boolean isLoadingFromServer = false;
     private Call<List<Notification>> call;
+    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 
     @Override
     protected int getLayout() {
@@ -77,7 +78,7 @@ public class InboxFragment extends BaseFragment {
         lvList.setLayoutManager(linearLayoutManager);
         lvList.setAdapter(notificationAdapter);
 
-        lvList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
 
@@ -87,7 +88,9 @@ public class InboxFragment extends BaseFragment {
                 if (isLoadingMoreFromServer) getNotifications();
 
             }
-        });
+        };
+
+        lvList.addOnScrollListener(endlessRecyclerViewScrollListener);
 
         notificationAdapter.setNotificationAdapterListener(new NotificationAdapter.NotificationAdapterListener() {
             @Override
@@ -159,6 +162,11 @@ public class InboxFragment extends BaseFragment {
 //                            notifications.add(notificationResponse.get(i));
 //                    }
 
+                    if (since == null) {
+                        notifications.clear();
+                        endlessRecyclerViewScrollListener.resetState();
+                    }
+
                     notifications.addAll(notificationResponse);
 
 //                    Collections.sort(notifications, new Comparator<Notification>() {
@@ -213,10 +221,11 @@ public class InboxFragment extends BaseFragment {
             @Override
             public void onFailure(Call<List<Notification>> call, Throwable t) {
                 LogUtils.e(TAG, "getNotifications , onFailure : " + t.getMessage());
-                if (!t.getMessage().equals("Canceled")){
+                if (!t.getMessage().equals("Canceled")) {
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
+                            notificationAdapter.onLoadMore();
                             getNotifications();
                         }
 
@@ -262,9 +271,9 @@ public class InboxFragment extends BaseFragment {
     public void onRefresh() {
         super.onRefresh();
         if (call != null) call.cancel();
+        isLoadingMoreFromServer = true;
         since = null;
         notificationAdapter.onLoadMore();
-        notifications.clear();
         getNotifications();
     }
 

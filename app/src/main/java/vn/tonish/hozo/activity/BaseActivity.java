@@ -224,7 +224,9 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
             if (x < view.getLeft() || x > view.getRight() || y < view.getTop() || y > view.getBottom())
                 ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
         }
-        return super.dispatchTouchEvent(ev);
+        if (ev != null)
+            return super.dispatchTouchEvent(ev);
+        else return true;
     }
 
     @Override

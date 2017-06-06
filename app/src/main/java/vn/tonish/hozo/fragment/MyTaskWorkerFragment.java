@@ -8,9 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +19,6 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.TaskDetailActivity;
 import vn.tonish.hozo.adapter.MyTaskAdapter;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
@@ -34,7 +30,6 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
-import vn.tonish.hozo.utils.Utils;
 
 /**
  * Created by LongBui on 6/2/17.
@@ -46,14 +41,15 @@ public class MyTaskWorkerFragment extends BaseFragment {
     private RecyclerView rcvTask;
     private List<TaskResponse> taskResponses = new ArrayList<>();
     private MyTaskAdapter myTaskAdapter;
-    private String role = Constants.ROLE_TASKER;
-    public static final int LIMIT = 15;
+    //    private String role = Constants.ROLE_TASKER;
+    public static final int LIMIT = 8;
     private String sinceStr;
-    private Date sinceDate;
+    //    private Date sinceDate;
     boolean isLoadingMoreFromServer = true;
-    boolean isLoadingMoreFromDb = true;
-    boolean isLoadingFromServer = false;
+    //    boolean isLoadingMoreFromDb = true;
+//    boolean isLoadingFromServer = false;
     private Call<List<TaskResponse>> call;
+    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 
     @Override
     protected int getLayout() {
@@ -68,23 +64,58 @@ public class MyTaskWorkerFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        getCacheData(role, sinceDate);
-        getTaskFromServer(role, sinceStr, LIMIT);
+        initList();
+//        getCacheData(sinceDate);
+//        getTaskFromServer(sinceStr, LIMIT);
+    }
+
+    private void initList() {
+        myTaskAdapter = new MyTaskAdapter(getActivity(), taskResponses);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        rcvTask.setLayoutManager(linearLayoutManager);
+        rcvTask.setAdapter(myTaskAdapter);
+
+        endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+
+                LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
+
+//                if (isLoadingMoreFromDb) getCacheData(role, sinceDate);
+                if (isLoadingMoreFromServer) {
+                    getTaskFromServer(sinceStr, LIMIT);
+                }
+
+            }
+        };
+        rcvTask.addOnScrollListener(endlessRecyclerViewScrollListener);
+
+        myTaskAdapter.setMyTaskAdapterListener(new MyTaskAdapter.MyTaskAdapterListener() {
+            @Override
+            public void onMyTaskAdapterClickListener(int position) {
+                TaskResponse taskResponse = taskResponses.get(position);
+                LogUtils.d(TAG, "myTaskAdapter.setMyTaskAdapterListener , taskResponse : " + taskResponse);
+
+                Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+                intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+                startActivityForResult(intent, Constants.REQUEST_CODE_TASK_EDIT, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
     }
 
 
-    private void getCacheData(String role, Date sinceDateIn) {
-        LogUtils.d(TAG, "getCacheData start , role : " + role + " , sinceDate : " + sinceDateIn);
-        List<TaskEntity> taskEntities = TaskManager.getTaskSince(sinceDateIn, role);
-        if (taskEntities.size() > 0)
-            sinceDate = taskEntities.get(taskEntities.size() - 1).getCreatedAt();
-        taskResponses.addAll(DataParse.converListTaskEntityToTaskResponse(taskEntities));
-        refreshList();
-        if (taskResponses.size() < LIMIT) isLoadingMoreFromDb = false;
-
-        LogUtils.d(TAG, "getCacheData , taskResponses : " + taskResponses.toString());
-        LogUtils.d(TAG, "getCacheData , taskResponses size : " + taskResponses.size());
-    }
+//    private void getCacheData(String role, Date sinceDateIn) {
+//        LogUtils.d(TAG, "getCacheData start , role : " + role + " , sinceDate : " + sinceDateIn);
+//        List<TaskEntity> taskEntities = TaskManager.getTaskSince(sinceDateIn, role);
+//        if (taskEntities.size() > 0)
+//            sinceDate = taskEntities.get(taskEntities.size() - 1).getCreatedAt();
+//        taskResponses.addAll(DataParse.converListTaskEntityToTaskResponse(taskEntities));
+//        refreshList();
+//        if (taskResponses.size() < LIMIT) isLoadingMoreFromDb = false;
+//
+//        LogUtils.d(TAG, "getCacheData , taskResponses : " + taskResponses.toString());
+//        LogUtils.d(TAG, "getCacheData , taskResponses size : " + taskResponses.size());
+//    }
 
     @Override
     protected void resumeData() {
@@ -104,16 +135,15 @@ public class MyTaskWorkerFragment extends BaseFragment {
         }
     };
 
-    private void getTaskFromServer(final String role, final String since, final int limit) {
+    private void getTaskFromServer(final String since, final int limit) {
 
-        if (isLoadingFromServer) return;
-        isLoadingFromServer = true;
-        myTaskAdapter.stopLoadMore();
-
+//        if (isLoadingFromServer) return;
+//        isLoadingFromServer = true;
         Map<String, String> params = new HashMap<>();
-
-        params.put("role", role);
-        if (since != null) params.put("since", since);
+        params.put("role", Constants.ROLE_TASKER);
+        if (since != null) {
+            params.put("since", since);
+        }
         params.put("limit", limit + "");
 
         LogUtils.d(TAG, "getTaskFromServer start , param : " + params);
@@ -134,18 +164,27 @@ public class MyTaskWorkerFragment extends BaseFragment {
                     if (taskResponsesBody.size() > 0)
                         sinceStr = taskResponsesBody.get(taskResponsesBody.size() - 1).getCreatedAt();
 
-                    for (int i = taskResponsesBody.size() - 1; i >= 0; i--){
-                        taskResponsesBody.get(i).setRole(role);
-                        Utils.checkContainsTaskResponse(taskResponses, taskResponsesBody.get(i));
+//                    for (int i = taskResponsesBody.size() - 1; i >= 0; i--){
+//                        taskResponsesBody.get(i).setRole(Constants.ROLE_TASKER);
+//                        Utils.checkContainsTaskResponse(taskResponses, taskResponsesBody.get(i));
+//                    }
+//
+//                    Collections.sort(taskResponses, new Comparator<TaskResponse>() {
+//                        @Override
+//                        public int compare(TaskResponse o1, TaskResponse o2) {
+//                            return o2.getCreatedAt().compareTo(o1.getCreatedAt());
+//                        }
+//                    });
+
+                    if (since == null) {
+                        taskResponses.clear();
+                        endlessRecyclerViewScrollListener.resetState();
                     }
 
-                    Collections.sort(taskResponses, new Comparator<TaskResponse>() {
-                        @Override
-                        public int compare(TaskResponse o1, TaskResponse o2) {
-                            return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-                        }
-                    });
+                    for (TaskResponse taskResponse : taskResponsesBody)
+                        taskResponse.setRole(Constants.ROLE_TASKER);
 
+                    taskResponses.addAll(taskResponsesBody);
                     TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponsesBody));
 
                     if (taskResponsesBody.size() < LIMIT) {
@@ -159,14 +198,14 @@ public class MyTaskWorkerFragment extends BaseFragment {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            getTaskFromServer(role, since, limit);
+                            getTaskFromServer(since, limit);
                         }
                     });
                 } else {
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            getTaskFromServer(role, since, limit);
+                            getTaskFromServer(since, limit);
                         }
 
                         @Override
@@ -176,74 +215,38 @@ public class MyTaskWorkerFragment extends BaseFragment {
                     });
                 }
 
-                isLoadingFromServer = false;
+//                isLoadingFromServer = false;
                 onStopRefresh();
             }
 
             @Override
             public void onFailure(Call<List<TaskResponse>> call, Throwable t) {
                 LogUtils.e(TAG, "getTaskFromServer error : " + t.getMessage());
-//                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-//                    @Override
-//                    public void onSubmit() {
-//                        getTaskFromServer(role, since, limit, query);
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//
-//                    }
-//                });
+                if (!t.getMessage().equals("Canceled")) {
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            myTaskAdapter.onLoadMore();
+                            getTaskFromServer(since, limit);
+                        }
 
-                isLoadingFromServer = false;
-                myTaskAdapter.stopLoadMore();
-                if (myTaskAdapter == null) myTaskAdapter.notifyDataSetChanged();
-                onStopRefresh();
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+
+//                isLoadingFromServer = false;
+                    myTaskAdapter.stopLoadMore();
+                    onStopRefresh();
+                    refreshList();
+                }
             }
         });
     }
 
     private void refreshList() {
-        if (myTaskAdapter == null) {
-            myTaskAdapter = new MyTaskAdapter(getActivity(), taskResponses);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-            rcvTask.setLayoutManager(linearLayoutManager);
-            rcvTask.setAdapter(myTaskAdapter);
-
-            rcvTask.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-                @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-
-                    LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
-
-                    if (isLoadingMoreFromDb) getCacheData(role, sinceDate);
-                    if (isLoadingMoreFromServer) getTaskFromServer(role, sinceStr, LIMIT);
-
-                }
-            });
-
-            myTaskAdapter.setMyTaskAdapterListener(new MyTaskAdapter.MyTaskAdapterListener() {
-                @Override
-                public void onMyTaskAdapterClickListener(int position) {
-                    TaskResponse taskResponse = taskResponses.get(position);
-                    LogUtils.d(TAG, "myTaskAdapter.setMyTaskAdapterListener , taskResponse : " + taskResponse);
-
-                    Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
-                    intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                    startActivityForResult(intent, Constants.REQUEST_CODE_TASK_EDIT, TransitionScreen.RIGHT_TO_LEFT);
-                }
-            });
-
-        } else {
-
-            myTaskAdapter.notifyDataSetChanged();
-//            rcvTask.post(new Runnable() {
-//                public void run() {
-//                    myTaskAdapter.notifyItemInserted(taskResponses.size() - 2);
-//                }
-//            });
-        }
-
+        myTaskAdapter.notifyDataSetChanged();
         LogUtils.d(TAG, "refreshList , taskReponse size : " + taskResponses.size());
     }
 
@@ -265,6 +268,11 @@ public class MyTaskWorkerFragment extends BaseFragment {
     @Override
     public void onRefresh() {
         super.onRefresh();
-        getTaskFromServer(role, null, LIMIT);
+        if (call != null) call.cancel();
+        isLoadingMoreFromServer = true;
+        sinceStr = null;
+        myTaskAdapter.onLoadMore();
+        getTaskFromServer(null, LIMIT);
     }
+
 }
