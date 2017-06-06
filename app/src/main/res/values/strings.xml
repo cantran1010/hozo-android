@@ -30,7 +30,7 @@
     <string name="login_enter_otp">Nhập 4 mã số được gửi tới điện thoại</string>
     <string name="login_resend_otp">Gửi lại mã code</string>
     <string name="tv_label_name">Họ và tên của bạn là gì?</string>
-    <string name="tv_login_save">Lưu lại</string>
+    <string name="tv_login_save">L</string>
     <string name="tv_login_policy">Nhấn vào nút ở bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản sử dụng của chúng tôi</string>
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
 

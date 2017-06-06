@@ -57,5 +57,6 @@ public class ReviewsListView extends RelativeLayout {
         rcvComment.setLayoutManager(layoutManager);
         rcvComment.setAdapter(reviewsAdapter);
         reviewsAdapter.notifyDataSetChanged();
+        reviewsAdapter.stopLoadMore();
     }
 }

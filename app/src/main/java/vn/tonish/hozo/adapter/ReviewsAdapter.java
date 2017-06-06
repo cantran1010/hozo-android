@@ -20,8 +20,8 @@ public class ReviewsAdapter extends BaseAdapter<ReviewEntity, ReviewsAdapter.MyV
 
 
     public ReviewsAdapter(Context context, List<ReviewEntity> reviews) {
-        super(context,reviews);
-        this.context=context;
+        super(context, reviews);
+        this.context = context;
         this.reviews = reviews;
     }
 
@@ -49,17 +49,12 @@ public class ReviewsAdapter extends BaseAdapter<ReviewEntity, ReviewsAdapter.MyV
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        MyViewHolder holder_ = (MyViewHolder) holder;
-        holder_.reviewsView.updateData(reviews.get(position));
+        if (holder instanceof MyViewHolder) {
+            MyViewHolder holder_ = (MyViewHolder) holder;
+            holder_.reviewsView.updateData(reviews.get(position));
+        }
 
     }
-
-    @Override
-    public int getItemCount() {
-        return reviews.size();
-    }
-
 
     public class MyViewHolder extends BaseHolder {
         public final ReviewsView reviewsView;
