@@ -41,7 +41,7 @@ public class MyTaskPosterFragment extends BaseFragment {
     private RecyclerView rcvTask;
     private List<TaskResponse> taskResponses = new ArrayList<>();
     private MyTaskAdapter myTaskAdapter;
-    public static final int LIMIT = 8;
+    public static final int LIMIT = 20;
     private String sinceStr;
     //    private Date sinceDate;
     boolean isLoadingMoreFromServer = true;

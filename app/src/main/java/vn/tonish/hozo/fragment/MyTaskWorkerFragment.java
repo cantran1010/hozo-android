@@ -42,7 +42,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
     private List<TaskResponse> taskResponses = new ArrayList<>();
     private MyTaskAdapter myTaskAdapter;
     //    private String role = Constants.ROLE_TASKER;
-    public static final int LIMIT = 8;
+    public static final int LIMIT = 20;
     private String sinceStr;
     //    private Date sinceDate;
     boolean isLoadingMoreFromServer = true;

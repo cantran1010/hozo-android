@@ -108,6 +108,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private LinearLayout layoutFooter;
     private TextViewHozo tvCancel;
     private String commentType;
+
     @Override
     protected int getLayout() {
         return R.layout.task_detail_activity;
@@ -518,7 +519,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 LogUtils.d(TAG, "doCacelTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    Utils.showLongToast(TaskDetailActivity.this, getString(R.string.cancel_task_success_msg),false,false);
+                    Utils.showLongToast(TaskDetailActivity.this, getString(R.string.cancel_task_success_msg), false, false);
                     taskResponse = response.body();
                     updateRole();
                     storeTaskToDatabase();
@@ -605,7 +606,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
     private void doSend() {
         if (edtComment.getText().toString().trim().equals("")) {
-            Utils.showLongToast(this, getString(R.string.empty_content_comment_error),true,false);
+            Utils.showLongToast(this, getString(R.string.empty_content_comment_error), true, false);
             return;
         }
         if (imgPath == null) {
@@ -620,7 +621,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
         File fileUp = Utils.compressFile(fileAttach);
 
-        LogUtils.d(TAG,"doAttachImage , file Name : " + fileUp.getName());
+        LogUtils.d(TAG, "doAttachImage , file Name : " + fileUp.getName());
 
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
         MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
