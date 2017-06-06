@@ -58,7 +58,7 @@ import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 
 public class BrowseTaskFragment extends BaseFragment implements View.OnClickListener {
     private final static String TAG = BrowseTaskFragment.class.getSimpleName();
-    public final static int limit = 10;
+    public final static int limit = 20;
     private ImageView imgSearch, imgLocation, imgControls, imgBack, imgClear;
     private RelativeLayout layoutHeader, layoutSearch;
     private EdittextHozo edtSearch;
@@ -133,7 +133,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             }
         });
         setUpRecyclerView();
-//        getTaskResponse(null, strSortBy, query);
     }
 
 
@@ -217,7 +216,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-//                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
                     Utils.showLongToast(getActivity(), error.message(), true, false);
                 }
 
@@ -266,7 +264,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.img_back:
                 query = null;
-                sinceStr = null;
                 edtSearch.setText("");
                 showSearch(layoutHeader, true);
                 showSearch(layoutSearch, false);
@@ -333,7 +330,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onRefresh() {
         super.onRefresh();
-
         if (call != null) call.cancel();
         isLoadingMoreFromServer = true;
         sinceStr = null;

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,6 @@ import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
 
 import static vn.tonish.hozo.R.id.lvList;
-import static vn.tonish.hozo.fragment.BrowseTaskFragment.limit;
 
 /**
  * Created by CanTran on 14/05/2017.
@@ -37,18 +35,17 @@ import static vn.tonish.hozo.fragment.BrowseTaskFragment.limit;
 
 public class ReviewsActivity extends BaseActivity implements View.OnClickListener {
     private final static String TAG = ReviewsActivity.class.getSimpleName();
-    private final static int LIMIT = 10;
-    private LinearLayoutManager linearLayoutManager;
+    private final static int LIMIT = 20;
     private RecyclerView rcvReviews;
     private List<ReviewEntity> mReviewEntities = new ArrayList<>();
     private ReviewsAdapter reviewsAdapter;
-    private String since;
+    private String strSince;
     private boolean isLoadingMoreFromServer = true;
-    private boolean isLoadingMoreFromDb = true;
-    private boolean isLoadingFromServer = false;
-    private Date sinceDate;
     private ImageView imgBack;
     private int user_id;
+    private LinearLayoutManager lvManager;
+    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+    private Call<List<ReviewEntity>> call;
 
     @Override
     protected int getLayout() {
@@ -57,7 +54,6 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-        linearLayoutManager = new LinearLayoutManager(this);
         rcvReviews = (RecyclerView) findViewById(lvList);
         imgBack = (ImageView) findViewById(R.id.img_back);
         createSwipeToRefresh();
@@ -69,10 +65,8 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
         imgBack.setOnClickListener(this);
         Intent i = getIntent();
         user_id = i.getExtras().getInt(Constants.USER_ID);
-        getCacheDataFirstPage();
-        getReviews(false, user_id);
-
-
+        setUpRecyclerView();
+//        getReviews(null, user_id);
     }
 
     @Override
@@ -80,78 +74,65 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
 
     }
 
-    private void getCacheDataFirstPage() {
-        LogUtils.d(TAG, "getCacheDataFirstPage start");
-        List<ReviewEntity> reviewEntities = ReviewManager.getFirstPage();
-        if (reviewEntities.size() > 0)
-            sinceDate = reviewEntities.get(reviewEntities.size() - 1).getCraeatedDateAt();
-        mReviewEntities = reviewEntities;
+    private void setUpRecyclerView() {
+        reviewsAdapter = new ReviewsAdapter(this, mReviewEntities);
+        lvManager = new LinearLayoutManager(this);
+        rcvReviews.setLayoutManager(lvManager);
+        rcvReviews.setAdapter(reviewsAdapter);
+        endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(lvManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                if (isLoadingMoreFromServer) getReviews(strSince, user_id);
+            }
+        };
 
-        if (reviewEntities.size() < LIMIT) isLoadingMoreFromDb = false;
-        refreshList();
+        rcvReviews.addOnScrollListener(endlessRecyclerViewScrollListener);
+
     }
 
-
-    private void getCacheDataPage() {
-        LogUtils.d(TAG, "getCacheDataPage start");
-        List<ReviewEntity> reviewEntities = ReviewManager.getReviewsSince(sinceDate);
-
-        if (reviewEntities.size() > 0)
-            sinceDate = reviewEntities.get(reviewEntities.size() - 1).getCraeatedDateAt();
-
-        if (reviewEntities.size() < limit) isLoadingMoreFromDb = false;
-
-        mReviewEntities.addAll(reviewEntities);
-        refreshList();
-    }
-
-    private void getReviews(final boolean isSince, final int userId) {
-
-        if (isLoadingFromServer) return;
-        isLoadingFromServer = true;
-        reviewsAdapter.stopLoadMore();
-
+    private void getReviews(final String since, final int userId) {
         LogUtils.d(TAG, "getReviews start");
         Map<String, String> params = new HashMap<>();
-
-        if (isSince && since != null)
+        if (since != null)
             params.put("since", "");
         params.put("limit", LIMIT + "");
         String typeReview = "worker";
         params.put("review_type", typeReview);
-
-        ApiClient.getApiService().getUserReviews(UserManager.getUserToken(), userId, params).enqueue(new Callback<List<ReviewEntity>>() {
+        call = ApiClient.getApiService().getUserReviews(UserManager.getUserToken(), userId, params);
+        call.enqueue(new Callback<List<ReviewEntity>>() {
             @Override
             public void onResponse(Call<List<ReviewEntity>> call, Response<List<ReviewEntity>> response) {
                 LogUtils.d(TAG, "getUserReviews code : " + response.code());
-                LogUtils.d(TAG, "getUserReviews body : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getUserReviews body : " + response.body());
                     List<ReviewEntity> reviewEntities = response.body();
-                    for (int i = 0; i < reviewEntities.size(); i++) {
-                        if (checkContainsReviews(mReviewEntities, reviewEntities.get(i)))
-                            mReviewEntities.add(reviewEntities.get(i));
+                    if (since == null) {
+                        mReviewEntities.clear();
+                        endlessRecyclerViewScrollListener.resetState();
                     }
-                    since = reviewEntities.get(reviewEntities.size() - 1).getCreatedAt();
+                    if (reviewEntities.size() > 0)
+                        strSince = reviewEntities.get(reviewEntities.size() - 1).getCreatedAt();
+                    mReviewEntities.addAll(reviewEntities);
+                    reviewsAdapter.notifyDataSetChanged();
 
                     if (reviewEntities.size() < LIMIT) {
                         isLoadingMoreFromServer = false;
                         reviewsAdapter.stopLoadMore();
                     }
-                    refreshList();
                     ReviewManager.insertReviews(reviewEntities);
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(ReviewsActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            getReviews(isSince, user_id);
+                            getReviews(since, user_id);
                         }
                     });
                 } else {
                     DialogUtils.showRetryDialog(ReviewsActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            getReviews(isSince, user_id);
+                            getReviews(since, user_id);
                         }
 
                         @Override
@@ -160,7 +141,7 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
                         }
                     });
                 }
-                isLoadingFromServer = false;
+
                 onStopRefresh();
 
 
@@ -173,7 +154,8 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
                 DialogUtils.showRetryDialog(ReviewsActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        getReviews(isSince, userId);
+                        reviewsAdapter.onLoadMore();
+                        getReviews(since, userId);
                     }
 
                     @Override
@@ -183,46 +165,12 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
                 });
 
                 reviewsAdapter.stopLoadMore();
-                isLoadingFromServer = false;
                 onStopRefresh();
+                reviewsAdapter.notifyDataSetChanged();
 
 
             }
         });
-    }
-
-    private void refreshList() {
-        if (reviewsAdapter == null) {
-            reviewsAdapter = new ReviewsAdapter(ReviewsActivity.this, mReviewEntities);
-            linearLayoutManager = new LinearLayoutManager(ReviewsActivity.this);
-            rcvReviews.setLayoutManager(linearLayoutManager);
-            rcvReviews.setAdapter(reviewsAdapter);
-
-            rcvReviews.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-                @Override
-                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-
-                    LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
-
-                    if (isLoadingMoreFromDb) getCacheDataPage();
-                    if (isLoadingMoreFromServer) getReviews(false, user_id);
-
-                }
-            });
-
-        } else {
-            reviewsAdapter.notifyDataSetChanged();
-        }
-
-        LogUtils.d(TAG, "refreshList , getUserReviews size : " + mReviewEntities.size());
-
-    }
-
-
-    private boolean checkContainsReviews(List<ReviewEntity> reviewEntities, ReviewEntity reviewEntity) {
-        for (int i = 0; i < reviewEntities.size(); i++)
-            if (reviewEntities.get(i).getId() == reviewEntity.getId()) return false;
-        return true;
     }
 
     @Override
@@ -238,7 +186,11 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onRefresh() {
         super.onRefresh();
-        getReviews(false, user_id);
+        if (call != null) call.cancel();
+        isLoadingMoreFromServer = true;
+        strSince = null;
+        reviewsAdapter.onLoadMore();
+        getReviews(null, user_id);
     }
 
 }

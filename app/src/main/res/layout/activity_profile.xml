@@ -58,9 +58,12 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?android:attr/actionBarSize">
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -169,6 +172,7 @@
                         android:text="@string/profile_add_verify"
                         android:textColor="@color/white"
                         android:textSize="@dimen/tv_size_tiny"
+                        android:visibility="gone"
                         tools:ignore="RtlHardcoded" />
 
                 </FrameLayout>

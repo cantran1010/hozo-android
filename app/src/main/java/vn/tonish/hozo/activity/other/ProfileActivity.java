@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private float ratingPoster, ratingTasker;
     private ReviewsListView reviewsListView;
     private FrameLayout layoutLogout;
+    private ScrollView scrollView;
     private int tabIndex = 0;
     private boolean isMyUser;
     private int rateCountPoster, retaCountWorker;
@@ -96,6 +98,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         layoutLogout = (FrameLayout) findViewById(R.id.layout_logout);
         reviewsListView = (ReviewsListView) findViewById(R.id.rcv_reviews);
         btnMoreReview = (TextViewHozo) findViewById(R.id.tv_more_reviews);
+        scrollView = (ScrollView) findViewById(R.id.scroll_view);
         ratingPoster = 0f;
         ratingTasker = 0f;
     }
@@ -120,6 +123,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
         updateUi(mUserEntity);
         updateUserFromServer();
+        scrollView.fullScroll(ScrollView.FOCUS_UP);
 
     }
 
@@ -221,7 +225,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
 //                    Toast.makeText(ProfileActivity.this, error.message(), Toast.LENGTH_SHORT).show();
-                    Utils.showLongToast(ProfileActivity.this,error.message(),true,false);
+                    Utils.showLongToast(ProfileActivity.this, error.message(), true, false);
 
                 }
                 ProgressDialogUtils.dismissProgressDialog();
@@ -270,8 +274,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             ratingTasker = userEntity.getTaskerAverageRating();
             tvName.setText(userEntity.getFullName());
             if (userEntity.getDateOfBirth().equals(getString(R.string.timezero))) {
-                tvDateOfBirth.setText("");
+                tvDateOfBirth.setVisibility(View.GONE);
             } else {
+                tvDateOfBirth.setVisibility(View.VISIBLE);
                 tvDateOfBirth.setText(getDateBirthDayFromIso(userEntity.getDateOfBirth()));
             }
             tvGender.setText(converGenderVn(this, userEntity.getGender()));
@@ -337,6 +342,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             setDataSelected(false);
         }
     }
+
 
 }
 
