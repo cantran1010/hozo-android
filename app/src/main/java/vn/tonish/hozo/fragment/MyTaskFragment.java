@@ -39,8 +39,20 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     @Override
     protected void initData() {
 
-        showChildFragment(R.id.layout_container_my_task, MyTaskWorkerFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
+        Bundle bundle = getArguments();
+        if (bundle.containsKey(Constants.ROLE_EXTRA)) role = bundle.getString(Constants.ROLE_EXTRA);
 
+        if (role.equals(Constants.ROLE_POSTER)) {
+
+            Bundle bundleRefresh = new Bundle();
+            bundleRefresh.putBoolean(Constants.REFRESH_EXTRA, true);
+
+            showChildFragment(R.id.layout_container_my_task, MyTaskPosterFragment.class, false, bundleRefresh, TransitionScreen.FADE_IN);
+            selectedTab(2);
+        } else {
+            showChildFragment(R.id.layout_container_my_task, MyTaskWorkerFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
+            selectedTab(1);
+        }
         tvWorker.setOnClickListener(this);
         tvPoster.setOnClickListener(this);
     }
@@ -97,7 +109,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                     break;
                 }
                 role = Constants.ROLE_TASKER;
-                showChildFragment(R.id.layout_container_my_task, MyTaskWorkerFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                showChildFragment(R.id.layout_container_my_task, MyTaskWorkerFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 selectedTab(1);
                 break;
 
@@ -109,7 +121,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                     break;
                 }
                 role = Constants.ROLE_POSTER;
-                showChildFragment(R.id.layout_container_my_task, MyTaskPosterFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
+                showChildFragment(R.id.layout_container_my_task, MyTaskPosterFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 selectedTab(2);
                 break;
 

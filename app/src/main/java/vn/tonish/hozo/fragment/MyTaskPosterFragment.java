@@ -66,6 +66,8 @@ public class MyTaskPosterFragment extends BaseFragment {
 //        getCacheData(role, sinceDate);
         initList();
 //        getTaskFromServer(sinceStr, LIMIT);
+
+        if (getArguments().getBoolean(Constants.REFRESH_EXTRA)) onRefresh();
     }
 
 

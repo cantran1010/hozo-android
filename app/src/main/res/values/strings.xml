@@ -61,7 +61,7 @@
 
     <!-- post a task map-->
     <string name="msg_err_gps">Ứng dụng cần bật dịch vụ định vị GPS</string>
-    <string name="my_task_worker">Việc của tôi</string>
+    <string name="my_task_worker">Việc nhận làm</string>
     <string name="my_task_poster">Việc đã đăng</string>
 
     <!-- make an offer-->

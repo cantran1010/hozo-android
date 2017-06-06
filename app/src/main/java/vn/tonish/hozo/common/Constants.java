@@ -151,4 +151,6 @@ public class Constants {
     public static final String PUSH_TYPE_POSTER_CANCELED = "poster_canceled";
     public static final String PUSH_TYPE_ADMIN_PUSH = "admin_push";
 
+    public static final String ROLE_EXTRA = "role_extra";
+    public static final String REFRESH_EXTRA = "refresh_extra";
 }
