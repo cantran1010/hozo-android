@@ -1,0 +1,35 @@
+fastlane_version "2.37.0"
+
+default_platform :android
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Submit a new Beta Build to HockeyApp"
+  lane :beta do
+    gradle(task: "assembleRelease")
+    hockey
+    slack(
+      default_payloads: [],
+      payload: {
+        'Download'=> lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
+      },
+    )
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "assembleRelease")
+    supply
+  end
+
+  error do |lane, exception|
+    slack(
+      message: exception.message,
+      success: false
+    )
+  end
+end
