@@ -64,13 +64,16 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private EdittextHozo edtSearch;
     private RecyclerView rcvTask;
     private TaskAdapter taskAdapter;
-    private List<TaskResponse> taskList;
-    private boolean isLoadingMoreFromServer = true;
+    private List<TaskResponse> taskList = new ArrayList<>();
     private String sinceStr = null;
     private String query = null;
     private String strSortBy = null;
     private Animation rtAnimation;
     private Animation lanimation;
+    private boolean isLoadingMoreFromServer = true;
+    private LinearLayoutManager lvManager;
+    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+    private Call<List<TaskResponse>> call;
 
 
     @Override
@@ -129,18 +132,24 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
             }
         });
-        taskList = new ArrayList<>();
+        setUpRecyclerView();
+//        getTaskResponse(null, strSortBy, query);
+    }
+
+
+    private void setUpRecyclerView() {
         taskAdapter = new TaskAdapter(getActivity(), taskList);
-        LinearLayoutManager lvManager = new LinearLayoutManager(getActivity());
+        lvManager = new LinearLayoutManager(getActivity());
         rcvTask.setLayoutManager(lvManager);
         rcvTask.setAdapter(taskAdapter);
-
-        rcvTask.addOnScrollListener(new EndlessRecyclerViewScrollListener(lvManager) {
+        endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(lvManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 if (isLoadingMoreFromServer) getTaskResponse(sinceStr, strSortBy, query);
             }
-        });
+        };
+
+        rcvTask.addOnScrollListener(endlessRecyclerViewScrollListener);
 
         taskAdapter.setTaskAdapterListener(new TaskAdapter.TaskAdapterListener() {
             @Override
@@ -153,6 +162,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             }
         });
     }
+
 
     @Override
     protected void resumeData() {
@@ -168,8 +178,9 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private void getTaskResponse(final String since, final String sortBytask, final String query) {
         Map<String, String> option;
         option = DataParse.setParameterGetTasks(sortBytask, String.valueOf(limit), since, query);
-        LogUtils.d(TAG, "option : " + option.toString());
-        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), option).enqueue(new Callback<List<TaskResponse>>() {
+        LogUtils.d(TAG, "getTaskResponse option : " + option.toString());
+        call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), option);
+        call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
                 LogUtils.d(TAG, "getTaskResponse code : " + response.code());
@@ -178,21 +189,20 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     if (response.code() == Constants.HTTP_CODE_OK) {
                         List<TaskResponse> taskResponses = response.body();
                         LogUtils.d(TAG, "getTaskFromServer taskResponses size : " + taskResponses.size());
-
-                        if (taskResponses.size() > 0) {
-                            if (since == null) {
-                                taskList.clear();
-                            }
-                            sinceStr = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
-                            taskList.addAll(taskResponses);
-                            taskAdapter.notifyDataSetChanged();
-                            TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
-                            LogUtils.d(TAG, "getTaskResponse size : " + taskList.size());
+                        if (since == null) {
+                            taskList.clear();
+                            endlessRecyclerViewScrollListener.resetState();
                         }
+                        if (taskResponses.size() > 0)
+                            sinceStr = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
+                        taskList.addAll(taskResponses);
+                        taskAdapter.notifyDataSetChanged();
+                        LogUtils.d(TAG, "getTaskResponse size : " + taskList.size());
+                        TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
 
                         if (taskResponses.size() < limit) {
-                            taskAdapter.stopLoadMore();
                             isLoadingMoreFromServer = false;
+                            taskAdapter.stopLoadMore();
                         }
 
                     }
@@ -208,8 +218,9 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
 //                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
-                    Utils.showLongToast(getActivity(),error.message(),true,false);
+                    Utils.showLongToast(getActivity(), error.message(), true, false);
                 }
+
 
                 onStopRefresh();
 
@@ -218,27 +229,26 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onFailure(Call<List<TaskResponse>> call, Throwable t) {
                 onStopRefresh();
-                if (taskAdapter != null) {
+                LogUtils.e(TAG, "getTaskResponse , onFailure : " + t.getMessage());
+
+                if (!t.getMessage().equals("Canceled")) {
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            taskAdapter.onLoadMore();
+                            getTaskResponse(since, sortBytask, query);
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+
                     taskAdapter.stopLoadMore();
+                    onStopRefresh();
                     taskAdapter.notifyDataSetChanged();
                 }
-                isLoadingMoreFromServer = false;
-                LogUtils.e(TAG, "getTaskResponse , onFailure : " + t.getMessage());
-                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        taskAdapter.onLoadMore();
-                        isLoadingMoreFromServer = true;
-                        getTaskResponse(since, sortBytask, query);
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
-
-
             }
         });
     }
@@ -256,11 +266,11 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.img_back:
                 query = null;
-                strSortBy = null;
                 sinceStr = null;
                 edtSearch.setText("");
                 showSearch(layoutHeader, true);
                 showSearch(layoutSearch, false);
+                endlessRecyclerViewScrollListener.resetState();
                 onRefresh();
                 break;
             case R.id.img_clear:
@@ -274,8 +284,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     private void search() {
-        isLoadingMoreFromServer = true;
-        taskAdapter.onLoadMore();
         if (edtSearch.getText().toString().isEmpty()) {
             edtSearch.setError(getActivity().getString(R.string.empty_search));
         } else {
@@ -325,7 +333,10 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onRefresh() {
         super.onRefresh();
+
+        if (call != null) call.cancel();
         isLoadingMoreFromServer = true;
+        sinceStr = null;
         taskAdapter.onLoadMore();
         getTaskResponse(null, strSortBy, query);
 
