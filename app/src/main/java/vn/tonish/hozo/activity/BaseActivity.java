@@ -44,7 +44,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
 
     }
 
-    void createSwipeToRefresh() {
+    public void createSwipeToRefresh() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
