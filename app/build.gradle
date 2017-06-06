@@ -32,7 +32,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "BASE_URL", '"https://staging-api.hozo.vn/v1/"'
+            debuggable true
+        }
         release {
+            buildConfigField "String", "BASE_URL", '"https://api.hozo.vn/v1/"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

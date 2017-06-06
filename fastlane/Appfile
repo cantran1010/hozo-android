@@ -1,0 +1,2 @@
+json_key_file "google-play-android-developer-360eff95c151.json" # Path to the json secret file - Follow https://github.com/fastlane/supply#setup to get one
+package_name "vn.tonish.hozo" # e.g. com.krausefx.app

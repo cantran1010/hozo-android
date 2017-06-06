@@ -13,3 +13,9 @@
 /.idea
 /.gradle
 /app/build
+
+# Fastlane json key seret
+google-play-android-developer-*.json
+
+# Fastlane report
+fastlane/report.xml

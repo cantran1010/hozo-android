@@ -12,13 +12,12 @@ import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import vn.tonish.hozo.BuildConfig;
 
 /**
  * Created by LongBui on 09/05/2017.
  */
 public class ApiClient {
-
-    private static final String BASE_URL = "http://104.198.92.15:8080/v1/";
 
     public static Retrofit retrofit = null;
 
@@ -45,7 +44,7 @@ public class ApiClient {
             });
             retrofit = new Retrofit.Builder()
                     .client(builder.build())
-                    .baseUrl(BASE_URL)
+                    .baseUrl(BuildConfig.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
