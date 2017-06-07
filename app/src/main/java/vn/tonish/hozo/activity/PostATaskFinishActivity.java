@@ -202,6 +202,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
         LogUtils.d(TAG, "createNewTask data request : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        LogUtils.d(TAG, "request body create task : " + body.toString());
 
         ApiClient.getApiService().createNewTask(UserManager.getUserToken(), body).enqueue(new Callback<TaskResponse>() {
             @Override
@@ -217,7 +218,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 //                            finish();
 //                        }
 //                    });
-                    Utils.showLongToast(PostATaskFinishActivity.this, getString(R.string.post_a_task_complete),false,false);
+                    Utils.showLongToast(PostATaskFinishActivity.this, getString(R.string.post_a_task_complete), false, false);
                     setResult(Constants.POST_A_TASK_RESPONSE_CODE);
                     finish();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {

@@ -208,7 +208,7 @@ public class SelectTaskFragment extends BaseFragment {
         SettingManager.insertSetting(settingEntiny);
     }
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             getCategory();

@@ -53,7 +53,7 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
 
         LogUtils.d(TAG, "AlbumAdapter , item name : " + (item != null ? item.getName() : null));
 
-        holder.tvName.setText(item.getName());
+        holder.tvName.setText(item != null ? item.getName() : null);
 //        Utils.displayImage(getContext(), holder.imgAlbum, item.getCoverPath());
 
         Glide.with(getContext())
