@@ -33,13 +33,28 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "BASE_URL", '"https://staging-api.hozo.vn/v1/"'
+            buildConfigField "String", "BASE_URL", '"http://104.198.92.15:8080/v1/"'
             debuggable true
         }
         release {
             buildConfigField "String", "BASE_URL", '"https://api.hozo.vn/v1/"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('../keystore_debug/debug.keystore')
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+        }
+        release {
+            storeFile file('../keystore_debug/debug.keystore')
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
         }
     }
 
