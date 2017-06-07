@@ -28,7 +28,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     private FragmentManager fragmentManager;
     private TransitionScreen transitionScreen;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Stack<StackEntry> fragmentsStack = new Stack<>();
+    private final Stack<StackEntry> fragmentsStack = new Stack<>();
     private FragmentTransaction transaction;
 
     protected abstract int getLayout();
@@ -44,7 +44,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
 
     }
 
-    public void createSwipeToRefresh() {
+    void createSwipeToRefresh() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
@@ -140,6 +140,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         }
 
         if (args != null) {
+            assert fragment != null;
             fragment.setArguments(args);
         }
         TransitionScreen.setCustomAnimationsFragment(transaction, transitionScreen);
@@ -176,6 +177,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
+            assert nFrag != null;
             nFrag.setArguments(bundle);
 
             if (putStack) {
@@ -194,9 +196,8 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         if (fragmentsStack.isEmpty())
             return null;
         String fragTag = fragmentsStack.peek().getFragTag();
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(
+        return getSupportFragmentManager().findFragmentByTag(
                 fragTag);
-        return fragment;
     }
 
     private static class StackEntry implements Serializable {
@@ -224,9 +225,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
             if (x < view.getLeft() || x > view.getRight() || y < view.getTop() || y > view.getBottom())
                 ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
         }
-        if (ev != null)
-            return super.dispatchTouchEvent(ev);
-        else return true;
+        return ev == null || super.dispatchTouchEvent(ev);
     }
 
     @Override

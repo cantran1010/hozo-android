@@ -83,14 +83,18 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
+            android:layout_toEndOf="@id/img_back"
             android:layout_toRightOf="@id/img_back"
             android:background="@drawable/bg_border_search_map"
             android:inputType="text"
             android:maxLines="1"
             android:minHeight="40dp"
+            android:paddingEnd="30dp"
             android:paddingLeft="5dp"
             android:paddingRight="30dp"
+            android:paddingStart="5dp"
             android:textColor="@color/tv_black"
             android:textSize="13sp" />
 
@@ -102,6 +106,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:background="@drawable/bg_circle"
+            android:contentDescription="@string/adjust_image"
             android:padding="5dp"
             android:src="@drawable/img_close" />
 

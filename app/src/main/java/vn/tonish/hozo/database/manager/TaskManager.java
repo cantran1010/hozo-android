@@ -15,6 +15,7 @@ import vn.tonish.hozo.utils.LogUtils;
  * Created by LongBui on 5/17/17.
  */
 
+@SuppressWarnings("TryFinallyCanBeTryWithResources")
 public class TaskManager {
     private static final String TAG = TaskManager.class.getName();
 

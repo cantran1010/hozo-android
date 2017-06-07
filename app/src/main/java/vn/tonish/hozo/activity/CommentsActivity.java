@@ -33,15 +33,14 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     private static final String TAG = CommentsActivity.class.getSimpleName();
     public final static int LIMIT = 20;
     private CommentsAdapter commentsAdapter;
-    protected RecyclerView lvList;
+    private RecyclerView lvList;
     private List<Comment> mComments;
     private int taskId = 0;
     private String strSince;
     private boolean isLoadingMoreFromServer = true;
-    private LinearLayoutManager lvManager;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private Call<List<Comment>> call;
-    String commentType = "";
+    private String commentType = "";
 
     @Override
     protected int getLayout() {
@@ -68,7 +67,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     private void setUpRecyclerView() {
         mComments = new ArrayList<>();
         commentsAdapter = new CommentsAdapter(this, mComments);
-        lvManager = new LinearLayoutManager(this);
+        LinearLayoutManager lvManager = new LinearLayoutManager(this);
         lvList.setLayoutManager(lvManager);
         commentsAdapter.setCommentType(commentType);
         lvList.setAdapter(commentsAdapter);

@@ -14,7 +14,9 @@
         android:layout_width="@dimen/icon_size_gigatic2"
         android:layout_height="@dimen/icon_size_gigatic2"
         android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
+        android:contentDescription="@string/adjust_image"
         android:src="@android:drawable/ic_dialog_info" />
 
     <vn.tonish.hozo.view.TextViewHozo
@@ -22,8 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/imgToast"
         android:layout_toRightOf="@+id/imgToast"
-        android:text="content"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_gigatic" />
 

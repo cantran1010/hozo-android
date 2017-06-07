@@ -66,7 +66,7 @@ public class PlaceAutocompleteAdapter
     /**
      * Handles autocomplete requests.
      */
-    private GoogleApiClient mGoogleApiClient;
+    private final GoogleApiClient mGoogleApiClient;
 
     /**
      * The bounds used for Places Geo Data autocomplete API requests.
@@ -76,7 +76,7 @@ public class PlaceAutocompleteAdapter
     /**
      * The autocomplete filter used to restrict queries to a specific set of place types.
      */
-    private AutocompleteFilter mPlaceFilter;
+    private final AutocompleteFilter mPlaceFilter;
 
     /**
      * Initializes with a resource for text rows and autocomplete query bounds.

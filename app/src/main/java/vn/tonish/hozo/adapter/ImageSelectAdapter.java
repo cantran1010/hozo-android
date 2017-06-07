@@ -72,7 +72,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (item != null ? item.isSelected : false) {
+        if (item != null && item.isSelected) {
             holder.imgCheck.setVisibility(View.VISIBLE);
             final int sdk = android.os.Build.VERSION.SDK_INT;
             if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {

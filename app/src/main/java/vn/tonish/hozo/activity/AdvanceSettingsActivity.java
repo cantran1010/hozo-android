@@ -240,7 +240,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
                 List<Category> list = new ArrayList<>();
                 mCategory = new Category();
                 mCategory = category;
-                for (Category cat : mCategory.getCategories()) {
+                for (Category cat : mCategory != null ? mCategory.getCategories() : null) {
                     if (cat.isSelected()) {
                         list.add(cat);
                     }

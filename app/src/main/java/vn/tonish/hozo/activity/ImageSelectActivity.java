@@ -65,7 +65,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
         if (intent != null && intent.hasExtra(Constants.EXTRA_IS_CROP_PROFILE))
             isCropProfile = intent.getBooleanExtra(Constants.EXTRA_IS_CROP_PROFILE, false);
 
-        if (intent != null ? intent.hasExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA) : false)
+        if (intent != null && intent.hasExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA))
             countImageAttach = intent.getIntExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, 0);
 
         album = intent.getStringExtra(Constants.INTENT_EXTRA_ALBUM);

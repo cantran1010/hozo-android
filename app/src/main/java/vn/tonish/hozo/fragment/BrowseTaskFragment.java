@@ -58,20 +58,19 @@ import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 
 public class BrowseTaskFragment extends BaseFragment implements View.OnClickListener {
     private final static String TAG = BrowseTaskFragment.class.getSimpleName();
-    public final static int limit = 20;
+    private final static int limit = 20;
     private ImageView imgSearch, imgLocation, imgControls, imgBack, imgClear;
     private RelativeLayout layoutHeader, layoutSearch;
     private EdittextHozo edtSearch;
     private RecyclerView rcvTask;
     private TaskAdapter taskAdapter;
-    private List<TaskResponse> taskList = new ArrayList<>();
+    private final List<TaskResponse> taskList = new ArrayList<>();
     private String sinceStr = null;
     private String query = null;
-    private String strSortBy = null;
+    private final String strSortBy = null;
     private Animation rtAnimation;
     private Animation lanimation;
     private boolean isLoadingMoreFromServer = true;
-    private LinearLayoutManager lvManager;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private Call<List<TaskResponse>> call;
 
@@ -138,7 +137,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     private void setUpRecyclerView() {
         taskAdapter = new TaskAdapter(getActivity(), taskList);
-        lvManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager lvManager = new LinearLayoutManager(getActivity());
         rcvTask.setLayoutManager(lvManager);
         rcvTask.setAdapter(taskAdapter);
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(lvManager) {
@@ -338,7 +337,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     }
 
-    private BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
+    private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             rcvTask.smoothScrollToPosition(0);

@@ -185,7 +185,6 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:id="@+id/img_verify_mobile"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:contentDescription="@string/just_image"
@@ -193,7 +192,6 @@
                         android:src="@drawable/ic_vr_phone" />
 
                     <ImageView
-                        android:id="@+id/img_verify_facebook"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:alpha="0.1"
@@ -202,7 +200,6 @@
                         android:src="@drawable/ic_vr_facebook" />
 
                     <ImageView
-                        android:id="@+id/img_verify_email"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:alpha="0.1"
@@ -211,7 +208,6 @@
                         android:src="@drawable/ic_vr_card" />
 
                     <ImageView
-                        android:id="@+id/img_verify_card"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:alpha="0.1"
@@ -220,7 +216,6 @@
                         android:src="@drawable/ic_vr_card" />
 
                     <ImageView
-                        android:id="@+id/img_verify_bank"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:alpha="0.1"

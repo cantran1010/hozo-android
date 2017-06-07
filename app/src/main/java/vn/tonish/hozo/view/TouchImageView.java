@@ -12,25 +12,28 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 
 public class TouchImageView extends AppCompatImageView {
-    Matrix matrix;
-    static final int NONE = 0;
-    static final int DRAG = 1;
-    static int ZOOM = 2;
-    static int mode = NONE;
-    public int iSunDo = 0;
-    PointF last = new PointF();
-    PointF start = new PointF();
-    float minScale = 0f;
-    float maxScale = 10f;
-    float[] m;
-    int viewWidth, viewHeight;
-    static final int CLICK = 3;
-    float saveScale = 1f;
-    protected float origWidth, origHeight;
-    int oldMeasuredWidth, oldMeasuredHeight;
+    private Matrix matrix;
+    private static final int NONE = 0;
+    private static final int DRAG = 1;
+    private static final int ZOOM = 2;
+    private static int mode = NONE;
+    private final int iSunDo = 0;
+    private final PointF last = new PointF();
+    private final PointF start = new PointF();
+    private final float minScale = 0f;
+    private float maxScale = 10f;
+    private float[] m;
+    private int viewWidth;
+    private int viewHeight;
+    private static final int CLICK = 3;
+    private float saveScale = 1f;
+    private float origWidth;
+    private float origHeight;
+    private int oldMeasuredWidth;
+    private int oldMeasuredHeight;
     float bmWidth, bmHeight;
-    ScaleGestureDetector mScaleDetector;
-    Context context;
+    private ScaleGestureDetector mScaleDetector;
+    private Context context;
 
     public TouchImageView(Context context) {
         super(context);
@@ -157,7 +160,7 @@ public class TouchImageView extends AppCompatImageView {
         }
     }
 
-    void fixTrans() {
+    private void fixTrans() {
         matrix.getValues(m);
         float transX = m[Matrix.MTRANS_X];
         float transY = m[Matrix.MTRANS_Y];
@@ -170,7 +173,7 @@ public class TouchImageView extends AppCompatImageView {
             matrix.postTranslate(fixTransX, fixTransY);
     }
 
-    float getFixTrans(float trans, float viewSize, float contentSize) {
+    private float getFixTrans(float trans, float viewSize, float contentSize) {
         float minTrans, maxTrans;
 
         if (contentSize <= viewSize) {

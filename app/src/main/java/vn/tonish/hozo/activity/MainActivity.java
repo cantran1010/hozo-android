@@ -243,7 +243,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-    boolean doubleBackToExitPressedOnce = false;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {
