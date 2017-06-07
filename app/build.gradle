@@ -15,18 +15,15 @@ repositories {
 
 apply plugin: 'realm-android'
 
-def getVersionCode() {
-    try {
-        def code = new ByteArrayOutputStream()
-        exec {
-            commandLine 'git', 'rev-list', 'HEAD', '--count'
-            standardOutput = code
-        }
-        return code.toString().trim()
+int getVersionCode() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        workingDir projectDir
+        executable 'git'
+        args 'rev-list', 'HEAD', '--count'
+        standardOutput = stdout
     }
-    catch (ignored) {
-        return -1;
-    }
+    return stdout.toString().trim().toInteger()
 }
 
 android {
