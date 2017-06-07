@@ -15,6 +15,7 @@ import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.setting.CostActivity;
+import vn.tonish.hozo.activity.setting.ShowTaskWithin;
 import vn.tonish.hozo.activity.setting.TaskTypeActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.CategoryEntity;
@@ -22,7 +23,6 @@ import vn.tonish.hozo.database.entity.SettingEntiny;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
-import vn.tonish.hozo.dialog.RadiusSettingDialog;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.network.DataParse;
 import vn.tonish.hozo.utils.LogUtils;
@@ -32,6 +32,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_COST;
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_RADIUS;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_TASK_TYPE;
 import static vn.tonish.hozo.common.Constants.RESULT_CODE_COST;
 import static vn.tonish.hozo.common.Constants.RESULT_CODE_TASK_TYPE;
@@ -51,7 +52,6 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     private int minWorkerRate = 0;
     private int maxWorkerRate = 0;
     private int mRadius;
-    private int idRadius;
     private String strRadius;
     private String strLocation;
 
@@ -159,19 +159,9 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
 
     private void setRadius() {
-        final RadiusSettingDialog radiusSettingDialog = new RadiusSettingDialog(this, idRadius);
-        radiusSettingDialog.setRadiusDialogListener(new RadiusSettingDialog.RadiusDialogListener() {
-            @Override
-            public void onRadiusDialogLister(String radius, int index) {
-                tvRadius.setText(radius);
-                if (!radius.equals(getString(R.string.radius_everywhere)))
-                    mRadius = Integer.valueOf((radius.trim().replace(".", "")).replace("km", "").replace(" ", ""));
-                else
-                    mRadius = 0;
-                idRadius = index;
-            }
-        });
-        radiusSettingDialog.showView();
+        Intent i = new Intent(this, ShowTaskWithin.class);
+        i.putExtra(Constants.REQUEST_EXTRAS_RADIUS, mRadius);
+        startActivityForResult(i, Constants.REQUEST_CODE_RADIUS, TransitionScreen.DOWN_TO_UP);
 
     }
 
@@ -250,10 +240,18 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             tvPrice.setText(formatNumber(minWorkerRate) + " - " + formatNumber(maxWorkerRate));
 
         }
+        if (requestCode == REQUEST_CODE_RADIUS && resultCode == Constants.RESULT_RADIUS && data != null) {
+            mRadius = (int) data.getExtras().get(Constants.EXTRA_RADIUS);
+            if (mRadius == 0) strRadius = getString(R.string.radius_everywhere);
+            else
+                strRadius = mRadius + getString(R.string.all_space_type) + getString(R.string.km);
+            tvRadius.setText(strRadius);
+
+        }
     }
 
     private void setDefaultvalues() {
-        SettingEntiny settingEntiny=SettingManager.getSettingEntiny();
+        SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
         strLocation = settingEntiny.getLocation();
         minWorkerRate = (int) settingEntiny.getMinWorkerRate();
         maxWorkerRate = (int) settingEntiny.getMaxWorkerRate();
@@ -261,39 +259,10 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         mCategory.setCategories((ArrayList<Category>) DataParse.convertListCategoryEntityToListCategory(CategoryManager.getAllCategories()));
         lat = settingEntiny.getLatitude();
         lng = settingEntiny.getLongitude();
-        if (settingEntiny.getRadius() == 0) {
-            idRadius = R.id.rb_everywhere;
-            strRadius = getString(R.string.radius_everywhere);
-        } else {
-            int rad = settingEntiny.getRadius();
-            switch (rad) {
-                case 5:
-                    idRadius = R.id.rb_5;
-                    strRadius = getString(R.string.radius_5km);
-                    break;
-                case 10:
-                    idRadius = R.id.rb_10;
-                    strRadius = getString(R.string.radius_10km);
-                    break;
-                case 15:
-                    idRadius = R.id.rb_15;
-                    strRadius = getString(R.string.radius_15km);
-                    break;
-                case 20:
-                    idRadius = R.id.rb_20;
-                    strRadius = getString(R.string.radius_20km);
-                    break;
-                case 25:
-                    idRadius = R.id.rb_25;
-                    strRadius = getString(R.string.radius_25km);
-                    break;
-                case 50:
-                    idRadius = R.id.rb_50;
-                    strRadius = getString(R.string.radius_50km);
-                    break;
-            }
-
-        }
+        mRadius = settingEntiny.getRadius();
+        if (mRadius == 0) strRadius = getString(R.string.radius_everywhere);
+        else
+            strRadius = mRadius + getString(R.string.all_space_type) + getString(R.string.km);
 
     }
 
