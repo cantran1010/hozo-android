@@ -12,11 +12,11 @@ platform :android do
   lane :beta do
     gradle(task: "assembleDebug")
     hockey
-    build   = value = get_version_name(
+    build = get_version_name(
                       gradle_file_path:"project/build.gradle",
                       ext_constant_name:"versionName"
                       )
-    version = get_version_number_from_git_branch(pattern: 'release-#')
+    version = get_version_number_from_git_branch(pattern: 'master-#')
     slack(
       default_payloads: [],
       payload: {
