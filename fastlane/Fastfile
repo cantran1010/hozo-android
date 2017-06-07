@@ -16,11 +16,12 @@ platform :android do
                       gradle_file_path:"project/build.gradle",
                       ext_constant_name:"versionName"
                       )
-    version = get_version_number_from_git_branch(pattern: 'master-#')
+    build_number = number_of_commits(all: true)
+    increment_build_number(build_number: number_of_commits)
     slack(
       default_payloads: [],
       payload: {
-         "Version" => "#{build} (#{version})",
+         "Version" => "#{build} (#{build_number})",
         'Download'=> lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
       },
     )
