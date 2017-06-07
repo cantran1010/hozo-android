@@ -12,16 +12,12 @@ platform :android do
   lane :beta do
     gradle(task: "assembleDebug")
     hockey
-    build = get_version_name(
-                      gradle_file_path:"project/build.gradle",
-                      ext_constant_name:"versionName"
-                      )
     build_number = number_of_commits(all: true)
     increment_build_number(build_number: number_of_commits)
     slack(
       default_payloads: [],
       payload: {
-         "Version" => "#{build} (#{build_number})",
+         "Version" => "(#{build_number})",
         'Download'=> lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
       },
     )

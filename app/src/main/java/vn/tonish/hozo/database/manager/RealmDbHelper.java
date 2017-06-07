@@ -34,7 +34,7 @@ public class RealmDbHelper {
                     .name(Constants.DB_NAME)
                     .schemaVersion(1)
 //                    .migration(migration)
-//                    .deleteRealmIfMigrationNeeded()
+                    .deleteRealmIfMigrationNeeded()
                     .encryptionKey(Base64.decode(key, Base64.DEFAULT))
                     .build();
 

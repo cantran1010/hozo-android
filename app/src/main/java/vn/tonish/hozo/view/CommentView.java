@@ -86,7 +86,7 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
 
         if (comment.getBody().equals("")) tvComment.setVisibility(View.GONE);
 
-        if (comment.getImgAttach() != null && !comment.getImgAttach().trim().equals("") && !comment.equals("null"))
+        if (comment.getImgAttach() != null && !comment.getImgAttach().trim().equals("") && !comment.getImgAttach().equals("null"))
             Utils.displayImage(getContext(), imgAttach, comment.getImgAttach());
         else imgAttach.setVisibility(View.GONE);
 
