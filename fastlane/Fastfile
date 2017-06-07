@@ -19,6 +19,7 @@ platform :android do
     slack(
       default_payloads: [],
       payload: {
+        "Git Commit" => last_git_commit[:message],
         'Download'=> lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
       },
     )
