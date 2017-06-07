@@ -91,11 +91,11 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
 
     private void clearSelected() {
         taskTypes.clear();
-        if (mCategory.getCategories().size() > 0)
+        if (mCategory != null)
             taskTypes.addAll(mCategory.getCategories());
         else
             getTaskTypes();
-        LogUtils.d(TAG, "categories " + taskTypes.toString());
+
         mAdapter.notifyDataSetChanged();
     }
 
