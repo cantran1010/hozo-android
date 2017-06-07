@@ -277,7 +277,7 @@ public class InboxFragment extends BaseFragment {
         getNotifications();
     }
 
-    private BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
+    private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             lvList.smoothScrollToPosition(0);

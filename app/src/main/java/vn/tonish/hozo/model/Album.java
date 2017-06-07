@@ -5,8 +5,8 @@ package vn.tonish.hozo.model;
  */
 
 public class Album {
-    private long id;
-    private String name;
+    private final long id;
+    private final String name;
     private String coverPath;
 
 

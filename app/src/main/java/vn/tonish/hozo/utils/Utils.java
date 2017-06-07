@@ -106,12 +106,10 @@ public class Utils {
         showToastCustom(context, content, isError, isShort);
     }
 
-    private static Toast toastCustom;
-    private static View viewToastCustom;
-
     private static void showToastCustom(Context context, String content,
                                         boolean isError, boolean isShort) {
-        toastCustom = new Toast(context);
+        Toast toastCustom = new Toast(context);
+        View viewToastCustom;
         if (isError) {
             viewToastCustom = LayoutInflater.from(context).inflate(
                     R.layout.toast_custom_warning, null);

@@ -39,13 +39,13 @@ public class MyTaskWorkerFragment extends BaseFragment {
 
     private static final String TAG = MyTaskWorkerFragment.class.getSimpleName();
     private RecyclerView rcvTask;
-    private List<TaskResponse> taskResponses = new ArrayList<>();
+    private final List<TaskResponse> taskResponses = new ArrayList<>();
     private MyTaskAdapter myTaskAdapter;
     //    private String role = Constants.ROLE_TASKER;
-    public static final int LIMIT = 20;
+    private static final int LIMIT = 20;
     private String sinceStr;
     //    private Date sinceDate;
-    boolean isLoadingMoreFromServer = true;
+    private boolean isLoadingMoreFromServer = true;
     //    boolean isLoadingMoreFromDb = true;
 //    boolean isLoadingFromServer = false;
     private Call<List<TaskResponse>> call;
@@ -128,7 +128,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
         getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
     }
 
-    private BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
+    private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             rcvTask.smoothScrollToPosition(0);

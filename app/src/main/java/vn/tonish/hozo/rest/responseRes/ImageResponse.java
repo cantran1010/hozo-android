@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class ImageResponse {
 
     @SerializedName("tmp_id")
-    private int idTemp;
+    private  int idTemp;
 
     public int getIdTemp() {
         return idTemp;

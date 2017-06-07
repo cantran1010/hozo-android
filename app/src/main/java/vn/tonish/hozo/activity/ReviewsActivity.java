@@ -37,13 +37,12 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
     private final static String TAG = ReviewsActivity.class.getSimpleName();
     private final static int LIMIT = 20;
     private RecyclerView rcvReviews;
-    private List<ReviewEntity> mReviewEntities = new ArrayList<>();
+    private final List<ReviewEntity> mReviewEntities = new ArrayList<>();
     private ReviewsAdapter reviewsAdapter;
     private String strSince;
     private boolean isLoadingMoreFromServer = true;
     private ImageView imgBack;
     private int user_id;
-    private LinearLayoutManager lvManager;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private Call<List<ReviewEntity>> call;
 
@@ -76,7 +75,7 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
 
     private void setUpRecyclerView() {
         reviewsAdapter = new ReviewsAdapter(this, mReviewEntities);
-        lvManager = new LinearLayoutManager(this);
+        LinearLayoutManager lvManager = new LinearLayoutManager(this);
         rcvReviews.setLayoutManager(lvManager);
         rcvReviews.setAdapter(reviewsAdapter);
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(lvManager) {

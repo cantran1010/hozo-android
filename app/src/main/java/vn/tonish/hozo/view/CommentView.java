@@ -53,7 +53,7 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public CommentView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    private CommentView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView();
     }

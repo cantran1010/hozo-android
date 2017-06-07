@@ -39,7 +39,7 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
 
     private View view;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Stack<StackEntry> fragmentsStack = new Stack<>();
+    private final Stack<StackEntry> fragmentsStack = new Stack<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,10 +83,6 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-        if (swipeRefreshLayout.isRefreshing()) {
-//            onStopRefresh();
-            return;
-        } else
             swipeRefreshLayout.setRefreshing(true);
     }
 
@@ -154,8 +150,8 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         }
     }
 
-    public void showChildFragment(int resLayout, Class<?> newFragClass,
-                                  boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
+    void showChildFragment(int resLayout, Class<?> newFragClass,
+                           boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
 
         FragmentManager manager = getChildFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -207,9 +203,8 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         if (fragmentsStack.isEmpty())
             return null;
         String fragTag = fragmentsStack.peek().getFragTag();
-        Fragment fragment = getChildFragmentManager().findFragmentByTag(
+        return getChildFragmentManager().findFragmentByTag(
                 fragTag);
-        return fragment;
     }
 
     private static class StackEntry implements Serializable {

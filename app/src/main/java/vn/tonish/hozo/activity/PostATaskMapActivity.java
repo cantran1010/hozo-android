@@ -65,7 +65,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
      * GoogleApiClient wraps our service connection to Google Play Services and provides access
      * to the user's sign in state as well as the Google's APIs.
      */
-    protected GoogleApiClient googleApiClient;
+    private GoogleApiClient googleApiClient;
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
     private AutoCompleteTextView autocompleteView;
     private static final LatLngBounds BOUNDS_VIETNAM = new LatLngBounds(
@@ -84,7 +84,6 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     private final String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     private Marker marker;
     private boolean isOnLocation = true;
-    private ImageView imgClear;
 
     @Override
     protected int getLayout() {
@@ -125,7 +124,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         ImageView imgZoomOut = (ImageView) findViewById(R.id.img_map_zoom_out);
         imgZoomOut.setOnClickListener(this);
 
-        imgClear = (ImageView) findViewById(R.id.img_clear);
+        ImageView imgClear = (ImageView) findViewById(R.id.img_clear);
         imgClear.setOnClickListener(this);
 
 //        tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
@@ -258,7 +257,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
      * @see com.google.android.gms.location.places.GeoDataApi#getPlaceById(com.google.android.gms.common.api.GoogleApiClient,
      * String...)
      */
-    private AdapterView.OnItemClickListener mAutocompleteClickListener
+    private final AdapterView.OnItemClickListener mAutocompleteClickListener
             = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -289,7 +288,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
      * Callback for results from a Places Geo Data API query that shows the first place result in
      * the details view on screen.
      */
-    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
+    private final ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
         @Override
         public void onResult(PlaceBuffer places) {

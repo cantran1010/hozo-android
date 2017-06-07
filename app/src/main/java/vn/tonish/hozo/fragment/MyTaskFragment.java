@@ -68,7 +68,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
     }
 
-    private BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
+    private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (role.equals(Constants.ROLE_TASKER)) {

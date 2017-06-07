@@ -151,10 +151,11 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         tvDescription.setText(taskResponse.getDescription());
 
         taskProgressView.updateData(taskResponse.getBidderCount(), (taskResponse.getWorkerCount() - taskResponse.getAssigneeCount()), taskResponse.getAssigneeCount());
-
-        tvPrice.setText(Utils.formatNumber(taskResponse.getWorkerCount() * taskResponse.getWorkerRate()) + " VND");
+        String strPrice = Utils.formatNumber(taskResponse.getWorkerCount() * taskResponse.getWorkerRate()) + getContext().getString(R.string.task_detail_money_type);
+        tvPrice.setText(strPrice);
         tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
-        tvTime.setText(DateTimeUtils.getHourMinuteFromIso(taskResponse.getStartTime()) + " " + getContext().getString(R.string.detail_task_time_to) + " " + DateTimeUtils.getHourMinuteFromIso(taskResponse.getEndTime()));
+        String strTime = DateTimeUtils.getHourMinuteFromIso(taskResponse.getStartTime()) + getContext().getString(R.string.all_space_type) + getContext().getString(R.string.detail_task_time_to) + getContext().getString(R.string.all_space_type) + DateTimeUtils.getHourMinuteFromIso(taskResponse.getEndTime());
+        tvTime.setText(strTime);
         tvAddress.setText(taskResponse.getAddress());
 
         final ArrayList<String> attachments = (ArrayList<String>) taskResponse.getAttachments();

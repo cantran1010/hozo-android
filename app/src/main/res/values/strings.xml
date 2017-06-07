@@ -104,9 +104,6 @@
     <string name="date_pick_hint">Chọn thời gian bắt đầu làm việc</string>
     <string name="btn_next">TIẾP TỤC</string>
     <string name="age_from_hint">18 ~ 80</string>
-    <string name="map_hint_input1">Nhập địa điểm</string>
-    <string name="map_hint_input2">(hoặc di chuyển pin trên bản đồ)</string>
-    <string name="post_a_task_map_title">Địa điểm làm việc</string>
     <string name="post_a_task_finish_title">Chi phí</string>
     <string name="post_task_finish_offer">Số tiền cho một người</string>
     <string name="post_task_finish_number">Số người cần thuê</string>
@@ -158,7 +155,6 @@
     <string name="content_description_verify">Đã xác thực</string>
     <string name="post_a_task_budget_error">Vui lòng nhập số tiền cho một người</string>
     <string name="post_a_task_number_worker_error">Vui lòng nhập số người cần thuê</string>
-    <string name="post_a_task_address_error">Vui lòng nhập địa chỉ làm việc</string>
     <string name="post_a_task_max_attach_err">Bạn chỉ được chọn tối đa 6 ảnh</string>
     <string name="select_age_title">Chọn Tuổi</string>
     <string name="select_age_to">Đến</string>
@@ -328,5 +324,7 @@
     <string name="contacting_api_autocomplete_error">Lỗi kết nối tới dịch vụ của google</string>
     <string name="post_a_task_map_get_location_error">Không thể lấy vị trí của bạn,vui lòng kiểm tra lại kết nối mạng !</string>
     <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
+    <string name="task_detail_money_type">VND</string>
+    <string name="all_space_type"><![CDATA[&#160]]></string>
 
 </resources>

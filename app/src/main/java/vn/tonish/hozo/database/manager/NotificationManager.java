@@ -14,7 +14,7 @@ import vn.tonish.hozo.utils.LogUtils;
 /**
  * Created by LongBui.
  */
-public class NotificationManager {
+class NotificationManager {
 
     private static final String TAG = NotificationManager.class.getName();
 

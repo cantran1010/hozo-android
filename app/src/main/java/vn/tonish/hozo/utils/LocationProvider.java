@@ -36,7 +36,7 @@ public class LocationProvider implements
         void handleNewLocation(Location location);
     }
 
-    public static final String TAG = LocationProvider.class.getSimpleName();
+    private static final String TAG = LocationProvider.class.getSimpleName();
 
     /*
      * Define a request code to send to Google Play services
