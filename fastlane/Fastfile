@@ -19,7 +19,6 @@ platform :android do
     slack(
       default_payloads: [],
       payload: {
-         # "Version" => "#{build} (#{build_number})",
         'Download'=> lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
       },
     )
