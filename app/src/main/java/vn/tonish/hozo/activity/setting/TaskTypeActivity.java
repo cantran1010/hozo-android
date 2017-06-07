@@ -91,11 +91,7 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
 
     private void clearSelected() {
         taskTypes.clear();
-        if (mCategory != null)
-            taskTypes.addAll(mCategory.getCategories());
-        else
-            getTaskTypes();
-
+        getTaskTypes();
         mAdapter.notifyDataSetChanged();
     }
 
@@ -114,7 +110,7 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
 
 
     private void saveData() {
-        if (taskTypes.size() > 0) {
+        if (checkSelected(taskTypes)) {
             Intent intent = new Intent();
             Category category = new Category();
             category.setCategories(taskTypes);
@@ -122,9 +118,18 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
             setResult(Constants.RESULT_CODE_TASK_TYPE, intent);
             finish();//finishing
         } else {
-//            Toast.makeText(this, getString(R.string.taks_type_empty), Toast.LENGTH_SHORT).show();
-            Utils.showLongToast(this,getString(R.string.taks_type_empty),true,false);
+            Utils.showLongToast(this, getString(R.string.taks_type_empty), true, false);
         }
+    }
+
+    private boolean checkSelected(ArrayList<Category> cs) {
+        for (Category c : cs
+                ) {
+            if (c.isSelected()) return true;
+
+        }
+
+        return false;
     }
 
 }
