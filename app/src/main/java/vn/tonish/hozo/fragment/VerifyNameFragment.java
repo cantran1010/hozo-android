@@ -185,7 +185,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View textView) {
-                openGeneralInfoActivity(getString(R.string.other_condition), "https://tonish.vn/terms.html");
+                openGeneralInfoActivity(getString(R.string.other_condition));
             }
 
             @Override
@@ -201,9 +201,9 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
         textViewHozo.setHighlightColor(Color.TRANSPARENT);
     }
 
-    private void openGeneralInfoActivity(String title, String url) {
+    private void openGeneralInfoActivity(String title) {
         Intent intent = new Intent(getActivity(), GeneralInfoActivity.class);
-        intent.putExtra(Constants.URL_EXTRA, url);
+        intent.putExtra(Constants.URL_EXTRA, "https://tonish.vn/terms.html");
         intent.putExtra(Constants.TITLE_INFO_EXTRA, title);
         startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
     }

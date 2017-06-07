@@ -81,7 +81,7 @@
                 android:enabled="false"
                 android:gravity="center"
                 android:minHeight="@dimen/edt_min_height"
-                android:text="@string/login_continue"
+                android:text="@string/btn_next"
                 android:textColor="@color/blue"
                 android:textSize="@dimen/tv_size_nomal"
                 android:textStyle="bold" />

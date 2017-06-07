@@ -18,6 +18,8 @@ import vn.tonish.hozo.BuildConfig;
  * Created by LongBui on 09/05/2017.
  */
 public class ApiClient {
+//    private static final String URL = "http://104.198.92.15:8080/v1/";
+//public static final String BASE_URL = "https://staging-api.hozo.vn/v1/";
 
     public static Retrofit retrofit = null;
 

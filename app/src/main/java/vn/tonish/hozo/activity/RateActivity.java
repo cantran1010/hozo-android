@@ -83,7 +83,7 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
                     imgRate.setImageResource(R.drawable.img_rate_5_star);
                 }
 
-//                Toast.makeText(getApplicationContext(), "Your Selected Ratings  : " + String.valueOf(rating), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Your selected Ratings  : " + String.valueOf(rating), Toast.LENGTH_LONG).show();
 
             }
         });
