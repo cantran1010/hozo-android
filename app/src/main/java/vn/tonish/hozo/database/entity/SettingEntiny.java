@@ -21,10 +21,6 @@ public class SettingEntiny extends RealmObject implements Serializable {
     private String gender;
 
 
-    public int getUserId() {
-        return userId;
-    }
-
     public void setUserId(int userId) {
         this.userId = userId;
     }

@@ -20,7 +20,6 @@ public class TouchImageView extends AppCompatImageView {
     private final int iSunDo = 0;
     private final PointF last = new PointF();
     private final PointF start = new PointF();
-    private final float minScale = 0f;
     private float maxScale = 10f;
     private float[] m;
     private int viewWidth;
@@ -29,11 +28,9 @@ public class TouchImageView extends AppCompatImageView {
     private float saveScale = 1f;
     private float origWidth;
     private float origHeight;
-    private int oldMeasuredWidth;
     private int oldMeasuredHeight;
     float bmWidth, bmHeight;
     private ScaleGestureDetector mScaleDetector;
-    private Context context;
 
     public TouchImageView(Context context) {
         super(context);
@@ -52,7 +49,7 @@ public class TouchImageView extends AppCompatImageView {
     private void sharedConstructing(Context context) {
 
         super.setClickable(true);
-        this.context = context;
+        Context context1 = context;
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
         matrix = new Matrix();
         m = new float[9];
@@ -139,6 +136,7 @@ public class TouchImageView extends AppCompatImageView {
             float mScaleFactor = detector.getScaleFactor();
             float origScale = saveScale;
             saveScale *= mScaleFactor;
+            float minScale = 0f;
             if (saveScale > maxScale) {
                 saveScale = maxScale;
                 mScaleFactor = maxScale / origScale;
@@ -211,7 +209,7 @@ public class TouchImageView extends AppCompatImageView {
                 || viewWidth == 0 || viewHeight == 0)
             return;
         oldMeasuredHeight = viewHeight;
-        oldMeasuredWidth = viewWidth;
+        int oldMeasuredWidth = viewWidth;
 
         if (saveScale == 1) {
             // Fit to screen.

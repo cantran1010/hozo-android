@@ -22,7 +22,6 @@ import vn.tonish.hozo.database.entity.SettingEntiny;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
-import vn.tonish.hozo.dialog.GenderDialog;
 import vn.tonish.hozo.dialog.RadiusSettingDialog;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.network.DataParse;
@@ -54,7 +53,6 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     private int mRadius;
     private int idRadius;
     private String strRadius;
-    private String strGender;
     private String strLocation;
 
 
@@ -68,9 +66,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         tvWorkType = (TextViewHozo) findViewById(R.id.tv_work_type);
         tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
         tvLocation = (TextViewHozo) findViewById(R.id.tv_location);
-        tvGender = (TextViewHozo) findViewById(R.id.tv_gender);
         tvRadius = (TextViewHozo) findViewById(R.id.tv_radius);
-        btnReset = (ButtonHozo) findViewById(R.id.btn_reset);
         btnReset = (ButtonHozo) findViewById(R.id.btn_reset);
         btnSave = (ButtonHozo) findViewById(R.id.btn_save);
 
@@ -83,7 +79,6 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         findViewById(R.id.tab_type).setOnClickListener(this);
         findViewById(R.id.tab_price).setOnClickListener(this);
         findViewById(R.id.tab_location).setOnClickListener(this);
-        findViewById(R.id.tab_gender).setOnClickListener(this);
         findViewById(R.id.tab_radius).setOnClickListener(this);
         btnReset.setOnClickListener(this);
         btnSave.setOnClickListener(this);
@@ -124,9 +119,6 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
                     LogUtils.e(TAG, e.toString());
                 }
                 break;
-            case R.id.tab_gender:
-                setGender();
-                break;
             case R.id.tab_radius:
                 setRadius();
                 break;
@@ -150,7 +142,6 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         settingEntiny.setMaxWorkerRate(maxWorkerRate);
         settingEntiny.setLatitude(lat);
         settingEntiny.setLongitude(lng);
-        settingEntiny.setGender(strGender);
         settingEntiny.setRadius(mRadius);
         settingEntiny.setLocation(strLocation);
         SettingManager.insertSetting(settingEntiny);
@@ -184,20 +175,6 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
     }
 
-    private void setGender() {
-        final GenderDialog ageDialog = new GenderDialog(this, strGender);
-        ageDialog.setAgeDialogListener(new GenderDialog.AgeDialogListener() {
-            @Override
-            public void onAgeDialogLister(String gender) {
-                tvGender.setText(gender);
-                strGender = gender;
-            }
-        });
-
-        ageDialog.showView();
-
-    }
-
 
     private String getNameRealmCategorys() {
         String name = "";
@@ -226,7 +203,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         tvPrice.setText(formatNumber(settingEntiny.getMinWorkerRate()) + " - " + formatNumber(settingEntiny.getMaxWorkerRate()));
         tvLocation.setText(strLocation);
         tvRadius.setText(strRadius);
-        tvGender.setText(settingEntiny.getGender());
+
 
     }
 
@@ -284,7 +261,6 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         mCategory.setCategories((ArrayList<Category>) DataParse.convertListCategoryEntityToListCategory(CategoryManager.getAllCategories()));
         lat = settingEntiny.getLatitude();
         lng = settingEntiny.getLongitude();
-        strGender = settingEntiny.getGender();
         if (settingEntiny.getRadius() == 0) {
             idRadius = R.id.rb_everywhere;
             strRadius = getString(R.string.radius_everywhere);

@@ -26,7 +26,7 @@ public class WorkAroundMapFragment extends SupportMapFragment {
 
         frameLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.transparent));
 
-        assert ((ViewGroup) layout) != null;
+        assert layout != null;
         ((ViewGroup) layout).addView(frameLayout,
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 

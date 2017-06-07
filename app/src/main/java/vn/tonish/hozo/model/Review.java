@@ -27,10 +27,6 @@ public class Review implements Parcelable {
     @SerializedName("created_at")
     private String createdAt;
 
-    public Review() {
-
-    }
-
     private Review(Parcel in) {
         authorAvatar = in.readString();
         authorName = in.readString();

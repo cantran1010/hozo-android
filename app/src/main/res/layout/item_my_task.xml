@@ -8,6 +8,8 @@
     card_view:cardBackgroundColor="@color/white"
     card_view:cardCornerRadius="5dp"
     card_view:cardElevation="5dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     card_view:cardUseCompatPadding="true">
 
     <LinearLayout

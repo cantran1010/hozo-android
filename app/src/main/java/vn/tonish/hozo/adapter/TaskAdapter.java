@@ -35,9 +35,6 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
 
     private TaskAdapterListener taskAdapterListener;
 
-    public TaskAdapterListener getTaskAdapterListener() {
-        return taskAdapterListener;
-    }
 
     public void setTaskAdapterListener(TaskAdapterListener taskAdapterListener) {
         this.taskAdapterListener = taskAdapterListener;

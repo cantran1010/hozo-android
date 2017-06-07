@@ -23,12 +23,6 @@ public final class GPSTracker implements LocationListener {
     private final Context mContext;
 
     // flag for GPS status
-    private boolean isGPSEnabled = false;
-
-    // flag for network status
-    private boolean isNetworkEnabled = false;
-
-    // flag for GPS status
     private boolean canGetLocation = false;
 
     private Location location; // location
@@ -55,13 +49,13 @@ public final class GPSTracker implements LocationListener {
                     .getSystemService(Context.LOCATION_SERVICE);
 
             // getting GPS status
-            isGPSEnabled = locationManager
+            boolean isGPSEnabled = locationManager
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
             Log.v("isGPSEnabled", "=" + isGPSEnabled);
 
             // getting network status
-            isNetworkEnabled = locationManager
+            boolean isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             Log.v("isNetworkEnabled", "=" + isNetworkEnabled);

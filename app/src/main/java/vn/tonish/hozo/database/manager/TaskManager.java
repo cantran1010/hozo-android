@@ -1,14 +1,9 @@
 package vn.tonish.hozo.database.manager;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.Sort;
 import vn.tonish.hozo.database.entity.TaskEntity;
-import vn.tonish.hozo.fragment.MyTaskFragment;
 import vn.tonish.hozo.utils.LogUtils;
 
 /**
@@ -38,14 +33,6 @@ public class TaskManager {
         realm.close();
     }
 
-    public static List<TaskEntity> getAllTasks() {
-        Realm realm = Realm.getDefaultInstance();
-        try {
-            return realm.where(TaskEntity.class).findAll();
-        } finally {
-            realm.close();
-        }
-    }
 
     public static TaskEntity getTaskById(int taskId) {
         Realm realm = Realm.getDefaultInstance();
@@ -54,42 +41,6 @@ public class TaskManager {
         } finally {
             realm.close();
         }
-    }
-
-
-    public static List<TaskEntity> getTaskSince(Date sinceDate, String role) {
-        LogUtils.d(TAG, "getTaskSince start , sinceDate : " + sinceDate + " , role : " + role);
-        List<TaskEntity> result = new ArrayList<>();
-        Realm realm = Realm.getDefaultInstance();
-        RealmQuery<TaskEntity> taskEntityRealmQuery;
-        if (sinceDate == null) {
-            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role);
-        } else {
-            taskEntityRealmQuery = realm.where(TaskEntity.class).equalTo("role", role).lessThan("createdAt", sinceDate);
-        }
-
-        List<TaskEntity> taskEntities = taskEntityRealmQuery.findAll().sort("createdAt", Sort.DESCENDING);
-
-        if (taskEntities.size() > 0) {
-
-            if (taskEntities.size() >= MyTaskFragment.LIMIT)
-                result = taskEntities.subList(0, MyTaskFragment.LIMIT);
-            else result = taskEntities;
-
-        }
-
-        LogUtils.d(TAG, "getTaskSince " + result.toString());
-        LogUtils.d(TAG, "getTaskSince taskEntities size : " + result.size());
-        realm.close();
-        return result;
-    }
-
-    public static void deleteAll() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.where(TaskEntity.class).findAll().deleteAllFromRealm();
-        realm.commitTransaction();
-        realm.close();
     }
 
 
