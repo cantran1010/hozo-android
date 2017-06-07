@@ -42,7 +42,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         Bundle bundle = getArguments();
         if (bundle.containsKey(Constants.ROLE_EXTRA)) role = bundle.getString(Constants.ROLE_EXTRA);
 
-        if (role.equals(Constants.ROLE_POSTER)) {
+        if (role != null && role.equals(Constants.ROLE_POSTER)) {
 
             Bundle bundleRefresh = new Bundle();
             bundleRefresh.putBoolean(Constants.REFRESH_EXTRA, true);

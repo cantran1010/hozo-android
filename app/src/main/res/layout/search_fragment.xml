@@ -102,7 +102,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@id/img_back"
                 android:layout_toRightOf="@id/img_back"
-                android:background="@drawable/bg_edittext_search"
+                android:background="@drawable/bg_border_search_map"
                 android:drawableLeft="@drawable/search"
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/search"

@@ -92,7 +92,7 @@
                 android:background="@drawable/btn_button_selector"
                 android:enabled="false"
                 android:gravity="center"
-                android:text="@string/login_continue"
+                android:text="@string/btn_next"
                 android:textColor="@color/blue"
                 android:textStyle="bold" />
 

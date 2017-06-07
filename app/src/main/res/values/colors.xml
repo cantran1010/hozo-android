@@ -27,5 +27,6 @@
     <color name="border_gray">#CFCFCF</color>
     <color name="hozo_red">#FF3100</color>
     <color name="transparent">#00000000</color>
+    <color name="fifty_percent_transparency_grey_400">#80bdbdbd</color>
 
 </resources>
