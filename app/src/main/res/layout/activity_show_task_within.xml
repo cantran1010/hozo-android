@@ -62,7 +62,7 @@
             android:contentDescription="@string/adjust_image"
             android:padding="16dp"
             android:scaleType="centerInside"
-            android:src="@drawable/Selected" />
+            android:src="@drawable/selected" />
 
         <View
             android:layout_width="match_parent"
