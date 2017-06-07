@@ -20,6 +20,15 @@ public class Poster extends RealmObject implements Serializable {
     private int verify;
     private String avatar;
     private int id;
+    private String phone;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public int getTaskId() {
         return taskId;
