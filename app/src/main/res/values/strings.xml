@@ -234,9 +234,7 @@
     <string name="setting_radius">Chọn khoảng cách</string>
 
     <string name="radius_5km">5 km</string>
-    <string name="radius_10km">10 km</string>
     <string name="radius_15km">15 km</string>
-    <string name="radius_20km">20 km</string>
     <string name="radius_25km">25 km</string>
     <string name="radius_50km">50 km</string>
 
@@ -323,6 +321,7 @@
     <string name="post_a_task_map_get_location_error">Không thể lấy vị trí của bạn,vui lòng kiểm tra lại kết nối mạng !</string>
     <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
     <string name="task_detail_money_type">VND</string>
-    <string name="all_space_type"><![CDATA[&#160]]></string>
+    <string name="all_space_type"><b> </b></string>
+    <string name="km">km</string>
 
 </resources>
