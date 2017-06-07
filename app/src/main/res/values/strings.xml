@@ -265,6 +265,8 @@
     <string name="notification_task_reminder">chuẩn bị đi làm</string>
     <string name="notification_new_task_alert">có một việc phù hợp với bạn</string>
     <string name="notification_poster_canceled">đã hủy việc bạn ứng tuyển</string>
+    <string name="notification_task_completed">đã hoàn thành</string>
+    <string name="notification_task_overdue">đã hết hạn</string>
 
     <string name="notification_review_received_matcher">đánh giá</string>
     <string name="notification_comment_received_matcher">tin nhắn</string>
@@ -274,6 +276,8 @@
     <string name="notification_task_reminder_matcher">chuẩn bị</string>
     <string name="notification_new_task_alert_matcher">phù hợp</string>
     <string name="notification_poster_canceled_matcher">hủy việc</string>
+    <string name="notification_task_completed_matcher">hoàn thành</string>
+    <string name="notification_task_overdue_matcher">hết hạn</string>
 
     <string name="notification_review_received_color">#00A2E5</string>
     <string name="notification_comment_received_color">#00A2E5</string>
@@ -283,6 +287,8 @@
     <string name="notification_task_reminder_color">#00A2E5</string>
     <string name="notification_new_task_alert_color">#00A2E5</string>
     <string name="notification_poster_canceled_color">#FF3100</string>
+    <string name="notification_task_completed_color">#00A2E5</string>
+    <string name="notification_task_overdue_color">#FF3100</string>
 
     <!-- my task adapter -->
     <string name="my_task_adapter_start_time">Ngày làm :</string>

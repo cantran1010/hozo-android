@@ -100,6 +100,7 @@ public class Utils {
 
 
     public static void showLongToast(Context context, String content, boolean isError, boolean isShort) {
+        if (context == null) return;
         if (((Activity) context).isFinishing()) {
             return;
         }
@@ -328,6 +329,16 @@ public class Utils {
                 matcher = context.getString(R.string.notification_poster_canceled_matcher);
                 matcherColor = context.getString(R.string.notification_poster_canceled_color);
                 break;
+            case Constants.PUSH_TYPE_TASK_COMPLETE:
+                content = notification.getTaskName() + " " + context.getString(R.string.notification_task_completed);
+                matcher = context.getString(R.string.notification_task_completed_matcher);
+                matcherColor = context.getString(R.string.notification_task_completed_color);
+                break;
+            case Constants.PUSH_TYPE_TASK_OVERDUE:
+                content = notification.getTaskName() + " " + context.getString(R.string.notification_task_overdue);
+                matcher = context.getString(R.string.notification_task_overdue_matcher);
+                matcherColor = context.getString(R.string.notification_task_overdue_color);
+                break;
         }
 
         tvContent.setText(content);
@@ -378,6 +389,12 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_POSTER_CANCELED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled);
+                break;
+            case Constants.PUSH_TYPE_TASK_COMPLETE:
+                content = notification.getTaskName() + " " + context.getString(R.string.notification_task_completed);
+                break;
+            case Constants.PUSH_TYPE_TASK_OVERDUE:
+                content = notification.getTaskName() + " " + context.getString(R.string.notification_task_overdue);
                 break;
         }
 
