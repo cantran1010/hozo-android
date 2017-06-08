@@ -99,6 +99,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             case R.id.tab_type:
                 Intent i = new Intent(this, TaskTypeActivity.class);
                 i.putExtra(Constants.EXTRA_CATEGORY, mCategory);
+                LogUtils.d(TAG,"categories extra"+mCategory.getCategories().toString());
                 startActivityForResult(i, Constants.REQUEST_CODE_TASK_TYPE, TransitionScreen.DOWN_TO_UP);
                 break;
             case R.id.tab_price:
@@ -205,13 +206,16 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             Category category = (Category) data.getExtras().get(Constants.EXTRA_CATEGORY_ID);
             if ((category != null ? category.getCategories().size() : 0) > 0) {
                 List<Category> list = new ArrayList<>();
-                mCategory = new Category();
                 mCategory = category;
-                for (Category cat : mCategory != null ? mCategory.getCategories() : null) {
-                    if (cat.isSelected()) {
-                        list.add(cat);
-                    }
+                if (mCategory != null && mCategory.getCategories().size() > 0) {
+                    for (Category cat : mCategory.getCategories()) {
+                        if (cat.isSelected()) {
+                            list.add(cat);
+                        }
 
+                    }
+                } else {
+                    mCategory = new Category();
                 }
                 tvWorkType.setText(getNameCategorys((ArrayList<Category>) list));
             }
