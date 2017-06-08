@@ -33,7 +33,7 @@
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
 
     <!--Edit profile Screen-->
-    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
+    <string name="edit_profile_tv_header">Sửa đổi thông tin</string>
     <string name="edit_profile_btn_save">Lưu lại</string>
     <string name="select_task_title">Đăng việc</string>
     <string name="browse_task_title">Tìm việc</string>
@@ -211,9 +211,9 @@
     <string name="report_ok">CHỌN</string>
     <string name="report_reason_other_title">Lý do khác</string>
     <string name="btn_report_send">GỬI</string>
-    <string name="number_employ_footer"> người \n được thuê</string>
-    <string name="number_remain_footer"> vị trí \n còn trống</string>
-    <string name="number_bit_footer"> người \n ứng tuyển</string>
+    <string name="number_employ_footer">%d người \n được thuê</string>
+    <string name="number_remain_footer">%d vị trí \n còn trống</string>
+    <string name="number_bit_footer"> %d người \n ứng tuyển</string>
     <string name="task_detail_category_type">Loại công việc:</string>
     <string name="detail_task_time_to">-</string>
     <string name="call_err">Rất tiếc điện thoại của bạn không hỗ trợ chức năng gọi điện</string>
@@ -229,7 +229,9 @@
     <string name="select_gender_title">Chọn giới tính</string>
     <string name="gender_any">any</string>
     <string name="gender_male">male</string>
-    <string name="gender_mafele">female</string>
+    <string name="gender_female">female</string>
+    <string name="gender_male_vn">Nam</string>
+    <string name="gender_female_vn">Nữ</string>
     <string name="tv_radius">Bán kính</string>
     <string name="setting_radius">Chọn khoảng cách</string>
 
@@ -287,9 +289,9 @@
     <string name="notification_task_overdue_color">#FF3100</string>
 
     <!-- my task adapter -->
-    <string name="my_task_adapter_start_time">Ngày làm :</string>
-    <string name="my_task_adapter_task_type">Phân loại :</string>
-    <string name="my_task_adapter_address">Địa chỉ :</string>
+    <string name="my_task_adapter_start_time">Ngày làm : %s</string>
+    <string name="my_task_adapter_task_type">Phân loại : %s</string>
+    <string name="my_task_adapter_address">Địa chỉ : %s</string>
     <string name="my_task_status_worker_open">Ứng tuyển</string>
     <string name="my_task_status_worker_assigned">Đã nhận</string>
     <string name="my_task_status_worker_completed">Hoàn thành</string>
@@ -327,7 +329,12 @@
     <string name="post_a_task_map_get_location_error">Không thể lấy vị trí của bạn,vui lòng kiểm tra lại kết nối mạng !</string>
     <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
     <string name="task_detail_money_type">VND</string>
-    <string name="all_space_type"><b> </b></string>
     <string name="km">km</string>
+    <string name="all_space_type"><![CDATA[&#160]]></string>
+    <string name="attach_image_permission_message">Vui lòng cấp quyền để tải hình ảnh đính kèm</string>
+    <string name="attach_image_permission_confirm">Xác nhận</string>
+    <string name="count_in_detail">(%d)</string>
+    <string name="my_task_price">%s VND</string>
+    <string name="task_detail_reply_member">\@%s \n</string>
 
 </resources>

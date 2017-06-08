@@ -104,7 +104,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private File fileAttach;
     private TextViewHozo tvSeeMore;
     private TextViewHozo tvCommentCount, tvBidderCount, tvAssignCount;
-    private final String[] permissions = new String[]{Manifest.permission.CAMERA};
+    private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private LinearLayout layoutFooter;
     private TextViewHozo tvCancel;
     private String commentType;
@@ -407,9 +407,9 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         commentViewFull.setCommentType(commentType);
         commentViewFull.updateData(comments);
 
-        tvBidderCount.setText("(" + taskResponse.getBidderCount() + ")");
-        tvAssignCount.setText("(" + taskResponse.getAssigneeCount() + ")");
-        tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");
+        tvBidderCount.setText(getString(R.string.count_in_detail,taskResponse.getBidderCount()));
+        tvAssignCount.setText(getString(R.string.count_in_detail,taskResponse.getAssigneeCount()));
+        tvCommentCount.setText(getString(R.string.count_in_detail,taskResponse.getCommentsCount()));
 
         updateSeeMoreComment();
     }
@@ -449,22 +449,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_attach:
-
-                PickImageDialog pickImageDialog = new PickImageDialog(TaskDetailActivity.this);
-                pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
-                    @Override
-                    public void onCamera() {
-                        checkPermission();
-                    }
-
-                    @Override
-                    public void onGallery() {
-                        Intent intent = new Intent(TaskDetailActivity.this, AlbumActivity.class);
-                        intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
-                        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
-                    }
-                });
-                pickImageDialog.showView();
+                checkPermission();
                 break;
 
             case R.id.img_delete:
@@ -568,22 +553,40 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            permissionGranted();
-        } else {
+                Manifest.permission.CAMERA) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+        } else {
+            permissionGranted();
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode != Constants.PERMISSION_REQUEST_CODE
-                || grantResults.length == 0
-                || grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            permissionDenied();
-        } else {
-            permissionGranted();
+
+        if (grantResults.length > 0) {
+            boolean cameraPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+            boolean readExternalFile = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+            if (cameraPermission && readExternalFile) {
+                // write your logic here
+                permissionGranted();
+            } else {
+//                snackbar = Snackbar.make(findViewById(android.R.id.content),
+//                        getString(R.string.attach_image_permission_message),
+//                        Snackbar.LENGTH_INDEFINITE).setAction(getString(R.string.attach_image_permission_confirm),
+//                        new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                ActivityCompat.requestPermissions(PostATaskActivity.this, permissions, Constants.PERMISSION_REQUEST_CODE);
+//                            }
+//                        });
+//                snackbar.show();
+                permissionDenied();
+            }
         }
     }
 
@@ -592,9 +595,23 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     }
 
     private void permissionGranted() {
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+        PickImageDialog pickImageDialog = new PickImageDialog(TaskDetailActivity.this);
+        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+            @Override
+            public void onCamera() {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+            }
+
+            @Override
+            public void onGallery() {
+                Intent intent = new Intent(TaskDetailActivity.this, AlbumActivity.class);
+                intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
+                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
+        pickImageDialog.showView();
     }
 
     private void doSeeMoreComment() {
@@ -708,7 +725,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                     if (comments.size() > 5) comments.remove(comments.size() - 1);
                     commentViewFull.updateData(comments);
                     taskResponse.setCommentsCount(taskResponse.getCommentsCount() + 1);
-                    tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");
+                    tvCommentCount.setText(getString(R.string.count_in_detail,taskResponse.getCommentsCount()));
+
                     updateSeeMoreComment();
 
                     imgPath = null;
@@ -794,7 +812,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             if (intent.hasExtra(Constants.COMMENT_EXTRA)) {
                 Comment comment = (Comment) intent.getSerializableExtra(Constants.COMMENT_EXTRA);
                 LogUtils.d(TAG, "broadcastReceiver , comment : " + comment.toString());
-                edtComment.setText("@" + comment.getFullName() + " \n");
+                edtComment.setText(getString(R.string.task_detail_reply_member,comment.getFullName()));
                 edtComment.setSelection(edtComment.getText().length());
             } else if (intent.hasExtra(Constants.EXTRA_TASK)) {
                 taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);

@@ -13,8 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,7 +53,6 @@ import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.DateTimeUtils.getDateBirthDayFromIso;
 import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyIsoFromDate;
-import static vn.tonish.hozo.utils.Utils.converGenderEn;
 
 
 /**
@@ -66,15 +64,18 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     private CircleImageView imgAvatar;
     private String imgPath;
-    private RadioButton rbMale, rbFemale;
+    //    private RadioButton rbMale, rbFemale;
     private EdittextHozo edtName, edtAddress;
     private TextViewHozo tvBirthday;
     private final Calendar calendar = Calendar.getInstance();
-    private RadioGroup rgRadius;
+    //    private RadioGroup rgRadius;
     private File file;
     private int avataId;
     private boolean isUpdateAvata = false;
-    private final String[] permissions = new String[]{Manifest.permission.CAMERA};
+    private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private TextViewHozo tvMale, tvFemale;
+    private ImageView imgMale, imgFemale;
+    private String gender;
 
     @Override
     protected int getLayout() {
@@ -99,10 +100,25 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         edtAddress = (EdittextHozo) findViewById(R.id.edt_address);
 
         tvBirthday = (TextViewHozo) findViewById(R.id.tv_birthday);
-        tvBirthday.setOnClickListener(this);
-        rgRadius = (RadioGroup) findViewById(R.id.rg_gender);
-        rbMale = (RadioButton) findViewById(R.id.rb_male);
-        rbFemale = (RadioButton) findViewById(R.id.rb_female);
+
+        RelativeLayout layoutBirthday = (RelativeLayout) findViewById(R.id.layout_birthday);
+        layoutBirthday.setOnClickListener(this);
+
+        tvMale = (TextViewHozo) findViewById(R.id.tv_male);
+        tvFemale = (TextViewHozo) findViewById(R.id.tv_female);
+
+        imgMale = (ImageView) findViewById(R.id.img_male);
+        imgFemale = (ImageView) findViewById(R.id.img_female);
+
+        RelativeLayout layoutMale = (RelativeLayout) findViewById(R.id.layout_male);
+        layoutMale.setOnClickListener(this);
+
+        RelativeLayout layoutFemale = (RelativeLayout) findViewById(R.id.layout_female);
+        layoutFemale.setOnClickListener(this);
+
+//        rgRadius = (RadioGroup) findViewById(R.id.rg_gender);
+//        rbMale = (RadioButton) findViewById(R.id.rb_male);
+//        rbFemale = (RadioButton) findViewById(R.id.rb_female);
     }
 
     @Override
@@ -120,24 +136,36 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         if (userEntity.getAvatar() != null)
             Utils.displayImageAvatar(this, imgAvatar, userEntity.getAvatar());
-        if (userEntity.getGender() != null)
-            if (userEntity.getGender().equals(getString(R.string.gender_male))) {
-                rbMale.setChecked(true);
-            } else if (userEntity.getGender().equals(getString(R.string.gender_mafele))) {
-                rbFemale.setChecked(true);
 
-            } else {
-                rbMale.setChecked(false);
-                rbFemale.setChecked(false);
-
-            }
-
+        if (userEntity.getGender() != null) {
+            gender = userEntity.getGender();
+            updateGender(gender);
+        }
 
     }
 
     @Override
     protected void resumeData() {
 
+    }
+
+    private void updateGender(String gender) {
+        if (gender.equals(getString(R.string.gender_male))) {
+            tvMale.setTextColor(ContextCompat.getColor(this, R.color.tv_black));
+            tvFemale.setTextColor(ContextCompat.getColor(this, R.color.tv_gray));
+            imgMale.setImageResource(R.drawable.gender_male_on);
+            imgFemale.setImageResource(R.drawable.gender_female_off);
+        } else if (gender.equals(getString(R.string.gender_female))) {
+            tvMale.setTextColor(ContextCompat.getColor(this, R.color.tv_gray));
+            tvFemale.setTextColor(ContextCompat.getColor(this, R.color.tv_black));
+            imgMale.setImageResource(R.drawable.gender_male_off);
+            imgFemale.setImageResource(R.drawable.gender_female_on);
+        } else {
+            tvMale.setTextColor(ContextCompat.getColor(this, R.color.tv_gray));
+            tvFemale.setTextColor(ContextCompat.getColor(this, R.color.tv_gray));
+            imgMale.setImageResource(R.drawable.gender_male_off);
+            imgFemale.setImageResource(R.drawable.gender_female_off);
+        }
     }
 
     @Override
@@ -156,8 +184,18 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
 
-            case R.id.tv_birthday:
+            case R.id.layout_birthday:
                 openDatePicker();
+                break;
+
+            case R.id.layout_male:
+                gender = getString(R.string.gender_male);
+                updateGender(getString(R.string.gender_male));
+                break;
+
+            case R.id.layout_female:
+                gender = getString(R.string.gender_female);
+                updateGender(getString(R.string.gender_female));
                 break;
 
         }
@@ -169,7 +207,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         } else {
             updateProfile();
         }
-
     }
 
     private void updateAvata() {
@@ -235,8 +272,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     private void updateProfile() {
         ProgressDialogUtils.showProgressDialog(this);
-        int selectedId = rgRadius.getCheckedRadioButtonId();
-        RadioButton ckSelected = (RadioButton) findViewById(selectedId);
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(Constants.PARAMETER_FULL_NAME, edtName.getText().toString());
@@ -245,8 +280,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             if (!tvBirthday.getText().toString().equals(""))
                 jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, getOnlyIsoFromDate(tvBirthday.getText().toString()));
 
-            if (ckSelected != null)
-                jsonRequest.put(Constants.PARAMETER_GENDER, converGenderEn(this, ckSelected.getText().toString()));
+            if (gender != null)
+                jsonRequest.put(Constants.PARAMETER_GENDER, gender);
 
             if (isUpdateAvata)
                 jsonRequest.put(Constants.PARAMETER_AVATA_ID, avataId);
@@ -361,31 +396,18 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void doPickImage() {
-
-        PickImageDialog pickImageDialog = new PickImageDialog(EditProfileActivity.this);
-        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
-            @Override
-            public void onCamera() {
-                checkPermission();
-            }
-
-            @Override
-            public void onGallery() {
-                Intent intent = new Intent(EditProfileActivity.this, AlbumActivity.class);
-                intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
-                intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
-                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
-            }
-        });
-        pickImageDialog.showView();
+        checkPermission();
     }
 
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            permissionGranted();
-        } else {
+                Manifest.permission.CAMERA) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+        } else {
+            permissionGranted();
         }
     }
 
@@ -406,9 +428,26 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void permissionGranted() {
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+
+        PickImageDialog pickImageDialog = new PickImageDialog(EditProfileActivity.this);
+        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+            @Override
+            public void onCamera() {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+            }
+
+            @Override
+            public void onGallery() {
+                Intent intent = new Intent(EditProfileActivity.this, AlbumActivity.class);
+                intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
+                intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
+                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
+        pickImageDialog.showView();
+
     }
 
     private Uri setImageUri() {
