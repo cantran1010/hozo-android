@@ -407,9 +407,9 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         commentViewFull.setCommentType(commentType);
         commentViewFull.updateData(comments);
 
-        tvBidderCount.setText("(" + taskResponse.getBidderCount() + ")");
-        tvAssignCount.setText("(" + taskResponse.getAssigneeCount() + ")");
-        tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");
+        tvBidderCount.setText(getString(R.string.count_in_detail,taskResponse.getBidderCount()));
+        tvAssignCount.setText(getString(R.string.count_in_detail,taskResponse.getAssigneeCount()));
+        tvCommentCount.setText(getString(R.string.count_in_detail,taskResponse.getCommentsCount()));
 
         updateSeeMoreComment();
     }
@@ -725,7 +725,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                     if (comments.size() > 5) comments.remove(comments.size() - 1);
                     commentViewFull.updateData(comments);
                     taskResponse.setCommentsCount(taskResponse.getCommentsCount() + 1);
-                    tvCommentCount.setText("(" + taskResponse.getCommentsCount() + ")");
+                    tvCommentCount.setText(getString(R.string.count_in_detail,taskResponse.getCommentsCount()));
+
                     updateSeeMoreComment();
 
                     imgPath = null;
@@ -811,7 +812,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             if (intent.hasExtra(Constants.COMMENT_EXTRA)) {
                 Comment comment = (Comment) intent.getSerializableExtra(Constants.COMMENT_EXTRA);
                 LogUtils.d(TAG, "broadcastReceiver , comment : " + comment.toString());
-                edtComment.setText("@" + comment.getFullName() + " \n");
+                edtComment.setText(getString(R.string.task_detail_reply_member,comment.getFullName()));
                 edtComment.setSelection(edtComment.getText().length());
             } else if (intent.hasExtra(Constants.EXTRA_TASK)) {
                 taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);

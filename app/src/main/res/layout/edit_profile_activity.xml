@@ -16,6 +16,7 @@
             style="@style/tv_title_cancel"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:background="@drawable/btn_back_selector"
             android:contentDescription="@string/content_description_back"
@@ -24,9 +25,10 @@
 
         <vn.tonish.hozo.view.TextViewHozo
             style="@style/tv_title"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:gravity="center"
             android:text="@string/edit_profile_tv_header" />
 
         <View
@@ -51,36 +53,31 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="180dp">
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:padding="20dp">
 
-                <RelativeLayout
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
+                <vn.tonish.hozo.view.CircleImageView
+                    android:id="@+id/img_avatar"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:layout_centerInParent="true"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp">
+                    android:src="@drawable/avatar_default" />
 
-                    <vn.tonish.hozo.view.CircleImageView
-                        android:id="@+id/img_avatar"
-                        android:layout_width="110dp"
-                        android:layout_height="110dp"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/avatar_default" />
-
-                    <ImageView
-                        android:id="@+id/img_camera"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:contentDescription="@string/camera"
-                        android:padding="5dp"
-                        android:src="@drawable/camera" />
-
-                </RelativeLayout>
+                <ImageView
+                    android:id="@+id/img_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:contentDescription="@string/camera"
+                    android:padding="5dp"
+                    android:src="@drawable/camera" />
 
             </RelativeLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -121,18 +118,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="15dp"
+                    android:baselineAligned="false"
                     android:orientation="horizontal">
 
                     <RelativeLayout
                         android:id="@+id/layout_male"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1">
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_male"
-                            android:layout_width="wrap_content"
+                            android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:text="@string/gender_male_vn" />
@@ -141,8 +140,10 @@
                             android:id="@+id/img_male"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
+                            android:contentDescription="@string/just_image"
                             android:src="@drawable/gender_male_off" />
 
                     </RelativeLayout>
@@ -152,11 +153,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:layout_weight="1">
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_female"
-                            android:layout_width="wrap_content"
+                            android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:text="@string/gender_female_vn" />
@@ -165,8 +167,10 @@
                             android:id="@+id/img_female"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
+                            android:contentDescription="@string/just_image"
                             android:src="@drawable/gender_female_off" />
 
                     </RelativeLayout>
@@ -231,6 +235,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:contentDescription="@string/just_image"
                         android:src="@drawable/calendar" />
                 </RelativeLayout>
 

@@ -73,10 +73,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private int avataId;
     private boolean isUpdateAvata = false;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private RelativeLayout layoutBirthday;
     private TextViewHozo tvMale, tvFemale;
     private ImageView imgMale, imgFemale;
-    private RelativeLayout layoutMale, layoutFemale;
     private String gender;
 
     @Override
@@ -103,7 +101,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         tvBirthday = (TextViewHozo) findViewById(R.id.tv_birthday);
 
-        layoutBirthday = (RelativeLayout) findViewById(R.id.layout_birthday);
+        RelativeLayout layoutBirthday = (RelativeLayout) findViewById(R.id.layout_birthday);
         layoutBirthday.setOnClickListener(this);
 
         tvMale = (TextViewHozo) findViewById(R.id.tv_male);
@@ -112,10 +110,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         imgMale = (ImageView) findViewById(R.id.img_male);
         imgFemale = (ImageView) findViewById(R.id.img_female);
 
-        layoutMale = (RelativeLayout) findViewById(R.id.layout_male);
+        RelativeLayout layoutMale = (RelativeLayout) findViewById(R.id.layout_male);
         layoutMale.setOnClickListener(this);
 
-        layoutFemale = (RelativeLayout) findViewById(R.id.layout_female);
+        RelativeLayout layoutFemale = (RelativeLayout) findViewById(R.id.layout_female);
         layoutFemale.setOnClickListener(this);
 
 //        rgRadius = (RadioGroup) findViewById(R.id.rg_gender);
