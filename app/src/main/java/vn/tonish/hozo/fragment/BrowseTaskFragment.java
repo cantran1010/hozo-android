@@ -273,7 +273,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 edtSearch.setText("");
                 break;
             case R.id.img_controls:
-                startActivity(new Intent(getActivity(), AdvanceSettingsActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+                startActivityForResult(new Intent(getActivity(), AdvanceSettingsActivity.class),Constants.REQUEST_CODE_SETTING,TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
 
@@ -323,6 +323,15 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     view.setVisibility(View.GONE);
                 }
             }, Constants.DURATION);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQUEST_CODE_SETTING && resultCode == Constants.RESULT_CODE_SETTING ) {
+            onRefresh();
+
         }
     }
 

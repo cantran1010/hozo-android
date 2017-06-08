@@ -40,14 +40,16 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         final int pos = position;
+        LogUtils.d(TAG, "checkbox -:" + taskTypes.get(pos).isSelected());
         viewHolder.tvName.setText(taskTypes.get(pos).getName());
+        viewHolder.chkSelected.setOnCheckedChangeListener(null);
         viewHolder.chkSelected.setChecked(taskTypes.get(pos).isSelected());
-        LogUtils.d(TAG, "check box" + taskTypes.get(pos).isSelected());
         viewHolder.chkSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //set your object's last status
                 taskTypes.get(pos).setSelected(isChecked);
+//                notifyDataSetChanged();
             }
         });
 

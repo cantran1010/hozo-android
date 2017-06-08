@@ -73,6 +73,8 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void reset() {
+        minCost = 10000;
+        maxCost = 100000000;
         setDataForView();
 
     }
@@ -104,7 +106,7 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
             } else if (maxPrice > 100000000)
                 edtMaxPrice.setError(getString(R.string.erro_emply_price));
             else if (maxPrice < minPrice)
-                Utils.showLongToast(this, getString(R.string.erro_price),true,false);
+                Utils.showLongToast(this, getString(R.string.erro_price), true, false);
             else {
                 Intent intent = new Intent();
                 intent.putExtra(Constants.EXTRA_MIN_PRICE, minPrice);

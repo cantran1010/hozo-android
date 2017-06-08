@@ -7,14 +7,11 @@ import android.view.View;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.adapter.TaskTypeAdapter;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.database.entity.CategoryEntity;
-import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
@@ -34,7 +31,6 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
     private TextViewHozo btnReset;
     private ArrayList<Category> taskTypes;
     private Category mCategory;
-
 
     @Override
     protected int getLayout() {
@@ -90,28 +86,14 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
 
 
     private void clearSelected() {
-        taskTypes.clear();
-        if (mCategory != null)
-            taskTypes.addAll(mCategory.getCategories());
-        else
-            getTaskTypes();
-
-        mAdapter.notifyDataSetChanged();
-    }
-
-    private List<Category> getTaskTypes() {
-        for (CategoryEntity categoryEntity : CategoryManager.getAllCategories()
+        for (Category category : taskTypes
                 ) {
-            Category taskType = new Category();
-            taskType.setId(categoryEntity.getId());
-            taskType.setName(categoryEntity.getName());
-            taskType.setSelected(categoryEntity.isSelected());
-            taskTypes.add(taskType);
+            category.setSelected(true);
 
         }
-        return taskTypes;
+        mAdapter.notifyDataSetChanged();
+        LogUtils.d(TAG, "checkbox :" + mCategory.getCategories());
     }
-
 
     private void saveData() {
         if (checkSelected(taskTypes)) {
