@@ -33,7 +33,7 @@
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
 
     <!--Edit profile Screen-->
-    <string name="edit_profile_tv_header">Cập nhật hồ sơ cá nhân</string>
+    <string name="edit_profile_tv_header">Sửa đổi thông tin</string>
     <string name="edit_profile_btn_save">Lưu lại</string>
     <string name="select_task_title">Đăng việc</string>
     <string name="browse_task_title">Tìm việc</string>
@@ -229,7 +229,9 @@
     <string name="select_gender_title">Chọn giới tính</string>
     <string name="gender_any">any</string>
     <string name="gender_male">male</string>
-    <string name="gender_mafele">female</string>
+    <string name="gender_female">female</string>
+    <string name="gender_male_vn">Nam</string>
+    <string name="gender_female_vn">Nữ</string>
     <string name="tv_radius">Bán kính</string>
     <string name="setting_radius">Chọn khoảng cách</string>
 

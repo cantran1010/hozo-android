@@ -168,7 +168,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private void doEdit() {
         Intent intent = new Intent(this, EditProfileActivity.class);
         intent.putExtra(Constants.USER_ID, userId);
-        startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_PROFILE, TransitionScreen.RIGHT_TO_LEFT);
+        startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_PROFILE, TransitionScreen.UP_TO_DOWN);
     }
 
     @Override
