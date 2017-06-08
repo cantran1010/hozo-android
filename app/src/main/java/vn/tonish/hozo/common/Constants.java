@@ -155,4 +155,10 @@ public class Constants {
 
     public static final String ROLE_EXTRA = "role_extra";
     public static final String REFRESH_EXTRA = "refresh_extra";
+
+
+    public static final int RESULT_RADIUS = 1015;
+    public static final String EXTRA_RADIUS ="radius" ;
+    public static final int REQUEST_CODE_RADIUS = 1017;
+    public static final String REQUEST_EXTRAS_RADIUS ="extra_radius" ;
 }

@@ -13,12 +13,14 @@ import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.utils.LogUtils;
 
 /**
  * Created by CanTran on 5/16/17.
  */
 
 public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHolder> {
+    private final static String TAG = TaskTypeAdapter.class.getSimpleName();
 
     private final List<Category> taskTypes;
 
@@ -40,6 +42,7 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
         final int pos = position;
         viewHolder.tvName.setText(taskTypes.get(pos).getName());
         viewHolder.chkSelected.setChecked(taskTypes.get(pos).isSelected());
+        LogUtils.d(TAG, "check box" + taskTypes.get(pos).isSelected());
         viewHolder.chkSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

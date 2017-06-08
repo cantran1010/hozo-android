@@ -215,9 +215,10 @@ public class DataParse {
             if (categoryEntity.isSelected())
                 ids = ids + categoryEntity.getId() + ",";
         }
-        LogUtils.d(TAG, "getIds" + ids.substring(0, ids.length() - 1));
+        if (ids.length() > 0)
 
-        return ids.substring(0, ids.length() - 1);
+            return ids.substring(0, ids.length() - 1);
+        else return String.valueOf(0);
 
     }
 

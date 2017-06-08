@@ -42,6 +42,45 @@
     </RelativeLayout>
 
     <FrameLayout
+        android:id="@+id/layout_everywhere"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_back_selector">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/edt_min_height"
+            android:padding="16dp"
+            android:text="@string/radius_everywhere"
+            android:textColor="@color/setting_text" />
+
+        <ImageView
+            android:id="@+id/img_everywhere"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:contentDescription="@string/adjust_image"
+            android:padding="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/selected"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/gray" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_5km"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_back_selector">
@@ -51,26 +90,141 @@
             android:layout_height="wrap_content"
             android:minHeight="@dimen/edt_min_height"
             android:padding="16dp"
-            android:text="@string/radius_everywhere"
-            android:textColor="#212121" />
+            android:text="@string/radius_5km"
+            android:textColor="@color/setting_text" />
 
         <ImageView
-            android:id="@+id/img_controls"
+            android:id="@+id/img_5km"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:contentDescription="@string/adjust_image"
             android:padding="16dp"
             android:scaleType="centerInside"
-            android:src="@drawable/selected" />
+            android:src="@drawable/selected"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
             android:background="@color/gray" />
 
     </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/layout_15km"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_back_selector">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/edt_min_height"
+            android:padding="16dp"
+            android:text="@string/radius_15km"
+            android:textColor="@color/setting_text" />
+
+        <ImageView
+            android:id="@+id/img_15km"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:contentDescription="@string/adjust_image"
+            android:padding="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/selected"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/gray" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_25km"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_back_selector">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/edt_min_height"
+            android:padding="16dp"
+            android:text="@string/radius_25km"
+            android:textColor="@color/setting_text" />
+
+        <ImageView
+            android:id="@+id/img_25km"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:contentDescription="@string/adjust_image"
+            android:padding="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/selected"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/gray" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_50km"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_back_selector">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/edt_min_height"
+            android:padding="16dp"
+            android:text="@string/radius_50km"
+            android:textColor="@color/setting_text" />
+
+        <ImageView
+            android:id="@+id/img_50km"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:contentDescription="@string/adjust_image"
+            android:padding="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/selected"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/gray" />
+
+    </FrameLayout>
 
 </LinearLayout>

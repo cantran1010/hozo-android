@@ -16,6 +16,7 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -25,6 +26,7 @@ import vn.tonish.hozo.view.TextViewHozo;
  */
 
 public class TaskTypeActivity extends BaseActivity implements View.OnClickListener {
+    private final static String TAG = TaskTypeActivity.class.getSimpleName();
     private ImageView imgback;
     private RecyclerView mRecyclerView;
     private TaskTypeAdapter mAdapter;
@@ -47,8 +49,8 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
         btnSave = (ButtonHozo) findViewById(R.id.btn_save);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         taskTypes = new ArrayList<>();
-
-
+        mAdapter = new TaskTypeAdapter(taskTypes);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -57,13 +59,11 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
         mCategory = (Category) intent.getExtras().get(Constants.EXTRA_CATEGORY);
         if (mCategory != null)
             taskTypes.addAll(mCategory.getCategories());
-        else
-            getTaskTypes();
+
         imgback.setOnClickListener(this);
         btnReset.setOnClickListener(this);
         btnSave.setOnClickListener(this);
-        mAdapter = new TaskTypeAdapter(taskTypes);
-        mRecyclerView.setAdapter(mAdapter);
+
 
     }
 
@@ -114,7 +114,7 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
 
 
     private void saveData() {
-        if (taskTypes.size() > 0) {
+        if (checkSelected(taskTypes)) {
             Intent intent = new Intent();
             Category category = new Category();
             category.setCategories(taskTypes);
@@ -122,9 +122,18 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
             setResult(Constants.RESULT_CODE_TASK_TYPE, intent);
             finish();//finishing
         } else {
-//            Toast.makeText(this, getString(R.string.taks_type_empty), Toast.LENGTH_SHORT).show();
-            Utils.showLongToast(this,getString(R.string.taks_type_empty),true,false);
+            Utils.showLongToast(this, getString(R.string.taks_type_empty), true, false);
         }
+    }
+
+    private boolean checkSelected(ArrayList<Category> cs) {
+        for (Category c : cs
+                ) {
+            if (c.isSelected()) return true;
+
+        }
+
+        return false;
     }
 
 }
