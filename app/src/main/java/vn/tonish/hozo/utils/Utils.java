@@ -23,6 +23,7 @@ import android.text.style.RelativeSizeSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -110,13 +111,14 @@ public class Utils {
     private static void showToastCustom(Context context, String content,
                                         boolean isError, boolean isShort) {
         Toast toastCustom = new Toast(context);
+        ViewGroup viewGroup = (ViewGroup) toastCustom.getView();
         View viewToastCustom;
         if (isError) {
             viewToastCustom = LayoutInflater.from(context).inflate(
-                    R.layout.toast_custom_warning, null);
+                    R.layout.toast_custom_warning, viewGroup);
         } else {
             viewToastCustom = LayoutInflater.from(context).inflate(
-                    R.layout.toast_custom_info, null);
+                    R.layout.toast_custom_info, viewGroup);
         }
         toastCustom.setDuration(isShort ? Toast.LENGTH_SHORT
                 : Toast.LENGTH_LONG);
