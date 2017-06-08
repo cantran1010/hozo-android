@@ -52,7 +52,6 @@
         android:layout_gravity="bottom"
         android:background="@drawable/btn_selector"
         android:gravity="center"
-        android:padding="16dp"
         android:text="@string/btn_save"
         android:textColor="@color/white"
         android:textSize="@dimen/tv_size_lager" />

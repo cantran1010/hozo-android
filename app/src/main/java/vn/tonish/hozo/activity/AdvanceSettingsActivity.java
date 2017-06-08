@@ -54,6 +54,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     private int mRadius;
     private String strRadius;
     private String strLocation;
+    private String nameTask;
 
 
     @Override
@@ -99,7 +100,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             case R.id.tab_type:
                 Intent i = new Intent(this, TaskTypeActivity.class);
                 i.putExtra(Constants.EXTRA_CATEGORY, mCategory);
-                LogUtils.d(TAG,"categories extra"+mCategory.getCategories().toString());
+                LogUtils.d(TAG, "categories extra" + mCategory.getCategories().toString());
                 startActivityForResult(i, Constants.REQUEST_CODE_TASK_TYPE, TransitionScreen.DOWN_TO_UP);
                 break;
             case R.id.tab_price:
@@ -147,14 +148,32 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         settingEntiny.setLocation(strLocation);
         SettingManager.insertSetting(settingEntiny);
         CategoryManager.insertCategories(DataParse.convertListCategoryToListCategoryEntity(mCategory.getCategories()));
+        setResult(Constants.RESULT_CODE_SETTING, new Intent());
         finish();
 
 
     }
 
     private void reset() {
-        setDefaultvalues();
+        resetValues();
         setDataforView();
+
+    }
+
+    private void resetValues() {
+        lat = 21.028511;
+        lng = 105.804817;
+        strLocation = "Hà Nội";
+        mRadius = 0;
+        strRadius = getString(R.string.radius_everywhere);
+        minWorkerRate = 10000;
+        maxWorkerRate = 100000000;
+        getNameCategorys((ArrayList<Category>) DataParse.convertListCategoryEntityToListCategory(CategoryManager.getAllCategories()));
+        for (Category category1 : mCategory.getCategories()
+                ) {
+            category1.setSelected(true);
+        }
+
 
     }
 
@@ -167,7 +186,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
     }
 
 
-    private String getNameRealmCategorys() {
+    private void getNameRealmCategorys() {
         String name = "";
         for (CategoryEntity entity : CategoryManager.getAllCategories()
                 ) {
@@ -176,21 +195,23 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             }
 
         }
-        return name;
+
+        nameTask = name.substring(0, name.lastIndexOf('-'));;
     }
 
-    private String getNameCategorys(ArrayList<Category> categoryEntities) {
+    private void getNameCategorys(ArrayList<Category> categoryEntities) {
         String name = "";
         for (int i = 0; i < categoryEntities.size(); i++) {
             name = name + categoryEntities.get(i).getName() + "-";
         }
-        return name;
+
+        nameTask =  name.substring(0, name.lastIndexOf('-'));;
     }
 
 
     private void setDataforView() {
         SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
-        tvWorkType.setText(getNameRealmCategorys());
+        tvWorkType.setText(nameTask);
         tvPrice.setText(formatNumber(settingEntiny.getMinWorkerRate()) + " - " + formatNumber(settingEntiny.getMaxWorkerRate()));
         tvLocation.setText(strLocation);
         tvRadius.setText(strRadius);
@@ -217,7 +238,8 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
                 } else {
                     mCategory = new Category();
                 }
-                tvWorkType.setText(getNameCategorys((ArrayList<Category>) list));
+                getNameCategorys((ArrayList<Category>) list);
+                tvWorkType.setText(nameTask);
             }
 
         }
@@ -267,6 +289,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         if (mRadius == 0) strRadius = getString(R.string.radius_everywhere);
         else
             strRadius = mRadius + getString(R.string.all_space_type) + getString(R.string.km);
+        getNameRealmCategorys();
 
     }
 
