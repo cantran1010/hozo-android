@@ -421,7 +421,7 @@ public class Utils {
         String sex = "";
         if (gender.equals(context.getString(R.string.gender_male)))
             sex = context.getString(R.string.gender_vn_male);
-        else if (gender.equals(context.getString(R.string.gender_mafele))) {
+        else if (gender.equals(context.getString(R.string.gender_female))) {
             sex = context.getString(R.string.gender_vn_mafele);
         } else {
             sex = context.getString(R.string.gender_vn_any);
@@ -434,7 +434,7 @@ public class Utils {
         if (gender.equals(context.getString(R.string.gender_vn_male)))
             sex = context.getString(R.string.gender_male);
         else if (gender.equals(context.getString(R.string.gender_vn_mafele))) {
-            sex = context.getString(R.string.gender_mafele);
+            sex = context.getString(R.string.gender_female);
         } else {
             sex = context.getString(R.string.gender_any);
         }
