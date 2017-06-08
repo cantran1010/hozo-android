@@ -336,5 +336,8 @@
     <string name="count_in_detail">(%d)</string>
     <string name="my_task_price">%s VND</string>
     <string name="task_detail_reply_member">\@%s \n</string>
+    <string name="post_a_task_age">%1$d ~ %2$d</string>
+    <string name="detail_task_time_ago">%1$s . Loại công việc : %2$s</string>
+    <string name="edit_profile_birthday">%1$d/%2$d/%3$d</string>
 
 </resources>

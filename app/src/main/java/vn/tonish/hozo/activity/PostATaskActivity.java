@@ -260,7 +260,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                 ageDialog.setAgeDialogListener(new AgeDialog.AgeDialogListener() {
                     @Override
                     public void onAgeDialogLister(int from, int to) {
-                        tvAge.setText(from + " ~ " + to);
+                        tvAge.setText(getString(R.string.post_a_task_age, from, to));
                         ageFrom = from;
                         ageTo = to;
                         tvAge.setError(null);

@@ -44,7 +44,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "BASE_URL", '"http://104.198.92.15:8080/v1/"'
+            buildConfigField "String", "BASE_URL", '"https://staging-api.hozo.vn/v1/"'
             debuggable true
         }
         release {

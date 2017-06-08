@@ -145,8 +145,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         rbRate.setRating(taskResponse.getPoster().getPosterAverageRating());
         tvTitle.setText(taskResponse.getTitle());
         tvTime.setText(taskResponse.getTitle());
-        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), getContext())
-                + " . " + getContext().getString(R.string.task_detail_category_type) + " " + CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName());
+          tvTimeAgo.setText(getContext().getString(R.string.detail_task_time_ago,DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), getContext()),CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName()));
 //        tvWorkType.setText(getContext().getString(R.string.task_detail_category_type) + " " + CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName());
         tvDescription.setText(taskResponse.getDescription());
 
