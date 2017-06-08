@@ -332,5 +332,7 @@
     <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
     <string name="task_detail_money_type">VND</string>
     <string name="all_space_type"><![CDATA[&#160]]></string>
+    <string name="attach_image_permission_message">Vui lòng cấp quyền để tải hình ảnh đính kèm</string>
+    <string name="attach_image_permission_confirm">Xác nhận</string>
 
 </resources>

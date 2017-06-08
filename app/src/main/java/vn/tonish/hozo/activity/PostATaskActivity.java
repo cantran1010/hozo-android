@@ -82,8 +82,9 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private int ageFrom = 18;
     private int ageTo = 80;
     private EdittextHozo edtWorkingHour;
-    private final String[] permissions = new String[]{Manifest.permission.CAMERA};
+    private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private TimePickerDialog timeEndPickerDialog;
+//    private Snackbar snackbar;
 
     protected int getLayout() {
         return R.layout.activity_post_a_task;
@@ -104,24 +105,15 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         tvDate = (TextViewHozo) findViewById(R.id.tv_date);
         edtWorkName = (EdittextHozo) findViewById(R.id.edt_task_name);
 
-//        edtDayWork = (EdittextHozo) findViewById(R.id.edt_number_day);
-
         edtWorkingHour = (EdittextHozo) findViewById(R.id.edt_working_hour);
 
         edtDescription = (EdittextHozo) findViewById(R.id.edt_description);
 
         tvAge = (TextViewHozo) findViewById(R.id.tv_age);
-//        tvAge.setOnClickListener(this);
 
         grImage = (MyGridView) findViewById(R.id.gr_image);
 
         spGender = (Spinner) findViewById(R.id.sp_gender);
-
-//        layoutStartTime = (RelativeLayout) findViewById(R.id.layout_start_time);
-//        layoutStartTime.setOnClickListener(this);
-
-//        layoutEndTime = (RelativeLayout) findViewById(R.id.layout_end_time);
-//        layoutEndTime.setOnClickListener(this);
 
         RelativeLayout layoutDate = (RelativeLayout) findViewById(R.id.date_layout);
         layoutDate.setOnClickListener(this);
@@ -152,23 +144,9 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (images.get(position).isAdd) {
                     if (images.size() >= 7) {
-                        Utils.showLongToast(PostATaskActivity.this, getString(R.string.post_a_task_max_attach_err),true,false);
+                        Utils.showLongToast(PostATaskActivity.this, getString(R.string.post_a_task_max_attach_err), true, false);
                     } else {
-                        PickImageDialog pickImageDialog = new PickImageDialog(PostATaskActivity.this);
-                        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
-                            @Override
-                            public void onCamera() {
-                                checkPermission();
-                            }
-
-                            @Override
-                            public void onGallery() {
-                                Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
-                                intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size() - 1);
-                                startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
-                            }
-                        });
-                        pickImageDialog.showView();
+                        checkPermission();
                     }
                 } else {
                     Intent intent = new Intent(PostATaskActivity.this, PreviewImageActivity.class);
@@ -186,33 +164,60 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            permissionGranted();
-        } else {
+                Manifest.permission.CAMERA) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+        } else {
+            permissionGranted();
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode != Constants.PERMISSION_REQUEST_CODE
-                || grantResults.length == 0
-                || grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            permissionDenied();
-        } else {
-            permissionGranted();
+
+        if (grantResults.length > 0) {
+            boolean cameraPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+            boolean readExternalFile = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+            if (cameraPermission && readExternalFile) {
+                // write your logic here
+                permissionGranted();
+            } else {
+//                snackbar = Snackbar.make(findViewById(android.R.id.content),
+//                        getString(R.string.attach_image_permission_message),
+//                        Snackbar.LENGTH_INDEFINITE).setAction(getString(R.string.attach_image_permission_confirm),
+//                        new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                ActivityCompat.requestPermissions(PostATaskActivity.this, permissions, Constants.PERMISSION_REQUEST_CODE);
+//                            }
+//                        });
+//                snackbar.show();
+            }
         }
     }
 
     private void permissionGranted() {
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
-    }
+        PickImageDialog pickImageDialog = new PickImageDialog(PostATaskActivity.this);
+        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+            @Override
+            public void onCamera() {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+            }
 
-    private void permissionDenied() {
-        LogUtils.d(TAG, "permissionDenied camera");
+            @Override
+            public void onGallery() {
+                Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
+                intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size() - 1);
+                startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
+        pickImageDialog.showView();
     }
 
     @Override
@@ -484,7 +489,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                                                 && monthOfYear == c2.get(Calendar.MONTH)
                                                 && dayOfMonth == c2.get(Calendar.DAY_OF_MONTH)
                                                 && (hourOfDay < c2.get(Calendar.HOUR_OF_DAY) || (hourOfDay == c2.get(Calendar.HOUR_OF_DAY) && minute <= (c2.get(Calendar.MINUTE) + 30)))) {
-                                            Utils.showLongToast(PostATaskActivity.this,getString(R.string.post_task_time_start_error),true,false);
+                                            Utils.showLongToast(PostATaskActivity.this, getString(R.string.post_task_time_start_error), true, false);
 
 //                                            Handler handler = new Handler();
 //                                            handler.postDelayed(new Runnable() {
@@ -574,5 +579,15 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private String getImagePath() {
         return imgPath;
     }
+
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//
+//        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+//            if (snackbar != null && snackbar.isShown()) snackbar.dismiss();
+//        }
+//
+//        return super.dispatchTouchEvent(ev);
+//    }
 
 }
