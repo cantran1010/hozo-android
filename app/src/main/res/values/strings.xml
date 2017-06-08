@@ -329,7 +329,9 @@
     <string name="post_a_task_map_get_location_error">Không thể lấy vị trí của bạn,vui lòng kiểm tra lại kết nối mạng !</string>
     <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
     <string name="task_detail_money_type">VND</string>
-    <string name="all_space_type"><b> </b></string>
     <string name="km">km</string>
+    <string name="all_space_type"><![CDATA[&#160]]></string>
+    <string name="attach_image_permission_message">Vui lòng cấp quyền để tải hình ảnh đính kèm</string>
+    <string name="attach_image_permission_confirm">Xác nhận</string>
 
 </resources>

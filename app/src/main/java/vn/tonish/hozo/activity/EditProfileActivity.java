@@ -72,7 +72,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private File file;
     private int avataId;
     private boolean isUpdateAvata = false;
-    private final String[] permissions = new String[]{Manifest.permission.CAMERA};
+    private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private RelativeLayout layoutBirthday;
     private TextViewHozo tvMale, tvFemale;
     private ImageView imgMale, imgFemale;
@@ -398,31 +398,18 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void doPickImage() {
-
-        PickImageDialog pickImageDialog = new PickImageDialog(EditProfileActivity.this);
-        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
-            @Override
-            public void onCamera() {
-                checkPermission();
-            }
-
-            @Override
-            public void onGallery() {
-                Intent intent = new Intent(EditProfileActivity.this, AlbumActivity.class);
-                intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
-                intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
-                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
-            }
-        });
-        pickImageDialog.showView();
+        checkPermission();
     }
 
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            permissionGranted();
-        } else {
+                Manifest.permission.CAMERA) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+        } else {
+            permissionGranted();
         }
     }
 
@@ -443,9 +430,26 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void permissionGranted() {
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-        startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+
+        PickImageDialog pickImageDialog = new PickImageDialog(EditProfileActivity.this);
+        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+            @Override
+            public void onCamera() {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+            }
+
+            @Override
+            public void onGallery() {
+                Intent intent = new Intent(EditProfileActivity.this, AlbumActivity.class);
+                intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
+                intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
+                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
+        pickImageDialog.showView();
+
     }
 
     private Uri setImageUri() {
