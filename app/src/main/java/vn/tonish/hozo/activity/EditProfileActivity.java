@@ -364,7 +364,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
-                        tvBirthday.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                        tvBirthday.setText(getString(R.string.edit_profile_birthday,dayOfMonth,monthOfYear + 1,year));
                         calendar.set(year, monthOfYear, dayOfMonth);
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
