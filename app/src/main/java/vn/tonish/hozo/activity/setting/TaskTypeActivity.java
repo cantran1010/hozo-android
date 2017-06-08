@@ -16,6 +16,7 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -25,6 +26,7 @@ import vn.tonish.hozo.view.TextViewHozo;
  */
 
 public class TaskTypeActivity extends BaseActivity implements View.OnClickListener {
+    private final static String TAG = TaskTypeActivity.class.getSimpleName();
     private ImageView imgback;
     private RecyclerView mRecyclerView;
     private TaskTypeAdapter mAdapter;
@@ -47,8 +49,8 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
         btnSave = (ButtonHozo) findViewById(R.id.btn_save);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         taskTypes = new ArrayList<>();
-
-
+        mAdapter = new TaskTypeAdapter(taskTypes);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -57,13 +59,11 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
         mCategory = (Category) intent.getExtras().get(Constants.EXTRA_CATEGORY);
         if (mCategory != null)
             taskTypes.addAll(mCategory.getCategories());
-        else
-            getTaskTypes();
+
         imgback.setOnClickListener(this);
         btnReset.setOnClickListener(this);
         btnSave.setOnClickListener(this);
-        mAdapter = new TaskTypeAdapter(taskTypes);
-        mRecyclerView.setAdapter(mAdapter);
+
 
     }
 
@@ -91,7 +91,11 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
 
     private void clearSelected() {
         taskTypes.clear();
-        getTaskTypes();
+        if (mCategory.getCategories().size() > 0)
+            taskTypes.addAll(mCategory.getCategories());
+        else
+            getTaskTypes();
+        LogUtils.d(TAG, "categories " + taskTypes.toString());
         mAdapter.notifyDataSetChanged();
     }
 
