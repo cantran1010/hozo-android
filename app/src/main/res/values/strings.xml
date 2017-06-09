@@ -211,9 +211,9 @@
     <string name="report_ok">CHỌN</string>
     <string name="report_reason_other_title">Lý do khác</string>
     <string name="btn_report_send">GỬI</string>
-    <string name="number_employ_footer">%d người \n được thuê</string>
-    <string name="number_remain_footer">%d vị trí \n còn trống</string>
-    <string name="number_bit_footer"> %d người \n ứng tuyển</string>
+    <string name="number_employ_footer">%1$d người \n được thuê</string>
+    <string name="number_remain_footer">%1$d vị trí \n còn trống</string>
+    <string name="number_bit_footer">%1$d người \n ứng tuyển</string>
     <string name="task_detail_category_type">Loại công việc:</string>
     <string name="detail_task_time_to">-</string>
     <string name="call_err">Rất tiếc điện thoại của bạn không hỗ trợ chức năng gọi điện</string>
@@ -330,14 +330,15 @@
     <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
     <string name="task_detail_money_type">VND</string>
     <string name="km">km</string>
-    <string name="all_space_type"><![CDATA[&#160]]></string>
+    <string name="all_space_type"><b> </b></string>
     <string name="attach_image_permission_message">Vui lòng cấp quyền để tải hình ảnh đính kèm</string>
     <string name="attach_image_permission_confirm">Xác nhận</string>
-    <string name="count_in_detail">(%d)</string>
+    <string name="count_in_detail">(%1$d)</string>
     <string name="my_task_price">%s VND</string>
     <string name="task_detail_reply_member">\@%s \n</string>
     <string name="post_a_task_age">%1$d ~ %2$d</string>
     <string name="detail_task_time_ago">%1$s . Loại công việc : %2$s</string>
     <string name="edit_profile_birthday">%1$d/%2$d/%3$d</string>
+    <string name="task_detail_time">%1$s - %2$s</string>
 
 </resources>

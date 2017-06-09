@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -377,16 +378,30 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private void attachAllFile() {
 
         if (Utils.isNetworkAvailable(this)) {
-            ProgressDialogUtils.showProgressDialog(this);
-            //because images attach have icon '+' so size file = size image -1
-            imageAttachCount = images.size() - 1;
-            imagesArr = new int[images.size() - 1];
 
-            for (int i = 0; i < images.size() - 1; i++) {
-                LogUtils.d(TAG, " attachAllFile image " + i + " : " + images.get(i).getPath());
-                File file = new File(images.get(i).getPath());
-                attachFile(file, i);
-            }
+            new AsyncTask<Void, Void, Void>() {
+
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    ProgressDialogUtils.showProgressDialog(PostATaskActivity.this);
+                    //because images attach have icon '+' so size file = size image -1
+                    imageAttachCount = images.size() - 1;
+                    imagesArr = new int[images.size() - 1];
+                }
+
+                @Override
+                protected Void doInBackground(Void... params) {
+                    for (int i = 0; i < images.size() - 1; i++) {
+                        LogUtils.d(TAG, " attachAllFile image " + i + " : " + images.get(i).getPath());
+                        File file = new File(images.get(i).getPath());
+                        attachFile(file, i);
+                    }
+                    return null;
+                }
+            }.execute();
+
+
         } else {
             DialogUtils.showRetryDialog(this, new AlertDialogOkAndCancel.AlertDialogListener() {
                 @Override
@@ -457,10 +472,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             intent.putExtra(Constants.EXTRA_CATEGORY, category);
 
             startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
-
-            ProgressDialogUtils.dismissProgressDialog();
-
             FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+            ProgressDialogUtils.dismissProgressDialog();
         }
 
     }
