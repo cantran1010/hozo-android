@@ -200,6 +200,7 @@
     <string name="report_ok">CHỌN</string>
     <string name="report_reason_other_title">Lý do khác</string>
     <string name="btn_report_send">GỬI</string>
+    <string name="number_employ_footer">%1$d người \n được thuê</string>
     <string name="number_remain_footer">%1$d vị trí \n còn trống</string>
     <string name="number_bit_footer">%1$d người \n ứng tuyển</string>
     <string name="task_detail_category_type">Loại công việc:</string>
