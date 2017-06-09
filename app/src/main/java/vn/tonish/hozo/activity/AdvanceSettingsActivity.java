@@ -196,7 +196,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
         }
 
-        nameTask = name.substring(0, name.lastIndexOf('-'));;
+        nameTask = name.substring(0, name.lastIndexOf('-'));
     }
 
     private void getNameCategorys(ArrayList<Category> categoryEntities) {
@@ -205,7 +205,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             name = name + categoryEntities.get(i).getName() + "-";
         }
 
-        nameTask =  name.substring(0, name.lastIndexOf('-'));;
+        nameTask =  name.substring(0, name.lastIndexOf('-'));
     }
 
 

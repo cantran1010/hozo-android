@@ -291,7 +291,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     private final ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
         @Override
-        public void onResult(PlaceBuffer places) {
+        public void onResult(@NonNull PlaceBuffer places) {
             if (!places.getStatus().isSuccess()) {
                 // Request did not complete successfully
                 LogUtils.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
@@ -507,7 +507,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
      * @param connectionResult can be inspected to determine the cause of the failure
      */
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
         LogUtils.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
                 + connectionResult.getErrorCode());

@@ -266,7 +266,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             retaCountWorker = userEntity.getTaskerReviewCount();
             ratingTasker = userEntity.getTaskerAverageRating();
             tvName.setText(userEntity.getFullName());
-            if (userEntity.getDateOfBirth().equals(getString(R.string.timezero))) {
+            if (userEntity.getDateOfBirth().equals("0001-01-01")) {
                 tvDateOfBirth.setVisibility(View.GONE);
             } else {
                 tvDateOfBirth.setVisibility(View.VISIBLE);
