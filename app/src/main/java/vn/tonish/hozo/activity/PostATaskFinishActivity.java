@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -26,6 +28,7 @@ import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
+import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.NumberTextWatcher;
 import vn.tonish.hozo.utils.Utils;
@@ -91,8 +94,6 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             public void afterTextChanged(Editable s) {
                 if (!edtBudget.getText().toString().equals(""))
                     if (Long.valueOf(edtBudget.getText().toString().replace(".", "")) > MAX_BUGDET) {
-                        LogUtils.d(TAG, "afterTextChanged : " + Long.valueOf(edtBudget.getText().toString().replace(".", "")));
-
                         edtBudget.setText(budgetBefore);
                         edtBudget.setError(getString(R.string.max_budget_error));
                         edtBudget.setSelection(edtBudget.getText().toString().length());
@@ -248,6 +249,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
                     Utils.showLongToast(PostATaskFinishActivity.this, getString(R.string.post_a_task_complete), false, false);
                     setResult(Constants.POST_A_TASK_RESPONSE_CODE);
                     finish();
+                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(PostATaskFinishActivity.this, new NetworkUtils.RefreshListener() {
                         @Override

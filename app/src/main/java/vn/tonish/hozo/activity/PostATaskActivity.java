@@ -472,7 +472,6 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             intent.putExtra(Constants.EXTRA_CATEGORY, category);
 
             startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
-            FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
             ProgressDialogUtils.dismissProgressDialog();
         }
 
