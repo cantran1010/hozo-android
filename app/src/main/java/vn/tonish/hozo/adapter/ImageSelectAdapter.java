@@ -2,7 +2,6 @@ package vn.tonish.hozo.adapter;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -13,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -144,9 +141,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
         params.height = whImage;
         holder.imgImage.setLayoutParams(params);
 
-        Glide.with(getContext())
-                .load(item.getPath())
-                .centerCrop().into(holder.imgImage);
+        Utils.displayImageCenterCrop(getContext(),holder.imgImage,item.getPath());
 
         return convertView;
     }
