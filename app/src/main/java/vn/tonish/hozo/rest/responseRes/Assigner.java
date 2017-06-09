@@ -21,6 +21,15 @@ public class Assigner extends RealmObject implements Serializable{
     @SerializedName("bidded_at")
     private String biddedAt;
     private String phone;
+    private int rating;
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 
     public int getId() {
         return id;
@@ -88,6 +97,7 @@ public class Assigner extends RealmObject implements Serializable{
                 ", avatar='" + avatar + '\'' +
                 ", biddedAt='" + biddedAt + '\'' +
                 ", phone='" + phone + '\'' +
+                ", rating=" + rating +
                 '}';
     }
 }

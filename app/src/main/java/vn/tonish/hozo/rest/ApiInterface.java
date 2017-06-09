@@ -20,7 +20,6 @@ import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
-import vn.tonish.hozo.rest.responseRes.CancelOfferResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.RateResponse;
@@ -87,11 +86,8 @@ public interface ApiInterface {
     @PUT("tasks/{taskId}/cancel")
     Call<TaskResponse> cancelTask(@Header("Authorization") String token, @Path("taskId") int taskId);
 
-    @POST("tasks/{taskId}/reviews")
+    @PUT("tasks/{taskId}/reviews")
     Call<RateResponse> rateTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
-
-    @POST("bids/{bidId}")
-    Call<CancelOfferResponse> cancelOffer(@Header("Authorization") String token, @Path("bidId") int bidId, @Body RequestBody body);
 
     @GET("notifications")
     Call<List<Notification>> getMyNotifications(@Header("Authorization") String token, @QueryMap Map<String, String> option);
