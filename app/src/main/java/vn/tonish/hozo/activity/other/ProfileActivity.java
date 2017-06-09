@@ -305,11 +305,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private void setDataSelected(boolean isPoster) {
         reviewEntities.clear();
         if (isPoster) {
-            tvRateCount.setText(getString(R.string.profile_rate) + "(" + rateCountPoster + ")");
+            String strPosterRateCount = getString(R.string.profile_rate) + "(" + rateCountPoster + ")";
+            tvRateCount.setText(strPosterRateCount);
             ratingBar.setRating(ratingPoster);
             reviewEntities.addAll(posterReviewEntity);
         } else {
-            tvRateCount.setText(getString(R.string.profile_rate) + "(" + retaCountWorker + ")");
+            String strTaskerRateCount = getString(R.string.profile_rate) + "(" + retaCountWorker + ")";
+            tvRateCount.setText(strTaskerRateCount);
             ratingBar.setRating(ratingTasker);
             reviewEntities.addAll(taskerReviewEntity);
         }
