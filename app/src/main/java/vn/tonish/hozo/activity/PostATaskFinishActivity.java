@@ -91,7 +91,8 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         edtNumberWorker.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                if (!edtNumberWorker.getText().toString().equals("") && Integer.valueOf(edtNumberWorker.getText().toString()) <= 10)
+                    edtNumberWorker.setError(null);
             }
 
             @Override
@@ -101,7 +102,16 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void afterTextChanged(Editable s) {
-                updateTotalPayment();
+                if (!edtNumberWorker.getText().toString().equals("")) {
+                    if (Integer.valueOf(edtNumberWorker.getText().toString()) > 10) {
+                        edtNumberWorker.setText(edtNumberWorker.getText().toString().substring(0, edtNumberWorker.getText().toString().length() - 1));
+                        edtNumberWorker.setError(getString(R.string.max_number_worker_error));
+                        edtNumberWorker.setSelection(edtNumberWorker.getText().toString().length());
+                    } else {
+                        edtNumberWorker.setError(null);
+                        updateTotalPayment();
+                    }
+                }
             }
         });
     }
@@ -164,6 +174,9 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         } else if (edtNumberWorker.getText().toString().equals("0") || edtNumberWorker.getText().toString().equals("")) {
             edtNumberWorker.requestFocus();
             edtNumberWorker.setError(getString(R.string.post_a_task_number_worker_error));
+            return;
+        } else if (Integer.valueOf(edtNumberWorker.getText().toString()) > 10) {
+            edtNumberWorker.setError(getString(R.string.max_number_worker_error));
             return;
         }
 
