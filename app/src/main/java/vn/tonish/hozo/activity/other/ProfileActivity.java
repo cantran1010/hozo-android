@@ -52,7 +52,7 @@ import static vn.tonish.hozo.utils.Utils.setViewBackground;
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private ImageView imgback, imgEdit;
-    private TextView btnWorker, btnPoster,tvTitle;
+    private TextView btnWorker, btnPoster, tvTitle;
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvGender, tvRateCount, btnMoreReview, btnLogOut;
     private RatingBar ratingBar;
@@ -272,7 +272,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 tvDateOfBirth.setVisibility(View.VISIBLE);
                 tvDateOfBirth.setText(getDateBirthDayFromIso(userEntity.getDateOfBirth()));
             }
-            tvGender.setText(converGenderVn(this, userEntity.getGender()));
+            if (userEntity.getGender().equals(getString(R.string.gender_any)))
+                tvGender.setVisibility(View.GONE);
+            else {
+                tvGender.setVisibility(View.VISIBLE);
+                tvGender.setText(converGenderVn(this, userEntity.getGender()));
+            }
             if (isMyUser) {
                 layoutInfor.setVisibility(View.VISIBLE);
                 tvAddress.setText(userEntity.getAddress());
