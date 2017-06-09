@@ -163,4 +163,7 @@ public class Constants {
     public static final String REQUEST_EXTRAS_RADIUS ="extra_radius" ;
     public static final int REQUEST_CODE_SETTING =1018 ;
     public static final int RESULT_CODE_SETTING = 1019;
+    public static final String ASSIGNER_RATE_EXTRA = "assign_rate_extra";
+    public static int REQUEST_CODE_RATE = 345;
+    public static int RESPONSE_CODE_RATE = 543;
 }

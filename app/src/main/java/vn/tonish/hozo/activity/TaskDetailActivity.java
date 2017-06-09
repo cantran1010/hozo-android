@@ -73,6 +73,7 @@ import vn.tonish.hozo.view.WorkDetailView;
 import static vn.tonish.hozo.R.string.call;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_RATE;
 
 /**
  * Created by LongBui on 5/30/17.
@@ -407,9 +408,9 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         commentViewFull.setCommentType(commentType);
         commentViewFull.updateData(comments);
 
-        tvBidderCount.setText(getString(R.string.count_in_detail,taskResponse.getBidderCount()));
-        tvAssignCount.setText(getString(R.string.count_in_detail,taskResponse.getAssigneeCount()));
-        tvCommentCount.setText(getString(R.string.count_in_detail,taskResponse.getCommentsCount()));
+        tvBidderCount.setText(getString(R.string.count_in_detail, taskResponse.getBidderCount()));
+        tvAssignCount.setText(getString(R.string.count_in_detail, taskResponse.getAssigneeCount()));
+        tvCommentCount.setText(getString(R.string.count_in_detail, taskResponse.getCommentsCount()));
 
         updateSeeMoreComment();
     }
@@ -725,7 +726,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                     if (comments.size() > 5) comments.remove(comments.size() - 1);
                     commentViewFull.updateData(comments);
                     taskResponse.setCommentsCount(taskResponse.getCommentsCount() + 1);
-                    tvCommentCount.setText(getString(R.string.count_in_detail,taskResponse.getCommentsCount()));
+                    tvCommentCount.setText(getString(R.string.count_in_detail, taskResponse.getCommentsCount()));
 
                     updateSeeMoreComment();
 
@@ -801,6 +802,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             Utils.displayImage(TaskDetailActivity.this, imgAttached, imgPath);
             imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
+        } else if (requestCode == Constants.REQUEST_CODE_RATE && resultCode == RESPONSE_CODE_RATE) {
+            getData();
         }
 
     }
@@ -812,7 +815,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             if (intent.hasExtra(Constants.COMMENT_EXTRA)) {
                 Comment comment = (Comment) intent.getSerializableExtra(Constants.COMMENT_EXTRA);
                 LogUtils.d(TAG, "broadcastReceiver , comment : " + comment.toString());
-                edtComment.setText(getString(R.string.task_detail_reply_member,comment.getFullName()));
+                edtComment.setText(getString(R.string.task_detail_reply_member, comment.getFullName()));
                 edtComment.setSelection(edtComment.getText().length());
             } else if (intent.hasExtra(Constants.EXTRA_TASK)) {
                 taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
@@ -820,6 +823,12 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 LogUtils.d(TAG, "broadcastReceiver , taskResponse : " + taskResponse.toString());
                 updateUi();
                 storeTaskToDatabase();
+            } else if (intent.hasExtra(Constants.ASSIGNER_RATE_EXTRA)) {
+                Assigner assigner = (Assigner) intent.getSerializableExtra(Constants.ASSIGNER_RATE_EXTRA);
+                Intent intentRate = new Intent(TaskDetailActivity.this, RateActivity.class);
+                intentRate.putExtra(Constants.TASK_ID_EXTRA, taskId);
+                intentRate.putExtra(Constants.USER_ID_EXTRA, assigner.getId());
+                startActivityForResult(intentRate, Constants.REQUEST_CODE_RATE, TransitionScreen.UP_TO_DOWN);
             }
 
         }
