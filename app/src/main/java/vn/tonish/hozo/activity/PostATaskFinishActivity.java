@@ -44,6 +44,8 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
     private TextViewHozo tvTotal;
     private TaskResponse work;
     private Category category;
+    private String budgetBefore;
+    private static final int MAX_BUGDET = 20000000;
 
     @Override
     protected int getLayout() {
@@ -74,7 +76,10 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         edtBudget.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (!edtBudget.getText().toString().equals("") && Long.valueOf(edtBudget.getText().toString().replace(".", "")) <= MAX_BUGDET)
+                    edtBudget.setError(null);
 
+                budgetBefore = edtBudget.getText().toString();
             }
 
             @Override
@@ -84,7 +89,16 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void afterTextChanged(Editable s) {
-                updateTotalPayment();
+                if (!edtBudget.getText().toString().equals(""))
+                    if (Long.valueOf(edtBudget.getText().toString().replace(".", "")) > MAX_BUGDET) {
+                        LogUtils.d(TAG, "afterTextChanged : " + Long.valueOf(edtBudget.getText().toString().replace(".", "")));
+
+                        edtBudget.setText(budgetBefore);
+                        edtBudget.setError(getString(R.string.max_budget_error));
+                        edtBudget.setSelection(edtBudget.getText().toString().length());
+                    } else {
+                        updateTotalPayment();
+                    }
             }
         });
 
