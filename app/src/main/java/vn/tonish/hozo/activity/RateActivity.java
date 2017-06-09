@@ -107,7 +107,7 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
     private void doRate() {
 
         if (ratingBar.getRating() == 0) {
-            Utils.showLongToast(this, getString(R.string.rate_msg_no_content_error),true,false);
+            Utils.showLongToast(this, getString(R.string.rate_msg_no_content_error), true, false);
             return;
         }
 
@@ -130,6 +130,7 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
                 LogUtils.d(TAG, "doRate : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    setResult(Constants.RESPONSE_CODE_RATE);
                     finish();
                 } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
                     APIError error = ErrorUtils.parseError(response);

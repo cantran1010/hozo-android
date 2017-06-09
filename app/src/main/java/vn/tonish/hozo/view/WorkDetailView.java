@@ -144,8 +144,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         tvName.setText(taskResponse.getPoster().getFullName());
         rbRate.setRating(taskResponse.getPoster().getPosterAverageRating());
         tvTitle.setText(taskResponse.getTitle());
-        tvTime.setText(taskResponse.getTitle());
-          tvTimeAgo.setText(getContext().getString(R.string.detail_task_time_ago,DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), getContext()),CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName()));
+        tvTimeAgo.setText(getContext().getString(R.string.detail_task_time_ago, DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), getContext()), CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName()));
 //        tvWorkType.setText(getContext().getString(R.string.task_detail_category_type) + " " + CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName());
         tvDescription.setText(taskResponse.getDescription());
 
@@ -153,8 +152,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         String strPrice = Utils.formatNumber(taskResponse.getWorkerCount() * taskResponse.getWorkerRate()) + getContext().getString(R.string.task_detail_money_type);
         tvPrice.setText(strPrice);
         tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
-        String strTime = DateTimeUtils.getHourMinuteFromIso(taskResponse.getStartTime()) + getContext().getString(R.string.all_space_type) + getContext().getString(R.string.detail_task_time_to) + getContext().getString(R.string.all_space_type) + DateTimeUtils.getHourMinuteFromIso(taskResponse.getEndTime());
-        tvTime.setText(strTime);
+        tvTime.setText(getContext().getString(R.string.task_detail_time, DateTimeUtils.getHourMinuteFromIso(taskResponse.getStartTime()), DateTimeUtils.getHourMinuteFromIso(taskResponse.getEndTime())));
         tvAddress.setText(taskResponse.getAddress());
 
         final ArrayList<String> attachments = (ArrayList<String>) taskResponse.getAttachments();

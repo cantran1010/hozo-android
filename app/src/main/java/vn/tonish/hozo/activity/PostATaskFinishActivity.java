@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -26,6 +28,7 @@ import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
+import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.NumberTextWatcher;
 import vn.tonish.hozo.utils.Utils;
@@ -44,6 +47,8 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
     private TextViewHozo tvTotal;
     private TaskResponse work;
     private Category category;
+    private String budgetBefore;
+    private static final int MAX_BUGDET = 20000000;
 
     @Override
     protected int getLayout() {
@@ -74,7 +79,10 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         edtBudget.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (!edtBudget.getText().toString().equals("") && Long.valueOf(edtBudget.getText().toString().replace(".", "")) <= MAX_BUGDET)
+                    edtBudget.setError(null);
 
+                budgetBefore = edtBudget.getText().toString();
             }
 
             @Override
@@ -84,14 +92,22 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void afterTextChanged(Editable s) {
-                updateTotalPayment();
+                if (!edtBudget.getText().toString().equals(""))
+                    if (Long.valueOf(edtBudget.getText().toString().replace(".", "")) > MAX_BUGDET) {
+                        edtBudget.setText(budgetBefore);
+                        edtBudget.setError(getString(R.string.max_budget_error));
+                        edtBudget.setSelection(edtBudget.getText().toString().length());
+                    } else {
+                        updateTotalPayment();
+                    }
             }
         });
 
         edtNumberWorker.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                if (!edtNumberWorker.getText().toString().equals("") && Integer.valueOf(edtNumberWorker.getText().toString()) <= 10)
+                    edtNumberWorker.setError(null);
             }
 
             @Override
@@ -101,7 +117,16 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void afterTextChanged(Editable s) {
-                updateTotalPayment();
+                if (!edtNumberWorker.getText().toString().equals("")) {
+                    if (Integer.valueOf(edtNumberWorker.getText().toString()) > 10) {
+                        edtNumberWorker.setText(edtNumberWorker.getText().toString().substring(0, edtNumberWorker.getText().toString().length() - 1));
+                        edtNumberWorker.setError(getString(R.string.max_number_worker_error));
+                        edtNumberWorker.setSelection(edtNumberWorker.getText().toString().length());
+                    } else {
+                        edtNumberWorker.setError(null);
+                        updateTotalPayment();
+                    }
+                }
             }
         });
     }
@@ -165,6 +190,9 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             edtNumberWorker.requestFocus();
             edtNumberWorker.setError(getString(R.string.post_a_task_number_worker_error));
             return;
+        } else if (Integer.valueOf(edtNumberWorker.getText().toString()) > 10) {
+            edtNumberWorker.setError(getString(R.string.max_number_worker_error));
+            return;
         }
 
         final JSONObject jsonRequest = new JSONObject();
@@ -221,6 +249,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
                     Utils.showLongToast(PostATaskFinishActivity.this, getString(R.string.post_a_task_complete), false, false);
                     setResult(Constants.POST_A_TASK_RESPONSE_CODE);
                     finish();
+                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(PostATaskFinishActivity.this, new NetworkUtils.RefreshListener() {
                         @Override

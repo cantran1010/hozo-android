@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.RateActivity;
 import vn.tonish.hozo.activity.other.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -87,16 +86,23 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
                 }
             });
         } else if (assignType.equals(getContext().getString(R.string.rate))) {
-            btnCall.setVisibility(View.VISIBLE);
-            btnCall.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), RateActivity.class);
-                    intent.putExtra(Constants.TASK_ID_EXTRA, getTaskId());
-                    intent.putExtra(Constants.USER_ID_EXTRA, assigner.getId());
-                    getContext().startActivity(intent);
-                }
-            });
+
+            if (assigner.getRating() == 0) {
+                btnCall.setVisibility(View.VISIBLE);
+                btnCall.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intentAnswer = new Intent();
+                        intentAnswer.setAction("MyBroadcast");
+                        intentAnswer.putExtra(Constants.ASSIGNER_RATE_EXTRA, assigner);
+                        getContext().sendBroadcast(intentAnswer);
+                    }
+                });
+            } else {
+                btnCall.setVisibility(View.GONE);
+            }
+
+
         } else {
             btnCall.setVisibility(View.GONE);
         }

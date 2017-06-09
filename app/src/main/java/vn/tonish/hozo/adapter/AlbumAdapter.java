@@ -10,14 +10,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Album;
 import vn.tonish.hozo.utils.DeviceUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -54,11 +53,8 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
         LogUtils.d(TAG, "AlbumAdapter , item name : " + (item != null ? item.getName() : null));
 
         holder.tvName.setText(item != null ? item.getName() : null);
-//        Utils.displayImage(getContext(), holder.imgAlbum, item.getCoverPath());
 
-        Glide.with(getContext())
-                .load(item.getCoverPath())
-                .centerCrop().into(holder.imgAlbum);
+        Utils.displayImageCenterCrop(getContext(),holder.imgAlbum,item.getCoverPath());
 
         DeviceUtils.DisplayInfo displayInfo = DeviceUtils.getDisplayInfo(getContext());
         int whImage = displayInfo.getWidth() / 3;

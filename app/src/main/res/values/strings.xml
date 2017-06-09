@@ -100,7 +100,7 @@
     <string name="more_detail">Tùy chọn thêm</string>
     <string name="date_pick_hint">Chọn thời gian bắt đầu làm việc</string>
     <string name="btn_next">TIẾP TỤC</string>
-    <string name="age_from_hint">18 ~ 80</string>
+    <string name="age_from_hint">18 ~ 60</string>
     <string name="post_a_task_finish_title">Chi phí</string>
     <string name="post_task_finish_offer">Số tiền cho một người</string>
     <string name="post_task_finish_number">Số người cần thuê</string>
@@ -155,7 +155,7 @@
     <string name="select_age_title">Chọn Tuổi</string>
     <string name="select_age_to">Đến</string>
     <string name="ok">OK</string>
-    <string name="select_age_error">Vui lòng nhập tuổi lớn hơn</string>
+    <string name="select_age_error">Mức tuổi bạn chọn không chính xác,vui lòng sửa lại</string>
     <string name="alert_dialog_title">Hủy thao tác</string>
     <string name="alert_dialog_content">Bạn có chắc chắn muốn dừng thao tác này</string>
     <string name="alert_dialog_yes">CÓ</string>
@@ -200,9 +200,9 @@
     <string name="report_ok">CHỌN</string>
     <string name="report_reason_other_title">Lý do khác</string>
     <string name="btn_report_send">GỬI</string>
-    <string name="number_employ_footer">%d người \n được thuê</string>
-    <string name="number_remain_footer">%d vị trí \n còn trống</string>
-    <string name="number_bit_footer"> %d người \n ứng tuyển</string>
+    <string name="number_remain_footer">%1$d vị trí \n còn trống</string>
+    <string name="number_bit_footer">%1$d người \n ứng tuyển</string>
+    <string name="task_detail_category_type">Loại công việc:</string>
     <string name="detail_task_time_to">-</string>
     <string name="call_err">Rất tiếc điện thoại của bạn không hỗ trợ chức năng gọi điện</string>
     <string name="title_cancel_task">Hủy việc</string>
@@ -316,11 +316,16 @@
     <string name="task_detail_money_type">VND</string>
     <string name="km">km</string>
     <string name="all_space_type"><b> </b></string>
-    <string name="count_in_detail">(%d)</string>
+    <string name="attach_image_permission_message">Vui lòng cấp quyền để tải hình ảnh đính kèm</string>
+    <string name="attach_image_permission_confirm">Xác nhận</string>
+    <string name="count_in_detail">(%1$d)</string>
     <string name="my_task_price">%s VND</string>
     <string name="task_detail_reply_member">\@%s \n</string>
     <string name="post_a_task_age">%1$d ~ %2$d</string>
     <string name="detail_task_time_ago">%1$s . Loại công việc : %2$s</string>
     <string name="edit_profile_birthday">%1$d/%2$d/%3$d</string>
+    <string name="task_detail_time">%1$s - %2$s</string>
+    <string name="max_number_worker_error">Bạn được phép chọn tối đa 10 người</string>
+    <string name="max_budget_error">Số tiền bạn nhập không quá 20.000.000 VND</string>
 
 </resources>

@@ -31,9 +31,9 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
     private int ageTo;
 
     private static final int minAge = 18;
-    private static final int maxAge = 80;
+    private static final int maxAge = 60;
 
-    public  AgeDialog(@NonNull Context context) {
+    public AgeDialog(@NonNull Context context) {
         super(context);
     }
 
@@ -75,16 +75,14 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
     }
 
     private void doDone() {
-
         if (npAgeFrom.getValue() >= npAgeTo.getValue()) {
-            Utils.showLongToast(getContext(), getContext().getString(R.string.select_age_error),true,false);
+            Utils.showLongToast(getContext(), getContext().getString(R.string.select_age_error), true, false);
             return;
         }
 
         if (ageDialogListener != null)
             ageDialogListener.onAgeDialogLister(npAgeFrom.getValue(), npAgeTo.getValue());
         hideView();
-
     }
 
     public void setAgeFrom(int ageFrom) {

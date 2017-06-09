@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -56,13 +57,24 @@ public class Utils {
 
     public static void displayImage(Context context, ImageView img, String url) {
         Glide.with(context).load(url)
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.image_placeholder)
+                .dontAnimate()
+                .into(img);
+    }
+
+    public static void displayImageCenterCrop(Context context, ImageView img, String url) {
+        Glide.with(context).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.image_placeholder)
+                .dontAnimate()
+                .centerCrop()
                 .into(img);
     }
 
     public static void displayImageAvatar(Context context, ImageView img, String url) {
         Glide.with(context).load(url)
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.avatar_default)
                 .dontAnimate()
                 .into(img);
@@ -102,9 +114,12 @@ public class Utils {
 
     public static void showLongToast(Context context, String content, boolean isError, boolean isShort) {
         if (context == null) return;
-        if (((Activity) context).isFinishing()) {
-            return;
-        }
+
+        if (context instanceof Activity)
+            if (((Activity) context).isFinishing()) {
+                return;
+            }
+
         showToastCustom(context, content, isError, isShort);
     }
 
