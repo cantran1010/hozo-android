@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.Utils;
 
 /**
  * Created by LongBui on 4/19/2017.
@@ -66,17 +65,7 @@ public class ImageAdapter extends ArrayAdapter<Image> {
             }
         });
 
-//        Glide.with(getContext())
-//                .load(item.getPath())
-//                .crossFade()
-//                .override((int) PxUtils.pxFromDp(getContext(), 85), (int) PxUtils.pxFromDp(getContext(), 85))
-//                .into(holder.imgImage);
-
-        Glide.with(getContext())
-                .load(item != null ? item.getPath() : null)
-                .centerCrop().into(holder.imgImage);
-
-//        Utils.displayImage(getContext(), holder.imgImage, item.getPath());
+        Utils.displayImageCenterCrop(getContext(), holder.imgImage, item.getPath());
 
         return convertView;
     }

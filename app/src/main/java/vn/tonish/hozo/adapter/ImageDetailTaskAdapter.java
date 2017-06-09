@@ -6,12 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.Utils;
 
 /**
  * Created by LongBui on 4/19/2017.
@@ -60,11 +59,7 @@ public class ImageDetailTaskAdapter extends android.widget.BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-//        Utils.displayImage(context, holder.img, item);
-
-        Glide.with(context)
-                .load(item)
-                .centerCrop().into(holder.img);
+        Utils.displayImageCenterCrop(context,holder.img,item);
 
         return convertView;
     }

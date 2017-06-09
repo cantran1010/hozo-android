@@ -58,6 +58,17 @@ public class Utils {
     public static void displayImage(Context context, ImageView img, String url) {
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.image_placeholder)
+                .dontAnimate()
+                .into(img);
+    }
+
+    public static void displayImageCenterCrop(Context context, ImageView img, String url) {
+        Glide.with(context).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.image_placeholder)
+                .dontAnimate()
+                .centerCrop()
                 .into(img);
     }
 
