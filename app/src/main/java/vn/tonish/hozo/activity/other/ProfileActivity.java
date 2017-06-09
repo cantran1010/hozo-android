@@ -17,7 +17,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.AddVerifyActivity;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.EditProfileActivity;
 import vn.tonish.hozo.activity.ReviewsActivity;
@@ -53,7 +52,7 @@ import static vn.tonish.hozo.utils.Utils.setViewBackground;
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private ImageView imgback, imgEdit;
-    private TextView btnWorker, btnPoster, btnAddVerify, tvTitle;
+    private TextView btnWorker, btnPoster,tvTitle;
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvGender, tvRateCount, btnMoreReview, btnLogOut;
     private RatingBar ratingBar;
@@ -88,11 +87,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
         tvMobile = (TextViewHozo) findViewById(R.id.tv_phone);
         tvGender = (TextViewHozo) findViewById(R.id.tv_gender);
-        btnAddVerify = (TextViewHozo) findViewById(R.id.tv_add_verify);
         btnLogOut = (TextViewHozo) findViewById(R.id.btn_logout);
         btnWorker = (TextViewHozo) findViewById(R.id.btn_worker);
         btnPoster = (TextViewHozo) findViewById(R.id.btn_poster);
-        btnAddVerify = (TextViewHozo) findViewById(R.id.tv_add_verify);
         tvRateCount = (TextViewHozo) findViewById(R.id.tv_rate);
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         layoutLogout = (FrameLayout) findViewById(R.id.layout_logout);
@@ -114,7 +111,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btnLogOut.setOnClickListener(this);
         btnPoster.setOnClickListener(this);
         btnWorker.setOnClickListener(this);
-        btnAddVerify.setOnClickListener(this);
         btnMoreReview.setOnClickListener(this);
         if (isMyUser) {
             mUserEntity = UserManager.getMyUser();
@@ -153,9 +149,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 if (tabIndex == 2) break;
                 tabIndex = 2;
                 selectab(2);
-                break;
-            case R.id.tv_add_verify:
-                startActivityForResult(new Intent(ProfileActivity.this, AddVerifyActivity.class), Constants.REQUEST_CODE_ADD_VERIFY, TransitionScreen.RIGHT_TO_LEFT);
                 break;
             case R.id.tv_more_reviews:
                 Intent intent = new Intent(this, ReviewsActivity.class);
@@ -284,16 +277,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 layoutInfor.setVisibility(View.VISIBLE);
                 tvAddress.setText(userEntity.getAddress());
                 tvMobile.setText(userEntity.getPhone());
-                btnAddVerify.setVisibility(View.VISIBLE);
-                btnAddVerify.setEnabled(true);
                 layoutLogout.setVisibility(View.VISIBLE);
                 imgEdit.setVisibility(View.VISIBLE);
                 tvTitle.setText(getString(R.string.my_account));
             } else {
                 imgEdit.setVisibility(View.GONE);
                 layoutInfor.setVisibility(View.GONE);
-                btnAddVerify.setVisibility(View.GONE);
-                btnAddVerify.setEnabled(false);
                 layoutLogout.setVisibility(View.GONE);
                 tvTitle.setText(getString(R.string.user_account));
             }
