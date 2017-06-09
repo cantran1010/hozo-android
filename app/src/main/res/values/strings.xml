@@ -326,5 +326,6 @@
     <string name="detail_task_time_ago">%1$s . Loại công việc : %2$s</string>
     <string name="edit_profile_birthday">%1$d/%2$d/%3$d</string>
     <string name="task_detail_time">%1$s - %2$s</string>
+    <string name="max_number_worker_error">Bạn được phép chọn tối đa 10 người</string>
 
 </resources>
