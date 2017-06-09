@@ -128,7 +128,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         if (userEntity.getAddress() != null)
             edtAddress.setText(userEntity.getAddress());
 
-        if (userEntity.getDateOfBirth().equals(getString(R.string.timezero))) {
+        if (userEntity.getDateOfBirth().equals("0001-01-01")) {
             tvBirthday.setText("");
         } else {
             tvBirthday.setText(getDateBirthDayFromIso(userEntity.getDateOfBirth()));

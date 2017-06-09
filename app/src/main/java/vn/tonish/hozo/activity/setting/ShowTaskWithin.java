@@ -15,7 +15,11 @@ import vn.tonish.hozo.common.Constants;
 
 public class ShowTaskWithin extends BaseActivity implements View.OnClickListener {
     private int radius = 0;
-    private ImageView imgEveryWhere, img5Km, img15Km, img25Km, img50Km, imgBack;
+    private ImageView imgEveryWhere;
+    private ImageView img5Km;
+    private ImageView img15Km;
+    private ImageView img25Km;
+    private ImageView img50Km;
 
     @Override
     protected int getLayout() {
@@ -29,7 +33,7 @@ public class ShowTaskWithin extends BaseActivity implements View.OnClickListener
         img15Km = (ImageView) findViewById(R.id.img_15km);
         img25Km = (ImageView) findViewById(R.id.img_25km);
         img50Km = (ImageView) findViewById(R.id.img_50km);
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
 
         FrameLayout layoutEveryWhere = (FrameLayout) findViewById(R.id.layout_everywhere);
         FrameLayout layout5Km = (FrameLayout) findViewById(R.id.layout_5km);

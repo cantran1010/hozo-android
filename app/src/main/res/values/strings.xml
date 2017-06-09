@@ -16,7 +16,6 @@
     <!--advance setting screen -->
     <string name="advance_setting_title">Cài Đặt Nâng Cao</string>
     <string name="tv_location">Địa điểm</string>
-    <string name="tv_sex">Giới tính</string>
     <string name="share_content">Hãy chia sẻ ứng dụng Hozo để tạo nên \n kết nối hữu ích cho mọi người</string>
     <string name="other_profile">Hồ sơ cá nhân</string>
     <string name="other_condition">Điều khoản sử dụng</string>
@@ -146,7 +145,6 @@
     <string name="profile_worker">Người làm việc</string>
     <string name="profile_hire">Người đăng việc</string>
     <string name="profile_verify">Đã xác thực</string>
-    <string name="profile_add_verify">Xác thực thêm</string>
     <string name="profile_address">Địa chỉ</string>
     <string name="profile_phone">Điện thoại</string>
     <string name="content_description_send">Gửi</string>
@@ -187,15 +185,6 @@
     <string name="month_ago">tháng trước</string>
     <string name="year_ago">năm trước</string>
     <string name="msg_contten_logOut">Bạn có chắc chắn muốn đăng xuất?</string>
-    <string name="title_add_verify">Cung cấp thông tin cá nhân</string>
-    <string name="verify_label_info">Để có thể tìm được người làm việc hay nhận việc một cách nhanh chóng và uy tín, bạn cần xác thực thông tin với HoZo!</string>
-    <string name="verify_email">Xác thực với email</string>
-    <string name="all_verify">Verify</string>
-    <string name="verify_facebook">Xác thực với Facebook</string>
-    <string name="verify_card">Xác thực với Mastercard</string>
-    <string name="verify_bank">Xác thực với tài khoản ngân hàng</string>
-    <string name="verify_other">Xác thực thông tin cá nhân khác</string>
-    <string name="all_call">1900160078</string>
     <string name="empty" />
     <string name="task_detail_attach_image_hint">Hình ảnh minh họa</string>
     <string name="comment_answer">Trả lời tin nhắn</string>
@@ -211,7 +200,6 @@
     <string name="report_ok">CHỌN</string>
     <string name="report_reason_other_title">Lý do khác</string>
     <string name="btn_report_send">GỬI</string>
-    <string name="number_employ_footer">%1$d người \n được thuê</string>
     <string name="number_remain_footer">%1$d vị trí \n còn trống</string>
     <string name="number_bit_footer">%1$d người \n ứng tuyển</string>
     <string name="task_detail_category_type">Loại công việc:</string>
@@ -226,7 +214,6 @@
     <string name="edt_max">Chi phí cao nhất</string>
     <string name="erro_emply_price">mức giá cho phép là 10,000–100,000,000 VND</string>
     <string name="erro_price">Lỗi! Giá trị xung đột, đề nghị nhập lại. </string>
-    <string name="select_gender_title">Chọn giới tính</string>
     <string name="gender_any">any</string>
     <string name="gender_male">male</string>
     <string name="gender_female">female</string>
@@ -310,8 +297,6 @@
     <string name="gender_vn_any">Bất kỳ</string>
     <string name="gender_vn_mafele">Nữ</string>
     <string name="gender_vn_male">Nam</string>
-    <string name="gender_edit">Giới tính</string>
-    <string name="timezero">0001–01–01</string>
     <string name="error">Lỗi</string>
     <string name="post_task_time_start_error">Vui lòng chọn thời gian bắt đầu sớm nhất có thể sau 30 phút nữa</string>
     <string name="post_task_date_picker_title">Chọn ngày làm việc</string>

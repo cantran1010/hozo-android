@@ -1,5 +1,6 @@
 package vn.tonish.hozo.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
@@ -124,6 +125,7 @@ public class BrowserTaskMapActivity extends BaseActivity implements View.OnClick
 
         private final View view;
 
+        @SuppressLint("InflateParams")
         public CustomInfoWindowAdapter() {
 
             view = getLayoutInflater().inflate(R.layout.pop_up_marker, null);

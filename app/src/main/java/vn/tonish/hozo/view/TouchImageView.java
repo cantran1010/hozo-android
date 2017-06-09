@@ -49,7 +49,6 @@ public class TouchImageView extends AppCompatImageView {
     private void sharedConstructing(Context context) {
 
         super.setClickable(true);
-        Context context1 = context;
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
         matrix = new Matrix();
         m = new float[9];

@@ -68,7 +68,8 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
             TaskResponse taskResponse = taskResponses.get(position);
 
             workHolder.tvName.setText(taskResponse.getTitle());
-            workHolder.tvPrice.setText(Utils.formatNumber(taskResponse.getWorkerRate() * taskResponse.getWorkerCount()) + " " + context.getString(R.string.currency));
+            String strPrice = Utils.formatNumber(taskResponse.getWorkerRate() * taskResponse.getWorkerCount()) + " " + context.getString(R.string.currency);
+            workHolder.tvPrice.setText(strPrice);
             workHolder.tvPrice.setText(context.getString(R.string.my_task_price, Utils.formatNumber(taskResponse.getWorkerRate() * taskResponse.getWorkerCount())));
 
             if (taskResponse.getRole().equals(Constants.ROLE_TASKER)) {

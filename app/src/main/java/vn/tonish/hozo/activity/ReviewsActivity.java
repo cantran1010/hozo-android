@@ -80,7 +80,7 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
         rcvReviews.setAdapter(reviewsAdapter);
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(lvManager) {
             @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+            public void onLoadMore(int page, int totalItemsCount) {
                 if (isLoadingMoreFromServer) getReviews(strSince, user_id);
             }
         };

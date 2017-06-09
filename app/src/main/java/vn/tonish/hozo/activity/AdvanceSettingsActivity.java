@@ -196,7 +196,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
         }
 
-        nameTask = name.substring(0, name.lastIndexOf('-'));;
+        nameTask = name.substring(0, name.lastIndexOf('-'));
     }
 
     private void getNameCategorys(ArrayList<Category> categoryEntities) {
@@ -205,14 +205,15 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             name = name + categoryEntities.get(i).getName() + "-";
         }
 
-        nameTask =  name.substring(0, name.lastIndexOf('-'));;
+        nameTask = name.substring(0, name.lastIndexOf('-'));
     }
 
 
     private void setDataforView() {
         SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
         tvWorkType.setText(nameTask);
-        tvPrice.setText(formatNumber(settingEntiny.getMinWorkerRate()) + " - " + formatNumber(settingEntiny.getMaxWorkerRate()));
+        String strprice = formatNumber(settingEntiny.getMinWorkerRate()) + " - " + formatNumber(settingEntiny.getMaxWorkerRate());
+        tvPrice.setText(strprice);
         tvLocation.setText(strLocation);
         tvRadius.setText(strRadius);
 
@@ -263,7 +264,8 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             LogUtils.d(TAG, "REQUEST_CODE_COST" + minWorkerRate + "-" + maxWorkerRate);
             minWorkerRate = (int) data.getExtras().get(Constants.EXTRA_MIN_PRICE);
             maxWorkerRate = (int) data.getExtras().get(Constants.EXTRA_MAX_PRICE);
-            tvPrice.setText(formatNumber(minWorkerRate) + " - " + formatNumber(maxWorkerRate));
+            String sPrice=formatNumber(minWorkerRate) + " - " + formatNumber(maxWorkerRate);
+            tvPrice.setText(sPrice);
 
         }
         if (requestCode == REQUEST_CODE_RADIUS && resultCode == Constants.RESULT_RADIUS && data != null) {

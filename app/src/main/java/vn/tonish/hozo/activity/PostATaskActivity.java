@@ -514,8 +514,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                                             calendar.set(year, monthOfYear, dayOfMonth);
                                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                                             calendar.set(Calendar.MINUTE, minute);
-
-                                            tvDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year + " " + hourOfDay + ":" + minute);
+                                            String strDate = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year + " " + hourOfDay + ":" + minute;
+                                            tvDate.setText(strDate);
                                             tvDate.setError(null);
                                         }
                                     }
