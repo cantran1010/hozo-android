@@ -25,7 +25,6 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class TaskTypeActivity extends BaseActivity implements View.OnClickListener {
     private final static String TAG = TaskTypeActivity.class.getSimpleName();
     private ImageView imgback;
-    private RecyclerView mRecyclerView;
     private TaskTypeAdapter mAdapter;
     private ButtonHozo btnSave;
     private TextViewHozo btnReset;
@@ -40,7 +39,7 @@ public class TaskTypeActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initView() {
         imgback = (ImageView) findViewById(R.id.img_back);
-        mRecyclerView = (RecyclerView) findViewById(R.id.rcv_task_type);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rcv_task_type);
         btnReset = (TextViewHozo) findViewById(R.id.tv_reset);
         btnSave = (ButtonHozo) findViewById(R.id.btn_save);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

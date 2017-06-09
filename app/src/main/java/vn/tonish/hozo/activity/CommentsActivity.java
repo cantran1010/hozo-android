@@ -73,7 +73,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         lvList.setAdapter(commentsAdapter);
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(lvManager) {
             @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+            public void onLoadMore(int page, int totalItemsCount) {
                 if (isLoadingMoreFromServer) getComments(strSince);
             }
         };
