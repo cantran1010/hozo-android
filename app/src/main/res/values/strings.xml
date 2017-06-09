@@ -100,7 +100,7 @@
     <string name="more_detail">Tùy chọn thêm</string>
     <string name="date_pick_hint">Chọn thời gian bắt đầu làm việc</string>
     <string name="btn_next">TIẾP TỤC</string>
-    <string name="age_from_hint">18 ~ 80</string>
+    <string name="age_from_hint">18 ~ 60</string>
     <string name="post_a_task_finish_title">Chi phí</string>
     <string name="post_task_finish_offer">Số tiền cho một người</string>
     <string name="post_task_finish_number">Số người cần thuê</string>
@@ -327,5 +327,6 @@
     <string name="edit_profile_birthday">%1$d/%2$d/%3$d</string>
     <string name="task_detail_time">%1$s - %2$s</string>
     <string name="max_number_worker_error">Bạn được phép chọn tối đa 10 người</string>
+    <string name="max_budget_error">Số tiền bạn nhập không quá 20.000.000 VND</string>
 
 </resources>

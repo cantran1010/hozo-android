@@ -81,7 +81,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private int imageAttachCount;
     private int[] imagesArr;
     private int ageFrom = 18;
-    private int ageTo = 80;
+    private int ageTo = 60;
     private EdittextHozo edtWorkingHour;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private TimePickerDialog timeEndPickerDialog;
