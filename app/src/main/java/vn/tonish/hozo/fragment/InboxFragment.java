@@ -51,6 +51,7 @@ public class InboxFragment extends BaseFragment {
 //    private boolean isLoadingFromServer = false;
     private Call<List<Notification>> call;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected int getLayout() {
@@ -74,7 +75,7 @@ public class InboxFragment extends BaseFragment {
 
     private void initList() {
         notificationAdapter = new NotificationAdapter(getActivity(), notifications);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         lvList.setLayoutManager(linearLayoutManager);
         lvList.setAdapter(notificationAdapter);
 
@@ -281,6 +282,7 @@ public class InboxFragment extends BaseFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             lvList.smoothScrollToPosition(0);
+            if(linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
         }
     };
 }

@@ -73,7 +73,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private boolean isLoadingMoreFromServer = true;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private Call<List<TaskResponse>> call;
-
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected int getLayout() {
@@ -137,10 +137,10 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     private void setUpRecyclerView() {
         taskAdapter = new TaskAdapter(getActivity(), taskList);
-        LinearLayoutManager lvManager = new LinearLayoutManager(getActivity());
-        rcvTask.setLayoutManager(lvManager);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        rcvTask.setLayoutManager(linearLayoutManager);
         rcvTask.setAdapter(taskAdapter);
-        endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(lvManager) {
+        endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 if (isLoadingMoreFromServer) getTaskResponse(sinceStr, strSortBy, query);
@@ -350,6 +350,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         @Override
         public void onReceive(Context context, Intent intent) {
             rcvTask.smoothScrollToPosition(0);
+            if(linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
         }
     };
 
