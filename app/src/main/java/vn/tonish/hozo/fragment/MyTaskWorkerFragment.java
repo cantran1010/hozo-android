@@ -50,6 +50,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
 //    boolean isLoadingFromServer = false;
     private Call<List<TaskResponse>> call;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected int getLayout() {
@@ -71,7 +72,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
 
     private void initList() {
         myTaskAdapter = new MyTaskAdapter(getActivity(), taskResponses);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         rcvTask.setLayoutManager(linearLayoutManager);
         rcvTask.setAdapter(myTaskAdapter);
 
@@ -132,6 +133,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             rcvTask.smoothScrollToPosition(0);
+            if(linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
         }
     };
 
@@ -247,7 +249,6 @@ public class MyTaskWorkerFragment extends BaseFragment {
 
     private void refreshList() {
         myTaskAdapter.notifyDataSetChanged();
-        LogUtils.d(TAG, "refreshList , taskReponse size : " + taskResponses.size());
     }
 
     @Override

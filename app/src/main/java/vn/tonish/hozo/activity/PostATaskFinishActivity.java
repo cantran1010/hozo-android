@@ -31,6 +31,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.NumberTextWatcher;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
@@ -194,14 +195,12 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             edtNumberWorker.setError(getString(R.string.max_number_worker_error));
             return;
         }
-
+        ProgressDialogUtils.showProgressDialog(this);
         final JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put("category_id", category.getId());
             jsonRequest.put("title", work.getTitle());
             jsonRequest.put("description", work.getDescription());
-//            jsonRequest.put("start_time", DateTimeUtils.getTimeIso8601(work.getDate(), work.getStartTime()));
-//            jsonRequest.put("end_time", DateTimeUtils.getTimeIso8601(work.getDate(), work.getEndTime()));
             jsonRequest.put("start_time", work.getStartTime());
             jsonRequest.put("end_time", work.getEndTime());
 
@@ -268,6 +267,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
                     });
 
                 }
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -284,6 +284,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
                     }
                 });
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }

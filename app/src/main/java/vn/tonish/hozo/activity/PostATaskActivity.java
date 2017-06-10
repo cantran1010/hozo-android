@@ -330,11 +330,13 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             edtDescription.requestFocus();
             edtDescription.setError(getString(R.string.post_a_task_description_error));
             return;
-        } else if (tvAge.getText().toString().equals("")) {
-            tvAge.requestFocus();
-            tvAge.setError(getString(R.string.post_a_task_age_error));
-            return;
         }
+
+//        else if (tvAge.getText().toString().equals("")) {
+//            tvAge.requestFocus();
+//            tvAge.setError(getString(R.string.post_a_task_age_error));
+//            return;
+//        }
 
         if (images.size() == 1) {
             TaskResponse taskResponse = new TaskResponse();

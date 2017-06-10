@@ -31,17 +31,10 @@
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_content"
-                style="@style/tv_style_normal_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp" />
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_task"
-                style="@style/tv_style_normal_black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="12sp" />
+                android:textColor="@color/tv_gray"
+                android:textSize="14sp" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_time_ago"

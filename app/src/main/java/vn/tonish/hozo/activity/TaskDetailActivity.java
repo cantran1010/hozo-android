@@ -109,6 +109,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private LinearLayout layoutFooter;
     private TextViewHozo tvCancel;
     private String commentType;
+    private LinearLayout layoutBidderCount, layoutAssignCount;
 
     @Override
     protected int getLayout() {
@@ -151,6 +152,9 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
         tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
         tvCancel.setOnClickListener(this);
+
+        layoutBidderCount = (LinearLayout) findViewById(R.id.layout_bidder_count);
+        layoutAssignCount = (LinearLayout) findViewById(R.id.layout_assign_count);
 
         layoutFooter = (LinearLayout) findViewById(R.id.layout_footer);
 
@@ -295,6 +299,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
         tvCancel.setVisibility(View.VISIBLE);
         layoutFooter.setVisibility(View.VISIBLE);
+        rcvBidder.setVisibility(View.VISIBLE);
+        rcvAssign.setVisibility(View.VISIBLE);
 
         //poster
         if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
@@ -313,14 +319,24 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
             tvCancel.setVisibility(View.GONE);
-            layoutFooter.setVisibility(View.GONE);
+
+            layoutBidderCount.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.GONE);
+
             assigerType = getString(R.string.rate);
             commentType = getString(R.string.comment_setting_invisible);
+            layoutFooter.setVisibility(View.GONE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
             tvCancel.setVisibility(View.GONE);
+
+            layoutBidderCount.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.GONE);
+            layoutAssignCount.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+
             layoutFooter.setVisibility(View.GONE);
             commentType = getString(R.string.comment_setting_invisible);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
@@ -328,6 +344,12 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
             tvCancel.setVisibility(View.GONE);
+
+            layoutBidderCount.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.GONE);
+            layoutAssignCount.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+
             layoutFooter.setVisibility(View.GONE);
             commentType = getString(R.string.comment_setting_invisible);
         }
@@ -346,6 +368,10 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
             workDetailView.updateBtnCallRate(true, false, getString(R.string.rate));
             tvCancel.setVisibility(View.GONE);
+
+            layoutBidderCount.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.GONE);
+
             layoutFooter.setVisibility(View.GONE);
             commentType = getString(R.string.comment_setting_invisible);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
@@ -353,6 +379,12 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
             tvCancel.setVisibility(View.GONE);
+
+            layoutBidderCount.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.GONE);
+            layoutAssignCount.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+
             layoutFooter.setVisibility(View.GONE);
             commentType = getString(R.string.comment_setting_invisible);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
@@ -360,6 +392,12 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
             tvCancel.setVisibility(View.GONE);
+
+            layoutBidderCount.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.GONE);
+            layoutAssignCount.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+
             layoutFooter.setVisibility(View.GONE);
             commentType = getString(R.string.comment_setting_invisible);
         }

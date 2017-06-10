@@ -50,9 +50,12 @@ public class ImageAdapter extends ArrayAdapter<Image> {
         }
 
         if (item != null && item.isAdd) {
+            holder.imgImage.setVisibility(View.GONE);
             holder.imgAdd.setVisibility(View.VISIBLE);
             holder.imgRemove.setVisibility(View.GONE);
         } else {
+            holder.imgImage.setVisibility(View.VISIBLE);
+            Utils.displayImageCenterCrop(getContext(), holder.imgImage, item.getPath());
             holder.imgAdd.setVisibility(View.GONE);
             holder.imgRemove.setVisibility(View.VISIBLE);
         }
@@ -64,8 +67,6 @@ public class ImageAdapter extends ArrayAdapter<Image> {
                 notifyDataSetChanged();
             }
         });
-
-        Utils.displayImageCenterCrop(getContext(), holder.imgImage, item.getPath());
 
         return convertView;
     }

@@ -38,19 +38,17 @@
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_status"
-                android:layout_width="80dp"
+                android:layout_width="85dp"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/bg_border_recruitment"
                 android:gravity="center"
                 android:paddingBottom="2dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:paddingTop="2dp"
                 android:text="@string/recruitment"
                 android:textColor="@color/white"
-                android:textSize="@dimen/tv_size_tiny" />
+                android:textSize="11sp" />
 
         </RelativeLayout>
 
