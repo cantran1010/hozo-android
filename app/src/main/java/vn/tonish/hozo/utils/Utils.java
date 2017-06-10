@@ -371,8 +371,8 @@ public class Utils {
         Pattern patternIdName = Pattern.compile(matcherName);
         Matcher matcherIdName = patternIdName.matcher(tvContent.getText().toString());
         while (matcherIdName.find()) {
-            spannable.setSpan(new RelativeSizeSpan(1.1f), matcherIdName.start(), matcherIdName.end(), 0);
-            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), matcherIdName.start(), matcherIdName.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new RelativeSizeSpan(1f), matcherIdName.start(), matcherIdName.end(), 0);
+            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#00A2E5")), matcherIdName.start(), matcherIdName.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         tvContent.setText(spannable);
         tvContent.setContentDescription(spannable);

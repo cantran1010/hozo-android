@@ -207,7 +207,7 @@
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:gravity="center"
-                        android:hint="@string/age_from_hint"
+                        android:text="@string/age_from_hint"
                         android:minHeight="@dimen/edt_min_height" />
 
                 </LinearLayout>
