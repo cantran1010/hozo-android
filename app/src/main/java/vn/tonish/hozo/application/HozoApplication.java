@@ -2,6 +2,7 @@ package vn.tonish.hozo.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
 import io.realm.Realm;
@@ -18,6 +19,10 @@ public class HozoApplication extends Application {
         Realm.setDefaultConfiguration(RealmDbHelper.getRealmConfig(getApplicationContext()));
 
         TypefaceContainer.init(getApplicationContext());
+
+        //fix bug capture image on s8
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
 //        final Fabric fabric = new Fabric.Builder(this)
 //                .kits(new Crashlytics())
