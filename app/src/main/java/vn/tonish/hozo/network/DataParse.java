@@ -36,6 +36,7 @@ public class DataParse {
         category.setSuggestDescription(categoryEntity.getSuggestDescription());
         category.setPresentPath(categoryEntity.getPresentPath());
         category.setSelected(categoryEntity.isSelected());
+        category.setStatus(categoryEntity.getStatus());
         return category;
     }
 
@@ -49,6 +50,7 @@ public class DataParse {
         categoryEntity.setSuggestDescription(category.getSuggestDescription());
         categoryEntity.setPresentPath(category.getPresentPath());
         categoryEntity.setSelected(category.isSelected());
+        categoryEntity.setStatus(category.getStatus());
         return categoryEntity;
     }
 

@@ -32,7 +32,7 @@ public class CategoryManager {
     public static List<CategoryEntity> getAllCategories() {
         LogUtils.d(TAG, "getAllCategories start ");
         Realm realm = Realm.getDefaultInstance();
-        return realm.where(CategoryEntity.class).findAll();
+        return realm.where(CategoryEntity.class).equalTo("status", 0).findAll();
     }
 
 
