@@ -3,6 +3,7 @@ package vn.tonish.hozo.database.manager;
 import java.util.List;
 
 import io.realm.Realm;
+import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.utils.LogUtils;
 
@@ -32,7 +33,7 @@ public class CategoryManager {
     public static List<CategoryEntity> getAllCategories() {
         LogUtils.d(TAG, "getAllCategories start ");
         Realm realm = Realm.getDefaultInstance();
-        return realm.where(CategoryEntity.class).equalTo("status", 0).findAll();
+        return realm.where(CategoryEntity.class).equalTo("status", Constants.CATEGORY_ACTIVE).findAll();
     }
 
 

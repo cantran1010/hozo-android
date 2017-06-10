@@ -21,13 +21,13 @@ public class Category implements Serializable {
     private String presentPath;
     private boolean isSelected;
     private ArrayList<Category> categories;
-    private int status;
+    private String status;
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -106,7 +106,7 @@ public class Category implements Serializable {
                 ", presentPath='" + presentPath + '\'' +
                 ", isSelected=" + isSelected +
                 ", categories=" + categories +
-                ", status=" + status +
+                ", status='" + status + '\'' +
                 '}';
     }
 

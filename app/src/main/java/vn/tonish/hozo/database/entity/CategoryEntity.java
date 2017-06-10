@@ -18,13 +18,13 @@ public class CategoryEntity extends RealmObject implements Serializable{
     private String suggestDescription;
     private String presentPath;
     private boolean isSelected;
-    private int status;
+    private String status;
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -94,7 +94,7 @@ public class CategoryEntity extends RealmObject implements Serializable{
                 ", suggestDescription='" + suggestDescription + '\'' +
                 ", presentPath='" + presentPath + '\'' +
                 ", isSelected=" + isSelected +
-                ", status=" + status +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

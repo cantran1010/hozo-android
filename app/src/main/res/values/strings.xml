@@ -244,24 +244,24 @@
 
     <!-- notification -->
     <string name="notification_review_received">đã gửi đánh giá về bạn</string>
-    <string name="notification_comment_received">gửi tin nhắn cho bạn</string>
-    <string name="notification_bidder_canceled">hủy ứng tuyển ở công việc của bạn</string>
-    <string name="notification_bid_received">ứng tuyển công việc của bạn</string>
-    <string name="notification_bid_accepted">đã chấp nhận đề nghị làm việc của bạn</string>
-    <string name="notification_task_reminder">chuẩn bị đi làm</string>
-    <string name="notification_new_task_alert">có một việc phù hợp với bạn</string>
-    <string name="notification_poster_canceled">đã hủy việc bạn ứng tuyển</string>
+    <string name="notification_comment_received">đã bình luận công việc</string>//
+    <string name="notification_bidder_canceled">đã hủy ứng tuyển công việc</string>//
+    <string name="notification_bid_received">đã ứng tuyển công việc</string>//
+    <string name="notification_bid_accepted">đã đồng ý ứng tuyển công việc</string>
+    <string name="notification_task_reminder">bạn được giao sắp đến giờ đi làm</string>
+    <string name="notification_new_task_alert">đã tạo một việc mới</string>
+    <string name="notification_poster_canceled">đã hủy việc</string>
     <string name="notification_task_completed">đã hoàn thành</string>
     <string name="notification_task_overdue">đã hết hạn</string>
-    <string name="notification_bid_missed">đã bị bỏ lỡ</string>
-    <string name="notification_task_reopen">đã mở lại</string>
+    <string name="notification_bid_missed">mà bạn ứng tuyển vừa bị bỏ lỡ</string>
+    <string name="notification_task_reopen">mà bạn ứng tuyển trước đó vừa được mở lại</string>
 
     <string name="notification_review_received_matcher">đánh giá</string>
-    <string name="notification_comment_received_matcher">tin nhắn</string>
-    <string name="notification_bidder_canceled_matcher">hủy </string>
+    <string name="notification_comment_received_matcher">bình luận</string>
+    <string name="notification_bidder_canceled_matcher">hủy ứng tuyển</string>
     <string name="notification_bid_received_matcher">ứng tuyển</string>
-    <string name="notification_bid_accepted_matcher">chấp nhận</string>
-    <string name="notification_task_reminder_matcher">chuẩn bị</string>
+    <string name="notification_bid_accepted_matcher">đồng ý</string>
+    <string name="notification_task_reminder_matcher">sắp đến giờ</string>
     <string name="notification_new_task_alert_matcher">phù hợp</string>
     <string name="notification_poster_canceled_matcher">hủy việc</string>
     <string name="notification_task_completed_matcher">hoàn thành</string>
@@ -332,5 +332,10 @@
     <string name="task_detail_time">%1$s - %2$s</string>
     <string name="max_number_worker_error">Bạn được phép chọn tối đa 10 người</string>
     <string name="max_budget_error">Số tiền bạn nhập không quá 20.000.000 VND</string>
+    <string name="your_task">của bạn</string>
+    <string name="work">Việc</string>
+    <string name="push_alert">phù hợp với bạn</string>
+    <string name="push_you_bidded">bạn ứng tuyển</string>
+    <string name="push_complete_work">Công việc</string>
 
 </resources>

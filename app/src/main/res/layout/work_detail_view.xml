@@ -88,10 +88,11 @@
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:maxWidth="250dp"
+                android:layout_toLeftOf="@+id/tv_status"
+                android:layout_toStartOf="@+id/tv_status"
                 android:textColor="@color/tv_black"
                 android:textSize="19sp"
                 android:textStyle="bold" />
@@ -100,11 +101,11 @@
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_toEndOf="@id/tv_title"
-                android:layout_toRightOf="@id/tv_title"
                 android:background="@drawable/bg_border_recruitment"
                 android:gravity="center"
                 android:minWidth="80dp"

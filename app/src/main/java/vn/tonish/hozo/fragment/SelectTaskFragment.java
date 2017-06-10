@@ -81,7 +81,7 @@ public class SelectTaskFragment extends BaseFragment {
 
                 categories.clear();
                 for (Category category : response.body())
-                    if (category.getStatus() == 0) categories.add(category);
+                    if (category.getStatus().equals(Constants.CATEGORY_ACTIVE)) categories.add(category);
 
                 LogUtils.d(TAG, "getCategories onResponse body : " + response.body());
                 LogUtils.d(TAG, "getCategories onResponse status code : " + response.code());

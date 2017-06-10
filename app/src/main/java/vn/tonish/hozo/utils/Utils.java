@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.ConnectivityManager;
@@ -19,7 +20,6 @@ import android.os.Build;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -299,11 +299,17 @@ public class Utils {
         }
     }
 
+
+    private static final int MAX_LENGTH_TASK_NAME = 80;
+
     public static void setContentMessage(Context context, TextViewHozo tvContent, Notification notification) {
 
         String content = "";
         String matcher = "";
         String matcherColor = "#00A2E5";
+
+        if (notification.getTaskName().length() > MAX_LENGTH_TASK_NAME)
+            notification.setTaskName(notification.getTaskName().substring(0, MAX_LENGTH_TASK_NAME) + "...");
 
         switch (notification.getEvent()) {
             case Constants.PUSH_TYPE_REVIEW_RECEIVED:
@@ -312,78 +318,94 @@ public class Utils {
                 matcherColor = context.getString(R.string.notification_review_received_color);
                 break;
             case Constants.PUSH_TYPE_COMMENT_RECEIVED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
                 matcher = context.getString(R.string.notification_comment_received_matcher);
                 matcherColor = context.getString(R.string.notification_comment_received_color);
                 break;
             case Constants.PUSH_TYPE_BIDDER_CANCELED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
                 matcher = context.getString(R.string.notification_bidder_canceled_matcher);
                 matcherColor = context.getString(R.string.notification_bidder_canceled_color);
                 break;
             case Constants.PUSH_TYPE_BID_RECEIVED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
                 matcher = context.getString(R.string.notification_bid_received_matcher);
                 matcherColor = context.getString(R.string.notification_bid_received_color);
                 break;
             case Constants.PUSH_TYPE_BID_ACCEPTED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
                 matcher = context.getString(R.string.notification_bid_accepted_matcher);
                 matcherColor = context.getString(R.string.notification_bid_accepted_color);
                 break;
             case Constants.PUSH_TYPE_TASK_REMINDER:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_task_reminder);
+                content = context.getString(R.string.work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_reminder);
                 matcher = context.getString(R.string.notification_task_reminder_matcher);
                 matcherColor = context.getString(R.string.notification_task_reminder_color);
                 break;
             case Constants.PUSH_TYPE_NEW_TASK_ALERT:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert) + " " + notification.getTaskName() + " " + context.getString(R.string.push_alert);
                 matcher = context.getString(R.string.notification_new_task_alert_matcher);
                 matcherColor = context.getString(R.string.notification_new_task_alert_color);
                 break;
             case Constants.PUSH_TYPE_POSTER_CANCELED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.push_you_bidded);
                 matcher = context.getString(R.string.notification_poster_canceled_matcher);
                 matcherColor = context.getString(R.string.notification_poster_canceled_color);
                 break;
             case Constants.PUSH_TYPE_TASK_COMPLETE:
-                content = notification.getTaskName() + " " + context.getString(R.string.notification_task_completed);
+                content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.notification_task_completed);
                 matcher = context.getString(R.string.notification_task_completed_matcher);
                 matcherColor = context.getString(R.string.notification_task_completed_color);
                 break;
             case Constants.PUSH_TYPE_TASK_OVERDUE:
-                content = notification.getTaskName() + " " + context.getString(R.string.notification_task_overdue);
+                content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.notification_task_overdue);
                 matcher = context.getString(R.string.notification_task_overdue_matcher);
                 matcherColor = context.getString(R.string.notification_task_overdue_color);
                 break;
             case Constants.PUSH_TYPE_BID_MISSED:
-                content = notification.getTaskName() + " " + context.getString(R.string.notification_bid_missed);
+                content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_bid_missed);
                 matcher = context.getString(R.string.notification_bid_missed_matcher);
                 matcherColor = context.getString(R.string.notification_task_overdue_color);
                 break;
             case Constants.PUSH_TYPE_TASK_REOPEN:
-                content = notification.getTaskName() + " " + context.getString(R.string.notification_task_reopen);
+                content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_reopen);
                 matcher = context.getString(R.string.notification_task_reopen_matcher);
+                matcherColor = context.getString(R.string.notification_task_completed_color);
+                break;
+            case Constants.PUSH_TYPE_ADMIN_PUSH:
+                content = notification.getContent();
+                matcher = content;
                 matcherColor = context.getString(R.string.notification_task_completed_color);
                 break;
         }
 
         tvContent.setText(content);
+
         SpannableString spannable = new SpannableString(tvContent.getText().toString());
+
         Pattern patternId = Pattern.compile(matcher);
         Matcher matcherId = patternId.matcher(tvContent.getText().toString());
         while (matcherId.find()) {
-            spannable.setSpan(new RelativeSizeSpan(1f), matcherId.start(), matcherId.end(), 0);
+            spannable.setSpan(new android.text.style.StyleSpan(Typeface.NORMAL), matcherId.start(), matcherId.end(), 0);
             spannable.setSpan(new ForegroundColorSpan(Color.parseColor(matcherColor)), matcherId.start(), matcherId.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
-        String matcherName = notification.getFullName();
-        Pattern patternIdName = Pattern.compile(matcherName);
+        String authorName = notification.getFullName();
+        Pattern patternIdName = Pattern.compile(authorName);
         Matcher matcherIdName = patternIdName.matcher(tvContent.getText().toString());
         while (matcherIdName.find()) {
-            spannable.setSpan(new RelativeSizeSpan(1f), matcherIdName.start(), matcherIdName.end(), 0);
-            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#00A2E5")), matcherIdName.start(), matcherIdName.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), matcherIdName.start(), matcherIdName.end(), 0);
+            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), matcherIdName.start(), matcherIdName.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
+
+        String matcherTaskName = notification.getTaskName();
+        Pattern patternIdTaskName = Pattern.compile(matcherTaskName);
+        Matcher matcherIdTaskName = patternIdTaskName.matcher(tvContent.getText().toString());
+        while (matcherIdTaskName.find()) {
+            spannable.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), matcherIdTaskName.start(), matcherIdTaskName.end(), 0);
+            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), matcherIdTaskName.start(), matcherIdTaskName.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
         tvContent.setText(spannable);
         tvContent.setContentDescription(spannable);
     }
@@ -392,42 +414,48 @@ public class Utils {
 
         String content = "";
 
+        if (notification.getTaskName().length() > MAX_LENGTH_TASK_NAME)
+            notification.setTaskName(notification.getTaskName().substring(0, MAX_LENGTH_TASK_NAME) + "...");
+
         switch (notification.getEvent()) {
             case Constants.PUSH_TYPE_REVIEW_RECEIVED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_review_received);
                 break;
             case Constants.PUSH_TYPE_COMMENT_RECEIVED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
                 break;
             case Constants.PUSH_TYPE_BIDDER_CANCELED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
                 break;
             case Constants.PUSH_TYPE_BID_RECEIVED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
                 break;
             case Constants.PUSH_TYPE_BID_ACCEPTED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
                 break;
             case Constants.PUSH_TYPE_TASK_REMINDER:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_task_reminder);
+                content = context.getString(R.string.work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_reminder);
                 break;
             case Constants.PUSH_TYPE_NEW_TASK_ALERT:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert) + " " + notification.getTaskName() + " " + context.getString(R.string.push_alert);
                 break;
             case Constants.PUSH_TYPE_POSTER_CANCELED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.push_you_bidded);
                 break;
             case Constants.PUSH_TYPE_TASK_COMPLETE:
-                content = notification.getTaskName() + " " + context.getString(R.string.notification_task_completed);
+                content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.notification_task_completed);
                 break;
             case Constants.PUSH_TYPE_TASK_OVERDUE:
-                content = notification.getTaskName() + " " + context.getString(R.string.notification_task_overdue);
+                content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.notification_task_overdue);
                 break;
             case Constants.PUSH_TYPE_BID_MISSED:
-                content = notification.getTaskName() + " " + context.getString(R.string.notification_bid_missed);
+                content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_bid_missed);
                 break;
             case Constants.PUSH_TYPE_TASK_REOPEN:
-                content = notification.getTaskName() + " " + context.getString(R.string.notification_task_reopen);
+                content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_reopen);
+                break;
+            case Constants.PUSH_TYPE_ADMIN_PUSH:
+                content = notification.getContent();
                 break;
         }
 
