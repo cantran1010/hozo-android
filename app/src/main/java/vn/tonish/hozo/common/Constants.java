@@ -149,9 +149,11 @@ public class Constants {
     public static final String PUSH_TYPE_TASK_REMINDER = "task_reminder";
     public static final String PUSH_TYPE_NEW_TASK_ALERT = "new_task_alert";
     public static final String PUSH_TYPE_POSTER_CANCELED = "poster_canceled";
-    public static final String PUSH_TYPE_ADMIN_PUSH = "admin_push";
     public static final String PUSH_TYPE_TASK_COMPLETE = "task_completed";
     public static final String PUSH_TYPE_TASK_OVERDUE = "task_overdue";
+    public static final String PUSH_TYPE_BID_MISSED = "bid_missed";
+    public static final String PUSH_TYPE_TASK_REOPEN = "task_reopen";
+    public static final String PUSH_TYPE_ADMIN_PUSH = "admin_push";
 
     public static final String ROLE_EXTRA = "role_extra";
     public static final String REFRESH_EXTRA = "refresh_extra";

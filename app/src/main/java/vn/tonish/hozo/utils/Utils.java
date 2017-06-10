@@ -356,6 +356,16 @@ public class Utils {
                 matcher = context.getString(R.string.notification_task_overdue_matcher);
                 matcherColor = context.getString(R.string.notification_task_overdue_color);
                 break;
+            case Constants.PUSH_TYPE_BID_MISSED:
+                content = notification.getTaskName() + " " + context.getString(R.string.notification_bid_missed);
+                matcher = context.getString(R.string.notification_bid_missed_matcher);
+                matcherColor = context.getString(R.string.notification_task_overdue_color);
+                break;
+            case Constants.PUSH_TYPE_TASK_REOPEN:
+                content = notification.getTaskName() + " " + context.getString(R.string.notification_task_reopen);
+                matcher = context.getString(R.string.notification_task_reopen_matcher);
+                matcherColor = context.getString(R.string.notification_task_completed_color);
+                break;
         }
 
         tvContent.setText(content);
@@ -412,6 +422,12 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_TASK_OVERDUE:
                 content = notification.getTaskName() + " " + context.getString(R.string.notification_task_overdue);
+                break;
+            case Constants.PUSH_TYPE_BID_MISSED:
+                content = notification.getTaskName() + " " + context.getString(R.string.notification_bid_missed);
+                break;
+            case Constants.PUSH_TYPE_TASK_REOPEN:
+                content = notification.getTaskName() + " " + context.getString(R.string.notification_task_reopen);
                 break;
         }
 
