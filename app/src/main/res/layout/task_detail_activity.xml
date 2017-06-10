@@ -95,6 +95,7 @@
                 android:background="@color/gray" />
 
             <LinearLayout
+                android:id="@+id/layout_bidder_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_left_screen"
@@ -129,6 +130,7 @@
                 android:layout_marginTop="0dp" />
 
             <LinearLayout
+                android:id="@+id/layout_assign_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_left_screen"
