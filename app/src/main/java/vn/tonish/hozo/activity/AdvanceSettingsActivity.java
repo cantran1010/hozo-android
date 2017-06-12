@@ -7,6 +7,7 @@ import android.view.View;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
@@ -112,9 +113,13 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.tab_location:
                 try {
-                    Intent intent =
-                            new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                                    .build(this);
+                    AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
+                            .setTypeFilter(Place.TYPE_COUNTRY)
+                            .setCountry("VN")
+                            .build();
+                    Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                            .setFilter(autocompleteFilter)
+                            .build(this);
                     startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
                 } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
                     e.printStackTrace();
@@ -264,7 +269,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             LogUtils.d(TAG, "REQUEST_CODE_COST" + minWorkerRate + "-" + maxWorkerRate);
             minWorkerRate = (int) data.getExtras().get(Constants.EXTRA_MIN_PRICE);
             maxWorkerRate = (int) data.getExtras().get(Constants.EXTRA_MAX_PRICE);
-            String sPrice=formatNumber(minWorkerRate) + " - " + formatNumber(maxWorkerRate);
+            String sPrice = formatNumber(minWorkerRate) + " - " + formatNumber(maxWorkerRate);
             tvPrice.setText(sPrice);
 
         }
