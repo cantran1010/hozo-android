@@ -37,10 +37,19 @@ public class TaskEntity extends RealmObject {
     private String attachments;
     private String currency;
     private String role;
+    private boolean isRatePoster = false;
     private PosterEntity poster;
     private RealmList<BidderEntity> bidders = null;
     private RealmList<AssignerEntity> assignees = null;
     private RealmList<CommentEntity> comments = null;
+
+    public boolean isRatePoster() {
+        return isRatePoster;
+    }
+
+    public void setRatePoster(boolean ratePoster) {
+        isRatePoster = ratePoster;
+    }
 
     public int getId() {
         return id;
@@ -302,10 +311,12 @@ public class TaskEntity extends RealmObject {
                 ", attachments='" + attachments + '\'' +
                 ", currency='" + currency + '\'' +
                 ", role='" + role + '\'' +
+                ", isRatePoster=" + isRatePoster +
                 ", poster=" + poster +
                 ", bidders=" + bidders +
                 ", assignees=" + assignees +
                 ", comments=" + comments +
                 '}';
     }
+
 }

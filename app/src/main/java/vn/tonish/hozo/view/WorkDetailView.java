@@ -22,7 +22,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PreviewImageListActivity;
-import vn.tonish.hozo.activity.RateActivity;
 import vn.tonish.hozo.activity.other.ProfileActivity;
 import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
 import vn.tonish.hozo.common.Constants;
@@ -58,7 +57,20 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
     private MyGridView myGridView;
     private TaskProgressView taskProgressView;
     private TaskResponse taskResponse;
-    private View vTaskProgressView;
+
+    public interface WorkDetailViewRateListener {
+        void onRate();
+    }
+
+    private WorkDetailViewRateListener workDetailViewRateListener;
+
+    public WorkDetailViewRateListener getWorkDetailViewRateListener() {
+        return workDetailViewRateListener;
+    }
+
+    public void setWorkDetailViewRateListener(WorkDetailViewRateListener workDetailViewRateListener) {
+        this.workDetailViewRateListener = workDetailViewRateListener;
+    }
 
     public interface WorkDetailViewListener {
         void onWorkDetailViewListener(TaskResponse taskResponse);
@@ -201,16 +213,16 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         } else tvStatus.setVisibility(View.GONE);
     }
 
-    public void updateTaskProgressViewVisibility(boolean isVisibility) {
-        if (isVisibility) {
-            vTaskProgressView.setVisibility(View.VISIBLE);
-            taskProgressView.setVisibility(View.VISIBLE);
-        } else {
-            vTaskProgressView.setVisibility(View.GONE);
-            taskProgressView.setVisibility(View.GONE);
-        }
-
-    }
+//    public void updateTaskProgressViewVisibility(boolean isVisibility) {
+//        if (isVisibility) {
+//            vTaskProgressView.setVisibility(View.VISIBLE);
+//            taskProgressView.setVisibility(View.VISIBLE);
+//        } else {
+//            vTaskProgressView.setVisibility(View.GONE);
+//            taskProgressView.setVisibility(View.GONE);
+//        }
+//
+//    }
 
     public void updateBtnCallRate(boolean isShow, boolean isCall, String text) {
         if (isShow) {
@@ -224,15 +236,18 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                     }
                 });
             } else {
-                btnCallRate.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getContext(), RateActivity.class);
-                        intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                        intent.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
-                        getContext().startActivity(intent);
-                    }
-                });
+                if (taskResponse.isRatePoster()) {
+                    btnCallRate.setVisibility(View.GONE);
+                } else {
+                    btnCallRate.setVisibility(View.VISIBLE);
+                    btnCallRate.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (workDetailViewRateListener != null)
+                                workDetailViewRateListener.onRate();
+                        }
+                    });
+                }
             }
         } else {
             btnCallRate.setVisibility(View.GONE);

@@ -99,6 +99,7 @@ public class DataParse {
         taskResponse.setAssigneeCount(taskEntity.getAssigneeCount());
         taskResponse.setBidderCount(taskEntity.getBidderCount());
         taskResponse.setCurrency(taskEntity.getCurrency());
+        taskResponse.setRatePoster(taskEntity.isRatePoster());
         taskResponse.setPoster(convertPosterEntityToPoster(taskEntity.getPoster()));
         taskResponse.setRole(taskEntity.getRole());
         taskResponse.setCreatedAt(DateTimeUtils.fromDateIso(taskEntity.getCreatedAt()));
@@ -147,6 +148,7 @@ public class DataParse {
         taskEntity.setAssigneeCount(taskResponse.getAssigneeCount());
         taskEntity.setBidderCount(taskResponse.getBidderCount());
         taskEntity.setCurrency(taskResponse.getCurrency());
+        taskEntity.setRatePoster(taskResponse.isRatePoster());
         taskEntity.setPoster(convertPosterToPosterEntity(taskResponse.getPoster()));
         taskEntity.setRole(taskResponse.getRole());
         taskEntity.setCreatedAt(DateTimeUtils.getDateFromStringIso(taskResponse.getCreatedAt()));
