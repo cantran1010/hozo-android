@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
@@ -93,21 +94,30 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
             holder.imgImage.setPadding(0, 0, 0, 0);
         }
 
+        File file = new File(item.getPath());
+        final long file_size = (file.length() / 1024 / 1024);
+
         if (isOnlyImage) {
+
             holder.imgImage.setOnClickListener(new View.OnClickListener() {
                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                 @Override
                 public void onClick(View v) {
 
-                    holder.imgCheck.setVisibility(View.VISIBLE);
-                    item.setSelected(true);
+                    if (file_size > Constants.MAX_FILE_SIZE) {
+                        Utils.showLongToast(getContext(), getContext().getString(R.string.max_size_attach_error, Constants.MAX_FILE_SIZE), true, true);
+                    }else{
+                        holder.imgCheck.setVisibility(View.VISIBLE);
+                        item.setSelected(true);
 
-                    for (int i = 0; i < images.size(); i++) {
-                        if (i != position) {
-                            images.get(i).setSelected(false);
+                        for (int i = 0; i < images.size(); i++) {
+                            if (i != position) {
+                                images.get(i).setSelected(false);
+                            }
                         }
+                        notifyDataSetChanged();
                     }
-                    notifyDataSetChanged();
+
                 }
             });
         } else {
@@ -116,18 +126,24 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
                 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                 @Override
                 public void onClick(View v) {
-                    if (countImageSelected() + countImageAttach < Constants.MAX_IMAGE_ATTACH) {
-                        if (item.isSelected) {
+
+                    if (file_size > Constants.MAX_FILE_SIZE) {
+                        Utils.showLongToast(getContext(), getContext().getString(R.string.max_size_attach_error, Constants.MAX_FILE_SIZE), true, true);
+                    }else{
+                        if (countImageSelected() + countImageAttach < Constants.MAX_IMAGE_ATTACH) {
+                            if (item.isSelected) {
+                                item.setSelected(false);
+                            } else {
+                                item.setSelected(true);
+                            }
+                        } else if (countImageSelected() + countImageAttach >= Constants.MAX_IMAGE_ATTACH && item.isSelected) {
                             item.setSelected(false);
                         } else {
-                            item.setSelected(true);
+                            Utils.showLongToast(getContext(), getContext().getResources().getString(R.string.post_a_task_max_attach_err), true, false);
                         }
-                    } else if (countImageSelected() + countImageAttach >= Constants.MAX_IMAGE_ATTACH && item.isSelected) {
-                        item.setSelected(false);
-                    } else {
-                        Utils.showLongToast(getContext(), getContext().getResources().getString(R.string.post_a_task_max_attach_err),true,false);
+                        notifyDataSetChanged();
                     }
-                    notifyDataSetChanged();
+
                 }
             });
         }
@@ -141,7 +157,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
         params.height = whImage;
         holder.imgImage.setLayoutParams(params);
 
-        Utils.displayImageCenterCrop(getContext(),holder.imgImage,item.getPath());
+        Utils.displayImageCenterCrop(getContext(), holder.imgImage, item.getPath());
 
         return convertView;
     }

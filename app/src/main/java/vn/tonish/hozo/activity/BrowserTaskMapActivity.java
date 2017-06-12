@@ -127,7 +127,6 @@ public class BrowserTaskMapActivity extends BaseActivity implements View.OnClick
 
         @SuppressLint("InflateParams")
         public CustomInfoWindowAdapter() {
-
             view = getLayoutInflater().inflate(R.layout.pop_up_marker, null);
         }
 

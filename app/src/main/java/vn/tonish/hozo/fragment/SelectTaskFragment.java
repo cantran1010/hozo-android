@@ -77,17 +77,15 @@ public class SelectTaskFragment extends BaseFragment {
         ApiClient.getApiService().getCategories(UserManager.getUserToken()).enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-//                categories = response.body();
-
-                categories.clear();
-                for (Category category : response.body())
-                    if (category.getStatus().equals(Constants.CATEGORY_ACTIVE)) categories.add(category);
-
                 LogUtils.d(TAG, "getCategories onResponse body : " + response.body());
                 LogUtils.d(TAG, "getCategories onResponse status code : " + response.code());
                 LogUtils.d(TAG, "getCategories onResponse isSuccessful : " + response.isSuccessful());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    categories.clear();
+                    for (Category category : response.body())
+                        if (category.getStatus().equals(Constants.CATEGORY_ACTIVE)) categories.add(category);
+
                     refreshCategory();
                     inserCategory(response.body());
 
