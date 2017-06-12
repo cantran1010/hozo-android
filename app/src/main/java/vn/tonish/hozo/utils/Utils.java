@@ -515,6 +515,7 @@ public class Utils {
         notificationManager.cancel(notifyId);
     }
 
+    // must call in oncreate of activity or fragment
     public static void cancelAllNotification(Context context) {
         NotificationManager notifManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notifManager.cancelAll();

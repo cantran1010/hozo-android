@@ -190,7 +190,10 @@ public class InboxFragment extends BaseFragment {
                     LogUtils.d(TAG, "getNotifications notifications size : " + notifications.size());
 //                    NotificationManager.insertNotifications(notificationResponse);
 
-                    if (since == null) Utils.cancelAllNotification(getActivity());
+                    //        if (since == null) Utils.cancelAllNotification(getActivity());
+
+                    for (Notification notification : notifications)
+                        Utils.cancelNotification(getActivity(), notification.getId());
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
@@ -282,7 +285,7 @@ public class InboxFragment extends BaseFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             lvList.smoothScrollToPosition(0);
-            if(linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
+            if (linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
         }
     };
 }
