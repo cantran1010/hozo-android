@@ -12,7 +12,7 @@ import vn.tonish.hozo.dialog.AlertDialogOk;
 public class DialogUtils {
 
     public static void showRetryDialog(Context context, AlertDialogOkAndCancel.AlertDialogListener alertDialogListener) {
-        AlertDialogOkAndCancel alertDialogHozo = new AlertDialogOkAndCancel(context, context.getString(R.string.retry_title), context.getString(R.string.retry_content), context.getString(R.string.retry_ok), context.getString(R.string.retry_cancel), alertDialogListener);
+        AlertDialogOkAndCancel alertDialogHozo = new AlertDialogOkAndCancel(context, context.getString(R.string.retry_title), context.getString(R.string.retry_content), context.getString(R.string.retry), context.getString(R.string.report_cancel), alertDialogListener);
     }
 
     public static void showOkAndCancelDialog(Context context,String title,String content,String submit,String cancel, AlertDialogOkAndCancel.AlertDialogListener alertDialogListener) {

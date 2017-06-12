@@ -28,4 +28,5 @@ public class HomeActivity extends BaseActivity {
     protected void resumeData() {
 
     }
+
 }

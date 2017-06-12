@@ -141,20 +141,34 @@
 
     </FrameLayout>
 
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swpRefresh"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="10dp">
+        android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/lv_list"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swpRefresh"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:scrollbars="vertical" />
+            android:layout_height="match_parent"
+            android:paddingTop="10dp">
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/lv_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:scrollbars="vertical" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/noitem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/not_find_task"
+            android:textSize="@dimen/tv_size_xlager"
+            android:visibility="gone" />
+
+    </FrameLayout>
 
 </LinearLayout>
