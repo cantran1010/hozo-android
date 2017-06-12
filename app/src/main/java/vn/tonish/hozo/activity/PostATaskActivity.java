@@ -225,20 +225,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_close:
-                final AlertDialogCancelTask alertDialogCancelTask = new AlertDialogCancelTask(PostATaskActivity.this);
-                alertDialogCancelTask.setAlertConfirmDialogListener(new AlertDialogCancelTask.AlertConfirmDialogListener() {
-                    @Override
-                    public void onOk() {
-                        alertDialogCancelTask.hideView();
-                        finish();
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        alertDialogCancelTask.hideView();
-                    }
-                });
-                alertDialogCancelTask.showView();
+                doClose();
                 break;
 
             case R.id.btn_next:
@@ -310,6 +297,30 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                 openDatePicker();
                 break;
         }
+    }
+
+    private void doClose() {
+
+        if (edtWorkName.getText().toString().trim().equals("") && tvDate.getText().toString().trim().equals("") && edtWorkingHour.getText().toString().trim().equals("")
+                && edtDescription.getText().toString().trim().equals("")) {
+            finish();
+            return;
+        }
+
+        final AlertDialogCancelTask alertDialogCancelTask = new AlertDialogCancelTask(PostATaskActivity.this);
+        alertDialogCancelTask.setAlertConfirmDialogListener(new AlertDialogCancelTask.AlertConfirmDialogListener() {
+            @Override
+            public void onOk() {
+                alertDialogCancelTask.hideView();
+                finish();
+            }
+
+            @Override
+            public void onCancel() {
+                alertDialogCancelTask.hideView();
+            }
+        });
+        alertDialogCancelTask.showView();
     }
 
     private void doNext() {
