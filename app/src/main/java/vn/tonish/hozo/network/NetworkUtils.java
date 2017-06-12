@@ -104,7 +104,7 @@ public class NetworkUtils {
     }
 
     public static void logOut(final Context context) {
-        DialogUtils.showOkAndCancelDialog(context, context.getString(R.string.msg_logOut), context.getString(R.string.msg_contten_logOut), "Có", "huỷ", new AlertDialogOkAndCancel.AlertDialogListener() {
+        DialogUtils.showOkAndCancelDialog(context, context.getString(R.string.msg_logOut), context.getString(R.string.msg_contten_logOut), context.getString(R.string.oke), context.getString(R.string.report_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
             @Override
             public void onSubmit() {
                 ProgressDialogUtils.showProgressDialog(context);

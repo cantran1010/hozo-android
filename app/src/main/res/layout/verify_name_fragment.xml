@@ -25,10 +25,13 @@
         android:layout_marginTop="10dp"
         android:background="@null"
         android:ellipsize="end"
+        android:focusable="true"
         android:inputType="text"
         android:maxLines="2"
         android:minHeight="30dp"
         android:textColor="@color/white" />
+
+    <requestFocus />
 
     <View
         android:layout_width="match_parent"

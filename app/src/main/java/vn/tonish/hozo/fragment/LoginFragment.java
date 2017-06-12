@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -34,6 +33,7 @@ import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.common.Constants.USER_MOBILE;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
+import static vn.tonish.hozo.utils.Utils.showSoftKeyboard;
 
 /**
  * Created by CanTran on 4/11/17.
@@ -42,7 +42,7 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 public class LoginFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = LoginFragment.class.getSimpleName();
-    private EditText edtPhone;
+    private EdittextHozo edtPhone;
     private TextView tvContinue;
 
     @Override
@@ -52,9 +52,10 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
     @Override
     protected void initView() {
-        edtPhone = (EditText) findViewById(R.id.edt_phone);
+        edtPhone = (EdittextHozo) findViewById(R.id.edt_phone);
         tvContinue = (TextView) findViewById(R.id.tv_continue);
         tvContinue.setOnClickListener(this);
+        showSoftKeyboard(getContext(),edtPhone);
     }
 
     @Override
@@ -79,7 +80,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 } else {
                     tvContinue.setAlpha(1f);
                     tvContinue.setEnabled(true);
-                    hideSoftKeyboard(getActivity(), (EdittextHozo) edtPhone);
+                   hideSoftKeyboard(getActivity(), (EdittextHozo) edtPhone);
                 }
 
             }

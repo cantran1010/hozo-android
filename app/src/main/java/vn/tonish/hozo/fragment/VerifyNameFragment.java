@@ -76,7 +76,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (edtName.getText().toString().trim().length() > 5 && (edtName.getText().toString().trim().length() < 50)) {
+                if (edtName.getText().toString().trim().length() > 4 && (edtName.getText().toString().trim().length() < 50)) {
                     btnSave.setAlpha(1);
                     btnSave.setEnabled(true);
                 } else {

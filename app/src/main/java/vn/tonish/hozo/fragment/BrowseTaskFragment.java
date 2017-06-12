@@ -124,6 +124,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     imgClear.setVisibility(View.GONE);
                 }
 
+
             }
 
             @Override
