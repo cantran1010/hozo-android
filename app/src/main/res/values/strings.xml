@@ -337,5 +337,6 @@
     <string name="push_alert">phù hợp với bạn</string>
     <string name="push_you_bidded">bạn ứng tuyển</string>
     <string name="push_complete_work">Công việc</string>
+    <string name="max_size_attach_error">File đính kèm không vượt quá %1$d Mb .\nVui lòng chọn file khác !</string>
 
 </resources>
