@@ -9,16 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize">
 
-        <ImageView
-            android:id="@+id/img_close"
-            style="@style/tv_title_cancel"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@drawable/btn_back_selector"
-            android:contentDescription="@string/content_description_back"
-            android:scaleType="centerInside"
-            android:src="@drawable/img_close_red" />
-
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_title"
             style="@style/tv_title"
@@ -26,6 +16,17 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/tv_post_a_task_title" />
+
+        <ImageView
+            android:id="@+id/img_close"
+            style="@style/tv_title_cancel"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_back_selector"
+            android:contentDescription="@string/content_description_back"
+            android:scaleType="centerInside"
+            android:src="@drawable/img_close_red" />
 
         <View
             android:layout_width="match_parent"
@@ -207,8 +208,8 @@
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:gravity="center"
-                        android:text="@string/age_from_hint"
-                        android:minHeight="@dimen/edt_min_height" />
+                        android:minHeight="@dimen/edt_min_height"
+                        android:text="@string/age_from_hint" />
 
                 </LinearLayout>
 
