@@ -1,32 +1,26 @@
-package vn.tonish.hozo.model;
+package vn.tonish.hozo.database.entity;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 import java.util.Date;
 
+import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by LongBui on 20/04/2017.
  */
-public class Comment implements Serializable {
+public class CommentEntity extends RealmObject{
     @PrimaryKey
     private int id;
-    @SerializedName("author_id")
     private int authorId;
-    @SerializedName("full_name")
     private String fullName;
     private String avatar;
-    @SerializedName("image_url")
     private String imgAttach;
     private String body;
-    @SerializedName("created_at")
     private String createdAt;
     private Date createdDateAt;
     private int taskId;
 
-    public Comment() {
+    public CommentEntity() {
 
     }
 
@@ -116,4 +110,5 @@ public class Comment implements Serializable {
                 ", taskId='" + taskId + '\'' +
                 '}';
     }
+
 }

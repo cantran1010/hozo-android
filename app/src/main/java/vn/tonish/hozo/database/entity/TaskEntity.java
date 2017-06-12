@@ -5,10 +5,6 @@ import java.util.Date;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import vn.tonish.hozo.model.Comment;
-import vn.tonish.hozo.rest.responseRes.Assigner;
-import vn.tonish.hozo.rest.responseRes.Bidder;
-import vn.tonish.hozo.rest.responseRes.Poster;
 
 /**
  * Created by LongBui on 5/17/17.
@@ -41,10 +37,19 @@ public class TaskEntity extends RealmObject {
     private String attachments;
     private String currency;
     private String role;
-    private Poster poster;
-    private RealmList<Bidder> bidders = null;
-    private RealmList<Assigner> assignees = null;
-    private RealmList<Comment> comments = null;
+    private boolean isRatePoster = false;
+    private PosterEntity poster;
+    private RealmList<BidderEntity> bidders = null;
+    private RealmList<AssignerEntity> assignees = null;
+    private RealmList<CommentEntity> comments = null;
+
+    public boolean isRatePoster() {
+        return isRatePoster;
+    }
+
+    public void setRatePoster(boolean ratePoster) {
+        isRatePoster = ratePoster;
+    }
 
     public int getId() {
         return id;
@@ -246,35 +251,35 @@ public class TaskEntity extends RealmObject {
         this.role = role;
     }
 
-    public Poster getPoster() {
+    public PosterEntity getPoster() {
         return poster;
     }
 
-    public void setPoster(Poster poster) {
+    public void setPoster(PosterEntity poster) {
         this.poster = poster;
     }
 
-    public RealmList<Bidder> getBidders() {
+    public RealmList<BidderEntity> getBidders() {
         return bidders;
     }
 
-    public void setBidders(RealmList<Bidder> bidders) {
+    public void setBidders(RealmList<BidderEntity> bidders) {
         this.bidders = bidders;
     }
 
-    public RealmList<Assigner> getAssignees() {
+    public RealmList<AssignerEntity> getAssignees() {
         return assignees;
     }
 
-    public void setAssignees(RealmList<Assigner> assignees) {
+    public void setAssignees(RealmList<AssignerEntity> assignees) {
         this.assignees = assignees;
     }
 
-    public RealmList<Comment> getComments() {
+    public RealmList<CommentEntity> getComments() {
         return comments;
     }
 
-    public void setComments(RealmList<Comment> comments) {
+    public void setComments(RealmList<CommentEntity> comments) {
         this.comments = comments;
     }
 
@@ -285,8 +290,8 @@ public class TaskEntity extends RealmObject {
                 ", categoryId=" + categoryId +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
                 ", createdAt=" + createdAt +
                 ", status='" + status + '\'' +
                 ", offerStatus='" + offerStatus + '\'' +
@@ -306,10 +311,12 @@ public class TaskEntity extends RealmObject {
                 ", attachments='" + attachments + '\'' +
                 ", currency='" + currency + '\'' +
                 ", role='" + role + '\'' +
+                ", isRatePoster=" + isRatePoster +
                 ", poster=" + poster +
                 ", bidders=" + bidders +
                 ", assignees=" + assignees +
                 ", comments=" + comments +
                 '}';
     }
+
 }

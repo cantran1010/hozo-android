@@ -1,33 +1,19 @@
-package vn.tonish.hozo.rest.responseRes;
+package vn.tonish.hozo.database.entity;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
+import io.realm.RealmObject;
 
 /**
- * Created by LongBui on 5/15/17.
+ * Created by LongBui on 6/12/17.
  */
 
-public class Assigner implements Serializable{
+public class BidderEntity extends RealmObject{
     private int id;
-    @SerializedName("full_name")
     private String fullName;
-    @SerializedName("tasker_average_rating")
     private float taskerAverageRating;
     private int verify;
     private String avatar;
-    @SerializedName("bidded_at")
-    private String biddedAt;
+    private String bidedAt;
     private String phone;
-    private int rating;
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
 
     public int getId() {
         return id;
@@ -69,12 +55,12 @@ public class Assigner implements Serializable{
         this.avatar = avatar;
     }
 
-    public String getBiddedAt() {
-        return biddedAt;
+    public String getBidedAt() {
+        return bidedAt;
     }
 
-    public void setBiddedAt(String biddedAt) {
-        this.biddedAt = biddedAt;
+    public void setBidedAt(String bidedAt) {
+        this.bidedAt = bidedAt;
     }
 
     public String getPhone() {
@@ -87,15 +73,15 @@ public class Assigner implements Serializable{
 
     @Override
     public String toString() {
-        return "Assigner{" +
+        return "Bidder{" +
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
                 ", taskerAverageRating=" + taskerAverageRating +
                 ", verify=" + verify +
                 ", avatar='" + avatar + '\'' +
-                ", biddedAt='" + biddedAt + '\'' +
+                ", bidedAt='" + bidedAt + '\'' +
                 ", phone='" + phone + '\'' +
-                ", rating=" + rating +
                 '}';
     }
 }
+

@@ -53,10 +53,20 @@ public class TaskResponse implements Serializable {
     private List<String> attachments = new ArrayList<>();
     private int[] attachmentsId;
     private String currency;
+    @SerializedName("is_rate_poster")
+    private boolean isRatePoster = false;
     private Poster poster;
     private List<Bidder> bidders = new ArrayList<>();
     private List<Assigner> assignees = new ArrayList<>();
     private List<Comment> comments = new ArrayList<>();
+
+    public boolean isRatePoster() {
+        return isRatePoster;
+    }
+
+    public void setRatePoster(boolean ratePoster) {
+        isRatePoster = ratePoster;
+    }
 
     public int getId() {
         return id;
@@ -327,6 +337,7 @@ public class TaskResponse implements Serializable {
                 ", attachments=" + attachments +
                 ", attachmentsId=" + Arrays.toString(attachmentsId) +
                 ", currency='" + currency + '\'' +
+                ", isRatePoster=" + isRatePoster +
                 ", poster=" + poster +
                 ", bidders=" + bidders +
                 ", assignees=" + assignees +

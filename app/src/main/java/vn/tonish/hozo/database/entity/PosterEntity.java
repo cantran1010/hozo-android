@@ -1,20 +1,16 @@
-package vn.tonish.hozo.rest.responseRes;
+package vn.tonish.hozo.database.entity;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
+import io.realm.RealmObject;
 
 /**
- * Created by LongBui on 5/11/2017.
+ * Created by LongBui on 6/12/17.
  */
 
-public class Poster implements Serializable {
+public class PosterEntity extends RealmObject{
 
     private int id;
     private int taskId;
-    @SerializedName("full_name")
     private String fullName;
-    @SerializedName("poster_average_rating")
     private float posterAverageRating;
     private int verify;
     private String avatar;

@@ -302,6 +302,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         rcvBidder.setVisibility(View.VISIBLE);
         rcvAssign.setVisibility(View.VISIBLE);
 
+        workDetailView.updateWork(taskResponse);
+
         //poster
         if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.update_task), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
@@ -410,7 +412,15 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             tvCancel.setVisibility(View.GONE);
         }
 
-        workDetailView.updateWork(taskResponse);
+        workDetailView.setWorkDetailViewRateListener(new WorkDetailView.WorkDetailViewRateListener() {
+            @Override
+            public void onRate() {
+                Intent intent = new Intent(TaskDetailActivity.this, RateActivity.class);
+                intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+                intent.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
+                startActivityForResult(intent, Constants.REQUEST_CODE_RATE, TransitionScreen.UP_TO_DOWN);
+            }
+        });
 
         workDetailView.setWorkDetailViewListener(new WorkDetailView.WorkDetailViewListener() {
             @Override
