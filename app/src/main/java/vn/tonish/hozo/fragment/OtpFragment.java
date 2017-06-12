@@ -3,7 +3,6 @@ package vn.tonish.hozo.fragment;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -57,7 +56,6 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
     private EdittextHozo mPinThirdDigitEditText;
     private EdittextHozo mPinForthDigitEditText;
     private EdittextHozo mPinHiddenEditText;
-    private TextView btnSigIn;
     private String mobile;
 
     @Override
@@ -73,7 +71,6 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
         mPinForthDigitEditText = (EdittextHozo) findViewById(R.id.pin_forth_edittext);
         mPinHiddenEditText = (EdittextHozo) findViewById(R.id.pin_hidden_edittext);
         ImageView btnBack = (ImageView) findViewById(R.id.btnBack);
-        btnSigIn = (TextView) findViewById(R.id.btn_sigin);
         TextView btnResetOtp = (TextView) findViewById(R.id.btn_reset_otp);
         mPinHiddenEditText.addTextChangedListener(this);
         mPinFirstDigitEditText.setOnFocusChangeListener(this);
@@ -88,7 +85,6 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
         mPinForthDigitEditText.setOnKeyListener(this);
         mPinHiddenEditText.setOnKeyListener(this);
         btnBack.setOnClickListener(this);
-        btnSigIn.setOnClickListener(this);
         btnResetOtp.setOnClickListener(this);
 
     }
@@ -112,37 +108,28 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (s.length() == 0) {
             mPinFirstDigitEditText.setText("");
-            btnSigIn.setAlpha(0.5f);
         } else if (s.length() == 1) {
             mPinFirstDigitEditText.setText(String.valueOf(s.charAt(0)));
             mPinSecondDigitEditText.setText("");
             mPinThirdDigitEditText.setText("");
             mPinForthDigitEditText.setText("");
-            btnSigIn.setAlpha(0.5f);
         } else if (s.length() == 2) {
             mPinSecondDigitEditText.setText(String.valueOf(s.charAt(1)));
             mPinThirdDigitEditText.setText("");
             mPinForthDigitEditText.setText("");
-            btnSigIn.setAlpha(0.5f);
         } else if (s.length() == 3) {
             mPinThirdDigitEditText.setText(String.valueOf(s.charAt(2)));
             mPinForthDigitEditText.setText("");
-            btnSigIn.setAlpha(0.5f);
         } else if (s.length() == 4) {
             mPinForthDigitEditText.setText(String.valueOf(s.charAt(3)));
             hideSoftKeyboard(mPinForthDigitEditText);
-            btnSigIn.setAlpha(1);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     sendOtp();
                 }
             }, 200);
-        } else {
-            btnSigIn.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
-            btnSigIn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
         }
-
     }
 
     @Override
@@ -223,9 +210,6 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
         switch (v.getId()) {
             case R.id.btnBack:
                 getFragmentManager().popBackStack();
-                break;
-            case R.id.btn_sigin:
-                sendOtp();
                 break;
             case R.id.btn_reset_otp:
                 resetOtp();
@@ -310,11 +294,10 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
                     });
 
                 } else {
-                    btnSigIn.setAlpha(0.5f);
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
 //                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
-                    Utils.showLongToast(getActivity(),error.message(),true,false);
+                    Utils.showLongToast(getActivity(), error.message(), true, false);
                 }
 
                 ProgressDialogUtils.dismissProgressDialog();
@@ -322,7 +305,6 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
 
             @Override
             public void onFailure(Call<OtpReponse> call, Throwable t) {
-                btnSigIn.setAlpha(0.5f);
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {

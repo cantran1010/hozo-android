@@ -155,6 +155,7 @@
     <string name="select_age_title">Chọn Tuổi</string>
     <string name="select_age_to">Đến</string>
     <string name="ok">OK</string>
+    <string name="oke">CÓ</string>
     <string name="select_age_error">Mức tuổi bạn chọn không chính xác,vui lòng sửa lại</string>
     <string name="alert_dialog_title">Hủy thao tác</string>
     <string name="alert_dialog_content">Bạn có chắc chắn muốn dừng thao tác này</string>
