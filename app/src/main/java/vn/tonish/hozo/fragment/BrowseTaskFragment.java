@@ -107,6 +107,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 search();
+                hideKeyBoard(getActivity());
                 return actionId == EditorInfo.IME_ACTION_SEARCH;
             }
         });
@@ -123,7 +124,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 } else {
                     imgClear.setVisibility(View.GONE);
                 }
-
+                search();
 
             }
 
@@ -178,7 +179,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         Map<String, String> option;
         option = DataParse.setParameterGetTasks(sortBytask, String.valueOf(limit), since, query);
         LogUtils.d(TAG, "getTaskResponse option : " + option.toString());
-        call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), option);
+        call = ApiClient.getApiService().getTasks(UserManager.getUserToken(), option, DataParse.getIds());
         call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
@@ -274,22 +275,16 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 edtSearch.setText("");
                 break;
             case R.id.img_controls:
-                startActivityForResult(new Intent(getActivity(), AdvanceSettingsActivity.class),Constants.REQUEST_CODE_SETTING,TransitionScreen.RIGHT_TO_LEFT);
+                startActivityForResult(new Intent(getActivity(), AdvanceSettingsActivity.class), Constants.REQUEST_CODE_SETTING, TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
 
     }
 
     private void search() {
-        if (edtSearch.getText().toString().isEmpty()) {
-            edtSearch.setError(getActivity().getString(R.string.empty_search));
-        } else {
-            sinceStr = null;
-            query = edtSearch.getText().toString();
-            getTaskResponse(sinceStr, strSortBy, query);
-        }
-        hideKeyBoard(getActivity());
-
+        sinceStr = null;
+        query = edtSearch.getText().toString();
+        getTaskResponse(sinceStr, strSortBy, query);
     }
 
     private void goToMapScren() {
@@ -330,7 +325,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.REQUEST_CODE_SETTING && resultCode == Constants.RESULT_CODE_SETTING ) {
+        if (requestCode == Constants.REQUEST_CODE_SETTING && resultCode == Constants.RESULT_CODE_SETTING) {
             onRefresh();
 
         }
@@ -351,7 +346,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         @Override
         public void onReceive(Context context, Intent intent) {
             rcvTask.smoothScrollToPosition(0);
-            if(linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
+            if (linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
         }
     };
 

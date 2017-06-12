@@ -196,7 +196,6 @@ public class DataParse {
     public static Map<String, String> setParameterGetTasks(String sortBy, String limit, String since, String query) {
         SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
         Map<String, String> option = new HashMap<>();
-        option.put("category_ids[]", getIds());
         option.put("min_worker_rate", String.valueOf(settingEntiny.getMinWorkerRate()));
         option.put("max_worker_rate", String.valueOf(settingEntiny.getMaxWorkerRate()));
         option.put("latitude", String.valueOf(settingEntiny.getLatitude()));
@@ -210,17 +209,14 @@ public class DataParse {
         return option;
     }
 
-    private static String getIds() {
+    public static List<Long> getIds() {
         List<CategoryEntity> entityRealmList = CategoryManager.getAllCategories();
-        String ids = "";
+        List<Long> ids = new ArrayList<>();
         for (CategoryEntity categoryEntity : entityRealmList) {
             if (categoryEntity.isSelected())
-                ids = ids + categoryEntity.getId() + ",";
+                ids.add((long) categoryEntity.getId());
         }
-        if (ids.length() > 0)
-
-            return ids.substring(0, ids.length() - 1);
-        else return String.valueOf(0);
+        return ids;
 
     }
 
