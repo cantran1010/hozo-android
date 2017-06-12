@@ -1,5 +1,7 @@
 package vn.tonish.hozo.rest.responseRes;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -10,7 +12,9 @@ public class Poster implements Serializable {
 
     private int id;
     private int taskId;
+    @SerializedName("full_name")
     private String fullName;
+    @SerializedName("poster_average_rating")
     private float posterAverageRating;
     private int verify;
     private String avatar;
