@@ -16,7 +16,6 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.CommentsAdapter;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.database.manager.CommentsManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.Comment;
@@ -113,7 +112,8 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                         commentsAdapter.stopLoadMore();
                     }
                     LogUtils.d(TAG, "getComments size : " + mComments.size());
-                    CommentsManager.insertComments(comments);
+
+//                    CommentsManager.insertComments(comments);
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(CommentsActivity.this, new NetworkUtils.RefreshListener() {

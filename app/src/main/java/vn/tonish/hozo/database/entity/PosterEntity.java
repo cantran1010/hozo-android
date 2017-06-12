@@ -1,12 +1,12 @@
-package vn.tonish.hozo.rest.responseRes;
+package vn.tonish.hozo.database.entity;
 
-import java.io.Serializable;
+import io.realm.RealmObject;
 
 /**
- * Created by LongBui on 5/11/2017.
+ * Created by LongBui on 6/12/17.
  */
 
-public class Poster implements Serializable {
+public class PosterEntity extends RealmObject{
 
     private int id;
     private int taskId;

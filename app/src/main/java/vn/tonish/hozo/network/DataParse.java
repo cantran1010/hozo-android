@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import io.realm.RealmList;
+import vn.tonish.hozo.database.entity.AssignerEntity;
+import vn.tonish.hozo.database.entity.BidderEntity;
 import vn.tonish.hozo.database.entity.CategoryEntity;
+import vn.tonish.hozo.database.entity.CommentEntity;
+import vn.tonish.hozo.database.entity.PosterEntity;
 import vn.tonish.hozo.database.entity.SettingEntiny;
 import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.database.manager.CategoryManager;
@@ -15,6 +19,7 @@ import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.Bidder;
+import vn.tonish.hozo.rest.responseRes.Poster;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -39,7 +44,6 @@ public class DataParse {
         category.setStatus(categoryEntity.getStatus());
         return category;
     }
-
 
     private static CategoryEntity convertCatogoryToCategoryEntity(Category category) {
         CategoryEntity categoryEntity = new CategoryEntity();
@@ -95,7 +99,7 @@ public class DataParse {
         taskResponse.setAssigneeCount(taskEntity.getAssigneeCount());
         taskResponse.setBidderCount(taskEntity.getBidderCount());
         taskResponse.setCurrency(taskEntity.getCurrency());
-        taskResponse.setPoster(taskEntity.getPoster());
+        taskResponse.setPoster(convertPosterEntityToPoster(taskEntity.getPoster()));
         taskResponse.setRole(taskEntity.getRole());
         taskResponse.setCreatedAt(DateTimeUtils.fromDateIso(taskEntity.getCreatedAt()));
 
@@ -108,23 +112,13 @@ public class DataParse {
                     listAttachments.add(arrAtachment);
         }
 
-//        List<String> listAttachments = new ArrayList<String>(Arrays.asList(arrAtachments));
         taskResponse.setAttachments(listAttachments);
 
-        List<Bidder> bidders = new ArrayList<>();
-        for (int i = 0; i < taskEntity.getBidders().size(); i++)
-            bidders.add(taskEntity.getBidders().get(i));
-        taskResponse.setBidders(bidders);
+        taskResponse.setBidders(convertListBidderEntityToListBidder(taskEntity.getBidders()));
 
-        List<Assigner> assigners = new ArrayList<>();
-        for (int i = 0; i < taskEntity.getAssignees().size(); i++)
-            assigners.add(taskEntity.getAssignees().get(i));
-        taskResponse.setAssignees(assigners);
+        taskResponse.setAssignees(convertListAssignerEntityToListAssigner(taskEntity.getAssignees()));
 
-        List<Comment> comments = new ArrayList<>();
-        for (int i = 0; i < taskEntity.getComments().size(); i++)
-            comments.add(taskEntity.getComments().get(i));
-        taskResponse.setComments(comments);
+        taskResponse.setComments(convertListCommentEntityToListComment(taskEntity.getComments()));
 
         return taskResponse;
     }
@@ -153,7 +147,7 @@ public class DataParse {
         taskEntity.setAssigneeCount(taskResponse.getAssigneeCount());
         taskEntity.setBidderCount(taskResponse.getBidderCount());
         taskEntity.setCurrency(taskResponse.getCurrency());
-        taskEntity.setPoster(taskResponse.getPoster());
+        taskEntity.setPoster(convertPosterToPosterEntity(taskResponse.getPoster()));
         taskEntity.setRole(taskResponse.getRole());
         taskEntity.setCreatedAt(DateTimeUtils.getDateFromStringIso(taskResponse.getCreatedAt()));
 
@@ -164,26 +158,156 @@ public class DataParse {
         }
         taskEntity.setAttachments(strAtachments);
 
-        RealmList<Bidder> bidders = new RealmList<>();
-        if (taskResponse.getBidders() != null)
-            for (int i = 0; i < taskResponse.getBidders().size(); i++)
-                bidders.add(taskResponse.getBidders().get(i));
-        taskEntity.setBidders(bidders);
+        taskEntity.setBidders(convertListBidderToListBidderEntity(taskResponse.getBidders()));
 
+        taskEntity.setAssignees(convertListAssigerToListAssignerEntity(taskResponse.getAssignees()));
 
-        RealmList<Assigner> assigners = new RealmList<>();
-        if (taskResponse.getAssignees() != null)
-            for (int i = 0; i < taskResponse.getAssignees().size(); i++)
-                assigners.add(taskResponse.getAssignees().get(i));
-        taskEntity.setAssignees(assigners);
-
-        RealmList<Comment> comments = new RealmList<>();
-        if (taskResponse.getComments() != null)
-            for (int i = 0; i < taskResponse.getComments().size(); i++)
-                comments.add(taskResponse.getComments().get(i));
-        taskEntity.setComments(comments);
+        taskEntity.setComments(convertListCommentToListCommentEntity(taskResponse.getComments()));
 
         return taskEntity;
+    }
+
+    private static Poster convertPosterEntityToPoster(PosterEntity posterEntity) {
+        Poster poster = new Poster();
+        poster.setId(posterEntity.getId());
+        poster.setAvatar(posterEntity.getAvatar());
+        poster.setFullName(posterEntity.getFullName());
+        poster.setPhone(posterEntity.getPhone());
+        poster.setPosterAverageRating(posterEntity.getPosterAverageRating());
+        poster.setTaskId(posterEntity.getTaskId());
+        poster.setVerify(posterEntity.getVerify());
+        return poster;
+    }
+
+    private static PosterEntity convertPosterToPosterEntity(Poster poster) {
+        PosterEntity posterEntity = new PosterEntity();
+        posterEntity.setId(poster.getId());
+        posterEntity.setAvatar(poster.getAvatar());
+        posterEntity.setFullName(poster.getFullName());
+        posterEntity.setPhone(poster.getPhone());
+        posterEntity.setPosterAverageRating(poster.getPosterAverageRating());
+        posterEntity.setTaskId(poster.getTaskId());
+        posterEntity.setVerify(poster.getVerify());
+        return posterEntity;
+    }
+
+    private static Bidder convertBidderEntityToBidder(BidderEntity bidderEntity) {
+        Bidder bidder = new Bidder();
+        bidder.setId(bidderEntity.getId());
+        bidder.setVerify(bidderEntity.getVerify());
+        bidder.setPhone(bidderEntity.getPhone());
+        bidder.setFullName(bidderEntity.getFullName());
+        bidder.setAvatar(bidderEntity.getAvatar());
+        bidder.setBidedAt(bidderEntity.getBidedAt());
+        bidder.setTaskerAverageRating(bidderEntity.getTaskerAverageRating());
+        return bidder;
+    }
+
+    public static BidderEntity convertBidderToBidderEntity(Bidder bidder) {
+        BidderEntity bidderEntity = new BidderEntity();
+        bidderEntity.setId(bidder.getId());
+        bidderEntity.setVerify(bidder.getVerify());
+        bidderEntity.setPhone(bidder.getPhone());
+        bidderEntity.setFullName(bidder.getFullName());
+        bidderEntity.setAvatar(bidder.getAvatar());
+        bidderEntity.setBidedAt(bidder.getBidedAt());
+        bidderEntity.setTaskerAverageRating(bidder.getTaskerAverageRating());
+        return bidderEntity;
+    }
+
+    private static List<Bidder> convertListBidderEntityToListBidder(List<BidderEntity> bidderEntities) {
+        List<Bidder> bidders = new ArrayList<>();
+        for (BidderEntity bidderEntity : bidderEntities)
+            bidders.add(convertBidderEntityToBidder(bidderEntity));
+        return bidders;
+    }
+
+    private static RealmList<BidderEntity> convertListBidderToListBidderEntity(List<Bidder> bidders) {
+        RealmList<BidderEntity> bidderEntities = new RealmList<>();
+        for (Bidder bidder : bidders) bidderEntities.add(convertBidderToBidderEntity(bidder));
+        return bidderEntities;
+    }
+
+    public static Assigner convertAssignerEntityToAssign(AssignerEntity assignerEntity) {
+        Assigner assigner = new Assigner();
+        assigner.setId(assignerEntity.getId());
+        assigner.setTaskerAverageRating(assignerEntity.getTaskerAverageRating());
+        assigner.setAvatar(assignerEntity.getAvatar());
+        assigner.setFullName(assignerEntity.getFullName());
+        assigner.setBiddedAt(assignerEntity.getBiddedAt());
+        assigner.setPhone(assignerEntity.getPhone());
+        assigner.setRating(assignerEntity.getRating());
+        assigner.setVerify(assignerEntity.getVerify());
+        return assigner;
+    }
+
+    public static AssignerEntity convertAssignerToAssignEntity(Assigner assigner) {
+        AssignerEntity assignerEntity = new AssignerEntity();
+        assignerEntity.setId(assigner.getId());
+        assignerEntity.setTaskerAverageRating(assigner.getTaskerAverageRating());
+        assignerEntity.setAvatar(assigner.getAvatar());
+        assignerEntity.setFullName(assigner.getFullName());
+        assignerEntity.setBiddedAt(assigner.getBiddedAt());
+        assignerEntity.setPhone(assigner.getPhone());
+        assignerEntity.setRating(assigner.getRating());
+        assignerEntity.setVerify(assigner.getVerify());
+        return assignerEntity;
+    }
+
+    public static List<Assigner> convertListAssignerEntityToListAssigner(List<AssignerEntity> assignerEntities) {
+        List<Assigner> assigners = new ArrayList<>();
+        for (AssignerEntity assignerEntity : assignerEntities)
+            assigners.add(convertAssignerEntityToAssign(assignerEntity));
+        return assigners;
+    }
+
+    public static RealmList<AssignerEntity> convertListAssigerToListAssignerEntity(List<Assigner> assigners) {
+        RealmList<AssignerEntity> assignerEntities = new RealmList<>();
+        for (Assigner assigner : assigners)
+            assignerEntities.add(convertAssignerToAssignEntity(assigner));
+        return assignerEntities;
+    }
+
+    public static CommentEntity convertCommentToCommentEntity(Comment comment) {
+        CommentEntity commentEntity = new CommentEntity();
+        commentEntity.setId(comment.getId());
+        commentEntity.setFullName(comment.getFullName());
+        commentEntity.setAvatar(comment.getAvatar());
+        commentEntity.setAuthorId(comment.getAuthorId());
+        commentEntity.setBody(comment.getBody());
+        commentEntity.setCreatedAt(comment.getCreatedAt());
+        commentEntity.setCreatedDateAt(comment.getCreatedDateAt());
+        commentEntity.setImgAttach(comment.getImgAttach());
+        commentEntity.setTaskId(comment.getTaskId());
+        return commentEntity;
+    }
+
+    public static Comment convertCommentEntityToComment(CommentEntity commentEntity) {
+        Comment comment = new Comment();
+        comment.setId(commentEntity.getId());
+        comment.setFullName(commentEntity.getFullName());
+        comment.setAvatar(commentEntity.getAvatar());
+        comment.setAuthorId(commentEntity.getAuthorId());
+        comment.setBody(commentEntity.getBody());
+        comment.setCreatedAt(commentEntity.getCreatedAt());
+        comment.setCreatedDateAt(commentEntity.getCreatedDateAt());
+        comment.setImgAttach(commentEntity.getImgAttach());
+        comment.setTaskId(commentEntity.getTaskId());
+        return comment;
+    }
+
+    public static List<Comment> convertListCommentEntityToListComment(List<CommentEntity> commentEntities) {
+        List<Comment> comments = new ArrayList<>();
+        for (CommentEntity commentEntity : commentEntities)
+            comments.add(convertCommentEntityToComment(commentEntity));
+        return comments;
+    }
+
+    public static RealmList<CommentEntity> convertListCommentToListCommentEntity(List<Comment> comments) {
+        RealmList<CommentEntity> commentEntities = new RealmList<>();
+        for (Comment comment : comments)
+            commentEntities.add(convertCommentToCommentEntity(comment));
+        return commentEntities;
     }
 
     public static List<TaskEntity> convertListTaskResponseToTaskEntity(List<TaskResponse> taskResponses) {
