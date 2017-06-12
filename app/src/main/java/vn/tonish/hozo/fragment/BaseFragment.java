@@ -224,4 +224,6 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         if (getActivity() instanceof MainActivity)
             ((MainActivity) getActivity()).updateMenuUi(position);
     }
+
+
 }

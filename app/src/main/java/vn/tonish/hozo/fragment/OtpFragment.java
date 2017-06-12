@@ -2,7 +2,9 @@ package vn.tonish.hozo.fragment;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -10,7 +12,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -39,6 +40,7 @@ import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.USER_MOBILE;
 import static vn.tonish.hozo.database.manager.UserManager.insertUser;
@@ -55,8 +57,10 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
     private EdittextHozo mPinSecondDigitEditText;
     private EdittextHozo mPinThirdDigitEditText;
     private EdittextHozo mPinForthDigitEditText;
+    private TextViewHozo btnResetOtp;
     private EdittextHozo mPinHiddenEditText;
     private String mobile;
+    private CountDownTimer countDownTimer;
 
     @Override
     protected int getLayout() {
@@ -71,7 +75,7 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
         mPinForthDigitEditText = (EdittextHozo) findViewById(R.id.pin_forth_edittext);
         mPinHiddenEditText = (EdittextHozo) findViewById(R.id.pin_hidden_edittext);
         ImageView btnBack = (ImageView) findViewById(R.id.btnBack);
-        TextView btnResetOtp = (TextView) findViewById(R.id.btn_reset_otp);
+        btnResetOtp = (TextViewHozo) findViewById(R.id.btn_reset_otp);
         mPinHiddenEditText.addTextChangedListener(this);
         mPinFirstDigitEditText.setOnFocusChangeListener(this);
         mPinSecondDigitEditText.setOnFocusChangeListener(this);
@@ -86,6 +90,7 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
         mPinHiddenEditText.setOnKeyListener(this);
         btnBack.setOnClickListener(this);
         btnResetOtp.setOnClickListener(this);
+        startTimer();
 
     }
 
@@ -209,6 +214,7 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnBack:
+                countDownTimer.cancel();
                 getFragmentManager().popBackStack();
                 break;
             case R.id.btn_reset_otp:
@@ -218,7 +224,9 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
 
     }
 
+
     private void resetOtp() {
+        startTimer();
         ProgressDialogUtils.showProgressDialog(getActivity());
         JSONObject jsonRequest = new JSONObject();
         try {
@@ -346,5 +354,33 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
                 LogUtils.e(TAG, "sendRegistrationToServer , onFailure : " + t.getMessage());
             }
         });
+    }
+
+    private void startTimer() {
+        btnResetOtp.setClickable(false);
+        btnResetOtp.setTextColor(ContextCompat.getColor(getActivity(), R.color.red));
+        countDownTimer = new CountDownTimer(60000, 1000) {
+            int secondsLeft = 0;
+
+            public void onTick(long ms) {
+                if (Math.round((float) ms / 1000.0f) != secondsLeft) {
+                    secondsLeft = Math.round((float) ms / 1000.0f);
+                    String strOtp = getActivity().getString(R.string.login_resend_otp) + ": " + secondsLeft;
+                    btnResetOtp.setText(strOtp);
+                }
+            }
+
+            public void onFinish() {
+                btnResetOtp.setClickable(true);
+                btnResetOtp.setText(getActivity().getString(R.string.login_resend_otp));
+                btnResetOtp.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
+            }
+        }.start();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        countDownTimer.cancel();
     }
 }

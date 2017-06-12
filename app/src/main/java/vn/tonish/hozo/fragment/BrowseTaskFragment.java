@@ -222,6 +222,13 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
 
                 onStopRefresh();
+                if (!(taskList.size() > 0)) {
+                    findViewById(R.id.noitem).setVisibility(View.VISIBLE);
+                    findViewById(R.id.swpRefresh).setVisibility(View.GONE);
+                } else {
+                    findViewById(R.id.noitem).setVisibility(View.GONE);
+                    findViewById(R.id.swpRefresh).setVisibility(View.VISIBLE);
+                }
 
             }
 
