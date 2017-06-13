@@ -33,7 +33,7 @@ public final class GPSTracker implements LocationListener {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 0; // 1 minute
 
     // Declaring a Location Manager
     private LocationManager locationManager;
@@ -43,7 +43,7 @@ public final class GPSTracker implements LocationListener {
         getLocation();
     }
 
-    private Location getLocation() {
+    public Location getLocation() {
         try {
             locationManager = (LocationManager) mContext
                     .getSystemService(Context.LOCATION_SERVICE);
