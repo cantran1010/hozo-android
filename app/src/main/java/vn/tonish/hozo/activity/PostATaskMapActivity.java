@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -32,7 +33,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -50,7 +50,6 @@ import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 
-import static vn.tonish.hozo.R.drawable.location;
 import static vn.tonish.hozo.R.id.map;
 
 /**
@@ -147,8 +146,16 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         if (!isOnLocation) {
 //            GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
 //            if (!gpsTracker.canGetLocation()) {
-            mLocationProvider.connect();
-            isOnLocation = true;
+
+            // must dealy 1 second if user setting gps on and back very fast
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mLocationProvider.connect();
+                    isOnLocation = true;
+                }
+            }, 1000);
 //            }
         }
     }
@@ -334,6 +341,9 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     };
 
     private void getAddress(boolean isAddAddress) {
+
+        LogUtils.d(TAG, "getAddress address , latLng.latitude: " + latLng.latitude + " , latLng.longitude : " + latLng.longitude);
+
         try {
             Geocoder geocoder;
             ArrayList<Address> addresses;
@@ -341,7 +351,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
             addresses = (ArrayList<Address>) geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
-            Address addRess = addresses.get(0);
+            Address addRess = addresses.get(0); // may be crash,can't get address from geocoder
             LogUtils.d(TAG, "getAddress address : " + addRess.toString());
 
             if (isAddAddress) {
@@ -367,9 +377,9 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             work.setLatitude(latLng.latitude);
             work.setLongitude(latLng.longitude);
             autocompleteView.clearFocus();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            Utils.showLongToast(this,getString(R.string.post_a_task_map_get_location_error),true,false);
+            Utils.showLongToast(this, getString(R.string.post_a_task_map_get_location_error), true, false);
         }
 
     }
@@ -438,8 +448,13 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 //            return;
 //        }
 
+        if (work.getLatitude() == 0 || work.getLongitude() == 0) {
+            Utils.showLongToast(this, getString(R.string.post_a_task_map_get_location_error_next), true, false);
+            return;
+        }
+
         Intent intent = new Intent(PostATaskMapActivity.this, PostATaskFinishActivity.class);
-        intent.putExtra(Constants.EXTRA_ADDRESS, location);
+//        intent.putExtra(Constants.EXTRA_ADDRESS, location);
         intent.putExtra(Constants.EXTRA_TASK, work);
         intent.putExtra(Constants.EXTRA_CATEGORY, category);
         startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);

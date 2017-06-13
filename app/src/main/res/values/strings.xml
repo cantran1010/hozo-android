@@ -334,5 +334,6 @@
     <string name="push_complete_work">Công việc</string>
     <string name="max_size_attach_error">File đính kèm không vượt quá %1$d Mb .\nVui lòng chọn file khác !</string>
     <string name="not_find_task">Không tìm thấy công việc nào</string>
+    <string name="post_a_task_map_get_location_error_next">Không thể lấy vị trí của bạn ! Vui lòng thử lại !</string>
 
 </resources>
