@@ -6,15 +6,11 @@ Hozo for Android
 1. Copy json key file under the root directory of this project.
 1. Store the following info to your `$HOME/gradle/gradle.properties`:
 
-        ```
         RELEASE_STORE_FILE={path to your keystore}
         RELEASE_STORE_PASSWORD=*****
         RELEASE_KEY_ALIAS=*****
         RELEASE_KEY_PASSWORD=*****
-        ```
 
 1. To deploy a new version to Google Play:
 
-        ```
         bundle exec fastlane deploy
-        ```
