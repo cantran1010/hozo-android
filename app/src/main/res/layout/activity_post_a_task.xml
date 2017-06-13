@@ -12,9 +12,12 @@
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_title"
             style="@style/tv_title"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
             android:text="@string/tv_post_a_task_title" />
 
         <ImageView
@@ -22,6 +25,7 @@
             style="@style/tv_title_cancel"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:background="@drawable/btn_back_selector"
