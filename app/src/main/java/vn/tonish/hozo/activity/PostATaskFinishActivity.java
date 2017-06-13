@@ -53,7 +53,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected int getLayout() {
-        return R.layout.post_a_task_finish_activity;
+        return R.layout.activity_post_a_task_finish;
     }
 
     @Override

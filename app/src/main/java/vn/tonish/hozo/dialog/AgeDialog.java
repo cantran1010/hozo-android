@@ -39,7 +39,7 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
 
     @Override
     protected int getLayout() {
-        return R.layout.age_dialog;
+        return R.layout.dialog_age;
     }
 
     @Override

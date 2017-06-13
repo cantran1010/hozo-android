@@ -49,7 +49,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected int getLayout() {
-        return R.layout.album_activity;
+        return R.layout.activity_album;
     }
 
     @Override

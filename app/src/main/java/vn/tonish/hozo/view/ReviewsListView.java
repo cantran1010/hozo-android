@@ -46,7 +46,7 @@ public class ReviewsListView extends RelativeLayout {
 
     private void init() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        layoutInflater.inflate(R.layout.comment_view_full, this, true);
+        layoutInflater.inflate(R.layout.view_comment_full, this, true);
 
         rcvComment = (RecyclerView) findViewById(R.id.rcv_comment);
     }

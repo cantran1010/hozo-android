@@ -16,7 +16,7 @@ public class BidSuccessDialog extends BaseDialogFullScreenAnimFadeInOut {
 
     @Override
     protected int getLayout() {
-        return R.layout.bid_success_dialog;
+        return R.layout.dialog_bid_success;
     }
 
     @Override

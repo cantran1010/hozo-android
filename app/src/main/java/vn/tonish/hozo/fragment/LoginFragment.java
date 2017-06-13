@@ -47,7 +47,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
     @Override
     protected int getLayout() {
-        return R.layout.login_fragment;
+        return R.layout.fragment_login;
     }
 
     @Override

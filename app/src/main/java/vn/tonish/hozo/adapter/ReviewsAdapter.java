@@ -28,7 +28,7 @@ public class ReviewsAdapter extends BaseAdapter<ReviewEntity, ReviewsAdapter.MyV
 
     @Override
     public int getItemLayout() {
-        return R.layout.item_freebackview;
+        return R.layout.item_review;
     }
 
     @Override

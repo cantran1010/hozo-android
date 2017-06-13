@@ -8,7 +8,7 @@ import android.view.View;
 import java.util.List;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.other.ProfileActivity;
+import vn.tonish.hozo.activity.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Notification;
@@ -51,7 +51,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
 
     @Override
     public int getItemLayout() {
-        return R.layout.adapter_notifications;
+        return R.layout.item_notifications;
     }
 
     @Override

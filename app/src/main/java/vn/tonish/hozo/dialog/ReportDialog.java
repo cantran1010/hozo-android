@@ -45,7 +45,7 @@ public class ReportDialog extends BaseDialog implements View.OnClickListener {
 
     @Override
     protected int getLayout() {
-        return R.layout.report_dialog;
+        return R.layout.dialog_report;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package vn.tonish.hozo.activity.setting;
+package vn.tonish.hozo.activity;
 
 import android.content.Intent;
 import android.view.View;

@@ -12,19 +12,13 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.HomeActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.rest.ApiClient;
-import vn.tonish.hozo.rest.responseRes.APIError;
-import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.Token;
-import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
-import vn.tonish.hozo.utils.ProgressDialogUtils;
-import vn.tonish.hozo.utils.Utils;
 
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
@@ -98,75 +92,6 @@ public class NetworkUtils {
 
                     }
                 });
-            }
-        });
-
-    }
-
-    public static void logOut(final Context context) {
-        DialogUtils.showOkAndCancelDialog(context, context.getString(R.string.msg_logOut), context.getString(R.string.msg_contten_logOut), context.getString(R.string.oke), context.getString(R.string.report_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
-            @Override
-            public void onSubmit() {
-                ProgressDialogUtils.showProgressDialog(context);
-                ApiClient.getApiService().logOut(UserManager.getUserToken()).enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
-                                Realm realm = Realm.getDefaultInstance();
-                                realm.beginTransaction();
-                                realm.deleteAll();
-                                realm.commitTransaction();
-                                Intent intent = new Intent(context, HomeActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                            } else {
-                                showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
-                                    @Override
-                                    public void onSubmit() {
-                                        logOut(context);
-                                    }
-
-                                    @Override
-                                    public void onCancel() {
-
-                                    }
-                                });
-
-                            }
-                        } else {
-                            APIError error = ErrorUtils.parseError(response);
-                            LogUtils.d(TAG, "errorBody" + error.toString());
-//                            Toast.makeText(context, error.message(), Toast.LENGTH_SHORT).show();
-                            Utils.showLongToast(context,error.message(),true,false);
-
-                        }
-                        ProgressDialogUtils.dismissProgressDialog();
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        ProgressDialogUtils.dismissProgressDialog();
-                        showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
-                                logOut(context);
-                            }
-
-                            @Override
-                            public void onCancel() {
-
-                            }
-                        });
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancel() {
-
             }
         });
 

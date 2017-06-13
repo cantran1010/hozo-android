@@ -34,7 +34,7 @@ public class AlertDialogCancelTask extends BaseDialog implements View.OnClickLis
 
     @Override
     protected int getLayout() {
-        return R.layout.alert_dialog_cancel_task;
+        return R.layout.dialog_alert_cancel_task;
     }
 
     @Override

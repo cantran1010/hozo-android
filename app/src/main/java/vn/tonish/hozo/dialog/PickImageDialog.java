@@ -31,7 +31,7 @@ public class PickImageDialog extends BaseDialog implements View.OnClickListener 
 
     @Override
     protected int getLayout() {
-        return R.layout.layout_pick_image_dialog;
+        return R.layout.dialog_layout_pick_image;
     }
 
     @Override

@@ -9,7 +9,7 @@ import vn.tonish.hozo.R;
 public class ReplyActivity extends BaseActivity{
     @Override
     protected int getLayout() {
-        return R.layout.reply_activity;
+        return R.layout.activity_reply;
     }
 
     @Override

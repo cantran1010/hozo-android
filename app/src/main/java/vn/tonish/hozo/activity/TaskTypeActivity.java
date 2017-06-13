@@ -1,4 +1,4 @@
-package vn.tonish.hozo.activity.setting;
+package vn.tonish.hozo.activity;
 
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.adapter.TaskTypeAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Category;

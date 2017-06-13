@@ -64,7 +64,7 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
 
     @Override
     protected int getLayout() {
-        return R.layout.otp_fragment;
+        return R.layout.fragment_otp;
     }
 
     @Override

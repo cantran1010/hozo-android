@@ -79,7 +79,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected int getLayout() {
-        return R.layout.edit_profile_activity;
+        return R.layout.activity_edit_profile;
     }
 
     @Override

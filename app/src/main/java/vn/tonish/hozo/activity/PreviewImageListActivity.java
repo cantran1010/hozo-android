@@ -24,7 +24,7 @@ public class PreviewImageListActivity extends BaseActivity implements View.OnCli
 
     @Override
     protected int getLayout() {
-        return R.layout.preview_image_list_activity;
+        return R.layout.activity_preview_image_list;
     }
 
     @Override

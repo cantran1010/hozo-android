@@ -14,7 +14,7 @@ import android.widget.PopupMenu;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PreviewImageActivity;
-import vn.tonish.hozo.activity.other.ProfileActivity;
+import vn.tonish.hozo.activity.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -60,7 +60,7 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
 
     private void initView() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        layoutInflater.inflate(R.layout.comment_view, this, true);
+        layoutInflater.inflate(R.layout.view_comment, this, true);
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
 

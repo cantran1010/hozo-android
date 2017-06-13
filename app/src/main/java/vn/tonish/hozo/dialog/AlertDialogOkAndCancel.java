@@ -39,7 +39,7 @@ public class AlertDialogOkAndCancel extends BaseDialog implements View.OnClickLi
 
     @Override
     protected int getLayout() {
-        return R.layout.alert_dialog_ok_and_cancel;
+        return R.layout.dialog_alert_ok_and_cancel;
     }
 
     @Override

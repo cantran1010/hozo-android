@@ -37,7 +37,7 @@ public class BrowserTaskMapActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected int getLayout() {
-        return R.layout.brower_task_map_activity;
+        return R.layout.activity_brower_task_map;
     }
 
     @Override
