@@ -199,9 +199,11 @@
     <string name="report_ok">CHỌN</string>
     <string name="report_reason_other_title">Lý do khác</string>
     <string name="btn_report_send">GỬI</string>
-    <string name="number_employ_footer">%1$d người \n được thuê</string>
+
     <string name="number_remain_footer">%1$d vị trí \n còn trống</string>
-    <string name="number_bit_footer">%1$d người \n ứng tuyển</string>
+    <string name="number_employ_footer_des">người \n được thuê</string>
+    <string name="number_bit_footer_des">người \n ứng tuyển</string>
+
     <string name="call_err">Rất tiếc điện thoại của bạn không hỗ trợ chức năng gọi điện</string>
     <string name="title_cancel_task">Hủy việc</string>
     <string name="content_cancel_task">Bạn có chắc chắn muốn hủy việc này ?</string>
