@@ -65,7 +65,7 @@
                 style="@style/tv_style_normal_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="11sp"
+                android:textSize="12sp"
                 android:textStyle="italic" />
 
             <ImageView
@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:textSize="9sp"
+                android:textSize="12sp"
                 android:textStyle="italic" />
 
         </LinearLayout>
