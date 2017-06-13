@@ -163,7 +163,6 @@
     <string name="alert_dialog_no">KHÔNG</string>
     <string name="post_a_task_working_hour_hint">Số giờ làm việc</string>
     <string name="post_a_task_time_working_error">Vui lòng nhập số giờ làm việc</string>
-    <string name="post_a_task_age_error">Vui lòng chọn tuổi</string>
     <string name="post_a_task_complete">Chúc mừng bạn đã đăng tuyển thành công</string>
     <string name="show_all">Xem thêm</string>
     <string name="my_account">Tài khoản của tôi</string>
@@ -172,8 +171,6 @@
     <string name="profile_rate">Đánh giá</string>
     <string name="retry_title">Lỗi kết nối.</string>
     <string name="retry_content">Không thể kết nối tới máy chủ. Vui lòng kiểm tra kết nối của bạn và thử lại.</string>
-    <string name="retry_ok">CÓ</string>
-    <string name="retry_cancel">KHÔNG</string>
     <string name="retry">THỬ LẠI</string>
     <string name="bidder">Người ứng tuyển</string>
     <string name="text_test">Text Test</string>
@@ -205,8 +202,6 @@
     <string name="number_employ_footer">%1$d người \n được thuê</string>
     <string name="number_remain_footer">%1$d vị trí \n còn trống</string>
     <string name="number_bit_footer">%1$d người \n ứng tuyển</string>
-    <string name="task_detail_category_type">Loại công việc:</string>
-    <string name="detail_task_time_to">-</string>
     <string name="call_err">Rất tiếc điện thoại của bạn không hỗ trợ chức năng gọi điện</string>
     <string name="title_cancel_task">Hủy việc</string>
     <string name="content_cancel_task">Bạn có chắc chắn muốn hủy việc này ?</string>
@@ -309,9 +304,7 @@
     <string name="post_task_date_picker_title">Chọn ngày làm việc</string>
     <string name="post_task_time_picker_title">Chọn thời gian bắt đầu</string>
     <string name="radius_everywhere">mọi nơi</string>
-    <string name="empty_search">bạn chưa nhập từ khoá</string>
     <string name="taks_type_empty">bạn chưa chọn loại công việc</string>
-
     <string name="comment_setting_visible">visible</string>
     <string name="comment_setting_invisible">invisible</string>
     <string name="cancel_task_success_msg">Bạn đã hủy việc thành công</string>
@@ -323,8 +316,6 @@
     <string name="task_detail_money_type">VND</string>
     <string name="km">km</string>
     <string name="all_space_type"><b> </b></string>
-    <string name="attach_image_permission_message">Vui lòng cấp quyền để tải hình ảnh đính kèm</string>
-    <string name="attach_image_permission_confirm">Xác nhận</string>
     <string name="count_in_detail">(%1$d)</string>
     <string name="my_task_price">%s VND</string>
     <string name="task_detail_reply_member">\@%s \n</string>
