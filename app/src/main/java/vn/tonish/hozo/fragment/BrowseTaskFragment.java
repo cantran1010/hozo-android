@@ -188,7 +188,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     LogUtils.d(TAG, "getTaskResponse body : " + response.body());
                     if (response.code() == Constants.HTTP_CODE_OK) {
                         List<TaskResponse> taskResponses = response.body();
-                        LogUtils.d(TAG, "getTaskFromServer taskResponses size : " + taskResponses.size());
+                        LogUtils.d(TAG, "getTaskFromServer taskResponses size : " + (taskResponses != null ? taskResponses.size() : 0));
                         if (since == null) {
                             taskList.clear();
                             endlessRecyclerViewScrollListener.resetState();

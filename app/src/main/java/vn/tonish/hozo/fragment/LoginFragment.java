@@ -75,12 +75,12 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                     if (CheckErrorEditText(edtPhone.getText().toString().trim())) {
                         error = getResources().getString(R.string.login_erro_phone);
                         edtPhone.setError(error);
-                        hideSoftKeyboard(getActivity(), (EdittextHozo) edtPhone);
+                        hideSoftKeyboard(getActivity(), edtPhone);
                     }
                 } else {
                     tvContinue.setAlpha(1f);
                     tvContinue.setEnabled(true);
-                   hideSoftKeyboard(getActivity(), (EdittextHozo) edtPhone);
+                   hideSoftKeyboard(getActivity(), edtPhone);
                 }
 
             }

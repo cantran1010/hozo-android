@@ -94,7 +94,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
             holder.imgImage.setPadding(0, 0, 0, 0);
         }
 
-        File file = new File(item.getPath());
+        File file = new File(item != null ? item.getPath() : null != null ? item != null ? item.getPath() : null : null);
         final long file_size = (file.length() / 1024 / 1024);
 
         if (isOnlyImage) {
@@ -108,6 +108,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
                         Utils.showLongToast(getContext(), getContext().getString(R.string.max_size_attach_error, Constants.MAX_FILE_SIZE), true, true);
                     }else{
                         holder.imgCheck.setVisibility(View.VISIBLE);
+                        assert item != null;
                         item.setSelected(true);
 
                         for (int i = 0; i < images.size(); i++) {
@@ -131,12 +132,12 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
                         Utils.showLongToast(getContext(), getContext().getString(R.string.max_size_attach_error, Constants.MAX_FILE_SIZE), true, true);
                     }else{
                         if (countImageSelected() + countImageAttach < Constants.MAX_IMAGE_ATTACH) {
-                            if (item.isSelected) {
+                            if (item != null && item.isSelected) {
                                 item.setSelected(false);
                             } else {
                                 item.setSelected(true);
                             }
-                        } else if (countImageSelected() + countImageAttach >= Constants.MAX_IMAGE_ATTACH && item.isSelected) {
+                        } else if (countImageSelected() + countImageAttach >= Constants.MAX_IMAGE_ATTACH && (item != null && item.isSelected)) {
                             item.setSelected(false);
                         } else {
                             Utils.showLongToast(getContext(), getContext().getResources().getString(R.string.post_a_task_max_attach_err), true, false);
@@ -157,7 +158,7 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
         params.height = whImage;
         holder.imgImage.setLayoutParams(params);
 
-        Utils.displayImageCenterCrop(getContext(), holder.imgImage, item.getPath());
+        Utils.displayImageCenterCrop(getContext(), holder.imgImage, item != null ? item.getPath() : null);
 
         return convertView;
     }

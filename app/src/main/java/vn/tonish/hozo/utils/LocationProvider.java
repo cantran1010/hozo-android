@@ -33,7 +33,7 @@ public class LocationProvider implements
         LocationListener {
 
     public interface LocationCallback {
-        void handleNewLocation(Location location);
+        void handleNewLocation();
     }
 
     private static final String TAG = LocationProvider.class.getSimpleName();
@@ -92,7 +92,7 @@ public class LocationProvider implements
         if (location == null) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         } else {
-            mLocationCallback.handleNewLocation(location);
+            mLocationCallback.handleNewLocation();
         }
     }
 
@@ -133,7 +133,7 @@ public class LocationProvider implements
 
     @Override
     public void onLocationChanged(Location location) {
-        mLocationCallback.handleNewLocation(location);
+        mLocationCallback.handleNewLocation();
         Log.i(TAG, "Location :" + location.getLatitude() + ":" + location.getLongitude());
     }
 

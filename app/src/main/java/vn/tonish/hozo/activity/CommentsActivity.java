@@ -100,9 +100,9 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                         endlessRecyclerViewScrollListener.resetState();
                     }
                     List<Comment> comments = response.body();
-                    if (comments.size() > 0)
-                        strSince = comments.get(comments.size() - 1).getCreatedAt();
-                    for (Comment comment : comments) {
+                    if ((comments != null ? comments.size() : 0) > 0)
+                        strSince = comments.get((comments != null ? comments.size() : 0) - 1).getCreatedAt();
+                    for (Comment comment : comments != null ? comments : null) {
                         comment.setTaskId(taskId);
                     }
                     mComments.addAll(comments);

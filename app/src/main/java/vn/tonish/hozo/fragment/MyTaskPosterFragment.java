@@ -163,7 +163,7 @@ public class MyTaskPosterFragment extends BaseFragment {
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     List<TaskResponse> taskResponsesBody = response.body();
 
-                    LogUtils.d(TAG, "getTaskFromServer taskResponsesBody size : " + taskResponsesBody.size());
+                    LogUtils.d(TAG, "getTaskFromServer taskResponsesBody size : " + (taskResponsesBody != null ? taskResponsesBody.size() : 0));
 
                     if (taskResponsesBody.size() > 0)
                         sinceStr = taskResponsesBody.get(taskResponsesBody.size() - 1).getCreatedAt();

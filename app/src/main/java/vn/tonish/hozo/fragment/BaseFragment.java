@@ -158,7 +158,7 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         TransitionScreen.setCustomAnimationsFragment(transaction, transitionScreen);
 
         try {
-            Fragment newFragment = null;
+            Fragment newFragment;
             String newTag = null;
             if (newFragClass != null)
                 newTag = newFragClass.getName();

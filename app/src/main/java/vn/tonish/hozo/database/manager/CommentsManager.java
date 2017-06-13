@@ -16,7 +16,7 @@ import static vn.tonish.hozo.utils.DateTimeUtils.getDateFromStringIso;
 /**
  * Created by CanTran on 5/17/17.
  */
-public class CommentsManager {
+class CommentsManager {
 
     private static final String TAG = CommentsManager.class.getName();
 

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -483,7 +482,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     }
 
     @Override
-    public void handleNewLocation(Location location) {
+    public void handleNewLocation() {
         LogUtils.d(TAG, "handleNewLocation start");
         GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
         if (gpsTracker.canGetLocation()) {

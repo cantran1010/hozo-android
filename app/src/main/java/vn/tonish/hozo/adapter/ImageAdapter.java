@@ -55,7 +55,7 @@ public class ImageAdapter extends ArrayAdapter<Image> {
             holder.imgRemove.setVisibility(View.GONE);
         } else {
             holder.imgImage.setVisibility(View.VISIBLE);
-            Utils.displayImageCenterCrop(getContext(), holder.imgImage, item.getPath());
+            Utils.displayImageCenterCrop(getContext(), holder.imgImage, item != null ? item.getPath() : null);
             holder.imgAdd.setVisibility(View.GONE);
             holder.imgRemove.setVisibility(View.VISIBLE);
         }
