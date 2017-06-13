@@ -19,3 +19,6 @@ google-play-android-developer-*.json
 
 # Fastlane report
 fastlane/report.xml
+
+# Keystore
+android.jks
