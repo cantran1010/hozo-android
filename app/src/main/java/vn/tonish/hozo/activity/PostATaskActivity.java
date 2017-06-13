@@ -2,6 +2,7 @@ package vn.tonish.hozo.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -492,14 +493,15 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
 
     private void openDatePicker() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, final int year,
                                           final int monthOfYear, final int dayOfMonth) {
 
                         if (view.isShown()) {
-                            timeEndPickerDialog = new TimePickerDialog(PostATaskActivity.this,
+                            timeEndPickerDialog = new TimePickerDialog(PostATaskActivity.this, AlertDialog.THEME_HOLO_LIGHT,
                                     new TimePickerDialog.OnTimeSetListener() {
                                         @Override
                                         public void onTimeSet(TimePicker view, int hourOfDay,
