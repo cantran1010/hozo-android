@@ -80,7 +80,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         edtBudget.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (!edtBudget.getText().toString().equals("") && Long.valueOf(edtBudget.getText().toString().replace(".", "")) <= MAX_BUGDET)
+                if (!edtBudget.getText().toString().equals("") && Long.valueOf(getLongEdittext(edtBudget)) <= MAX_BUGDET)
                     edtBudget.setError(null);
 
                 budgetBefore = edtBudget.getText().toString();
@@ -94,7 +94,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             @Override
             public void afterTextChanged(Editable s) {
                 if (!edtBudget.getText().toString().equals(""))
-                    if (Long.valueOf(edtBudget.getText().toString().replace(".", "")) > MAX_BUGDET) {
+                    if (Long.valueOf(getLongEdittext(edtBudget)) > MAX_BUGDET) {
                         edtBudget.setText(budgetBefore);
                         edtBudget.setError(getString(R.string.max_budget_error));
                         edtBudget.setSelection(edtBudget.getText().toString().length());
@@ -132,6 +132,10 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         });
     }
 
+    private String getLongEdittext(EdittextHozo edittextHozo) {
+        return edittextHozo.getText().toString().replace(",", "").replace(".", "");
+    }
+
     @Override
     protected void resumeData() {
 
@@ -143,8 +147,8 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             if (edtBudget.getText().toString().equals("") || edtNumberWorker.getText().toString().equals("")) {
                 tvTotal.setText("");
             } else {
-                Long bBudget = Long.valueOf(edtBudget.getText().toString().replace(".", ""));
-                Long bNumberWorker = Long.valueOf(edtNumberWorker.getText().toString().replace(".", ""));
+                Long bBudget = Long.valueOf(getLongEdittext(edtBudget));
+                Long bNumberWorker = Long.valueOf(getLongEdittext(edtNumberWorker));
                 Long total = bBudget * bNumberWorker;
                 tvTotal.setText(Utils.formatNumber(total));
             }
@@ -213,8 +217,8 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             jsonRequest.put("city", work.getCity());
             jsonRequest.put("district", work.getDistrict());
             jsonRequest.put("address", work.getAddress());
-            jsonRequest.put("worker_rate", Integer.valueOf(edtBudget.getText().toString().replace(".", "")));
-            jsonRequest.put("worker_count", Integer.valueOf(edtNumberWorker.getText().toString().replace(".", "")));
+            jsonRequest.put("worker_rate", Integer.valueOf(getLongEdittext(edtBudget)));
+            jsonRequest.put("worker_count", Integer.valueOf(getLongEdittext(edtNumberWorker)));
 
             if (work.getAttachmentsId() != null && work.getAttachmentsId().length > 0) {
                 JSONArray jsonArray = new JSONArray();

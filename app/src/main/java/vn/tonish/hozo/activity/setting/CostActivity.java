@@ -99,8 +99,8 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
         } else if (strMax.isEmpty()) {
             edtMaxPrice.setError(getString(R.string.erro_emply_price));
         } else {
-            int minPrice = Integer.parseInt(edtMinPrice.getText().toString().replace(".", ""));
-            int maxPrice = Integer.valueOf(edtMaxPrice.getText().toString().replace(".", ""));
+            int minPrice = Integer.parseInt(edtMinPrice.getText().toString().replace(".", "").replace(",",""));
+            int maxPrice = Integer.valueOf(edtMaxPrice.getText().toString().replace(".", "").replace(",",""));
             if (minPrice < 10000) {
                 edtMinPrice.setError(getString(R.string.erro_emply_price));
             } else if (maxPrice > 100000000)
