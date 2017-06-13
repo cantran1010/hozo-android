@@ -3,6 +3,7 @@
  */
 package vn.tonish.hozo.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
@@ -37,8 +38,9 @@ public class CustomWebView extends WebView {
         initView();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initView() {
-//        this.getSettings().setJavaScriptEnabled(true);
+        this.getSettings().setJavaScriptEnabled(true);
         this.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         this.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         this.getSettings().setAppCacheEnabled(true);
