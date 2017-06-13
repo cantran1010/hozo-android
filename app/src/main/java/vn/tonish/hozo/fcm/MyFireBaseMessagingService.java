@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 
@@ -103,12 +104,20 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.app_icon)
+//                .setSmallIcon(R.mipmap.app_icon)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int color = 0x008000;
+            notificationBuilder.setColor(color);
+            notificationBuilder.setSmallIcon(R.mipmap.notification_icon);
+        } else {
+            notificationBuilder.setSmallIcon(R.mipmap.notification_icon);
+        }
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
