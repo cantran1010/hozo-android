@@ -45,7 +45,7 @@ import static vn.tonish.hozo.utils.Utils.formatNumber;
 
 public class AdvanceSettingsActivity extends BaseActivity implements View.OnClickListener {
     private final static String TAG = AdvanceSettingsActivity.class.getSimpleName();
-    private TextViewHozo tvWorkType, tvPrice, tvLocation, tvGender, tvRadius;
+    private TextViewHozo tvWorkType, tvPrice, tvLocation,tvRadius;
     private ButtonHozo btnReset, btnSave;
     private double lat;
     private double lng;
