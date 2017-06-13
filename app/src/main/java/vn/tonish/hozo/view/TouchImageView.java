@@ -21,9 +21,9 @@ public class TouchImageView extends AppCompatImageView {
     private State mode = State.NONE;
     private final PointF last = new PointF();
     private final PointF start = new PointF();
-    private final float minScale = 1f;
+    private final float minScale = 0.5f;
     private float doubleClickScale = 2f;
-    private float maxScale = 3f;
+    private float maxScale = 6f;
     private float[] m;
     private int viewWidth;
     private int viewHeight;
@@ -96,6 +96,7 @@ public class TouchImageView extends AppCompatImageView {
                         break;
 
                     case MotionEvent.ACTION_UP:
+                        v.performClick();
                         mode = State.NONE;
                         int xDiff = (int) Math.abs(curr.x - start.x);
                         int yDiff = (int) Math.abs(curr.y - start.y);

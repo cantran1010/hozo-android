@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconDuplicatesConfig">
+        <ignore path="src/main/res/drawable-hdpi/popup_map_detail.9.png" />
+        <ignore path="src/main/res/drawable-mdpi/popup_map_detail.9.png" />
+        <ignore path="src/main/res/drawable-xhdpi/popup_map_detail.9.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/popup_map_detail.9.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/popup_map_detail.9.png" />
+    </issue>
+</lint>
