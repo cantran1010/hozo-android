@@ -35,7 +35,7 @@ public class AlertDialogOk extends BaseDialog implements View.OnClickListener {
 
     @Override
     protected int getLayout() {
-        return R.layout.alert_dialog_ok;
+        return R.layout.dialog_alert_ok;
     }
 
     @Override

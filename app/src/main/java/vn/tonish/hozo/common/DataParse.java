@@ -1,4 +1,4 @@
-package vn.tonish.hozo.network;
+package vn.tonish.hozo.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;

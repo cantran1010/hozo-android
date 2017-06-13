@@ -62,10 +62,10 @@
             android:name=".activity.AdvanceSettingsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.other.ProfileActivity"
+            android:name=".activity.ProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.other.ShareActivity"
+            android:name=".activity.ShareActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -106,7 +106,7 @@
             android:name=".activity.BrowserTaskMapActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.other.GeneralInfoActivity"
+            android:name=".activity.GeneralInfoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.EditProfileActivity"
@@ -141,7 +141,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.setting.TaskTypeActivity"
+            android:name=".activity.TaskTypeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -149,11 +149,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.setting.CostActivity"
+            android:name=".activity.CostActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.setting.ShowTaskWithin"
+            android:name=".activity.ShowTaskWithin"
             android:screenOrientation="portrait" />
     </application>
 

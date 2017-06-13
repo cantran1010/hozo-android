@@ -22,7 +22,7 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
-import vn.tonish.hozo.network.DataParse;
+import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;

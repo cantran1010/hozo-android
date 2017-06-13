@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.other.ProfileActivity;
+import vn.tonish.hozo.activity.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.rest.responseRes.Assigner;
@@ -57,7 +57,7 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
 
     private void initView() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        layoutInflater.inflate(R.layout.assigner_view_call, this, true);
+        layoutInflater.inflate(R.layout.view_assigner_call, this, true);
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
 

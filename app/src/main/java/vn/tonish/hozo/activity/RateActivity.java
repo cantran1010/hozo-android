@@ -42,7 +42,7 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected int getLayout() {
-        return R.layout.rate_activity;
+        return R.layout.activity_rate;
     }
 
     @Override

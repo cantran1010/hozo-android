@@ -1,10 +1,9 @@
-package vn.tonish.hozo.activity.other;
+package vn.tonish.hozo.activity;
 
 import android.view.View;
 import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.view.CustomWebView;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -20,7 +19,7 @@ public class GeneralInfoActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected int getLayout() {
-        return R.layout.general_info_activity;
+        return R.layout.activity_general_info;
     }
 
     @Override

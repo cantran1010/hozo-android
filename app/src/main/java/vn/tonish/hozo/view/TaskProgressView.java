@@ -41,7 +41,7 @@ public class TaskProgressView extends LinearLayout {
 
     private void init() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        layoutInflater.inflate(R.layout.task_progress_view, this, true);
+        layoutInflater.inflate(R.layout.view_task_progress, this, true);
 
         tvNumberEmploy = (TextViewHozo) findViewById(R.id.tv_number_employ);
         tvNumberRemain = (TextViewHozo) findViewById(R.id.tv_number_remain);

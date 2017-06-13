@@ -86,7 +86,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
     @Override
     protected int getLayout() {
-        return R.layout.post_a_task_map_activity;
+        return R.layout.activity_post_a_task_map;
     }
 
     @Override

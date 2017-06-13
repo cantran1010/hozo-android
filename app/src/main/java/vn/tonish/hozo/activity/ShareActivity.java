@@ -1,7 +1,6 @@
-package vn.tonish.hozo.activity.other;
+package vn.tonish.hozo.activity;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.BaseActivity;
 
 /**
  * Created by huyquynh on 4/19/17.

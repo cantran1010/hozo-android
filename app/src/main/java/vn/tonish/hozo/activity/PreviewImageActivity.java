@@ -19,7 +19,7 @@ public class PreviewImageActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected int getLayout() {
-        return R.layout.preview_image_activity;
+        return R.layout.activity_preview_image;
     }
 
     @Override

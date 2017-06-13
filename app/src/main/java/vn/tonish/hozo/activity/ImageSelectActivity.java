@@ -40,7 +40,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected int getLayout() {
-        return R.layout.image_select_activity;
+        return R.layout.activity_image_select;
     }
 
     @Override

@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.view.View;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.other.GeneralInfoActivity;
-import vn.tonish.hozo.activity.other.ProfileActivity;
+import vn.tonish.hozo.activity.GeneralInfoActivity;
+import vn.tonish.hozo.activity.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.utils.TransitionScreen;
@@ -17,7 +17,7 @@ import vn.tonish.hozo.utils.Utils;
 public class SettingFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected int getLayout() {
-        return R.layout.setting_fragment;
+        return R.layout.fragment_setting;
     }
 
 

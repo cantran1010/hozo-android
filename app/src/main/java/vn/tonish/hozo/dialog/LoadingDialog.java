@@ -12,7 +12,7 @@ public class LoadingDialog extends Dialog {
     public LoadingDialog(Context context) {
         super(context, R.style.Theme_CustomProgressDialog);
 
-        setContentView(R.layout.custom_progress_dialog);
+        setContentView(R.layout.dialog_custom_progress);
         setCancelable(false);
     }
 }

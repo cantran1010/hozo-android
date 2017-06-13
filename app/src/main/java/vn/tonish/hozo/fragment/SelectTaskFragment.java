@@ -25,7 +25,7 @@ import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.Category;
-import vn.tonish.hozo.network.DataParse;
+import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
@@ -46,7 +46,7 @@ public class SelectTaskFragment extends BaseFragment {
 
     @Override
     protected int getLayout() {
-        return R.layout.select_task_fragment;
+        return R.layout.fragment_select_task;
     }
 
     @Override

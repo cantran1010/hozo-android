@@ -51,7 +51,7 @@ import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
-import vn.tonish.hozo.network.DataParse;
+import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.Assigner;
@@ -113,7 +113,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
     @Override
     protected int getLayout() {
-        return R.layout.task_detail_activity;
+        return R.layout.activity_task_detail;
     }
 
     @Override
