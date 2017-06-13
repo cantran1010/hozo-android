@@ -494,13 +494,14 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
     private void openDatePicker() {
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT,
+        @SuppressWarnings("deprecation") DatePickerDialog datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, final int year,
                                           final int monthOfYear, final int dayOfMonth) {
 
                         if (view.isShown()) {
+                            //noinspection deprecation
                             timeEndPickerDialog = new TimePickerDialog(PostATaskActivity.this, AlertDialog.THEME_HOLO_LIGHT,
                                     new TimePickerDialog.OnTimeSetListener() {
                                         @Override
