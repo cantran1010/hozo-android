@@ -68,7 +68,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
         if (intent != null && intent.hasExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA))
             countImageAttach = intent.getIntExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, 0);
 
-        album = intent.getStringExtra(Constants.INTENT_EXTRA_ALBUM);
+        album = intent != null ? intent.getStringExtra(Constants.INTENT_EXTRA_ALBUM) : null;
         tvAlbumName.setText(album);
 
         getImage();

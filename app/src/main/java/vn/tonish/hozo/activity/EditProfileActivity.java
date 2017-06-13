@@ -224,7 +224,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
                 if (response.code() == Constants.HTTP_CODE_CREATED) {
                     ImageResponse imageResponse = response.body();
-                    avataId = imageResponse.getIdTemp();
+                    avataId = imageResponse != null ? imageResponse.getIdTemp() : 0;
                     updateProfile();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
@@ -300,6 +300,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 LogUtils.d(TAG, "updateUser onResponse : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     UserEntity userEntity = response.body();
+                    assert userEntity != null;
                     userEntity.setAccessToken(UserManager.getMyUser().getAccessToken());
                     userEntity.setTokenExp(UserManager.getMyUser().getTokenExp());
                     userEntity.setRefreshToken(UserManager.getMyUser().getRefreshToken());
@@ -388,8 +389,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
         } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
             String imgPath = data != null ? data.getStringExtra(Constants.EXTRA_IMAGE_PATH) : null;
-            Utils.displayImage(EditProfileActivity.this, imgAvatar, imgPath);
-            file = new File(imgPath);
+            Utils.displayImage(EditProfileActivity.this, imgAvatar, null);
+            file = new File(imgPath != null ? imgPath : null);
             isUpdateAvata = true;
         }
 

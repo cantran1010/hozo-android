@@ -109,9 +109,9 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
                         mReviewEntities.clear();
                         endlessRecyclerViewScrollListener.resetState();
                     }
-                    if (reviewEntities.size() > 0)
-                        strSince = reviewEntities.get(reviewEntities.size() - 1).getCreatedAt();
-                    mReviewEntities.addAll(reviewEntities);
+                    if ((reviewEntities != null ? reviewEntities.size() : 0) > 0)
+                        strSince = reviewEntities.get((reviewEntities != null ? reviewEntities.size() : 0) - 1).getCreatedAt();
+                    mReviewEntities.addAll(reviewEntities );
                     reviewsAdapter.notifyDataSetChanged();
 
                     if (reviewEntities.size() < LIMIT) {

@@ -167,7 +167,7 @@ public class Constants {
     public static final int RESULT_CODE_SETTING = 1019;
     public static final String ASSIGNER_RATE_EXTRA = "assign_rate_extra";
     public static final String CATEGORY_ACTIVE = "active";
-    public static int REQUEST_CODE_RATE = 345;
-    public static int RESPONSE_CODE_RATE = 543;
-    public static long MAX_FILE_SIZE = 5; //MB
+    public static final int REQUEST_CODE_RATE = 345;
+    public static final int RESPONSE_CODE_RATE = 543;
+    public static final long MAX_FILE_SIZE = 5; //MB
 }

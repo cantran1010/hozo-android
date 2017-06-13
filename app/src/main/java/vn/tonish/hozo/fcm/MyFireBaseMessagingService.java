@@ -72,8 +72,8 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(Notification notification) {
 
-        String title = "";
-        String message = "";
+        String title;
+        String message;
 
         if (notification.getEvent().equals("admin_push")) {
             title = getString(R.string.app_name);

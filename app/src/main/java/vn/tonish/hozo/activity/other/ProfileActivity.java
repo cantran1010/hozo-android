@@ -187,6 +187,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     if (response.code() == Constants.HTTP_CODE_OK) {
                         UserEntity userEntity = response.body();
                         if (isMyUser) {
+                            assert userEntity != null;
                             userEntity.setAccessToken(UserManager.getMyUser().getAccessToken());
                             userEntity.setTokenExp(UserManager.getMyUser().getTokenExp());
                             userEntity.setRefreshToken(UserManager.getMyUser().getRefreshToken());

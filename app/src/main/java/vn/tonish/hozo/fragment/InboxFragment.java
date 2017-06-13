@@ -30,7 +30,6 @@ import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
-import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 4/4/2017.
@@ -60,7 +59,6 @@ public class InboxFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        TextViewHozo tvUnread = (TextViewHozo) findViewById(R.id.tv_unread);
         lvList = (RecyclerView) findViewById(R.id.lvList);
         createSwipeToRefresh();
     }
@@ -168,7 +166,7 @@ public class InboxFragment extends BaseFragment {
                         endlessRecyclerViewScrollListener.resetState();
                     }
 
-                    notifications.addAll(notificationResponse);
+                    notifications.addAll(notificationResponse != null ? notificationResponse : null);
 
 //                    Collections.sort(notifications, new Comparator<Notification>() {
 //                        @Override
@@ -177,7 +175,7 @@ public class InboxFragment extends BaseFragment {
 //                        }
 //                    });
 
-                    if (notificationResponse.size() > 0)
+                    if ((notificationResponse != null ? notificationResponse.size() : 0) > 0)
                         since = notificationResponse.get(notificationResponse.size() - 1).getCreatedAt();
 
                     if (notificationResponse.size() < LIMIT) {

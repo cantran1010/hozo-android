@@ -219,9 +219,7 @@ public class Utils {
                     Bitmap correctBmp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), mat, true);
                     bitmap = Bitmap.createScaledBitmap(correctBmp, (int) (correctBmp.getWidth() / scale), (int) (correctBmp.getHeight() / scale), false);
 
-                    if (correctBmp != null) {
-                        correctBmp.recycle();
-                    }
+                    correctBmp.recycle();
 
                 } else {
                     bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() / scale), (int) (bitmap.getHeight() / scale), false);
@@ -479,7 +477,7 @@ public class Utils {
     }
 
     public static String converGenderVn(Context context, String gender) {
-        String sex = "";
+        String sex;
         if (gender.equals(context.getString(R.string.gender_male)))
             sex = context.getString(R.string.gender_vn_male);
         else if (gender.equals(context.getString(R.string.gender_female))) {
@@ -491,7 +489,7 @@ public class Utils {
     }
 
     public static String converGenderEn(Context context, String gender) {
-        String sex = "";
+        String sex;
         if (gender.equals(context.getString(R.string.gender_vn_male)))
             sex = context.getString(R.string.gender_male);
         else if (gender.equals(context.getString(R.string.gender_vn_mafele))) {

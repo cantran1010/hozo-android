@@ -42,7 +42,7 @@ import static vn.tonish.hozo.database.manager.CategoryManager.insertIsSelected;
 public class SelectTaskFragment extends BaseFragment {
     private static final String TAG = SelectTaskFragment.class.getSimpleName();
     private RecyclerView rcvTask;
-    private List<Category> categories = new ArrayList<>();
+    private final List<Category> categories = new ArrayList<>();
 
     @Override
     protected int getLayout() {
