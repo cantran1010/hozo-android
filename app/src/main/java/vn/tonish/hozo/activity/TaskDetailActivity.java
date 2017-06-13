@@ -680,6 +680,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         } else {
             doAttachImage();
         }
+        updateSeeMoreComment();
     }
 
     private void doAttachImage() {
