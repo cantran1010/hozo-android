@@ -203,7 +203,7 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
 
     private void openGeneralInfoActivity(String title) {
         Intent intent = new Intent(getActivity(), GeneralInfoActivity.class);
-        intent.putExtra(Constants.URL_EXTRA, "https://tonish.vn/terms.html");
+        intent.putExtra(Constants.URL_EXTRA, "http://hozo.vn/dieu-khoan-su-dung/?ref=app");
         intent.putExtra(Constants.TITLE_INFO_EXTRA, title);
         startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
     }

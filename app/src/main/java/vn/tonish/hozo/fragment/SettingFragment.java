@@ -31,8 +31,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         findViewById(R.id.layout_info).setOnClickListener(this);
         findViewById(R.id.layout_about).setOnClickListener(this);
         findViewById(R.id.layout_share).setOnClickListener(this);
-
-
     }
 
 
@@ -71,19 +69,19 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 //                break;
 
             case R.id.layout_condition:
-                openGeneralInfoActivity(getString(R.string.other_condition), "https://tonish.vn/terms.html");
+                openGeneralInfoActivity(getString(R.string.other_condition), "http://hozo.vn/dieu-khoan-su-dung/?ref=app");
                 break;
 
             case R.id.layout_nda:
-                openGeneralInfoActivity(getString(R.string.other_nad), "https://tonish.vn/policy.html");
+                openGeneralInfoActivity(getString(R.string.other_nad), "http://hozo.vn/chinh-sach-bao-mat/?ref=app");
                 break;
 
             case R.id.layout_info:
-                openGeneralInfoActivity(getString(R.string.other_info), "https://tonish.vn/overview.html");
+                openGeneralInfoActivity(getString(R.string.other_info), "http://hozo.vn/?ref=app");
                 break;
 
             case R.id.layout_about:
-                openGeneralInfoActivity(getString(R.string.other_about), "https://tonish.vn/overview.html");
+                openGeneralInfoActivity(getString(R.string.other_about), "http://hozo.vn/gioi-thieu/?ref=app");
                 break;
 
         }

@@ -7,4 +7,10 @@
         <ignore path="src/main/res/drawable-xxhdpi/popup_map_detail.9.png" />
         <ignore path="src/main/res/drawable-xxxhdpi/popup_map_detail.9.png" />
     </issue>
+
+    <!-- Ignore the UnusedResources issue for the given ids -->
+    <issue id="UnusedResources">
+        <ignore regexp="project_id|google_crash_reporting_api_key" />
+    </issue>
+
 </lint>
