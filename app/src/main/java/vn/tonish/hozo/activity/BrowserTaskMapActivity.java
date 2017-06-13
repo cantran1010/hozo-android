@@ -81,7 +81,7 @@ public class BrowserTaskMapActivity extends BaseActivity implements View.OnClick
 
             int width = getResources().getDisplayMetrics().widthPixels;
             int height = getResources().getDisplayMetrics().heightPixels;
-            int padding = (int) (width * 0.10); // offset from edges of the map 10% of screen
+            int padding = (int) (width * 0.30); // offset from edges of the map 30% of screen
 
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
 
