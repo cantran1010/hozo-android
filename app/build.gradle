@@ -74,6 +74,9 @@ android {
         exclude 'META-INF/NOTICE' // will not include NOTICE file
         exclude 'META-INF/LICENSE' // will not include LICENSE file
     }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
 }
 
 
@@ -95,6 +98,13 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:10.2.6'
     compile 'com.android.support:multidex:1.0.1'
     compile files('libs/glide-3.8.0.jar')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile('com.squareup.okhttp:okhttp-urlconnection:2.3.0') {
+        exclude group: 'com.squareup.okhttp', module: 'okhttp'
+    }
+    compile('com.squareup.okhttp:okhttp:2.3.0') {
+        exclude group: 'com.squareup.okio', module: 'okio'
+    }
 }
 apply plugin: 'com.google.gms.google-services'
 
