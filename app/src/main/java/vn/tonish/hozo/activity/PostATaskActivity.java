@@ -498,23 +498,23 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                     public void onDateSet(DatePicker view, final int year,
                                           final int monthOfYear, final int dayOfMonth) {
 
-                        timeEndPickerDialog = new TimePickerDialog(PostATaskActivity.this,
-                                new TimePickerDialog.OnTimeSetListener() {
+                        if (view.isShown()) {
+                            timeEndPickerDialog = new TimePickerDialog(PostATaskActivity.this,
+                                    new TimePickerDialog.OnTimeSetListener() {
+                                        @Override
+                                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                                              int minute) {
+                                            if (view.isShown()) {
+                                                LogUtils.d(TAG, "openDatePicker onTimeSet , year : " + year + " , monthOfYear : " + monthOfYear + " , dayOfMonth : " + dayOfMonth);
+                                                LogUtils.d(TAG, "openDatePicker onTimeSet , hourOfDay : " + hourOfDay + " , minute : " + minute + " , dayOfMonth : " + dayOfMonth);
 
-                                    @Override
-                                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                                          int minute) {
+                                                Calendar c2 = Calendar.getInstance();
 
-                                        LogUtils.d(TAG, "openDatePicker onTimeSet , year : " + year + " , monthOfYear : " + monthOfYear + " , dayOfMonth : " + dayOfMonth);
-                                        LogUtils.d(TAG, "openDatePicker onTimeSet , hourOfDay : " + hourOfDay + " , minute : " + minute + " , dayOfMonth : " + dayOfMonth);
-
-                                        Calendar c2 = Calendar.getInstance();
-
-                                        if (year == c2.get(Calendar.YEAR)
-                                                && monthOfYear == c2.get(Calendar.MONTH)
-                                                && dayOfMonth == c2.get(Calendar.DAY_OF_MONTH)
-                                                && (hourOfDay < c2.get(Calendar.HOUR_OF_DAY) || (hourOfDay == c2.get(Calendar.HOUR_OF_DAY) && minute <= (c2.get(Calendar.MINUTE) + 30)))) {
-                                            Utils.showLongToast(PostATaskActivity.this, getString(R.string.post_task_time_start_error), true, false);
+                                                if (year == c2.get(Calendar.YEAR)
+                                                        && monthOfYear == c2.get(Calendar.MONTH)
+                                                        && dayOfMonth == c2.get(Calendar.DAY_OF_MONTH)
+                                                        && (hourOfDay < c2.get(Calendar.HOUR_OF_DAY) || (hourOfDay == c2.get(Calendar.HOUR_OF_DAY) && minute <= (c2.get(Calendar.MINUTE) + 30)))) {
+                                                    Utils.showLongToast(PostATaskActivity.this, getString(R.string.post_task_time_start_error), true, false);
 
 //                                            Handler handler = new Handler();
 //                                            handler.postDelayed(new Runnable() {
@@ -523,23 +523,25 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 //                                                    timeEndPickerDialog.show();
 //                                                }
 //                                            }, 100);
-                                        } else {
-                                            calendar.set(year, monthOfYear, dayOfMonth);
-                                            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                            calendar.set(Calendar.MINUTE, minute);
-                                            String strDate = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year + " " + hourOfDay + ":" + minute;
-                                            tvDate.setText(strDate);
-                                            tvDate.setError(null);
+                                                } else {
+                                                    calendar.set(year, monthOfYear, dayOfMonth);
+                                                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                                    calendar.set(Calendar.MINUTE, minute);
+                                                    String strDate = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year + " " + hourOfDay + ":" + minute;
+                                                    tvDate.setText(strDate);
+                                                    tvDate.setError(null);
+                                                }
+                                            }
                                         }
-                                    }
-                                }, calendar.get((Calendar.HOUR_OF_DAY)), calendar.get(Calendar.MINUTE), false);
-                        timeEndPickerDialog.setTitle(getString(R.string.post_task_time_picker_title));
-                        timeEndPickerDialog.show();
+                                    }, calendar.get((Calendar.HOUR_OF_DAY)), calendar.get(Calendar.MINUTE), false);
+                            timeEndPickerDialog.setTitle(getString(R.string.post_task_time_picker_title));
+                            timeEndPickerDialog.show();
 
 //                        tvDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
 //                        calendar.set(year, monthOfYear, dayOfMonth);
 //                        tvDate.setTextColor(ContextCompat.getColor(PostATaskActivity.this, R.color.tv_black));
 //                        tvDate.setError(null);
+                        }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
