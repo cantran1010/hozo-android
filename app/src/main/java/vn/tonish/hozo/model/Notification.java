@@ -5,16 +5,11 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Date;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
 /**
  * Created by Can Tran on 12/04/2017.
  */
 
-public class Notification extends RealmObject implements Serializable {
-
-    @PrimaryKey
+public class Notification implements Serializable {
     private int id;
     @SerializedName("user_id")
     private int userId;
