@@ -23,7 +23,7 @@ public class TouchImageView extends AppCompatImageView {
     private final PointF start = new PointF();
     private final float minScale = 0.5f;
     private float doubleClickScale = 2f;
-    private float maxScale = 6f;
+    private float maxScale = 10f;
     private float[] m;
     private int viewWidth;
     private int viewHeight;
