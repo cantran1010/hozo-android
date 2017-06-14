@@ -49,8 +49,8 @@ public class TaskProgressView extends LinearLayout {
     }
 
     public void updateData(int numberBid, int numberRemain, int numberEmploy) {
-        String s1 = numberBid + getContext().getString(R.string.number_bit_footer_des);
-        String s2 = numberEmploy + getContext().getString(R.string.number_employ_footer_des);
+        String s1 = numberBid + getContext().getString(R.string.all_space_type) + getContext().getString(R.string.number_bit_footer_des);
+        String s2 = numberEmploy + getContext().getString(R.string.all_space_type) + getContext().getString(R.string.number_employ_footer_des);
 
         tvNumberBid.setText(s1);
         tvNumberEmploy.setText(s2);
