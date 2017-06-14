@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import org.json.JSONException;
@@ -62,6 +63,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     private RecyclerView lvList;
     private EdittextHozo edtComment;
     private RelativeLayout imgLayout;
+    private LinearLayout layoutFooter;
     private ImageView imgAttached;
     private List<Comment> mComments;
     private int taskId = 0;
@@ -74,6 +76,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private Call<List<Comment>> call;
     private String commentType = "";
+    private int vilibisity;
 
     @Override
     protected int getLayout() {
@@ -86,6 +89,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         edtComment = (EdittextHozo) findViewById(R.id.edt_comment);
         imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
+        layoutFooter = (LinearLayout) findViewById(R.id.layout_footer);
         imgAttached = (ImageView) findViewById(R.id.img_attached);
         ImageView imgDelete = (ImageView) findViewById(R.id.img_delete);
         ImageView imgComment = (ImageView) findViewById(R.id.img_send);
@@ -102,8 +106,14 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     protected void initData() {
         taskId = getIntent().getExtras().getInt(Constants.TASK_ID_EXTRA);
         commentType = getIntent().getStringExtra(Constants.COMMENT_STATUS_EXTRA);
+        vilibisity = getIntent().getIntExtra(Constants.COMMENT_VISIBILITY, 0);
         LogUtils.d(TAG, "intent :" + taskId + ": " + commentType);
         setUpRecyclerView();
+        if (View.VISIBLE == vilibisity) {
+            layoutFooter.setVisibility(View.VISIBLE);
+        } else {
+            layoutFooter.setVisibility(View.GONE);
+        }
     }
 
     private void setUpRecyclerView() {
@@ -221,7 +231,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         ProgressDialogUtils.showProgressDialog(this);
         final JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put("body", edtComment.getText().toString());
+            jsonRequest.put("body", edtComment.getText().toString().trim());
             if (imgPath != null)
                 jsonRequest.put("image_id", tempId);
         } catch (JSONException e) {

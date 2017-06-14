@@ -5,11 +5,8 @@ import android.content.Context;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
-import com.crashlytics.android.Crashlytics;
-
 import io.realm.Realm;
 import vn.tonish.hozo.database.manager.RealmDbHelper;
-import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.utils.TypefaceContainer;
 
 
@@ -33,8 +30,8 @@ public class HozoApplication extends Application {
 //                .build();
 //        Fabric.with(fabric);
 
-        if (UserManager.checkLogin())
-            Crashlytics.setInt("user_id", UserManager.getMyUser().getId());
+//        if (UserManager.checkLogin())
+//            Crashlytics.setInt("user_id", UserManager.getMyUser().getId());
 
 //        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/NanumBarunGothic.ttf");
     }
