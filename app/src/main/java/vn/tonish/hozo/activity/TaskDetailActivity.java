@@ -667,6 +667,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         Intent intent = new Intent(this, CommentsActivity.class);
         intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
         intent.putExtra(Constants.COMMENT_STATUS_EXTRA, commentType);
+        intent.putExtra(Constants.COMMENT_VISIBILITY, layoutFooter.getVisibility());
         startActivity(intent, TransitionScreen.DOWN_TO_UP);
     }
 
@@ -680,6 +681,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         } else {
             doAttachImage();
         }
+        updateSeeMoreComment();
     }
 
     private void doAttachImage() {
