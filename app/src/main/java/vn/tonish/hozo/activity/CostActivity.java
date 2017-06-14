@@ -5,9 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.utils.NumberTextWatcher;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
@@ -47,8 +45,8 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
         Intent intent = getIntent();
         minCost = intent.getExtras().getInt(Constants.EXTRA_MIN_PRICE);
         maxCost = intent.getExtras().getInt(Constants.EXTRA_MAX_PRICE);
-        edtMinPrice.addTextChangedListener(new NumberTextWatcher(edtMinPrice));
-        edtMaxPrice.addTextChangedListener(new NumberTextWatcher(edtMaxPrice));
+            edtMinPrice.addTextChangedListener(new NumberTextWatcher(edtMinPrice));
+            edtMaxPrice.addTextChangedListener(new NumberTextWatcher(edtMaxPrice));
         setDataForView();
     }
 
@@ -81,39 +79,57 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
 
     private void setDataForView() {
         if (minCost == 0)
-            edtMinPrice.setText(String.valueOf((int) SettingManager.getSettingEntiny().getMinWorkerRate()));
+            edtMinPrice.setText("");
         else
             edtMinPrice.setText(String.valueOf(minCost));
         if (maxCost == 0)
-            edtMaxPrice.setText(String.valueOf((int) SettingManager.getSettingEntiny().getMaxWorkerRate()));
+            edtMaxPrice.setText("");
         else
             edtMaxPrice.setText(String.valueOf(maxCost));
 
     }
 
     private void save() {
+        boolean isOk = false;
+        int maxPrice = 0;
+        int minPrice = 0;
         String strMin = edtMinPrice.getText().toString().trim();
         String strMax = edtMaxPrice.getText().toString().trim();
-        if (strMin.isEmpty()) {
-            edtMinPrice.setError(getString(R.string.erro_emply_price));
+        if (strMin.isEmpty() && strMax.isEmpty()) {
+            isOk = true;
+        } else if (strMin.isEmpty()) {
+            maxPrice = Integer.valueOf(edtMaxPrice.getText().toString().replace(".", "").replace(",", ""));
+            if (maxPrice <= 10000) {
+                edtMaxPrice.setError(getString(R.string.erro_emply_price));
+            } else {
+                isOk = true;
+            }
         } else if (strMax.isEmpty()) {
-            edtMaxPrice.setError(getString(R.string.erro_emply_price));
-        } else {
-            int minPrice = Integer.parseInt(edtMinPrice.getText().toString().replace(".", "").replace(",",""));
-            int maxPrice = Integer.valueOf(edtMaxPrice.getText().toString().replace(".", "").replace(",",""));
+            minPrice = Integer.parseInt(edtMinPrice.getText().toString().replace(".", "").replace(",", ""));
             if (minPrice < 10000) {
                 edtMinPrice.setError(getString(R.string.erro_emply_price));
-            } else if (maxPrice > 100000000)
-                edtMaxPrice.setError(getString(R.string.erro_emply_price));
-            else if (maxPrice < minPrice)
-                Utils.showLongToast(this, getString(R.string.erro_price), true, false);
-            else {
-                Intent intent = new Intent();
-                intent.putExtra(Constants.EXTRA_MIN_PRICE, minPrice);
-                intent.putExtra(Constants.EXTRA_MAX_PRICE, maxPrice);
-                setResult(Constants.RESULT_CODE_COST, intent);
-                finish();
+            } else {
+                isOk = true;
             }
+
+        } else {
+            maxPrice = Integer.valueOf(edtMaxPrice.getText().toString().replace(".", "").replace(",", ""));
+            minPrice = Integer.parseInt(edtMinPrice.getText().toString().replace(".", "").replace(",", ""));
+            if (minPrice >= maxPrice) {
+                Utils.showLongToast(this, getString(R.string.erro_price), true, false);
+            } else if (minPrice >= 10000) {
+                isOk = true;
+            } else {
+                edtMinPrice.setError(getString(R.string.erro_emply_price));
+            }
+        }
+
+        if (isOk) {
+            Intent intent = new Intent();
+            intent.putExtra(Constants.EXTRA_MIN_PRICE, minPrice);
+            intent.putExtra(Constants.EXTRA_MAX_PRICE, maxPrice);
+            setResult(Constants.RESULT_CODE_COST, intent);
+            finish();
         }
     }
 

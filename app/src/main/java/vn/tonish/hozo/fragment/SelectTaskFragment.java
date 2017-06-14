@@ -84,7 +84,8 @@ public class SelectTaskFragment extends BaseFragment {
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     categories.clear();
                     for (Category category : response.body())
-                        if (category.getStatus().equals(Constants.CATEGORY_ACTIVE)) categories.add(category);
+                        if (category.getStatus().equals(Constants.CATEGORY_ACTIVE))
+                            categories.add(category);
 
                     refreshCategory();
                     inserCategory(response.body());
@@ -206,8 +207,8 @@ public class SelectTaskFragment extends BaseFragment {
         settingEntiny.setLocation("Hà Nội");
         settingEntiny.setRadius(0);
         settingEntiny.setGender(getString(R.string.gender_vn_any));
-        settingEntiny.setMinWorkerRate(10000);
-        settingEntiny.setMaxWorkerRate(100000000);
+        settingEntiny.setMinWorkerRate(0);
+        settingEntiny.setMaxWorkerRate(0);
         SettingManager.insertSetting(settingEntiny);
     }
 
