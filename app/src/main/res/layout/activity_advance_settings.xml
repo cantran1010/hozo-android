@@ -45,16 +45,12 @@
     </RelativeLayout>
 
     <vn.tonish.hozo.view.ButtonHozo
+        style="@style/btn_style_normal"
         android:id="@+id/btn_save"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:background="@drawable/btn_selector"
-        android:gravity="center"
-        android:text="@string/btn_save"
-        android:textColor="@color/white"
-        android:textSize="@dimen/tv_size_lager" />
+        android:text="@string/btn_save" />
 
     <ScrollView
         android:layout_width="match_parent"

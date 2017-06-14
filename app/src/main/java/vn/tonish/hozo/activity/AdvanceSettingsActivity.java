@@ -42,7 +42,7 @@ import static vn.tonish.hozo.utils.Utils.formatNumber;
 
 public class AdvanceSettingsActivity extends BaseActivity implements View.OnClickListener {
     private final static String TAG = AdvanceSettingsActivity.class.getSimpleName();
-    private TextViewHozo tvWorkType, tvPrice, tvLocation,tvRadius;
+    private TextViewHozo tvWorkType, tvPrice, tvLocation, tvRadius;
     private ButtonHozo btnReset, btnSave;
     private double lat;
     private double lng;
@@ -169,7 +169,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         mRadius = 0;
         strRadius = getString(R.string.radius_everywhere);
         minWorkerRate = 10000;
-        maxWorkerRate = 100000000;
+        maxWorkerRate = 0;
         getNameCategorys((ArrayList<Category>) DataParse.convertListCategoryEntityToListCategory(CategoryManager.getAllCategories()));
         for (Category category1 : mCategory.getCategories()
                 ) {
@@ -212,10 +212,18 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
 
     private void setDataforView() {
-        SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
         tvWorkType.setText(nameTask);
-        String strprice = formatNumber(settingEntiny.getMinWorkerRate()) + " - " + formatNumber(settingEntiny.getMaxWorkerRate());
-        tvPrice.setText(strprice);
+        String sPrice = "";
+        if (minWorkerRate == 0 && maxWorkerRate == 0)
+            sPrice = getString(R.string.more_than) + getString(R.string.all_space_type) + formatNumber(10000);
+        else if (minWorkerRate == 0) {
+            sPrice = getString(R.string.less_than) + getString(R.string.all_space_type) + formatNumber(maxWorkerRate);
+        } else if (maxWorkerRate == 0) {
+            sPrice = getString(R.string.more_than) + getString(R.string.all_space_type) + formatNumber(minWorkerRate);
+        } else {
+            sPrice = formatNumber(minWorkerRate) + " - " + formatNumber(maxWorkerRate);
+        }
+        tvPrice.setText(sPrice);
         tvLocation.setText(strLocation);
         tvRadius.setText(strRadius);
 
@@ -266,9 +274,17 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
             LogUtils.d(TAG, "REQUEST_CODE_COST" + minWorkerRate + "-" + maxWorkerRate);
             minWorkerRate = (int) data.getExtras().get(Constants.EXTRA_MIN_PRICE);
             maxWorkerRate = (int) data.getExtras().get(Constants.EXTRA_MAX_PRICE);
-            String sPrice = formatNumber(minWorkerRate) + " - " + formatNumber(maxWorkerRate);
+            String sPrice = "";
+            if (minWorkerRate == 0 && maxWorkerRate == 0)
+                sPrice = getString(R.string.more_than) + getString(R.string.all_space_type) + formatNumber(10000);
+            else if (minWorkerRate == 0) {
+                sPrice = getString(R.string.less_than) + getString(R.string.all_space_type) + formatNumber(maxWorkerRate);
+            } else if (maxWorkerRate == 0) {
+                sPrice = getString(R.string.more_than) + getString(R.string.all_space_type) + formatNumber(minWorkerRate);
+            } else {
+                sPrice = formatNumber(minWorkerRate) + " - " + formatNumber(maxWorkerRate);
+            }
             tvPrice.setText(sPrice);
-
         }
         if (requestCode == REQUEST_CODE_RADIUS && resultCode == Constants.RESULT_RADIUS && data != null) {
             mRadius = (int) data.getExtras().get(Constants.EXTRA_RADIUS);

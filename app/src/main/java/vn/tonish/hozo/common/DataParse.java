@@ -322,8 +322,10 @@ public class DataParse {
     public static Map<String, String> setParameterGetTasks(String sortBy, String limit, String since, String query) {
         SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
         Map<String, String> option = new HashMap<>();
-        option.put("min_worker_rate", String.valueOf(settingEntiny.getMinWorkerRate()));
-        option.put("max_worker_rate", String.valueOf(settingEntiny.getMaxWorkerRate()));
+        if (settingEntiny.getMinWorkerRate() > 0)
+            option.put("min_worker_rate", String.valueOf(settingEntiny.getMinWorkerRate()));
+        if (settingEntiny.getMaxWorkerRate() > 0)
+            option.put("max_worker_rate", String.valueOf(settingEntiny.getMaxWorkerRate()));
         option.put("latitude", String.valueOf(settingEntiny.getLatitude()));
         option.put("longitude", String.valueOf(settingEntiny.getLongitude()));
         option.put("distance", String.valueOf(settingEntiny.getRadius()));
