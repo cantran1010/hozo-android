@@ -23,8 +23,8 @@ abstract class BaseDialogFullScreenAnimFadeInOut extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.setCancelable(true);
-        this.setCanceledOnTouchOutside(true);
+        this.setCancelable(false);
+        this.setCanceledOnTouchOutside(false);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

@@ -39,7 +39,7 @@ import java.util.Locale;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.dialog.AlertDialogOk;
+import vn.tonish.hozo.dialog.AlertDialogOkFullScreen;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
@@ -191,7 +191,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             isOnLocation = false;
             mLocationProvider.connect();
             LogUtils.d(TAG, "onMapReady !!!!!! canGetLocation");
-            DialogUtils.showOkDialog(this, getString(R.string.app_name), getString(R.string.msg_err_gps), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+            DialogUtils.showOkDialogFullScreen(this, getString(R.string.app_name), getString(R.string.msg_err_gps), getString(R.string.ok), new AlertDialogOkFullScreen.AlertDialogListener() {
                 @Override
                 public void onSubmit() {
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -365,12 +365,16 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 //                tvAddress.setError(null);
             }
 
-            if (addRess.getMaxAddressLineIndex() > 1) {
+            if (addRess.getMaxAddressLineIndex() >= 1) {
                 work.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
+            } else {
+                work.setCity(addRess.getAddressLine(0));
             }
 
-            if (addRess.getMaxAddressLineIndex() > 2) {
+            if (addRess.getMaxAddressLineIndex() >= 2) {
                 work.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
+            } else {
+                work.setDistrict(addRess.getAddressLine(0));
             }
 
             work.setAddress(autocompleteView.getText().toString());
@@ -448,7 +452,10 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 //            return;
 //        }
 
-        if (work.getLatitude() == 0 || work.getLongitude() == 0) {
+        if (work.getLatitude() == 0 || work.getLongitude() == 0
+                || work.getAddress() == null || work.getAddress().equals("")
+                || work.getCity() == null || work.getCity().equals("")
+                || work.getAddress() == null || work.getAddress().equals("")) {
             Utils.showLongToast(this, getString(R.string.post_a_task_map_get_location_error_next), true, false);
             return;
         }
