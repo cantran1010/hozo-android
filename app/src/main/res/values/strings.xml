@@ -148,7 +148,6 @@
     <string name="profile_address">Địa chỉ</string>
     <string name="profile_phone">Điện thoại</string>
     <string name="content_description_send">Gửi</string>
-    <string name="content_description_verify">Đã xác thực</string>
     <string name="post_a_task_budget_error">Vui lòng nhập số tiền cho một người</string>
     <string name="post_a_task_number_worker_error">Vui lòng nhập số người cần thuê</string>
     <string name="post_a_task_max_attach_err">Bạn chỉ được chọn tối đa 6 ảnh</string>
