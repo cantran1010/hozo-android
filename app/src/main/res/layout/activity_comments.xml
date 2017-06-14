@@ -43,7 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/layout_footer"
-        android:layout_below="@+id/layout_header" />
+        android:layout_below="@+id/layout_header"
+        android:scrollbars="vertical" />
 
     <include
         android:id="@+id/layout_footer"
