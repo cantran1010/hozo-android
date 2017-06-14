@@ -23,8 +23,7 @@
 
         <activity
             android:name=".activity.SplashActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,22 +41,17 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.TaskDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.HomeActivity"
-            android:label="@string/app_name"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.PostATaskActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.AdvanceSettingsActivity"
             android:screenOrientation="portrait" />
@@ -66,42 +60,37 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ShareActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PostATaskActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.PostATaskMapActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PostATaskFinishActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AlbumActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ImageSelectActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CropImageActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.PreviewImageActivity" />
+        <activity android:name=".activity.PreviewImageListActivity" />
         <activity
             android:name=".activity.ReportTaskActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ReplyActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RateActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activity.PreviewImageListActivity" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.BrowserTaskMapActivity"
             android:screenOrientation="portrait" />
@@ -112,10 +101,29 @@
             android:name=".activity.EditProfileActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.ReviewsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TaskTypeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CommentsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CostActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ShowTaskWithin"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBPbEgWfBIyEQ-LPB28kM_BF_2urrGNqz8" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="a5706b90dc87e8fd7eb3b77dfb9f0ae4e43bc71d" />
 
         <service
             android:name=".fcm.MyFireBaseMessagingService"
@@ -124,6 +132,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <service
             android:name=".fcm.MyFireBaseInstanceIDService"
             android:exported="false">
@@ -132,29 +141,6 @@
             </intent-filter>
         </service>
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="a5706b90dc87e8fd7eb3b77dfb9f0ae4e43bc71d" />
-
-        <activity
-            android:name=".activity.ReviewsActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activity.TaskTypeActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activity.CommentsActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activity.CostActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activity.ShowTaskWithin"
-            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
