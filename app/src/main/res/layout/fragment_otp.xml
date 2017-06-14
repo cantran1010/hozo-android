@@ -47,10 +47,14 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
+
                     <vn.tonish.hozo.view.EdittextHozo
                         android:id="@+id/pin_first_edittext"
                         style="@style/pin_edit_text_style"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:windowSoftInputMode="stateVisible" />
+
+                    <requestFocus />
 
 
                     <vn.tonish.hozo.view.EdittextHozo

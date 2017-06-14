@@ -401,7 +401,7 @@ public class Utils {
         Pattern patternIdName = Pattern.compile(authorName);
         Matcher matcherIdName = patternIdName.matcher(tvContent.getText().toString());
         while (matcherIdName.find()) {
-            spannable.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), matcherIdName.start(), matcherIdName.end(), 0);
+            spannable.setSpan(new android.text.style.StyleSpan(Typeface.NORMAL), matcherIdName.start(), matcherIdName.end(), 0);
             spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), matcherIdName.start(), matcherIdName.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
@@ -409,7 +409,7 @@ public class Utils {
         Pattern patternIdTaskName = Pattern.compile(matcherTaskName);
         Matcher matcherIdTaskName = patternIdTaskName.matcher(tvContent.getText().toString());
         while (matcherIdTaskName.find()) {
-            spannable.setSpan(new android.text.style.StyleSpan(Typeface.ITALIC), matcherIdTaskName.start(), matcherIdTaskName.end(), 0);
+            spannable.setSpan(new android.text.style.StyleSpan(Typeface.NORMAL), matcherIdTaskName.start(), matcherIdTaskName.end(), 0);
             spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), matcherIdTaskName.start(), matcherIdTaskName.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 

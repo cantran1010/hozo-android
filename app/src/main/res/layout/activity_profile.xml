@@ -315,7 +315,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="25dp"
                     android:text="@string/profile_rate"
-                    android:textColor="@color/blue" />
+                    android:textColor="@color/blue"
+                    android:textStyle="bold" />
 
                 <vn.tonish.hozo.view.ReviewsListView
                     android:id="@+id/rcv_reviews"

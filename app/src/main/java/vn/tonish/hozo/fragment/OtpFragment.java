@@ -82,7 +82,6 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
         mPinThirdDigitEditText.setOnFocusChangeListener(this);
         mPinForthDigitEditText.setOnFocusChangeListener(this);
 
-
         mPinFirstDigitEditText.setOnKeyListener(this);
         mPinSecondDigitEditText.setOnKeyListener(this);
         mPinThirdDigitEditText.setOnKeyListener(this);

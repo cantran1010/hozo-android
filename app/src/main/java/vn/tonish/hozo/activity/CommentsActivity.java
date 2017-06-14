@@ -2,7 +2,10 @@ package vn.tonish.hozo.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -77,6 +80,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     private Call<List<Comment>> call;
     private String commentType = "";
     private int vilibisity;
+    private boolean isSend = false;
 
     @Override
     protected int getLayout() {
@@ -121,6 +125,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         commentsAdapter = new CommentsAdapter(this, mComments);
         LinearLayoutManager lvManager = new LinearLayoutManager(this);
         lvManager.setReverseLayout(true);
+        lvManager.setStackFromEnd(true);
         lvList.setLayoutManager(lvManager);
         commentsAdapter.setCommentType(commentType);
         lvList.setAdapter(commentsAdapter);
@@ -167,8 +172,6 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                     }
                     LogUtils.d(TAG, "getComments size : " + mComments.size());
 
-//                    CommentsManager.insertComments(comments);
-
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(CommentsActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -201,7 +204,6 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                 });
 
                 commentsAdapter.stopLoadMore();
-                onStopRefresh();
                 commentsAdapter.notifyDataSetChanged();
 
             }
@@ -211,10 +213,17 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void resumeData() {
+        registerReceiver(broadcastReceiver, new IntentFilter("MyBroadcast"));
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
     }
 
     private void doSend() {
+        isSend = true;
         if (edtComment.getText().toString().trim().equals("")) {
             Utils.showLongToast(this, getString(R.string.empty_content_comment_error), true, false);
             return;
@@ -404,16 +413,6 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                 // write your logic here
                 permissionGranted();
             } else {
-//                snackbar = Snackbar.make(findViewById(android.R.id.content),
-//                        getString(R.string.attach_image_permission_message),
-//                        Snackbar.LENGTH_INDEFINITE).setAction(getString(R.string.attach_image_permission_confirm),
-//                        new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                ActivityCompat.requestPermissions(PostATaskActivity.this, permissions, Constants.PERMISSION_REQUEST_CODE);
-//                            }
-//                        });
-//                snackbar.show();
                 permissionDenied();
             }
         }
@@ -450,21 +449,35 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         return imgUri;
     }
 
-//    @Override
-//    public void onRefresh() {
-//        super.onRefresh();
-//        if (call != null) call.cancel();
-//        isLoadingMoreFromServer = true;
-//        commentsAdapter.onLoadMore();
-//        strSince = null;
-//        getComments(null);
-//    }
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.hasExtra(Constants.COMMENT_EXTRA)) {
+                Comment comment = (Comment) intent.getSerializableExtra(Constants.COMMENT_EXTRA);
+                LogUtils.d(TAG, "broadcastReceiver , comment : " + comment.toString());
+                edtComment.setText(getString(R.string.task_detail_reply_member, comment.getFullName()));
+                edtComment.setSelection(edtComment.getText().length());
+            }
+        }
+    };
+
+    @Override
+    public void onBackPressed() {
+        Intent in = new Intent();
+        in.putExtra(Constants.EXTRA_SEND_COMMENT, isSend);
+        setResult(Constants.RESULT_CODE_SEND_COMMENT, in);
+        finish();
+    }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_back:
+                Intent in = new Intent();
+                in.putExtra(Constants.EXTRA_SEND_COMMENT, isSend);
+                setResult(Constants.RESULT_CODE_SEND_COMMENT, in);
                 finish();
                 break;
             case R.id.img_send:

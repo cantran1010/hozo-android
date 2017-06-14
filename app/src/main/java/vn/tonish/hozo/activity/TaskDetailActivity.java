@@ -455,7 +455,6 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         realm.commitTransaction();
         commentViewFull.setCommentType(commentType);
         commentViewFull.updateData(comments);
-
         tvBidderCount.setText(getString(R.string.count_in_detail, taskResponse.getBidderCount()));
         tvAssignCount.setText(getString(R.string.count_in_detail, taskResponse.getAssigneeCount()));
         tvCommentCount.setText(getString(R.string.count_in_detail, taskResponse.getCommentsCount()));
@@ -668,7 +667,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
         intent.putExtra(Constants.COMMENT_STATUS_EXTRA, commentType);
         intent.putExtra(Constants.COMMENT_VISIBILITY, layoutFooter.getVisibility());
-        startActivity(intent, TransitionScreen.DOWN_TO_UP);
+        startActivityForResult(intent, Constants.REQUEST_CODE_SEND_COMMENT, TransitionScreen.DOWN_TO_UP);
     }
 
     private void doSend() {
@@ -854,6 +853,11 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             fileAttach = new File(imgPath);
         } else if (requestCode == Constants.REQUEST_CODE_RATE && resultCode == RESPONSE_CODE_RATE) {
             getData();
+        } else if (requestCode == Constants.REQUEST_CODE_SEND_COMMENT && resultCode == Constants.RESULT_CODE_SEND_COMMENT) {
+            if (data.getExtras().getBoolean(Constants.EXTRA_SEND_COMMENT)) {
+                LogUtils.d(TAG, "is Send " + data.getExtras().getBoolean(Constants.EXTRA_SEND_COMMENT));
+                getData();
+            }
         }
 
     }
