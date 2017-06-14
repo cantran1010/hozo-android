@@ -171,4 +171,7 @@ public class Constants {
     public static final int RESPONSE_CODE_RATE = 543;
     public static final long MAX_FILE_SIZE = 5; //MB
     public static final String COMMENT_VISIBILITY ="comment_visibility" ;
+    public static final String EXTRA_SEND_COMMENT = "send_comment";
+    public static final int RESULT_CODE_SEND_COMMENT =1021 ;
+    public static final int REQUEST_CODE_SEND_COMMENT =1022 ;
 }

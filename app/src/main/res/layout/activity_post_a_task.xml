@@ -97,6 +97,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginRight="25dp"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:hint="@string/date_pick_hint"
