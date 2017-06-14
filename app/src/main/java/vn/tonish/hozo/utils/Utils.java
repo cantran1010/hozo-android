@@ -177,6 +177,7 @@ public class Utils {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            if (bmp != null) bmp.recycle();
             try {
                 if (out != null) {
                     out.close();
@@ -213,13 +214,21 @@ public class Utils {
                 }
 
                 if (angle != 0) {
-                    Matrix mat = new Matrix();
-                    mat.postRotate(angle);
+                    try {
+                        Matrix mat = new Matrix();
+                        mat.postRotate(angle);
 
-                    Bitmap correctBmp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), mat, true);
-                    bitmap = Bitmap.createScaledBitmap(correctBmp, (int) (correctBmp.getWidth() / scale), (int) (correctBmp.getHeight() / scale), false);
+                        //maybe out of memory when create bitmap so need scale bitmap before create and rotate bitmap
+                        Bitmap bmpScale = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() / scale), (int) (bitmap.getHeight() / scale), false);
+                        bitmap = Bitmap.createBitmap(bmpScale, 0, 0, bmpScale.getWidth(), bmpScale.getHeight(), mat, true);
 
-                    correctBmp.recycle();
+//                    Bitmap correctBmp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), mat, true);
+//                    bitmap = Bitmap.createScaledBitmap(correctBmp, (int) (correctBmp.getWidth() / scale), (int) (correctBmp.getHeight() / scale), false);
+
+                        bmpScale.recycle();
+                    } catch (OutOfMemoryError e) {
+                        e.printStackTrace();
+                    }
 
                 } else {
                     bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() / scale), (int) (bitmap.getHeight() / scale), false);
@@ -228,8 +237,8 @@ public class Utils {
                 fileOut = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
                 Utils.compressBitmapToFile(bitmap, fileOut.getPath());
 
-                //recycle bitmap
-                bitmap.recycle();
+//                //recycle bitmap
+//                bitmap.recycle();
 
                 return fileOut;
             } catch (Exception e) {
@@ -266,7 +275,7 @@ public class Utils {
                     fileOut = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
                     Utils.compressBitmapToFile(bitmap, fileOut.getPath());
 
-                    bitmap.recycle();
+//                    bitmap.recycle();
                     return fileOut;
 
                 } catch (IOException e) {
