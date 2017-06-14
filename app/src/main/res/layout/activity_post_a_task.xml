@@ -147,6 +147,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/border_gray"
                 android:gravity="top"
+                android:imeOptions="actionDone"
                 android:inputType="text"
                 android:minHeight="80dp"
                 android:padding="5dp"
