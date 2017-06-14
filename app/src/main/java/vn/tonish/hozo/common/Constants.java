@@ -171,4 +171,5 @@ public class Constants {
     public static final int RESPONSE_CODE_RATE = 543;
     public static final long MAX_FILE_SIZE = 5; //MB
     public static final String COMMENT_VISIBILITY ="comment_visibility" ;
+    public static String BID_ERROR_SAME_TIME = "no_permission_offer";
 }

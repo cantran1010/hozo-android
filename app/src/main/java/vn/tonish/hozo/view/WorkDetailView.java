@@ -299,12 +299,21 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                 } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.e(TAG, "createNewTask errorBody" + error.toString());
-                    DialogUtils.showOkDialog(getContext(), getContext().getString(R.string.error), error.message(), getContext().getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
+                    if (error.status().equals(Constants.BID_ERROR_SAME_TIME)) {
+                        DialogUtils.showOkDialog(getContext(), getContext().getString(R.string.error), getContext().getString(R.string.offer_error_time), getContext().getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
 
-                        }
-                    });
+                            }
+                        });
+                    } else {
+                        DialogUtils.showOkDialog(getContext(), getContext().getString(R.string.error), error.message(), getContext().getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getContext(), new NetworkUtils.RefreshListener() {
                         @Override
