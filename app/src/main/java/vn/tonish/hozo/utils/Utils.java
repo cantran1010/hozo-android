@@ -528,4 +528,28 @@ public class Utils {
         notifManager.cancelAll();
     }
 
+    public static void sendMail(Context context, String mailTo) {
+        try {
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                    "mailto", mailTo, null));
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.support_mail_subject));
+            emailIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.support_mail_body));
+            context.startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        } catch (Exception e) {
+            e.printStackTrace();
+            showLongToast(context, context.getString(R.string.send_mail_error), true, false);
+        }
+    }
+
+    public static void openBrowser(Context context, String url) {
+        try {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            context.startActivity(i);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showLongToast(context, context.getString(R.string.open_brower_error), true, false);
+        }
+    }
+
 }

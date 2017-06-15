@@ -36,7 +36,6 @@ public class Constants {
     public static final String COUNT_IMAGE_ATTACH_EXTRA = "extra_count_image";
 
     public static final boolean DEBUG = true;
-    public static final int SPLASH_TIME = 1000;
     public static final String DB_NAME = "hozo";
     public static final String KEY_ENCRYPTION_DEFAULT = "abcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefgh";
 
@@ -174,5 +173,6 @@ public class Constants {
     public static final String EXTRA_SEND_COMMENT = "send_comment";
     public static final int RESULT_CODE_SEND_COMMENT =1021 ;
     public static final int REQUEST_CODE_SEND_COMMENT =1022 ;
+    public static final String BLOCK_EXTRA = "block_extra";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
 }

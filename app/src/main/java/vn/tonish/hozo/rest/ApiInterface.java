@@ -21,6 +21,7 @@ import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
+import vn.tonish.hozo.rest.responseRes.BlockResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.RateResponse;
@@ -33,7 +34,7 @@ import vn.tonish.hozo.rest.responseRes.Token;
 public interface ApiInterface {
 
     @POST("auth/otp_code")
-    Call<Void> getOtpCode(@Header("X-Hozo-API-Key") String apiKey, @Body RequestBody body);
+    Call<BlockResponse> getOtpCode(@Header("X-Hozo-API-Key") String apiKey, @Body RequestBody body);
 
     @PUT("auth/refresh_token")
     Call<Token> refreshToken(@Body RequestBody body);
@@ -55,7 +56,7 @@ public interface ApiInterface {
     Call<UserEntity> updateUser(@Header("Authorization") String token, @Body RequestBody body);
 
     @GET("tasks")
-    Call<List<TaskResponse>> getTasks(@Header("Authorization") String token, @QueryMap Map<String, String> params,@Query("category_ids[]") List<Long> ids);
+    Call<List<TaskResponse>> getTasks(@Header("Authorization") String token, @QueryMap Map<String, String> params, @Query("category_ids[]") List<Long> ids);
 
     @GET("tasks/{taskId}")
     Call<TaskResponse> getDetailTask(@Header("Authorization") String token, @Path("taskId") int taskId);
@@ -102,4 +103,6 @@ public interface ApiInterface {
     @PUT("notifications/device")
     Call<Void> updateDeviceToken(@Header("Authorization") String token, @Body RequestBody body);
 
+    @POST("auth/check_block_user")
+    Call<BlockResponse> checkBlockUser(@Body RequestBody body);
 }

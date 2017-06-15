@@ -1,5 +1,6 @@
 package vn.tonish.hozo.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,11 +18,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.BlockActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
-import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.BlockResponse;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -176,27 +178,29 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
         final String finalMobile = mobile;
-        ApiClient.getApiService().getOtpCode("XXXX", body).enqueue(new Callback<Void>() {
+        ApiClient.getApiService().getOtpCode("XXXX", body).enqueue(new Callback<BlockResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<BlockResponse> call, Response<BlockResponse> response) {
                 LogUtils.d(TAG, "onResponse status code : " + response.code());
-                if (response.isSuccessful() && response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
                     LogUtils.d(TAG, "onResponse body : " + response.body());
                     Bundle bundle = new Bundle();
                     bundle.putString(Constants.USER_MOBILE, finalMobile);
                     openFragment(R.id.layout_container, OtpFragment.class, bundle, true, TransitionScreen.RIGHT_TO_LEFT);
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            login();
-                        }
-                    });
+                } else if (response.code() == Constants.HTTP_CODE_OK) {
+
+                    BlockResponse blockResponse = response.body();
+                    if (blockResponse.getIsBlock()) {
+                        Intent intent = new Intent(getActivity(), BlockActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra(Constants.BLOCK_EXTRA, blockResponse);
+                        startActivity(intent, TransitionScreen.FADE_IN);
+                    }
+
 
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-//                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
                     Utils.showLongToast(getActivity(), error.message(), true, false);
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
@@ -214,7 +218,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<BlockResponse> call, Throwable t) {
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
@@ -231,7 +235,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
             }
         });
-
-
     }
+
 }

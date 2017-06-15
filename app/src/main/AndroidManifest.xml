@@ -116,6 +116,9 @@
         <activity
             android:name=".activity.ShowTaskWithin"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BlockActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

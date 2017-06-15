@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/hozo_bg"
+    android:orientation="vertical">
+
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:text="@string/block_title"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_reasons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/just_image"
+        android:textColor="@color/hozo_red"
+        android:textSize="22sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/img_rate_1_star" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="90dp"
+        android:orientation="vertical">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/block_des"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/block_hotline"
+                android:textColor="@color/white" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/tv_hotline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0978478304"
+                android:textColor="@color/blue_2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/block_email"
+                android:textColor="@color/white" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/tv_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="longbd@tonish.vn"
+                android:textColor="@color/blue_2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/block_link"
+                android:textColor="@color/white" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/tv_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="http://abc.com"
+                android:textColor="@color/blue_2" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
