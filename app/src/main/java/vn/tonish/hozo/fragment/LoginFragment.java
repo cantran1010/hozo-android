@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +29,7 @@ import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.USER_MOBILE;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
@@ -43,7 +43,7 @@ import static vn.tonish.hozo.utils.Utils.showSoftKeyboard;
 public class LoginFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = LoginFragment.class.getSimpleName();
     private EdittextHozo edtPhone;
-    private TextView tvContinue;
+    private TextViewHozo tvContinue, tvHotLine;
 
     @Override
     protected int getLayout() {
@@ -53,9 +53,11 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     @Override
     protected void initView() {
         edtPhone = (EdittextHozo) findViewById(R.id.edt_phone);
-        tvContinue = (TextView) findViewById(R.id.tv_continue);
+        tvContinue = (TextViewHozo) findViewById(R.id.tv_continue);
+        tvHotLine = (TextViewHozo) findViewById(R.id.tv_hotline);
         tvContinue.setOnClickListener(this);
-        showSoftKeyboard(getContext(),edtPhone);
+        tvHotLine.setOnClickListener(this);
+        showSoftKeyboard(getContext(), edtPhone);
     }
 
     @Override
@@ -80,7 +82,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 } else {
                     tvContinue.setAlpha(1f);
                     tvContinue.setEnabled(true);
-                   hideSoftKeyboard(getActivity(), edtPhone);
+                    hideSoftKeyboard(getActivity(), edtPhone);
                 }
 
             }
@@ -114,8 +116,15 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 login();
                 tvContinue.setEnabled(false);
                 break;
+            case R.id.tv_hotline:
+                callHotLine();
+                break;
         }
 
+    }
+
+    private void callHotLine() {
+        Utils.call(getContext(), getString(R.string.hot_line));
     }
 
     private boolean checkNumberPhone(String number) {
@@ -188,7 +197,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
 //                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
-                    Utils.showLongToast(getActivity(),error.message(),true,false);
+                    Utils.showLongToast(getActivity(), error.message(), true, false);
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

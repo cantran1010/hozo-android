@@ -211,7 +211,7 @@
     <string name="task_type">Loại công việc</string>
     <string name="hint_min">Chi phí thấp nhất </string>
     <string name="edt_max">Chi phí cao nhất</string>
-    <string name="erro_emply_price">mức giá không được thấp hơn 10.000 VND</string>
+    <string name="erro_emply_price">Chi phí không được thấp hơn 10.000 VND</string>
     <string name="erro_price">Lỗi! Giá trị xung đột, đề nghị nhập lại. </string>
     <string name="gender_any">any</string>
     <string name="gender_male">male</string>
@@ -335,8 +335,9 @@
     <string name="not_find_task">Không tìm thấy công việc nào</string>
     <string name="post_a_task_map_get_location_error_next">Không thể lấy vị trí của bạn ! Vui lòng thiết lập vị trí làm việc !</string>
     <string name="offer_error_time">Đề nghị làm việc của bạn không được chấp nhận vì bạn đã ứng tuyển một công việc khác vào thời gian này !</string>
-    <string name="emply_price">Bạn chưa nhập giá trị nào</string>
     <string name="less_than">dưới</string>
     <string name="more_than">Trên</string>
+    <string name="code_otp_is_invalid">Mã OPT không hợp lệ</string>
+    <string name="hot_line">0473004886</string>
 
 </resources>

@@ -300,13 +300,13 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
                         }
                     });
 
+                } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
+                    Utils.showLongToast(getActivity(), getString(R.string.code_otp_is_invalid), true, false);
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-//                    Toast.makeText(getContext(), error.message(), Toast.LENGTH_SHORT).show();
                     Utils.showLongToast(getActivity(), error.message(), true, false);
                 }
-
                 ProgressDialogUtils.dismissProgressDialog();
             }
 
