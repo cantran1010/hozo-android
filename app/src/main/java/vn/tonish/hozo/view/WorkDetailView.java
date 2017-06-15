@@ -321,7 +321,9 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                             doOffer();
                         }
                     });
-                } else {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getContext());
+                }else {
                     DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

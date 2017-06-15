@@ -200,7 +200,9 @@ public class InboxFragment extends BaseFragment {
                             getNotifications();
                         }
                     });
-                } else {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getActivity());
+                }else {
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

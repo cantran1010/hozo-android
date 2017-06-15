@@ -40,6 +40,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.SplashActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
@@ -550,6 +551,12 @@ public class Utils {
             e.printStackTrace();
             showLongToast(context, context.getString(R.string.open_brower_error), true, false);
         }
+    }
+
+    public static void blockUser(Context context) {
+        Intent intent = new Intent(context, SplashActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
 }

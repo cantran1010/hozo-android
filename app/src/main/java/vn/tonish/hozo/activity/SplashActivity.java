@@ -19,6 +19,7 @@ import vn.tonish.hozo.rest.responseRes.BlockResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.utils.Utils;
 
 /**
  * Created by CanTran on 4/11/17.
@@ -77,6 +78,8 @@ public class SplashActivity extends BaseActivity {
                         finish();
                     }
 
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(SplashActivity.this);
                 } else {
                     DialogUtils.showRetryDialog(SplashActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
