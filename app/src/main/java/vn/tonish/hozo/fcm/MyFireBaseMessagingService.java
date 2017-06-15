@@ -125,8 +125,10 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(notification.getId() /* ID of notification */, notificationBuilder.build());
 
-//        // if block user ,
-//        if (notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER))
-//            Utils.blockUser(getApplicationContext());
+        if (notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)) {
+            Intent intentBlock = new Intent();
+            intentBlock.setAction(Constants.BROAD_CAST_BLOCK_USER);
+            sendBroadcast(intentBlock);
+        }
     }
 }

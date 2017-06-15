@@ -2,6 +2,7 @@ package vn.tonish.hozo.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 import java.util.Stack;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.broadcast.BlockBroadCastReceiver;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.EdittextHozo;
@@ -30,6 +32,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     private SwipeRefreshLayout swipeRefreshLayout;
     private final Stack<StackEntry> fragmentsStack = new Stack<>();
     private FragmentTransaction transaction;
+    private BlockBroadCastReceiver blockBroadCastReceiver = new BlockBroadCastReceiver();
 
     protected abstract int getLayout();
 
@@ -69,11 +72,13 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     protected void onResume() {
         super.onResume();
         resumeData();
+        registerReceiver(blockBroadCastReceiver, new IntentFilter(Constants.BROAD_CAST_BLOCK_USER));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        unregisterReceiver(blockBroadCastReceiver);
     }
 
     @Override
