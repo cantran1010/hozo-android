@@ -34,7 +34,7 @@ public class Constants {
     public static final int POST_A_TASK_RESPONSE_CODE = 642;
     public static final String COUNT_IMAGE_ATTACH_EXTRA = "extra_count_image";
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     public static final String DB_NAME = "hozo";
     public static final String KEY_ENCRYPTION_DEFAULT = "abcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefgh";
 
