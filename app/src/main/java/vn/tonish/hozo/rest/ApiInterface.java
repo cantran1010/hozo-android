@@ -27,6 +27,7 @@ import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.RateResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.rest.responseRes.Token;
+import vn.tonish.hozo.rest.responseRes.UpdateResponse;
 
 /**
  * Created by LongBui on 09/05/2017.
@@ -105,4 +106,7 @@ public interface ApiInterface {
 
     @POST("auth/check_block_user")
     Call<BlockResponse> checkBlockUser(@Body RequestBody body);
+
+    @POST("applications/check_update")
+    Call<UpdateResponse> apdateVersion(@Body RequestBody body);
 }

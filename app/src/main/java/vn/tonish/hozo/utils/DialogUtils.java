@@ -28,4 +28,12 @@ public class DialogUtils {
         new AlertDialogOkFullScreen(context, title, content, submit, alertDialogListener);
     }
 
+    public static void showReCommendUpdateDialog(Context context, AlertDialogOkAndCancel.AlertDialogListener alertDialogListener) {
+        new AlertDialogOkAndCancel(context, context.getString(R.string.update_version), context.getString(R.string.update_content), context.getString(R.string.oke), context.getString(R.string.report_cancel), alertDialogListener);
+    }
+
+    public static void showForceUpdateDialog(Context context, AlertDialogOkFullScreen.AlertDialogListener alertDialogListener) {
+        new AlertDialogOkFullScreen(context, context.getString(R.string.update_version), context.getString(R.string.update_force_content), context.getString(R.string.update_oke), alertDialogListener);
+    }
+
 }
