@@ -1,6 +1,5 @@
 package vn.tonish.hozo.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -138,7 +137,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 doEdit();
                 break;
             case R.id.btn_logout:
-                logOut(this);
+                logOut();
                 break;
             case R.id.btn_poster:
                 if (tabIndex == 1) break;
@@ -340,54 +339,62 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private void logOut(final Context context) {
-        DialogUtils.showOkAndCancelDialog(context, context.getString(R.string.msg_logOut), context.getString(R.string.msg_contten_logOut), context.getString(R.string.oke), context.getString(R.string.report_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+    private void logOut() {
+        DialogUtils.showOkAndCancelDialog(ProfileActivity.this, getString(R.string.msg_logOut), getString(R.string.msg_contten_logOut), getString(R.string.oke), getString(R.string.report_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
             @Override
             public void onSubmit() {
-                ProgressDialogUtils.showProgressDialog(context);
+                ProgressDialogUtils.showProgressDialog(ProfileActivity.this);
                 ApiClient.getApiService().logOut(UserManager.getUserToken()).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
-                                Realm realm = Realm.getDefaultInstance();
-                                realm.beginTransaction();
-                                realm.deleteAll();
-                                realm.commitTransaction();
-                                Intent intent = new Intent(context, HomeActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                            } else {
-                                showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
-                                    @Override
-                                    public void onSubmit() {
-                                        logOut(context);
-                                    }
-
-                                    @Override
-                                    public void onCancel() {
-
-                                    }
-                                });
-
-                            }
+//                        if (response.isSuccessful()) {
+                        if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                            Realm realm = Realm.getDefaultInstance();
+                            realm.beginTransaction();
+                            realm.deleteAll();
+                            realm.commitTransaction();
+                            Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                            NetworkUtils.refreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
+                                @Override
+                                public void onRefreshFinish() {
+                                    logOut();
+                                }
+                            });
                         } else {
-                            APIError error = ErrorUtils.parseError(response);
-                            LogUtils.d(TAG, "errorBody" + error.toString());
-//                            Toast.makeText(context, error.message(), Toast.LENGTH_SHORT).show();
-                            Utils.showLongToast(context, error.message(), true, false);
+                            showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+                                    logOut();
+                                }
+
+                                @Override
+                                public void onCancel() {
+
+                                }
+                            });
 
                         }
+//                        }
+//                        else {
+//                            APIError error = ErrorUtils.parseError(response);
+//                            LogUtils.d(TAG, "errorBody" + error.toString());
+////                            Toast.makeText(context, error.message(), Toast.LENGTH_SHORT).show();
+//                            Utils.showLongToast(context, error.message(), true, false);
+//
+//                        }
                         ProgressDialogUtils.dismissProgressDialog();
                     }
 
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
                         ProgressDialogUtils.dismissProgressDialog();
-                        showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
-                                logOut(context);
+                                logOut();
                             }
 
                             @Override
