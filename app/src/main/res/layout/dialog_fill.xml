@@ -1,7 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -13,8 +10,6 @@
         android:id="@+id/progressBar1"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:indeterminateDrawable="@drawable/loader" />
-</FrameLayout>
+</merge>
