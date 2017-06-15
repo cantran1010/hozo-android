@@ -51,6 +51,7 @@ import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 
 import static vn.tonish.hozo.R.id.map;
+import static vn.tonish.hozo.R.string.post_a_task_map_get_location_error_next;
 
 /**
  * Created by LongBui on 4/18/2017.
@@ -304,39 +305,26 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 places.release();
                 return;
             }
-            // Get the Place object from the buffer.
-            final Place place = places.get(0);
+            try{
+                // Get the Place object from the buffer.
+                final Place place = places.get(0);
 
-            latLng = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
-            getAddress(false);
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+                latLng = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
+                getAddress(false);
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
 
-            if (marker == null) {
-                marker = googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(latLng.latitude, latLng.longitude))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
-            } else
-                marker.setPosition(latLng);
+                if (marker == null) {
+                    marker = googleMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(latLng.latitude, latLng.longitude))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
+                } else
+                    marker.setPosition(latLng);
 
-            Utils.hideKeyBoard(PostATaskMapActivity.this);
-
-//            // Format details of the place for display and show it in a TextView.
-//            mPlaceDetailsText.setText(formatPlaceDetails(getResources(), place.getName(),
-//                    place.getId(), place.getAddress(), place.getPhoneNumber(),
-//                    place.getWebsiteUri()));
-//
-//            // Display the third party attributions if set.
-//            final CharSequence thirdPartyAttribution = places.getAttributions();
-//            if (thirdPartyAttribution == null) {
-//                mPlaceDetailsAttribution.setVisibility(View.GONE);
-//            } else {
-//                mPlaceDetailsAttribution.setVisibility(View.VISIBLE);
-//                mPlaceDetailsAttribution.setText(Html.fromHtml(thirdPartyAttribution.toString()));
-//            }
-
-            LogUtils.i(TAG, "Place details received: " + place.getName());
-
-            places.release();
+                Utils.hideKeyBoard(PostATaskMapActivity.this);
+                places.release();
+            }catch (Exception e){
+                Utils.showLongToast(PostATaskMapActivity.this, getString(post_a_task_map_get_location_error_next), true, false);
+            }
         }
     };
 
@@ -456,7 +444,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 || work.getAddress() == null || work.getAddress().equals("")
                 || work.getCity() == null || work.getCity().equals("")
                 || work.getAddress() == null || work.getAddress().equals("")) {
-            Utils.showLongToast(this, getString(R.string.post_a_task_map_get_location_error_next), true, false);
+            Utils.showLongToast(this, getString(post_a_task_map_get_location_error_next), true, false);
             return;
         }
 
