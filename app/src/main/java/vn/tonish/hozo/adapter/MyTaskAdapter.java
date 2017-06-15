@@ -73,7 +73,13 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
             workHolder.tvPrice.setText(context.getString(R.string.my_task_price, Utils.formatNumber(taskResponse.getWorkerRate() * taskResponse.getWorkerCount())));
 
             if (taskResponse.getRole().equals(Constants.ROLE_TASKER)) {
-                if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
+                if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
+                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_overdue));
+                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
+                } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
+                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_canceled));
+                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
+                } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_open));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_recruitment));
                 } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {

@@ -150,6 +150,8 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
                         }
                     });
 
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getActivity());
                 } else {
                     btnSave.setAlpha(0.5f);
                     APIError error = ErrorUtils.parseError(response);

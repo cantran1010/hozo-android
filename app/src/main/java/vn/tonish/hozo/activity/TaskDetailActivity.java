@@ -44,6 +44,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.AssignerCallAdapter;
 import vn.tonish.hozo.adapter.PosterOpenAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -51,11 +52,12 @@ import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
-import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.Bidder;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
@@ -231,6 +233,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                             getData();
                         }
                     });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(TaskDetailActivity.this);
                 } else {
                     DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
@@ -357,7 +361,34 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         }
 
         //bidder
-        else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
+
+        else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
+            workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnCallRate(false, false, "");
+            tvCancel.setVisibility(View.GONE);
+
+            layoutBidderCount.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.GONE);
+            layoutAssignCount.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+
+            layoutFooter.setVisibility(View.GONE);
+            commentType = getString(R.string.comment_setting_invisible);
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
+            workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnCallRate(false, false, "");
+            tvCancel.setVisibility(View.GONE);
+
+            layoutBidderCount.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.GONE);
+            layoutAssignCount.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+
+            layoutFooter.setVisibility(View.GONE);
+            commentType = getString(R.string.comment_setting_invisible);
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
             workDetailView.updateBtnOffer(false);
             workDetailView.updateStatus(false, getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
             workDetailView.updateBtnCallRate(false, false, "");
@@ -564,18 +595,25 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                             doCacelTask();
                         }
                     });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(TaskDetailActivity.this);
                 } else {
-                    DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            doCacelTask();
-                        }
 
-                        @Override
-                        public void onCancel() {
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.d(TAG, "errorBody" + error.toString());
+                    Utils.showLongToast(TaskDetailActivity.this, error.message(), false, true);
 
-                        }
-                    });
+//                    DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+//                        @Override
+//                        public void onSubmit() {
+//                            doCacelTask();
+//                        }
+//
+//                        @Override
+//                        public void onCancel() {
+//
+//                        }
+//                    });
                 }
 
                 ProgressDialogUtils.dismissProgressDialog();
@@ -710,6 +748,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                             doAttachImage();
                         }
                     });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(TaskDetailActivity.this);
                 } else {
                     ProgressDialogUtils.dismissProgressDialog();
                     DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
@@ -789,6 +829,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                             doComment();
                         }
                     });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(TaskDetailActivity.this);
                 } else {
                     DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override

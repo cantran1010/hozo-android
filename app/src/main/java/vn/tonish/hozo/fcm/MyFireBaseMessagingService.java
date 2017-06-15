@@ -33,6 +33,7 @@ import com.google.gson.GsonBuilder;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.MainActivity;
+import vn.tonish.hozo.activity.SplashActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.utils.LogUtils;
@@ -75,8 +76,18 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
         String title;
         String message;
+        Intent intent;
 
-        if (notification.getEvent().equals("admin_push")) {
+        if (notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)) {
+            intent = new Intent(getApplicationContext(), SplashActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        } else {
+            intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.putExtra(Constants.NOTIFICATION_EXTRA, notification);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        }
+
+        if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH) || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)) {
             title = getString(R.string.app_name);
             message = notification.getContent();
         } else {
@@ -84,20 +95,10 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             message = Utils.getContentFromNotification(getApplicationContext(), notification);
         }
 
-//        String title = notification.getTaskName();
-//        String message = Utils.getContentFromNotification(getApplicationContext(), notification);
-
         // vibrator when receive push notification from server
         Vibrator v = (Vibrator) getApplicationContext()
                 .getSystemService(Context.VIBRATOR_SERVICE);
         v.vibrate(1000);
-
-//        int requestID = (int) System.currentTimeMillis();
-
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.putExtra(Constants.NOTIFICATION_EXTRA, notification);
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, notification.getId() /* Request code */, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
@@ -123,5 +124,11 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(notification.getId() /* ID of notification */, notificationBuilder.build());
+
+        if (notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)) {
+            Intent intentBlock = new Intent();
+            intentBlock.setAction(Constants.BROAD_CAST_BLOCK_USER);
+            sendBroadcast(intentBlock);
+        }
     }
 }

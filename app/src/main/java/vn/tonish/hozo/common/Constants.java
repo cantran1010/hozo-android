@@ -11,7 +11,7 @@ public class Constants {
     public static final int HTTP_CODE_FORBIDEN = 403;
     public static final int HTTP_CODE_NOT_FOUND = 404;
     public static final int HTTP_CODE_UNPROCESSABLE_ENTITY = 422;
-    public static final int HTTP_CODE_INTERNAL_SERVER_ERROR = 500;
+    public static final int HTTP_CODE_BLOCK_USER = 423;
     public static final int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 123;
@@ -19,7 +19,6 @@ public class Constants {
     public static final String INTENT_EXTRA_IMAGES = "extra_image";
     public static final int REQUEST_CODE_CAMERA = 567;
     public static final int REQUEST_CODE_ADDRESS = 2345;
-    public static final String EXTRA_ADDRESS = "extra_address";
     public static final String EXTRA_ONLY_IMAGE = "extra_only_image";
     public static final String EXTRA_IS_CROP_PROFILE = "extra_is_crop_profile";
     public static final String EXTRA_IMAGE_PATH = "extra_image_path";
@@ -44,11 +43,7 @@ public class Constants {
     public static final String USER_MOBILE = "phone";
     public static final String USER_OTP = "otp_code";
 
-
-    // Json Constant here / :)
-
     public static final int PERMISSION_REQUEST_CODE = 987;
-    public static final int REQUEST_CODE_ADD_VERIFY = 1019;
     public static final String TRANSITION_EXTRA = "transition_extra";
     public static final String IMAGE_ATTACHS_EXTRA = "image_attachs_extra";
     public static final String IMAGE_POSITITON_EXTRA = "position_extra";
@@ -70,7 +65,6 @@ public class Constants {
     public static final int RESULT_CODE_COST = 1999;
     public static final int RESULT_CODE_TASK_TYPE = 2020;
     public static final int REQUEST_CODE_COST = 2001;
-    //    public static final String TASK_TYPE = "task_type";
     public static final int RESULT_CODE_TASK_EDIT = 234;
     public static final int REQUEST_CODE_TASK_EDIT = 432;
     public static final String NOTIFICATION_EXTRA = "notification_extra";
@@ -83,10 +77,6 @@ public class Constants {
     public static final String BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER = "broad_cast_smooth_top_mytask_poster";
     public static final String BROAD_CAST_REFRESH_CATEGORY = "broad_cast_refresh_category";
 
-    public static final String USER_POSTER_REVIEWS = "poster_reviews";
-    public static final String USER_TASKER_REVIEWS = "tasker_reviews";
-
-
     public static final String REVIEW_TYPE_POSTER = "poster";
 
     //update user parameter
@@ -98,17 +88,6 @@ public class Constants {
     public static final int REQUEST_CODE_TASK_TYPE = 456;
 
     public static final String PARAMETER_ACCEPTED_OFFER_USER_ID = "user_id";
-
-    //    //task status
-//    public static final String OFFER_STATUS_PENDING = "pending";
-//    public static final String OFFER_STATUS_ACCEPTED = "accepted";
-//    public static final String OFFER_STATUS_MISSED = "missed";
-//    public static final String OFFER_STATUS_CANCELED = "canceled";
-
-//    //offer status
-//    public static final String TASK_STATUS_OPEN = "open";
-//    public static final String TASK_STATUS_ASSIGNED = "assigned";
-//    public static final String TASK_STATUS_COMPLETED = "completed";
 
     // my task role
     public static final String ROLE_TASKER = "tasker";
@@ -130,14 +109,10 @@ public class Constants {
     public static final String TASK_TYPE_POSTER_OVERDUE = "overdue";
     public static final String TASK_TYPE_POSTER_CANCELED = "canceled";
 
-
     // parameter update device token
     public static final String UPDATE_TOKEN_DEVICE_TOKEN = "device_token";
     public static final String UPDATE_TOKEN_DEVICE_TYPE = "device_type";
     public static final String UPDATE_TOKEN_DEVICE_TYPE_ANDROID = "android";
-
-    public static final String PUSH_TITLE_EXTRA = "push_info_title";
-    public static final String PUSH_MESSAGE_EXTRA = "push_info_messageß";
 
     // push type notification
     public static final String PUSH_TYPE_REVIEW_RECEIVED = "review_received";
@@ -153,6 +128,7 @@ public class Constants {
     public static final String PUSH_TYPE_BID_MISSED = "bid_missed";
     public static final String PUSH_TYPE_TASK_REOPEN = "task_reopen";
     public static final String PUSH_TYPE_ADMIN_PUSH = "admin_push";
+    public static final String PUSH_TYPE_BLOCK_USER = "block_user";
 
     public static final String ROLE_EXTRA = "role_extra";
     public static final String REFRESH_EXTRA = "refresh_extra";
@@ -174,5 +150,6 @@ public class Constants {
     public static final int RESULT_CODE_SEND_COMMENT =1021 ;
     public static final int REQUEST_CODE_SEND_COMMENT =1022 ;
     public static final String BLOCK_EXTRA = "block_extra";
+    public static final String BROAD_CAST_BLOCK_USER = "vn.tonish.hozo.block_user";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
 }

@@ -180,6 +180,8 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                         }
                     });
 
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(CommentsActivity.this);
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
@@ -272,6 +274,8 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                             doComment();
                         }
                     });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(CommentsActivity.this);
                 } else {
                     DialogUtils.showRetryDialog(CommentsActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
@@ -333,6 +337,8 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                             doAttachImage();
                         }
                     });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(CommentsActivity.this);
                 } else {
                     ProgressDialogUtils.dismissProgressDialog();
                     DialogUtils.showRetryDialog(CommentsActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {

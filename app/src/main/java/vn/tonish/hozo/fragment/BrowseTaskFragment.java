@@ -184,28 +184,26 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
                 LogUtils.d(TAG, "getTaskResponse code : " + response.code());
-                if (response.isSuccessful()) {
-                    LogUtils.d(TAG, "getTaskResponse body : " + response.body());
-                    if (response.code() == Constants.HTTP_CODE_OK) {
-                        List<TaskResponse> taskResponses = response.body();
-                        LogUtils.d(TAG, "getTaskFromServer taskResponses size : " + (taskResponses != null ? taskResponses.size() : 0));
-                        if (since == null) {
-                            taskList.clear();
-                            endlessRecyclerViewScrollListener.resetState();
-                        }
-                        if (taskResponses.size() > 0)
-                            sinceStr = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
-                        taskList.addAll(taskResponses);
-                        taskAdapter.notifyDataSetChanged();
-                        LogUtils.d(TAG, "getTaskResponse size : " + taskList.size());
-                        TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
-
-                        if (taskResponses.size() < limit) {
-                            isLoadingMoreFromServer = false;
-                            taskAdapter.stopLoadMore();
-                        }
-
+                LogUtils.d(TAG, "getTaskResponse body : " + response.body());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    List<TaskResponse> taskResponses = response.body();
+                    LogUtils.d(TAG, "getTaskFromServer taskResponses size : " + (taskResponses != null ? taskResponses.size() : 0));
+                    if (since == null) {
+                        taskList.clear();
+                        endlessRecyclerViewScrollListener.resetState();
                     }
+                    if (taskResponses.size() > 0)
+                        sinceStr = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
+                    taskList.addAll(taskResponses);
+                    taskAdapter.notifyDataSetChanged();
+                    LogUtils.d(TAG, "getTaskResponse size : " + taskList.size());
+                    TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
+
+                    if (taskResponses.size() < limit) {
+                        isLoadingMoreFromServer = false;
+                        taskAdapter.stopLoadMore();
+                    }
+
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
@@ -213,8 +211,9 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                             getTaskResponse(since, sortBytask, query);
                         }
                     });
-
-                } else {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getActivity());
+                }else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
                     Utils.showLongToast(getActivity(), error.message(), true, false);

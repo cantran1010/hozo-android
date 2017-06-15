@@ -181,32 +181,20 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
                 LogUtils.d(TAG, "onResponse updateUserFromServer status code : " + response.code());
-                if (response.isSuccessful()) {
-                    LogUtils.d(TAG, "onResponse updateUserFromServer body : " + response.body());
-                    if (response.code() == Constants.HTTP_CODE_OK) {
-                        UserEntity userEntity = response.body();
-                        if (isMyUser) {
-                            assert userEntity != null;
-                            userEntity.setAccessToken(UserManager.getMyUser().getAccessToken());
-                            userEntity.setTokenExp(UserManager.getMyUser().getTokenExp());
-                            userEntity.setRefreshToken(UserManager.getMyUser().getRefreshToken());
-                        }
-                        UserManager.insertUser(response.body(), isMyUser);
-                        updateUi(response.body());
-
-                    } else {
-                        showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
-                                updateUserFromServer();
-                            }
-
-                            @Override
-                            public void onCancel() {
-
-                            }
-                        });
+                LogUtils.d(TAG, "onResponse updateUserFromServer body : " + response.body());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    UserEntity userEntity = response.body();
+                    if (isMyUser) {
+                        assert userEntity != null;
+                        userEntity.setAccessToken(UserManager.getMyUser().getAccessToken());
+                        userEntity.setTokenExp(UserManager.getMyUser().getTokenExp());
+                        userEntity.setRefreshToken(UserManager.getMyUser().getRefreshToken());
                     }
+                    UserManager.insertUser(response.body(), isMyUser);
+                    updateUi(response.body());
+
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(ProfileActivity.this);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
