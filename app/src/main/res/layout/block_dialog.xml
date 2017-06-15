@@ -30,6 +30,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/just_image"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:src="@drawable/img_rate_1_star" />
@@ -67,7 +68,6 @@
                 android:id="@+id/tv_hotline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0978478304"
                 android:textColor="@color/blue_2" />
 
         </LinearLayout>
@@ -88,7 +88,6 @@
                 android:id="@+id/tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="longbd@tonish.vn"
                 android:textColor="@color/blue_2" />
 
         </LinearLayout>
@@ -109,7 +108,6 @@
                 android:id="@+id/tv_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="http://abc.com"
                 android:textColor="@color/blue_2" />
 
         </LinearLayout>
