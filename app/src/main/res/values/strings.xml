@@ -58,8 +58,8 @@
 
     <!-- post a task map-->
     <string name="msg_err_gps">Ứng dụng cần bật dịch vụ định vị GPS</string>
-    <string name="my_task_worker">Việc nhận làm</string>
-    <string name="my_task_poster">Việc đã đăng</string>
+    <string name="my_task_worker">Việc nhận</string>
+    <string name="my_task_poster">Việc đăng</string>
 
     <!-- make an offer-->
     <string name="make_an_offer_title">Chi tiết</string>
@@ -339,5 +339,14 @@
     <string name="more_than">Trên</string>
     <string name="code_otp_is_invalid">Mã OPT không hợp lệ</string>
     <string name="hot_line">0473004886</string>
+    <string name="block_title">Tài khoản của bạn đã bị khóa vì</string>
+    <string name="block_des">Liên hệ với Hozo để được hỗ trợ</string>
+    <string name="block_hotline">Hotline : <b> </b></string>
+    <string name="block_email">Email : <b> </b></string>
+    <string name="block_link">Hỗ trợ : <b> </b></string>
+    <string name="send_mail_error">Rất tiếc điện thoại bạn không hỗ trợ gửi mail</string>
+    <string name="support_mail_subject">Cần trợ giúp từ Hozo</string>
+    <string name="support_mail_body">Nội dung : </string>
+    <string name="open_brower_error">Rất tiếc điện thoại bạn không hỗ trợ trình duyệt web</string>
 
 </resources>
