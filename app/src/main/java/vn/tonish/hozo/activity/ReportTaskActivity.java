@@ -20,6 +20,7 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
 
@@ -104,7 +105,9 @@ ReportTaskActivity extends BaseActivity implements View.OnClickListener {
                             doReport();
                         }
                     });
-                } else {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(ReportTaskActivity.this);
+                }else {
                     DialogUtils.showRetryDialog(ReportTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

@@ -312,7 +312,7 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
             @Override
             public void onResponse(Call<OtpReponse> call, Response<OtpReponse> response) {
                 LogUtils.d(TAG, "onResponse code : " + response.code());
-                if (response.isSuccessful()) {
+                if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "onResponse body : " + response.body());
                     UserEntity user = response.body().getUser();
                     Token token = response.body().getToken();
@@ -340,6 +340,8 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
 
                 } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
                     Utils.showLongToast(getActivity(), getString(R.string.code_otp_is_invalid), true, false);
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getActivity());
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());

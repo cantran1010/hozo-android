@@ -25,6 +25,7 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static android.content.ContentValues.TAG;
@@ -134,6 +135,8 @@ public class ReportDialog extends BaseDialog implements View.OnClickListener {
                             sendToServer(reason);
                         }
                     });
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getContext());
                 } else {
                     DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override

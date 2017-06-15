@@ -233,6 +233,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                             updateAvata();
                         }
                     });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(EditProfileActivity.this);
                 } else {
                     DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
@@ -317,7 +319,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                             updateProfile();
                         }
                     });
-                } else {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(EditProfileActivity.this);
+                }else {
                     DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

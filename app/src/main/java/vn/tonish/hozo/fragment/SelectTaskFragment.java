@@ -32,6 +32,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.utils.Utils;
 
 import static vn.tonish.hozo.database.manager.CategoryManager.checkCategoryById;
 import static vn.tonish.hozo.database.manager.CategoryManager.insertIsSelected;
@@ -99,6 +100,8 @@ public class SelectTaskFragment extends BaseFragment {
                             getCategory();
                         }
                     });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getActivity());
                 } else {
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override

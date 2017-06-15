@@ -442,12 +442,15 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
                 LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
-                ImageResponse imageResponse = response.body();
-
-                imageAttachCount--;
-                if (imageResponse != null)
-                    imagesArr[position] = imageResponse.getIdTemp();
-                finishAttachImage();
+                if (response.code() == Constants.HTTP_CODE_CREATED) {
+                    ImageResponse imageResponse = response.body();
+                    imageAttachCount--;
+                    if (imageResponse != null)
+                        imagesArr[position] = imageResponse.getIdTemp();
+                    finishAttachImage();
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(PostATaskActivity.this);
+                }
 
             }
 

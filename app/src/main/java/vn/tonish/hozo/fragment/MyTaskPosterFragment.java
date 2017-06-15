@@ -19,10 +19,10 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.TaskDetailActivity;
 import vn.tonish.hozo.adapter.MyTaskAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
-import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
@@ -30,6 +30,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.utils.Utils;
 
 /**
  * Created by LongBui on 6/2/17.
@@ -205,6 +206,8 @@ public class MyTaskPosterFragment extends BaseFragment {
                             getTaskFromServer(since, limit);
                         }
                     });
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getActivity());
                 } else {
                     myTaskAdapter.stopLoadMore();
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {

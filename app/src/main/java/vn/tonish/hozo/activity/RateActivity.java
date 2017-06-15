@@ -148,7 +148,9 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
                             doRate();
                         }
                     });
-                } else {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(RateActivity.this);
+                }else {
                     DialogUtils.showRetryDialog(RateActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

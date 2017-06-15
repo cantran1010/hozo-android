@@ -26,6 +26,7 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.Utils;
 
 import static vn.tonish.hozo.R.id.lvList;
 
@@ -111,7 +112,7 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
                     }
                     if ((reviewEntities != null ? reviewEntities.size() : 0) > 0)
                         strSince = reviewEntities.get((reviewEntities != null ? reviewEntities.size() : 0) - 1).getCreatedAt();
-                    mReviewEntities.addAll(reviewEntities );
+                    mReviewEntities.addAll(reviewEntities);
                     reviewsAdapter.notifyDataSetChanged();
 
                     if (reviewEntities.size() < LIMIT) {
@@ -127,6 +128,8 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
                             getReviews(since, user_id);
                         }
                     });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(ReviewsActivity.this);
                 } else {
                     DialogUtils.showRetryDialog(ReviewsActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override

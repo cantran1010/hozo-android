@@ -260,6 +260,8 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
                             doDone();
                         }
                     });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(PostATaskFinishActivity.this);
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.e(TAG, "createNewTask errorBody" + error.toString());

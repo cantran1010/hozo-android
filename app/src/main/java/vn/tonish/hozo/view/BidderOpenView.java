@@ -140,7 +140,9 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
 
                                     }
                                 });
-                            } else {
+                            } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                                Utils.blockUser(getContext());
+                            }else {
                                 DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
                                     @Override
                                     public void onSubmit() {

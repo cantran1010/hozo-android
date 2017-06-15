@@ -231,6 +231,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                             getData();
                         }
                     });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(TaskDetailActivity.this);
                 } else {
                     DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
@@ -564,6 +566,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                             doCacelTask();
                         }
                     });
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(TaskDetailActivity.this);
                 } else {
                     DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
@@ -710,6 +714,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                             doAttachImage();
                         }
                     });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(TaskDetailActivity.this);
                 } else {
                     ProgressDialogUtils.dismissProgressDialog();
                     DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
@@ -789,7 +795,9 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                             doComment();
                         }
                     });
-                } else {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(TaskDetailActivity.this);
+                }else {
                     DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

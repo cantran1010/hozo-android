@@ -177,6 +177,8 @@ public class SplashActivity extends BaseActivity {
                         finish();
                     }
 
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(SplashActivity.this);
                 } else {
                     DialogUtils.showRetryDialog(SplashActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override

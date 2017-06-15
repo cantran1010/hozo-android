@@ -11,6 +11,7 @@ public class Constants {
     public static final int HTTP_CODE_FORBIDEN = 403;
     public static final int HTTP_CODE_NOT_FOUND = 404;
     public static final int HTTP_CODE_UNPROCESSABLE_ENTITY = 422;
+    public static final int HTTP_CODE_BLOCK_USER = 423;
     public static final int HTTP_CODE_INTERNAL_SERVER_ERROR = 500;
     public static final int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
@@ -153,6 +154,7 @@ public class Constants {
     public static final String PUSH_TYPE_BID_MISSED = "bid_missed";
     public static final String PUSH_TYPE_TASK_REOPEN = "task_reopen";
     public static final String PUSH_TYPE_ADMIN_PUSH = "admin_push";
+    public static final String PUSH_TYPE_BLOCK_USER = "block_user";
 
     public static final String ROLE_EXTRA = "role_extra";
     public static final String REFRESH_EXTRA = "refresh_extra";
