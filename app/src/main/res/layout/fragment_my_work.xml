@@ -41,7 +41,7 @@
         android:orientation="horizontal">
 
         <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_worker"
+            android:id="@+id/tv_poster"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -49,12 +49,12 @@
             android:gravity="center"
             android:maxLines="1"
             android:padding="2dp"
-            android:text="@string/my_task_worker"
+            android:text="@string/my_task_poster"
             android:textColor="@color/white"
             android:textStyle="normal" />
 
         <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_poster"
+            android:id="@+id/tv_worker"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -62,7 +62,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:padding="2dp"
-            android:text="@string/my_task_poster"
+            android:text="@string/my_task_worker"
             android:textColor="@color/hozo_bg"
             android:textStyle="normal" />
 

@@ -22,8 +22,7 @@ import static vn.tonish.hozo.utils.Utils.setViewBackground;
 public class MyTaskFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = MyTaskFragment.class.getSimpleName();
     private TextViewHozo tvWorker, tvPoster;
-    public static final int LIMIT = 15;
-    private String role = Constants.ROLE_TASKER;
+    private String role = Constants.ROLE_POSTER;
 
     @Override
     protected int getLayout() {
@@ -48,9 +47,9 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
             bundleRefresh.putBoolean(Constants.REFRESH_EXTRA, true);
 
             showChildFragment(R.id.layout_container_my_task, MyTaskPosterFragment.class, false, bundleRefresh, TransitionScreen.FADE_IN);
-            selectedTab(2);
+            selectedTab(1);
         } else {
-            showChildFragment(R.id.layout_container_my_task, MyTaskWorkerFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
+            showChildFragment(R.id.layout_container_my_task, MyTaskPosterFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
             selectedTab(1);
         }
         tvWorker.setOnClickListener(this);
@@ -85,15 +84,15 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
     private void selectedTab(int position) {
         if (position == 1) {
-            tvWorker.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
-            setViewBackground(tvWorker, ContextCompat.getDrawable(getContext(), R.drawable.my_task_worker_active));
-            tvPoster.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
-            setViewBackground(tvPoster, ContextCompat.getDrawable(getContext(), R.drawable.my_task_poster_default));
-        } else {
-            tvWorker.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
-            setViewBackground(tvWorker, ContextCompat.getDrawable(getContext(), R.drawable.my_task_worker_default));
             tvPoster.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
-            setViewBackground(tvPoster, ContextCompat.getDrawable(getContext(), R.drawable.my_task_poster_active));
+            setViewBackground(tvPoster, ContextCompat.getDrawable(getContext(), R.drawable.my_task_worker_active));
+            tvWorker.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
+            setViewBackground(tvWorker, ContextCompat.getDrawable(getContext(), R.drawable.my_task_poster_default));
+        } else {
+            tvPoster.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
+            setViewBackground(tvPoster, ContextCompat.getDrawable(getContext(), R.drawable.my_task_worker_default));
+            tvWorker.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
+            setViewBackground(tvWorker, ContextCompat.getDrawable(getContext(), R.drawable.my_task_poster_active));
         }
     }
 
@@ -110,7 +109,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                 }
                 role = Constants.ROLE_TASKER;
                 showChildFragment(R.id.layout_container_my_task, MyTaskWorkerFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
-                selectedTab(1);
+                selectedTab(2);
                 break;
 
             case R.id.tv_poster:
@@ -122,7 +121,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                 }
                 role = Constants.ROLE_POSTER;
                 showChildFragment(R.id.layout_container_my_task, MyTaskPosterFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                selectedTab(2);
+                selectedTab(1);
                 break;
 
         }
