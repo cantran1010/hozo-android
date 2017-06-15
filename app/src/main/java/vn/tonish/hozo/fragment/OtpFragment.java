@@ -24,6 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.BlockActivity;
 import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
@@ -32,9 +33,11 @@ import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.BlockResponse;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.Token;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
@@ -234,22 +237,57 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().getOtpCode("XXXX", body).enqueue(new Callback<Void>() {
+        ApiClient.getApiService().getOtpCode("XXXX", body).enqueue(new Callback<BlockResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<BlockResponse> call, Response<BlockResponse> response) {
                 LogUtils.d(TAG, "onResponse status code : " + response.code());
                 LogUtils.d(TAG, "onResponse body : " + response.body());
-                mPinFirstDigitEditText.setText("");
-                mPinSecondDigitEditText.setText("");
-                mPinThirdDigitEditText.setText("");
-                mPinForthDigitEditText.setText("");
-                mPinHiddenEditText.setText("");
+
+                if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                    mPinFirstDigitEditText.setText("");
+                    mPinSecondDigitEditText.setText("");
+                    mPinThirdDigitEditText.setText("");
+                    mPinForthDigitEditText.setText("");
+                    mPinHiddenEditText.setText("");
+                } else if (response.code() == Constants.HTTP_CODE_OK) {
+                    BlockResponse blockResponse = response.body();
+                    if (blockResponse.getIsBlock()) {
+                        Intent intent = new Intent(getActivity(), BlockActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra(Constants.BLOCK_EXTRA, blockResponse);
+                        startActivity(intent, TransitionScreen.FADE_IN);
+                    }
+                } else {
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            resetOtp();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+
                 ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<BlockResponse> call, Throwable t) {
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        resetOtp();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
                 ProgressDialogUtils.dismissProgressDialog();
             }
         });

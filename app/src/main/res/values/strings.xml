@@ -335,5 +335,14 @@
     <string name="not_find_task">Không tìm thấy công việc nào</string>
     <string name="post_a_task_map_get_location_error_next">Không thể lấy vị trí của bạn ! Vui lòng thiết lập vị trí làm việc !</string>
     <string name="offer_error_time">Đề nghị làm việc của bạn không được chấp nhận vì bạn đã ứng tuyển một công việc khác vào thời gian này !</string>
+    <string name="block_title">Tài khoản của bạn đã bị khóa vì</string>
+    <string name="block_des">Liên hệ với Hozo để được hỗ trợ</string>
+    <string name="block_hotline">Hotline : <b> </b></string>
+    <string name="block_email">Email : <b> </b></string>
+    <string name="block_link">Hỗ trợ : <b> </b></string>
+    <string name="send_mail_error">Rất tiếc điện thoại bạn không hỗ trợ gửi mail</string>
+    <string name="support_mail_subject">Cần trợ giúp từ Hozo</string>
+    <string name="support_mail_body">Nội dung : </string>
+    <string name="open_brower_error">Rất tiếc điện thoại bạn không hỗ trợ trình duyệt web</string>
 
 </resources>
