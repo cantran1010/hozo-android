@@ -71,8 +71,8 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void reset() {
-        minCost = 10000;
-        maxCost = 100000000;
+        minCost = 0;
+        maxCost = 0;
         setDataForView();
 
     }

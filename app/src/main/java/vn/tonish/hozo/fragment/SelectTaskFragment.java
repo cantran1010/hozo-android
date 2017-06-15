@@ -18,6 +18,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PostATaskActivity;
 import vn.tonish.hozo.adapter.CategoryAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.entity.SettingEntiny;
 import vn.tonish.hozo.database.manager.CategoryManager;
@@ -25,11 +26,11 @@ import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.Category;
-import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 
 import static vn.tonish.hozo.database.manager.CategoryManager.checkCategoryById;
@@ -72,7 +73,8 @@ public class SelectTaskFragment extends BaseFragment {
 
     private void getCategory() {
 
-//        ProgressDialogUtils.showProgressDialog(getActivity());
+        if (CategoryManager.getAllCategories() == null || CategoryManager.getAllCategories().size() == 0)
+            ProgressDialogUtils.showHozoProgressDialog(getContext());
 
         ApiClient.getApiService().getCategories(UserManager.getUserToken()).enqueue(new Callback<List<Category>>() {
             @Override
@@ -110,26 +112,13 @@ public class SelectTaskFragment extends BaseFragment {
                         }
                     });
                 }
-//                ProgressDialogUtils.dismissProgressDialog();
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
             public void onFailure(Call<List<Category>> call, Throwable t) {
                 LogUtils.e(TAG, "getCategories onFailure status code : " + t.getMessage());
-                // show network error dialog
-
-//                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-//                    @Override
-//                    public void onSubmit() {
-//                        getCategory();
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//
-//                    }
-//                });
-//                ProgressDialogUtils.dismissProgressDialog();
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
