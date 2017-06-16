@@ -188,33 +188,27 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                     bundle.putString(Constants.USER_MOBILE, finalMobile);
                     openFragment(R.id.layout_container, OtpFragment.class, bundle, true, TransitionScreen.RIGHT_TO_LEFT);
                 } else if (response.code() == Constants.HTTP_CODE_OK) {
-
                     BlockResponse blockResponse = response.body();
                     if (blockResponse.getIsBlock()) {
                         Intent intent = new Intent(getActivity(), BlockActivity.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra(Constants.BLOCK_EXTRA, blockResponse);
                         startActivity(intent, TransitionScreen.FADE_IN);
                     }
 
-
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-                    Utils.showLongToast(getActivity(), error.message(), true, false);
-                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            login();
-                        }
+                    if (error.status().equalsIgnoreCase(getActivity().getString(R.string.login_status_block)))
+                        Utils.showLongToast(getActivity(), getActivity().getString(R.string.login_block_phone), true, false);
+                    else
+                        Utils.showLongToast(getActivity(), error.message(), true, false);
+                    if (checkNumberPhone(edtPhone.getText().toString().trim())) {
+                        tvContinue.setEnabled(true);
+                    }
 
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
                 }
                 ProgressDialogUtils.dismissProgressDialog();
+
             }
 
             @Override
@@ -232,6 +226,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
                     }
                 });
+
 
             }
         });

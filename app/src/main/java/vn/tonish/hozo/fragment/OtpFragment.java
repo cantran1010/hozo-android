@@ -93,7 +93,6 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
         btnBack.setOnClickListener(this);
         btnResetOtp.setOnClickListener(this);
         startTimer();
-
     }
 
     @Override
@@ -258,17 +257,12 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
                         startActivity(intent, TransitionScreen.FADE_IN);
                     }
                 } else {
-                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            resetOtp();
-                        }
-
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.d(TAG, "errorBody" + error.toString());
+                    if (error.status().equalsIgnoreCase(getActivity().getString(R.string.login_status_block)))
+                        Utils.showLongToast(getActivity(), getActivity().getString(R.string.login_block_phone), true, false);
+                    else
+                        Utils.showLongToast(getActivity(), error.message(), true, false);
                 }
 
                 ProgressDialogUtils.dismissProgressDialog();
