@@ -30,6 +30,8 @@
     <string name="tv_label_name">Họ và tên của bạn là gì?</string>
     <string name="tv_login_policy">Nhấn vào nút ở bên dưới có nghĩa là bạn đã đọc và đồng ý với các điều khoản sử dụng của chúng tôi</string>
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
+    <string name="login_block_phone">Lỗi, vượt quá số lần đăng nhập trong 1 . vui lòng trở lại sau 24h tiếp theo ngà.</string>
+    <string name="login_status_block">block_phone_via_otp</string>
 
     <!--Edit profile Screen-->
     <string name="edit_profile_tv_header">Sửa đổi thông tin</string>

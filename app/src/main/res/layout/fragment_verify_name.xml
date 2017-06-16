@@ -25,10 +25,9 @@
         android:layout_marginTop="10dp"
         android:background="@null"
         android:ellipsize="end"
-        android:focusable="true"
-        android:inputType="text"
+        android:inputType="textPersonName|textCapWords"
         android:maxLines="2"
-        android:minHeight="30dp"
+        android:minHeight="@dimen/edt_min_height"
         android:textColor="@color/white" />
 
     <requestFocus />
