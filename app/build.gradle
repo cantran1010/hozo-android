@@ -64,6 +64,7 @@ android {
         }
         release {
             buildConfigField "String", "BASE_URL", '"https://api.hozo.vn/v1/"'
+            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
