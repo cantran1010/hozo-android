@@ -121,16 +121,16 @@
             android:screenOrientation="portrait" />
 
         <!--<receiver android:name=".broadcast.BlockBroadCastReceiver">-->
-            <!--<intent-filter>-->
-                <!--<action-->
-                    <!--android:name="vn.tonish.hozo.block_user"-->
-                    <!--android:enabled="true" />-->
-            <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action-->
+        <!--android:name="vn.tonish.hozo.block_user"-->
+        <!--android:enabled="true" />-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBPbEgWfBIyEQ-LPB28kM_BF_2urrGNqz8" />
+            android:value="@string/google_maps_key" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
