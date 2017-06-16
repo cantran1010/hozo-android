@@ -93,12 +93,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             i.setType("text/plain");
             i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
             String content = getString(R.string.share_app_content);
-            content = content + "https://play.google.com/store/apps/details?id=" + getActivity().getPackageName() + " \n";
+            content = content + "http://hyperurl.co/hozo" + " \n";
             i.putExtra(Intent.EXTRA_TEXT, content);
             startActivity(Intent.createChooser(i, getString(R.string.share_app_title)));
         } catch (Exception e) {
             e.printStackTrace();
-            Utils.showLongToast(getContext(), getString(R.string.share_app_error),true,false);
+            Utils.showLongToast(getContext(), getString(R.string.share_app_error), true, false);
         }
 
     }
