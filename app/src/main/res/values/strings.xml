@@ -39,7 +39,7 @@
     <string name="select_task_title">Đăng việc</string>
     <string name="browse_task_title">Tìm việc</string>
     <string name="my_task_title">Việc của tôi</string>
-    <string name="other_title">Tùy chỉnh</string>
+    <string name="other_title">Cài đặt</string>
 
     <!--  post a task layout-->
     <string name="tv_post_a_task_title">Chi tiết đăng việc</string>
