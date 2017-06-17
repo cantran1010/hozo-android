@@ -150,5 +150,6 @@ public class Constants {
     public static final int REQUEST_CODE_SEND_COMMENT =1022 ;
     public static final String BLOCK_EXTRA = "block_extra";
     public static final String BROAD_CAST_BLOCK_USER = "vn.tonish.hozo.block_user";
+    public static final String LOGOUT_EXTRA = "logout_extra";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
 }

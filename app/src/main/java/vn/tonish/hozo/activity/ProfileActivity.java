@@ -217,6 +217,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             public void onFailure(Call<UserEntity> call, Throwable t) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
+
+                if(isFinishing()) return;
                 showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
@@ -342,6 +344,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                             realm.deleteAll();
                             realm.commitTransaction();
                             Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
+                            intent.putExtra(Constants.LOGOUT_EXTRA,true);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
