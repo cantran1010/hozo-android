@@ -370,14 +370,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                             });
 
                         }
-//                        }
-//                        else {
-//                            APIError error = ErrorUtils.parseError(response);
-//                            LogUtils.d(TAG, "errorBody" + error.toString());
-////                            Toast.makeText(context, error.message(), Toast.LENGTH_SHORT).show();
-//                            Utils.showLongToast(context, error.message(), true, false);
-//
-//                        }
                         ProgressDialogUtils.dismissProgressDialog();
                     }
 
