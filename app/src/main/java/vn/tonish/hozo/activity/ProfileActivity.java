@@ -10,6 +10,8 @@ import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -218,7 +220,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
 
-                if(isFinishing()) return;
+                if (isFinishing()) return;
                 showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
@@ -250,7 +252,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     }
 
                 }
-            Utils.displayImageAvatar(this, imgAvatar, userEntity.getAvatar());
+            Utils.displayImageAvatar(getApplicationContext(), imgAvatar, userEntity.getAvatar());
             ratingPoster = userEntity.getPosterAverageRating();
             rateCountPoster = userEntity.getPosterReviewCount();
             retaCountWorker = userEntity.getTaskerReviewCount();
@@ -344,7 +346,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                             realm.deleteAll();
                             realm.commitTransaction();
                             Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
-                            intent.putExtra(Constants.LOGOUT_EXTRA,true);
+                            intent.putExtra(Constants.LOGOUT_EXTRA, true);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -404,6 +406,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Glide.clear(imgAvatar);
 
     }
 
