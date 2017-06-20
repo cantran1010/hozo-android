@@ -28,7 +28,7 @@
     <string name="login_enter_otp">Nhập 4 mã số được gửi tới điện thoại</string>
     <string name="login_resend_otp">Gửi lại mã code</string>
     <string name="tv_label_name">Họ và tên của bạn là gì?</string>
-    <string name="tv_login_policy">Nhấn \'Tiếp tục\' đồng nghĩa với việc bạn đồng ý với điều khoản sử dụng và chính sách bảo mật của chúng tôi.</string>
+    <string name="tv_login_policy">Nhấn \'Tiếp tục\' đồng nghĩa với việc bạn đồng ý điều khoản sử dụng và chính sách bảo mật của chúng tôi.</string>
     <string name="login_policy_condition">điều khoản sử dụng</string>
     <string name="login_policy_nad">chính sách bảo mật</string>
     <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
@@ -114,7 +114,7 @@
 
     <!-- edit profile -->
     <string name="edit_profile_name">Họ và Tên</string>
-    <string name="edit_profile_address">Địa điểm</string>
+    <string name="edit_profile_address">Địa chỉ</string>
     <string name="edit_profile_birth">Ngày tháng năm sinh</string>
     <string name="drop_down">Drop down</string>
     <string name="camera">take picture</string>
@@ -357,6 +357,7 @@
     <string name="update_oke">CẬP NHẬT </string>
     <string name="update_content">Bạn có muốn cập nhật phiên bản mới nhất?</string>
     <string name="update_force_content">Bạn phải cập nhật phiên bản mới nhất để tiếp tục sử dụng!!!</string>
+    <string name="erro_empty_name">Bắt buộc phải nhập họ tên.</string>
     <string name="share">Chia sẻ</string>
 
 </resources>
