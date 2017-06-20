@@ -145,15 +145,15 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
 
     private void updateGender(String gender) {
         if (gender.equals(getString(R.string.gender_male))) {
-            tvMale.setAlpha(1);
-            tvFemale.setAlpha(0.7f);
+            tvMale.setTextColor(ContextCompat.getColor(getActivity(), R.color.tv_black));
+            tvFemale.setTextColor(ContextCompat.getColor(getActivity(), R.color.tv_gray));
             imgMale.setImageResource(R.drawable.gender_male_on);
             imgFemale.setImageResource(R.drawable.gender_female_off);
         } else if (gender.equals(getString(R.string.gender_female))) {
-            tvMale.setAlpha(0.7f);
-            tvFemale.setAlpha(1);
+            tvMale.setTextColor(ContextCompat.getColor(getActivity(), R.color.tv_gray));
+            tvFemale.setTextColor(ContextCompat.getColor(getActivity(), R.color.tv_black));
             imgMale.setImageResource(R.drawable.gender_male_off);
-            imgFemale.setImageResource(R.drawable.gender_female_white);
+            imgFemale.setImageResource(R.drawable.gender_female_on);
         } else {
             tvMale.setTextColor(ContextCompat.getColor(getActivity(), R.color.tv_gray));
             tvFemale.setTextColor(ContextCompat.getColor(getActivity(), R.color.tv_gray));
