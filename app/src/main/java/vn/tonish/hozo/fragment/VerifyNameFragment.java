@@ -1,14 +1,8 @@
 package vn.tonish.hozo.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.text.Editable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.view.View;
 
 import org.json.JSONException;
@@ -22,7 +16,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.MainActivity;
-import vn.tonish.hozo.activity.GeneralInfoActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -47,7 +40,7 @@ import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 public class VerifyNameFragment extends BaseFragment implements View.OnClickListener {
     private final static String TAG = VerifyNameFragment.class.getName();
     private EdittextHozo edtName;
-    private TextViewHozo btnSave, tvPolicy;
+    private TextViewHozo btnSave;
 
 
     @Override
@@ -59,14 +52,12 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
     protected void initView() {
         edtName = (EdittextHozo) findViewById(R.id.edt_name);
         btnSave = (TextViewHozo) findViewById(R.id.btn_save);
-        tvPolicy = (TextViewHozo) findViewById(R.id.tv_policy);
         btnSave.setOnClickListener(this);
 
     }
 
     @Override
     protected void initData() {
-        setUnderLinePolicy(tvPolicy);
         btnSave.setOnClickListener(this);
         edtName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -182,31 +173,4 @@ public class VerifyNameFragment extends BaseFragment implements View.OnClickList
         });
     }
 
-    private void setUnderLinePolicy(TextViewHozo textViewHozo) {
-        SpannableString ss = new SpannableString(getContext().getString(R.string.tv_login_policy));
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(View textView) {
-                openGeneralInfoActivity(getString(R.string.other_condition));
-            }
-
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                super.updateDrawState(ds);
-                ds.setUnderlineText(true);
-            }
-        };
-        ss.setSpan(clickableSpan, 61, 83, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        textViewHozo.setText(ss);
-        textViewHozo.setMovementMethod(LinkMovementMethod.getInstance());
-        textViewHozo.setHighlightColor(Color.TRANSPARENT);
-    }
-
-    private void openGeneralInfoActivity(String title) {
-        Intent intent = new Intent(getActivity(), GeneralInfoActivity.class);
-        intent.putExtra(Constants.URL_EXTRA, "http://hozo.vn/dieu-khoan-su-dung/?ref=app");
-        intent.putExtra(Constants.TITLE_INFO_EXTRA, title);
-        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-    }
 }

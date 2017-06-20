@@ -1,9 +1,15 @@
 package vn.tonish.hozo.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 
 import org.json.JSONException;
@@ -19,6 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BlockActivity;
+import vn.tonish.hozo.activity.GeneralInfoActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.rest.ApiClient;
@@ -45,7 +52,7 @@ import static vn.tonish.hozo.utils.Utils.showSoftKeyboard;
 public class LoginFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = LoginFragment.class.getSimpleName();
     private EdittextHozo edtPhone;
-    private TextViewHozo tvContinue, tvHotLine;
+    private TextViewHozo tvContinue, tvHotLine, tvPolicy;
 
     @Override
     protected int getLayout() {
@@ -59,11 +66,13 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         tvHotLine = (TextViewHozo) findViewById(R.id.tv_hotline);
         tvContinue.setOnClickListener(this);
         tvHotLine.setOnClickListener(this);
+        tvPolicy = (TextViewHozo) findViewById(R.id.tv_policy);
         showSoftKeyboard(getContext(), edtPhone);
     }
 
     @Override
     protected void initData() {
+        setUnderLinePolicy(tvPolicy);
         edtPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -109,6 +118,59 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             tvContinue.setEnabled(false);
 
         }
+    }
+
+    private void setUnderLinePolicy(TextViewHozo textViewHozo) {
+        String text = getContext().getString(R.string.tv_login_policy);
+        SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
+
+        ClickableSpan conditionClickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                openGeneralInfoActivity(getString(R.string.other_condition), "http://hozo.vn/dieu-khoan-su-dung/?ref=app");
+            }
+        };
+        ClickableSpan nadClickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                openGeneralInfoActivity(getString(R.string.other_nad), "http://hozo.vn/chinh-sach-bao-mat/?ref=app");
+            }
+        };
+
+        ssBuilder.setSpan(
+                conditionClickableSpan, // Span to add
+                text.indexOf(getContext().getString(R.string.login_policy_condition)), // Start of the span (inclusive)
+                text.indexOf(getContext().getString(R.string.login_policy_condition)) + String.valueOf(getContext().getString(R.string.login_policy_condition)).length(), // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        ssBuilder.setSpan(
+                new ForegroundColorSpan(Color.parseColor("#FFFFFF")), // Span to add
+                text.indexOf(getContext().getString(R.string.login_policy_condition)), // Start of the span (inclusive)
+                text.indexOf(getContext().getString(R.string.login_policy_condition)) + String.valueOf(getContext().getString(R.string.login_policy_condition)).length(), // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        ssBuilder.setSpan(
+                nadClickableSpan,
+                text.indexOf(getContext().getString(R.string.login_policy_nad)),
+                text.indexOf(getContext().getString(R.string.login_policy_nad)) + String.valueOf(getContext().getString(R.string.login_policy_nad)).length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        ssBuilder.setSpan(
+                new ForegroundColorSpan(Color.parseColor("#FFFFFF")),
+                text.indexOf(getContext().getString(R.string.login_policy_nad)),
+                text.indexOf(getContext().getString(R.string.login_policy_nad)) + String.valueOf(getContext().getString(R.string.login_policy_nad)).length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        textViewHozo.setText(ssBuilder);
+        textViewHozo.setMovementMethod(LinkMovementMethod.getInstance());
+        textViewHozo.setHighlightColor(Color.TRANSPARENT);
+    }
+
+    private void openGeneralInfoActivity(String title, String url) {
+        Intent intent = new Intent(getActivity(), GeneralInfoActivity.class);
+        intent.putExtra(Constants.URL_EXTRA, url);
+        intent.putExtra(Constants.TITLE_INFO_EXTRA, title);
+        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
     }
 
     @Override
