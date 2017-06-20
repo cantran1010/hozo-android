@@ -116,9 +116,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         RelativeLayout layoutFemale = (RelativeLayout) findViewById(R.id.layout_female);
         layoutFemale.setOnClickListener(this);
 
-//        rgRadius = (RadioGroup) findViewById(R.id.rg_gender);
-//        rbMale = (RadioButton) findViewById(R.id.rb_male);
-//        rbFemale = (RadioButton) findViewById(R.id.rb_female);
     }
 
     @Override
