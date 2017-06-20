@@ -29,16 +29,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter android:label="@string/app_name">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="www.tonish.vn"
-                    android:pathPrefix="/hozo"
-                    android:scheme="http" />
+                    android:host="go"
+                    android:scheme="hozo" />
+
             </intent-filter>
         </activity>
 

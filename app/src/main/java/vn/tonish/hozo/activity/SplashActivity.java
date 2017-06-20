@@ -2,6 +2,7 @@ package vn.tonish.hozo.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +31,7 @@ import vn.tonish.hozo.utils.Utils;
 
 public class SplashActivity extends BaseActivity {
     private static final String TAG = SplashActivity.class.getSimpleName();
+    private int taskId;
 
     @Override
     protected int getLayout() {
@@ -42,7 +44,42 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+
+
+        Uri data = getIntent().getData();
+
+        if (data != null) {
+            Log.d(TAG, data.toString());
+            String scheme = data.getScheme(); // "http"
+            String host = data.getHost(); // "twitter.com"
+            taskId = Integer.valueOf(data.getQueryParameter("task_id"));
+
+            LogUtils.d(TAG, "schema : " + scheme);
+            LogUtils.d(TAG, "schema , host : " + host);
+            LogUtils.d(TAG, "schema , url : " + data.toString());
+            LogUtils.d(TAG, "schema , taskId : " + taskId);
+        }
+
         checkUpdate();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Uri data = intent.getData();
+
+        if (data != null) {
+            Log.d(TAG, data.toString());
+            String scheme = data.getScheme(); // "http"
+            String host = data.getHost(); // "twitter.com"
+            taskId = Integer.valueOf(data.getQueryParameter("task_id"));
+
+            LogUtils.d(TAG, "schema : " + scheme);
+            LogUtils.d(TAG, "schema , host : " + host);
+            LogUtils.d(TAG, "schema , url : " + data.toString());
+            LogUtils.d(TAG, "schema , taskId : " + taskId);
+        }
     }
 
     private void checkUpdate() {
@@ -173,7 +210,11 @@ public class SplashActivity extends BaseActivity {
                         startActivity(intent, TransitionScreen.FADE_IN);
                         finish();
                     } else {
-                        startActivity(MainActivity.class, TransitionScreen.FADE_IN);
+                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+
+                        if (taskId != 0)
+                            intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
+                        startActivity(intent, TransitionScreen.FADE_IN);
                         finish();
                     }
 
