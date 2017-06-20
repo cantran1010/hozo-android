@@ -90,6 +90,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
             }
 
+        } else if (intentPush.hasExtra(Constants.TASK_ID_EXTRA)) {
+            int taskId = intentPush.getIntExtra(Constants.TASK_ID_EXTRA, 0);
+            Intent intent = new Intent(this, TaskDetailActivity.class);
+            intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
+            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
         }
 
     }
@@ -115,8 +120,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(intentDetail, TransitionScreen.RIGHT_TO_LEFT);
             }
 
+        } else if (intent.hasExtra(Constants.TASK_ID_EXTRA)) {
+            int taskId = intent.getIntExtra(Constants.TASK_ID_EXTRA, 0);
+            Intent intentDetail = new Intent(this, TaskDetailActivity.class);
+            intentDetail.putExtra(Constants.TASK_ID_EXTRA, taskId);
+            startActivity(intentDetail, TransitionScreen.RIGHT_TO_LEFT);
         }
     }
+
 
     @Override
     protected void resumeData() {

@@ -14,9 +14,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
@@ -109,9 +111,11 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private TextViewHozo tvCommentCount, tvBidderCount, tvAssignCount;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private LinearLayout layoutFooter;
-    private TextViewHozo tvCancel;
+    //    private TextViewHozo tvCancel;
     private String commentType;
     private LinearLayout layoutBidderCount, layoutAssignCount;
+    private ImageView imgMenu;
+    private boolean isShowCancel;
 
     @Override
     protected int getLayout() {
@@ -152,8 +156,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         tvAssignCount = (TextViewHozo) findViewById(R.id.tv_assign_count);
         tvCommentCount = (TextViewHozo) findViewById(R.id.tv_comment_count);
 
-        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
-        tvCancel.setOnClickListener(this);
+//        tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
+//        tvCancel.setOnClickListener(this);
 
         layoutBidderCount = (LinearLayout) findViewById(R.id.layout_bidder_count);
         layoutAssignCount = (LinearLayout) findViewById(R.id.layout_assign_count);
@@ -161,6 +165,9 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         layoutFooter = (LinearLayout) findViewById(R.id.layout_footer);
 
         scv = (ScrollView) findViewById(R.id.scv);
+
+        imgMenu = (ImageView) findViewById(R.id.img_menu);
+        imgMenu.setOnClickListener(this);
 
         WorkAroundMapFragment mapFragment = (WorkAroundMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -301,7 +308,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         String assigerType = "";
         commentType = getString(R.string.comment_setting_visible);
 
-        tvCancel.setVisibility(View.VISIBLE);
+        isShowCancel = true;
+//        tvCancel.setVisibility(View.VISIBLE);
         layoutFooter.setVisibility(View.VISIBLE);
         rcvBidder.setVisibility(View.VISIBLE);
         rcvAssign.setVisibility(View.VISIBLE);
@@ -324,7 +332,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
-            tvCancel.setVisibility(View.GONE);
+//            tvCancel.setVisibility(View.GONE);
+            isShowCancel = false;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -336,7 +345,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
-            tvCancel.setVisibility(View.GONE);
+//            tvCancel.setVisibility(View.GONE);
+            isShowCancel = false;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -349,7 +359,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
-            tvCancel.setVisibility(View.GONE);
+//            tvCancel.setVisibility(View.GONE);
+            isShowCancel = false;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -366,7 +377,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
-            tvCancel.setVisibility(View.GONE);
+//            tvCancel.setVisibility(View.GONE);
+            isShowCancel = false;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -379,7 +391,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
-            tvCancel.setVisibility(View.GONE);
+//            tvCancel.setVisibility(View.GONE);
+            isShowCancel = false;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -400,7 +413,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnOffer(false);
             workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
             workDetailView.updateBtnCallRate(true, false, getString(R.string.rate));
-            tvCancel.setVisibility(View.GONE);
+//            tvCancel.setVisibility(View.GONE);
+            isShowCancel = false;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -411,7 +425,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateStatus(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
-            tvCancel.setVisibility(View.GONE);
+//            tvCancel.setVisibility(View.GONE);
+            isShowCancel = false;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -424,7 +439,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateStatus(true, getString(R.string.my_task_status_worker_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
-            tvCancel.setVisibility(View.GONE);
+//            tvCancel.setVisibility(View.GONE);
+            isShowCancel = false;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -440,7 +456,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnOffer(true);
             workDetailView.updateStatus(false, "", ContextCompat.getDrawable(this, R.drawable.bg_border_done));
             workDetailView.updateBtnCallRate(false, false, "");
-            tvCancel.setVisibility(View.GONE);
+//            tvCancel.setVisibility(View.GONE);
+            isShowCancel = false;
         }
 
         workDetailView.setWorkDetailViewRateListener(new WorkDetailView.WorkDetailViewRateListener() {
@@ -554,23 +571,69 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 doSeeMoreComment();
                 break;
 
-            case R.id.tv_cancel:
-                DialogUtils.showOkAndCancelDialog(
-                        this, getString(R.string.title_cancel_task), getString(R.string.content_cancel_task), getString(R.string.cancel_task_ok), getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
-                                doCacelTask();
-                            }
+//            case R.id.tv_cancel:
+//                DialogUtils.showOkAndCancelDialog(
+//                        this, getString(R.string.title_cancel_task), getString(R.string.content_cancel_task), getString(R.string.cancel_task_ok), getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+//                            @Override
+//                            public void onSubmit() {
+//                                doCacelTask();
+//                            }
+//
+//                            @Override
+//                            public void onCancel() {
+//
+//                            }
+//                        });
+//
+//                break;
 
-                            @Override
-                            public void onCancel() {
-
-                            }
-                        });
-
+            case R.id.img_menu:
+                showMenu(isShowCancel);
                 break;
 
         }
+    }
+
+    private void showMenu(boolean isShowCancel) {
+        //Creating the instance of PopupMenu
+        PopupMenu popup = new PopupMenu(TaskDetailActivity.this, imgMenu);
+
+        if (isShowCancel)
+            popup.getMenuInflater().inflate(R.menu.menu_detail, popup.getMenu());
+        else
+            popup.getMenuInflater().inflate(R.menu.menu_share, popup.getMenu());
+
+        //registering popup with OnMenuItemClickListener
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+
+                switch (item.getItemId()) {
+
+                    case R.id.share:
+                        Utils.shareTask(TaskDetailActivity.this, taskId);
+                        break;
+
+                    case R.id.cancel_task:
+                        DialogUtils.showOkAndCancelDialog(
+                                TaskDetailActivity.this, getString(R.string.title_cancel_task), getString(R.string.content_cancel_task), getString(R.string.cancel_task_ok),
+                                getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+                                        doCacelTask();
+                                    }
+
+                                    @Override
+                                    public void onCancel() {
+
+                                    }
+                                });
+                        break;
+
+                }
+                return true;
+            }
+        });
+        popup.show();//showing popup menu
     }
 
     private void doCacelTask() {

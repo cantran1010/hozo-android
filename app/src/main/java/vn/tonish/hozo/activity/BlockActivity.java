@@ -40,6 +40,7 @@ public class BlockActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initData() {
+        Utils.cancelAllNotification(this);
 
         blockResponse = (BlockResponse) getIntent().getSerializableExtra(Constants.BLOCK_EXTRA);
 
