@@ -42,7 +42,6 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.USER_MOBILE;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
-import static vn.tonish.hozo.utils.Utils.showSoftKeyboard;
 
 /**
  * Created by CanTran on 4/11/17.
@@ -67,7 +66,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         tvContinue.setOnClickListener(this);
         tvHotLine.setOnClickListener(this);
         tvPolicy = (TextViewHozo) findViewById(R.id.tv_policy);
-        showSoftKeyboard(getContext(), edtPhone);
+        hideSoftKeyboard(getActivity(), edtPhone);
     }
 
     @Override
@@ -144,7 +143,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         );
         ssBuilder.setSpan(
-                new ForegroundColorSpan(Color.parseColor("#FFFFFF")), // Span to add
+                new ForegroundColorSpan(Color.parseColor("#ffffff")), // Span to add
                 text.indexOf(getContext().getString(R.string.login_policy_condition)), // Start of the span (inclusive)
                 text.indexOf(getContext().getString(R.string.login_policy_condition)) + String.valueOf(getContext().getString(R.string.login_policy_condition)).length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -156,7 +155,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         );
         ssBuilder.setSpan(
-                new ForegroundColorSpan(Color.parseColor("#FFFFFF")),
+                new ForegroundColorSpan(Color.parseColor("#ffffff")),
                 text.indexOf(getContext().getString(R.string.login_policy_nad)),
                 text.indexOf(getContext().getString(R.string.login_policy_nad)) + String.valueOf(getContext().getString(R.string.login_policy_nad)).length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
