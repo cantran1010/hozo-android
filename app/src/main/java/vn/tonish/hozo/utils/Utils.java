@@ -426,7 +426,7 @@ public class Utils {
 
         String content = "";
 
-        if (notification.getTaskName().length() > MAX_LENGTH_TASK_NAME)
+        if (notification.getTaskName() != null && notification.getTaskName().length() > MAX_LENGTH_TASK_NAME)
             notification.setTaskName(notification.getTaskName().substring(0, MAX_LENGTH_TASK_NAME) + "...");
 
         switch (notification.getEvent()) {

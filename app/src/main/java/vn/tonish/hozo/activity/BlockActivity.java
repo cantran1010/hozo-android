@@ -23,7 +23,7 @@ public class BlockActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected int getLayout() {
-        return R.layout.block_dialog;
+        return R.layout.block_activity;
     }
 
     @Override

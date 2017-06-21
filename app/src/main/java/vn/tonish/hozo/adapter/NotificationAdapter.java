@@ -76,7 +76,13 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
 
             final Notification notification = notifications.get(position);
 
-            if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH) || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)) {
+            if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)
+                    || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)
+                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_USER)
+                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_TASK)
+                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_COMMENT)
+                    || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_TASK)
+                    || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_COMMENT)) {
                 notificationHolder.imgAvata.setImageResource(R.mipmap.app_icon);
                 notificationHolder.tvContent.setText(notification.getContent());
             } else {
