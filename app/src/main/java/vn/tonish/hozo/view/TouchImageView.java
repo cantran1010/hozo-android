@@ -22,8 +22,6 @@ public class TouchImageView extends AppCompatImageView {
     private final PointF last = new PointF();
     private final PointF start = new PointF();
     private final float minScale = 0.5f;
-    private float doubleClickScale = 2f;
-    private float maxScale = 10f;
     private float[] m;
     private int viewWidth;
     private int viewHeight;
@@ -126,6 +124,7 @@ public class TouchImageView extends AppCompatImageView {
 
     private void onDoubleClick(PointF curr) {
         float mScaleFactor;
+        float doubleClickScale = 2f;
         if (saveScale < doubleClickScale) {
             mScaleFactor = doubleClickScale / saveScale;
             saveScale = doubleClickScale;
@@ -243,6 +242,7 @@ public class TouchImageView extends AppCompatImageView {
             float mScaleFactor = detector.getScaleFactor();
             float origScale = saveScale;
             saveScale *= mScaleFactor;
+            float maxScale = 10f;
             if (saveScale > maxScale) {
                 saveScale = maxScale;
                 mScaleFactor = maxScale / origScale;

@@ -77,9 +77,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private boolean isLoadingMoreFromServer = true;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
-    private Call<List<Comment>> call;
     private String commentType = "";
-    private int vilibisity;
     private boolean isSend = false;
 
     @Override
@@ -110,7 +108,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     protected void initData() {
         taskId = getIntent().getExtras().getInt(Constants.TASK_ID_EXTRA);
         commentType = getIntent().getStringExtra(Constants.COMMENT_STATUS_EXTRA);
-        vilibisity = getIntent().getIntExtra(Constants.COMMENT_VISIBILITY, 0);
+        int vilibisity = getIntent().getIntExtra(Constants.COMMENT_VISIBILITY, 0);
         LogUtils.d(TAG, "intent :" + taskId + ": " + commentType);
         setUpRecyclerView();
         if (View.VISIBLE == vilibisity) {
@@ -147,7 +145,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
         if (since != null)
             params.put("since", since);
         params.put("limit", LIMIT + "");
-        call = ApiClient.getApiService().getComments(UserManager.getUserToken(), taskId, params);
+        Call<List<Comment>> call = ApiClient.getApiService().getComments(UserManager.getUserToken(), taskId, params);
         call.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
