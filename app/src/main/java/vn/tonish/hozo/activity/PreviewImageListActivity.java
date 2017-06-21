@@ -7,10 +7,10 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+import me.relex.circleindicator.CircleIndicator;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.PreviewPagerAdapter;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.view.SimpleViewPagerIndicator;
 
 /**
  * Created by LongBui on 4/19/2017.
@@ -18,7 +18,7 @@ import vn.tonish.hozo.view.SimpleViewPagerIndicator;
 public class PreviewImageListActivity extends BaseActivity implements View.OnClickListener {
 
     private ViewPager pager;
-    private SimpleViewPagerIndicator mIndicator;
+    private CircleIndicator mIndicator;
 
     public static final String EXTRA_POSITION = "extra_position";
 
@@ -30,7 +30,7 @@ public class PreviewImageListActivity extends BaseActivity implements View.OnCli
     @Override
     protected void initView() {
         pager = (ViewPager) findViewById(R.id.pager);
-        mIndicator = (SimpleViewPagerIndicator) findViewById(R.id.indicator);
+        mIndicator = (CircleIndicator) findViewById(R.id.indicator);
 
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);

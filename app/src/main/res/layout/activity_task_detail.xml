@@ -39,13 +39,13 @@
 
         <ImageView
             android:id="@+id/img_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:background="@drawable/btn_back_selector"
             android:contentDescription="@string/adjust_image"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
+            android:scaleType="centerInside"
             android:src="@drawable/img_comment_setting" />
 
         <View

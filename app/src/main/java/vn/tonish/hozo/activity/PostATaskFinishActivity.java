@@ -50,6 +50,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
     private Category category;
     private String budgetBefore;
     private static final int MAX_BUGDET = 20000000;
+    private static final int MIN_BUGDET = 10000;
 
     @Override
     protected int getLayout() {
@@ -198,7 +199,12 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         } else if (Integer.valueOf(edtNumberWorker.getText().toString()) > 10) {
             edtNumberWorker.setError(getString(R.string.max_number_worker_error));
             return;
+        }else if(Long.valueOf(getLongEdittext(edtBudget)) < MIN_BUGDET){
+            edtBudget.requestFocus();
+            edtBudget.setError(getString(R.string.min_budget_error));
+            return;
         }
+
         ProgressDialogUtils.showProgressDialog(this);
         final JSONObject jsonRequest = new JSONObject();
         try {

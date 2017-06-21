@@ -88,7 +88,14 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         }
 
-        if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH) || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)) {
+        if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)
+                || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)
+                || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_USER)
+                || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_TASK)
+                || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_COMMENT)
+                || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_TASK)
+                || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_COMMENT)
+                ) {
             title = getString(R.string.app_name);
             message = notification.getContent();
         } else {

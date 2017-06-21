@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.dialog.AlertDialogOk;
+import vn.tonish.hozo.dialog.BlockDialog;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
 import vn.tonish.hozo.fragment.MyTaskFragment;
@@ -82,7 +83,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (intentPush.hasExtra(Constants.NOTIFICATION_EXTRA)) {
             Notification notification = (Notification) intentPush.getSerializableExtra(Constants.NOTIFICATION_EXTRA);
 
-            if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)) {
+            if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)
+                    || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)
+                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_USER)
+                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_TASK)
+                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_COMMENT)) {
                 DialogUtils.showOkDialog(this, getString(R.string.app_name), notification.getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
@@ -90,6 +95,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             }
                         }
                 );
+            } else if (notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_TASK) || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_COMMENT)) {
+                BlockDialog blockDialog = new BlockDialog(MainActivity.this);
+                blockDialog.updateContent(notification.getContent());
+                blockDialog.showView();
             } else {
                 int taskId = notification.getTaskId();
                 Intent intent = new Intent(this, TaskDetailActivity.class);
@@ -112,7 +121,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (intent.hasExtra(Constants.NOTIFICATION_EXTRA)) {
             Notification notification = (Notification) intent.getSerializableExtra(Constants.NOTIFICATION_EXTRA);
 
-            if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)) {
+            if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)
+                    || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)
+                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_USER)
+                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_TASK)
+                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_COMMENT)) {
                 DialogUtils.showOkDialog(this, getString(R.string.app_name), notification.getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
@@ -120,6 +133,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             }
                         }
                 );
+            } else if (notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_TASK) || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_COMMENT)) {
+                BlockDialog blockDialog = new BlockDialog(MainActivity.this);
+                blockDialog.showView();
+                blockDialog.updateContent(notification.getContent());
             } else {
                 int taskId = notification.getTaskId();
                 Intent intentDetail = new Intent(this, TaskDetailActivity.class);
@@ -294,10 +311,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         if (pushCount == 0) {
             tvCountMsg.setVisibility(View.GONE);
-            return;
         } else {
             tvCountMsg.setVisibility(View.VISIBLE);
-            tvCountMsg.setText(PreferUtils.getNewPushCount(this) + "");
+            tvCountMsg.setText(String.valueOf(PreferUtils.getNewPushCount(this)));
         }
     }
 

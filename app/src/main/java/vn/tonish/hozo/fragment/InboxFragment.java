@@ -21,8 +21,8 @@ import vn.tonish.hozo.activity.TaskDetailActivity;
 import vn.tonish.hozo.adapter.NotificationAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
-import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.dialog.BlockDialog;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
@@ -97,14 +97,27 @@ public class InboxFragment extends BaseFragment {
         notificationAdapter.setNotificationAdapterListener(new NotificationAdapter.NotificationAdapterListener() {
             @Override
             public void onNotificationAdapterListener(int position) {
-                if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)) {
-                    DialogUtils.showOkDialog(getActivity(), getString(R.string.app_name), notifications.get(position).getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)
+                        || notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)
+                        || notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ACTIVE_USER)
+                        || notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ACTIVE_TASK)
+                        || notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ACTIVE_COMMENT)) {
+//                    DialogUtils.showOkDialog(getActivity(), getString(R.string.app_name), notifications.get(position).getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+//                                @Override
+//                                public void onSubmit() {
+//
+//                                }
+//                            }
+//                    );
 
-                                }
-                            }
-                    );
+                    BlockDialog blockDialog = new BlockDialog(getActivity());
+                    blockDialog.showView();
+                    blockDialog.updateContent(notifications.get(position).getContent());
+
+                } else if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_BLOCK_TASK) || notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_BLOCK_COMMENT)) {
+                    BlockDialog blockDialog = new BlockDialog(getActivity());
+                    blockDialog.updateContent(notifications.get(position).getContent());
+                    blockDialog.showView();
                 } else {
                     Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
