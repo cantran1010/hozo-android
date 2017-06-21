@@ -120,6 +120,9 @@
         <activity
             android:name=".activity.BlockActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TaskAlertsActivity"
+            android:screenOrientation="portrait" />
 
         <!--<receiver android:name=".broadcast.BlockBroadCastReceiver">-->
         <!--<intent-filter>-->

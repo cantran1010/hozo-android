@@ -45,8 +45,8 @@ public class CostActivity extends BaseActivity implements View.OnClickListener {
         Intent intent = getIntent();
         minCost = intent.getExtras().getInt(Constants.EXTRA_MIN_PRICE);
         maxCost = intent.getExtras().getInt(Constants.EXTRA_MAX_PRICE);
-            edtMinPrice.addTextChangedListener(new NumberTextWatcher(edtMinPrice));
-            edtMaxPrice.addTextChangedListener(new NumberTextWatcher(edtMaxPrice));
+        edtMinPrice.addTextChangedListener(new NumberTextWatcher(edtMinPrice));
+        edtMaxPrice.addTextChangedListener(new NumberTextWatcher(edtMaxPrice));
         setDataForView();
     }
 
