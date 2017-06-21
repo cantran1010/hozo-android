@@ -32,9 +32,9 @@
             android:layout_marginLeft="@dimen/title_margin_left"
             android:layout_marginStart="@dimen/title_margin_left"
             android:layout_toEndOf="@id/img_back"
-            android:layout_toLeftOf="@+id/tv_cancel"
+            android:layout_toLeftOf="@+id/img_menu"
             android:layout_toRightOf="@id/img_back"
-            android:layout_toStartOf="@+id/tv_cancel"
+            android:layout_toStartOf="@+id/img_menu"
             android:text="@string/make_an_offer_title" />
 
         <ImageView
@@ -43,6 +43,8 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:contentDescription="@string/adjust_image"
+            android:paddingEnd="10dp"
             android:paddingRight="10dp"
             android:src="@drawable/img_comment_setting" />
 

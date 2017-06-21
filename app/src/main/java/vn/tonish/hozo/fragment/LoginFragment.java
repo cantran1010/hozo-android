@@ -51,7 +51,8 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 public class LoginFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = LoginFragment.class.getSimpleName();
     private EdittextHozo edtPhone;
-    private TextViewHozo tvContinue, tvHotLine, tvPolicy;
+    private TextViewHozo tvContinue;
+    private TextViewHozo tvPolicy;
 
     @Override
     protected int getLayout() {
@@ -62,7 +63,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     protected void initView() {
         edtPhone = (EdittextHozo) findViewById(R.id.edt_phone);
         tvContinue = (TextViewHozo) findViewById(R.id.tv_continue);
-        tvHotLine = (TextViewHozo) findViewById(R.id.tv_hotline);
+        TextViewHozo tvHotLine = (TextViewHozo) findViewById(R.id.tv_hotline);
         tvContinue.setOnClickListener(this);
         tvHotLine.setOnClickListener(this);
         tvPolicy = (TextViewHozo) findViewById(R.id.tv_policy);
