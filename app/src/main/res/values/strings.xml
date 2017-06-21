@@ -357,6 +357,7 @@
     <string name="update_content">Bạn có muốn cập nhật phiên bản mới nhất?</string>
     <string name="update_force_content">Bạn phải cập nhật phiên bản mới nhất để tiếp tục sử dụng!!!</string>
     <string name="erro_empty_name">Bắt buộc phải nhập họ tên.</string>
+    <string name="erro_empty_name">Bắt buộc phải nhập họ tên.</string>
     <string name="share">Chia sẻ</string>
 
 </resources>
