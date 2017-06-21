@@ -150,7 +150,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         if (gender.equals(getString(R.string.gender_male))) {
             tvMale.setTextColor(ContextCompat.getColor(this, R.color.tv_black));
             tvFemale.setTextColor(ContextCompat.getColor(this, R.color.tv_gray));
-            imgMale.setImageResource(R.drawable.gender_male_on);
+            imgMale.setImageResource(R.drawable.gender_male_black);
             imgFemale.setImageResource(R.drawable.gender_female_off);
         } else if (gender.equals(getString(R.string.gender_female))) {
             tvMale.setTextColor(ContextCompat.getColor(this, R.color.tv_gray));
