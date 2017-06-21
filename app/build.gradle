@@ -107,6 +107,7 @@ dependencies {
     compile('com.squareup.okhttp:okhttp:2.3.0') {
         exclude group: 'com.squareup.okio', module: 'okio'
     }
+    compile 'me.relex:circleindicator:1.2.2@aar'
 }
 apply plugin: 'com.google.gms.google-services'
 

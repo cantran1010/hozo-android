@@ -37,7 +37,7 @@
 
                 <data
                     android:host="go"
-                    android:scheme="hozo" />
+                    android:scheme="hozotonish" />
 
             </intent-filter>
         </activity>

@@ -79,11 +79,12 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
     void createSwipeToRefresh() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.hozo_bg, R.color.red, R.color.blue_2);
     }
 
     @Override
     public void onRefresh() {
-            swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     void onStopRefresh() {
