@@ -168,7 +168,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         strLocation = "Hà Nội";
         mRadius = 0;
         strRadius = getString(R.string.radius_everywhere);
-        minWorkerRate = 10000;
+        minWorkerRate = 0;
         maxWorkerRate = 0;
         getNameCategorys((ArrayList<Category>) DataParse.convertListCategoryEntityToListCategory(CategoryManager.getAllCategories()));
         for (Category category1 : mCategory.getCategories()
@@ -226,8 +226,6 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         tvPrice.setText(sPrice);
         tvLocation.setText(strLocation);
         tvRadius.setText(strRadius);
-
-
     }
 
     @Override

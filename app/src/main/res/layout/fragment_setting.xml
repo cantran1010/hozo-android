@@ -58,6 +58,29 @@
             <include layout="@layout/line" />
 
             <RelativeLayout
+                android:id="@+id/layout_alert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_back_selector"
+                android:orientation="horizontal">
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:padding="16dp"
+                    android:text="@string/other_alert"
+                    android:textColor="#212121" />
+
+                <include layout="@layout/arrow" />
+
+            </RelativeLayout>
+
+            <include layout="@layout/line" />
+
+            <RelativeLayout
                 android:id="@+id/layout_condition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,6 +90,9 @@
                 <vn.tonish.hozo.view.TextViewHozo
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:padding="16dp"
                     android:text="@string/other_condition"
                     android:textColor="#212121" />

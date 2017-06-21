@@ -358,11 +358,11 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             taskResponse.setDescription(edtDescription.getText().toString());
 
             if (spGender.getSelectedItemPosition() == 1) {
-                taskResponse.setGender(Constants.GENDER_MALE);
-            } else if (spGender.getSelectedItemPosition() == 2) {
-                taskResponse.setGender(Constants.GENDER_FEMALE);
-            } else {
                 taskResponse.setGender(null);
+            } else if (spGender.getSelectedItemPosition() == 2) {
+                taskResponse.setGender(Constants.GENDER_MALE);
+            } else {
+                taskResponse.setGender(Constants.GENDER_FEMALE);
             }
 
             taskResponse.setMinAge(ageFrom);
@@ -448,7 +448,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                     if (imageResponse != null)
                         imagesArr[position] = imageResponse.getIdTemp();
                     finishAttachImage();
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(PostATaskActivity.this);
                 }
 

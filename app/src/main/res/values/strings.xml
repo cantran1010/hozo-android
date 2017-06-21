@@ -87,9 +87,9 @@
     <string name="just_image">just_image</string>
 
     <string-array name="gender">
+        <item>Bất kỳ</item>
         <item>Nam</item>
         <item>Nữ</item>
-        <item>Bất kỳ</item>
     </string-array>
 
     <!-- make an offer-->
@@ -358,5 +358,6 @@
     <string name="update_force_content">Bạn phải cập nhật phiên bản mới nhất để tiếp tục sử dụng!!!</string>
     <string name="erro_empty_name">Bắt buộc phải nhập họ tên.</string>
     <string name="share">Chia sẻ</string>
+    <string name="other_alert">Thông báo công việc</string>
 
 </resources>
