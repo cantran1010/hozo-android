@@ -16,6 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.activity.TaskDetailActivity;
 import vn.tonish.hozo.adapter.NotificationAdapter;
 import vn.tonish.hozo.common.Constants;
@@ -28,6 +29,7 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 
@@ -69,6 +71,7 @@ public class InboxFragment extends BaseFragment {
         initList();
 //        getCacheDataPage(sinceDate);
 //        getNotifications(false);
+
     }
 
     private void initList() {
@@ -164,6 +167,9 @@ public class InboxFragment extends BaseFragment {
                     if (since == null) {
                         notifications.clear();
                         endlessRecyclerViewScrollListener.resetState();
+
+                        PreferUtils.setNewPushCount(getActivity(), 0);
+                        ((MainActivity) getActivity()).updateCountMsg();
                     }
 
                     notifications.addAll(notificationResponse != null ? notificationResponse : null);
@@ -202,7 +208,7 @@ public class InboxFragment extends BaseFragment {
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(getActivity());
-                }else {
+                } else {
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

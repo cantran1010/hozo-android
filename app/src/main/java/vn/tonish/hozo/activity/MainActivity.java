@@ -1,6 +1,9 @@
 package vn.tonish.hozo.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +21,7 @@ import vn.tonish.hozo.fragment.SelectTaskFragment;
 import vn.tonish.hozo.fragment.SettingFragment;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.utils.DialogUtils;
+import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -32,6 +36,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ImageView imgPostATask, imgBrowserTask, imgMyTask, imgInbox, imgOther;
     private TextViewHozo tvPostATask, tvBrowserTask, tvMyTask, tvInbox, tvOther;
     private int tabIndex = 1;
+    private TextViewHozo tvCountMsg;
 
     @Override
     protected int getLayout() {
@@ -57,6 +62,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tvMyTask = (TextViewHozo) findViewById(R.id.tv_my_task);
         tvInbox = (TextViewHozo) findViewById(R.id.tv_inbox);
         tvOther = (TextViewHozo) findViewById(R.id.tv_other);
+
+        tvCountMsg = (TextViewHozo) findViewById(R.id.tv_count_new_push);
     }
 
     @Override
@@ -131,7 +138,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void resumeData() {
+        updateCountMsg();
+        registerReceiver(broadcastPushCount, new IntentFilter(Constants.BROAD_CAST_PUSH_COUNT));
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(broadcastPushCount);
     }
 
     @Override
@@ -274,6 +288,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         }, 2000);
     }
+
+    public void updateCountMsg() {
+        int pushCount = PreferUtils.getNewPushCount(this);
+
+        if (pushCount == 0) {
+            tvCountMsg.setVisibility(View.GONE);
+            return;
+        } else {
+            tvCountMsg.setVisibility(View.VISIBLE);
+            tvCountMsg.setText(PreferUtils.getNewPushCount(this) + "");
+        }
+    }
+
+    private final BroadcastReceiver broadcastPushCount = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateCountMsg();
+        }
+    };
 
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
