@@ -116,9 +116,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         RelativeLayout layoutFemale = (RelativeLayout) findViewById(R.id.layout_female);
         layoutFemale.setOnClickListener(this);
 
-//        rgRadius = (RadioGroup) findViewById(R.id.rg_gender);
-//        rbMale = (RadioButton) findViewById(R.id.rb_male);
-//        rbFemale = (RadioButton) findViewById(R.id.rb_female);
     }
 
     @Override
@@ -153,7 +150,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         if (gender.equals(getString(R.string.gender_male))) {
             tvMale.setTextColor(ContextCompat.getColor(this, R.color.tv_black));
             tvFemale.setTextColor(ContextCompat.getColor(this, R.color.tv_gray));
-            imgMale.setImageResource(R.drawable.gender_male_on);
+            imgMale.setImageResource(R.drawable.gender_male_black);
             imgFemale.setImageResource(R.drawable.gender_female_off);
         } else if (gender.equals(getString(R.string.gender_female))) {
             tvMale.setTextColor(ContextCompat.getColor(this, R.color.tv_gray));

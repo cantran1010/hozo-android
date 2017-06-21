@@ -11,7 +11,8 @@
         android:layout_gravity="center"
         android:layout_marginBottom="50dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp">
+        android:layout_marginRight="30dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,8 +64,6 @@
                     android:textStyle="bold"
                     tools:ignore="RtlCompat" />
 
-                <requestFocus />
-
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:layout_width="match_parent"
@@ -89,7 +88,7 @@
                 android:id="@+id/tv_continue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="30dp"
                 android:alpha="0.5"
                 android:background="@drawable/btn_button_selector"
                 android:enabled="false"
