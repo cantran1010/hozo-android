@@ -7,6 +7,7 @@ import android.view.View;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.rest.responseRes.BlockResponse;
+import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -41,6 +42,7 @@ public class BlockActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void initData() {
         Utils.cancelAllNotification(this);
+        PreferUtils.setNewPushCount(this, 0);
 
         blockResponse = (BlockResponse) getIntent().getSerializableExtra(Constants.BLOCK_EXTRA);
 

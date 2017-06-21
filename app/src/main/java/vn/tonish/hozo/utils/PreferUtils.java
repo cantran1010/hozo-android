@@ -20,6 +20,7 @@ public class PreferUtils {
     private static final String PREFER_PUSH_CHAT = "push_chat";
     private static final String PREFER_IS_LOGIN = "is_login";
     private static final String PREFER_IS_AUTO_LOGIN = "auto_login";
+    private static final String PREFER_NEW_PUSH_COUNT = "new_push_count";
 
     private static final String PREFER_PUSH_ACCEPT = "push_accept";
     private static final String PREFER_PUSH_DENY = "push_deny";
@@ -154,6 +155,17 @@ public class PreferUtils {
     public static String getKeyEncryption(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
         return preferences.getString(KEY_ENCRYPTION, Constants.KEY_ENCRYPTION_DEFAULT);
+    }
+
+    public static void setNewPushCount(Context context, int count) {
+        Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
+        editor.putInt(PREFER_NEW_PUSH_COUNT, count);
+        editor.apply();
+    }
+
+    public static int getNewPushCount(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
+        return preferences.getInt(PREFER_NEW_PUSH_COUNT, 0);
     }
 
 }

@@ -37,6 +37,7 @@ import vn.tonish.hozo.activity.SplashActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.Utils;
 
 /**
@@ -109,8 +110,10 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
+//                .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
+
+        notificationBuilder.setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.push_sound));
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int color = 0x008000;
@@ -130,5 +133,13 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             intentBlock.setAction(Constants.BROAD_CAST_BLOCK_USER);
             sendBroadcast(intentBlock);
         }
+
+        PreferUtils.setNewPushCount(getApplicationContext(), PreferUtils.getNewPushCount(getApplicationContext()) + 1);
+
+        Intent intentPushCount = new Intent();
+        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+        sendBroadcast(intentPushCount);
+
     }
+
 }

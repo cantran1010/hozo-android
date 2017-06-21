@@ -22,6 +22,7 @@ import android.os.Build;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -577,11 +579,23 @@ public class Utils {
     }
 
     public static void shareTask(Context context, int taskId) {
-        String url = "https://hozo.vn/share.php?task_id=" + taskId;
+        String url = "https://hozo.vn/share/tasks/" + base64(String.valueOf(taskId));
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, url);
         context.startActivity(Intent.createChooser(intent, "Share"));
+    }
+
+    public static String base64(String input) {
+        String outPut = "";
+        byte[] data = new byte[0];
+        try {
+            data = input.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        outPut = Base64.encodeToString(data, Base64.DEFAULT);
+        return outPut;
     }
 
 }

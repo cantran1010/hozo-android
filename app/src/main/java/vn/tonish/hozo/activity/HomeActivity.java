@@ -2,6 +2,7 @@ package vn.tonish.hozo.activity;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.fragment.LoginFragment;
+import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 
@@ -25,7 +26,8 @@ public class HomeActivity extends BaseActivity {
 
 //        if (getIntent().hasExtra(Constants.LOGOUT_EXTRA))
 //            if (getIntent().getBooleanExtra(Constants.LOGOUT_EXTRA, true))
-                Utils.cancelAllNotification(this);
+        Utils.cancelAllNotification(this);
+        PreferUtils.setNewPushCount(this, 0);
 
         openFragment(R.id.layout_container, LoginFragment.class, false, TransitionScreen.FADE_IN);
     }
