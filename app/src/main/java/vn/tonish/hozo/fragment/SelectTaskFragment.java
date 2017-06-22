@@ -159,9 +159,13 @@ public class SelectTaskFragment extends BaseFragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        getActivity().unregisterReceiver(broadcastReceiver);
+    public void onPause() {
+        super.onPause();
+        try {
+            getActivity().unregisterReceiver(broadcastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void refreshCategory() {

@@ -15,10 +15,7 @@ import java.util.regex.Pattern;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.GeneralInfoActivity;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.view.TextViewHozo;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by LongBui on 6/21/17.
@@ -56,7 +53,6 @@ public class BlockDialog extends BaseDialog implements View.OnClickListener {
             spannable.setSpan(new ClickableSpan() {
                 @Override
                 public void onClick(View widget) {
-                    LogUtils.d(TAG, "updateContent click listener span");
                     openGeneralInfoActivity(getContext().getString(R.string.other_condition), "http://hozo.vn/dieu-khoan-su-dung/?ref=app");
                 }
             }, matcherId.start(), matcherId.end(), 0);

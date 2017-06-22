@@ -116,8 +116,8 @@ public class InboxFragment extends BaseFragment {
 
                 } else if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_BLOCK_TASK) || notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_BLOCK_COMMENT)) {
                     BlockDialog blockDialog = new BlockDialog(getActivity());
-                    blockDialog.updateContent(notifications.get(position).getContent());
                     blockDialog.showView();
+                    blockDialog.updateContent(notifications.get(position).getContent());
                 } else {
                     Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
@@ -285,9 +285,13 @@ public class InboxFragment extends BaseFragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
+    public void onPause() {
+        super.onPause();
+        try {
+            getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

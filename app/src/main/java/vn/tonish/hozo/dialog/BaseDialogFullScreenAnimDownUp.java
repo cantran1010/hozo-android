@@ -1,5 +1,6 @@
 package vn.tonish.hozo.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -15,8 +16,11 @@ import vn.tonish.hozo.R;
  */
 abstract class BaseDialogFullScreenAnimDownUp extends Dialog {
 
+    private Context context;
+
     BaseDialogFullScreenAnimDownUp(@NonNull Context context) {
         super(context, R.style.DialogSlideAnimFullScreenAnimDownUp);
+        this.context = context;
     }
 
     @Override
@@ -42,6 +46,12 @@ abstract class BaseDialogFullScreenAnimDownUp extends Dialog {
      * Show view
      */
     public void showView() {
+
+        if (context instanceof Activity)
+            if (((Activity) context).isFinishing()) return;
+
+        if (context == null) return;
+
         if (!this.isShowing()) {
             this.show();
         }

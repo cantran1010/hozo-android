@@ -170,9 +170,13 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
+    public void onPause() {
+        super.onPause();
+        try {
+            getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void getTaskResponse(final String since, final String sortBytask, final String query) {

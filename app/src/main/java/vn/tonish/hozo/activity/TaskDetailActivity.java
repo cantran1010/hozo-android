@@ -234,9 +234,13 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
-        unregisterReceiver(broadcastReceiver);
+        try {
+            unregisterReceiver(broadcastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void useCacheData() {
