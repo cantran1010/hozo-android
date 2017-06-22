@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -66,6 +68,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.ResizeAnimation;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CommentViewFull;
@@ -116,6 +119,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private LinearLayout layoutBidderCount, layoutAssignCount;
     private ImageView imgMenu;
     private boolean isShowCancel;
+    private boolean mMapViewExpanded = false;
+    private WorkAroundMapFragment mapFragment;
 
     @Override
     protected int getLayout() {
@@ -169,7 +174,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         imgMenu = (ImageView) findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
 
-        WorkAroundMapFragment mapFragment = (WorkAroundMapFragment) getSupportFragmentManager()
+        mapFragment = (WorkAroundMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -177,9 +182,35 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             @Override
             public void onTouch() {
                 scv.requestDisallowInterceptTouchEvent(true);
+
             }
         });
 
+
+    }
+
+    private void animateMapView(WorkAroundMapFragment mMapView) {
+        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mMapView.getView().getLayoutParams();
+
+        ResizeAnimation a = new ResizeAnimation(mMapView.getView());
+        a.setDuration(500);
+
+        if (!getMapViewStatus()) {
+            mMapViewExpanded = true;
+            a.setParams(lp.height, dpToPx(getResources(), 300));
+        } else {
+            mMapViewExpanded = false;
+            a.setParams(lp.height, dpToPx(getResources(), 150));
+        }
+        mMapView.getView().startAnimation(a);
+    }
+
+    private boolean getMapViewStatus() {
+        return mMapViewExpanded;
+    }
+
+    public int dpToPx(Resources res, int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, res.getDisplayMetrics());
     }
 
     @Override
@@ -537,6 +568,12 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             // create marker
             MarkerOptions marker = new MarkerOptions().position(new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
             googleMap.addMarker(marker);
+            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    animateMapView(mapFragment);
+                }
+            });
         }
 
     }

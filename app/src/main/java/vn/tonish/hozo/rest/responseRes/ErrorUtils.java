@@ -1,6 +1,5 @@
 package vn.tonish.hozo.rest.responseRes;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 
 import okhttp3.ResponseBody;
@@ -17,11 +16,11 @@ public class ErrorUtils {
     public static APIError parseError(Response<?> response) {
         Converter<ResponseBody, APIError> errorConverter = retrofit.responseBodyConverter(APIError.class, new Annotation[0]);
 
-        APIError error;
+        APIError error = new APIError();
 
         try {
             error = errorConverter.convert(response.errorBody());
-        } catch (IOException e) {
+        } catch (Exception e) {
             return new APIError();
         }
 
