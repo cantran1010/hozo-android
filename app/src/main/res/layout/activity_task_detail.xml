@@ -74,7 +74,6 @@
                 android:id="@+id/work_detail_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
             <fragment
                 android:id="@+id/map"
                 android:name="vn.tonish.hozo.view.WorkAroundMapFragment"
