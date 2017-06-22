@@ -362,5 +362,6 @@
     <string name="min_budget_error">Số tiền tối thiểu là 10.000 VNĐ</string>
     <string name="notification_title">Thông báo</string>
     <string name="term_and_policy">vi phạm điều khoản sử dụng</string>
+    <string name="alert_task">Chọn loại công việc bạn muốn nhận thông báo.</string>
 
 </resources>
