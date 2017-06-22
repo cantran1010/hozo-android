@@ -19,6 +19,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
@@ -29,7 +30,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -67,8 +67,8 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     private GoogleApiClient googleApiClient;
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
     private AutoCompleteTextView autocompleteView;
-    private static final LatLngBounds BOUNDS_VIETNAM = new LatLngBounds(
-            new LatLng(7.000030, 101.837400), new LatLng(23.000030, 108.837400));
+//    private static final LatLngBounds BOUNDS_VIETNAM = new LatLngBounds(
+//            new LatLng(7.000030, 101.837400), new LatLng(23.000030, 108.837400));
 
     private GoogleMap googleMap;
 
@@ -102,10 +102,15 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         // Register a listener that receives callbacks when a suggestion has been selected
         autocompleteView.setOnItemClickListener(mAutocompleteClickListener);
 
+        AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
+                .setTypeFilter(Place.TYPE_COUNTRY)
+                .setCountry("VN")
+                .build();
+
         // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
         // the entire world.
-        placeAutocompleteAdapter = new PlaceAutocompleteAdapter(this, googleApiClient, BOUNDS_VIETNAM,
-                null);
+        placeAutocompleteAdapter = new PlaceAutocompleteAdapter(this, googleApiClient, null,
+                autocompleteFilter);
         autocompleteView.setAdapter(placeAutocompleteAdapter);
 
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
@@ -305,7 +310,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 places.release();
                 return;
             }
-            try{
+            try {
                 // Get the Place object from the buffer.
                 final Place place = places.get(0);
 
@@ -322,7 +327,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
                 Utils.hideKeyBoard(PostATaskMapActivity.this);
                 places.release();
-            }catch (Exception e){
+            } catch (Exception e) {
                 Utils.showLongToast(PostATaskMapActivity.this, getString(post_a_task_map_get_location_error_next), true, false);
             }
         }
