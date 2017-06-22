@@ -3,9 +3,14 @@ package vn.tonish.hozo.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.ProfileActivity;
@@ -85,6 +90,28 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
                     || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_COMMENT)) {
                 notificationHolder.imgAvata.setImageResource(R.mipmap.app_icon);
                 notificationHolder.tvContent.setText(notification.getContent());
+
+
+                String matcher = context.getString(R.string.term_and_policy);
+
+                SpannableString spannable = new SpannableString(notificationHolder.tvContent.getText().toString());
+
+                Pattern patternId = Pattern.compile(matcher);
+                Matcher matcherId = patternId.matcher(notificationHolder.tvContent.getText().toString());
+                while (matcherId.find()) {
+                    spannable.setSpan(new ClickableSpan() {
+                        @Override
+                        public void onClick(View widget) {
+                            Utils.openGeneralInfoActivity(context, context.getString(R.string.other_condition), "http://hozo.vn/dieu-khoan-su-dung/?ref=app");
+                        }
+                    }, matcherId.start(), matcherId.end(), 0);
+//            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#00A2E5")), matcherId.start(), matcherId.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                notificationHolder.tvContent.setMovementMethod(LinkMovementMethod.getInstance());
+                notificationHolder.tvContent.setText(spannable);
+                notificationHolder.tvContent.setContentDescription(spannable);
+
+
             } else {
                 Utils.displayImageAvatar(context, notificationHolder.imgAvata, notifications.get(position).getAvatar());
                 Utils.setContentMessage(context, notificationHolder.tvContent, notifications.get(position));

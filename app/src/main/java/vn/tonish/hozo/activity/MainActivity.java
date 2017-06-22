@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.BlockDialog;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
@@ -21,7 +20,6 @@ import vn.tonish.hozo.fragment.MyTaskFragment;
 import vn.tonish.hozo.fragment.SelectTaskFragment;
 import vn.tonish.hozo.fragment.SettingFragment;
 import vn.tonish.hozo.model.Notification;
-import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
@@ -88,17 +86,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_USER)
                     || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_TASK)
                     || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_COMMENT)) {
-                DialogUtils.showOkDialog(this, getString(R.string.app_name), notification.getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
+//                DialogUtils.showOkDialog(this, getString(R.string.app_name), notification.getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+//                            @Override
+//                            public void onSubmit() {
+//
+//                            }
+//                        }
+//                );
 
-                            }
-                        }
-                );
+                BlockDialog blockDialog = new BlockDialog(MainActivity.this);
+                blockDialog.showView();
+                blockDialog.updateContent(notification.getContent());
+
             } else if (notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_TASK) || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_COMMENT)) {
                 BlockDialog blockDialog = new BlockDialog(MainActivity.this);
-                blockDialog.updateContent(notification.getContent());
                 blockDialog.showView();
+                blockDialog.updateContent(notification.getContent());
             } else {
                 int taskId = notification.getTaskId();
                 Intent intent = new Intent(this, TaskDetailActivity.class);
@@ -126,13 +129,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_USER)
                     || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_TASK)
                     || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_COMMENT)) {
-                DialogUtils.showOkDialog(this, getString(R.string.app_name), notification.getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
+//                DialogUtils.showOkDialog(this, getString(R.string.app_name), notification.getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+//                            @Override
+//                            public void onSubmit() {
+//
+//                            }
+//                        }
+//                );
 
-                            }
-                        }
-                );
+                BlockDialog blockDialog = new BlockDialog(MainActivity.this);
+                blockDialog.showView();
+                blockDialog.updateContent(notification.getContent());
+
             } else if (notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_TASK) || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_COMMENT)) {
                 BlockDialog blockDialog = new BlockDialog(MainActivity.this);
                 blockDialog.showView();
