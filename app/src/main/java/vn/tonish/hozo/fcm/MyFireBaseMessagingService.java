@@ -35,6 +35,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.activity.SplashActivity;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
@@ -74,6 +75,11 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
     // [END receive_message]
 
     private void sendNotification(Notification notification) {
+
+
+        // fix crash on crashlytic
+        if (!UserManager.checkLogin()) return;
+        if (notification == null || notification.getEvent() == null) return;
 
         String title;
         String message;

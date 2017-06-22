@@ -2,10 +2,12 @@ package vn.tonish.hozo.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 
 import java.util.List;
@@ -75,7 +77,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof NotificationHolder) {
             NotificationHolder notificationHolder = (NotificationHolder) holder;
 
@@ -98,15 +100,21 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
 
                 Pattern patternId = Pattern.compile(matcher);
                 Matcher matcherId = patternId.matcher(notificationHolder.tvContent.getText().toString());
+//                while (matcherId.find()) {
+//                    spannable.setSpan(new ClickableSpan() {
+//                        @Override
+//                        public void onClick(View widget) {
+////                            Utils.openGeneralInfoActivity(context, context.getString(R.string.other_condition), "http://hozo.vn/dieu-khoan-su-dung/?ref=app");
+//                            notificationAdapterListener.onNotificationAdapterListener(position);
+//                        }
+//                    }, matcherId.start(), matcherId.end(), 0);
+////            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#00A2E5")), matcherId.start(), matcherId.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                }
+
                 while (matcherId.find()) {
-                    spannable.setSpan(new ClickableSpan() {
-                        @Override
-                        public void onClick(View widget) {
-                            Utils.openGeneralInfoActivity(context, context.getString(R.string.other_condition), "http://hozo.vn/dieu-khoan-su-dung/?ref=app");
-                        }
-                    }, matcherId.start(), matcherId.end(), 0);
-//            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#00A2E5")), matcherId.start(), matcherId.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#00A2E5")), matcherId.start(), matcherId.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
+
                 notificationHolder.tvContent.setMovementMethod(LinkMovementMethod.getInstance());
                 notificationHolder.tvContent.setText(spannable);
                 notificationHolder.tvContent.setContentDescription(spannable);
@@ -116,6 +124,13 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
                 Utils.displayImageAvatar(context, notificationHolder.imgAvata, notifications.get(position).getAvatar());
                 Utils.setContentMessage(context, notificationHolder.tvContent, notifications.get(position));
             }
+
+            notificationHolder.tvContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    notificationAdapterListener.onNotificationAdapterListener(position);
+                }
+            });
 
             notificationHolder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(notifications.get(position).getCreatedAt(), context));
 

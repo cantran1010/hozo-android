@@ -14,7 +14,7 @@ public class UserManager {
     public static boolean checkLogin() {
         Realm realm = Realm.getDefaultInstance();
         // get last update
-        UserEntity userEntity = realm.where(UserEntity.class).findFirst();
+        UserEntity userEntity = realm.where(UserEntity.class).equalTo("isMyUser", true).findFirst();
 
         return !(userEntity == null || userEntity.getFullName().equals("") || userEntity.getFullName() == null);
     }
@@ -53,7 +53,7 @@ public class UserManager {
 
     }
 
-    public static void insertUser(UserEntity userEntity,boolean isMyUser) {
+    public static void insertUser(UserEntity userEntity, boolean isMyUser) {
         LogUtils.d(TAG, "insertUser : " + userEntity.toString());
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
