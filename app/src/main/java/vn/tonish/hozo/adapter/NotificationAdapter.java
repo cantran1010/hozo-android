@@ -77,7 +77,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NotificationHolder) {
             NotificationHolder notificationHolder = (NotificationHolder) holder;
 
@@ -128,7 +128,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
             notificationHolder.tvContent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    notificationAdapterListener.onNotificationAdapterListener(position);
+                    notificationAdapterListener.onNotificationAdapterListener(holder.getAdapterPosition());
                 }
             });
 
