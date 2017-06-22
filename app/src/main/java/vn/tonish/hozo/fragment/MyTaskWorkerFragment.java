@@ -125,9 +125,13 @@ public class MyTaskWorkerFragment extends BaseFragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
+    public void onPause() {
+        super.onPause();
+        try {
+            getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {

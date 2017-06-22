@@ -168,9 +168,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        unregisterReceiver(broadcastPushCount);
+    public void onPause() {
+        super.onPause();
+        try {
+            unregisterReceiver(broadcastPushCount);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

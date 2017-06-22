@@ -78,7 +78,11 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(blockBroadCastReceiver);
+        try {
+            unregisterReceiver(blockBroadCastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
