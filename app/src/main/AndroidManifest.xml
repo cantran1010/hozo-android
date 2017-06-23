@@ -39,6 +39,10 @@
                     android:host="go"
                     android:scheme="hozotonish" />
 
+                <data
+                    android:host="go"
+                    android:scheme="hozotonishbeta" />
+
             </intent-filter>
         </activity>
 
