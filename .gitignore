@@ -1,18 +1,26 @@
 *.iml
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
 .DS_Store
 /build
 /captures
 .externalNativeBuild
-/.idea/modules.xml
-/.idea/misc.xml
-/.idea/workspace.xml
 /.idea
 /.gradle
 /app/build
+
+# fabric secret key
+/app/fabric.properties
+
+# FCM key
+/app/google-services.json
+
+# google map key
+/app/src/debug
+/app/src/release
+
+# password key
+/gradle.properties
 
 # Fastlane json key seret
 google-play-android-developer-*.json
