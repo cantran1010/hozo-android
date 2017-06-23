@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import vn.tonish.hozo.BuildConfig;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.GeneralInfoActivity;
 import vn.tonish.hozo.activity.SplashActivity;
@@ -580,7 +581,7 @@ public class Utils {
     }
 
     public static void shareTask(Context context, int taskId) {
-        String url = "https://hozo.vn/share/tasks/" + base64(String.valueOf(taskId));
+        String url = BuildConfig.SHARE_URL + base64(String.valueOf(taskId));
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, url);
