@@ -242,8 +242,32 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
+                    android:background="@color/gray" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/edit_profile_des"
+                    android:textColor="@color/tv_gray" />
+
+                <vn.tonish.hozo.view.EdittextHozo
+                    android:id="@+id/edt_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:minHeight="@dimen/edt_min_height"
+                    android:hint="@string/edt_profile_des_hill"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/edt_size_nomal" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
                     android:layout_marginBottom="10dp"
                     android:background="@color/gray" />
+
 
             </LinearLayout>
 

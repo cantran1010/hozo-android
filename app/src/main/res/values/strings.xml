@@ -317,7 +317,7 @@
     <string name="contacting_api_autocomplete_error">Lỗi kết nối tới dịch vụ của google</string>
     <string name="post_a_task_map_get_location_error">Không thể lấy vị trí của bạn,vui lòng kiểm tra lại kết nối và thử lại !</string>
     <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
-    <string name="task_detail_money_type">VND</string>
+    <!--<string name="task_detail_money_type">VND</string>-->
     <string name="km">km</string>
     <string name="all_space_type"><b> </b></string>
     <string name="count_in_detail">(%1$d)</string>
@@ -362,5 +362,7 @@
     <string name="min_budget_error">Số tiền tối thiểu là 10.000 VNĐ</string>
     <string name="notification_title">Thông báo</string>
     <string name="term_and_policy">vi phạm điều khoản sử dụng</string>
+    <string name="edit_profile_des">Mô tả</string>
+    <string name="edt_profile_des_hill">Mô tả bản thân của bạn</string>
 
 </resources>
