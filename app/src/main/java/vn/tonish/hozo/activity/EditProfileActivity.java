@@ -65,7 +65,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private CircleImageView imgAvatar;
     private String imgPath;
     //    private RadioButton rbMale, rbFemale;
-    private EdittextHozo edtName, edtAddress;
+    private EdittextHozo edtName, edtAddress, edtDes;
     private TextViewHozo tvBirthday;
     private final Calendar calendar = Calendar.getInstance();
     //    private RadioGroup rgRadius;
@@ -110,6 +110,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         imgMale = (ImageView) findViewById(R.id.img_male);
         imgFemale = (ImageView) findViewById(R.id.img_female);
 
+        edtDes = findViewById(R.id.edt_description);
+
         RelativeLayout layoutMale = (RelativeLayout) findViewById(R.id.layout_male);
         layoutMale.setOnClickListener(this);
 
@@ -138,6 +140,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             gender = userEntity.getGender();
             updateGender(gender);
         }
+
+        edtDes.setText(userEntity.getDescription());
 
     }
 
@@ -275,6 +279,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         try {
             jsonRequest.put(Constants.PARAMETER_FULL_NAME, edtName.getText().toString());
             jsonRequest.put(Constants.PARAMETER_ADDRESS, edtAddress.getText().toString());
+            jsonRequest.put(Constants.PARAMETER_DESCRIPTION, edtDes.getText().toString());
 
             if (!tvBirthday.getText().toString().equals(""))
                 jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, getOnlyIsoFromDate(tvBirthday.getText().toString()));
@@ -318,7 +323,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(EditProfileActivity.this);
-                }else {
+                } else {
                     DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
@@ -366,7 +371,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
-                        tvBirthday.setText(getString(R.string.edit_profile_birthday,dayOfMonth,monthOfYear + 1,year));
+                        tvBirthday.setText(getString(R.string.edit_profile_birthday, dayOfMonth, monthOfYear + 1, year));
                         calendar.set(year, monthOfYear, dayOfMonth);
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
