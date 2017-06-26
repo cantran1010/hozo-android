@@ -123,10 +123,10 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(true)
-//                .setSound(defaultSoundUri)
+                .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 
-        notificationBuilder.setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.push_sound));
+//        notificationBuilder.setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.push_sound));
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int color = 0x008000;
