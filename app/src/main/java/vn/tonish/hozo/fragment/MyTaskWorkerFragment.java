@@ -42,13 +42,9 @@ public class MyTaskWorkerFragment extends BaseFragment {
     private RecyclerView rcvTask;
     private final List<TaskResponse> taskResponses = new ArrayList<>();
     private MyTaskAdapter myTaskAdapter;
-    //    private String role = Constants.ROLE_TASKER;
     private static final int LIMIT = 20;
     private String sinceStr;
-    //    private Date sinceDate;
     private boolean isLoadingMoreFromServer = true;
-    //    boolean isLoadingMoreFromDb = true;
-//    boolean isLoadingFromServer = false;
     private Call<List<TaskResponse>> call;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
@@ -67,8 +63,6 @@ public class MyTaskWorkerFragment extends BaseFragment {
     @Override
     protected void initData() {
         initList();
-//        getCacheData(sinceDate);
-//        getTaskFromServer(sinceStr, LIMIT);
     }
 
     private void initList() {
@@ -83,7 +77,6 @@ public class MyTaskWorkerFragment extends BaseFragment {
 
                 LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 
-//                if (isLoadingMoreFromDb) getCacheData(role, sinceDate);
                 if (isLoadingMoreFromServer) {
                     getTaskFromServer(sinceStr, LIMIT);
                 }
@@ -104,20 +97,6 @@ public class MyTaskWorkerFragment extends BaseFragment {
             }
         });
     }
-
-
-//    private void getCacheData(String role, Date sinceDateIn) {
-//        LogUtils.d(TAG, "getCacheData start , role : " + role + " , sinceDate : " + sinceDateIn);
-//        List<TaskEntity> taskEntities = TaskManager.getTaskSince(sinceDateIn, role);
-//        if (taskEntities.size() > 0)
-//            sinceDate = taskEntities.get(taskEntities.size() - 1).getCreatedAt();
-//        taskResponses.addAll(DataParse.converListTaskEntityToTaskResponse(taskEntities));
-//        refreshList();
-//        if (taskResponses.size() < LIMIT) isLoadingMoreFromDb = false;
-//
-//        LogUtils.d(TAG, "getCacheData , taskResponses : " + taskResponses.toString());
-//        LogUtils.d(TAG, "getCacheData , taskResponses size : " + taskResponses.size());
-//    }
 
     @Override
     protected void resumeData() {
@@ -143,9 +122,6 @@ public class MyTaskWorkerFragment extends BaseFragment {
     };
 
     private void getTaskFromServer(final String since, final int limit) {
-
-//        if (isLoadingFromServer) return;
-//        isLoadingFromServer = true;
         Map<String, String> params = new HashMap<>();
         params.put("role", Constants.ROLE_TASKER);
         if (since != null) {
@@ -170,18 +146,6 @@ public class MyTaskWorkerFragment extends BaseFragment {
 
                     if (taskResponsesBody.size() > 0)
                         sinceStr = taskResponsesBody.get(taskResponsesBody.size() - 1).getCreatedAt();
-
-//                    for (int i = taskResponsesBody.size() - 1; i >= 0; i--){
-//                        taskResponsesBody.get(i).setRole(Constants.ROLE_TASKER);
-//                        Utils.checkContainsTaskResponse(taskResponses, taskResponsesBody.get(i));
-//                    }
-//
-//                    Collections.sort(taskResponses, new Comparator<TaskResponse>() {
-//                        @Override
-//                        public int compare(TaskResponse o1, TaskResponse o2) {
-//                            return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-//                        }
-//                    });
 
                     if (since == null) {
                         taskResponses.clear();
@@ -224,7 +188,6 @@ public class MyTaskWorkerFragment extends BaseFragment {
                     });
                 }
 
-//                isLoadingFromServer = false;
                 onStopRefresh();
             }
 
@@ -245,7 +208,6 @@ public class MyTaskWorkerFragment extends BaseFragment {
                         }
                     });
 
-//                isLoadingFromServer = false;
                     myTaskAdapter.stopLoadMore();
                     onStopRefresh();
                     refreshList();

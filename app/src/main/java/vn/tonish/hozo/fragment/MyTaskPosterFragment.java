@@ -44,10 +44,7 @@ public class MyTaskPosterFragment extends BaseFragment {
     private MyTaskAdapter myTaskAdapter;
     private static final int LIMIT = 20;
     private String sinceStr;
-    //    private Date sinceDate;
     private boolean isLoadingMoreFromServer = true;
-    //    boolean isLoadingMoreFromDb = true;
-//    boolean isLoadingFromServer = false;
     private Call<List<TaskResponse>> call;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
@@ -65,27 +62,9 @@ public class MyTaskPosterFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-//        getCacheData(role, sinceDate);
         initList();
-//        getTaskFromServer(sinceStr, LIMIT);
-
         if (getArguments().getBoolean(Constants.REFRESH_EXTRA)) onRefresh();
     }
-
-
-//    private void getCacheData(String role, Date sinceDateIn) {
-//        LogUtils.d(TAG, "getCacheData start , role : " + role + " , sinceDate : " + sinceDateIn);
-//        List<TaskEntity> taskEntities = TaskManager.getTaskSince(sinceDateIn, role);
-//        if (taskEntities.size() > 0)
-//            sinceDate = taskEntities.get(taskEntities.size() - 1).getCreatedAt();
-//        taskResponses.addAll(DataParse.converListTaskEntityToTaskResponse(taskEntities));
-//        refreshList();
-//        if (taskResponses.size() < LIMIT) isLoadingMoreFromDb = false;
-//
-//        LogUtils.d(TAG, "getCacheData , taskResponses : " + taskResponses.toString());
-//        LogUtils.d(TAG, "getCacheData , taskResponses size : " + taskResponses.size());
-//    }
-
 
     @Override
     protected void resumeData() {
@@ -104,7 +83,6 @@ public class MyTaskPosterFragment extends BaseFragment {
 
                 LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 
-//                if (isLoadingMoreFromDb) getCacheData(role, sinceDate);
                 if (isLoadingMoreFromServer) {
                     getTaskFromServer(sinceStr, LIMIT);
                 }
@@ -146,9 +124,6 @@ public class MyTaskPosterFragment extends BaseFragment {
     };
 
     private void getTaskFromServer(final String since, final int limit) {
-
-//        if (isLoadingFromServer) return;
-//        isLoadingFromServer = true;
         Map<String, String> params = new HashMap<>();
 
         params.put("role", Constants.ROLE_POSTER);
@@ -172,18 +147,6 @@ public class MyTaskPosterFragment extends BaseFragment {
 
                     if (taskResponsesBody.size() > 0)
                         sinceStr = taskResponsesBody.get(taskResponsesBody.size() - 1).getCreatedAt();
-
-//                    for (int i = taskResponsesBody.size() - 1; i >= 0; i--) {
-//                        taskResponsesBody.get(i).setRole(Constants.ROLE_POSTER);
-//                        Utils.checkContainsTaskResponse(taskResponses, taskResponsesBody.get(i));
-//                    }
-//
-//                    Collections.sort(taskResponses, new Comparator<TaskResponse>() {
-//                        @Override
-//                        public int compare(TaskResponse o1, TaskResponse o2) {
-//                            return o2.getCreatedAt().compareTo(o1.getCreatedAt());
-//                        }
-//                    });
 
                     if (since == null) {
                         taskResponses.clear();
@@ -227,7 +190,6 @@ public class MyTaskPosterFragment extends BaseFragment {
                     });
                 }
 
-//                isLoadingFromServer = false;
                 onStopRefresh();
             }
 
@@ -249,7 +211,6 @@ public class MyTaskPosterFragment extends BaseFragment {
                         }
                     });
 
-//                isLoadingFromServer = false;
                     myTaskAdapter.stopLoadMore();
                     onStopRefresh();
                     refreshList();
