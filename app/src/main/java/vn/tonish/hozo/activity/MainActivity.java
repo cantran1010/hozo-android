@@ -81,11 +81,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (intentPush.hasExtra(Constants.NOTIFICATION_EXTRA)) {
             Notification notification = (Notification) intentPush.getSerializableExtra(Constants.NOTIFICATION_EXTRA);
 
-            if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_USER)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_TASK)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_COMMENT)) {
+            switch (notification.getEvent()) {
+                case Constants.PUSH_TYPE_ADMIN_PUSH:
+                case Constants.PUSH_TYPE_BLOCK_USER:
+                case Constants.PUSH_TYPE_ACTIVE_USER:
+                case Constants.PUSH_TYPE_ACTIVE_TASK:
+                case Constants.PUSH_TYPE_ACTIVE_COMMENT: {
 //                DialogUtils.showOkDialog(this, getString(R.string.app_name), notification.getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
 //                            @Override
 //                            public void onSubmit() {
@@ -94,19 +95,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                        }
 //                );
 
-                BlockDialog blockDialog = new BlockDialog(MainActivity.this);
-                blockDialog.showView();
-                blockDialog.updateContent(notification.getContent());
+                    BlockDialog blockDialog = new BlockDialog(MainActivity.this);
+                    blockDialog.showView();
+                    blockDialog.updateContent(notification.getContent());
 
-            } else if (notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_TASK) || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_COMMENT)) {
-                BlockDialog blockDialog = new BlockDialog(MainActivity.this);
-                blockDialog.showView();
-                blockDialog.updateContent(notification.getContent());
-            } else {
-                int taskId = notification.getTaskId();
-                Intent intent = new Intent(this, TaskDetailActivity.class);
-                intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
-                startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                    break;
+                }
+                case Constants.PUSH_TYPE_BLOCK_TASK:
+                case Constants.PUSH_TYPE_BLOCK_COMMENT: {
+                    BlockDialog blockDialog = new BlockDialog(MainActivity.this);
+                    blockDialog.showView();
+                    blockDialog.updateContent(notification.getContent());
+                    break;
+                }
+                default:
+                    int taskId = notification.getTaskId();
+                    Intent intent = new Intent(this, TaskDetailActivity.class);
+                    intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
+                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                    break;
             }
 
         } else if (intentPush.hasExtra(Constants.TASK_ID_EXTRA)) {
@@ -124,11 +131,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (intent.hasExtra(Constants.NOTIFICATION_EXTRA)) {
             Notification notification = (Notification) intent.getSerializableExtra(Constants.NOTIFICATION_EXTRA);
 
-            if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_USER)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_TASK)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_COMMENT)) {
+            switch (notification.getEvent()) {
+                case Constants.PUSH_TYPE_ADMIN_PUSH:
+                case Constants.PUSH_TYPE_BLOCK_USER:
+                case Constants.PUSH_TYPE_ACTIVE_USER:
+                case Constants.PUSH_TYPE_ACTIVE_TASK:
+                case Constants.PUSH_TYPE_ACTIVE_COMMENT: {
 //                DialogUtils.showOkDialog(this, getString(R.string.app_name), notification.getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
 //                            @Override
 //                            public void onSubmit() {
@@ -137,19 +145,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                        }
 //                );
 
-                BlockDialog blockDialog = new BlockDialog(MainActivity.this);
-                blockDialog.showView();
-                blockDialog.updateContent(notification.getContent());
+                    BlockDialog blockDialog = new BlockDialog(MainActivity.this);
+                    blockDialog.showView();
+                    blockDialog.updateContent(notification.getContent());
 
-            } else if (notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_TASK) || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_COMMENT)) {
-                BlockDialog blockDialog = new BlockDialog(MainActivity.this);
-                blockDialog.showView();
-                blockDialog.updateContent(notification.getContent());
-            } else {
-                int taskId = notification.getTaskId();
-                Intent intentDetail = new Intent(this, TaskDetailActivity.class);
-                intentDetail.putExtra(Constants.TASK_ID_EXTRA, taskId);
-                startActivity(intentDetail, TransitionScreen.RIGHT_TO_LEFT);
+                    break;
+                }
+                case Constants.PUSH_TYPE_BLOCK_TASK:
+                case Constants.PUSH_TYPE_BLOCK_COMMENT: {
+                    BlockDialog blockDialog = new BlockDialog(MainActivity.this);
+                    blockDialog.showView();
+                    blockDialog.updateContent(notification.getContent());
+                    break;
+                }
+                default:
+                    int taskId = notification.getTaskId();
+                    Intent intentDetail = new Intent(this, TaskDetailActivity.class);
+                    intentDetail.putExtra(Constants.TASK_ID_EXTRA, taskId);
+                    startActivity(intentDetail, TransitionScreen.RIGHT_TO_LEFT);
+                    break;
             }
 
         } else if (intent.hasExtra(Constants.TASK_ID_EXTRA)) {
@@ -231,18 +245,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_inbox:
 
-                if (tabIndex == 4) {
-                    Intent intentAnswer = new Intent();
-                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_INBOX);
-                    sendBroadcast(intentAnswer);
-                    break;
+                if (PreferUtils.getNewPushCount(MainActivity.this) > 0) {
+                    if (tabIndex == 4) {
+                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.FADE_IN);
+                    } else if (tabIndex > 4) {
+                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.LEFT_TO_RIGHT);
+                    } else {
+                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.RIGHT_TO_LEFT);
+                    }
+                } else {
+                    if (tabIndex == 4) {
+                        Intent intentAnswer = new Intent();
+                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_INBOX);
+                        sendBroadcast(intentAnswer);
+                        break;
+                    }
+
+                    if (tabIndex > 4) {
+                        showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
+                    } else {
+                        showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    }
                 }
 
-                if (tabIndex > 4) {
-                    showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
-                } else {
-                    showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }
                 tabIndex = 4;
                 updateMenuUi(4);
                 break;

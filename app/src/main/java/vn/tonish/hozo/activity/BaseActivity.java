@@ -19,6 +19,7 @@ import java.util.Stack;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.broadcast.BlockBroadCastReceiver;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.EdittextHozo;
 
@@ -136,7 +137,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         openFragment(resId, fragmentClazz, bundle, addBackStack, transitionScreen);
     }
 
-    private void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack, TransitionScreen transitionScreen) {
+    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack, TransitionScreen transitionScreen) {
         transaction = fragmentManager.beginTransaction();
         String tag = fragmentClazz.getName();
         Fragment fragment = null;
@@ -159,6 +160,8 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
             transaction.addToBackStack(tag);
         }
         transaction.commitAllowingStateLoss();
+
+        fragmentsStack.push(new StackEntry(fragmentClazz.getName()));
     }
 
     public void showFragment(int resLayout, Class<?> newFragClass,
@@ -176,8 +179,10 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         // find the fragment in fragment manager
         Fragment newFragment = fragmentManager.findFragmentByTag(newTag);
         if (newFragment != null && !newFragment.isRemoving()) {
+            LogUtils.d(TAG, "showFragment , new fragment != null");
             transaction.show(newFragment).commit();
         } else {
+            LogUtils.d(TAG, "showFragment , new fragment == null");
             Fragment nFrag = null;
             try {
                 nFrag = (Fragment) newFragClass.newInstance();
@@ -199,6 +204,15 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         }
 
         fragmentsStack.push(new StackEntry(newTag));
+    }
+
+    public void removeFragment(Class<?> newFragClass) {
+        String newTag = newFragClass.getName();
+        Fragment fragment = fragmentManager.findFragmentByTag(newTag);
+        if (fragment != null) {
+            transaction = fragmentManager.beginTransaction();
+            transaction.remove(fragment).commit();
+        }
     }
 
     private Fragment getLastFragment() {

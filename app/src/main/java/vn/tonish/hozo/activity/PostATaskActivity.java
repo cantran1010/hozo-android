@@ -14,6 +14,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
@@ -157,6 +159,29 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                 }
             }
         });
+
+        edtWorkName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!edtWorkName.getText().toString().equals("") && charSequence.length() < 80)
+                    edtWorkName.setError(null);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 80) {
+                    edtWorkName.setError(getString(R.string.title_max_length_error));
+                    edtWorkName.setText(edtWorkName.getText().subSequence(0, 80));
+                    edtWorkName.setSelection(edtWorkName.length());
+                }
+            }
+        });
+
     }
 
     @Override

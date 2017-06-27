@@ -13,7 +13,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import vn.tonish.hozo.R;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 
 import static android.content.ContentValues.TAG;
 
@@ -55,11 +59,17 @@ public class CustomWebView extends WebView {
      */
     private class CustomWebViewClient extends WebViewClient {
 
+        String url;
+
         @Override
         public void onPageStarted(final WebView view, final String url,
                                   Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
+            ProgressDialogUtils.showProgressDialog(getContext());
             LogUtils.d(TAG, "onPageStarted: " + url);
+
+            if (!url.startsWith("data:text/html"))
+                this.url = url;
         }
 
         @Override
@@ -71,14 +81,29 @@ public class CustomWebView extends WebView {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             LogUtils.d(TAG, "onPageFinished: " + url);
-
+            ProgressDialogUtils.dismissProgressDialog();
         }
 
         @Override
-        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+        public void onReceivedError(final WebView view, final WebResourceRequest request, WebResourceError error) {
             super.onReceivedError(view, request, error);
-        }
+            ProgressDialogUtils.dismissProgressDialog();
 
+            view.loadData(getContext().getString(R.string.webview_error), "text/html; charset=utf-8", "utf-8");
+
+//            view.loadUrl("about:blank");
+            DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                @Override
+                public void onSubmit() {
+                    view.loadUrl(url);
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            });
+        }
     }
 
 }

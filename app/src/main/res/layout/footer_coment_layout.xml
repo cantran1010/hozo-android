@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
@@ -12,9 +13,9 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginLeft="50dp"
         android:layout_marginStart="50dp"
-        android:visibility="gone"
-        android:layout_marginLeft="50dp">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/img_attached"
@@ -29,11 +30,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:background="#66000000"
             android:contentDescription="@string/adjust_image"
             android:padding="5dp"
-            android:src="@drawable/img_close"
-            android:layout_alignParentRight="true" />
+            android:src="@drawable/img_close" />
 
     </RelativeLayout>
 
@@ -47,40 +48,51 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:contentDescription="@string/adjust_image"
-            android:paddingLeft="5dp"
+            android:paddingBottom="2dp"
+            android:paddingEnd="5dp"
+            android:paddingLeft="0dp"
             android:paddingRight="5dp"
+            android:paddingStart="0dp"
+            android:paddingTop="2dp"
             android:src="@drawable/img_camera" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:layout_toEndOf="@id/img_attach"
-            android:background="@drawable/bg_border_gray_corners"
             android:layout_marginRight="5dp"
-            android:layout_toRightOf="@id/img_attach">
+            android:layout_toEndOf="@id/img_attach"
+            android:layout_toRightOf="@id/img_attach"
+            android:background="@drawable/bg_border_gray_corners">
 
             <ImageView
                 android:id="@+id/img_send"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/content_description_send"
-                android:src="@drawable/img_send"
-                android:layout_alignParentRight="true" />
+                android:padding="5dp"
+                android:src="@drawable/img_send" />
 
             <vn.tonish.hozo.view.EdittextHozo
                 android:id="@+id/edt_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/img_send"
                 android:layout_toStartOf="@id/img_send"
                 android:background="@null"
                 android:hint="@string/type_your_text"
                 android:minHeight="@dimen/edt_min_height"
-                android:padding="5dp"
-                android:textColorHint="@color/tv_gray"
-                android:layout_toLeftOf="@id/img_send" />
+                android:paddingBottom="5dp"
+                android:paddingEnd="0dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="0dp"
+                android:paddingStart="5dp"
+                android:paddingTop="5dp"
+                android:textColorHint="@color/tv_gray" />
 
         </RelativeLayout>
 
