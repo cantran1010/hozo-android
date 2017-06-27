@@ -50,7 +50,9 @@
         android:layout_below="@id/layout_header"
         android:padding="16dp"
         android:text="@string/alert_task"
-        android:textColor="@color/black" />
+        android:textColor="@color/text_item_address"
+        android:textSize="@dimen/tv_size_medium"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcv_task_alert"

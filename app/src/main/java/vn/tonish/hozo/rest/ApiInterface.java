@@ -106,4 +106,11 @@ public interface ApiInterface {
 
     @POST("applications/check_update")
     Call<UpdateResponse> apdateVersion(@Body RequestBody body);
+
+    @GET("settings/alert_tasks")
+    Call<List<Integer>> getSettingAlert(@Header("Authorization") String token);
+
+    @POST("settings/alert_tasks")
+    Call<Void> postSettingAlert(@Header("Authorization") String token,@Body RequestBody body);
+
 }

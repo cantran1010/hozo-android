@@ -66,7 +66,7 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
             WorkHolder workHolder = ((WorkHolder) holder);
             LogUtils.d(TAG, "adapter " + taskResponses.get(position).toString());
             workHolder.tvName.setText(taskResponses.get(position).getTitle());
-            workHolder.tvPrice.setText(context.getString(R.string.my_task_price, Utils.formatNumber(taskResponses.get(position).getWorkerRate() * taskResponses.get(position).getWorkerCount())));
+            workHolder.tvPrice.setText(context.getString(R.string.my_task_price, Utils.formatNumber(taskResponses.get(position).getWorkerRate())));
 
             workHolder.tvStartTime.setText(context.getString(R.string.my_task_adapter_start_time, DateTimeUtils.getOnlyDateFromIso(taskResponses.get(position).getStartTime())));
             workHolder.tvTaskType.setText(context.getString(R.string.my_task_adapter_task_type, CategoryManager.getCategoryById(taskResponses.get(position).getCategoryId()).getName()));
