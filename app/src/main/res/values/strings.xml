@@ -364,5 +364,6 @@
     <string name="term_and_policy">vi phạm điều khoản sử dụng</string>
     <string name="edit_profile_des">Mô tả</string>
     <string name="edt_profile_des_hill">Mô tả bản thân của bạn</string>
+    <string name="webview_error"><html><body style='background: white;'><p style='color: red;'>Không thể tải trang ! Vui lòng kiểm tra kết nối và thử lại !</p></body></html></string>
 
 </resources>
