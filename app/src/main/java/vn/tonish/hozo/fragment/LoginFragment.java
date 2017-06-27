@@ -288,7 +288,14 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
                     }
                 });
+                if (checkNumberPhone(edtPhone.getText().toString().trim())) {
+                    tvContinue.setAlpha(1f);
+                    tvContinue.setEnabled(true);
+                } else {
+                    tvContinue.setAlpha(0.5f);
+                    tvContinue.setEnabled(false);
 
+                }
 
             }
         });

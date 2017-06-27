@@ -127,8 +127,8 @@
                 android:background="@null"
                 android:padding="10dp"
                 android:src="@android:drawable/presence_offline"
-                android:visibility="visible"
-                tools:ignore="ContentDescription" />
+                android:visibility="gone"
+                android:contentDescription="@string/adjust_image"/>
 
             <View
                 android:layout_width="match_parent"
