@@ -291,8 +291,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 btnMoreReview.setVisibility(View.GONE);
             }
             setDataSelected(true);
-
-            layoutAbout.setVisibility(View.VISIBLE);
             tvAbout.setText(userEntity.getDescription());
 
         }
