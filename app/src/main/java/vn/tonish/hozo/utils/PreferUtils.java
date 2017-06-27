@@ -158,6 +158,8 @@ public class PreferUtils {
     }
 
     public static void setNewPushCount(Context context, int count) {
+
+        if (context == null) return;
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putInt(PREFER_NEW_PUSH_COUNT, count);
         editor.apply();
