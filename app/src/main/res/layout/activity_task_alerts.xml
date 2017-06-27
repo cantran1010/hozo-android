@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -42,16 +43,27 @@
 
     </RelativeLayout>
 
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_alert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_header"
+        android:padding="16dp"
+        android:text="@string/alert_task"
+        android:textColor="@color/text_item_address"
+        android:textSize="@dimen/tv_size_medium"
+        />
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rcv_task_type"
+        android:id="@+id/rcv_task_alert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_save"
-        android:layout_below="@id/layout_header" />
+        android:layout_below="@id/tv_alert" />
 
     <vn.tonish.hozo.view.ButtonHozo
-        style="@style/btn_style_normal"
         android:id="@+id/btn_save"
+        style="@style/btn_style_normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
