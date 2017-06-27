@@ -274,12 +274,16 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void updateProfile() {
+        if (edtDes.getText().toString().trim().length()>500){
+            edtDes.setError(getString(R.string.error_des));
+            return;
+        }
         ProgressDialogUtils.showProgressDialog(this);
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(Constants.PARAMETER_FULL_NAME, edtName.getText().toString());
             jsonRequest.put(Constants.PARAMETER_ADDRESS, edtAddress.getText().toString());
-            jsonRequest.put(Constants.PARAMETER_DESCRIPTION, edtDes.getText().toString());
+            jsonRequest.put(Constants.PARAMETER_DESCRIPTION, edtDes.getText().toString().trim());
 
             if (!tvBirthday.getText().toString().equals(""))
                 jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, getOnlyIsoFromDate(tvBirthday.getText().toString()));

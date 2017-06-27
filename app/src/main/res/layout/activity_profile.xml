@@ -250,7 +250,46 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/layout_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@color/gray" />
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/profile_about"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/tv_size_nomal"
+                        android:textStyle="bold" />
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        android:id="@+id/tv_about"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
+                        android:padding="5dp"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -350,7 +389,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/bg_border_gray"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/btn_logout"

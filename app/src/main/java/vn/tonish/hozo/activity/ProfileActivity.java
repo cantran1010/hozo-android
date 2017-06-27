@@ -55,9 +55,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private ImageView imgback, imgEdit;
     private TextView btnWorker, btnPoster, tvTitle;
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvGender, tvRateCount, btnMoreReview, btnLogOut;
+    private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvGender, tvRateCount, btnMoreReview, btnLogOut, tvAbout;
     private RatingBar ratingBar;
-    private LinearLayout layoutInfor;
+    private LinearLayout layoutInfor, layoutAbout;
     private float ratingPoster, ratingTasker;
     private ReviewsListView reviewsListView;
     private FrameLayout layoutLogout;
@@ -82,6 +82,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         imgEdit = (ImageView) findViewById(R.id.img_edit);
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         layoutInfor = (LinearLayout) findViewById(R.id.layout_infor);
+        layoutAbout = (LinearLayout) findViewById(R.id.layout_about);
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
         ratingBar = (RatingBar) findViewById(R.id.rb_rating);
         tvDateOfBirth = (TextViewHozo) findViewById(R.id.tv_birthday);
@@ -93,6 +94,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btnPoster = (TextViewHozo) findViewById(R.id.btn_poster);
         tvRateCount = (TextViewHozo) findViewById(R.id.tv_rate);
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
+        tvAbout = (TextViewHozo) findViewById(R.id.tv_about);
         layoutLogout = (FrameLayout) findViewById(R.id.layout_logout);
         reviewsListView = (ReviewsListView) findViewById(R.id.rcv_reviews);
         btnMoreReview = (TextViewHozo) findViewById(R.id.tv_more_reviews);
@@ -289,7 +291,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 btnMoreReview.setVisibility(View.GONE);
             }
             setDataSelected(true);
+            tvAbout.setText(userEntity.getDescription());
+
         }
+
 
     }
 
