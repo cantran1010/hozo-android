@@ -245,18 +245,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_inbox:
 
-                if (tabIndex == 4) {
-                    Intent intentAnswer = new Intent();
-                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_INBOX);
-                    sendBroadcast(intentAnswer);
-                    break;
+                if (PreferUtils.getNewPushCount(MainActivity.this) > 0) {
+                    if (tabIndex == 4) {
+                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.FADE_IN);
+                    } else if (tabIndex > 4) {
+                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.LEFT_TO_RIGHT);
+                    } else {
+                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.RIGHT_TO_LEFT);
+                    }
+                } else {
+                    if (tabIndex == 4) {
+                        Intent intentAnswer = new Intent();
+                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_INBOX);
+                        sendBroadcast(intentAnswer);
+                        break;
+                    }
+
+                    if (tabIndex > 4) {
+                        showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
+                    } else {
+                        showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    }
                 }
 
-                if (tabIndex > 4) {
-                    showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
-                } else {
-                    showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }
                 tabIndex = 4;
                 updateMenuUi(4);
                 break;
