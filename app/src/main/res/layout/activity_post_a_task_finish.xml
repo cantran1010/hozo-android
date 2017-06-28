@@ -59,7 +59,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/border_gray">
 
-                <vn.tonish.hozo.view.EdittextHozo
+                <vn.tonish.hozo.view.HozoAutoCompleteTextView
                     android:id="@+id/edt_budget"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -68,6 +68,7 @@
                     android:layout_toStartOf="@+id/tv_unit"
                     android:background="@null"
                     android:hint=""
+                    android:imeOptions="actionNext"
                     android:inputType="number"
                     android:maxLength="11"
                     android:minHeight="@dimen/edt_min_height"

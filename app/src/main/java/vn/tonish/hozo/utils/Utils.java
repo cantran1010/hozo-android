@@ -45,7 +45,6 @@ import java.util.regex.Pattern;
 
 import vn.tonish.hozo.BuildConfig;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.GeneralInfoActivity;
 import vn.tonish.hozo.activity.SplashActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Notification;
@@ -598,13 +597,6 @@ public class Utils {
         }
         outPut = Base64.encodeToString(data, Base64.DEFAULT);
         return outPut;
-    }
-
-    public static void openGeneralInfoActivity(Context context, String title, String url) {
-        Intent intent = new Intent(context, GeneralInfoActivity.class);
-        intent.putExtra(Constants.URL_EXTRA, url);
-        intent.putExtra(Constants.TITLE_INFO_EXTRA, title);
-        context.startActivity(intent);
     }
 
 }

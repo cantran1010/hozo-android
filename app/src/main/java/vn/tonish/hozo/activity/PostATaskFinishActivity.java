@@ -1,8 +1,12 @@
 package vn.tonish.hozo.activity;
 
+import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 
 import org.json.JSONArray;
@@ -10,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -17,6 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.adapter.CustomArrayAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
@@ -37,6 +43,8 @@ import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
+import static vn.tonish.hozo.utils.Utils.formatNumber;
+
 /**
  * Created by LongBui on 4/18/2017.
  */
@@ -44,13 +52,16 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class PostATaskFinishActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = PostATaskFinishActivity.class.getSimpleName();
-    private EdittextHozo edtBudget, edtNumberWorker;
+    private EdittextHozo  edtNumberWorker;
+    private AutoCompleteTextView edtBudget;
     private TextViewHozo tvTotal;
     private TaskResponse work;
     private Category category;
     private String budgetBefore;
-    private static final int MAX_BUGDET = 20000000;
+    private static final int MAX_BUGDET = 10000000;
     private static final int MIN_BUGDET = 10000;
+    private ArrayList<String> vnds = new ArrayList<>();
+    private CustomArrayAdapter adapter;
 
     @Override
     protected int getLayout() {
@@ -62,12 +73,24 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        edtBudget = (EdittextHozo) findViewById(R.id.edt_budget);
+        edtBudget = (AutoCompleteTextView) findViewById(R.id.edt_budget);
         edtNumberWorker = (EdittextHozo) findViewById(R.id.edt_number_worker);
         tvTotal = (TextViewHozo) findViewById(R.id.tv_total);
-
         ButtonHozo btnDone = (ButtonHozo) findViewById(R.id.btn_done);
+        edtBudget.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                in.hideSoftInputFromWindow(arg1.getWindowToken(), 0);
+            }
+
+        });
         btnDone.setOnClickListener(this);
+        adapter = new CustomArrayAdapter(this,
+                android.R.layout.simple_list_item_1, vnds);
+        edtBudget.setAdapter(adapter);
+        adapter.setNotifyOnChange(true);
+        edtBudget.setThreshold(0);
     }
 
     @Override
@@ -76,12 +99,12 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         work = (TaskResponse) getIntent().getSerializableExtra(Constants.EXTRA_TASK);
         category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
         edtBudget.addTextChangedListener(new NumberTextWatcher(edtBudget));
-//        edtNumberWorker.addTextChangedListener(new NumberTextWatcher(edtNumberWorker));
-
         edtBudget.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (!edtBudget.getText().toString().equals("") && Long.valueOf(getLongEdittext(edtBudget)) <= MAX_BUGDET)
+                adapter = null;
+                vnds.clear();
+                if (!edtBudget.getText().toString().equals("") && Long.valueOf(getLongAutoCompleteTextView(edtBudget)) <= MAX_BUGDET)
                     edtBudget.setError(null);
 
                 budgetBefore = edtBudget.getText().toString();
@@ -89,13 +112,17 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    edtBudget.setThreshold(edtBudget.getText().length());
+                    formatMoney(Long.parseLong(edtBudget.getText().toString().trim().replace(",", "").replace(".", "")));
+                }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 if (!edtBudget.getText().toString().equals(""))
-                    if (Long.valueOf(getLongEdittext(edtBudget)) > MAX_BUGDET) {
+                    if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) > MAX_BUGDET) {
                         edtBudget.setText(budgetBefore);
                         edtBudget.setError(getString(R.string.max_budget_error));
                         edtBudget.setSelection(edtBudget.getText().toString().length());
@@ -136,6 +163,9 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
     private String getLongEdittext(EdittextHozo edittextHozo) {
         return edittextHozo.getText().toString().replace(",", "").replace(".", "");
     }
+    private String getLongAutoCompleteTextView(AutoCompleteTextView autoCompleteTextView) {
+        return autoCompleteTextView.getText().toString().replace(",", "").replace(".", "");
+    }
 
     @Override
     protected void resumeData() {
@@ -148,10 +178,10 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             if (edtBudget.getText().toString().equals("") || edtNumberWorker.getText().toString().equals("")) {
                 tvTotal.setText("");
             } else {
-                Long bBudget = Long.valueOf(getLongEdittext(edtBudget));
+                Long bBudget = Long.valueOf(getLongAutoCompleteTextView(edtBudget));
                 Long bNumberWorker = Long.valueOf(getLongEdittext(edtNumberWorker));
                 Long total = bBudget * bNumberWorker;
-                tvTotal.setText(Utils.formatNumber(total));
+                tvTotal.setText(formatNumber(total));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -186,6 +216,29 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         }
     }
 
+    private void formatMoney(long mn) {
+        if (mn * 10 >= MIN_BUGDET && mn * 10 <= MAX_BUGDET && mn * 10 % 1000 == 0)
+            vnds.add(String.valueOf(formatNumber(mn * 10)));
+        if (mn * 100 >= MIN_BUGDET && mn * 100 <= MAX_BUGDET && mn * 100 % 1000 == 0)
+            vnds.add(String.valueOf(formatNumber(mn * 100)));
+        if (mn * 1000 >= MIN_BUGDET && mn * 1000 <= MAX_BUGDET)
+            vnds.add(String.valueOf(formatNumber(mn * 1000)));
+        if (mn * 10000 >= MIN_BUGDET && mn * 10000 <= MAX_BUGDET)
+            vnds.add(String.valueOf(formatNumber(mn * 10000)));
+        if (mn * 100000 >= MIN_BUGDET && mn * 100000 <= MAX_BUGDET)
+            vnds.add(String.valueOf(formatNumber(mn * 100000)));
+        if (mn * 1000000 >= MIN_BUGDET && mn * 1000000 <= MAX_BUGDET)
+            vnds.add(String.valueOf(formatNumber(mn * 1000000)));
+        if (mn * 10000000 >= MIN_BUGDET && mn * 10000000 <= MAX_BUGDET)
+            vnds.add(String.valueOf(formatNumber(mn * 10000000)));
+
+        adapter = new CustomArrayAdapter(this,
+                android.R.layout.simple_list_item_1, vnds);
+        edtBudget.setAdapter(adapter);
+
+//        adapter.getFilter().filter(formatNumber(Integer.parseInt(textView.getText().toString().trim())), null);
+    }
+
     private void doDone() {
 
         if (edtBudget.getText().toString().equals("0") || edtBudget.getText().toString().equals("")) {
@@ -199,7 +252,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         } else if (Integer.valueOf(edtNumberWorker.getText().toString()) > 10) {
             edtNumberWorker.setError(getString(R.string.max_number_worker_error));
             return;
-        }else if(Long.valueOf(getLongEdittext(edtBudget)) < MIN_BUGDET){
+        }else if(Long.valueOf(getLongAutoCompleteTextView(edtBudget)) < MIN_BUGDET){
             edtBudget.requestFocus();
             edtBudget.setError(getString(R.string.min_budget_error));
             return;
@@ -223,7 +276,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             jsonRequest.put("city", work.getCity());
             jsonRequest.put("district", work.getDistrict());
             jsonRequest.put("address", work.getAddress());
-            jsonRequest.put("worker_rate", Integer.valueOf(getLongEdittext(edtBudget)));
+            jsonRequest.put("worker_rate", Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
             jsonRequest.put("worker_count", Integer.valueOf(getLongEdittext(edtNumberWorker)));
 
             if (work.getAttachmentsId() != null && work.getAttachmentsId().length > 0) {

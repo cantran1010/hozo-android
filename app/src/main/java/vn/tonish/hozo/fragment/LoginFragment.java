@@ -6,17 +6,20 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Patterns;
 import android.view.View;
+import android.widget.ImageView;
+
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -50,9 +53,11 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 public class LoginFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = LoginFragment.class.getSimpleName();
+    private static final String COUNTRY_CODE = "+84";
     private EdittextHozo edtPhone;
     private TextViewHozo tvContinue;
     private TextViewHozo tvPolicy;
+    private ImageView imgClear;
 
     @Override
     protected int getLayout() {
@@ -64,9 +69,13 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         edtPhone = (EdittextHozo) findViewById(R.id.edt_phone);
         tvContinue = (TextViewHozo) findViewById(R.id.tv_continue);
         TextViewHozo tvHotLine = (TextViewHozo) findViewById(R.id.tv_hotline);
+        imgClear = (ImageView) findViewById(R.id.img_clear);
+        imgClear.setOnClickListener(this);
         tvContinue.setOnClickListener(this);
         tvHotLine.setOnClickListener(this);
         tvPolicy = (TextViewHozo) findViewById(R.id.tv_policy);
+        tvContinue.setAlpha(0.5f);
+        tvContinue.setEnabled(false);
         hideSoftKeyboard(getActivity(), edtPhone);
     }
 
@@ -81,20 +90,13 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String error;
-                if (!checkNumberPhone(edtPhone.getText().toString().trim())) {
-                    tvContinue.setAlpha(0.5f);
-                    tvContinue.setEnabled(false);
-                    if (CheckErrorEditText(edtPhone.getText().toString().trim())) {
-                        error = getResources().getString(R.string.login_erro_phone);
-                        edtPhone.setError(error);
-                        hideSoftKeyboard(getActivity(), edtPhone);
-                    }
+                if (edtPhone.length() > 0) {
+                    imgClear.setVisibility(View.VISIBLE);
+
                 } else {
-                    tvContinue.setAlpha(1f);
-                    tvContinue.setEnabled(true);
-                    hideSoftKeyboard(getActivity(), edtPhone);
+                    imgClear.setVisibility(View.GONE);
                 }
+                showbtnContinue();
 
             }
 
@@ -110,12 +112,18 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     @Override
     protected void resumeData() {
         LogUtils.d(TAG, "resum");
-        if (checkNumberPhone(edtPhone.getText().toString().trim())) {
-            tvContinue.setAlpha(1f);
-            tvContinue.setEnabled(true);
-        } else {
-            tvContinue.setAlpha(0.5f);
-            tvContinue.setEnabled(false);
+        showbtnContinue();
+    }
+
+        private void showbtnContinue() {
+            String mb = edtPhone.getText().toString().trim();
+            if (!mb.isEmpty() && isNumberValid("84", mb) == true) {
+                tvContinue.setAlpha(1f);
+                tvContinue.setEnabled(true);
+                hideSoftKeyboard(getActivity(), edtPhone);
+            } else {
+                tvContinue.setAlpha(0.5f);
+                tvContinue.setEnabled(false);
 
         }
     }
@@ -178,10 +186,12 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         switch (view.getId()) {
             case R.id.tv_continue:
                 login();
-                tvContinue.setEnabled(false);
                 break;
             case R.id.tv_hotline:
                 callHotLine();
+                break;
+            case R.id.img_clear:
+                edtPhone.setText("");
                 break;
         }
 
@@ -191,44 +201,15 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         Utils.call(getContext(), getString(R.string.hot_line));
     }
 
-    private boolean checkNumberPhone(String number) {
-        Pattern pattern = Pattern.compile("^[0-9]*$");
-        Matcher matcher = pattern.matcher(number);
-        return matcher.matches() && (number.length() == 10 && number.substring(0, 2).equals("09") || number.length() == 10 && number.substring(0, 1).equals("1") || number.length() == 11 && number.substring(0, 2).equals("01") || number.length() == 9 && number.substring(0, 1).equals("9"));
-    }
-
-    private boolean CheckErrorEditText(String number) {
-        boolean ck = false;
-        if (number.length() == 1 && !(number.substring(0, 1).equals("9") || number.substring(0, 1).equals("1") || number.substring(0, 1).equals("0"))) {
-            ck = true;
-        }
-        if (number.length() == 2 && number.substring(0, 1).equals("0")) {
-            if (!(number.substring(0, 2).equals("09") || number.substring(0, 2).equals("01"))) {
-                ck = true;
-            }
-        }
-        if (number.length() > 10 && (number.substring(0, 2).equals("09") || number.substring(0, 1).equals("1"))) {
-            ck = true;
-        }
-        if (number.length() > 11 && (number.substring(0, 2).equals("01"))) {
-            ck = true;
-        }
-        if (number.length() > 9 && (number.substring(0, 2).equals("9"))) {
-            ck = true;
-        }
-        return ck;
-    }
-
     private void login() {
-
         ProgressDialogUtils.showProgressDialog(getActivity());
         JSONObject jsonRequest = new JSONObject();
         String mobile = edtPhone.getText().toString().trim();
         LogUtils.d(TAG, "mobile" + mobile);
         if (mobile.substring(0, 1).equals("0")) {
-            mobile = "+84" + mobile.substring(1);
+            mobile = COUNTRY_CODE + mobile.substring(1);
         } else {
-            mobile = "+84" + mobile;
+            mobile = COUNTRY_CODE + mobile;
         }
         LogUtils.d(TAG, "mobile" + mobile);
         try {
@@ -264,9 +245,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                         Utils.showLongToast(getActivity(), getActivity().getString(R.string.login_block_phone), true, false);
                     else
                         Utils.showLongToast(getActivity(), error.message(), true, false);
-                    if (checkNumberPhone(edtPhone.getText().toString().trim())) {
-                        tvContinue.setEnabled(true);
-                    }
+                    showbtnContinue();
 
                 }
                 ProgressDialogUtils.dismissProgressDialog();
@@ -288,17 +267,35 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
                     }
                 });
-                if (checkNumberPhone(edtPhone.getText().toString().trim())) {
-                    tvContinue.setAlpha(1f);
-                    tvContinue.setEnabled(true);
-                } else {
-                    tvContinue.setAlpha(0.5f);
-                    tvContinue.setEnabled(false);
-
-                }
+                showbtnContinue();
 
             }
         });
+    }
+
+
+    public static boolean isNumberValid(String countryCode, String phNumber) {
+        if (TextUtils.isEmpty(countryCode)) {// Country code could not be empty
+            return false;
+        }
+        if (phNumber.length() < 6) {        // Phone number should be at least 6 digits
+            return false;
+        }
+        boolean resultPattern = Patterns.PHONE.matcher(phNumber).matches();
+        if (!resultPattern) {
+            return false;
+        }
+
+        PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
+        String isoCode = phoneNumberUtil.getRegionCodeForCountryCode(Integer.parseInt(countryCode));
+        Phonenumber.PhoneNumber phoneNumber = null;
+        try {
+            phoneNumber = phoneNumberUtil.parse(phNumber, isoCode);
+        } catch (Exception e) {
+            return false;
+        }
+
+        return phoneNumberUtil.isValidNumber(phoneNumber);
     }
 
 }
