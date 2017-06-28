@@ -117,7 +117,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CostActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.ShowTaskWithin"
             android:screenOrientation="portrait" />
