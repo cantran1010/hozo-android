@@ -53,14 +53,16 @@
                 android:gravity="center_vertical"
                 android:hint="@string/ed_login_phone"
                 android:inputType="phone"
+                android:maxLength="12"
                 android:maxLines="1"
                 android:minHeight="@dimen/edt_min_height"
-                android:maxLength="12"
                 android:textColor="@color/white"
                 android:textColorHint="@color/text_hint"
                 android:textCursorDrawable="@drawable/color_cursor"
+                android:textSelectHandle="@color/white"
                 android:textSize="@dimen/tv_size_lager"
                 android:textStyle="bold" />
+
             <ImageView
                 android:id="@+id/img_clear"
                 android:layout_width="wrap_content"
@@ -68,10 +70,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:background="@null"
+                android:contentDescription="@string/adjust_image"
                 android:padding="10dp"
-                android:visibility="gone"
                 android:src="@android:drawable/presence_offline"
-                android:contentDescription="@string/adjust_image"/>
+                android:visibility="gone" />
         </RelativeLayout>
 
         <vn.tonish.hozo.view.TextViewHozo
