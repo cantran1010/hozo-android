@@ -30,7 +30,6 @@
     <string name="tv_login_policy">Nhấn \'Tiếp tục\' đồng nghĩa với việc bạn đồng ý điều khoản sử dụng và chính sách bảo mật của chúng tôi.</string>
     <string name="login_policy_condition">điều khoản sử dụng</string>
     <string name="login_policy_nad">chính sách bảo mật</string>
-    <string name="login_erro_phone">Số điện thoại không đúng định dạng</string>
     <string name="login_block_phone">Lỗi vượt quá số lần đăng nhập trong 1 ngày. Vui lòng trở lại sau 24h tiếp theo.</string>
     <string name="login_status_block">block_phone_via_otp</string>
 
@@ -317,7 +316,6 @@
     <string name="contacting_api_autocomplete_error">Lỗi kết nối tới dịch vụ của google</string>
     <string name="post_a_task_map_get_location_error">Không thể lấy vị trí của bạn,vui lòng kiểm tra lại kết nối và thử lại !</string>
     <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
-    <string name="task_detail_money_type">VND</string>
     <string name="km">km</string>
     <string name="all_space_type"><b> </b></string>
     <string name="count_in_detail">(%1$d)</string>
@@ -335,7 +333,7 @@
     <string name="push_you_bidded">bạn ứng tuyển</string>
     <string name="push_complete_work">Công việc</string>
     <string name="max_size_attach_error">File đính kèm không vượt quá %1$d Mb .\nVui lòng chọn file khác !</string>
-    <string name="post_a_task_map_get_location_error_next">Không thể lấy vị trí của bạn ! Vui lòng thiết lập vị trí làm việc !</string>
+    <string name="post_task_map_get_location_error_next">Không thể lấy vị trí của bạn ! Vui lòng thiết lập vị trí làm việc !</string>
     <string name="not_find_task">Không tìm thấy công việc nào</string>
     <string name="offer_error_time">Đề nghị làm việc của bạn không được chấp nhận vì bạn đã ứng tuyển một công việc khác vào thời gian này !</string>
     <string name="less_than">dưới</string>
@@ -366,7 +364,6 @@
     <string name="alert_task">Chọn loại công việc bạn muốn nhận thông báo.</string>
     <string name="profile_about">Giới thiệu</string>
     <string name="error_des">Lỗi vượt quá 500 ký tự.</string>
-    <string name="edit_profile_des">Mô tả</string>
     <string name="webview_error"><html><body style='background: white;'><p style='color: red;'>Không thể tải trang ! Vui lòng kiểm tra kết nối và thử lại !</p></body></html></string>
     <string name="title_max_length_error">Tiêu đề không được quá 80 kí tự</string>
 
