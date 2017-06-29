@@ -63,7 +63,7 @@ android {
             buildConfigField "String", "BASE_URL", '"https://staging-api.hozo.vn/v1/"'
             buildConfigField "String", "SHARE_URL", '"https://staging.hozo.vn/share/tasks/"'
             debuggable true
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
@@ -72,7 +72,7 @@ android {
             debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-           signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
     }
 
