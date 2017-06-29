@@ -7,7 +7,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -602,28 +601,28 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
             final String selectedImagePath = getImagePath();
             LogUtils.d(TAG, "onActivityResult selectedImagePath : " + selectedImagePath);
-            ProgressDialogUtils.showProgressDialog(this);
-            MediaScannerConnection.scanFile(
-                    PostATaskActivity.this,
-                    new String[]{selectedImagePath},
-                    null,
-                    new MediaScannerConnection.OnScanCompletedListener() {
-                        @Override
-                        public void onScanCompleted(String path, Uri uri) {
-                            LogUtils.d(TAG, "onActivityResult onActivityResult path : " + path + " , uri : " + uri.toString());
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Image image = new Image();
-                                    image.setAdd(false);
-                                    image.setPath(selectedImagePath);
-                                    images.add(0, image);
-                                    imageAdapter.notifyDataSetChanged();
-                                    ProgressDialogUtils.dismissProgressDialog();
-                                }
-                            });
-                        }
-                    });
+//            ProgressDialogUtils.showProgressDialog(this);
+//            MediaScannerConnection.scanFile(
+//                    PostATaskActivity.this,
+//                    new String[]{selectedImagePath},
+//                    null,
+//                    new MediaScannerConnection.OnScanCompletedListener() {
+//                        @Override
+//                        public void onScanCompleted(String path, Uri uri) {
+//                            LogUtils.d(TAG, "onActivityResult onActivityResult path : " + path + " , uri : " + uri.toString());
+//                            runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+            Image image = new Image();
+            image.setAdd(false);
+            image.setPath(selectedImagePath);
+            images.add(0, image);
+            imageAdapter.notifyDataSetChanged();
+//                                    ProgressDialogUtils.dismissProgressDialog();
+//                                }
+//                            });
+//                        }
+//                    });
         } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             setResult(Constants.POST_A_TASK_RESPONSE_CODE);
             finish();
