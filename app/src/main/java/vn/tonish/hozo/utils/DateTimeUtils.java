@@ -202,7 +202,7 @@ public class DateTimeUtils {
             } else if (diff < 12 * MONTH_MILLIS) {
                 result = diff / MONTH_MILLIS + " " + context.getResources().getString(R.string.month_ago);
             } else {
-                result = diff / YEAR_MILLIS + " " + context.getResources().getString(R.string.year_ago);
+                result = DateTimeUtils.getOnlyDateFromIso(date);
             }
         } catch (ParseException e) {
             e.printStackTrace();

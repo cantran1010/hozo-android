@@ -137,6 +137,7 @@ public class SplashActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<UpdateResponse> call, Throwable throwable) {
+                LogUtils.d(TAG, "checkUpdate error : " + throwable.getMessage());
                 DialogUtils.showRetryDialog(SplashActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
