@@ -51,7 +51,7 @@ import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 
 import static vn.tonish.hozo.R.id.map;
-import static vn.tonish.hozo.R.string.post_a_task_map_get_location_error_next;
+import static vn.tonish.hozo.R.string.post_task_map_get_location_error_next;
 
 /**
  * Created by LongBui on 4/18/2017.
@@ -328,7 +328,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 Utils.hideKeyBoard(PostATaskMapActivity.this);
                 places.release();
             } catch (Exception e) {
-                Utils.showLongToast(PostATaskMapActivity.this, getString(post_a_task_map_get_location_error_next), true, false);
+                Utils.showLongToast(PostATaskMapActivity.this, getString(post_task_map_get_location_error_next), true, false);
             }
         }
     };
@@ -449,7 +449,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 || work.getAddress() == null || work.getAddress().equals("")
                 || work.getCity() == null || work.getCity().equals("")
                 || work.getAddress() == null || work.getAddress().equals("")) {
-            Utils.showLongToast(this, getString(post_a_task_map_get_location_error_next), true, false);
+            Utils.showLongToast(this, getString(post_task_map_get_location_error_next), true, false);
             return;
         }
 

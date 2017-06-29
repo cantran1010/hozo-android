@@ -42,6 +42,8 @@
                 android:maxLines="2"
                 android:minHeight="@dimen/edt_min_height"
                 android:textColor="@color/white"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSelectHandle="@color/white"
                 android:textSize="@dimen/edt_size_nomal" />
 
             <View
@@ -137,6 +139,8 @@
                 android:maxLines="1"
                 android:minHeight="@dimen/edt_min_height"
                 android:textColor="@color/white"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSelectHandle="@color/white"
                 android:textSize="@dimen/edt_size_nomal" />
 
             <View
