@@ -79,7 +79,7 @@
                     android:cursorVisible="false"
                     android:gravity="center_horizontal"
                     android:inputType="number"
-                    android:maxLength="5" />
+                    android:maxLength="4" />
             </FrameLayout>
 
             <vn.tonish.hozo.view.TextViewHozo

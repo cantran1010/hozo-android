@@ -161,10 +161,11 @@
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <vn.tonish.hozo.view.TextViewHozo
+            android:layout_marginTop="50dp"
             android:id="@+id/noitem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal"
             android:text="@string/not_find_task"
             android:textSize="@dimen/tv_size_xlager"
             android:visibility="gone" />
