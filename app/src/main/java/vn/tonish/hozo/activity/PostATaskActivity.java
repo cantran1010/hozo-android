@@ -60,6 +60,7 @@ import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.MyGridView;
 import vn.tonish.hozo.view.TextViewHozo;
 
+import static vn.tonish.hozo.R.id.edt_working_hour;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
@@ -108,7 +109,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         tvDate = (TextViewHozo) findViewById(R.id.tv_date);
         edtWorkName = (EdittextHozo) findViewById(R.id.edt_task_name);
 
-        edtWorkingHour = (EdittextHozo) findViewById(R.id.edt_working_hour);
+        edtWorkingHour = (EdittextHozo) findViewById(edt_working_hour);
 
         edtDescription = (EdittextHozo) findViewById(R.id.edt_description);
 
@@ -178,6 +179,29 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                     edtWorkName.setText(edtWorkName.getText().subSequence(0, 80));
                     edtWorkName.setSelection(edtWorkName.length());
                 }
+            }
+        });
+
+        edtWorkingHour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!edtWorkingHour.getText().toString().equals("") && Integer.valueOf(edtWorkingHour.getText().toString()) <= 8)
+                    edtWorkingHour.setError(null);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!edtWorkingHour.getText().toString().equals(""))
+                    if (Integer.valueOf(edtWorkingHour.getText().toString()) > 8) {
+                        edtWorkingHour.setError(getString(R.string.working_hour_max_error));
+                        edtWorkingHour.setText(edtWorkingHour.getText().toString().substring(0, edtWorkingHour.length() - 1));
+                        edtWorkingHour.setSelection(edtWorkingHour.length());
+                    }
             }
         });
 

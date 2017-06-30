@@ -896,7 +896,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         ProgressDialogUtils.showProgressDialog(this);
         final JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put("body", edtComment.getText().toString());
+            jsonRequest.put("body", edtComment.getText().toString().trim());
             if (imgPath != null)
                 jsonRequest.put("image_id", tempId);
         } catch (JSONException e) {
