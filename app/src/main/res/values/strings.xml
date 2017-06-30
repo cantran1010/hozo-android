@@ -366,5 +366,6 @@
     <string name="error_des">Lỗi vượt quá 500 ký tự.</string>
     <string name="webview_error"><html><body style='background: white;'><p style='color: red;'>Không thể tải trang ! Vui lòng kiểm tra kết nối và thử lại !</p></body></html></string>
     <string name="title_max_length_error">Tiêu đề không được quá 80 kí tự</string>
+    <string name="working_hour_max_error">Số giờ làm việc tối đa là 8 giờ</string>
 
 </resources>
