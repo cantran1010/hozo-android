@@ -92,6 +92,7 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
         mPinHiddenEditText.setOnKeyListener(this);
         btnBack.setOnClickListener(this);
         btnResetOtp.setOnClickListener(this);
+        onFocusChange(mPinFirstDigitEditText,true);
         startTimer();
     }
 
@@ -128,7 +129,6 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
             mPinForthDigitEditText.setText("");
         } else if (s.length() == 4) {
             mPinForthDigitEditText.setText(String.valueOf(s.charAt(3)));
-            hideSoftKeyboard(mPinForthDigitEditText);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -201,14 +201,6 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
 
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Service.INPUT_METHOD_SERVICE);
         imm.showSoftInput(editText, 0);
-    }
-
-    private void hideSoftKeyboard(EditText editText) {
-        if (editText == null)
-            return;
-
-        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Service.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
     @Override

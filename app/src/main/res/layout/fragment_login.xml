@@ -58,8 +58,6 @@
                 android:minHeight="@dimen/edt_min_height"
                 android:textColor="@color/white"
                 android:textColorHint="@color/text_hint"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:textSelectHandle="@color/white"
                 android:textSize="@dimen/tv_size_lager"
                 android:textStyle="bold" />
 
@@ -76,7 +74,7 @@
                 android:visibility="gone" />
         </RelativeLayout>
 
-        <vn.tonish.hozo.view.TextViewHozo
+        <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/white" />
