@@ -7,9 +7,16 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -23,6 +30,9 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     private static final String TAG = MyTaskFragment.class.getSimpleName();
     private TextViewHozo tvWorker, tvPoster;
     private String role = Constants.ROLE_POSTER;
+    private Spinner spType;
+    private int posterFilterPosition = 0;
+    private int workerFilterPosition = 0;
 
     @Override
     protected int getLayout() {
@@ -33,6 +43,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     protected void initView() {
         tvWorker = (TextViewHozo) findViewById(R.id.tv_worker);
         tvPoster = (TextViewHozo) findViewById(R.id.tv_poster);
+        spType = (Spinner) findViewById(R.id.sp_type);
     }
 
     @Override
@@ -54,6 +65,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         }
         tvWorker.setOnClickListener(this);
         tvPoster.setOnClickListener(this);
+        updateSpinner(1);
     }
 
     @Override
@@ -100,6 +112,69 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
+    private void updateSpinner(final int position) {
+
+        List<String> list = new ArrayList<>();
+        if (position == 1) {
+            list.add(getString(R.string.my_task_status_all));
+            list.add(getString(R.string.my_task_status_poster_open));
+            list.add(getString(R.string.my_task_status_poster_assigned));
+            list.add(getString(R.string.my_task_status_poster_completed));
+            list.add(getString(R.string.my_task_status_poster_overdue));
+            list.add(getString(R.string.my_task_status_poster_canceled));
+        } else {
+            list.add(getString(R.string.my_task_status_all));
+            list.add(getString(R.string.my_task_status_worker_open));
+            list.add(getString(R.string.my_task_status_worker_assigned));
+            list.add(getString(R.string.my_task_status_worker_completed));
+            list.add(getString(R.string.my_task_status_worker_missed));
+            list.add(getString(R.string.my_task_status_worker_canceled));
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spType.setAdapter(dataAdapter);
+
+        if (role.equals(Constants.ROLE_TASKER)) {
+            spType.setSelection(workerFilterPosition);
+        } else if (role.equals(Constants.ROLE_POSTER)) {
+            spType.setSelection(posterFilterPosition);
+        }
+
+        spType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                LogUtils.d(TAG, "onItemSelected , pos : " + pos + " , workerFilterPosition : " + workerFilterPosition + " , posterFilterPosition : " + posterFilterPosition);
+                if (pos == 0) return;
+                if (role.equals(Constants.ROLE_TASKER)) {
+
+                    if (pos == workerFilterPosition) return;
+
+                    workerFilterPosition = pos;
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER);
+                    intentAnswer.putExtra(Constants.MYTASK_FILTER_EXTRA, parent.getItemAtPosition(pos).toString());
+                    getActivity().sendBroadcast(intentAnswer);
+                } else if (role.equals(Constants.ROLE_POSTER)) {
+
+                    if (pos == posterFilterPosition) return;
+
+                    posterFilterPosition = pos;
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER);
+                    intentAnswer.putExtra(Constants.MYTASK_FILTER_EXTRA, parent.getItemAtPosition(pos).toString());
+                    getActivity().sendBroadcast(intentAnswer);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -114,6 +189,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                 role = Constants.ROLE_TASKER;
                 showChildFragment(R.id.layout_container_my_task, MyTaskWorkerFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 selectedTab(2);
+                updateSpinner(2);
                 break;
 
             case R.id.tv_poster:
@@ -126,6 +202,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                 role = Constants.ROLE_POSTER;
                 showChildFragment(R.id.layout_container_my_task, MyTaskPosterFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 selectedTab(1);
+                updateSpinner(1);
                 break;
 
         }

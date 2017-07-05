@@ -158,5 +158,6 @@ public class Constants {
     public static final String LOGOUT_EXTRA = "logout_extra";
     public static final String BROAD_CAST_PUSH_COUNT = "push_count";
     public static final String PARAMETER_DESCRIPTION = "description";
+    public static final String MYTASK_FILTER_EXTRA = "mytask_filter_extra";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
 }
