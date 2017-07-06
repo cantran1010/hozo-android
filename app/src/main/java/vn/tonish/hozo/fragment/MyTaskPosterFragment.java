@@ -63,9 +63,6 @@ public class MyTaskPosterFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
-        filter = getString(R.string.my_task_status_all);
-
         initList();
         if (getArguments().getBoolean(Constants.REFRESH_EXTRA)) onRefresh();
     }
@@ -135,12 +132,17 @@ public class MyTaskPosterFragment extends BaseFragment {
     };
 
     private void getTaskFromServer(final String since, final int limit, final String filter) {
+
+        if (call != null) call.cancel();
+
         Map<String, String> params = new HashMap<>();
 
         params.put("role", Constants.ROLE_POSTER);
         if (since != null) params.put("since", since);
         params.put("limit", limit + "");
-        params.put("filter", filter);
+
+        if (!filter.equals(""))
+            params.put("status", filter);
 
         LogUtils.d(TAG, "getTaskFromServer start , param : " + params);
 
@@ -259,6 +261,7 @@ public class MyTaskPosterFragment extends BaseFragment {
         isLoadingMoreFromServer = true;
         sinceStr = null;
         myTaskAdapter.onLoadMore();
+        rcvTask.smoothScrollToPosition(0);
         getTaskFromServer(null, LIMIT, filter);
     }
 }

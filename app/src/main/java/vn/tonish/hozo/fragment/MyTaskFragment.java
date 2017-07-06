@@ -129,6 +129,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
             list.add(getString(R.string.my_task_status_worker_completed));
             list.add(getString(R.string.my_task_status_worker_missed));
             list.add(getString(R.string.my_task_status_worker_canceled));
+            list.add(getString(R.string.my_task_status_poster_overdue));
         }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(),
@@ -146,7 +147,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 LogUtils.d(TAG, "onItemSelected , pos : " + pos + " , workerFilterPosition : " + workerFilterPosition + " , posterFilterPosition : " + posterFilterPosition);
-                if (pos == 0) return;
+//                if (pos == 0) return;
                 if (role.equals(Constants.ROLE_TASKER)) {
 
                     if (pos == workerFilterPosition) return;
@@ -154,7 +155,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                     workerFilterPosition = pos;
                     Intent intentAnswer = new Intent();
                     intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER);
-                    intentAnswer.putExtra(Constants.MYTASK_FILTER_EXTRA, parent.getItemAtPosition(pos).toString());
+                    intentAnswer.putExtra(Constants.MYTASK_FILTER_EXTRA, getStatus(Constants.ROLE_TASKER, pos));
                     getActivity().sendBroadcast(intentAnswer);
                 } else if (role.equals(Constants.ROLE_POSTER)) {
 
@@ -163,7 +164,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                     posterFilterPosition = pos;
                     Intent intentAnswer = new Intent();
                     intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER);
-                    intentAnswer.putExtra(Constants.MYTASK_FILTER_EXTRA, parent.getItemAtPosition(pos).toString());
+                    intentAnswer.putExtra(Constants.MYTASK_FILTER_EXTRA, getStatus(Constants.ROLE_POSTER, pos));
                     getActivity().sendBroadcast(intentAnswer);
                 }
             }
@@ -206,6 +207,73 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                 break;
 
         }
+    }
+
+    private String getStatus(String role, int pos) {
+
+        String result = "";
+        if (role.equals(Constants.ROLE_TASKER)) {
+
+            switch (pos) {
+
+                case 0:
+                    result = "";
+                    break;
+
+                case 1:
+                    result = "pending";
+                    break;
+
+                case 2:
+                    result = "assigned";
+                    break;
+
+                case 3:
+                    result = "completed";
+                    break;
+                case 4:
+                    result = "missed";
+                    break;
+                case 5:
+                    result = "canceled";
+                    break;
+
+                case 6:
+                    result = "overdue";
+                    break;
+            }
+
+        } else {
+
+            switch (pos) {
+
+                case 0:
+                    result = "";
+                    break;
+
+                case 1:
+                    result = "open";
+                    break;
+
+                case 2:
+                    result = "assigned";
+                    break;
+
+                case 3:
+                    result = "completed";
+                    break;
+
+                case 4:
+                    result = "overdue";
+                    break;
+
+                case 5:
+                    result = "canceled";
+                    break;
+
+            }
+        }
+        return result;
     }
 }
 
