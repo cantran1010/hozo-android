@@ -3,12 +3,12 @@
 
     <item
         android:id="@android:id/background"
-        android:drawable="@drawable/rating_bar_normal" />
+        android:drawable="@drawable/rating_bodder" />
     <item
         android:id="@android:id/secondaryProgress"
-        android:drawable="@drawable/rating_bar_normal" />
+        android:drawable="@drawable/rating_fill" />
     <item
         android:id="@android:id/progress"
-        android:drawable="@drawable/rating_bar_progress" />
+        android:drawable="@drawable/rating_bodder" />
 
 </layer-list>

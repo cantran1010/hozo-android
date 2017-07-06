@@ -294,6 +294,7 @@
     <string name="my_task_status_poster_completed">Hoàn thành</string>
     <string name="my_task_status_poster_overdue">Hết hạn</string>
     <string name="my_task_status_poster_canceled">Đã hủy</string>
+    <string name="my_task_status_open">Nhận</string>
     <!-- share app -->
     <string name="share_app_title">Chọn ứng dụng bạn muốn chia sẻ</string>
     <string name="share_app_content">Hãy chia sẻ cho bạn bè ứng dụng tuyệt vời này \n</string>
@@ -320,6 +321,10 @@
     <string name="all_space_type"><b> </b></string>
     <string name="count_in_detail">(%1$d)</string>
     <string name="my_task_price">%s VND</string>
+    <string name="vnd">%sđ</string>
+    <string name="comments">, %s comments</string>
+    <string name="comment">, %s comment</string>
+    <string name="bidder_count">%s ứng tuyển</string>
     <string name="task_detail_reply_member">\@%s \n</string>
     <string name="post_a_task_age">%1$d ~ %2$d</string>
     <string name="detail_task_time_ago">%1$s . Loại công việc : %2$s</string>

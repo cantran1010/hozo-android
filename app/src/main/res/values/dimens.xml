@@ -24,5 +24,6 @@
     <dimen name="text_size_gigatic">15sp</dimen>
     <dimen name="main_menu_height">48dp</dimen>
     <dimen name="toast_offset">20dp</dimen>
+    <dimen name="tv_size_xmedium">16dp</dimen>
 
 </resources>
