@@ -27,5 +27,7 @@
     <color name="hozo_red">#FF3100</color>
     <color name="transparent">#00000000</color>
     <color name="setting_text">#212121</color>
-
+    <color name="browse_gray">#4b4b4b</color>
+    <color name="browse_price">#409f58</color>
+    <color name="browse_gray_blue">#cad7df</color>
 </resources>
