@@ -48,6 +48,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
     private Call<List<TaskResponse>> call;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
+    private String filter = "";
 
     @Override
     protected int getLayout() {
@@ -78,7 +79,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
                 LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 
                 if (isLoadingMoreFromServer) {
-                    getTaskFromServer(sinceStr, LIMIT);
+                    getTaskFromServer(sinceStr, LIMIT,filter);
                 }
 
             }
@@ -116,18 +117,31 @@ public class MyTaskWorkerFragment extends BaseFragment {
     private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            rcvTask.smoothScrollToPosition(0);
-            if(linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
+
+            if (intent.hasExtra(Constants.MYTASK_FILTER_EXTRA)) {
+                filter = intent.getStringExtra(Constants.MYTASK_FILTER_EXTRA);
+                onRefresh();
+            }else{
+                rcvTask.smoothScrollToPosition(0);
+                if(linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
+            }
+
         }
     };
 
-    private void getTaskFromServer(final String since, final int limit) {
+    private void getTaskFromServer(final String since, final int limit, final String filter) {
+
+        if (call != null) call.cancel();
+
         Map<String, String> params = new HashMap<>();
         params.put("role", Constants.ROLE_TASKER);
         if (since != null) {
             params.put("since", since);
         }
         params.put("limit", limit + "");
+
+        if (!filter.equals(""))
+            params.put("status", filter);
 
         LogUtils.d(TAG, "getTaskFromServer start , param : " + params);
 
@@ -169,7 +183,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            getTaskFromServer(since, limit);
+                            getTaskFromServer(since, limit,filter);
                         }
                     });
                 }else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
@@ -178,7 +192,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            getTaskFromServer(since, limit);
+                            getTaskFromServer(since, limit,filter);
                         }
 
                         @Override
@@ -199,7 +213,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
                         @Override
                         public void onSubmit() {
                             myTaskAdapter.onLoadMore();
-                            getTaskFromServer(since, limit);
+                            getTaskFromServer(since, limit,filter);
                         }
 
                         @Override
@@ -242,7 +256,8 @@ public class MyTaskWorkerFragment extends BaseFragment {
         isLoadingMoreFromServer = true;
         sinceStr = null;
         myTaskAdapter.onLoadMore();
-        getTaskFromServer(null, LIMIT);
+        rcvTask.smoothScrollToPosition(0);
+        getTaskFromServer(null, LIMIT,filter);
     }
 
 }

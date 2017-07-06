@@ -295,6 +295,7 @@
     <string name="my_task_status_poster_overdue">Hết hạn</string>
     <string name="my_task_status_poster_canceled">Đã hủy</string>
     <string name="my_task_status_open">Nhận</string>
+    <string name="my_task_status_all">Tất cả</string>
     <!-- share app -->
     <string name="share_app_title">Chọn ứng dụng bạn muốn chia sẻ</string>
     <string name="share_app_content">Hãy chia sẻ cho bạn bè ứng dụng tuyệt vời này \n</string>

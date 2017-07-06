@@ -38,6 +38,7 @@ import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.ReviewsListView;
 import vn.tonish.hozo.view.TextViewHozo;
 
+import static vn.tonish.hozo.R.id.img_avatar;
 import static vn.tonish.hozo.common.Constants.REVIEW_TYPE_POSTER;
 import static vn.tonish.hozo.utils.DateTimeUtils.getDateBirthDayFromIso;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
@@ -80,7 +81,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void initView() {
         imgback = (ImageView) findViewById(R.id.img_back);
         imgEdit = (ImageView) findViewById(R.id.img_edit);
-        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
+        imgAvatar = (CircleImageView) findViewById(img_avatar);
         layoutInfor = (LinearLayout) findViewById(R.id.layout_infor);
         layoutAbout = (LinearLayout) findViewById(R.id.layout_about);
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
@@ -115,6 +116,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btnPoster.setOnClickListener(this);
         btnWorker.setOnClickListener(this);
         btnMoreReview.setOnClickListener(this);
+        imgAvatar.setOnClickListener(this);
         if (isMyUser) {
             mUserEntity = UserManager.getMyUser();
         } else {
@@ -158,6 +160,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 intent.putExtra(Constants.USER_ID, userId);
                 startActivity(intent, TransitionScreen.DOWN_TO_UP);
                 break;
+            case img_avatar:
+                if (!mUserEntity.getAvatar().trim().equals("")) {
+                    Intent intentView = new Intent(ProfileActivity.this, PreviewImageActivity.class);
+                    intentView.putExtra(Constants.EXTRA_IMAGE_PATH, mUserEntity.getAvatar());
+                    startActivity(intentView, TransitionScreen.RIGHT_TO_LEFT);
+                }
+                break;
         }
     }
 
@@ -196,6 +205,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     }
                     UserManager.insertUser(response.body(), isMyUser);
                     updateUi(response.body());
+
+                    mUserEntity = userEntity;
 
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(ProfileActivity.this);
