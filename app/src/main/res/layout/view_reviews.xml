@@ -53,6 +53,7 @@
                 <RatingBar
                     android:id="@+id/rating"
                     style="@style/StarRatingBar"
+                    android:stepSize="0.01"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
