@@ -91,6 +91,14 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true;
     }
+    compile files('libs/glide-3.8.0.jar')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile('com.squareup.okhttp:okhttp-urlconnection:2.3.0') {
+        exclude group: 'com.squareup.okhttp', module: 'okhttp'
+    }
+    compile('com.squareup.okhttp:okhttp:2.3.0') {
+        exclude group: 'com.squareup.okio', module: 'okio'
+    }
     compile 'com.googlecode.libphonenumber:libphonenumber:8.5.2'
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -105,14 +113,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-places:11.0.2'
     compile 'com.google.android.gms:play-services-location:11.0.2'
     compile 'com.android.support:multidex:1.0.1'
-    compile files('libs/glide-3.8.0.jar')
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile('com.squareup.okhttp:okhttp-urlconnection:2.3.0') {
-        exclude group: 'com.squareup.okhttp', module: 'okhttp'
-    }
-    compile('com.squareup.okhttp:okhttp:2.3.0') {
-        exclude group: 'com.squareup.okio', module: 'okio'
-    }
     compile 'me.relex:circleindicator:1.2.2@aar'
 }
 apply plugin: 'com.google.gms.google-services'

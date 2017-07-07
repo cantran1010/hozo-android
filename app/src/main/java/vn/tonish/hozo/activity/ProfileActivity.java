@@ -58,7 +58,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvGender, tvRateCount, btnMoreReview, btnLogOut, tvAbout;
     private RatingBar ratingBar;
-    private LinearLayout layoutInfor, layoutAbout;
+    private LinearLayout layoutInfor;
     private float ratingPoster, ratingTasker;
     private ReviewsListView reviewsListView;
     private FrameLayout layoutLogout;
@@ -83,7 +83,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         imgEdit = (ImageView) findViewById(R.id.img_edit);
         imgAvatar = (CircleImageView) findViewById(img_avatar);
         layoutInfor = (LinearLayout) findViewById(R.id.layout_infor);
-        layoutAbout = (LinearLayout) findViewById(R.id.layout_about);
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
         ratingBar = (RatingBar) findViewById(R.id.rb_rating);
         tvDateOfBirth = (TextViewHozo) findViewById(R.id.tv_birthday);

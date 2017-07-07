@@ -377,5 +377,10 @@
     <string name="title_delete_task">Xóa việc</string>
     <string name="content_detete_task">Bạn có chắc chắn muốn xóa việc này ?</string>
     <string name="delete_task_success_msg">Bạn đã xóa việc thành công !</string>
+    <string name="add_verify">Xác thực thêm</string>
+    <string name="give_info">Cung Cấp Thông Tin Cá Nhân</string>
+    <string name="label_header_verify">Để có thể tìm được người làm việc hay nhận việc một cách nhanh chóng và uy tín, bạn cần xác thực thông tin với HoZo!</string>
+    <string name="email_verify">Xác thực với email</string>
+    <string name="verify">Xác thực</string>
 
 </resources>
