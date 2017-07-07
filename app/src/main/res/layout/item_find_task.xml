@@ -81,7 +81,7 @@
                 android:layout_marginStart="3dp"
                 android:gravity="end"
                 android:minWidth="72dp"
-                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:textColor="@color/red" />
 
 
@@ -105,16 +105,14 @@
 
             <FrameLayout
                 android:id="@+id/layout_progress"
-                android:layout_width="60dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/tv_price"
-                android:layout_marginTop="5dp"
-                android:padding="2dp">
+                android:layout_marginTop="5dp">
 
                 <ProgressBar
-                    android:layout_margin="2dp"
                     android:id="@+id/simpleProgressBar"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
@@ -129,6 +127,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
                     android:gravity="center"
+                    android:padding="2dp"
                     android:textColor="@color/white" />
             </FrameLayout>
 
@@ -157,7 +156,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:gravity="end"
-                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:textColor="@color/browse_gray"
                 android:textStyle="italic" />
         </RelativeLayout>

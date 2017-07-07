@@ -4,15 +4,16 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RatingBar;
 
 import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -66,12 +67,17 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
             WorkHolder workHolder = ((WorkHolder) holder);
 
             TaskResponse taskResponse = taskResponses.get(position);
-
             workHolder.tvName.setText(taskResponse.getTitle());
-            String strPrice = Utils.formatNumber(taskResponse.getWorkerRate() * taskResponse.getWorkerCount()) + " " + context.getString(R.string.currency);
-            workHolder.tvPrice.setText(strPrice);
-            workHolder.tvPrice.setText(context.getString(R.string.my_task_price, Utils.formatNumber(taskResponse.getWorkerRate())));
+            workHolder.tvPrice.setText(context.getString(R.string.vnd, Utils.formatNumber(taskResponses.get(position).getWorkerRate())));
+            workHolder.tvStartTime.setText(DateTimeUtils.getOnlyDateFromIso(taskResponses.get(position).getStartTime()));
+            workHolder.tvAddress.setText(taskResponses.get(position).getAddress());
+            workHolder.ratingBar.setRating(taskResponses.get(position).getPoster().getPosterAverageRating());
+            if (taskResponses.get(position).getCommentsCount() > 1)
+                workHolder.tvComment.setText(context.getString(R.string.bidder_count, Utils.formatNumber(taskResponses.get(position).getBidderCount())) + context.getString(R.string.comments, Utils.formatNumber(taskResponses.get(position).getCommentsCount())));
+            else
+                workHolder.tvComment.setText(context.getString(R.string.bidder_count, Utils.formatNumber(taskResponses.get(position).getBidderCount())) + context.getString(R.string.comment, Utils.formatNumber(taskResponses.get(position).getCommentsCount())));
 
+            Utils.displayImageAvatar(context, workHolder.imgAvata, taskResponses.get(position).getPoster().getAvatar());
             if (taskResponse.getRole().equals(Constants.ROLE_TASKER)) {
                 if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_overdue));
@@ -120,29 +126,29 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
                 }
             }
 
-            workHolder.tvStartTime.setText(context.getString(R.string.my_task_adapter_start_time, DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime())));
-            workHolder.tvTaskType.setText(context.getString(R.string.my_task_adapter_task_type, CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName()));
-            workHolder.tvAddress.setText(context.getString(R.string.my_task_adapter_address, taskResponse.getAddress()));
         }
     }
 
     class WorkHolder extends BaseHolder implements View.OnClickListener {
-
+        private final CircleImageView imgAvata;
         private final TextViewHozo tvName;
         private final TextViewHozo tvStatus;
         private final TextViewHozo tvAddress;
         private final TextViewHozo tvStartTime;
-        private final TextViewHozo tvTaskType;
+        private final TextViewHozo tvComment;
+        private final RatingBar ratingBar;
         private final TextViewHozo tvPrice;
 
         public WorkHolder(View itemView) {
             super(itemView);
+            imgAvata = (CircleImageView) itemView.findViewById(R.id.img_avatar);
             tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
             tvStatus = (TextViewHozo) itemView.findViewById(R.id.tv_status);
             tvAddress = (TextViewHozo) itemView.findViewById(R.id.tv_address);
             tvStartTime = (TextViewHozo) itemView.findViewById(R.id.tv_start_time);
-            tvTaskType = (TextViewHozo) itemView.findViewById(R.id.tv_task_type);
+            tvComment = (TextViewHozo) itemView.findViewById(R.id.tv_comment);
             tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
+            ratingBar = (RatingBar) itemView.findViewById(R.id.rb_rating);
 
             itemView.setOnClickListener(this);
         }
