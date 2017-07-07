@@ -6,7 +6,7 @@
         android:drawable="@drawable/rating_bar_progress_big" />
     <item
         android:id="@android:id/secondaryProgress"
-        android:drawable="@drawable/rating_bar_normal_big" />
+        android:drawable="@drawable/rating_bar_progress_big" />
     <item
         android:id="@android:id/progress"
         android:drawable="@drawable/rating_bar_normal_big" />

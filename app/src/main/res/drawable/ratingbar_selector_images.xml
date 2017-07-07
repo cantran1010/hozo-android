@@ -6,9 +6,9 @@
         android:drawable="@drawable/rating_bodder" />
     <item
         android:id="@android:id/secondaryProgress"
-        android:drawable="@drawable/rating_fill" />
+        android:drawable="@drawable/rating_bodder" />
     <item
         android:id="@android:id/progress"
-        android:drawable="@drawable/rating_bodder" />
+        android:drawable="@drawable/rating_fill" />
 
 </layer-list>

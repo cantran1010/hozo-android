@@ -44,6 +44,7 @@
                 android:layout_below="@+id/img_avatar"
                 android:layout_gravity="bottom|center"
                 android:layout_marginTop="5dp"
+                android:stepSize="0.01"
                 android:isIndicator="true" />
 
         </LinearLayout>
