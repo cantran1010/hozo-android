@@ -33,7 +33,7 @@ import vn.tonish.hozo.view.TextViewHozo;
  * Created by LongBui on 4/25/2017.
  */
 
-public class RateActivity extends BaseActivity implements View.OnClickListener {
+public class   RateActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = RateActivity.class.getSimpleName();
     private ImageView imgRate;
     private TextViewHozo tvRateContent;

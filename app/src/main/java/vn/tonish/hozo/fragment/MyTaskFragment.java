@@ -215,7 +215,6 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         if (role.equals(Constants.ROLE_TASKER)) {
 
             switch (pos) {
-
                 case 0:
                     result = "";
                     break;
@@ -225,7 +224,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                     break;
 
                 case 2:
-                    result = "assigned";
+                    result = "accepted";
                     break;
 
                 case 3:

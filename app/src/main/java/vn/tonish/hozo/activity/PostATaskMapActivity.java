@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,6 +50,7 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.map;
 import static vn.tonish.hozo.R.string.post_task_map_get_location_error_next;
@@ -83,6 +85,11 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     private final String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     private Marker marker;
     private boolean isOnLocation = true;
+    private TextViewHozo tvAddress;
+    private RelativeLayout addressLayout;
+    private ImageView imgPickList, imgPickMap;
+    private int pickType = 1;
+    private RelativeLayout locationLayout;
 
     @Override
     protected int getLayout() {
@@ -112,6 +119,16 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         placeAutocompleteAdapter = new PlaceAutocompleteAdapter(this, googleApiClient, null,
                 autocompleteFilter);
         autocompleteView.setAdapter(placeAutocompleteAdapter);
+
+        tvAddress = findViewById(R.id.tv_address);
+        addressLayout = findViewById(R.id.layout_address);
+        locationLayout = findViewById(R.id.location_layout);
+
+        imgPickList = findViewById(R.id.img_pick_list);
+        imgPickList.setOnClickListener(this);
+
+        imgPickMap = findViewById(R.id.img_pick_map);
+        imgPickMap.setOnClickListener(this);
 
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
@@ -347,33 +364,54 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             Address addRess = addresses.get(0); // may be crash,can't get address from geocoder
             LogUtils.d(TAG, "getAddress address : " + addRess.toString());
 
-            if (isAddAddress) {
-                String strReturnedAddress = "";
-                for (int i = 0; i < addRess.getMaxAddressLineIndex(); i++) {
-                    strReturnedAddress = strReturnedAddress + addRess.getAddressLine(i) + ", ";
+            String strReturnedAddress = "";
+            for (int i = 0; i < addRess.getMaxAddressLineIndex(); i++) {
+                strReturnedAddress = strReturnedAddress + addRess.getAddressLine(i) + ", ";
+            }
+            strReturnedAddress = strReturnedAddress.substring(0, strReturnedAddress.length() - 2);
+
+            if (pickType == 1) {
+                if (isAddAddress) {
+                    autocompleteView.setText(strReturnedAddress);
                 }
-                strReturnedAddress = strReturnedAddress.substring(0, strReturnedAddress.length() - 2);
-                autocompleteView.setText(strReturnedAddress);
-//                tvAddress.setText(strReturnedAddress);
-//                tvAddress.setError(null);
-            }
 
-            if (addRess.getMaxAddressLineIndex() >= 1) {
-                work.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
+                if (addRess.getMaxAddressLineIndex() >= 1) {
+                    work.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
+                } else {
+                    work.setCity(addRess.getAddressLine(0));
+                }
+
+                if (addRess.getMaxAddressLineIndex() >= 2) {
+                    work.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
+                } else {
+                    work.setDistrict(addRess.getAddressLine(0));
+                }
+
+                work.setAddress(autocompleteView.getText().toString());
+                work.setLatitude(latLng.latitude);
+                work.setLongitude(latLng.longitude);
+                autocompleteView.clearFocus();
             } else {
-                work.setCity(addRess.getAddressLine(0));
+                tvAddress.setText(strReturnedAddress);
+
+                if (addRess.getMaxAddressLineIndex() >= 1) {
+                    work.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
+                } else {
+                    work.setCity(addRess.getAddressLine(0));
+                }
+
+                if (addRess.getMaxAddressLineIndex() >= 2) {
+                    work.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
+                } else {
+                    work.setDistrict(addRess.getAddressLine(0));
+                }
+
+                work.setAddress(tvAddress.getText().toString());
+                work.setLatitude(latLng.latitude);
+                work.setLongitude(latLng.longitude);
             }
 
-            if (addRess.getMaxAddressLineIndex() >= 2) {
-                work.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
-            } else {
-                work.setDistrict(addRess.getAddressLine(0));
-            }
 
-            work.setAddress(autocompleteView.getText().toString());
-            work.setLatitude(latLng.latitude);
-            work.setLongitude(latLng.longitude);
-            autocompleteView.clearFocus();
         } catch (Exception e) {
             e.printStackTrace();
             Utils.showLongToast(this, getString(R.string.post_a_task_map_get_location_error), true, false);
@@ -393,20 +431,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 break;
 
             case R.id.img_current_location:
-                GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
-                if (gpsTracker.canGetLocation()) {
-                    latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
-
-                    if (marker == null) {
-                        marker = googleMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(latLng.latitude, latLng.longitude))
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
-                    } else
-                        marker.setPosition(latLng);
-
-                    getAddress(true);
-                }
+                doCurrentLocation();
                 break;
 
             case R.id.img_map_zoom_in:
@@ -423,6 +448,11 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 autocompleteView.setText("");
                 break;
 
+            case R.id.img_pick_list:
+            case R.id.img_pick_map:
+                doChangePick();
+                break;
+
 //            case R.id.tv_address:
 //                try {
 //                    Intent intent =
@@ -435,6 +465,71 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 //                }
 //                break;
         }
+    }
+
+    private void doCurrentLocation() {
+        GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
+        if (gpsTracker.canGetLocation()) {
+            latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+
+            if (marker == null) {
+                marker = googleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(latLng.latitude, latLng.longitude))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
+            } else
+                marker.setPosition(latLng);
+
+            getAddress(true);
+        }
+    }
+
+    private void doChangePick() {
+
+        if (pickType == 1) {
+
+            // move map
+
+            pickType = 2;
+            addressLayout.setVisibility(View.GONE);
+            tvAddress.setVisibility(View.VISIBLE);
+            locationLayout.setVisibility(View.VISIBLE);
+            imgPickList.setImageResource(R.drawable.ic_menu_list_off);
+            imgPickMap.setImageResource(R.drawable.ic_menu_map_on);
+            marker.setVisible(false);
+
+            tvAddress.setSelected(true);
+
+            googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+                @Override
+                public void onCameraIdle() {
+                    latLng = new LatLng(googleMap.getCameraPosition().target.latitude, googleMap.getCameraPosition().target.longitude);
+                    getAddress(false);
+                }
+            });
+
+        } else {
+
+            // input map
+
+            pickType = 1;
+            addressLayout.setVisibility(View.VISIBLE);
+            tvAddress.setVisibility(View.GONE);
+            locationLayout.setVisibility(View.GONE);
+            imgPickList.setImageResource(R.drawable.ic_menu_list_on);
+            imgPickMap.setImageResource(R.drawable.ic_menu_map_off);
+            marker.setVisible(true);
+
+            googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+                @Override
+                public void onCameraIdle() {
+
+                }
+            });
+
+        }
+
+        doCurrentLocation();
     }
 
     private void doNext() {
