@@ -250,7 +250,17 @@ public class MyTaskPosterFragment extends BaseFragment {
                     break;
                 }
             }
+        } else if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.RESULT_CODE_TASK_DELETE) {
+            TaskResponse taskEdit = (TaskResponse) data.getSerializableExtra(Constants.EXTRA_TASK);
+            for (int i = 0; i < taskResponses.size(); i++) {
+                if (taskResponses.get(i).getId() == taskEdit.getId()) {
+                    taskResponses.remove(i);
+                    myTaskAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
         }
+
     }
 
     @Override

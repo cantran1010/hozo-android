@@ -10,4 +10,8 @@
         android:id="@+id/cancel_task"
         android:title="@string/cancel_task"/>
 
+    <item
+        android:id="@+id/delete_task"
+        android:title="@string/detete_task"/>
+
 </menu>

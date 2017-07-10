@@ -127,51 +127,39 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
     }
 
     private void showPopupMenu() {
-
         //Creating the instance of PopupMenu
         PopupMenu popup = new PopupMenu(getContext(), imgSetting);
 
-        if (TaskManager.getTaskById(comment.getTaskId()).getPoster().getId() == UserManager.getMyUser().getId()) {
-            //Inflating the Popup using xml file
-            popup.getMenuInflater().inflate(R.menu.menu_comment, popup.getMenu());
-            //registering popup with OnMenuItemClickListener
-            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                public boolean onMenuItemClick(MenuItem item) {
+        //Inflating the Popup using xml file
+        popup.getMenuInflater().inflate(R.menu.menu_comment, popup.getMenu());
 
-                    switch (item.getItemId()) {
+        if (TaskManager.getTaskById(comment.getTaskId()).getPoster().getId() == UserManager.getMyUser().getId())
+            popup.getMenu().findItem(R.id.answer).setVisible(true);
+        else
+            popup.getMenu().findItem(R.id.answer).setVisible(false);
 
-                        case R.id.report:
-                            ReportDialog reportDialog = new ReportDialog(getContext(), comment);
-                            reportDialog.showView();
-                            break;
+        //registering popup with OnMenuItemClickListener
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
 
-                        case R.id.answer:
-                            Intent intentAnswer = new Intent();
-                            intentAnswer.setAction("MyBroadcast");
-                            intentAnswer.putExtra(Constants.COMMENT_EXTRA, comment);
-                            getContext().sendBroadcast(intentAnswer);
-                            break;
+                switch (item.getItemId()) {
 
-                    }
-                    return true;
+                    case R.id.report:
+                        ReportDialog reportDialog = new ReportDialog(getContext(), comment);
+                        reportDialog.showView();
+                        break;
+
+                    case R.id.answer:
+                        Intent intentAnswer = new Intent();
+                        intentAnswer.setAction("MyBroadcast");
+                        intentAnswer.putExtra(Constants.COMMENT_EXTRA, comment);
+                        getContext().sendBroadcast(intentAnswer);
+                        break;
+
                 }
-            });
-        } else {
-            //Inflating the Popup using xml file
-            popup.getMenuInflater().inflate(R.menu.menu_report, popup.getMenu());
-            //registering popup with OnMenuItemClickListener
-            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                public boolean onMenuItemClick(MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.report:
-                            ReportDialog reportDialog = new ReportDialog(getContext(), comment);
-                            reportDialog.showView();
-                            break;
-                    }
-                    return true;
-                }
-            });
-        }
+                return true;
+            }
+        });
         popup.show();//showing popup menu
     }
 
