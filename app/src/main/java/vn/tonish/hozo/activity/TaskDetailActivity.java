@@ -121,6 +121,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private boolean isShowCancel;
     private boolean mMapViewExpanded = false;
     private WorkAroundMapFragment mapFragment;
+    private boolean isDelete = true;
 
     @Override
     protected int getLayout() {
@@ -344,6 +345,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         commentType = getString(R.string.comment_setting_visible);
 
         isShowCancel = true;
+        isDelete = true;
 //        tvCancel.setVisibility(View.VISIBLE);
         layoutFooter.setVisibility(View.VISIBLE);
         rcvBidder.setVisibility(View.VISIBLE);
@@ -358,18 +360,20 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnCallRate(false, false, "");
             bidderType = getString(R.string.assign);
             assigerType = getString(R.string.call);
+            isDelete = false;
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
             assigerType = getString(R.string.call);
+            isDelete = false;
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
-
+            isDelete = false;
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
 
@@ -437,14 +441,17 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             layoutFooter.setVisibility(View.GONE);
             commentType = getString(R.string.comment_setting_invisible);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
+            isDelete = false;
             workDetailView.updateBtnOffer(false);
             workDetailView.updateStatus(false, getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
             workDetailView.updateBtnCallRate(false, false, "");
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+            isDelete = false;
             workDetailView.updateBtnOffer(false);
             workDetailView.updateStatus(true, getString(R.string.received), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
             workDetailView.updateBtnCallRate(true, true, getString(call));
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+            isDelete = false;
             workDetailView.updateBtnOffer(false);
             workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
             workDetailView.updateBtnCallRate(true, false, getString(R.string.rate));
@@ -488,6 +495,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
         // make an offer
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
+            isDelete = false;
             workDetailView.updateBtnOffer(true);
             workDetailView.updateStatus(false, "", ContextCompat.getDrawable(this, R.drawable.bg_border_done));
             workDetailView.updateBtnCallRate(false, false, "");
@@ -629,20 +637,27 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 //                break;
 
             case R.id.img_menu:
-                showMenu(isShowCancel);
+                showMenu(isShowCancel, isDelete);
                 break;
 
         }
     }
 
-    private void showMenu(boolean isShowCancel) {
+    private void showMenu(boolean isShowCancel, boolean isDelete) {
         //Creating the instance of PopupMenu
         PopupMenu popup = new PopupMenu(TaskDetailActivity.this, imgMenu);
 
+        popup.getMenuInflater().inflate(R.menu.menu_detail, popup.getMenu());
+
         if (isShowCancel)
-            popup.getMenuInflater().inflate(R.menu.menu_detail, popup.getMenu());
+            popup.getMenu().findItem(R.id.cancel_task).setVisible(true);
         else
-            popup.getMenuInflater().inflate(R.menu.menu_share, popup.getMenu());
+            popup.getMenu().findItem(R.id.cancel_task).setVisible(false);
+
+        if (isDelete)
+            popup.getMenu().findItem(R.id.delete_task).setVisible(true);
+        else
+            popup.getMenu().findItem(R.id.delete_task).setVisible(false);
 
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -670,11 +685,76 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                                 });
                         break;
 
+                    case R.id.delete_task:
+                        DialogUtils.showOkAndCancelDialog(
+                                TaskDetailActivity.this, getString(R.string.title_delete_task), getString(R.string.content_detete_task), getString(R.string.cancel_task_ok),
+                                getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+                                        doDeleteTask();
+                                    }
+
+                                    @Override
+                                    public void onCancel() {
+
+                                    }
+                                });
+                        break;
+
                 }
                 return true;
             }
         });
         popup.show();//showing popup menu
+    }
+
+    private void doDeleteTask() {
+        ProgressDialogUtils.showProgressDialog(this);
+        ApiClient.getApiService().deleteTask(UserManager.getUserToken(), taskId).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                LogUtils.d(TAG, "doDeleteTask , code : " + response.code());
+                LogUtils.d(TAG, "doDeleteTask , body : " + response.body());
+
+                if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                    Utils.showLongToast(TaskDetailActivity.this, getString(R.string.delete_task_success_msg), false, false);
+                    Intent intent = new Intent();
+                    intent.putExtra(Constants.EXTRA_TASK, taskResponse);
+                    setResult(Constants.RESULT_CODE_TASK_DELETE, intent);
+                    finish();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(TaskDetailActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doDeleteTask();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(TaskDetailActivity.this);
+                } else {
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.d(TAG, "errorBody" + error.toString());
+                    Utils.showLongToast(TaskDetailActivity.this, error.message(), false, true);
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doDeleteTask();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
     }
 
     private void doCacelTask() {

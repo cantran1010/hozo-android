@@ -373,5 +373,9 @@
     <string name="webview_error"><html><body style='background: white;'><p style='color: red;'>Không thể tải trang ! Vui lòng kiểm tra kết nối và thử lại !</p></body></html></string>
     <string name="title_max_length_error">Tiêu đề không được quá 80 kí tự</string>
     <string name="working_hour_max_error">Số giờ làm việc tối đa là 8 giờ</string>
+    <string name="detete_task">Xóa việc</string>
+    <string name="title_delete_task">Xóa việc</string>
+    <string name="content_detete_task">Bạn có chắc chắn muốn xóa việc này ?</string>
+    <string name="delete_task_success_msg">Bạn đã xóa việc thành công !</string>
 
 </resources>
