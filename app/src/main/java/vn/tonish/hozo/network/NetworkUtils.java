@@ -59,9 +59,12 @@ public class NetworkUtils {
 
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
-                    UserManager.getMyUser().setAccessToken(token != null ? token.getAccessToken() : null);
-                    UserManager.getMyUser().setRefreshToken(token != null ? token.getRefreshToken() : null);
-                    UserManager.getMyUser().setTokenExp(token.getTokenExpires());
+                    // fix nullpointer exception on fabric
+                    if (UserManager.getMyUser() != null) {
+                        UserManager.getMyUser().setAccessToken(token != null ? token.getAccessToken() : null);
+                        UserManager.getMyUser().setRefreshToken(token != null ? token.getRefreshToken() : null);
+                        UserManager.getMyUser().setTokenExp(token.getTokenExpires());
+                    }
                     realm.commitTransaction();
 
                     if (refreshListener != null) refreshListener.onRefreshFinish();
