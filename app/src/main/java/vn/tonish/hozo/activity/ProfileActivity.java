@@ -57,6 +57,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private TextView btnWorker, btnPoster, tvTitle;
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvGender, tvRateCount, btnMoreReview, btnLogOut, tvAbout;
+    private TextViewHozo tvReviewsCount, tvTaskCount, tvCompletionRate;
     private RatingBar ratingBar;
     private LinearLayout layoutInfor;
     private float ratingPoster, ratingTasker;
@@ -65,7 +66,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private ScrollView scrollView;
     private int tabIndex = 0;
     private boolean isMyUser;
-    private int rateCountPoster, retaCountWorker;
+    private int rateCountPoster, retaCountWorker, task, post;
     private int userId;
     private UserEntity mUserEntity;
     private final List<ReviewEntity> reviewEntities = new ArrayList<>();
@@ -95,6 +96,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         tvRateCount = (TextViewHozo) findViewById(R.id.tv_rate);
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         tvAbout = (TextViewHozo) findViewById(R.id.tv_about);
+        tvReviewsCount = (TextViewHozo) findViewById(R.id.tv_reviews_count);
+        tvTaskCount = (TextViewHozo) findViewById(R.id.tv_task_count);
+        tvCompletionRate = (TextViewHozo) findViewById(R.id.tv_completion_rate);
         layoutLogout = (FrameLayout) findViewById(R.id.layout_logout);
         reviewsListView = (ReviewsListView) findViewById(R.id.rcv_reviews);
         btnMoreReview = (TextViewHozo) findViewById(R.id.tv_more_reviews);
@@ -312,13 +316,17 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private void setDataSelected(boolean isPoster) {
         reviewEntities.clear();
         if (isPoster) {
-            String strPosterRateCount = getString(R.string.profile_rate) + "(" + rateCountPoster + ")";
-            tvRateCount.setText(strPosterRateCount);
+            tvReviewsCount.setText(getString(R.string.reviews_count, rateCountPoster));
+            tvTaskCount.setText(getString(R.string.post_count, 0));
+            tvCompletionRate.setText(getString(R.string.completion_rate, 0));
+            tvRateCount.setText(R.string.profile_rate);
             ratingBar.setRating(ratingPoster);
             reviewEntities.addAll(posterReviewEntity);
         } else {
-            String strTaskerRateCount = getString(R.string.profile_rate) + "(" + retaCountWorker + ")";
-            tvRateCount.setText(strTaskerRateCount);
+            tvReviewsCount.setText(getString(R.string.reviews_count, retaCountWorker));
+            tvTaskCount.setText(getString(R.string.task_count, 0));
+            tvCompletionRate.setText(getString(R.string.completion_rate, 0));
+            tvRateCount.setText(R.string.profile_rate);
             ratingBar.setRating(ratingTasker);
             reviewEntities.addAll(taskerReviewEntity);
         }
