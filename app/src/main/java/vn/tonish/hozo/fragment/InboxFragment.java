@@ -182,7 +182,9 @@ public class InboxFragment extends BaseFragment {
                         endlessRecyclerViewScrollListener.resetState();
 
                         PreferUtils.setNewPushCount(getActivity(), 0);
-                        ((MainActivity) getActivity()).updateCountMsg();
+
+                        if (getActivity() != null && getActivity() instanceof MainActivity)
+                            ((MainActivity) getActivity()).updateCountMsg();
                     }
 
                     notifications.addAll(notificationResponse != null ? notificationResponse : null);
