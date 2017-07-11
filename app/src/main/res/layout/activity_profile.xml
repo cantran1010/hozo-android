@@ -133,7 +133,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/btn_selector"
-                        android:padding="2dp"
+                        android:gravity="center"
+                        android:padding="5dp"
                         android:text="@string/add_verify"
                         android:textColor="@color/white"
                         android:textSize="@dimen/tv_size_nomal" />
@@ -327,7 +328,6 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:text="@string/profile_rate"
                     android:textColor="@color/browse_gray" />
 
                 <vn.tonish.hozo.view.TextViewHozo
@@ -337,7 +337,6 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:text="20 viec da lam"
                     android:textColor="@color/browse_gray" />
 
                 <vn.tonish.hozo.view.TextViewHozo
@@ -347,7 +346,6 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:text="20 viec hoan thanh"
                     android:textColor="@color/browse_gray" />
 
                 <vn.tonish.hozo.view.TextViewHozo
@@ -357,7 +355,6 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="25dp"
-                    android:text="@string/profile_rate"
                     android:textColor="@color/blue"
                     android:textStyle="bold" />
 

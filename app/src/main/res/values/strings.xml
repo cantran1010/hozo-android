@@ -382,5 +382,9 @@
     <string name="post_count">%d việc đã đăng </string>
     <string name="task_count">%d việc đã nhận </string>
     <string name="completion_rate">%d việc hoàn thành</string>
+    <string name="title_add_verify">Cung Cấp Thông Tin Cá Nhân</string>
+    <string name="lable_verify">Để có thể tìm được người làm việc hay nhận việc một cách nhanh chóng và uy tín, bạn cần xác thực thông tin với HoZo!</string>
+    <string name="facebook_verify">Xác thực với Facebook</string>
+    <string name="other_verify">Xác thực thông tin cá nhân khác</string>
 
 </resources>
