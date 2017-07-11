@@ -378,5 +378,9 @@
     <string name="label_header_verify">Để có thể tìm được người làm việc hay nhận việc một cách nhanh chóng và uy tín, bạn cần xác thực thông tin với HoZo!</string>
     <string name="email_verify">Xác thực với email</string>
     <string name="verify">Xác thực</string>
+    <string name="reviews_count">%d đánh giá</string>
+    <string name="post_count">%d việc đã đăng </string>
+    <string name="task_count">%d việc đã nhận </string>
+    <string name="completion_rate">%d việc hoàn thành</string>
 
 </resources>
