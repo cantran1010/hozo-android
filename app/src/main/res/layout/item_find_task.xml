@@ -43,9 +43,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/img_avatar"
                 android:layout_gravity="bottom|center"
-                android:stepSize="0.01"
                 android:layout_marginTop="5dp"
-                android:isIndicator="true" />
+                android:isIndicator="true"
+                android:stepSize="0.01" />
 
         </LinearLayout>
 
@@ -118,8 +118,8 @@
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:max="10"
-                    android:progress="0"
+                    android:max="1"
+                    android:progress="1"
                     android:progressDrawable="@drawable/custom_progress" />
 
                 <vn.tonish.hozo.view.TextViewHozo
