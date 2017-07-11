@@ -21,7 +21,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">
@@ -39,14 +38,11 @@
                 <data
                     android:host="go"
                     android:scheme="hozotonish" />
-
                 <data
                     android:host="go"
                     android:scheme="hozotonishbeta" />
-
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
@@ -130,18 +126,17 @@
             android:name=".activity.TaskAlertsActivity"
             android:screenOrientation="portrait" />
 
-        <!--<receiver android:name=".broadcast.BlockBroadCastReceiver">-->
-        <!--<intent-filter>-->
-        <!--<action-->
-        <!--android:name="vn.tonish.hozo.block_user"-->
-        <!--android:enabled="true" />-->
-        <!--</intent-filter>-->
-        <!--</receiver>-->
+        <!-- <receiver android:name=".broadcast.BlockBroadCastReceiver"> -->
+        <!-- <intent-filter> -->
+        <!-- <action -->
+        <!-- android:name="vn.tonish.hozo.block_user" -->
+        <!-- android:enabled="true" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="a5706b90dc87e8fd7eb3b77dfb9f0ae4e43bc71d" />
@@ -153,7 +148,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".fcm.MyFireBaseInstanceIDService"
             android:exported="false">
@@ -162,6 +156,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".activity.GiveInforActivity"></activity>
     </application>
 
 </manifest>
