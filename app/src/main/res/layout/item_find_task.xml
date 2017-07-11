@@ -43,7 +43,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/img_avatar"
                 android:layout_gravity="bottom|center"
-                android:stepSize="0.01"
                 android:layout_marginTop="5dp"
                 android:isIndicator="true"
                 android:stepSize="0.01" />
