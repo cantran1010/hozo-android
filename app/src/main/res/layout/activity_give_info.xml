@@ -47,9 +47,9 @@
         android:textSize="@dimen/tv_size_xmedium" />
 
     <RelativeLayout
+        android:background="@drawable/bg_border_gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:padding="16dp">
 
         <vn.tonish.hozo.view.TextViewHozo
@@ -66,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_label_email"
             android:layout_marginTop="20dp"
+            android:inputType="textEmailAddress"
             android:layout_toLeftOf="@+id/btn_verify_email"
             android:layout_toStartOf="@+id/btn_verify_email"
             android:background="@drawable/border_gray"
@@ -111,40 +112,41 @@
             android:textColor="@color/white"
             android:textSize="@dimen/tv_size_xmedium" />
 
+
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/bg_border_gray"
-        android:orientation="vertical"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingStart="16dp">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:background="@drawable/bg_border_gray"-->
+        <!--android:orientation="vertical"-->
+        <!--android:paddingEnd="16dp"-->
+        <!--android:paddingLeft="16dp"-->
+        <!--android:paddingRight="16dp"-->
+        <!--android:paddingStart="16dp">-->
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/other_verify"
-            android:textColor="@color/black"
-            android:textSize="@dimen/tv_size_xlager" />
+        <!--<vn.tonish.hozo.view.TextViewHozo-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:text="@string/other_verify"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="@dimen/tv_size_xlager" />-->
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/btn_selector"
-            android:gravity="center"
-            android:minHeight="@dimen/edt_min_height"
-            android:text="@string/hot_line"
-            android:textColor="@color/hozo_red"
-            android:textSize="@dimen/tv_size_xlager" />
+        <!--<vn.tonish.hozo.view.TextViewHozo-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_marginBottom="20dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:background="@drawable/btn_selector"-->
+            <!--android:gravity="center"-->
+            <!--android:minHeight="@dimen/edt_min_height"-->
+            <!--android:text="@string/hot_line"-->
+            <!--android:textColor="@color/hozo_red"-->
+            <!--android:textSize="@dimen/tv_size_xlager" />-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
 </LinearLayout>
