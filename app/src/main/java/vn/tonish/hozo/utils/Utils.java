@@ -62,6 +62,14 @@ public class Utils {
     public static final int MAXSIZE_AVATA = 300;
 
     public static void displayImage(Context context, ImageView img, String url) {
+
+        if (context == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing()) {
+                return;
+            }
+        }
+
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.image_placeholder)
@@ -70,6 +78,14 @@ public class Utils {
     }
 
     public static void displayImageCenterCrop(Context context, ImageView img, String url) {
+
+        if (context == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing()) {
+                return;
+            }
+        }
+
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.image_placeholder)
@@ -79,6 +95,14 @@ public class Utils {
     }
 
     public static void displayImageAvatar(Context context, ImageView img, String url) {
+
+        if (context == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing()) {
+                return;
+            }
+        }
+
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.avatar_default)
