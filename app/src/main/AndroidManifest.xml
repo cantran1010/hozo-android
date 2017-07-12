@@ -43,6 +43,10 @@
                     android:scheme="hozotonishbeta" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
@@ -153,7 +157,13 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activity.GiveInforActivity"></activity>
+        <activity
+            android:name=".activity.GiveInforActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

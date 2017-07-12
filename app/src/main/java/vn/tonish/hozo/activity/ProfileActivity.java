@@ -57,7 +57,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private TextView btnWorker, btnPoster, tvTitle;
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvGender, tvRateCount, btnMoreReview, btnLogOut, tvAbout;
-    private TextViewHozo tvReviewsCount, tvTaskCount, tvCompletionRate;
+    private TextViewHozo tvReviewsCount, tvTaskCount, tvCompletionRate, tvAddVerify;
     private RatingBar ratingBar;
     private LinearLayout layoutInfor;
     private float ratingPoster, ratingTasker;
@@ -102,6 +102,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         layoutLogout = (FrameLayout) findViewById(R.id.layout_logout);
         reviewsListView = (ReviewsListView) findViewById(R.id.rcv_reviews);
         btnMoreReview = (TextViewHozo) findViewById(R.id.tv_more_reviews);
+        tvAddVerify = (TextViewHozo) findViewById(R.id.btn_add_verify);
         scrollView = (ScrollView) findViewById(R.id.scroll_view);
         ratingPoster = 0f;
         ratingTasker = 0f;
@@ -120,6 +121,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btnWorker.setOnClickListener(this);
         btnMoreReview.setOnClickListener(this);
         imgAvatar.setOnClickListener(this);
+        tvAddVerify.setOnClickListener(this);
         if (isMyUser) {
             mUserEntity = UserManager.getMyUser();
         } else {
@@ -169,6 +171,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     intentView.putExtra(Constants.EXTRA_IMAGE_PATH, mUserEntity.getAvatar());
                     startActivity(intentView, TransitionScreen.RIGHT_TO_LEFT);
                 }
+                break;
+            case R.id.btn_add_verify:
+                startActivity(new Intent(this, GiveInforActivity.class));
                 break;
         }
     }
