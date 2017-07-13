@@ -390,5 +390,6 @@
     <string name="lable_verify">Để có thể tìm được người làm việc hay nhận việc một cách nhanh chóng và uy tín, bạn cần xác thực thông tin với HoZo!</string>
     <string name="facebook_verify">Xác thực với Facebook</string>
     <string name="other_verify">Xác thực thông tin cá nhân khác</string>
+    <string name="hozo_tonish">© 2017 Tonish. Giữ mọi quyển.</string>
 
 </resources>

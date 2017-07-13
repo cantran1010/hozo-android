@@ -42,6 +42,7 @@
                 android:maxLines="2"
                 android:minHeight="@dimen/edt_min_height"
                 android:textColor="@color/white"
+                android:textCursorDrawable="@drawable/mycursor"
                 android:textSize="@dimen/edt_size_nomal" />
 
             <View
@@ -137,6 +138,7 @@
                 android:maxLines="1"
                 android:minHeight="@dimen/edt_min_height"
                 android:textColor="@color/white"
+                android:textCursorDrawable="@drawable/mycursor"
                 android:textSize="@dimen/edt_size_nomal" />
 
             <View
@@ -169,8 +171,8 @@
                     android:textSize="@dimen/tv_size_nomal" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
