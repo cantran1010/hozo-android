@@ -411,8 +411,21 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         }
 
         //bidder
+        else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
+            workDetailView.updateStatus(true, getString(R.string.my_task_status_worker_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnCallRate(false, false, "");
+//            tvCancel.setVisibility(View.GONE);
+            isShowCancel = false;
 
-        else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
+            layoutBidderCount.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.GONE);
+            layoutAssignCount.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+
+            layoutFooter.setVisibility(View.GONE);
+            commentType = getString(R.string.comment_setting_invisible);
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
             workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
@@ -477,22 +490,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
             layoutFooter.setVisibility(View.GONE);
             commentType = getString(R.string.comment_setting_invisible);
-        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
-            workDetailView.updateStatus(true, getString(R.string.my_task_status_worker_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
-            workDetailView.updateBtnOffer(false);
-            workDetailView.updateBtnCallRate(false, false, "");
-//            tvCancel.setVisibility(View.GONE);
-            isShowCancel = false;
-
-            layoutBidderCount.setVisibility(View.GONE);
-            rcvBidder.setVisibility(View.GONE);
-            layoutAssignCount.setVisibility(View.GONE);
-            rcvAssign.setVisibility(View.GONE);
-
-            layoutFooter.setVisibility(View.GONE);
-            commentType = getString(R.string.comment_setting_invisible);
         }
-
         // make an offer
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
             isDelete = false;

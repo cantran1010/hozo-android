@@ -19,7 +19,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.Base64;
@@ -40,8 +40,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import vn.tonish.hozo.BuildConfig;
 import vn.tonish.hozo.R;
@@ -219,10 +217,18 @@ public class Utils {
     }
 
     public static File compressFile(File fileIn) {
+        Bitmap bitmap;
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            bitmap = BitmapFactory.decodeFile(fileIn.getPath(), options);
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.RGB_565;
+            bitmap = BitmapFactory.decodeFile(fileIn.getPath(), options);
+        }
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap bitmap = BitmapFactory.decodeFile(fileIn.getPath(), options);
         LogUtils.d(TAG, "compressFile , width : " + bitmap.getWidth() + " , height : " + bitmap.getHeight());
         if (bitmap.getWidth() > MAXSIZE || bitmap.getHeight() > MAXSIZE) {
             float scale = bitmap.getWidth() > bitmap.getHeight() ? bitmap.getWidth() / MAXSIZE : bitmap.getHeight() / MAXSIZE;
@@ -418,34 +424,83 @@ public class Utils {
 
         tvContent.setText(content);
 
-        SpannableString spannable = new SpannableString(tvContent.getText().toString());
+        SpannableStringBuilder spannable = new SpannableStringBuilder(tvContent.getText().toString());
 
-        Pattern patternId = Pattern.compile(matcher);
-        Matcher matcherId = patternId.matcher(tvContent.getText().toString());
-        while (matcherId.find()) {
-            spannable.setSpan(new android.text.style.StyleSpan(Typeface.NORMAL), matcherId.start(), matcherId.end(), 0);
-            spannable.setSpan(new ForegroundColorSpan(Color.parseColor(matcherColor)), matcherId.start(), matcherId.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        Pattern patternId = Pattern.compile(matcher);
+//        Matcher matcherId = patternId.matcher(tvContent.getText().toString());
+
+        int fromMatcher = tvContent.getText().toString().indexOf(matcher);
+        int toMatcher = fromMatcher + matcher.length();
+        if (fromMatcher >= 0) {
+//            while (matcherId.find()) {
+            spannable.setSpan(new android.text.style.StyleSpan(Typeface.NORMAL), fromMatcher, toMatcher, 0);
+            spannable.setSpan(new ForegroundColorSpan(Color.parseColor(matcherColor)), fromMatcher, toMatcher, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            }
         }
 
-        String authorName = notification.getFullName();
-        Pattern patternIdName = Pattern.compile(authorName);
-        Matcher matcherIdName = patternIdName.matcher(tvContent.getText().toString());
-        while (matcherIdName.find()) {
-            spannable.setSpan(new android.text.style.StyleSpan(Typeface.NORMAL), matcherIdName.start(), matcherIdName.end(), 0);
-            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), matcherIdName.start(), matcherIdName.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        String authorName = replacePattern(notification.getFullName());
+//        Pattern patternIdName = Pattern.compile(authorName);
+//        Matcher matcherIdName = patternIdName.matcher(tvContent.getText().toString());
+
+        int fromAuthorName = tvContent.getText().toString().indexOf(notification.getFullName());
+        int toAuthorName = fromAuthorName + notification.getFullName().length();
+
+        if (fromAuthorName >= 0) {
+//            while (matcherIdName.find()) {
+            spannable.setSpan(new android.text.style.StyleSpan(Typeface.NORMAL), fromAuthorName, toAuthorName, 0);
+            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), fromAuthorName, toAuthorName, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            }
         }
 
-        String matcherTaskName = notification.getTaskName();
-        Pattern patternIdTaskName = Pattern.compile(matcherTaskName);
-        Matcher matcherIdTaskName = patternIdTaskName.matcher(tvContent.getText().toString());
-        while (matcherIdTaskName.find()) {
-            spannable.setSpan(new android.text.style.StyleSpan(Typeface.NORMAL), matcherIdTaskName.start(), matcherIdTaskName.end(), 0);
-            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), matcherIdTaskName.start(), matcherIdTaskName.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        String matcherTaskName = replacePattern(notification.getTaskName());
+//        Pattern patternIdTaskName = Pattern.compile(matcherTaskName);
+//        Matcher matcherIdTaskName = patternIdTaskName.matcher(tvContent.getText().toString());
+
+        int fromTaskName = tvContent.getText().toString().indexOf(notification.getTaskName());
+        int toTaskName = fromTaskName + notification.getTaskName().length();
+        if (fromTaskName >= 0) {
+//        while (matcherIdTaskName.find()) {
+            spannable.setSpan(new android.text.style.StyleSpan(Typeface.NORMAL), fromTaskName, toTaskName, 0);
+            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), fromTaskName, toTaskName, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        }
         }
 
         tvContent.setText(spannable);
         tvContent.setContentDescription(spannable);
     }
+
+//    public static String replacePattern(String input) {
+//        String result = "";
+//
+//        for (int i = 0; i < input.length(); i++) {
+//            if (input.charAt(i) == '$'
+//                    || input.charAt(i) == '&'
+//                    || input.charAt(i) == '+'
+//                    || input.charAt(i) == ','
+//                    || input.charAt(i) == ':'
+//                    || input.charAt(i) == ';'
+//                    || input.charAt(i) == '='
+//                    || input.charAt(i) == '?'
+//                    || input.charAt(i) == '@'
+//                    || input.charAt(i) == '#'
+//                    || input.charAt(i) == '\''
+//                    || input.charAt(i) == '<'
+//                    || input.charAt(i) == '>'
+//                    || input.charAt(i) == '|'
+//                    || input.charAt(i) == '.'
+//                    || input.charAt(i) == '^'
+//                    || input.charAt(i) == '('
+//                    || input.charAt(i) == ')'
+//                    || input.charAt(i) == '%'
+//                    || input.charAt(i) == '!'
+//                    || input.charAt(i) == '-'
+//                    ) {
+//                result = result + "\\";
+//            }
+//            result = result + input.charAt(i);
+//        }
+//        return result;
+//    }
 
     public static String getContentFromNotification(Context context, Notification notification) {
 
