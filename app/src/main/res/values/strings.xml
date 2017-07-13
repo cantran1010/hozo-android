@@ -280,9 +280,6 @@
     <string name="notification_task_overdue_color">#FF3100</string>
 
     <!-- my task adapter -->
-    <string name="my_task_adapter_start_time">Ngày làm : %s</string>
-    <string name="my_task_adapter_task_type">Phân loại : %s</string>
-    <string name="my_task_adapter_address">Địa chỉ : %s</string>
     <string name="my_task_status_worker_open">Ứng tuyển</string>
     <string name="my_task_status_worker_assigned">Đã nhận</string>
     <string name="my_task_status_worker_completed">Hoàn thành</string>
@@ -299,7 +296,6 @@
     <string name="share_app_title">Chọn ứng dụng bạn muốn chia sẻ</string>
     <string name="share_app_content">Hãy chia sẻ cho bạn bè ứng dụng tuyệt vời này \n</string>
     <string name="share_app_error">Rất tiếc,điện thoại bạn không cài đặt ứng dụng có thể chia sẻ</string>
-    <string name="currency">VND</string>
     <string name="gender_vn_any">Bất kỳ</string>
     <string name="gender_vn_mafele">Nữ</string>
     <string name="gender_vn_male">Nam</string>

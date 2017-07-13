@@ -72,11 +72,13 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
             workHolder.tvStartTime.setText(DateTimeUtils.getOnlyDateFromIso(taskResponses.get(position).getStartTime()));
             workHolder.tvAddress.setText(taskResponses.get(position).getAddress());
             workHolder.ratingBar.setRating(taskResponses.get(position).getPoster().getPosterAverageRating());
-            if (taskResponses.get(position).getCommentsCount() > 1)
-                workHolder.tvComment.setText(context.getString(R.string.bidder_count, Utils.formatNumber(taskResponses.get(position).getBidderCount())) + context.getString(R.string.comments, Utils.formatNumber(taskResponses.get(position).getCommentsCount())));
-            else
-                workHolder.tvComment.setText(context.getString(R.string.bidder_count, Utils.formatNumber(taskResponses.get(position).getBidderCount())) + context.getString(R.string.comment, Utils.formatNumber(taskResponses.get(position).getCommentsCount())));
-
+            if (taskResponses.get(position).getCommentsCount() > 1) {
+                String str_bidder_count = context.getString(R.string.bidder_count, Utils.formatNumber(taskResponses.get(position).getBidderCount())) + context.getString(R.string.comments, Utils.formatNumber(taskResponses.get(position).getCommentsCount()));
+                workHolder.tvComment.setText(str_bidder_count);
+            } else {
+                String str_bidder_count1 = context.getString(R.string.bidder_count, Utils.formatNumber(taskResponses.get(position).getBidderCount())) + context.getString(R.string.comment, Utils.formatNumber(taskResponses.get(position).getCommentsCount()));
+                workHolder.tvComment.setText(str_bidder_count1);
+            }
             Utils.displayImageAvatar(context, workHolder.imgAvata, taskResponses.get(position).getPoster().getAvatar());
             if (taskResponse.getRole().equals(Constants.ROLE_TASKER)) {
 

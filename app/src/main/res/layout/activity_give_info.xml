@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
     android:orientation="vertical"
     tools:context="vn.tonish.hozo.activity.GiveInforActivity">
 
@@ -39,112 +38,124 @@
 
     </RelativeLayout>
 
-    <vn.tonish.hozo.view.TextViewHozo
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="@string/label_header_verify"
-        android:textSize="@dimen/tv_size_xmedium" />
+        android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="16dp">
-
-        <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_label_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/email_verify"
-            android:textColor="@color/black"
-            android:textSize="@dimen/tv_size_xlager" />
-
-        <vn.tonish.hozo.view.EdittextHozo
-            android:id="@+id/edt_verify_email"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_label_email"
-            android:layout_marginTop="20dp"
-            android:layout_toLeftOf="@+id/btn_verify_email"
-            android:layout_toStartOf="@+id/btn_verify_email"
-            android:background="@drawable/border_gray"
-            android:minHeight="@dimen/edt_min_height" />
+            android:background="@color/bg"
+            android:orientation="vertical">
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/btn_verify_email"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/edt_verify_email"
-            android:layout_below="@id/tv_label_email"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/btn_selector"
-            android:gravity="center"
-            android:minHeight="@dimen/edt_min_height"
-            android:text="@string/verify"
-            android:textColor="@color/white"
-            android:textSize="@dimen/tv_size_xmedium" />
+            <vn.tonish.hozo.view.TextViewHozo
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="@string/label_header_verify"
+                android:textSize="@dimen/tv_size_xmedium" />
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_label_facebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/edt_verify_email"
-            android:layout_marginTop="20dp"
-            android:text="@string/facebook_verify"
-            android:textColor="@color/black"
-            android:textSize="@dimen/tv_size_xlager" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="16dp">
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/btn_verify_facebook"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_label_facebook"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/btn_selector"
-            android:gravity="center"
-            android:minHeight="@dimen/edt_min_height"
-            android:text="@string/verify"
-            android:textColor="@color/white"
-            android:textSize="@dimen/tv_size_xmedium" />
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_label_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email_verify"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/tv_size_xlager" />
 
-    </RelativeLayout>
+                <vn.tonish.hozo.view.EdittextHozo
+                    android:id="@+id/edt_verify_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_label_email"
+                    android:layout_marginTop="20dp"
+                    android:layout_toLeftOf="@+id/btn_verify_email"
+                    android:layout_toStartOf="@+id/btn_verify_email"
+                    android:background="@drawable/border_gray"
+                    android:minHeight="@dimen/edt_min_height" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/bg_border_gray"
-        android:orientation="vertical"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingStart="16dp">
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/btn_verify_email"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@id/edt_verify_email"
+                    android:layout_below="@id/tv_label_email"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/btn_selector"
+                    android:gravity="center"
+                    android:minHeight="@dimen/edt_min_height"
+                    android:text="@string/verify"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/tv_size_xmedium" />
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/other_verify"
-            android:textColor="@color/black"
-            android:textSize="@dimen/tv_size_xlager" />
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_label_facebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edt_verify_email"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/facebook_verify"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/tv_size_xlager" />
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/btn_selector"
-            android:gravity="center"
-            android:minHeight="@dimen/edt_min_height"
-            android:text="@string/hot_line"
-            android:textColor="@color/hozo_red"
-            android:textSize="@dimen/tv_size_xlager" />
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/btn_verify_facebook"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_label_facebook"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/btn_selector"
+                    android:gravity="center"
+                    android:minHeight="@dimen/edt_min_height"
+                    android:text="@string/verify"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/tv_size_xmedium" />
 
-    </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_border_gray"
+                android:orientation="vertical"
+                android:paddingEnd="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingStart="16dp">
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/other_verify"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/tv_size_xlager" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_selector"
+                    android:gravity="center"
+                    android:minHeight="@dimen/edt_min_height"
+                    android:text="@string/hot_line"
+                    android:textColor="@color/hozo_red"
+                    android:textSize="@dimen/tv_size_xlager" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -117,7 +117,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
         private void showbtnContinue() {
             String mb = edtPhone.getText().toString().trim();
-            if (!mb.isEmpty() && isNumberValid("84", mb) == true) {
+            if (!mb.isEmpty() && isNumberValid("84", mb)) {
                 tvContinue.setAlpha(1f);
                 tvContinue.setEnabled(true);
                 hideSoftKeyboard(getActivity(), edtPhone);

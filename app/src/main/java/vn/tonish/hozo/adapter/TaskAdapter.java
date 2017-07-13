@@ -78,11 +78,13 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
             workHolder.progressBar.setMax(taskResponses.get(position).getWorkerCount());
             workHolder.progressBar.setProgress(taskResponses.get(position).getAssigneeCount());
             workHolder.ratingBar.setRating(taskResponses.get(position).getPoster().getPosterAverageRating());
-            if (taskResponses.get(position).getCommentsCount() > 1)
-                workHolder.tvComment.setText(context.getString(R.string.bidder_count, Utils.formatNumber(taskResponses.get(position).getBidderCount())) + context.getString(R.string.comments, Utils.formatNumber(taskResponses.get(position).getCommentsCount())));
-            else
-                workHolder.tvComment.setText(context.getString(R.string.bidder_count, Utils.formatNumber(taskResponses.get(position).getBidderCount())) + context.getString(R.string.comment, Utils.formatNumber(taskResponses.get(position).getCommentsCount())));
-
+            if (taskResponses.get(position).getCommentsCount() > 1) {
+                String str_bidder_count = context.getString(R.string.bidder_count, Utils.formatNumber(taskResponses.get(position).getBidderCount())) + context.getString(R.string.comments, Utils.formatNumber(taskResponses.get(position).getCommentsCount()));
+                workHolder.tvComment.setText(str_bidder_count);
+            } else {
+                String str_bidder_count1 = context.getString(R.string.bidder_count, Utils.formatNumber(taskResponses.get(position).getBidderCount())) + context.getString(R.string.comment, Utils.formatNumber(taskResponses.get(position).getCommentsCount()));
+                workHolder.tvComment.setText(str_bidder_count1);
+            }
             Utils.displayImageAvatar(context, workHolder.imgAvata, taskResponses.get(position).getPoster().getAvatar());
         }
     }
