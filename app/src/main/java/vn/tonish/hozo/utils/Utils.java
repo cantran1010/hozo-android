@@ -219,10 +219,18 @@ public class Utils {
     }
 
     public static File compressFile(File fileIn) {
+        Bitmap bitmap;
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            bitmap = BitmapFactory.decodeFile(fileIn.getPath(), options);
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.RGB_565;
+            bitmap = BitmapFactory.decodeFile(fileIn.getPath(), options);
+        }
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap bitmap = BitmapFactory.decodeFile(fileIn.getPath(), options);
         LogUtils.d(TAG, "compressFile , width : " + bitmap.getWidth() + " , height : " + bitmap.getHeight());
         if (bitmap.getWidth() > MAXSIZE || bitmap.getHeight() > MAXSIZE) {
             float scale = bitmap.getWidth() > bitmap.getHeight() ? bitmap.getWidth() / MAXSIZE : bitmap.getHeight() / MAXSIZE;
