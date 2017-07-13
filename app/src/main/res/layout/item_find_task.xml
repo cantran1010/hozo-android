@@ -144,7 +144,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/browse_gray"
-                android:textSize="@dimen/margin_left_screen"
+                android:textSize="@dimen/tv_size_xxtiny"
                 android:textStyle="italic" />
 
             <vn.tonish.hozo.view.TextViewHozo
