@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--all screen-->
     <string name="app_name">Hozo</string>
     <string name="continue_up_case">TIẾP TỤC</string>
@@ -183,7 +183,6 @@
     <string name="yesterday">ngày hôm qua</string>
     <string name="days_ago">ngày trước</string>
     <string name="month_ago">tháng trước</string>
-    <string name="year_ago">năm trước</string>
     <string name="msg_contten_logOut">Bạn có chắc chắn muốn đăng xuất?</string>
     <string name="empty" />
     <string name="task_detail_attach_image_hint">Hình ảnh minh họa</string>
@@ -382,10 +381,10 @@
     <string name="label_header_verify">Để có thể tìm được người làm việc hay nhận việc một cách nhanh chóng và uy tín, bạn cần xác thực thông tin với HoZo!</string>
     <string name="email_verify">Xác thực với email</string>
     <string name="verify">Xác thực</string>
-    <string name="reviews_count">%d đánh giá</string>
-    <string name="post_count">%d việc đã đăng </string>
-    <string name="task_count">%d việc đã nhận </string>
-    <string name="completion_rate">%d việc hoàn thành</string>
+    <string name="reviews_count">%1$d đánh giá</string>
+    <string name="post_count" tools:ignore="PluralsCandidate">%1$d việc đã đăng </string>
+    <string name="task_count" tools:ignore="PluralsCandidate">%1$d việc đã nhận </string>
+    <string name="completion_rate" tools:ignore="PluralsCandidate">%1$d việc hoàn thành</string>
     <string name="title_add_verify">Cung Cấp Thông Tin Cá Nhân</string>
     <string name="lable_verify">Để có thể tìm được người làm việc hay nhận việc một cách nhanh chóng và uy tín, bạn cần xác thực thông tin với HoZo!</string>
     <string name="facebook_verify">Xác thực với Facebook</string>
