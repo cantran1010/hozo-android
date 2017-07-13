@@ -92,7 +92,7 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
         mPinHiddenEditText.setOnKeyListener(this);
         btnBack.setOnClickListener(this);
         btnResetOtp.setOnClickListener(this);
-        onFocusChange(mPinFirstDigitEditText,true);
+        onFocusChange(mPinFirstDigitEditText, true);
         startTimer();
     }
 
@@ -385,14 +385,12 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
         btnResetOtp.setClickable(false);
         btnResetOtp.setTextColor(ContextCompat.getColor(getActivity(), R.color.red));
         countDownTimer = new CountDownTimer(60000, 1000) {
-            int secondsLeft = 0;
+            long secondsLeft = 0;
 
             public void onTick(long ms) {
-                if (Math.round((float) ms / 1000.0f) != secondsLeft) {
-                    secondsLeft = Math.round((float) ms / 1000.0f);
-                    String strOtp = getActivity().getString(R.string.login_resend_otp) + ": " + secondsLeft;
-                    btnResetOtp.setText(strOtp);
-                }
+                secondsLeft = ms / 1000;
+                String strOtp = getActivity().getString(R.string.login_resend_otp) + ": " + secondsLeft;
+                btnResetOtp.setText(strOtp);
             }
 
             public void onFinish() {
@@ -406,6 +404,12 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
     @Override
     public void onDetach() {
         super.onDetach();
+        countDownTimer.cancel();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         countDownTimer.cancel();
     }
 }
