@@ -449,8 +449,11 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 break;
 
             case R.id.img_pick_list:
+                doInputMap();
+                break;
+
             case R.id.img_pick_map:
-                doChangePick();
+                doMoveMap();
                 break;
 
 //            case R.id.tv_address:
@@ -484,50 +487,49 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         }
     }
 
-    private void doChangePick() {
+    private void doMoveMap() {
+        if (pickType == 2) return;
 
-        if (pickType == 1) {
+        // move map
+        pickType = 2;
+        addressLayout.setVisibility(View.GONE);
+        tvAddress.setVisibility(View.VISIBLE);
+        locationLayout.setVisibility(View.VISIBLE);
+        imgPickList.setImageResource(R.drawable.ic_menu_list_off);
+        imgPickMap.setImageResource(R.drawable.ic_menu_map_on);
+        marker.setVisible(false);
 
-            // move map
+        tvAddress.setSelected(true);
 
-            pickType = 2;
-            addressLayout.setVisibility(View.GONE);
-            tvAddress.setVisibility(View.VISIBLE);
-            locationLayout.setVisibility(View.VISIBLE);
-            imgPickList.setImageResource(R.drawable.ic_menu_list_off);
-            imgPickMap.setImageResource(R.drawable.ic_menu_map_on);
-            marker.setVisible(false);
+        googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                latLng = new LatLng(googleMap.getCameraPosition().target.latitude, googleMap.getCameraPosition().target.longitude);
+                getAddress(false);
+            }
+        });
+        doCurrentLocation();
+    }
 
-            tvAddress.setSelected(true);
+    private void doInputMap() {
+        if (pickType == 1) return;
 
-            googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
-                @Override
-                public void onCameraIdle() {
-                    latLng = new LatLng(googleMap.getCameraPosition().target.latitude, googleMap.getCameraPosition().target.longitude);
-                    getAddress(false);
-                }
-            });
+        // input map
 
-        } else {
+        pickType = 1;
+        addressLayout.setVisibility(View.VISIBLE);
+        tvAddress.setVisibility(View.GONE);
+        locationLayout.setVisibility(View.GONE);
+        imgPickList.setImageResource(R.drawable.ic_menu_list_on);
+        imgPickMap.setImageResource(R.drawable.ic_menu_map_off);
+        marker.setVisible(true);
 
-            // input map
+        googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
 
-            pickType = 1;
-            addressLayout.setVisibility(View.VISIBLE);
-            tvAddress.setVisibility(View.GONE);
-            locationLayout.setVisibility(View.GONE);
-            imgPickList.setImageResource(R.drawable.ic_menu_list_on);
-            imgPickMap.setImageResource(R.drawable.ic_menu_map_off);
-            marker.setVisible(true);
-
-            googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
-                @Override
-                public void onCameraIdle() {
-
-                }
-            });
-
-        }
+            }
+        });
 
         doCurrentLocation();
     }
