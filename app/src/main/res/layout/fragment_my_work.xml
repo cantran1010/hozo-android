@@ -32,6 +32,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginStart="50dp"
             android:layout_toRightOf="@id/tv_title"
+            android:layout_toEndOf="@id/tv_title"
             android:background="@drawable/border_gray">
 
             <Spinner

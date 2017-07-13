@@ -16,8 +16,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
+        android:baselineAligned="false"
         android:paddingEnd="10dp"
+        android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:paddingStart="10dp"
         android:weightSum="4">
 
         <LinearLayout
@@ -25,9 +28,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingStart="10dp">
+            android:orientation="vertical">
 
             <vn.tonish.hozo.view.CircleImageView
                 android:id="@+id/img_avatar"
@@ -43,8 +44,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
                 android:layout_marginTop="5dp"
-                android:stepSize="0.01"
-                android:isIndicator="true" />
+                android:isIndicator="true"
+                android:stepSize="0.01" />
 
         </LinearLayout>
 
