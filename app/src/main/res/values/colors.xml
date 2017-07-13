@@ -16,7 +16,6 @@
     <color name="tv_black">#030303</color>
     <color name="menu_non_selected">#929292</color>
     <color name="text_hint">#FFA6E5FF</color>
-    <color name="text_money">#00B74A</color>
     <color name="text_item_address">#8B8B8B</color>
     <color name="bg">#F8F8F8</color>
     <color name="text_advance">#363636</color>
@@ -28,6 +27,5 @@
     <color name="transparent">#00000000</color>
     <color name="setting_text">#212121</color>
     <color name="browse_gray">#4b4b4b</color>
-    <color name="browse_price">#409f58</color>
     <color name="browse_gray_blue">#cad7df</color>
 </resources>
