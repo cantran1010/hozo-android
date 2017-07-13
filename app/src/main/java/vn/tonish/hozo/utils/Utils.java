@@ -427,7 +427,7 @@ public class Utils {
             spannable.setSpan(new ForegroundColorSpan(Color.parseColor(matcherColor)), matcherId.start(), matcherId.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
-        String authorName = notification.getFullName();
+        String authorName = replacePattern(notification.getFullName());
         Pattern patternIdName = Pattern.compile(authorName);
         Matcher matcherIdName = patternIdName.matcher(tvContent.getText().toString());
         while (matcherIdName.find()) {
@@ -435,7 +435,7 @@ public class Utils {
             spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), matcherIdName.start(), matcherIdName.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
-        String matcherTaskName = notification.getTaskName();
+        String matcherTaskName = replacePattern(notification.getTaskName());
         Pattern patternIdTaskName = Pattern.compile(matcherTaskName);
         Matcher matcherIdTaskName = patternIdTaskName.matcher(tvContent.getText().toString());
         while (matcherIdTaskName.find()) {
@@ -445,6 +445,39 @@ public class Utils {
 
         tvContent.setText(spannable);
         tvContent.setContentDescription(spannable);
+    }
+
+    public static String replacePattern(String input) {
+        String result = "";
+
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) == '$'
+                    || input.charAt(i) == '&'
+                    || input.charAt(i) == '+'
+                    || input.charAt(i) == ','
+                    || input.charAt(i) == ':'
+                    || input.charAt(i) == ';'
+                    || input.charAt(i) == '='
+                    || input.charAt(i) == '?'
+                    || input.charAt(i) == '@'
+                    || input.charAt(i) == '#'
+                    || input.charAt(i) == '\''
+                    || input.charAt(i) == '<'
+                    || input.charAt(i) == '>'
+                    || input.charAt(i) == '|'
+                    || input.charAt(i) == '.'
+                    || input.charAt(i) == '^'
+                    || input.charAt(i) == '('
+                    || input.charAt(i) == ')'
+                    || input.charAt(i) == '%'
+                    || input.charAt(i) == '!'
+                    || input.charAt(i) == '-'
+                    ) {
+                result = result + "\\";
+            }
+            result = result + input.charAt(i);
+        }
+        return result;
     }
 
     public static String getContentFromNotification(Context context, Notification notification) {
