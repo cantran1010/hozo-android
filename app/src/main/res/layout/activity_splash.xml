@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:gravity="center"
-        android:padding="10dp"
+        android:padding="20dp"
         android:text="@string/hozo_tonish"
         android:textColor="@color/white" />
 
