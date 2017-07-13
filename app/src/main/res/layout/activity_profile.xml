@@ -337,7 +337,8 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:textColor="@color/browse_gray" />
+                    android:textColor="@color/browse_gray"
+                    android:visibility="gone" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_completion_rate"
@@ -346,7 +347,8 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:textColor="@color/browse_gray" />
+                    android:textColor="@color/browse_gray"
+                    android:visibility="gone" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_rate"

@@ -14,4 +14,13 @@
         android:src="@drawable/hozo_logo"
         tools:ignore="ContentDescription" />
 
+    <vn.tonish.hozo.view.TextViewHozo
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/hozo_tonish"
+        android:textColor="@color/white" />
+
 </FrameLayout>

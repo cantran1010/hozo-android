@@ -49,6 +49,7 @@
                 android:layout_toEndOf="@id/tv_zone"
                 android:layout_toRightOf="@id/tv_zone"
                 android:background="@null"
+                android:cursorVisible="true"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:hint="@string/ed_login_phone"
@@ -58,6 +59,7 @@
                 android:minHeight="@dimen/edt_min_height"
                 android:textColor="@color/white"
                 android:textColorHint="@color/text_hint"
+                android:textCursorDrawable="@drawable/mycursor"
                 android:textSize="@dimen/tv_size_lager"
                 android:textStyle="bold" />
 

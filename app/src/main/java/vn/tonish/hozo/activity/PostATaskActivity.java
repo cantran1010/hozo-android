@@ -598,12 +598,13 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                         }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        Calendar calendar1 = Calendar.getInstance();
         // Set calendar to 1 day next from today
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        calendar1.add(Calendar.DAY_OF_MONTH, 1);
         // Set calendar to 1 month next
-        calendar.add(Calendar.MONTH, 1);
+        calendar1.add(Calendar.MONTH, 1);
         datePickerDialog.getDatePicker().setMinDate(new Date().getTime() - 10000);
-        datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        datePickerDialog.getDatePicker().setMaxDate(calendar1.getTimeInMillis());
         datePickerDialog.setTitle(getString(R.string.post_task_date_picker_title));
         datePickerDialog.show();
     }
