@@ -14,18 +14,11 @@
     card_view:cardElevation="2dp"
     card_view:cardUseCompatPadding="true">
 
-
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="1px"-->
-    <!--android:layout_gravity="bottom"-->
-    <!--android:background="@color/hozo_bg" />-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="2dp"
         android:baselineAligned="false"
         android:paddingEnd="5dp"
         android:paddingLeft="5dp"
@@ -36,14 +29,16 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_weight="0.8"
             android:gravity="center"
             android:orientation="vertical">
 
             <vn.tonish.hozo.view.CircleImageView
                 android:id="@+id/img_avatar"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="7dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/avatar_default" />
 
@@ -52,11 +47,10 @@
                 style="@style/StarRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
+                android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:isIndicator="true"
                 android:stepSize="0.01" />
-
         </LinearLayout>
 
         <RelativeLayout
@@ -64,7 +58,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:layout_weight="3"
+            android:layout_weight="3.2"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -77,9 +72,9 @@
                 android:layout_toLeftOf="@+id/tv_price"
                 android:layout_toStartOf="@+id/tv_price"
                 android:ellipsize="end"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:textColor="@color/blue"
-                android:textSize="@dimen/tv_size_xmedium" />
+                android:textSize="@dimen/tv_size_medium" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_price"
@@ -92,6 +87,7 @@
                 android:layout_marginStart="3dp"
                 android:gravity="end"
                 android:minWidth="85dp"
+                android:textStyle="bold"
                 android:padding="2dp"
                 android:textColor="@color/red" />
 
@@ -100,19 +96,20 @@
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_status"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/tv_name"
-                android:layout_marginTop="5dp"
                 android:layout_toLeftOf="@+id/tv_status"
                 android:layout_toStartOf="@+id/tv_status"
                 android:drawableLeft="@drawable/ic_address"
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/ic_address"
                 android:ellipsize="end"
+                android:gravity="center_vertical"
                 android:maxLines="1"
                 android:textColor="@color/browse_gray"
-                android:textSize="@dimen/tv_size_medium" />
+                android:textSize="@dimen/tv_size_xxtiny" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_status"
@@ -132,14 +129,14 @@
                 android:id="@+id/tv_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_start_time"
                 android:layout_below="@+id/tv_address"
-                android:layout_marginTop="5dp"
                 android:layout_toLeftOf="@+id/tv_start_time"
                 android:layout_toStartOf="@+id/tv_start_time"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/browse_gray"
-                android:textSize="@dimen/tv_size_xxtiny"
+                android:textSize="@dimen/tv_size_xtiny"
                 android:textStyle="italic" />
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -154,6 +151,7 @@
                 android:gravity="end"
                 android:padding="2dp"
                 android:textColor="@color/browse_gray"
+                android:textSize="@dimen/tv_size_xtiny"
                 android:textStyle="italic" />
         </RelativeLayout>
 
