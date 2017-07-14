@@ -61,9 +61,6 @@
             android:name=".activity.ProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ShareActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.PostATaskActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />

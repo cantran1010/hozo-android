@@ -1,6 +1,8 @@
 package vn.tonish.hozo.fragment;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.view.View;
 
 import vn.tonish.hozo.R;
@@ -11,11 +13,14 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by CanTran on 5/17/17.
  */
 public class SettingFragment extends BaseFragment implements View.OnClickListener {
+    private TextViewHozo appVersion;
+
     @Override
     protected int getLayout() {
         return R.layout.fragment_setting;
@@ -33,11 +38,20 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         findViewById(R.id.layout_about).setOnClickListener(this);
         findViewById(R.id.layout_share).setOnClickListener(this);
         findViewById(R.id.layout_alert).setOnClickListener(this);
+        appVersion = (TextViewHozo) findViewById(R.id.app_version);
     }
 
 
     @Override
     protected void initData() {
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String vcode = getContext().getString(R.string.app_name) + pInfo.versionName + "(" + String.valueOf(pInfo.versionCode) + ")" + getContext().getString(R.string.hozo_tonish);
+        appVersion.setText(vcode);
 
     }
 

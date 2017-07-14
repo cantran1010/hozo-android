@@ -70,7 +70,8 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
             workHolder.tvName.setText(taskResponse.getTitle());
             workHolder.tvPrice.setText(context.getString(R.string.vnd, Utils.formatNumber(taskResponses.get(position).getWorkerRate())));
             workHolder.tvStartTime.setText(DateTimeUtils.getOnlyDateFromIso(taskResponses.get(position).getStartTime()));
-            workHolder.tvAddress.setText(taskResponses.get(position).getAddress());
+            String strAddress = taskResponse.getDistrict() + " - " + taskResponse.getCity();
+            workHolder.tvAddress.setText(strAddress);
             workHolder.ratingBar.setRating(taskResponses.get(position).getPoster().getPosterAverageRating());
             if (taskResponses.get(position).getCommentsCount() > 1) {
                 String str_bidder_count = context.getString(R.string.bidder_count, Utils.formatNumber(taskResponses.get(position).getBidderCount())) + context.getString(R.string.comments, Utils.formatNumber(taskResponses.get(position).getCommentsCount()));

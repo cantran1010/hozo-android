@@ -74,7 +74,8 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
                 workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_assigned));
             else
                 workHolder.tvStatus.setText(context.getString(R.string.my_task_status_open));
-            workHolder.tvAddress.setText(taskResponses.get(position).getAddress());
+            String strAddress = taskResponses.get(position).getDistrict() + " - "+ taskResponses.get(position).getCity();
+            workHolder.tvAddress.setText(strAddress);
             workHolder.progressBar.setMax(taskResponses.get(position).getWorkerCount());
             workHolder.progressBar.setProgress(taskResponses.get(position).getAssigneeCount());
             workHolder.ratingBar.setRating(taskResponses.get(position).getPoster().getPosterAverageRating());
