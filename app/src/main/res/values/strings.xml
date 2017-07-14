@@ -131,7 +131,7 @@
     <string name="work_detail_view_date">Ngày :</string>
     <string name="work_detail_view_time">Thời gian :</string>
     <string name="work_detail_view_address">Địa điểm :</string>
-    <string name="type_your_text">Type your text …</string>
+    <string name="type_your_text">Nhập nội dung bình luận</string>
     <string name="assign_people">Người làm</string>
     <string name="assign">Chọn</string>
     <string name="cancel_task">Hủy Việc</string>
