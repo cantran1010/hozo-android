@@ -491,6 +491,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             layoutFooter.setVisibility(View.GONE);
             commentType = getString(R.string.comment_setting_invisible);
         }
+
         // make an offer
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
             isDelete = false;
@@ -498,6 +499,12 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateStatus(false, "", ContextCompat.getDrawable(this, R.drawable.bg_border_done));
             workDetailView.updateBtnCallRate(false, false, "");
 //            tvCancel.setVisibility(View.GONE);
+            isShowCancel = false;
+        }else if(taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() != UserManager.getMyUser().getId()){
+            isDelete = false;
+            workDetailView.updateStatus(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
+            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnCallRate(false, false, "");
             isShowCancel = false;
         }
 

@@ -361,7 +361,7 @@ public class Utils {
                 matcherColor = context.getString(R.string.notification_review_received_color);
                 break;
             case Constants.PUSH_TYPE_COMMENT_RECEIVED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received) + " " + notification.getTaskName();
                 matcher = context.getString(R.string.notification_comment_received_matcher);
                 matcherColor = context.getString(R.string.notification_comment_received_color);
                 break;
@@ -514,7 +514,7 @@ public class Utils {
                 content = notification.getFullName() + " " + context.getString(R.string.notification_review_received);
                 break;
             case Constants.PUSH_TYPE_COMMENT_RECEIVED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received) + " " + notification.getTaskName();
                 break;
             case Constants.PUSH_TYPE_BIDDER_CANCELED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
