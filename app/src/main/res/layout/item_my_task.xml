@@ -87,19 +87,19 @@
                 android:layout_marginStart="3dp"
                 android:gravity="end"
                 android:minWidth="85dp"
-                android:textStyle="bold"
                 android:padding="2dp"
-                android:textColor="@color/red" />
+                android:textColor="@color/red"
+                android:textStyle="bold" />
 
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tv_status"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/tv_name"
+                android:layout_marginTop="10dp"
                 android:layout_toLeftOf="@+id/tv_status"
                 android:layout_toStartOf="@+id/tv_status"
                 android:drawableLeft="@drawable/ic_address"

@@ -140,7 +140,7 @@ public class SelectTaskFragment extends BaseFragment {
             list = DataParse.convertListCategoryToListCategoryEntity(categoryList);
             CategoryManager.insertCategories(list);
         }
-        LogUtils.d(TAG, "setIsSelected : " + CategoryManager.getAllCategories().toString());
+//        LogUtils.d(TAG, "setIsSelected : " + CategoryManager.getAllCategories().toString());
 
     }
 
@@ -149,7 +149,7 @@ public class SelectTaskFragment extends BaseFragment {
             insertIsSelected(categoryEntity);
         }
         CategoryManager.insertCategories(categoryEntities);
-        LogUtils.d(TAG, "setIsSelected null " + CategoryManager.getAllCategories().toString());
+//        LogUtils.d(TAG, "setIsSelected null " + CategoryManager.getAllCategories().toString());
     }
 
 
