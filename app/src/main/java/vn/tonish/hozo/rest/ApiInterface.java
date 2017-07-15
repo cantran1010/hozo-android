@@ -112,8 +112,11 @@ public interface ApiInterface {
     Call<List<Integer>> getSettingAlert(@Header("Authorization") String token);
 
     @POST("settings/alert_tasks")
-    Call<Void> postSettingAlert(@Header("Authorization") String token,@Body RequestBody body);
+    Call<Void> postSettingAlert(@Header("Authorization") String token, @Body RequestBody body);
 
     @DELETE("users/tasks/{taskId}")
-    Call<Void> deleteTask(@Header("Authorization") String token,@Path("taskId") int taskId);
+    Call<Void> deleteTask(@Header("Authorization") String token, @Path("taskId") int taskId);
+
+    @POST("tasks/{taskId}/cancel_bid")
+    Call<TaskResponse> cancelBid(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
 }

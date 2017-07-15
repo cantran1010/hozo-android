@@ -27,9 +27,9 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/img_avatar"
-            android:layout_toLeftOf="@+id/btn_call"
+            android:layout_toLeftOf="@+id/btn_layout"
             android:layout_toRightOf="@id/img_avatar"
-            android:layout_toStartOf="@+id/btn_call"
+            android:layout_toStartOf="@+id/btn_layout"
             android:orientation="vertical">
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -43,10 +43,10 @@
             <RatingBar
                 android:id="@+id/rb_rate"
                 style="@style/StarRatingBar"
-                android:stepSize="0.01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:isIndicator="true" />
+                android:isIndicator="true"
+                android:stepSize="0.01" />
 
             <include layout="@layout/verify_layout" />
 
@@ -60,26 +60,49 @@
 
         </LinearLayout>
 
-        <vn.tonish.hozo.view.ButtonHozo
-            android:id="@+id/btn_call"
-            style="@style/btn_style_corners"
-            android:layout_width="75dp"
-            android:layout_height="22dp"
+        <LinearLayout
+            android:id="@+id/btn_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_gravity="end"
-            android:text="@string/call"
-            android:textSize="12sp" />
+            android:orientation="vertical">
+
+            <vn.tonish.hozo.view.ButtonHozo
+                android:id="@+id/btn_call"
+                style="@style/btn_style_corners"
+                android:layout_width="75dp"
+                android:layout_height="22dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="end"
+                android:text="@string/call"
+                android:textSize="12sp" />
+
+            <vn.tonish.hozo.view.ButtonHozo
+                android:id="@+id/btn_cancel_bid"
+                style="@style/btn_style_corners"
+                android:layout_width="75dp"
+                android:layout_height="22dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:text="@string/cancel_bid"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
 
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:layout_marginEnd="@dimen/margin_right_screen"
         android:layout_marginLeft="@dimen/margin_left_screen"
         android:layout_marginRight="@dimen/margin_right_screen"
         android:layout_marginStart="@dimen/margin_left_screen"
-        android:layout_marginEnd="@dimen/margin_right_screen"
         android:layout_marginTop="10dp"
         android:background="@color/gray" />
 

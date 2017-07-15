@@ -253,7 +253,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     }
 
     private void getData() {
-        ProgressDialogUtils.showProgressDialog(this);
+//        ProgressDialogUtils.showProgressDialog(this);
         LogUtils.d(TAG, "getDetailTask , taskId : " + taskId);
         LogUtils.d(TAG, "getDetailTask , UserManager.getUserToken() : " + UserManager.getUserToken());
 
@@ -291,7 +291,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                         }
                     });
                 }
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -308,7 +308,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
                     }
                 });
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
         });
 
@@ -500,7 +500,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnCallRate(false, false, "");
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
-        }else if(taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() != UserManager.getMyUser().getId()){
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() != UserManager.getMyUser().getId()) {
             isDelete = false;
             workDetailView.updateStatus(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
             workDetailView.updateBtnOffer(false);
@@ -1095,7 +1095,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, final Intent intent) {
 
             if (intent.hasExtra(Constants.COMMENT_EXTRA)) {
                 Comment comment = (Comment) intent.getSerializableExtra(Constants.COMMENT_EXTRA);
@@ -1114,10 +1114,78 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 intentRate.putExtra(Constants.TASK_ID_EXTRA, taskId);
                 intentRate.putExtra(Constants.USER_ID_EXTRA, assigner.getId());
                 startActivityForResult(intentRate, Constants.REQUEST_CODE_RATE, TransitionScreen.UP_TO_DOWN);
+            } else if (intent.hasExtra(Constants.ASSIGNER_CANCEL_BID_EXTRA)) {
+                DialogUtils.showOkAndCancelDialog(TaskDetailActivity.this, getString(R.string.cancel_bid_title), getString(R.string.cancel_bid_content), getString(R.string.report_ok), getString(R.string.report_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        Assigner assigner = (Assigner) intent.getSerializableExtra(Constants.ASSIGNER_CANCEL_BID_EXTRA);
+                        doCancelBid(assigner);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
             }
 
         }
     };
+
+    private void doCancelBid(final Assigner assigner) {
+        ProgressDialogUtils.showProgressDialog(this);
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("user_id", assigner.getId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LogUtils.d(TAG, "doCancelBid data request : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().cancelBid(UserManager.getUserToken(), taskId, body).enqueue(new Callback<TaskResponse>() {
+            @Override
+            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+
+                LogUtils.d(TAG, "doCancelBid onResponse : " + response.body());
+                LogUtils.d(TAG, "doCancelBid code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    taskResponse = response.body();
+                    updateRole();
+                    updateUi();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(TaskDetailActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doCancelBid(assigner);
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(TaskDetailActivity.this);
+                } else {
+                    DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doCancelBid(assigner);
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<TaskResponse> call, Throwable t) {
+
+            }
+        });
+    }
 
     @Override
     public void onBackPressed() {

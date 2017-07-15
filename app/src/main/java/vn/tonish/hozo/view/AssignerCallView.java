@@ -31,6 +31,7 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
     private TextViewHozo tvName, tvTimeAgo;
     private RatingBar ratingBar;
     private ButtonHozo btnCall;
+    private ButtonHozo btnCancelBid;
     private Assigner assigner;
     private int taskId;
 
@@ -65,6 +66,7 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
         ratingBar = (RatingBar) findViewById(R.id.rb_rate);
         btnCall = (ButtonHozo) findViewById(R.id.btn_call);
+        btnCancelBid = findViewById(R.id.btn_cancel_bid);
     }
 
     public void updateData(final Assigner assigner, String assignType) {
@@ -78,6 +80,19 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
         btnCall.setText(assignType);
 
         if (assignType.equals(getContext().getString(R.string.call))) {
+
+            btnCancelBid.setVisibility(View.VISIBLE);
+            btnCancelBid.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction("MyBroadcast");
+                    intentAnswer.putExtra(Constants.ASSIGNER_CANCEL_BID_EXTRA, assigner);
+                    getContext().sendBroadcast(intentAnswer);
+                }
+            });
+
+
             btnCall.setVisibility(View.VISIBLE);
             btnCall.setOnClickListener(new OnClickListener() {
                 @Override
@@ -86,7 +101,7 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
                 }
             });
         } else if (assignType.equals(getContext().getString(R.string.rate))) {
-
+            btnCancelBid.setVisibility(View.GONE);
             if (assigner.getRating() == 0) {
                 btnCall.setVisibility(View.VISIBLE);
                 btnCall.setOnClickListener(new OnClickListener() {
