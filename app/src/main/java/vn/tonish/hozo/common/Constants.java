@@ -119,6 +119,7 @@ public class Constants {
     public static final String PUSH_TYPE_BIDDER_CANCELED = "bidder_canceled";
     public static final String PUSH_TYPE_BID_RECEIVED = "bid_received";
     public static final String PUSH_TYPE_BID_ACCEPTED = "bid_accepted";
+    public static final String PUSH_TYPE_BID_CANCEL = "poster_cancel_bid";
     public static final String PUSH_TYPE_TASK_REMINDER = "task_reminder";
     public static final String PUSH_TYPE_NEW_TASK_ALERT = "new_task_alert";
     public static final String PUSH_TYPE_POSTER_CANCELED = "poster_canceled";
@@ -149,10 +150,10 @@ public class Constants {
     public static final int REQUEST_CODE_RATE = 345;
     public static final int RESPONSE_CODE_RATE = 543;
     public static final long MAX_FILE_SIZE = 5; //MB
-    public static final String COMMENT_VISIBILITY ="comment_visibility" ;
+    public static final String COMMENT_VISIBILITY = "comment_visibility";
     public static final String EXTRA_SEND_COMMENT = "send_comment";
-    public static final int RESULT_CODE_SEND_COMMENT =1021 ;
-    public static final int REQUEST_CODE_SEND_COMMENT =1022 ;
+    public static final int RESULT_CODE_SEND_COMMENT = 1021;
+    public static final int REQUEST_CODE_SEND_COMMENT = 1022;
     public static final String BLOCK_EXTRA = "block_extra";
     public static final String BROAD_CAST_BLOCK_USER = "vn.tonish.hozo.block_user";
     public static final String LOGOUT_EXTRA = "logout_extra";
@@ -160,5 +161,6 @@ public class Constants {
     public static final String PARAMETER_DESCRIPTION = "description";
     public static final String MYTASK_FILTER_EXTRA = "mytask_filter_extra";
     public static final int RESULT_CODE_TASK_DELETE = 642;
+    public static final String ASSIGNER_CANCEL_BID_EXTRA = "cancel_bid_extra";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
 }

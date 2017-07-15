@@ -420,6 +420,11 @@ public class Utils {
                 matcher = content;
                 matcherColor = context.getString(R.string.notification_task_completed_color);
                 break;
+            case Constants.PUSH_TYPE_BID_CANCEL:
+                content = notification.getFullName() + " " + context.getString(R.string.notification_cancel_bid) + " " + context.getString(R.string.cancel_bid_task_name) + notification.getTaskName();
+                matcher = context.getString(R.string.notification_cancel_bid_matcher);
+                matcherColor = context.getString(R.string.notification_task_overdue_color);
+                break;
         }
 
         tvContent.setText(content);
@@ -548,6 +553,9 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_ADMIN_PUSH:
                 content = notification.getContent();
+                break;
+            case Constants.PUSH_TYPE_BID_CANCEL:
+                content = notification.getFullName() + " " + context.getString(R.string.notification_cancel_bid) + " " + context.getString(R.string.cancel_bid_task_name) + notification.getTaskName();
                 break;
         }
 
