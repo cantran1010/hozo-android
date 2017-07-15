@@ -435,12 +435,12 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 break;
 
             case R.id.img_map_zoom_in:
-                if (latLng != null)
+                if (latLng != null && googleMap != null)
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, googleMap.getCameraPosition().zoom + 1));
                 break;
 
             case R.id.img_map_zoom_out:
-                if (latLng != null)
+                if (latLng != null && googleMap != null)
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, googleMap.getCameraPosition().zoom - 1));
                 break;
 
@@ -488,6 +488,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     }
 
     private void doMoveMap() {
+        if(googleMap == null) return;
         if (pickType == 2) return;
 
         // move map
@@ -512,6 +513,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     }
 
     private void doInputMap() {
+        if(googleMap == null) return;
         if (pickType == 1) return;
 
         // input map
