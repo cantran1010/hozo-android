@@ -85,6 +85,16 @@ android {
         disable 'InvalidPackage'
     }
 }
+configurations.all {
+    resolutionStrategy.eachDependency { details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '25.3.1'
+            }
+        }
+    }
+}
 
 
 dependencies {
@@ -104,6 +114,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:11.0.2'
     compile 'com.google.android.gms:play-services-places:11.0.2'
     compile 'com.google.android.gms:play-services-location:11.0.2'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.android.support:multidex:1.0.1'
     compile files('libs/glide-3.8.0.jar')
     compile fileTree(dir: 'libs', include: ['*.jar'])

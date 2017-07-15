@@ -40,6 +40,15 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+//        try {
+//            PackageInfo packageInfo = getPackageManager().getPackageInfo("vn.tonish.hozo", PackageManager.GET_SIGNATURES);
+//            for(Signature signature: packageInfo.signatures){
+//                MessageDigest messageDigest = MessageDigest.getInstance("SHA");
+//                messageDigest.update(signature.toByteArray());
+//                Log.d("KeyHash", Base64.encodeToString(messageDigest.digest(),Base64.DEFAULT));
+//            }
+//        }catch (Exception e){
+//        }
     }
 
     @Override
