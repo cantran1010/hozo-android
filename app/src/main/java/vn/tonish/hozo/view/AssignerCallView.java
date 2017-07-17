@@ -119,6 +119,7 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
 
 
         } else {
+            btnCancelBid.setVisibility(View.GONE);
             btnCall.setVisibility(View.GONE);
         }
 
