@@ -107,6 +107,7 @@ public class Constants {
     public static final String TASK_TYPE_POSTER_COMPLETED = "completed";
     public static final String TASK_TYPE_POSTER_OVERDUE = "overdue";
     public static final String TASK_TYPE_POSTER_CANCELED = "canceled";
+    public static final String TASK_TYPE_BLOCK = "block";
 
     // parameter update device token
     public static final String UPDATE_TOKEN_DEVICE_TOKEN = "device_token";
@@ -163,4 +164,9 @@ public class Constants {
     public static final int RESULT_CODE_TASK_DELETE = 642;
     public static final String ASSIGNER_CANCEL_BID_EXTRA = "cancel_bid_extra";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
+    public static String BID_ERROR_INVALID_DATA = "invalid_data";
+    public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";
+    public static String TASK_DETAIL_NO_EXIT = "no_exist";
+    public static final String TASK_DETAIL_BLOCK = "block";
+
 }

@@ -25,7 +25,7 @@ public class TaskResponse implements Serializable {
     @SerializedName("end_time")
     private String endTime;
     @SerializedName("created_at")
-    private String createdAt;
+    private String createdAt = "0";
     private String status;
     @SerializedName("offer_status")
     private String offerStatus;
@@ -33,11 +33,11 @@ public class TaskResponse implements Serializable {
     private int commentsCount;
     private String gender;
     @SerializedName("min_age")
-    private int minAge;
+    private int minAge = 0;
     @SerializedName("max_age")
-    private int maxAge;
-    private double latitude;
-    private double longitude;
+    private int maxAge = 0;
+    private double latitude =0;
+    private double longitude = 0;
     private String city;
     private String district;
     private String address;
@@ -55,7 +55,7 @@ public class TaskResponse implements Serializable {
     private String currency;
     @SerializedName("is_rate_poster")
     private boolean isRatePoster = false;
-    private Poster poster;
+    private Poster poster = new Poster();
     private List<Bidder> bidders = new ArrayList<>();
     private List<Assigner> assignees = new ArrayList<>();
     private List<Comment> comments = new ArrayList<>();

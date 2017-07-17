@@ -156,18 +156,23 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         tvName.setText(taskResponse.getPoster().getFullName());
         rbRate.setRating(taskResponse.getPoster().getPosterAverageRating());
         tvTitle.setText(taskResponse.getTitle());
-        tvTimeAgo.setText(getContext().getString(R.string.detail_task_time_ago, DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), getContext()), CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName()));
-//        tvWorkType.setText(getContext().getString(R.string.task_detail_category_type) + " " + CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName());
+
+        if (CategoryManager.getCategoryById(taskResponse.getCategoryId()) != null)
+            tvTimeAgo.setText(getContext().getString(R.string.detail_task_time_ago, DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), getContext()), CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName()));
+        else tvTimeAgo.setText("");
+
         tvDescription.setText(taskResponse.getDescription());
 
         taskProgressView.updateData(taskResponse.getBidderCount(), (taskResponse.getWorkerCount() - taskResponse.getAssigneeCount()), taskResponse.getAssigneeCount());
-//        String strPrice = Utils.formatNumber(taskResponse.getWorkerCount() * taskResponse.getWorkerRate()) + getContext().getString(R.string.task_detail_money_type);
-//        tvPrice.setText(strPrice);
-
         tvPrice.setText(getContext().getString(R.string.my_task_price, Utils.formatNumber(taskResponse.getWorkerRate())));
+        if (taskResponse.getStartTime() != null)
+            tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
+        else tvDate.setText("");
 
-        tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
-        tvTime.setText(getContext().getString(R.string.task_detail_time, DateTimeUtils.getHourMinuteFromIso(taskResponse.getStartTime()), DateTimeUtils.getHourMinuteFromIso(taskResponse.getEndTime())));
+        if (taskResponse.getStartTime() != null && taskResponse.getEndTime() != null)
+            tvTime.setText(getContext().getString(R.string.task_detail_time, DateTimeUtils.getHourMinuteFromIso(taskResponse.getStartTime()), DateTimeUtils.getHourMinuteFromIso(taskResponse.getEndTime())));
+        else tvTime.setText("");
+
         tvAddress.setText(taskResponse.getAddress());
 
         final ArrayList<String> attachments = (ArrayList<String>) taskResponse.getAttachments();
@@ -309,8 +314,15 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
                             }
                         });
+                    } else if (error.status().equals(Constants.BID_ERROR_INVALID_DATA)) {
+                        DialogUtils.showOkDialog(getContext(), getContext().getString(R.string.error), getContext().getString(R.string.offer_invalid_data), getContext().getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
                     } else {
-                        DialogUtils.showOkDialog(getContext(), getContext().getString(R.string.error), error.message(), getContext().getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialog(getContext(), getContext().getString(R.string.offer_system_error), error.message(), getContext().getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 
@@ -326,7 +338,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(getContext());
-                }else {
+                } else {
                     DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
