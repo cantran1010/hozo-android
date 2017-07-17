@@ -53,15 +53,15 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-
-
         Uri data = getIntent().getData();
 
         if (data != null) {
             Log.d(TAG, data.toString());
             String scheme = data.getScheme(); // "http"
             String host = data.getHost(); // "twitter.com"
-            taskId = Integer.valueOf(data.getQueryParameter("task_id"));
+
+            if (data.getQueryParameter("task_id") != null && !data.getQueryParameter("task_id").trim().equals("") && !data.getQueryParameter("task_id").equals("null") && data.getQueryParameter("task_id").length() > 0)
+                taskId = Integer.valueOf(data.getQueryParameter("task_id"));
 
             LogUtils.d(TAG, "schema : " + scheme);
             LogUtils.d(TAG, "schema , host : " + host);
@@ -82,7 +82,9 @@ public class SplashActivity extends BaseActivity {
             Log.d(TAG, data.toString());
             String scheme = data.getScheme(); // "http"
             String host = data.getHost(); // "twitter.com"
-            taskId = Integer.valueOf(data.getQueryParameter("task_id"));
+
+            if (data.getQueryParameter("task_id") != null && !data.getQueryParameter("task_id").trim().equals("") && !data.getQueryParameter("task_id").equals("null") && data.getQueryParameter("task_id").length() > 0)
+                taskId = Integer.valueOf(data.getQueryParameter("task_id"));
 
             LogUtils.d(TAG, "schema : " + scheme);
             LogUtils.d(TAG, "schema , host : " + host);
