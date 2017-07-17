@@ -398,12 +398,18 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             bidderType = getString(R.string.assign);
             assigerType = getString(R.string.call);
             isDelete = false;
+
+            layoutBidderCount.setVisibility(View.VISIBLE);
+            rcvBidder.setVisibility(View.VISIBLE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");
             assigerType = getString(R.string.call);
             isDelete = false;
+
+            layoutBidderCount.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.GONE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
             workDetailView.updateBtnOffer(false);
