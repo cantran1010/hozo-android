@@ -393,5 +393,10 @@
     <string name="cancel_bid_title">Hủy chọn</string>
     <string name="cancel_bid_content">Lưu ý khi hủy chọn sẽ ảnh hưởng đến tỷ lệ hoàn thành việc của bạn</string>
     <string name="cancel_bid_task_name">ở công việc</string>
+    <string name="offer_invalid_data">Lỗi dữ liệu</string>
+    <string name="offer_system_error">Lỗi hệ thống</string>
+    <string name="task_detail_no_exit">Việc không tồn tại</string>
+    <string name="task_detail_block">Việc đã bị khóa !</string>
+    <string name="task_detail_block_reasons">Lý do :</string>
 
 </resources>

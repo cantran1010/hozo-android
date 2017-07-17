@@ -52,6 +52,7 @@ import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
@@ -269,6 +270,35 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                     updateUi();
                     storeTaskToDatabase();
 
+                } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.e(TAG, "createNewTask errorBody" + error.toString());
+                    if (error.status().equals(Constants.TASK_DETAIL_INPUT_REQUIRE) || error.status().equals(Constants.TASK_DETAIL_NO_EXIT)) {
+                        DialogUtils.showOkDialog(TaskDetailActivity.this, getString(R.string.task_detail_no_exit), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    } else if (error.status().equals(Constants.TASK_DETAIL_BLOCK)) {
+                        taskResponse = new TaskResponse();
+                        taskResponse.setStatus(Constants.TASK_TYPE_BLOCK);
+                        updateUi();
+
+                        DialogUtils.showOkDialog(TaskDetailActivity.this, getString(R.string.task_detail_block), getString(R.string.task_detail_block_reasons) + " " + error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                finish();
+                            }
+                        });
+                    } else {
+                        DialogUtils.showOkDialog(TaskDetailActivity.this, getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(TaskDetailActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -353,8 +383,15 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
         workDetailView.updateWork(taskResponse);
 
+        if (taskResponse.getStatus().equals(Constants.TASK_TYPE_BLOCK)) {
+            workDetailView.updateBtnOffer(false);
+            layoutFooter.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.GONE);
+        }
         //poster
-        if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+        else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.update_task), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
             workDetailView.updateBtnOffer(false);
             workDetailView.updateBtnCallRate(false, false, "");

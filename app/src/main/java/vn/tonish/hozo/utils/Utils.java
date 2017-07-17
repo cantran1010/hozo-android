@@ -61,6 +61,7 @@ public class Utils {
 
     public static void displayImage(Context context, ImageView img, String url) {
 
+        if(url == null) return;
         if (context == null) return;
         if (context instanceof Activity) {
             if (((Activity) context).isFinishing()) {
@@ -77,6 +78,7 @@ public class Utils {
 
     public static void displayImageCenterCrop(Context context, ImageView img, String url) {
 
+        if(url == null) return;
         if (context == null) return;
         if (context instanceof Activity) {
             if (((Activity) context).isFinishing()) {
@@ -94,6 +96,7 @@ public class Utils {
 
     public static void displayImageAvatar(Context context, ImageView img, String url) {
 
+        if(url == null) return;
         if (context == null) return;
         if (context instanceof Activity) {
             if (((Activity) context).isFinishing()) {
