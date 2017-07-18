@@ -345,14 +345,16 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         if (isPoster) {
             tvReviewsCount.setText(getString(R.string.reviews_count, rateCountPoster));
             tvTaskCount.setText(getString(R.string.post_count, taskPostPoster));
-            tvCompletionRate.setText(getString(R.string.completion_rate, percentDonePoster * 100));
+            String percentDone = (int) percentDonePoster * 100 + "% " + getString(R.string.completion_rate);
+            tvCompletionRate.setText(percentDone);
             tvRateCount.setText(R.string.profile_rate);
             ratingBar.setRating(ratingPoster);
             reviewEntities.addAll(posterReviewEntity);
         } else {
             tvReviewsCount.setText(getString(R.string.reviews_count, retaCountWorker));
             tvTaskCount.setText(getString(R.string.task_count, taskPostWorker));
-            tvCompletionRate.setText(getString(R.string.completion_rate, percentDoneWorker * 100));
+            String percentDone = (int) percentDoneWorker * 100 + "% " + getString(R.string.completion_rate);
+            tvCompletionRate.setText(percentDone);
             tvRateCount.setText(R.string.profile_rate);
             ratingBar.setRating(ratingTasker);
             reviewEntities.addAll(taskerReviewEntity);
