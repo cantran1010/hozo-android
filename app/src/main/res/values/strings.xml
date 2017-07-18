@@ -93,7 +93,7 @@
 
     <!-- make an offer-->
     <string name="adjust_image">adjust_image</string>
-    <string name="login_hotline">Hotline 0473004886</string>
+    <string name="login_hotline">Hotline 02473004886</string>
 
     <!-- post a task -->
     <string name="tv_time_task">Thời gian làm việc</string>
@@ -342,7 +342,7 @@
     <string name="less_than">dưới</string>
     <string name="more_than">Trên</string>
     <string name="code_otp_is_invalid">Mã OPT không hợp lệ</string>
-    <string name="hot_line">0473004886</string>
+    <string name="hot_line">02473004886</string>
     <string name="block_title">Tài khoản của bạn đã bị khóa vì</string>
     <string name="block_des">Liên hệ với Hozo để được hỗ trợ</string>
     <string name="block_hotline">Hotline : <b> </b></string>
@@ -382,7 +382,7 @@
     <string name="reviews_count">%1$d đánh giá</string>
     <string name="post_count" tools:ignore="PluralsCandidate">%1$d việc đã đăng </string>
     <string name="task_count" tools:ignore="PluralsCandidate">%1$d việc đã nhận </string>
-    <string name="completion_rate" tools:ignore="PluralsCandidate">%1$d việc hoàn thành</string>
+    <string name="completion_rate" tools:ignore="PluralsCandidate">hoàn thành</string>
     <string name="title_add_verify">Cung Cấp Thông Tin Cá Nhân</string>
     <string name="lable_verify">Để có thể tìm được người làm việc hay nhận việc một cách nhanh chóng và uy tín, bạn cần xác thực thông tin với HoZo!</string>
     <string name="facebook_verify">Xác thực với Facebook</string>
@@ -398,5 +398,6 @@
     <string name="task_detail_no_exit">Việc không tồn tại</string>
     <string name="task_detail_block">Việc đã bị khóa !</string>
     <string name="task_detail_block_reasons">Lý do :</string>
+    <string name="facebook_verify_done">Bạn đã xác thực rồi</string>
 
 </resources>

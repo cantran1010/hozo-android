@@ -135,4 +135,5 @@ public class ReviewEntity extends RealmObject {
                 ", craeatedDateAt=" + craeatedDateAt +
                 '}';
     }
+
 }
