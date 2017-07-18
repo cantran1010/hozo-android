@@ -66,12 +66,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private ScrollView scrollView;
     private int tabIndex = 0;
     private boolean isMyUser;
-    private int rateCountPoster, retaCountWorker, task, post;
+    private int rateCountPoster, retaCountWorker, taskPostPoster, taskPostWorker;
+    private float percentDonePoster, percentDoneWorker;
     private int userId;
     private UserEntity mUserEntity;
     private final List<ReviewEntity> reviewEntities = new ArrayList<>();
     private final List<ReviewEntity> posterReviewEntity = new ArrayList<>();
     private final List<ReviewEntity> taskerReviewEntity = new ArrayList<>();
+    private ImageView imgFbVerify, imgEmailVerify;
 
     @Override
     protected int getLayout() {
@@ -104,6 +106,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btnMoreReview = (TextViewHozo) findViewById(R.id.tv_more_reviews);
         tvAddVerify = (TextViewHozo) findViewById(R.id.btn_add_verify);
         scrollView = (ScrollView) findViewById(R.id.scroll_view);
+        imgFbVerify = findViewById(R.id.fb_verify);
+        imgEmailVerify = findViewById(R.id.email_verify);
         ratingPoster = 0f;
         ratingTasker = 0f;
     }
@@ -173,7 +177,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
             case R.id.btn_add_verify:
-                startActivity(new Intent(this, GiveInforActivity.class));
+                Intent intentVerify = new Intent(this, GiveInforActivity.class);
+                startActivityForResult(intentVerify, Constants.REQUEST_CODE_VERIFY, TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
     }
@@ -188,6 +193,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_UPDATE_PROFILE && resultCode == Constants.RESULT_CODE_UPDATE_PROFILE) {
+            updateUi(UserManager.getMyUser());
+        } else if (requestCode == Constants.REQUEST_CODE_VERIFY && resultCode == Constants.RESULT_CODE_VERIFY) {
             updateUi(UserManager.getMyUser());
         }
     }
@@ -277,6 +284,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             ratingPoster = userEntity.getPosterAverageRating();
             rateCountPoster = userEntity.getPosterReviewCount();
             retaCountWorker = userEntity.getTaskerReviewCount();
+            taskPostPoster = userEntity.getPosterDoneCount();
+            taskPostWorker = userEntity.getTaskerDoneCount();
+            percentDonePoster = userEntity.getPosterDoneRate();
+            percentDoneWorker = userEntity.getTaskerDoneRate();
+
             ratingTasker = userEntity.getTaskerAverageRating();
             tvName.setText(userEntity.getFullName());
             if (userEntity.getDateOfBirth().equals("0001-01-01")) {
@@ -298,20 +310,30 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 layoutLogout.setVisibility(View.VISIBLE);
                 imgEdit.setVisibility(View.VISIBLE);
                 tvTitle.setText(getString(R.string.my_account));
+                tvAddVerify.setVisibility(View.VISIBLE);
             } else {
                 imgEdit.setVisibility(View.GONE);
                 layoutInfor.setVisibility(View.GONE);
                 layoutLogout.setVisibility(View.GONE);
                 tvTitle.setText(getString(R.string.user_account));
+                tvAddVerify.setVisibility(View.GONE);
             }
             if (reviewEntities.size() > 5) {
                 btnMoreReview.setVisibility(View.VISIBLE);
             } else {
                 btnMoreReview.setVisibility(View.GONE);
             }
+
+            if (userEntity.getFacebookId() != null && !userEntity.getFacebookId().trim().equals(""))
+                imgFbVerify.setVisibility(View.VISIBLE);
+            else imgFbVerify.setVisibility(View.GONE);
+
+            if (userEntity.getEmail() != null && !userEntity.getEmail().trim().equals(""))
+                imgEmailVerify.setVisibility(View.VISIBLE);
+            else imgEmailVerify.setVisibility(View.GONE);
+
             setDataSelected(true);
             tvAbout.setText(userEntity.getDescription());
-
         }
 
 
@@ -322,15 +344,15 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         reviewEntities.clear();
         if (isPoster) {
             tvReviewsCount.setText(getString(R.string.reviews_count, rateCountPoster));
-            tvTaskCount.setText(getString(R.string.post_count, 0));
-            tvCompletionRate.setText(getString(R.string.completion_rate, 0));
+            tvTaskCount.setText(getString(R.string.post_count, taskPostPoster));
+            tvCompletionRate.setText(getString(R.string.completion_rate, percentDonePoster * 100));
             tvRateCount.setText(R.string.profile_rate);
             ratingBar.setRating(ratingPoster);
             reviewEntities.addAll(posterReviewEntity);
         } else {
             tvReviewsCount.setText(getString(R.string.reviews_count, retaCountWorker));
-            tvTaskCount.setText(getString(R.string.task_count, 0));
-            tvCompletionRate.setText(getString(R.string.completion_rate, 0));
+            tvTaskCount.setText(getString(R.string.task_count, taskPostWorker));
+            tvCompletionRate.setText(getString(R.string.completion_rate, percentDoneWorker * 100));
             tvRateCount.setText(R.string.profile_rate);
             ratingBar.setRating(ratingTasker);
             reviewEntities.addAll(taskerReviewEntity);

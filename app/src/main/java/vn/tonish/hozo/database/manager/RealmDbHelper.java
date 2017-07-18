@@ -8,8 +8,12 @@ import java.util.Random;
 import io.realm.DynamicRealm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmMigration;
+import io.realm.RealmSchema;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
+
+import static com.facebook.login.widget.ProfilePictureView.TAG;
 
 /**
  * Created by LongBui on 4/12/17.
@@ -34,7 +38,7 @@ public class RealmDbHelper {
         if (realmConfiguration == null)
             realmConfiguration = new RealmConfiguration.Builder()
                     .name(Constants.DB_NAME)
-                    .schemaVersion(1)
+                    .schemaVersion(2)
                     .migration(migration)
 //                    .deleteRealmIfMigrationNeeded()
                     .encryptionKey(Base64.decode(key, Base64.DEFAULT))
@@ -46,9 +50,18 @@ public class RealmDbHelper {
     public static RealmMigration migration = new RealmMigration() {
         @Override
         public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
-
+            LogUtils.d(TAG, "RealmMigration , oldVersion : " + oldVersion + " , newVersion : " + newVersion);
             // DynamicRealm exposes an editable schema
-//            RealmSchema schema = realm.getSchema();
+            RealmSchema schema = realm.getSchema();
+
+            if (oldVersion == 1) {
+                schema.get("UserEntity")
+                        .addField("taskerDoneCount", int.class)
+                        .addField("posterDoneCount", int.class)
+                        .addField("taskerDoneRate", float.class)
+                        .addField("posterDoneRate", float.class);
+                oldVersion++;
+            }
 
             // Migrate to version 1: Add a new class.
             // Example:

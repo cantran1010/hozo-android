@@ -126,6 +126,14 @@
         <activity
             android:name=".activity.TaskAlertsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GiveInforActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
 
         <!-- <receiver android:name=".broadcast.BlockBroadCastReceiver"> -->
         <!-- <intent-filter> -->
@@ -156,14 +164,6 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
-        <activity
-            android:name=".activity.GiveInforActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
     </application>
 
 </manifest>

@@ -40,6 +40,50 @@ public class UserEntity extends RealmObject implements Serializable {
     private String refreshToken;
     private String tokenExp;
     private boolean isMyUser;
+    @SerializedName("tasker_done_count")
+    private int  taskerDoneCount;
+    @SerializedName("poster_done_count")
+    private int posterDoneCount;
+    @SerializedName("tasker_done_rate")
+    private float taskerDoneRate;
+    @SerializedName("poster_done_rate")
+    private float posterDoneRate;
+
+    public void setMyUser(boolean myUser) {
+        isMyUser = myUser;
+    }
+
+    public int getTaskerDoneCount() {
+        return taskerDoneCount;
+    }
+
+    public void setTaskerDoneCount(int taskerDoneCount) {
+        this.taskerDoneCount = taskerDoneCount;
+    }
+
+    public int getPosterDoneCount() {
+        return posterDoneCount;
+    }
+
+    public void setPosterDoneCount(int posterDoneCount) {
+        this.posterDoneCount = posterDoneCount;
+    }
+
+    public float getTaskerDoneRate() {
+        return taskerDoneRate;
+    }
+
+    public void setTaskerDoneRate(float taskerDoneRate) {
+        this.taskerDoneRate = taskerDoneRate;
+    }
+
+    public float getPosterDoneRate() {
+        return posterDoneRate;
+    }
+
+    public void setPosterDoneRate(float posterDoneRate) {
+        this.posterDoneRate = posterDoneRate;
+    }
 
     public int getId() {
         return id;
@@ -215,6 +259,11 @@ public class UserEntity extends RealmObject implements Serializable {
                 ", refreshToken='" + refreshToken + '\'' +
                 ", tokenExp='" + tokenExp + '\'' +
                 ", isMyUser=" + isMyUser +
+                ", taskerDoneCount=" + taskerDoneCount +
+                ", posterDoneCount=" + posterDoneCount +
+                ", taskerDoneRate=" + taskerDoneRate +
+                ", posterDoneRate=" + posterDoneRate +
                 '}';
     }
+
 }
