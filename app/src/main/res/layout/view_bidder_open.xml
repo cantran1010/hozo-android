@@ -43,10 +43,12 @@
             <RatingBar
                 android:id="@+id/rb_rate"
                 style="@style/StarRatingBar"
-                android:stepSize="0.01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:isIndicator="true" />
+                android:layout_marginBottom="-5dp"
+                android:layout_marginTop="2dp"
+                android:isIndicator="true"
+                android:stepSize="0.01" />
 
             <include layout="@layout/verify_layout" />
 
@@ -76,10 +78,10 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:layout_marginEnd="@dimen/margin_right_screen"
         android:layout_marginLeft="@dimen/margin_left_screen"
         android:layout_marginRight="@dimen/margin_right_screen"
         android:layout_marginStart="@dimen/margin_left_screen"
-        android:layout_marginEnd="@dimen/margin_right_screen"
         android:layout_marginTop="10dp"
         android:background="@color/gray" />
 
