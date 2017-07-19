@@ -1,7 +1,5 @@
 package vn.tonish.hozo.database.entity;
 
-import com.google.gson.annotations.SerializedName;
-
 import io.realm.RealmObject;
 
 /**
@@ -18,7 +16,6 @@ public class PosterEntity extends RealmObject{
     private String avatar;
     private String phone;
     private String email;
-    @SerializedName("facebook_id")
     private String facebookId;
 
     public String getEmail() {
