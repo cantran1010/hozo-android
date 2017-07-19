@@ -19,6 +19,25 @@ public class Bidder implements Serializable{
     @SerializedName("bidded_at")
     private String bidedAt;
     private String phone;
+    private String email;
+    @SerializedName("facebook_id")
+    private String facebookId;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
 
     public int getId() {
         return id;
@@ -86,6 +105,8 @@ public class Bidder implements Serializable{
                 ", avatar='" + avatar + '\'' +
                 ", bidedAt='" + bidedAt + '\'' +
                 ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", facebookId='" + facebookId + '\'' +
                 '}';
     }
 }

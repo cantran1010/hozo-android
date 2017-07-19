@@ -7,6 +7,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
@@ -34,6 +35,7 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
     private ButtonHozo btnCancelBid;
     private Assigner assigner;
     private int taskId;
+    private ImageView imgFbVerify,imgEmailVerify;
 
     public AssignerCallView(Context context) {
         super(context);
@@ -62,6 +64,9 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
 
+        imgFbVerify = findViewById(R.id.fb_verify);
+        imgEmailVerify = findViewById(R.id.email_verify);
+
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
         ratingBar = (RatingBar) findViewById(R.id.rb_rate);
@@ -76,6 +81,15 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
         Utils.displayImageAvatar(getContext(), imgAvatar, assigner.getAvatar());
         tvName.setText(assigner.getFullName());
         ratingBar.setRating(assigner.getTaskerAverageRating());
+
+        if (assigner.getFacebookId() != null && !assigner.getFacebookId().trim().equals(""))
+            imgFbVerify.setVisibility(View.VISIBLE);
+        else imgFbVerify.setVisibility(View.GONE);
+
+        if (assigner.getEmail() != null && !assigner.getEmail().trim().equals(""))
+            imgEmailVerify.setVisibility(View.VISIBLE);
+        else imgEmailVerify.setVisibility(View.GONE);
+
         tvTimeAgo.setText(DateTimeUtils.getTimeAgo(assigner.getBiddedAt(), getContext()));
         btnCall.setText(assignType);
 

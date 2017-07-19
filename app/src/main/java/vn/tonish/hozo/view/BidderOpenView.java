@@ -7,6 +7,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
@@ -50,6 +51,7 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
     private ButtonHozo btnAssign;
     private Bidder bidder;
     private int taskId;
+    private ImageView imgFbVerify,imgEmailVerify;
 
     public BidderOpenView(Context context) {
         super(context);
@@ -77,6 +79,8 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
         layoutInflater.inflate(R.layout.view_bidder_open, this, true);
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
+        imgFbVerify = findViewById(R.id.fb_verify);
+        imgEmailVerify = findViewById(R.id.email_verify);
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
         rbRate = (RatingBar) findViewById(R.id.rb_rate);
@@ -89,6 +93,15 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
         Utils.displayImageAvatar(getContext(), imgAvatar, bidder.getAvatar());
         tvName.setText(bidder.getFullName());
         rbRate.setRating(bidder.getTaskerAverageRating());
+
+        if (bidder.getFacebookId() != null && !bidder.getFacebookId().trim().equals(""))
+            imgFbVerify.setVisibility(View.VISIBLE);
+        else imgFbVerify.setVisibility(View.GONE);
+
+        if (bidder.getEmail() != null && !bidder.getEmail().trim().equals(""))
+            imgEmailVerify.setVisibility(View.VISIBLE);
+        else imgEmailVerify.setVisibility(View.GONE);
+
         if (bidder.getBidedAt() != null)
             tvTimeAgo.setText(DateTimeUtils.getTimeAgo(bidder.getBidedAt(), getContext()));
 
