@@ -14,6 +14,24 @@ public class BidderEntity extends RealmObject{
     private String avatar;
     private String bidedAt;
     private String phone;
+    private String email;
+    private String facebookId;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
 
     public int getId() {
         return id;
@@ -73,7 +91,7 @@ public class BidderEntity extends RealmObject{
 
     @Override
     public String toString() {
-        return "Bidder{" +
+        return "BidderEntity{" +
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
                 ", taskerAverageRating=" + taskerAverageRating +
@@ -81,6 +99,8 @@ public class BidderEntity extends RealmObject{
                 ", avatar='" + avatar + '\'' +
                 ", bidedAt='" + bidedAt + '\'' +
                 ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", facebookId='" + facebookId + '\'' +
                 '}';
     }
 }

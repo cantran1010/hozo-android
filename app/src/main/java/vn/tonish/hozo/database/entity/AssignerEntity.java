@@ -15,6 +15,24 @@ public class AssignerEntity extends RealmObject{
     private String biddedAt;
     private String phone;
     private int rating;
+    private String email;
+    private String facebookId;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
 
     public int getRating() {
         return rating;
@@ -82,7 +100,7 @@ public class AssignerEntity extends RealmObject{
 
     @Override
     public String toString() {
-        return "Assigner{" +
+        return "AssignerEntity{" +
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
                 ", taskerAverageRating=" + taskerAverageRating +
@@ -91,6 +109,8 @@ public class AssignerEntity extends RealmObject{
                 ", biddedAt='" + biddedAt + '\'' +
                 ", phone='" + phone + '\'' +
                 ", rating=" + rating +
+                ", email='" + email + '\'' +
+                ", facebookId='" + facebookId + '\'' +
                 '}';
     }
 }

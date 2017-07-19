@@ -20,6 +20,25 @@ public class Assigner implements Serializable{
     private String biddedAt;
     private String phone;
     private int rating;
+    private String email;
+    @SerializedName("facebook_id")
+    private String facebookId;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
 
     public int getRating() {
         return rating;
@@ -96,6 +115,8 @@ public class Assigner implements Serializable{
                 ", biddedAt='" + biddedAt + '\'' +
                 ", phone='" + phone + '\'' +
                 ", rating=" + rating +
+                ", email='" + email + '\'' +
+                ", facebookId='" + facebookId + '\'' +
                 '}';
     }
 }

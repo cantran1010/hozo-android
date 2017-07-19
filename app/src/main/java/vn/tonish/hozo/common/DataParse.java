@@ -178,6 +178,8 @@ public class DataParse {
         poster.setPosterAverageRating(posterEntity.getPosterAverageRating());
         poster.setTaskId(posterEntity.getTaskId());
         poster.setVerify(posterEntity.getVerify());
+        poster.setEmail(posterEntity.getEmail());
+        poster.setFacebookId(posterEntity.getFacebookId());
         return poster;
     }
 
@@ -190,6 +192,8 @@ public class DataParse {
         posterEntity.setPosterAverageRating(poster.getPosterAverageRating());
         posterEntity.setTaskId(poster.getTaskId());
         posterEntity.setVerify(poster.getVerify());
+        posterEntity.setEmail(poster.getEmail());
+        posterEntity.setFacebookId(poster.getFacebookId());
         return posterEntity;
     }
 
@@ -202,6 +206,8 @@ public class DataParse {
         bidder.setAvatar(bidderEntity.getAvatar());
         bidder.setBidedAt(bidderEntity.getBidedAt());
         bidder.setTaskerAverageRating(bidderEntity.getTaskerAverageRating());
+        bidder.setEmail(bidderEntity.getEmail());
+        bidder.setFacebookId(bidderEntity.getFacebookId());
         return bidder;
     }
 
@@ -214,6 +220,8 @@ public class DataParse {
         bidderEntity.setAvatar(bidder.getAvatar());
         bidderEntity.setBidedAt(bidder.getBidedAt());
         bidderEntity.setTaskerAverageRating(bidder.getTaskerAverageRating());
+        bidderEntity.setEmail(bidder.getEmail());
+        bidderEntity.setFacebookId(bidder.getFacebookId());
         return bidderEntity;
     }
 
