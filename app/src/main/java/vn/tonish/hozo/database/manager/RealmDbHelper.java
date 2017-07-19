@@ -60,6 +60,11 @@ public class RealmDbHelper {
                         .addField("posterDoneCount", int.class)
                         .addField("taskerDoneRate", float.class)
                         .addField("posterDoneRate", float.class);
+
+                schema.get("PosterEntity")
+                        .addField("email", String.class)
+                        .addField("facebookId", String.class);
+
                 oldVersion++;
             }
 

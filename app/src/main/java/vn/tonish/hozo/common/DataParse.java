@@ -178,6 +178,8 @@ public class DataParse {
         poster.setPosterAverageRating(posterEntity.getPosterAverageRating());
         poster.setTaskId(posterEntity.getTaskId());
         poster.setVerify(posterEntity.getVerify());
+        poster.setEmail(posterEntity.getEmail());
+        poster.setFacebookId(posterEntity.getFacebookId());
         return poster;
     }
 
@@ -190,6 +192,8 @@ public class DataParse {
         posterEntity.setPosterAverageRating(poster.getPosterAverageRating());
         posterEntity.setTaskId(poster.getTaskId());
         posterEntity.setVerify(poster.getVerify());
+        posterEntity.setEmail(poster.getEmail());
+        posterEntity.setFacebookId(poster.getFacebookId());
         return posterEntity;
     }
 

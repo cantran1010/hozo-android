@@ -57,6 +57,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
     private MyGridView myGridView;
     private TaskProgressView taskProgressView;
     private TaskResponse taskResponse;
+    private ImageView imgFbVerify,imgEmailVerify;
 
     public interface WorkDetailViewRateListener {
         void onRate();
@@ -116,15 +117,14 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
 
+        imgFbVerify = findViewById(R.id.fb_verify);
+        imgEmailVerify = findViewById(R.id.email_verify);
+
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
 //        tvWorkType = (TextViewHozo) findViewById(R.id.tv_work_type);
         tvDescription = (TextViewHozo) findViewById(R.id.tv_description);
         rbRate = (RatingBar) findViewById(R.id.rb_rate);
-
-        ImageView imgMobile = (ImageView) findViewById(R.id.img_mobile_verify);
-        ImageView imgEmail = (ImageView) findViewById(R.id.img_email_verify);
-        ImageView imgFacebook = (ImageView) findViewById(R.id.img_facebook_verify);
 
         tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
         tvDate = (TextViewHozo) findViewById(R.id.tv_date);
@@ -156,6 +156,14 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         tvName.setText(taskResponse.getPoster().getFullName());
         rbRate.setRating(taskResponse.getPoster().getPosterAverageRating());
         tvTitle.setText(taskResponse.getTitle());
+
+        if (taskResponse.getPoster().getFacebookId() != null && !taskResponse.getPoster().getFacebookId().trim().equals(""))
+            imgFbVerify.setVisibility(View.VISIBLE);
+        else imgFbVerify.setVisibility(View.GONE);
+
+        if (taskResponse.getPoster().getEmail() != null && !taskResponse.getPoster().getEmail().trim().equals(""))
+            imgEmailVerify.setVisibility(View.VISIBLE);
+        else imgEmailVerify.setVisibility(View.GONE);
 
         if (CategoryManager.getCategoryById(taskResponse.getCategoryId()) != null)
             tvTimeAgo.setText(getContext().getString(R.string.detail_task_time_ago, DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), getContext()), CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName()));
