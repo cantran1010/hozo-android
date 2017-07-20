@@ -137,9 +137,20 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
 //                        ? CropImage.toOvalBitmap(result.getBitmap())
 //                        : result.getBitmap();
 
-                Bitmap bitmapCrop = cropImageView.getCropShape() == CropImageView.CropShape.OVAL
-                        ? Utils.scaleBitmap(CropImage.toOvalBitmap(result.getBitmap()), Utils.MAXSIZE_AVATA)
-                        : Utils.scaleBitmap(result.getBitmap(), Utils.MAXSIZE_AVATA);
+                Bitmap bitmapCrop;
+
+                try {
+                    bitmapCrop = cropImageView.getCropShape() == CropImageView.CropShape.OVAL
+                            ? Utils.scaleBitmap(CropImage.toOvalBitmap(result.getBitmap()), Utils.MAXSIZE_AVATA)
+                            : Utils.scaleBitmap(result.getBitmap(), Utils.MAXSIZE_AVATA);
+                } catch (OutOfMemoryError e) {
+                    e.printStackTrace();
+
+                    bitmapCrop = cropImageView.getCropShape() == CropImageView.CropShape.OVAL
+                            ? CropImage.toOvalBitmap(result.getBitmap())
+                            : result.getBitmap();
+
+                }
 
                 File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
                 Utils.compressBitmapToFile(bitmapCrop, fileSave.getPath());
@@ -152,7 +163,7 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
         } else {
             Log.e(TAG, "Failed to crop image", result.getError());
 //            Toast.makeText(this, "Image crop failed: " + result.getError().getMessage(), Toast.LENGTH_LONG).show();
-            Utils.showLongToast(this,getString(R.string.crop_image_error_message),true,false);
+            Utils.showLongToast(this, getString(R.string.crop_image_error_message), true, false);
         }
     }
 
