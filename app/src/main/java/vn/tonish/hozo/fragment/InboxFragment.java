@@ -212,7 +212,8 @@ public class InboxFragment extends BaseFragment {
                     //        if (since == null) Utils.cancelAllNotification(getActivity());
 
                     for (Notification notification : notifications)
-                        Utils.cancelNotification(getActivity(), notification.getId());
+                        if (getActivity() != null)
+                            Utils.cancelNotification(getActivity(), notification.getId());
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {

@@ -36,6 +36,10 @@ public class NetworkUtils {
     //    //refresh token
     public static void refreshToken(final Context context, final RefreshListener refreshListener) {
 
+        // fix bug crash on fabric
+        if (UserManager.getMyUser() == null) return;
+        if (UserManager.getMyUser().getRefreshToken() == null) return;
+
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put("refresh_token", UserManager.getMyUser().getRefreshToken());
@@ -59,12 +63,11 @@ public class NetworkUtils {
 
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
-                    // fix nullpointer exception on fabric
-                    if (UserManager.getMyUser() != null) {
-                        UserManager.getMyUser().setAccessToken(token != null ? token.getAccessToken() : null);
-                        UserManager.getMyUser().setRefreshToken(token != null ? token.getRefreshToken() : null);
-                        UserManager.getMyUser().setTokenExp(token.getTokenExpires());
-                    }
+
+                    UserManager.getMyUser().setAccessToken(token != null ? token.getAccessToken() : null);
+                    UserManager.getMyUser().setRefreshToken(token != null ? token.getRefreshToken() : null);
+                    UserManager.getMyUser().setTokenExp(token.getTokenExpires());
+
                     realm.commitTransaction();
 
                     if (refreshListener != null) refreshListener.onRefreshFinish();

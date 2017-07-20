@@ -471,6 +471,8 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     }
 
     private void doCurrentLocation() {
+
+        if (googleMap == null) return;
         GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
         if (gpsTracker.canGetLocation()) {
             latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
@@ -488,8 +490,9 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     }
 
     private void doMoveMap() {
-        if(googleMap == null) return;
+        if (googleMap == null) return;
         if (pickType == 2) return;
+        if (marker == null) return;
 
         // move map
         pickType = 2;
@@ -513,7 +516,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     }
 
     private void doInputMap() {
-        if(googleMap == null) return;
+        if (googleMap == null) return;
         if (pickType == 1) return;
 
         // input map
