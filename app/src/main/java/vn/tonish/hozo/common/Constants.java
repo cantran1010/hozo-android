@@ -166,6 +166,7 @@ public class Constants {
     public static final String ASSIGNER_CANCEL_BID_EXTRA = "cancel_bid_extra";
     public static final int REQUEST_CODE_VERIFY = 789;
     public static final int RESULT_CODE_VERIFY = 987;
+    public static final String COUNT_NEW_TASK_EXTRA = "count_new_task_extra";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static String BID_ERROR_INVALID_DATA = "invalid_data";
     public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";

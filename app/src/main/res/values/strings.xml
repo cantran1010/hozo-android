@@ -399,5 +399,6 @@
     <string name="task_detail_block">Việc đã bị khóa !</string>
     <string name="task_detail_block_reasons">Lý do :</string>
     <string name="facebook_verify_done">Bạn đã xác thực rồi</string>
+    <string name="brower_new_task">%1$d việc mới</string>
 
 </resources>

@@ -61,7 +61,7 @@ public class Utils {
 
     public static void displayImage(Context context, ImageView img, String url) {
 
-        if(url == null) return;
+        if (url == null) return;
         if (context == null) return;
         if (context instanceof Activity) {
             if (((Activity) context).isFinishing()) {
@@ -78,7 +78,7 @@ public class Utils {
 
     public static void displayImageCenterCrop(Context context, ImageView img, String url) {
 
-        if(url == null) return;
+        if (url == null) return;
         if (context == null) return;
         if (context instanceof Activity) {
             if (((Activity) context).isFinishing()) {
@@ -96,7 +96,7 @@ public class Utils {
 
     public static void displayImageAvatar(Context context, ImageView img, String url) {
 
-        if(url == null) return;
+        if (url == null) return;
         if (context == null) return;
         if (context instanceof Activity) {
             if (((Activity) context).isFinishing()) {
@@ -671,6 +671,7 @@ public class Utils {
 
     public static void shareTask(Context context, int taskId) {
         String url = BuildConfig.SHARE_URL + base64(String.valueOf(taskId));
+        LogUtils.d(TAG, "shareTask , url : " + url);
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, url);
