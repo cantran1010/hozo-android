@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,8 +32,6 @@ import vn.tonish.hozo.fragment.SettingFragment;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
-import vn.tonish.hozo.rest.responseRes.APIError;
-import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.NewTaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -145,14 +143,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
         timer = new Timer();
-        PreferUtils.setLastTimeCountTask(this, DateTimeUtils.fromDateIso(new Date()));
+        PreferUtils.setLastTimeCountTask(this, DateTimeUtils.fromCalendarIso(Calendar.getInstance()));
 
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 countNewTask();
             }
-        }, 0, 4000);
+        }, 0, 60000);
 
     }
 
@@ -168,24 +166,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void updateNewTask(int count) {
         if (count > 99) count = 99;
         if (count > 0) {
-            tvCountNewTask.setText(count + "");
+            tvCountNewTask.setText(String.valueOf(count));
             tvCountNewTask.setVisibility(View.VISIBLE);
         } else tvCountNewTask.setVisibility(View.GONE);
     }
 
     private void getNewTaskCount(final String since) {
+
+//        for test
+//        countNewTask++;
+//        updateNewTask(countNewTask);
+//        Intent intentAnswer = new Intent();
+//        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_SEARCH);
+//        intentAnswer.putExtra(Constants.COUNT_NEW_TASK_EXTRA, countNewTask);
+//        sendBroadcast(intentAnswer);
+//        return;
+
         Map<String, String> option;
         option = DataParse.setParameterCountTasks(since);
         LogUtils.d(TAG, "getNewTaskCount option : " + option.toString());
         LogUtils.d(TAG, "getNewTaskCount since : " + since);
+        LogUtils.d(TAG, "getNewTaskCount id : " + DataParse.getIds());
         call = ApiClient.getApiService().getCountNewTasks(UserManager.getUserToken(), option, DataParse.getIds());
         call.enqueue(new Callback<NewTaskResponse>() {
             @Override
             public void onResponse(Call<NewTaskResponse> call, Response<NewTaskResponse> response) {
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "getNewTaskCount code : " + response.code());
-                    LogUtils.d(TAG, "getNewTaskCount body : " + response.body());
 
+                LogUtils.d(TAG, "getNewTaskCount code : " + response.code());
+                LogUtils.d(TAG, "getNewTaskCount body : " + response.body());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
                     countNewTask = response.body().getCountNewTask();
                     updateNewTask(countNewTask);
                     Intent intentAnswer = new Intent();
@@ -203,9 +213,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(MainActivity.this);
                 } else {
-                    APIError error = ErrorUtils.parseError(response);
-                    LogUtils.d(TAG, "errorBody" + error.toString());
-                    Utils.showLongToast(MainActivity.this, error.message(), true, false);
+//                    APIError error = ErrorUtils.parseError(response);
+//                    LogUtils.d(TAG, "errorBody" + error.toString());
+//                    Utils.showLongToast(MainActivity.this, error.message(), true, false);
                 }
             }
 
@@ -280,6 +290,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
     }
 
     @Override

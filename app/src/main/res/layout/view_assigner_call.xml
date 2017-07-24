@@ -75,8 +75,6 @@
                 style="@style/btn_style_corners"
                 android:layout_width="75dp"
                 android:layout_height="22dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_gravity="end"
                 android:text="@string/call"
                 android:textSize="12sp" />
@@ -86,8 +84,6 @@
                 style="@style/btn_style_corners"
                 android:layout_width="75dp"
                 android:layout_height="22dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_gravity="end"
                 android:layout_marginTop="10dp"
                 android:text="@string/cancel_bid"

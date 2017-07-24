@@ -144,11 +144,11 @@
         android:id="@+id/tvCountNewTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray"
+        android:background="#22000000"
         android:gravity="center"
         android:padding="5dp"
-        android:text="1 viec moi"
-        android:textColor="@color/tv_black" />
+        android:textColor="@color/tv_black"
+        android:visibility="gone" />
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -174,7 +174,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void resumeData() {
         updateCountNewTask(MainActivity.countNewTask);
-        PreferUtils.setLastTimeCountTask(getActivity(), DateTimeUtils.fromDateIso(new Date()));
+        PreferUtils.setLastTimeCountTask(getActivity(), DateTimeUtils.fromCalendarIso(Calendar.getInstance()));
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_SEARCH));
     }
 
@@ -346,7 +346,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_SETTING && resultCode == Constants.RESULT_CODE_SETTING) {
             onRefresh();
-
         }
     }
 
@@ -362,7 +361,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         // update lastTime
         // set new task = 0
         updateCountNewTask(0);
-
+        PreferUtils.setLastTimeCountTask(getActivity(), DateTimeUtils.fromCalendarIso(Calendar.getInstance()));
         if (getActivity() instanceof MainActivity)
             ((MainActivity) getActivity()).updateNewTask(0);
     }

@@ -85,6 +85,7 @@
                 android:maxLength="3"
                 android:textColor="@color/white"
                 android:textSize="8sp"
+                android:visibility="gone"
                 tools:ignore="SmallSp" />
 
         </RelativeLayout>
