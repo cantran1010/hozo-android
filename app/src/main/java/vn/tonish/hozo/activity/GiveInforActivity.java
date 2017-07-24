@@ -1,6 +1,8 @@
 package vn.tonish.hozo.activity;
 
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -35,11 +37,16 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
+
+import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
+import static vn.tonish.hozo.utils.Utils.isValidEmail;
 
 public class GiveInforActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = GiveInforActivity.class.getSimpleName();
     private TextViewHozo btnVerifyFaceBook, btnVerifyEmail;
+    private EdittextHozo edtEmail;
     private CallbackManager callbackmanager;
     private ImageView imgBack;
 
@@ -52,14 +59,43 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
     protected void initView() {
         btnVerifyFaceBook = findViewById(R.id.btn_verify_facebook);
         btnVerifyEmail = findViewById(R.id.btn_verify_email);
+        edtEmail = findViewById(R.id.edt_verify_email);
         imgBack = findViewById(R.id.img_back);
         btnVerifyFaceBook.setOnClickListener(this);
         imgBack.setOnClickListener(this);
         btnVerifyEmail.setOnClickListener(this);
+        btnVerifyEmail.setAlpha(0.5f);
+        btnVerifyEmail.setEnabled(false);
+
     }
 
     @Override
     protected void initData() {
+        edtEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (isValidEmail(edtEmail.getText().toString().trim())) {
+                    btnVerifyEmail.setAlpha(1f);
+                    btnVerifyEmail.setEnabled(true);
+                    hideSoftKeyboard(GiveInforActivity.this, edtEmail);
+                } else {
+                    btnVerifyEmail.setAlpha(0.5f);
+                    btnVerifyEmail.setEnabled(false);
+
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
     }
 
@@ -67,6 +103,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
     protected void resumeData() {
 
     }
+
 
     // Private method to handle Facebook login and callback
     private void onFblogin() {
@@ -88,7 +125,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
                         String accessToken = loginResult.getAccessToken().getToken();
                         Log.d(TAG, "registerCallback , accessToken : " + accessToken);
                         Log.d(TAG, "registerCallback , id : " + loginResult.getAccessToken().getUserId());
-                        verifyFacebook(loginResult.getAccessToken().getUserId());
+                        verifyFacebook(loginResult.getAccessToken().getUserId(), null);
                     }
 
                     @Override
@@ -126,11 +163,14 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    private void verifyFacebook(final String facebookId) {
+    private void verifyFacebook(final String facebookId, final String email) {
         ProgressDialogUtils.showProgressDialog(this);
         JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put(Constants.PARAMETER_FACEBOOK_ID, facebookId);
+            if (facebookId != null)
+                jsonRequest.put(Constants.PARAMETER_FACEBOOK_ID, facebookId);
+            if (email != null)
+                jsonRequest.put(Constants.PARAMETER_EMAIL, email);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -152,7 +192,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
                     NetworkUtils.refreshToken(GiveInforActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            verifyFacebook(facebookId);
+                            verifyFacebook(facebookId, email);
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
@@ -161,7 +201,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
                     DialogUtils.showRetryDialog(GiveInforActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            verifyFacebook(facebookId);
+                            verifyFacebook(facebookId, email);
                         }
 
                         @Override
@@ -179,7 +219,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
                 DialogUtils.showRetryDialog(GiveInforActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        verifyFacebook(facebookId);
+                        verifyFacebook(facebookId, email);
                     }
 
                     @Override
