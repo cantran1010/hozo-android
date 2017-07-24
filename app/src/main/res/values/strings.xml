@@ -16,7 +16,6 @@
     <!--advance setting screen -->
     <string name="advance_setting_title">Cài Đặt Nâng Cao</string>
     <string name="tv_location">Địa điểm</string>
-    <string name="share_content">Hãy chia sẻ ứng dụng Hozo để tạo nên \n kết nối hữu ích cho mọi người</string>
     <string name="other_profile">Hồ sơ cá nhân</string>
     <string name="other_condition">Điều khoản sử dụng</string>
     <string name="other_nad">Chính sách bảo mật</string>
@@ -383,11 +382,9 @@
     <string name="post_count" tools:ignore="PluralsCandidate">%1$d việc đã đăng </string>
     <string name="task_count" tools:ignore="PluralsCandidate">%1$d việc đã nhận </string>
     <string name="completion_rate" tools:ignore="PluralsCandidate">hoàn thành</string>
-    <string name="title_add_verify">Cung Cấp Thông Tin Cá Nhân</string>
-    <string name="lable_verify">Để có thể tìm được người làm việc hay nhận việc một cách nhanh chóng và uy tín, bạn cần xác thực thông tin với HoZo!</string>
     <string name="facebook_verify">Xác thực với Facebook</string>
     <string name="other_verify">Xác thực thông tin cá nhân khác</string>
-    <string name="facebook_app_id">2390935404378357</string>
+    <string name="facebook_app_id">956632744473365</string>
     <string name="hozo_tonish">\n © 2017 Tonish. Giữ mọi quyển.</string>
     <string name="cancel_bid">Hủy chọn</string>
     <string name="cancel_bid_title">Hủy chọn</string>
@@ -399,5 +396,6 @@
     <string name="task_detail_block">Việc đã bị khóa !</string>
     <string name="task_detail_block_reasons">Lý do :</string>
     <string name="facebook_verify_done">Bạn đã xác thực rồi</string>
+    <string name="brower_new_task" tools:ignore="PluralsCandidate">%1$d việc mới</string>
 
 </resources>

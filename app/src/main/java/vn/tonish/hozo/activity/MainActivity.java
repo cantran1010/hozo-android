@@ -11,8 +11,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.util.Calendar;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.common.DataParse;
+import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.BlockDialog;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
@@ -20,6 +30,11 @@ import vn.tonish.hozo.fragment.MyTaskFragment;
 import vn.tonish.hozo.fragment.SelectTaskFragment;
 import vn.tonish.hozo.fragment.SettingFragment;
 import vn.tonish.hozo.model.Notification;
+import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.NewTaskResponse;
+import vn.tonish.hozo.utils.DateTimeUtils;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
@@ -35,7 +50,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ImageView imgPostATask, imgBrowserTask, imgMyTask, imgInbox, imgOther;
     private TextViewHozo tvPostATask, tvBrowserTask, tvMyTask, tvInbox, tvOther;
     private int tabIndex = 1;
-    private TextViewHozo tvCountMsg;
+    private TextViewHozo tvCountMsg, tvCountNewTask;
+    private Timer timer;
+    public static int countNewTask = 0;
+    private Call<NewTaskResponse> call;
 
     @Override
     protected int getLayout() {
@@ -63,6 +81,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tvOther = (TextViewHozo) findViewById(R.id.tv_other);
 
         tvCountMsg = (TextViewHozo) findViewById(R.id.tv_count_new_push);
+        tvCountNewTask = findViewById(R.id.tv_count_new_task);
     }
 
     @Override
@@ -123,6 +142,88 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
         }
 
+        timer = new Timer();
+        PreferUtils.setLastTimeCountTask(this, DateTimeUtils.fromCalendarIso(Calendar.getInstance()));
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                countNewTask();
+            }
+        }, 0, 60000);
+
+    }
+
+    private void countNewTask() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getNewTaskCount(PreferUtils.getLastTimeCountTask(MainActivity.this));
+            }
+        });
+    }
+
+    public void updateNewTask(int count) {
+        if (count > 99) count = 99;
+        if (count > 0) {
+            tvCountNewTask.setText(String.valueOf(count));
+            tvCountNewTask.setVisibility(View.VISIBLE);
+        } else tvCountNewTask.setVisibility(View.GONE);
+    }
+
+    private void getNewTaskCount(final String since) {
+
+//        for test
+//        countNewTask++;
+//        updateNewTask(countNewTask);
+//        Intent intentAnswer = new Intent();
+//        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_SEARCH);
+//        intentAnswer.putExtra(Constants.COUNT_NEW_TASK_EXTRA, countNewTask);
+//        sendBroadcast(intentAnswer);
+//        return;
+
+        Map<String, String> option;
+        option = DataParse.setParameterCountTasks(since);
+        LogUtils.d(TAG, "getNewTaskCount option : " + option.toString());
+        LogUtils.d(TAG, "getNewTaskCount since : " + since);
+        LogUtils.d(TAG, "getNewTaskCount id : " + DataParse.getIds());
+        call = ApiClient.getApiService().getCountNewTasks(UserManager.getUserToken(), option, DataParse.getIds());
+        call.enqueue(new Callback<NewTaskResponse>() {
+            @Override
+            public void onResponse(Call<NewTaskResponse> call, Response<NewTaskResponse> response) {
+
+                LogUtils.d(TAG, "getNewTaskCount code : " + response.code());
+                LogUtils.d(TAG, "getNewTaskCount body : " + response.body());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    countNewTask = response.body().getCountNewTask();
+                    updateNewTask(countNewTask);
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_SEARCH);
+                    intentAnswer.putExtra(Constants.COUNT_NEW_TASK_EXTRA, countNewTask);
+                    sendBroadcast(intentAnswer);
+
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(MainActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            getNewTaskCount(since);
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(MainActivity.this);
+                } else {
+//                    APIError error = ErrorUtils.parseError(response);
+//                    LogUtils.d(TAG, "errorBody" + error.toString());
+//                    Utils.showLongToast(MainActivity.this, error.message(), true, false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NewTaskResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -189,6 +290,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
     }
 
     @Override

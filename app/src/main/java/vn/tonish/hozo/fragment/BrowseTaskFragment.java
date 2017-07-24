@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -28,25 +29,29 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AdvanceSettingsActivity;
 import vn.tonish.hozo.activity.BrowserTaskMapActivity;
+import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.activity.TaskDetailActivity;
 import vn.tonish.hozo.adapter.TaskAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.MiniTask;
-import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.edt_search;
 import static vn.tonish.hozo.R.id.fr_search;
@@ -74,6 +79,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private Call<List<TaskResponse>> call;
     private LinearLayoutManager linearLayoutManager;
+    private TextViewHozo tvCountNewTask;
 
     @Override
     protected int getLayout() {
@@ -93,6 +99,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         edtSearch = (EdittextHozo) findViewById(edt_search);
         layoutSearch = (RelativeLayout) findViewById(fr_search);
         rcvTask = (RecyclerView) findViewById(R.id.lv_list);
+        tvCountNewTask = (TextViewHozo) findViewById(R.id.tvCountNewTask);
         createSwipeToRefresh();
     }
 
@@ -111,6 +118,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 return actionId == EditorInfo.IME_ACTION_SEARCH;
             }
         });
+
         edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -163,9 +171,10 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         });
     }
 
-
     @Override
     protected void resumeData() {
+        updateCountNewTask(MainActivity.countNewTask);
+        PreferUtils.setLastTimeCountTask(getActivity(), DateTimeUtils.fromCalendarIso(Calendar.getInstance()));
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_SEARCH));
     }
 
@@ -217,7 +226,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(getActivity());
-                }else {
+                } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
                     Utils.showLongToast(getActivity(), error.message(), true, false);
@@ -337,7 +346,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_SETTING && resultCode == Constants.RESULT_CODE_SETTING) {
             onRefresh();
-
         }
     }
 
@@ -350,15 +358,37 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         taskAdapter.onLoadMore();
         getTaskResponse(null, strSortBy, query);
 
+        // update lastTime
+        // set new task = 0
+        updateCountNewTask(0);
+        PreferUtils.setLastTimeCountTask(getActivity(), DateTimeUtils.fromCalendarIso(Calendar.getInstance()));
+        if (getActivity() instanceof MainActivity)
+            ((MainActivity) getActivity()).updateNewTask(0);
     }
 
     private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            rcvTask.smoothScrollToPosition(0);
-            if (linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
+
+            if (intent.hasExtra(Constants.COUNT_NEW_TASK_EXTRA)) {
+                int count = intent.getIntExtra(Constants.COUNT_NEW_TASK_EXTRA, 0);
+                updateCountNewTask(count);
+            } else {
+                rcvTask.smoothScrollToPosition(0);
+                if (linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
+            }
         }
     };
+
+    private void updateCountNewTask(int count) {
+
+        if (count > 99) count = 99;
+        if (count > 0) {
+            tvCountNewTask.setText(getString(R.string.brower_new_task, count));
+            tvCountNewTask.setVisibility(View.VISIBLE);
+        } else
+            tvCountNewTask.setVisibility(View.GONE);
+    }
 
 }
 

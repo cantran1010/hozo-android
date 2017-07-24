@@ -345,6 +345,21 @@ public class DataParse {
         return option;
     }
 
+    public static Map<String, String> setParameterCountTasks(String since) {
+        SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
+        Map<String, String> option = new HashMap<>();
+        if (settingEntiny.getMinWorkerRate() > 0)
+            option.put("min_worker_rate", String.valueOf(settingEntiny.getMinWorkerRate()));
+        if (settingEntiny.getMaxWorkerRate() > 0)
+            option.put("max_worker_rate", String.valueOf(settingEntiny.getMaxWorkerRate()));
+        option.put("latitude", String.valueOf(settingEntiny.getLatitude()));
+        option.put("longitude", String.valueOf(settingEntiny.getLongitude()));
+        option.put("distance", String.valueOf(settingEntiny.getRadius()));
+        if (since != null) option.put("since", since);
+        LogUtils.d(TAG, " set option :" + option.toString());
+        return option;
+    }
+
     public static List<Long> getIds() {
         List<CategoryEntity> entityRealmList = CategoryManager.getAllCategories();
         List<Long> ids = new ArrayList<>();

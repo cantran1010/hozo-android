@@ -24,6 +24,7 @@ import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.rest.responseRes.BlockResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
+import vn.tonish.hozo.rest.responseRes.NewTaskResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.RateResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
@@ -59,6 +60,9 @@ public interface ApiInterface {
 
     @GET("tasks")
     Call<List<TaskResponse>> getTasks(@Header("Authorization") String token, @QueryMap Map<String, String> params, @Query("category_ids[]") List<Long> ids);
+
+    @GET("tasks/new_number")
+    Call<NewTaskResponse> getCountNewTasks(@Header("Authorization") String token, @QueryMap Map<String, String> params, @Query("category_ids[]") List<Long> ids);
 
     @GET("tasks/{taskId}")
     Call<TaskResponse> getDetailTask(@Header("Authorization") String token, @Path("taskId") int taskId);

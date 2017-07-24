@@ -26,6 +26,7 @@ public class PreferUtils {
     private static final String PREFER_PUSH_DENY = "push_deny";
     private static final String PREFER_PUSH_SHOW = "push_show";
     private static final String KEY_ENCRYPTION = "key";
+    private static final String LAST_TIME_COUNT_TASK = "last_time";
 
     public SharedPreferences preferences;
 
@@ -168,6 +169,17 @@ public class PreferUtils {
     public static int getNewPushCount(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
         return preferences.getInt(PREFER_NEW_PUSH_COUNT, 0);
+    }
+
+    public static void setLastTimeCountTask(Context context, String lastTime) {
+        Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
+        editor.putString(LAST_TIME_COUNT_TASK, lastTime);
+        editor.apply();
+    }
+
+    public static String getLastTimeCountTask(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
+        return preferences.getString(LAST_TIME_COUNT_TASK,"");
     }
 
 }

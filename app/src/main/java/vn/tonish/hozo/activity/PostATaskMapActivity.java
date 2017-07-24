@@ -363,12 +363,20 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
             Address addRess = addresses.get(0); // may be crash,can't get address from geocoder
             LogUtils.d(TAG, "getAddress address : " + addRess.toString());
+            LogUtils.d(TAG, "getAddress addRess.getMaxAddressLineIndex() : " + addRess.getMaxAddressLineIndex());
 
             String strReturnedAddress = "";
-            for (int i = 0; i < addRess.getMaxAddressLineIndex(); i++) {
-                strReturnedAddress = strReturnedAddress + addRess.getAddressLine(i) + ", ";
+
+            if (addRess.getMaxAddressLineIndex() == 0) {
+                strReturnedAddress = addRess.getAddressLine(0);
+            } else {
+                for (int i = 0; i < addRess.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress = strReturnedAddress + addRess.getAddressLine(i) + ", ";
+                }
+                LogUtils.d(TAG, "getAddress strReturnedAddress before : " + strReturnedAddress);
+                strReturnedAddress = strReturnedAddress.substring(0, strReturnedAddress.length() - 2);
+                LogUtils.d(TAG, "getAddress strReturnedAddress : " + strReturnedAddress);
             }
-            strReturnedAddress = strReturnedAddress.substring(0, strReturnedAddress.length() - 2);
 
             if (pickType == 1) {
                 if (isAddAddress) {
