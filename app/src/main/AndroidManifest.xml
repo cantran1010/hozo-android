@@ -129,7 +129,11 @@
         <activity
             android:name=".activity.GiveInforActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.PlaceActivity"
+            android:windowSoftInputMode="stateAlwaysVisible"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

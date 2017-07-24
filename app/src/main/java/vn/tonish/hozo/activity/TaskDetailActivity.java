@@ -389,6 +389,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             rcvBidder.setVisibility(View.GONE);
             rcvAssign.setVisibility(View.GONE);
             imgMenu.setVisibility(View.GONE);
+            workDetailView.updateBtnCallRate(false, false, "");
         }
         //poster
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {

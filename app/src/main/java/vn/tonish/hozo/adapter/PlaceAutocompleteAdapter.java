@@ -57,6 +57,20 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class PlaceAutocompleteAdapter
         extends ArrayAdapter<AutocompletePrediction> implements Filterable {
 
+    public interface OnCountListener {
+        public void onCount(int count);
+    }
+
+    private OnCountListener onCountListener;
+
+    public OnCountListener getOnCountListener() {
+        return onCountListener;
+    }
+
+    public void setOnCountListener(OnCountListener onCountListener) {
+        this.onCountListener = onCountListener;
+    }
+
     private static final String TAG = "PlaceAutocompleteAdapter";
     private static final CharacterStyle STYLE_BOLD = new StyleSpan(Typeface.BOLD);
     /**
@@ -161,7 +175,6 @@ public class PlaceAutocompleteAdapter
                 } else {
                     results.count = 0;
                 }
-
                 return results;
             }
 
@@ -172,9 +185,11 @@ public class PlaceAutocompleteAdapter
                     // The API returned at least one result, update the data.
                     mResultList = (ArrayList<AutocompletePrediction>) results.values;
                     notifyDataSetChanged();
+                    if (onCountListener != null) onCountListener.onCount(mResultList.size());
                 } else {
                     // The API did not return any results, invalidate the data set.
                     notifyDataSetInvalidated();
+                    if (onCountListener != null) onCountListener.onCount(0);
                 }
             }
 
@@ -227,7 +242,7 @@ public class PlaceAutocompleteAdapter
             if (!status.isSuccess()) {
 //                Toast.makeText(getContext(), "Error contacting API: " + status.toString(),
 //                        Toast.LENGTH_SHORT).show();
-                Utils.showLongToast(getContext(),getContext().getString(R.string.contacting_api_autocomplete_error),true,false);
+                Utils.showLongToast(getContext(), getContext().getString(R.string.contacting_api_autocomplete_error), true, false);
                 LogUtils.e(TAG, "Error getting autocomplete prediction API call: " + status.toString());
                 autocompletePredictions.release();
                 return null;
