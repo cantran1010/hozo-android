@@ -167,10 +167,13 @@ public class Constants {
     public static final int REQUEST_CODE_VERIFY = 789;
     public static final int RESULT_CODE_VERIFY = 987;
     public static final String COUNT_NEW_TASK_EXTRA = "count_new_task_extra";
+    public static final String EXTRA_ADDRESS = "address_extra";
+    public static final String LAT_EXTRA = "lat_extra";
+    public static final int RESULT_CODE_ADDRESS = 5432;
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static String BID_ERROR_INVALID_DATA = "invalid_data";
     public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";
     public static String TASK_DETAIL_NO_EXIT = "no_exist";
     public static final String TASK_DETAIL_BLOCK = "block";
-
+    public static String LON_EXTRA = "lon_extra";
 }
