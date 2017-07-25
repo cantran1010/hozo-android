@@ -68,8 +68,7 @@ public class Utils {
                 return;
             }
         }
-
-        Glide.with(context).load(url)
+        Glide.with(context.getApplicationContext()).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.image_placeholder)
                 .dontAnimate()
@@ -86,7 +85,7 @@ public class Utils {
             }
         }
 
-        Glide.with(context).load(url)
+        Glide.with(context.getApplicationContext()).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.image_placeholder)
                 .dontAnimate()
@@ -104,7 +103,7 @@ public class Utils {
             }
         }
 
-        Glide.with(context).load(url)
+        Glide.with(context.getApplicationContext()).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.avatar_default)
                 .dontAnimate()
