@@ -349,6 +349,10 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     }
 
     private void updateRole() {
+
+        //fix crash on fabric -> I don't know why crash :(
+        if(UserManager.getMyUser() == null) return;
+
         //poster
         if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             taskResponse.setRole(Constants.ROLE_POSTER);
