@@ -84,6 +84,7 @@ public class Constants {
     public static final String PARAMETER_DATE_OF_BIRTH = "date_of_birth";
     public static final String PARAMETER_AVATA_ID = "avatar_id";
     public static final String PARAMETER_FACEBOOK_ID = "facebook_id";
+    public static final String PARAMETER_EMAIL = "email";
     // Addvance setting
     public static final int REQUEST_CODE_TASK_TYPE = 456;
 

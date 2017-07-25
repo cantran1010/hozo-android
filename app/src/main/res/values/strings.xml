@@ -385,7 +385,7 @@
     <string name="facebook_verify">Xác thực với Facebook</string>
     <string name="other_verify">Xác thực thông tin cá nhân khác</string>
     <string name="facebook_app_id">956632744473365</string>
-    <string name="hozo_tonish">\n © 2017 Tonish. Giữ mọi quyển.</string>
+    <string name="hozo_tonish">\n © 2017 Tonish. Giữ mọi quyền.</string>
     <string name="cancel_bid">Hủy chọn</string>
     <string name="cancel_bid_title">Hủy chọn</string>
     <string name="cancel_bid_content">Lưu ý khi hủy chọn sẽ ảnh hưởng đến tỷ lệ hoàn thành việc của bạn</string>
@@ -399,5 +399,7 @@
     <string name="brower_new_task" tools:ignore="PluralsCandidate">%1$d việc mới</string>
     <string name="address_hint">Nhập địa chỉ ...</string>
     <string name="no_address">Rất tiếc,không tìm thấy địa chỉ !</string>
+    <string name="waiting_active">Đang chờ xác thực.</string>
+    <string name="email_verify_done">Vui lòng kiểm tra email để hoàn thành bước xác thưc!.</string>
 
 </resources>
