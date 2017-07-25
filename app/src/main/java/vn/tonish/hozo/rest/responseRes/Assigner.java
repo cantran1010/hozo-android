@@ -23,6 +23,16 @@ public class Assigner implements Serializable{
     private String email;
     @SerializedName("facebook_id")
     private String facebookId;
+    @SerializedName("email_active")
+    private boolean emailActive;
+
+    public boolean isEmailActive() {
+        return emailActive;
+    }
+
+    public void setEmailActive(boolean emailActive) {
+        this.emailActive = emailActive;
+    }
 
     public String getEmail() {
         return email;
@@ -117,6 +127,7 @@ public class Assigner implements Serializable{
                 ", rating=" + rating +
                 ", email='" + email + '\'' +
                 ", facebookId='" + facebookId + '\'' +
+                ", emailActive=" + emailActive +
                 '}';
     }
 }

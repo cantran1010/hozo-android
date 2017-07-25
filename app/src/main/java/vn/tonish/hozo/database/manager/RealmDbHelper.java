@@ -64,14 +64,17 @@ public class RealmDbHelper {
 
                 schema.get("PosterEntity")
                         .addField("email", String.class)
+                        .addField("emailActive", boolean.class)
                         .addField("facebookId", String.class);
 
                 schema.get("BidderEntity")
                         .addField("email", String.class)
+                        .addField("emailActive", boolean.class)
                         .addField("facebookId", String.class);
 
                 schema.get("AssignerEntity")
                         .addField("email", String.class)
+                        .addField("emailActive", boolean.class)
                         .addField("facebookId", String.class);
 
                 oldVersion++;
