@@ -30,19 +30,27 @@
             android:textColor="@color/tv_black"
             android:textSize="15sp" />
 
-        <ImageView
-            android:id="@+id/img_clear"
+        <RelativeLayout
+            android:id="@+id/layout_clear"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/bg_circle"
-            android:contentDescription="@string/adjust_image"
-            android:padding="0dp"
-            android:src="@drawable/img_close" />
+            android:paddingEnd="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingStart="5dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_circle"
+                android:contentDescription="@string/adjust_image"
+                android:src="@drawable/img_close" />
+
+        </RelativeLayout>
+
 
         <ImageView
             android:id="@+id/img_back"
