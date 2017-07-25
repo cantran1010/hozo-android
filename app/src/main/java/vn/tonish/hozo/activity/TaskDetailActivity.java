@@ -78,7 +78,6 @@ import vn.tonish.hozo.view.TextViewHozo;
 import vn.tonish.hozo.view.WorkAroundMapFragment;
 import vn.tonish.hozo.view.WorkDetailView;
 
-import static vn.tonish.hozo.R.string.call;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_RATE;
@@ -384,18 +383,18 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         workDetailView.updateWork(taskResponse);
 
         if (taskResponse.getStatus().equals(Constants.TASK_TYPE_BLOCK)) {
-            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
             layoutFooter.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
             rcvAssign.setVisibility(View.GONE);
             imgMenu.setVisibility(View.GONE);
-            workDetailView.updateBtnCallRate(false, false, "");
+            workDetailView.updateBtnRate(false);
         }
         //poster
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.update_task), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
-            workDetailView.updateBtnOffer(false);
-            workDetailView.updateBtnCallRate(false, false, "");
+            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
+            workDetailView.updateBtnRate(false);
             bidderType = getString(R.string.assign);
             assigerType = getString(R.string.call);
             isDelete = false;
@@ -404,8 +403,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             rcvBidder.setVisibility(View.VISIBLE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
-            workDetailView.updateBtnOffer(false);
-            workDetailView.updateBtnCallRate(false, false, "");
+            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
+            workDetailView.updateBtnRate(false);
             assigerType = getString(R.string.call);
             isDelete = false;
 
@@ -413,8 +412,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             rcvBidder.setVisibility(View.GONE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
-            workDetailView.updateBtnOffer(false);
-            workDetailView.updateBtnCallRate(false, false, "");
+            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
+            workDetailView.updateBtnRate(false);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
             isDelete = false;
@@ -426,8 +425,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             layoutFooter.setVisibility(View.GONE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
-            workDetailView.updateBtnOffer(false);
-            workDetailView.updateBtnCallRate(false, false, "");
+            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
+            workDetailView.updateBtnRate(false);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
 
@@ -440,8 +439,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             commentType = getString(R.string.comment_setting_invisible);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
-            workDetailView.updateBtnOffer(false);
-            workDetailView.updateBtnCallRate(false, false, "");
+            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
+            workDetailView.updateBtnRate(false);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
 
@@ -457,8 +456,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         //bidder
         else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
             workDetailView.updateStatus(true, getString(R.string.my_task_status_worker_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
-            workDetailView.updateBtnOffer(false);
-            workDetailView.updateBtnCallRate(false, false, "");
+            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
+            workDetailView.updateBtnRate(false);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
 
@@ -471,8 +470,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             commentType = getString(R.string.comment_setting_invisible);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
             workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
-            workDetailView.updateBtnOffer(false);
-            workDetailView.updateBtnCallRate(false, false, "");
+            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
+            workDetailView.updateBtnRate(false);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
 
@@ -485,8 +484,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             commentType = getString(R.string.comment_setting_invisible);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
             workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
-            workDetailView.updateBtnOffer(false);
-            workDetailView.updateBtnCallRate(false, false, "");
+            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
+            workDetailView.updateBtnRate(false);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
 
@@ -499,19 +498,19 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             commentType = getString(R.string.comment_setting_invisible);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
             isDelete = false;
-            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnOffer(Constants.OFFER_PENDING);
             workDetailView.updateStatus(false, getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
-            workDetailView.updateBtnCallRate(false, false, "");
+            workDetailView.updateBtnRate(false);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
             isDelete = false;
-            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnOffer(Constants.OFFER_CALL);
             workDetailView.updateStatus(true, getString(R.string.received), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
-            workDetailView.updateBtnCallRate(true, true, getString(call));
+            workDetailView.updateBtnRate(false);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
             isDelete = false;
-            workDetailView.updateBtnOffer(false);
+            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
             workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
-            workDetailView.updateBtnCallRate(true, false, getString(R.string.rate));
+            workDetailView.updateBtnRate(true);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
 
@@ -522,8 +521,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             commentType = getString(R.string.comment_setting_invisible);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
             workDetailView.updateStatus(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
-            workDetailView.updateBtnOffer(false);
-            workDetailView.updateBtnCallRate(false, false, "");
+            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
+            workDetailView.updateBtnRate(false);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
 
@@ -539,16 +538,16 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         // make an offer
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
             isDelete = false;
-            workDetailView.updateBtnOffer(true);
+            workDetailView.updateBtnOffer(Constants.OFFER_ACTIVE);
             workDetailView.updateStatus(false, "", ContextCompat.getDrawable(this, R.drawable.bg_border_done));
-            workDetailView.updateBtnCallRate(false, false, "");
+            workDetailView.updateBtnRate(false);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() != UserManager.getMyUser().getId()) {
             isDelete = false;
             workDetailView.updateStatus(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
-            workDetailView.updateBtnOffer(false);
-            workDetailView.updateBtnCallRate(false, false, "");
+            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
+            workDetailView.updateBtnRate(false);
             isShowCancel = false;
         }
 
@@ -720,7 +719,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
                     case R.id.cancel_task:
                         DialogUtils.showOkAndCancelDialog(
-                                TaskDetailActivity.this, getString(R.string.title_cancel_task), getString(R.string.content_cancel_task), getString(R.string.cancel_task_ok),
+                                TaskDetailActivity.this, getString(R.string.title_cancel_task), getString(R.string.cancel_task_content), getString(R.string.cancel_task_ok),
                                 getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
                                     @Override
                                     public void onSubmit() {
@@ -1159,7 +1158,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 intentRate.putExtra(Constants.USER_ID_EXTRA, assigner.getId());
                 startActivityForResult(intentRate, Constants.REQUEST_CODE_RATE, TransitionScreen.UP_TO_DOWN);
             } else if (intent.hasExtra(Constants.ASSIGNER_CANCEL_BID_EXTRA)) {
-                DialogUtils.showOkAndCancelDialog(TaskDetailActivity.this, getString(R.string.cancel_bid_title), getString(R.string.cancel_bid_content), getString(R.string.report_ok), getString(R.string.report_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showOkAndCancelDialog(TaskDetailActivity.this, getString(R.string.cancel_bid_title), getString(R.string.cancel_bid_content), getString(R.string.cancel_task_ok), getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         Assigner assigner = (Assigner) intent.getSerializableExtra(Constants.ASSIGNER_CANCEL_BID_EXTRA);

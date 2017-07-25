@@ -205,7 +205,6 @@
 
     <string name="call_err">Rất tiếc điện thoại của bạn không hỗ trợ chức năng gọi điện</string>
     <string name="title_cancel_task">Hủy việc</string>
-    <string name="content_cancel_task">Bạn có chắc chắn muốn hủy việc này ?</string>
     <string name="cancel_task_ok">CÓ</string>
     <string name="cancel_task_cancel">KHÔNG</string>
     <string name="task_type">Loại công việc</string>
@@ -327,7 +326,7 @@
     <string name="detail_task_time_ago">%1$s . Loại công việc : %2$s</string>
     <string name="edit_profile_birthday">%1$d/%2$d/%3$d</string>
     <string name="task_detail_time">%1$s - %2$s</string>
-    <string name="max_number_worker_error">Bạn được phép chọn tối đa 10 người</string>
+    <string name="max_number_worker_error">Bạn được phép chọn tối đa %1$d người</string>
     <string name="max_budget_error">Số tiền bạn nhập không quá 10.000.000 VND</string>
     <string name="your_task">của bạn</string>
     <string name="work">Việc</string>
@@ -389,6 +388,7 @@
     <string name="cancel_bid">Hủy chọn</string>
     <string name="cancel_bid_title">Hủy chọn</string>
     <string name="cancel_bid_content">Lưu ý khi hủy chọn sẽ ảnh hưởng đến tỷ lệ hoàn thành việc của bạn</string>
+    <string name="cancel_task_content">Lưu ý khi hủy việc sẽ ảnh hưởng đến tỷ lệ hoàn thành việc của bạn</string>
     <string name="cancel_bid_task_name">ở công việc</string>
     <string name="offer_invalid_data">Lỗi dữ liệu</string>
     <string name="offer_system_error">Lỗi hệ thống</string>
@@ -397,7 +397,8 @@
     <string name="task_detail_block_reasons">Lý do :</string>
     <string name="facebook_verify_done">Bạn đã xác thực rồi</string>
     <string name="brower_new_task" tools:ignore="PluralsCandidate">%1$d việc mới</string>
-    <string name="address_hint">Nhập địa chỉ ...</string>
+    <string name="address_hint">Nhập địa chỉ …</string>
     <string name="no_address">Rất tiếc,không tìm thấy địa chỉ !</string>
+    <string name="work_detail_view_bit_pending">Đang chờ giao việc</string>
 
 </resources>

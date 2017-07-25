@@ -187,6 +187,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         LogUtils.d(TAG, "getNewTaskCount option : " + option.toString());
         LogUtils.d(TAG, "getNewTaskCount since : " + since);
         LogUtils.d(TAG, "getNewTaskCount id : " + DataParse.getIds());
+
+        if (call != null) call.cancel();
         call = ApiClient.getApiService().getCountNewTasks(UserManager.getUserToken(), option, DataParse.getIds());
         call.enqueue(new Callback<NewTaskResponse>() {
             @Override
@@ -295,6 +297,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (call != null) call.cancel();
         timer.cancel();
     }
 

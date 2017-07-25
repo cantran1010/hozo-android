@@ -399,6 +399,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         if (marker == null) return;
 
         // move map
+        tvAddress.setClickable(false);
         pickType = 2;
         tvAddress.setVisibility(View.VISIBLE);
         locationLayout.setVisibility(View.VISIBLE);
@@ -423,7 +424,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
         if (pickType == 1) return;
 
         // input map
-
+        tvAddress.setClickable(true);
         pickType = 1;
         locationLayout.setVisibility(View.GONE);
         imgPickList.setImageResource(R.drawable.ic_menu_list_on);

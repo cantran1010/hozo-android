@@ -176,4 +176,9 @@ public class Constants {
     public static String TASK_DETAIL_NO_EXIT = "no_exist";
     public static final String TASK_DETAIL_BLOCK = "block";
     public static String LON_EXTRA = "lon_extra";
+
+    public static final String OFFER_ACTIVE = "OFFER_ACTIVE";
+    public static final String OFFER_PENDING = "OFFER_PENDING";
+    public static final String OFFER_CALL = "OFFER_CALL";
+    public static final String OFFER_GONE = "OFFER_GONE";
 }
