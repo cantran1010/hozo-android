@@ -86,7 +86,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
         if (!(mEmail.equalsIgnoreCase("") || mEmail == null)) {
             btnVerifyEmail.setText(R.string.update_version);
             edtEmail.setText(mEmail);
-            if (mUserEntity.getEmail().equalsIgnoreCase("true")) {
+            if (mUserEntity.getEmailActive().equalsIgnoreCase("true")) {
                 tvActiveEmail.setVisibility(View.GONE);
             } else {
                 tvActiveEmail.setVisibility(View.VISIBLE);
