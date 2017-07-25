@@ -43,10 +43,6 @@
                     android:scheme="hozotonishbeta" />
             </intent-filter>
         </activity>
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
@@ -153,6 +149,13 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="a5706b90dc87e8fd7eb3b77dfb9f0ae4e43bc71d" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <provider android:authorities="com.facebook.app.FacebookContentProvider956632744473365"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true" />
 
         <service
             android:name=".fcm.MyFireBaseMessagingService"
