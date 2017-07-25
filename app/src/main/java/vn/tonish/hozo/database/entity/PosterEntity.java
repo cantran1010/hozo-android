@@ -17,6 +17,15 @@ public class PosterEntity extends RealmObject{
     private String phone;
     private String email;
     private String facebookId;
+    private boolean emailActive;
+
+    public boolean isEmailActive() {
+        return emailActive;
+    }
+
+    public void setEmailActive(boolean emailActive) {
+        this.emailActive = emailActive;
+    }
 
     public String getEmail() {
         return email;
@@ -102,6 +111,8 @@ public class PosterEntity extends RealmObject{
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", facebookId='" + facebookId + '\'' +
+                ", emailActive=" + emailActive +
                 '}';
     }
+
 }

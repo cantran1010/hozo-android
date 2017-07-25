@@ -180,6 +180,7 @@ public class DataParse {
         poster.setVerify(posterEntity.getVerify());
         poster.setEmail(posterEntity.getEmail());
         poster.setFacebookId(posterEntity.getFacebookId());
+        poster.setEmailActive(posterEntity.isEmailActive());
         return poster;
     }
 
@@ -194,6 +195,7 @@ public class DataParse {
         posterEntity.setVerify(poster.getVerify());
         posterEntity.setEmail(poster.getEmail());
         posterEntity.setFacebookId(poster.getFacebookId());
+        posterEntity.setEmailActive(poster.isEmailActive());
         return posterEntity;
     }
 
@@ -208,6 +210,7 @@ public class DataParse {
         bidder.setTaskerAverageRating(bidderEntity.getTaskerAverageRating());
         bidder.setEmail(bidderEntity.getEmail());
         bidder.setFacebookId(bidderEntity.getFacebookId());
+        bidder.setEmailActive(bidderEntity.isEmailActive());
         return bidder;
     }
 
@@ -222,6 +225,7 @@ public class DataParse {
         bidderEntity.setTaskerAverageRating(bidder.getTaskerAverageRating());
         bidderEntity.setEmail(bidder.getEmail());
         bidderEntity.setFacebookId(bidder.getFacebookId());
+        bidderEntity.setEmailActive(bidder.isEmailActive());
         return bidderEntity;
     }
 
@@ -248,6 +252,7 @@ public class DataParse {
         assigner.setPhone(assignerEntity.getPhone());
         assigner.setRating(assignerEntity.getRating());
         assigner.setVerify(assignerEntity.getVerify());
+        assigner.setEmailActive(assignerEntity.isEmailActive());
         return assigner;
     }
 
@@ -261,6 +266,7 @@ public class DataParse {
         assignerEntity.setPhone(assigner.getPhone());
         assignerEntity.setRating(assigner.getRating());
         assignerEntity.setVerify(assigner.getVerify());
+        assignerEntity.setEmailActive(assigner.isEmailActive());
         return assignerEntity;
     }
 

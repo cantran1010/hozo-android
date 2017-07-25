@@ -162,7 +162,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
             imgFbVerify.setVisibility(View.VISIBLE);
         else imgFbVerify.setVisibility(View.GONE);
 
-        if (taskResponse.getPoster().getEmail() != null && !taskResponse.getPoster().getEmail().trim().equals(""))
+        if (taskResponse.getPoster().isEmailActive())
             imgEmailVerify.setVisibility(View.VISIBLE);
         else imgEmailVerify.setVisibility(View.GONE);
 
