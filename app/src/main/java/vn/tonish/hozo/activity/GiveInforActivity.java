@@ -6,12 +6,11 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
@@ -50,6 +49,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
     private ImageView imgBack;
     private UserEntity mUserEntity;
     private String mEmail, mFacebookID;
+    private TextViewHozo tvActiveEmail;
 
     @Override
     protected int getLayout() {
@@ -60,6 +60,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
     protected void initView() {
         btnVerifyFaceBook = findViewById(R.id.btn_verify_facebook);
         btnVerifyEmail = findViewById(R.id.btn_verify_email);
+        tvActiveEmail = findViewById(R.id.tv_noti_active);
         edtEmail = findViewById(R.id.edt_verify_email);
         imgBack = findViewById(R.id.img_back);
         btnVerifyFaceBook.setOnClickListener(this);
@@ -76,15 +77,20 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
         mEmail = mUserEntity.getEmail();
         LogUtils.d(TAG, "user info: " + mUserEntity.toString());
         mFacebookID = mUserEntity.getFacebookId();
-        if (!(mFacebookID.isEmpty() || mFacebookID == null)) {
+        if (!(mFacebookID.equalsIgnoreCase("") || mFacebookID == null)) {
             btnVerifyFaceBook.setText(R.string.update_version);
         } else {
             btnVerifyFaceBook.setText(R.string.verify);
         }
 
-        if (!(mEmail.isEmpty() || mEmail == null)) {
+        if (!(mEmail.equalsIgnoreCase("") || mEmail == null)) {
             btnVerifyEmail.setText(R.string.update_version);
             edtEmail.setText(mEmail);
+            if (mUserEntity.getEmail().equalsIgnoreCase("true")) {
+                tvActiveEmail.setVisibility(View.GONE);
+            } else {
+                tvActiveEmail.setVisibility(View.VISIBLE);
+            }
         } else {
             btnVerifyEmail.setText(R.string.verify);
         }
@@ -96,15 +102,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String email = edtEmail.getText().toString().trim();
-                if (isValidEmail(email) && !email.equalsIgnoreCase(mEmail)) {
-                    btnVerifyEmail.setAlpha(1f);
-                    btnVerifyEmail.setEnabled(true);
-                } else {
-                    btnVerifyEmail.setAlpha(0.5f);
-                    btnVerifyEmail.setEnabled(false);
-
-                }
+                validateEmail();
 
             }
 
@@ -121,14 +119,25 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    private void validateEmail() {
+        String email = edtEmail.getText().toString().trim();
+        if (isValidEmail(email) && !email.equalsIgnoreCase(mEmail)) {
+            btnVerifyEmail.setAlpha(1f);
+            btnVerifyEmail.setEnabled(true);
+        } else {
+            btnVerifyEmail.setAlpha(0.5f);
+            btnVerifyEmail.setEnabled(false);
+
+        }
+    }
 
     // Private method to handle Facebook login and callback
     private void onFblogin() {
 
-        if (AccessToken.getCurrentAccessToken() != null && Profile.getCurrentProfile() != null) {
-            Utils.showLongToast(this, getString(R.string.facebook_verify_done), false, true);
-            return;
-        }
+//        if (AccessToken.getCurrentAccessToken() != null && Profile.getCurrentProfile() != null) {
+////            Utils.showLongToast(this, getString(R.string.facebook_verify_done), false, true);
+//            return;
+//        }
 
         callbackmanager = CallbackManager.Factory.create();
         // Set permissions
@@ -142,7 +151,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
                         String accessToken = loginResult.getAccessToken().getToken();
                         Log.d(TAG, "registerCallback , accessToken : " + accessToken);
                         Log.d(TAG, "registerCallback , id : " + loginResult.getAccessToken().getUserId());
-                        verifyFacebook(loginResult.getAccessToken().getUserId(), null);
+                        verifyUserInfo(loginResult.getAccessToken().getUserId(), null);
                     }
 
                     @Override
@@ -174,13 +183,13 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.btn_verify_email:
-//               getOpenFacebookIntent(this, "1952073665068033");
+                verifyUserInfo(null, edtEmail.getText().toString().trim());
                 break;
         }
 
     }
 
-    private void verifyFacebook(final String facebookId, final String email) {
+    private void verifyUserInfo(final String facebookId, final String email) {
         ProgressDialogUtils.showProgressDialog(this);
         JSONObject jsonRequest = new JSONObject();
         try {
@@ -193,23 +202,30 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
         }
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        LogUtils.d(TAG, "verifyFacebook jsonRequest : " + jsonRequest.toString());
+        LogUtils.d(TAG, "verifyUserInfo jsonRequest : " + jsonRequest.toString());
 
         ApiClient.getApiService().updateUser(UserManager.getUserToken(), body).enqueue(new Callback<UserEntity>() {
             @Override
             public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
 
-                LogUtils.d(TAG, "verifyFacebook onResponse body : " + response.body());
-                LogUtils.d(TAG, "verifyFacebook onResponse code : " + response.code());
+                LogUtils.d(TAG, "verifyUserInfo onResponse body : " + response.body());
+                LogUtils.d(TAG, "verifyUserInfo onResponse code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     Realm.getDefaultInstance().beginTransaction();
-                    UserManager.getMyUser().setFacebookId(facebookId);
+                    if (!(facebookId == null))
+                        UserManager.getMyUser().setFacebookId(facebookId);
+                    if (!(email == null))
+                        UserManager.getMyUser().setEmail(email);
                     Realm.getDefaultInstance().commitTransaction();
+                    if (!response.body().getEmail().equalsIgnoreCase("") && facebookId == null) {
+                        Toast.makeText(GiveInforActivity.this, getString(R.string.email_verify_done), Toast.LENGTH_SHORT).show();
+                    }
+                    initData();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(GiveInforActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            verifyFacebook(facebookId, email);
+                            verifyUserInfo(facebookId, email);
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
@@ -218,7 +234,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
                     DialogUtils.showRetryDialog(GiveInforActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            verifyFacebook(facebookId, email);
+                            verifyUserInfo(facebookId, email);
                         }
 
                         @Override
@@ -232,13 +248,12 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
 
             @Override
             public void onFailure(Call<UserEntity> call, Throwable t) {
-                LogUtils.e(TAG, "verifyFacebook onFailure error : " + t.getMessage());
+                LogUtils.e(TAG, "verifyUserInfo onFailure error : " + t.getMessage());
                 DialogUtils.showRetryDialog(GiveInforActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        verifyFacebook(facebookId, email);
+                        verifyUserInfo(facebookId, email);
                     }
-
                     @Override
                     public void onCancel() {
 
