@@ -85,8 +85,9 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:paddingLeft="5dp"
+                    android:visibility="gone"
                     android:paddingRight="5dp"
-                    android:text="@string/call" />
+                    android:text="@string/rate" />
 
             </LinearLayout>
 
@@ -182,6 +183,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_selector"
+            android:visibility="gone"
             android:text="@string/work_detail_view_bit"
             android:textColor="@color/white" />
 

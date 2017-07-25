@@ -112,7 +112,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         // vibrator when receive push notification from server
         Vibrator v = (Vibrator) getApplicationContext()
                 .getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(1000);
+        v.vibrate(500);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, notification.getId() /* Request code */, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
