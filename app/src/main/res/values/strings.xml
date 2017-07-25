@@ -399,5 +399,6 @@
     <string name="brower_new_task" tools:ignore="PluralsCandidate">%1$d việc mới</string>
     <string name="address_hint">Nhập địa chỉ ...</string>
     <string name="no_address">Rất tiếc,không tìm thấy địa chỉ !</string>
+    <string name="waiting_active">Đang chờ xác thực.</string>
 
 </resources>

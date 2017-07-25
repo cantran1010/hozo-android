@@ -40,7 +40,6 @@ import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
-import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 import static vn.tonish.hozo.utils.Utils.isValidEmail;
 
 public class GiveInforActivity extends BaseActivity implements View.OnClickListener {
@@ -49,6 +48,8 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
     private EdittextHozo edtEmail;
     private CallbackManager callbackmanager;
     private ImageView imgBack;
+    private UserEntity mUserEntity;
+    private String mEmail, mFacebookID;
 
     @Override
     protected int getLayout() {
@@ -71,6 +72,22 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initData() {
+        mUserEntity = UserManager.getMyUser();
+        mEmail = mUserEntity.getEmail();
+        LogUtils.d(TAG, "user info: " + mUserEntity.toString());
+        mFacebookID = mUserEntity.getFacebookId();
+        if (!(mFacebookID.isEmpty() || mFacebookID == null)) {
+            btnVerifyFaceBook.setText(R.string.update_version);
+        } else {
+            btnVerifyFaceBook.setText(R.string.verify);
+        }
+
+        if (!(mEmail.isEmpty() || mEmail == null)) {
+            btnVerifyEmail.setText(R.string.update_version);
+            edtEmail.setText(mEmail);
+        } else {
+            btnVerifyEmail.setText(R.string.verify);
+        }
         edtEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -79,10 +96,10 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (isValidEmail(edtEmail.getText().toString().trim())) {
+                String email = edtEmail.getText().toString().trim();
+                if (isValidEmail(email) && !email.equalsIgnoreCase(mEmail)) {
                     btnVerifyEmail.setAlpha(1f);
                     btnVerifyEmail.setEnabled(true);
-                    hideSoftKeyboard(GiveInforActivity.this, edtEmail);
                 } else {
                     btnVerifyEmail.setAlpha(0.5f);
                     btnVerifyEmail.setEnabled(false);
