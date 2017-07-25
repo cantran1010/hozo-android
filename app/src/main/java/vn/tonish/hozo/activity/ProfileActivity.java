@@ -216,10 +216,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     UserEntity userEntity = response.body();
                     if (isMyUser) {
-                        assert userEntity != null;
-                        userEntity.setAccessToken(UserManager.getMyUser().getAccessToken());
-                        userEntity.setTokenExp(UserManager.getMyUser().getTokenExp());
-                        userEntity.setRefreshToken(UserManager.getMyUser().getRefreshToken());
+                        if (!(UserManager.getMyUser().getAccessToken() == null))
+                            userEntity.setAccessToken(UserManager.getMyUser().getAccessToken());
+                        if (!(UserManager.getMyUser().getTokenExp() == null))
+                            userEntity.setTokenExp(UserManager.getMyUser().getTokenExp());
+                        if (!(UserManager.getMyUser().getRefreshToken() == null))
+                            userEntity.setRefreshToken(UserManager.getMyUser().getRefreshToken());
                     }
                     UserManager.insertUser(response.body(), isMyUser);
                     updateUi(response.body());
@@ -331,7 +333,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 imgFbVerify.setVisibility(View.VISIBLE);
             else imgFbVerify.setVisibility(View.GONE);
 
-            if (userEntity.getEmailActive().equalsIgnoreCase("true"))
+            if (userEntity.isEmailActive())
                 imgEmailVerify.setVisibility(View.VISIBLE);
             else imgEmailVerify.setVisibility(View.GONE);
             setDataSelected(true);

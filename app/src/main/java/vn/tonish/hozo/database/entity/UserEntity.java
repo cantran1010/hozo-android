@@ -20,7 +20,7 @@ public class UserEntity extends RealmObject implements Serializable {
     private String phone;
     private String email;
     @SerializedName("email_active")
-    private String emailActive;
+    private boolean emailActive;
     @SerializedName("facebook_id")
     private String facebookId;
     private String address;
@@ -43,7 +43,7 @@ public class UserEntity extends RealmObject implements Serializable {
     private String tokenExp;
     private boolean isMyUser;
     @SerializedName("tasker_done_count")
-    private int  taskerDoneCount;
+    private int taskerDoneCount;
     @SerializedName("poster_done_count")
     private int posterDoneCount;
     @SerializedName("tasker_done_rate")
@@ -119,11 +119,11 @@ public class UserEntity extends RealmObject implements Serializable {
         this.email = email;
     }
 
-    public String getEmailActive() {
+    public boolean isEmailActive() {
         return emailActive;
     }
 
-    public void setEmailActive(String emailActive) {
+    public void setEmailActive(boolean emailActive) {
         this.emailActive = emailActive;
     }
 
@@ -254,7 +254,7 @@ public class UserEntity extends RealmObject implements Serializable {
                 ", fullName='" + fullName + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", emailActive='" + emailActive + '\'' +
+                ", emailActive=" + emailActive +
                 ", facebookId='" + facebookId + '\'' +
                 ", address='" + address + '\'' +
                 ", avatar='" + avatar + '\'' +
