@@ -52,7 +52,7 @@ import static vn.tonish.hozo.utils.Utils.formatNumber;
 public class PostATaskFinishActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = PostATaskFinishActivity.class.getSimpleName();
-    private EdittextHozo  edtNumberWorker;
+    private EdittextHozo edtNumberWorker;
     private AutoCompleteTextView edtBudget;
     private TextViewHozo tvTotal;
     private TaskResponse work;
@@ -62,6 +62,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
     private static final int MIN_BUGDET = 10000;
     private ArrayList<String> vnds = new ArrayList<>();
     private CustomArrayAdapter adapter;
+    private static final int MAX_WORKER = 50;
 
     @Override
     protected int getLayout() {
@@ -135,7 +136,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         edtNumberWorker.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (!edtNumberWorker.getText().toString().equals("") && Integer.valueOf(edtNumberWorker.getText().toString()) <= 10)
+                if (!edtNumberWorker.getText().toString().equals("") && Integer.valueOf(edtNumberWorker.getText().toString()) <= MAX_WORKER)
                     edtNumberWorker.setError(null);
             }
 
@@ -147,9 +148,9 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             @Override
             public void afterTextChanged(Editable s) {
                 if (!edtNumberWorker.getText().toString().equals("")) {
-                    if (Integer.valueOf(edtNumberWorker.getText().toString()) > 10) {
+                    if (Integer.valueOf(edtNumberWorker.getText().toString()) > MAX_WORKER) {
                         edtNumberWorker.setText(edtNumberWorker.getText().toString().substring(0, edtNumberWorker.getText().toString().length() - 1));
-                        edtNumberWorker.setError(getString(R.string.max_number_worker_error));
+                        edtNumberWorker.setError(getString(R.string.max_number_worker_error, MAX_WORKER));
                         edtNumberWorker.setSelection(edtNumberWorker.getText().toString().length());
                     } else {
                         edtNumberWorker.setError(null);
@@ -163,6 +164,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
     private String getLongEdittext(EdittextHozo edittextHozo) {
         return edittextHozo.getText().toString().replace(",", "").replace(".", "");
     }
+
     private String getLongAutoCompleteTextView(AutoCompleteTextView autoCompleteTextView) {
         return autoCompleteTextView.getText().toString().replace(",", "").replace(".", "");
     }
@@ -249,10 +251,10 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             edtNumberWorker.requestFocus();
             edtNumberWorker.setError(getString(R.string.post_a_task_number_worker_error));
             return;
-        } else if (Integer.valueOf(edtNumberWorker.getText().toString()) > 10) {
-            edtNumberWorker.setError(getString(R.string.max_number_worker_error));
+        } else if (Integer.valueOf(edtNumberWorker.getText().toString()) > MAX_WORKER) {
+            edtNumberWorker.setError(getString(R.string.max_number_worker_error,MAX_WORKER));
             return;
-        }else if(Long.valueOf(getLongAutoCompleteTextView(edtBudget)) < MIN_BUGDET){
+        } else if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) < MIN_BUGDET) {
             edtBudget.requestFocus();
             edtBudget.setError(getString(R.string.min_budget_error));
             return;

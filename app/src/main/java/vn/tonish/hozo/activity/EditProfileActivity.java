@@ -2,6 +2,7 @@ package vn.tonish.hozo.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -370,7 +371,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             calendar.setTime(date);
         }
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+        @SuppressWarnings("deprecation") DatePickerDialog datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year,

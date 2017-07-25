@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +58,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
     private MyGridView myGridView;
     private TaskProgressView taskProgressView;
     private TaskResponse taskResponse;
-    private ImageView imgFbVerify,imgEmailVerify;
+    private ImageView imgFbVerify, imgEmailVerify;
 
     public interface WorkDetailViewRateListener {
         void onRate();
@@ -161,7 +162,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
             imgFbVerify.setVisibility(View.VISIBLE);
         else imgFbVerify.setVisibility(View.GONE);
 
-        if (taskResponse.getPoster().getEmail() != null && !taskResponse.getPoster().getEmail().trim().equals(""))
+        if (taskResponse.getPoster().isEmailActive())
             imgEmailVerify.setVisibility(View.VISIBLE);
         else imgEmailVerify.setVisibility(View.GONE);
 
@@ -209,11 +210,58 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
     }
 
-    public void updateBtnOffer(boolean isShow) {
-        if
-                (isShow) btnOffer.setVisibility(View.VISIBLE);
-        else
-            btnOffer.setVisibility(View.GONE);
+    public void updateBtnOffer(String status) {
+
+        switch (status) {
+            case Constants.OFFER_ACTIVE:
+                btnOffer.setVisibility(View.VISIBLE);
+                btnOffer.setText(getContext().getString(R.string.work_detail_view_bit));
+                btnOffer.setClickable(true);
+                Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(getContext(), R.drawable.btn_selector));
+                btnOffer.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        doOffer();
+                    }
+                });
+                break;
+
+            case Constants.OFFER_PENDING:
+                btnOffer.setVisibility(View.VISIBLE);
+                btnOffer.setText(getContext().getString(R.string.work_detail_view_bit_pending));
+                btnOffer.setClickable(false);
+                Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(getContext(), R.drawable.btn_press));
+                break;
+
+            case Constants.OFFER_CALL:
+                btnOffer.setVisibility(View.VISIBLE);
+                btnOffer.setText(getContext().getString(R.string.call));
+                btnOffer.setClickable(true);
+                Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(getContext(), R.drawable.btn_selector));
+                btnOffer.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Utils.call(getContext(), taskResponse.getPoster().getPhone());
+                    }
+                });
+                break;
+
+            case Constants.OFFER_GONE:
+                btnOffer.setVisibility(View.GONE);
+                btnOffer.setClickable(false);
+                break;
+
+            default:
+                btnOffer.setVisibility(View.GONE);
+                btnOffer.setClickable(false);
+                break;
+
+        }
+
+//        if
+//                (isShow) btnOffer.setVisibility(View.VISIBLE);
+//        else
+//            btnOffer.setVisibility(View.GONE);
     }
 
     public void updateStatus(boolean isShow, String status, Drawable drawable) {
@@ -240,30 +288,19 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 //
 //    }
 
-    public void updateBtnCallRate(boolean isShow, boolean isCall, String text) {
+    public void updateBtnRate(boolean isShow) {
         if (isShow) {
-            btnCallRate.setVisibility(View.VISIBLE);
-            btnCallRate.setText(text);
-            if (isCall) {
+            if (taskResponse.isRatePoster()) {
+                btnCallRate.setVisibility(View.GONE);
+            } else {
+                btnCallRate.setVisibility(View.VISIBLE);
                 btnCallRate.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utils.call(getContext(), taskResponse.getPoster().getPhone());
+                        if (workDetailViewRateListener != null)
+                            workDetailViewRateListener.onRate();
                     }
                 });
-            } else {
-                if (taskResponse.isRatePoster()) {
-                    btnCallRate.setVisibility(View.GONE);
-                } else {
-                    btnCallRate.setVisibility(View.VISIBLE);
-                    btnCallRate.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (workDetailViewRateListener != null)
-                                workDetailViewRateListener.onRate();
-                        }
-                    });
-                }
             }
         } else {
             btnCallRate.setVisibility(View.GONE);
@@ -299,6 +336,10 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     final BidSuccessDialog bidSuccessDialog = new BidSuccessDialog(getContext());
                     bidSuccessDialog.showView();
+
+                    btnOffer.setText(getContext().getString(R.string.work_detail_view_bit_pending));
+                    btnOffer.setClickable(false);
+                    Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(getContext(), R.drawable.btn_press));
 
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {

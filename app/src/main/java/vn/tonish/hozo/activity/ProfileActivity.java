@@ -11,6 +11,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.AccessToken;
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -392,6 +395,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     public void onResponse(Call<Void> call, Response<Void> response) {
 //                        if (response.isSuccessful()) {
                         if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+
+                            if (AccessToken.getCurrentAccessToken() != null && Profile.getCurrentProfile() != null) {
+                                LoginManager.getInstance().logOut();
+                            }
+
                             Realm realm = Realm.getDefaultInstance();
                             realm.beginTransaction();
                             realm.deleteAll();

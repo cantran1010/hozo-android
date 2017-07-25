@@ -17,6 +17,15 @@ public class AssignerEntity extends RealmObject{
     private int rating;
     private String email;
     private String facebookId;
+    private boolean emailActive;
+
+    public boolean isEmailActive() {
+        return emailActive;
+    }
+
+    public void setEmailActive(boolean emailActive) {
+        this.emailActive = emailActive;
+    }
 
     public String getEmail() {
         return email;
@@ -111,6 +120,7 @@ public class AssignerEntity extends RealmObject{
                 ", rating=" + rating +
                 ", email='" + email + '\'' +
                 ", facebookId='" + facebookId + '\'' +
+                ", emailActive=" + emailActive +
                 '}';
     }
 }

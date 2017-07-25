@@ -51,7 +51,7 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
     private ButtonHozo btnAssign;
     private Bidder bidder;
     private int taskId;
-    private ImageView imgFbVerify,imgEmailVerify;
+    private ImageView imgFbVerify, imgEmailVerify;
 
     public BidderOpenView(Context context) {
         super(context);
@@ -98,7 +98,7 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
             imgFbVerify.setVisibility(View.VISIBLE);
         else imgFbVerify.setVisibility(View.GONE);
 
-        if (bidder.getEmail() != null && !bidder.getEmail().trim().equals(""))
+        if (bidder.isEmailActive())
             imgEmailVerify.setVisibility(View.VISIBLE);
         else imgEmailVerify.setVisibility(View.GONE);
 
@@ -155,7 +155,7 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
                                 });
                             } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                                 Utils.blockUser(getContext());
-                            }else {
+                            } else {
                                 DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
                                     @Override
                                     public void onSubmit() {

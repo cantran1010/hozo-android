@@ -35,7 +35,7 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
     private ButtonHozo btnCancelBid;
     private Assigner assigner;
     private int taskId;
-    private ImageView imgFbVerify,imgEmailVerify;
+    private ImageView imgFbVerify, imgEmailVerify;
 
     public AssignerCallView(Context context) {
         super(context);
@@ -86,7 +86,7 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
             imgFbVerify.setVisibility(View.VISIBLE);
         else imgFbVerify.setVisibility(View.GONE);
 
-        if (assigner.getEmail() != null && !assigner.getEmail().trim().equals(""))
+        if (assigner.isEmailActive())
             imgEmailVerify.setVisibility(View.VISIBLE);
         else imgEmailVerify.setVisibility(View.GONE);
 
