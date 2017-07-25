@@ -1,5 +1,6 @@
 package vn.tonish.hozo.fragment;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
@@ -130,7 +131,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             calendar.setTime(date);
         }
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+        @SuppressWarnings("deprecation") DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_LIGHT,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year,
