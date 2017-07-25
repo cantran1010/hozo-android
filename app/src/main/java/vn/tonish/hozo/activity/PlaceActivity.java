@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -41,7 +42,7 @@ public class PlaceActivity extends BaseActivity implements View.OnClickListener,
     private GoogleApiClient googleApiClient;
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
     private AutoCompleteTextView autocompleteView;
-    private ImageView imgClear;
+    private RelativeLayout layoutClear;
     private TextViewHozo tvNoAddress;
 
     @Override
@@ -54,8 +55,8 @@ public class PlaceActivity extends BaseActivity implements View.OnClickListener,
         imgBack = findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        imgClear = findViewById(R.id.img_clear);
-        imgClear.setOnClickListener(this);
+        layoutClear = findViewById(R.id.layout_clear);
+        layoutClear.setOnClickListener(this);
 
         tvNoAddress = findViewById(R.id.tv_no_address);
 
@@ -66,6 +67,8 @@ public class PlaceActivity extends BaseActivity implements View.OnClickListener,
         // Retrieve the AutoCompleteTextView that will display Place suggestions.
         autocompleteView = (AutoCompleteTextView)
                 findViewById(R.id.autocomplete_places);
+
+        autocompleteView.setThreshold(1);
 
         // Register a listener that receives callbacks when a suggestion has been selected
         autocompleteView.setOnItemClickListener(mAutocompleteClickListener);
@@ -197,7 +200,7 @@ public class PlaceActivity extends BaseActivity implements View.OnClickListener,
                 finish();
                 break;
 
-            case R.id.img_clear:
+            case R.id.layout_clear:
                 autocompleteView.setText(getString(R.string.all_space_type));
                 autocompleteView.requestFocus();
                 break;

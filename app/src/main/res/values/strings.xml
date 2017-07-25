@@ -326,7 +326,7 @@
     <string name="detail_task_time_ago">%1$s . Loại công việc : %2$s</string>
     <string name="edit_profile_birthday">%1$d/%2$d/%3$d</string>
     <string name="task_detail_time">%1$s - %2$s</string>
-    <string name="max_number_worker_error">Bạn được phép chọn tối đa %1$d người</string>
+    <string name="max_number_worker_error" tools:ignore="PluralsCandidate">Bạn được phép chọn tối đa %1$d người</string>
     <string name="max_budget_error">Số tiền bạn nhập không quá 10.000.000 VND</string>
     <string name="your_task">của bạn</string>
     <string name="work">Việc</string>
