@@ -6,7 +6,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -86,7 +85,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
         if (!(mEmail.equalsIgnoreCase("") || mEmail == null)) {
             btnVerifyEmail.setText(R.string.update_version);
             edtEmail.setText(mEmail);
-            if (mUserEntity.getEmailActive().equalsIgnoreCase("true")) {
+            if (mUserEntity.isEmailActive()) {
                 tvActiveEmail.setVisibility(View.GONE);
             } else {
                 tvActiveEmail.setVisibility(View.VISIBLE);
@@ -218,7 +217,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
                         UserManager.getMyUser().setEmail(email);
                     Realm.getDefaultInstance().commitTransaction();
                     if (!response.body().getEmail().equalsIgnoreCase("") && facebookId == null) {
-                        Toast.makeText(GiveInforActivity.this, getString(R.string.email_verify_done), Toast.LENGTH_SHORT).show();
+                        Utils.showLongToast(GiveInforActivity.this, getString(R.string.email_verify_done), false, true);
                     }
                     initData();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -254,6 +253,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
                     public void onSubmit() {
                         verifyUserInfo(facebookId, email);
                     }
+
                     @Override
                     public void onCancel() {
 

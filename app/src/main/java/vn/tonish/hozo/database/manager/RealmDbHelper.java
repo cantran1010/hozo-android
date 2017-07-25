@@ -60,7 +60,7 @@ public class RealmDbHelper {
                         .addField("posterDoneCount", int.class)
                         .addField("taskerDoneRate", float.class)
                         .addField("posterDoneRate", float.class)
-                        .addField("emailActive", String.class);
+                        .addField("emailActive", boolean.class);
 
                 schema.get("PosterEntity")
                         .addField("email", String.class)

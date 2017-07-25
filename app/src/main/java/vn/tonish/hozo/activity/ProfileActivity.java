@@ -333,7 +333,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 imgFbVerify.setVisibility(View.VISIBLE);
             else imgFbVerify.setVisibility(View.GONE);
 
-            if (userEntity.getEmailActive().equalsIgnoreCase("true"))
+            if (userEntity.isEmailActive())
                 imgEmailVerify.setVisibility(View.VISIBLE);
             else imgEmailVerify.setVisibility(View.GONE);
             setDataSelected(true);
