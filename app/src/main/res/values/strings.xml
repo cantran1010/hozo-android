@@ -402,5 +402,7 @@
     <string name="waiting_active">Đang chờ xác thực.</string>
     <string name="email_verify_done">Vui lòng kiểm tra email để hoàn thành bước xác thưc!.</string>
     <string name="work_detail_view_bit_pending">Đang chờ giao việc</string>
+    <string name="cancel_task_by_poster">Công việc đã bị hủy bời người tạo !</string>
+    <string name="cancel_task_by_poster_title">Việc đã hủy</string>
 
 </resources>

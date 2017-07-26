@@ -21,6 +21,7 @@ import vn.tonish.hozo.activity.TaskDetailActivity;
 import vn.tonish.hozo.adapter.NotificationAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.BlockDialog;
 import vn.tonish.hozo.model.Notification;
@@ -32,6 +33,8 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
+
+import static vn.tonish.hozo.common.Constants.PUSH_TYPE_POSTER_CANCELED;
 
 /**
  * Created by LongBui on 4/4/2017.
@@ -118,6 +121,13 @@ public class InboxFragment extends BaseFragment {
                     BlockDialog blockDialog = new BlockDialog(getActivity());
                     blockDialog.showView();
                     blockDialog.updateContent(notifications.get(position).getContent());
+                } else if (notifications.get(position).getEvent().equals(PUSH_TYPE_POSTER_CANCELED)) {
+                    DialogUtils.showOkDialog(getActivity(), getString(R.string.cancel_task_by_poster_title), getString(R.string.cancel_task_by_poster), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+
+                        }
+                    });
                 } else {
                     Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
