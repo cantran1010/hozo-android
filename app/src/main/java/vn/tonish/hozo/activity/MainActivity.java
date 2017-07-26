@@ -137,6 +137,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         }
                     });
                     break;
+                case Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT:
+                    int taskIdAdmin = notification.getTaskId();
+                    Intent intentTaskAdmin = new Intent(this, TaskDetailActivity.class);
+                    intentTaskAdmin.putExtra(Constants.TASK_ID_EXTRA, taskIdAdmin);
+                    startActivity(intentTaskAdmin, TransitionScreen.RIGHT_TO_LEFT);
+                    break;
                 default:
                     int taskId = notification.getTaskId();
                     Intent intent = new Intent(this, TaskDetailActivity.class);
@@ -278,6 +284,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                         }
                     });
+                    break;
+                case Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT:
+                    int taskIdAdmin = notification.getTaskId();
+                    Intent intentTaskAdmin = new Intent(this, TaskDetailActivity.class);
+                    intentTaskAdmin.putExtra(Constants.TASK_ID_EXTRA, taskIdAdmin);
+                    startActivity(intentTaskAdmin, TransitionScreen.RIGHT_TO_LEFT);
                     break;
                 default:
                     int taskId = notification.getTaskId();

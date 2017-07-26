@@ -34,6 +34,7 @@ import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 
+import static vn.tonish.hozo.common.Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT;
 import static vn.tonish.hozo.common.Constants.PUSH_TYPE_POSTER_CANCELED;
 
 /**
@@ -128,6 +129,10 @@ public class InboxFragment extends BaseFragment {
 
                         }
                     });
+                } else if (notifications.get(position).getEvent().equals(PUSH_TYPE_ADMIN_NEW_TASK_ALERT)) {
+                    Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+                    intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
+                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());

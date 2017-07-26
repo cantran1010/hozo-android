@@ -101,6 +101,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                 || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_COMMENT)
                 || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_TASK)
                 || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_COMMENT)
+                || notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT)
                 ) {
             title = getString(R.string.app_name);
             message = notification.getContent();
