@@ -95,12 +95,12 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
         rbRate.setRating(bidder.getTaskerAverageRating());
 
         if (bidder.getFacebookId() != null && !bidder.getFacebookId().trim().equals(""))
-            imgFbVerify.setVisibility(View.VISIBLE);
-        else imgFbVerify.setVisibility(View.GONE);
+            imgFbVerify.setImageResource(R.drawable.fb_on);
+        else imgFbVerify.setImageResource(R.drawable.fb_off);
 
         if (bidder.isEmailActive())
-            imgEmailVerify.setVisibility(View.VISIBLE);
-        else imgEmailVerify.setVisibility(View.GONE);
+            imgEmailVerify.setImageResource(R.drawable.email_on);
+        else imgEmailVerify.setImageResource(R.drawable.email_off);
 
         if (bidder.getBidedAt() != null)
             tvTimeAgo.setText(DateTimeUtils.getTimeAgo(bidder.getBidedAt(), getContext()));

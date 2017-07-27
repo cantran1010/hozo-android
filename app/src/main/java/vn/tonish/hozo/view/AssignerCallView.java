@@ -83,12 +83,12 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
         ratingBar.setRating(assigner.getTaskerAverageRating());
 
         if (assigner.getFacebookId() != null && !assigner.getFacebookId().trim().equals(""))
-            imgFbVerify.setVisibility(View.VISIBLE);
-        else imgFbVerify.setVisibility(View.GONE);
+            imgFbVerify.setImageResource(R.drawable.fb_on);
+        else imgFbVerify.setImageResource(R.drawable.fb_off);
 
         if (assigner.isEmailActive())
-            imgEmailVerify.setVisibility(View.VISIBLE);
-        else imgEmailVerify.setVisibility(View.GONE);
+            imgEmailVerify.setImageResource(R.drawable.email_on);
+        else imgEmailVerify.setImageResource(R.drawable.email_off);
 
         tvTimeAgo.setText(DateTimeUtils.getTimeAgo(assigner.getBiddedAt(), getContext()));
         btnCall.setText(assignType);

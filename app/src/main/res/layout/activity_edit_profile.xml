@@ -194,7 +194,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:inputType="text"
+                    android:inputType="textCapSentences"
                     android:maxLines="1"
                     android:minHeight="@dimen/edt_min_height"
                     android:padding="5dp"
@@ -256,9 +256,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:minHeight="@dimen/edt_min_height"
                     android:hint="@string/edt_profile_des_hill"
+                    android:minHeight="@dimen/edt_min_height"
                     android:padding="5dp"
+                    android:inputType="textCapSentences|textMultiLine"
                     android:textColor="@color/black"
                     android:textSize="@dimen/edt_size_nomal" />
 

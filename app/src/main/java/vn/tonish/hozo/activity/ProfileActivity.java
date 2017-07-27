@@ -330,12 +330,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             }
 
             if (userEntity.getFacebookId() != null && !userEntity.getFacebookId().trim().equals(""))
-                imgFbVerify.setVisibility(View.VISIBLE);
-            else imgFbVerify.setVisibility(View.GONE);
+                imgFbVerify.setImageResource(R.drawable.fb_on);
+            else imgFbVerify.setImageResource(R.drawable.fb_off);
 
             if (userEntity.isEmailActive())
-                imgEmailVerify.setVisibility(View.VISIBLE);
-            else imgEmailVerify.setVisibility(View.GONE);
+                imgEmailVerify.setImageResource(R.drawable.email_on);
+            else imgEmailVerify.setImageResource(R.drawable.email_off);
+
             setDataSelected(true);
             tvAbout.setText(userEntity.getDescription());
         }

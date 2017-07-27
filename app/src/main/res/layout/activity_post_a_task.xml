@@ -69,7 +69,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/border_gray"
                 android:hint="@string/task_title_hint"
-                android:inputType="text"
+                android:inputType="textCapSentences"
                 android:maxLines="1"
                 android:minHeight="@dimen/edt_min_height"
                 android:nextFocusDown="@+id/edt_working_hour"
@@ -152,6 +152,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/border_gray"
                 android:gravity="top"
+                android:inputType="textCapSentences|textMultiLine"
                 android:minHeight="80dp"
                 android:padding="5dp"
                 android:scrollbars="vertical" />
