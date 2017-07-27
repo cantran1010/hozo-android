@@ -167,7 +167,6 @@
     <string name="show_all">Xem thêm</string>
     <string name="my_account">Tài khoản của tôi</string>
     <string name="user_account">Tài khoản</string>
-    <string name="profile_verifyed">Đã xác thực</string>
     <string name="profile_rate">Đánh giá</string>
     <string name="retry_title">Lỗi kết nối.</string>
     <string name="retry_content">Không thể kết nối tới máy chủ. Vui lòng kiểm tra kết nối của bạn và thử lại.</string>
@@ -382,7 +381,6 @@
     <string name="task_count" tools:ignore="PluralsCandidate">%1$d việc đã nhận </string>
     <string name="completion_rate" tools:ignore="PluralsCandidate">hoàn thành</string>
     <string name="facebook_verify">Xác thực với Facebook</string>
-    <string name="other_verify">Xác thực thông tin cá nhân khác</string>
     <string name="facebook_app_id">956632744473365</string>
     <string name="hozo_tonish">\n © 2017 Tonish. Giữ mọi quyền.</string>
     <string name="cancel_bid">Hủy chọn</string>
@@ -395,7 +393,6 @@
     <string name="task_detail_no_exit">Việc không tồn tại</string>
     <string name="task_detail_block">Việc đã bị khóa !</string>
     <string name="task_detail_block_reasons">Lý do :</string>
-    <string name="facebook_verify_done">Bạn đã xác thực rồi</string>
     <string name="brower_new_task" tools:ignore="PluralsCandidate">%1$d việc mới</string>
     <string name="address_hint">Nhập địa chỉ …</string>
     <string name="no_address">Rất tiếc,không tìm thấy địa chỉ !</string>
@@ -404,5 +401,6 @@
     <string name="work_detail_view_bit_pending">Đang chờ giao việc</string>
     <string name="cancel_task_by_poster">Công việc đã bị hủy bời người tạo !</string>
     <string name="cancel_task_by_poster_title">Việc đã hủy</string>
+    <string name="email_hint">Nhập email …</string>
 
 </resources>

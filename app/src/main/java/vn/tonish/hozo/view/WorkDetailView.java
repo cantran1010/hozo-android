@@ -159,12 +159,12 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         tvTitle.setText(taskResponse.getTitle());
 
         if (taskResponse.getPoster().getFacebookId() != null && !taskResponse.getPoster().getFacebookId().trim().equals(""))
-            imgFbVerify.setVisibility(View.VISIBLE);
-        else imgFbVerify.setVisibility(View.GONE);
+            imgFbVerify.setImageResource(R.drawable.fb_on);
+        else imgFbVerify.setImageResource(R.drawable.fb_off);
 
         if (taskResponse.getPoster().isEmailActive())
-            imgEmailVerify.setVisibility(View.VISIBLE);
-        else imgEmailVerify.setVisibility(View.GONE);
+            imgEmailVerify.setImageResource(R.drawable.email_on);
+        else imgEmailVerify.setImageResource(R.drawable.email_off);
 
         if (CategoryManager.getCategoryById(taskResponse.getCategoryId()) != null)
             tvTimeAgo.setText(getContext().getString(R.string.detail_task_time_ago, DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), getContext()), CategoryManager.getCategoryById(taskResponse.getCategoryId()).getName()));

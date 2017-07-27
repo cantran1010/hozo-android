@@ -85,6 +85,7 @@
                 android:layout_toStartOf="@id/img_send"
                 android:background="@null"
                 android:hint="@string/type_your_text"
+                android:inputType="textCapSentences"
                 android:minHeight="@dimen/edt_min_height"
                 android:paddingBottom="5dp"
                 android:paddingEnd="0dp"

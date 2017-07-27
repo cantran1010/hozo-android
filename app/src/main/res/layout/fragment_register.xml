@@ -134,7 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:inputType="text"
+                android:inputType="textCapSentences"
                 android:maxLines="1"
                 android:minHeight="@dimen/edt_min_height"
                 android:textColor="@color/white"

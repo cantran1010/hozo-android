@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="vn.tonish.hozo">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -128,8 +129,8 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.PlaceActivity"
-            android:windowSoftInputMode="stateAlwaysVisible"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -153,9 +154,11 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <provider android:authorities="com.facebook.app.FacebookContentProvider956632744473365"
+        <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:exported="true" />
+            android:authorities="com.facebook.app.FacebookContentProvider956632744473365"
+            android:exported="true"
+            tools:ignore="ExportedContentProvider" />
 
         <service
             android:name=".fcm.MyFireBaseMessagingService"
