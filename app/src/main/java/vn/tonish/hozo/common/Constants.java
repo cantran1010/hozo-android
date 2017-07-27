@@ -137,6 +137,7 @@ public class Constants {
     public static final String PUSH_TYPE_ACTIVE_TASK = "active_task";
     public static final String PUSH_TYPE_BLOCK_COMMENT = "block_comment";
     public static final String PUSH_TYPE_ACTIVE_COMMENT = "active_comment";
+    public static final String PUSH_TYPE_ADMIN_NEW_TASK_ALERT = "admin_new_task_alert";
 
     public static final String ROLE_EXTRA = "role_extra";
     public static final String REFRESH_EXTRA = "refresh_extra";

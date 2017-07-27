@@ -257,55 +257,74 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                     tvAddress.setText(strReturnedAddress);
                 }
 
-                if (addRess.getMaxAddressLineIndex() >= 1) {
-                    work.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
+                if (addRess.getMaxAddressLineIndex() == 0) {
+                    String[] arrAddress = strReturnedAddress.split(",");
+
+                    if (arrAddress.length >= 2) {
+                        work.setCity(arrAddress[arrAddress.length - 2].trim());
+                    } else {
+                        work.setCity(arrAddress[arrAddress.length - 1]);
+                    }
+
                 } else {
-                    work.setCity(addRess.getAddressLine(0));
+                    if (addRess.getMaxAddressLineIndex() >= 1) {
+                        work.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
+                    } else {
+                        work.setCity(addRess.getAddressLine(0));
+                    }
                 }
 
-                if (addRess.getMaxAddressLineIndex() >= 2) {
-                    work.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
+                if (addRess.getMaxAddressLineIndex() == 0) {
+                    String[] arrAddress = strReturnedAddress.split(",");
+                    if (arrAddress.length >= 3) {
+                        work.setDistrict(arrAddress[arrAddress.length - 3].trim());
+                    } else {
+                        work.setDistrict(arrAddress[arrAddress.length - 1]);
+                    }
                 } else {
-                    work.setDistrict(addRess.getAddressLine(0));
+                    if (addRess.getMaxAddressLineIndex() >= 2) {
+                        work.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
+                    } else {
+                        work.setDistrict(addRess.getAddressLine(0));
+                    }
                 }
 
                 work.setAddress(tvAddress.getText().toString());
                 work.setLatitude(latLng.latitude);
                 work.setLongitude(latLng.longitude);
-
-//                if (isAddAddress) {
-//                    autocompleteView.setText(strReturnedAddress);
-//                }
-//
-//                if (addRess.getMaxAddressLineIndex() >= 1) {
-//                    work.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
-//                } else {
-//                    work.setCity(addRess.getAddressLine(0));
-//                }
-//
-//                if (addRess.getMaxAddressLineIndex() >= 2) {
-//                    work.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
-//                } else {
-//                    work.setDistrict(addRess.getAddressLine(0));
-//                }
-//
-//                work.setAddress(autocompleteView.getText().toString());
-//                work.setLatitude(latLng.latitude);
-//                work.setLongitude(latLng.longitude);
-//                autocompleteView.clearFocus();
             } else {
                 tvAddress.setText(strReturnedAddress);
 
-                if (addRess.getMaxAddressLineIndex() >= 1) {
-                    work.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
+                if (addRess.getMaxAddressLineIndex() == 0) {
+                    String[] arrAddress = strReturnedAddress.split(",");
+
+                    if (arrAddress.length >= 2) {
+                        work.setCity(arrAddress[arrAddress.length - 2].trim());
+                    } else {
+                        work.setCity(arrAddress[arrAddress.length - 1]);
+                    }
+
                 } else {
-                    work.setCity(addRess.getAddressLine(0));
+                    if (addRess.getMaxAddressLineIndex() >= 1) {
+                        work.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
+                    } else {
+                        work.setCity(addRess.getAddressLine(0));
+                    }
                 }
 
-                if (addRess.getMaxAddressLineIndex() >= 2) {
-                    work.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
+                if (addRess.getMaxAddressLineIndex() == 0) {
+                    String[] arrAddress = strReturnedAddress.split(",");
+                    if (arrAddress.length >= 3) {
+                        work.setDistrict(arrAddress[arrAddress.length - 3].trim());
+                    } else {
+                        work.setDistrict(arrAddress[arrAddress.length - 1]);
+                    }
                 } else {
-                    work.setDistrict(addRess.getAddressLine(0));
+                    if (addRess.getMaxAddressLineIndex() >= 2) {
+                        work.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
+                    } else {
+                        work.setDistrict(addRess.getAddressLine(0));
+                    }
                 }
 
                 work.setAddress(tvAddress.getText().toString());
@@ -456,6 +475,8 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             Utils.showLongToast(this, getString(post_task_map_get_location_error_next), true, false);
             return;
         }
+
+        LogUtils.d(TAG, "doNext , work : " + work.toString());
 
         Intent intent = new Intent(PostATaskMapActivity.this, PostATaskFinishActivity.class);
 //        intent.putExtra(Constants.EXTRA_ADDRESS, location);

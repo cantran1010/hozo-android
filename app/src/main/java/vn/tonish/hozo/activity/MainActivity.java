@@ -23,6 +23,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.BlockDialog;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
@@ -34,6 +35,7 @@ import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.NewTaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
@@ -127,6 +129,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     blockDialog.updateContent(notification.getContent());
                     break;
                 }
+                case Constants.PUSH_TYPE_POSTER_CANCELED:
+                    DialogUtils.showOkDialog(this, getString(R.string.cancel_task_by_poster_title), getString(R.string.cancel_task_by_poster), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+
+                        }
+                    });
+                    break;
+                case Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT:
+                    int taskIdAdmin = notification.getTaskId();
+                    Intent intentTaskAdmin = new Intent(this, TaskDetailActivity.class);
+                    intentTaskAdmin.putExtra(Constants.TASK_ID_EXTRA, taskIdAdmin);
+                    startActivity(intentTaskAdmin, TransitionScreen.RIGHT_TO_LEFT);
+                    break;
                 default:
                     int taskId = notification.getTaskId();
                     Intent intent = new Intent(this, TaskDetailActivity.class);
@@ -261,6 +277,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     blockDialog.updateContent(notification.getContent());
                     break;
                 }
+                case Constants.PUSH_TYPE_POSTER_CANCELED:
+                    DialogUtils.showOkDialog(this, getString(R.string.cancel_task_by_poster_title), getString(R.string.cancel_task_by_poster), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+
+                        }
+                    });
+                    break;
+                case Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT:
+                    int taskIdAdmin = notification.getTaskId();
+                    Intent intentTaskAdmin = new Intent(this, TaskDetailActivity.class);
+                    intentTaskAdmin.putExtra(Constants.TASK_ID_EXTRA, taskIdAdmin);
+                    startActivity(intentTaskAdmin, TransitionScreen.RIGHT_TO_LEFT);
+                    break;
                 default:
                     int taskId = notification.getTaskId();
                     Intent intentDetail = new Intent(this, TaskDetailActivity.class);
