@@ -39,6 +39,7 @@ import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 
 import static android.content.ContentValues.TAG;
@@ -327,6 +328,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
     }
 
     private void doOffer() {
+        ProgressDialogUtils.showProgressDialog(getContext());
         ApiClient.getApiService().bidsTask(UserManager.getUserToken(), taskResponse.getId()).enqueue(new Callback<TaskResponse>() {
             @Override
             public void onResponse(Call<TaskResponse> call, final Response<TaskResponse> response) {
@@ -400,7 +402,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                         }
                     });
                 }
-
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -416,6 +418,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 
                     }
                 });
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }

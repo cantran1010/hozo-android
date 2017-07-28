@@ -19,7 +19,19 @@ public class SettingEntiny extends RealmObject implements Serializable {
     private String location;
     private int radius;
     private String gender;
+    private String city;
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public void setUserId(int userId) {
         this.userId = userId;
@@ -89,8 +101,10 @@ public class SettingEntiny extends RealmObject implements Serializable {
                 ", maxWorkerRate=" + maxWorkerRate +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", location='" + location + '\'' +
                 ", radius=" + radius +
                 ", gender='" + gender + '\'' +
+                ", city='" + city + '\'' +
                 '}';
     }
 }

@@ -77,6 +77,9 @@ public class RealmDbHelper {
                         .addField("emailActive", boolean.class)
                         .addField("facebookId", String.class);
 
+                schema.get("SettingEntiny")
+                        .addField("city", String.class);
+
                 oldVersion++;
             }
 
