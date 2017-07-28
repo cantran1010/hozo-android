@@ -122,6 +122,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private boolean mMapViewExpanded = false;
     private WorkAroundMapFragment mapFragment;
     private boolean isDelete = true;
+    private Call<TaskResponse> call;
 
     @Override
     protected int getLayout() {
@@ -132,6 +133,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     protected void initView() {
         workDetailView = (WorkDetailView) findViewById(R.id.work_detail_view);
         commentViewFull = (CommentViewFull) findViewById(R.id.comment_view_full);
+
+        createSwipeToRefresh();
 
         edtComment = (EdittextHozo) findViewById(R.id.edt_comment);
 
@@ -244,6 +247,13 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         }
     }
 
+    @Override
+    public void onRefresh() {
+        super.onRefresh();
+        if (call != null) call.cancel();
+        getData();
+    }
+
     private void useCacheData() {
         TaskEntity taskEntity = TaskManager.getTaskById(taskId);
         if (taskEntity != null) {
@@ -257,7 +267,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         LogUtils.d(TAG, "getDetailTask , taskId : " + taskId);
         LogUtils.d(TAG, "getDetailTask , UserManager.getUserToken() : " + UserManager.getUserToken());
 
-        ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId).enqueue(new Callback<TaskResponse>() {
+        call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId);
+        call.enqueue(new Callback<TaskResponse>() {
             @Override
             public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                 LogUtils.d(TAG, "getDetailTask , status code : " + response.code());
@@ -321,6 +332,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                     });
                 }
 //                ProgressDialogUtils.dismissProgressDialog();
+                onStopRefresh();
             }
 
             @Override
@@ -338,6 +350,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                     }
                 });
 //                ProgressDialogUtils.dismissProgressDialog();
+                onStopRefresh();
             }
         });
 
@@ -351,7 +364,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private void updateRole() {
 
         //fix crash on fabric -> I don't know why crash :(
-        if(UserManager.getMyUser() == null) return;
+        if (UserManager.getMyUser() == null) return;
 
         //poster
         if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {

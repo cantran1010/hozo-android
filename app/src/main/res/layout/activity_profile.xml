@@ -435,8 +435,7 @@
             android:layout_toEndOf="@id/img_back"
             android:layout_toLeftOf="@+id/img_edit"
             android:layout_toRightOf="@id/img_back"
-            android:layout_toStartOf="@+id/img_edit"
-            android:text="@string/my_account" />
+            android:layout_toStartOf="@+id/img_edit" />
 
         <ImageView
             android:id="@+id/img_edit"
