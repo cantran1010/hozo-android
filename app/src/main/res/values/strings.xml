@@ -15,7 +15,7 @@
 
     <!--advance setting screen -->
     <string name="advance_setting_title">Cài Đặt Nâng Cao</string>
-    <string name="tv_location">Địa điểm</string>
+    <string name="tv_location">Vị trí mốc</string>
     <string name="other_profile">Hồ sơ cá nhân</string>
     <string name="other_condition">Điều khoản sử dụng</string>
     <string name="other_nad">Chính sách bảo mật</string>

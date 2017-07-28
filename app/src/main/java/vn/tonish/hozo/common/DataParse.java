@@ -343,6 +343,8 @@ public class DataParse {
         option.put("latitude", String.valueOf(settingEntiny.getLatitude()));
         option.put("longitude", String.valueOf(settingEntiny.getLongitude()));
         option.put("distance", String.valueOf(settingEntiny.getRadius()));
+        if (settingEntiny.getCity() != null && settingEntiny.getCity().trim().length() > 0)
+            option.put("city", settingEntiny.getCity());
         if (sortBy != null) option.put("sort_by", sortBy);
         option.put("limit", limit);
         if (since != null) option.put("since", since);
@@ -361,6 +363,8 @@ public class DataParse {
         option.put("latitude", String.valueOf(settingEntiny.getLatitude()));
         option.put("longitude", String.valueOf(settingEntiny.getLongitude()));
         option.put("distance", String.valueOf(settingEntiny.getRadius()));
+        if (settingEntiny.getCity() != null && settingEntiny.getCity().trim().length() > 0)
+            option.put("city", settingEntiny.getCity());
         if (since != null) option.put("since", since);
         LogUtils.d(TAG, " set option :" + option.toString());
         return option;
