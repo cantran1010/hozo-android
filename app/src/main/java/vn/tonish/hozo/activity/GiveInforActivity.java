@@ -45,7 +45,6 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
     private TextViewHozo btnVerifyFaceBook, btnVerifyEmail;
     private EdittextHozo edtEmail;
     private CallbackManager callbackmanager;
-    private ImageView imgBack;
     private UserEntity mUserEntity;
     private String mEmail, mFacebookID;
     private TextViewHozo tvActiveEmail;
@@ -61,7 +60,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
         btnVerifyEmail = findViewById(R.id.btn_verify_email);
         tvActiveEmail = findViewById(R.id.tv_noti_active);
         edtEmail = findViewById(R.id.edt_verify_email);
-        imgBack = findViewById(R.id.img_back);
+        ImageView imgBack = findViewById(R.id.img_back);
         btnVerifyFaceBook.setOnClickListener(this);
         imgBack.setOnClickListener(this);
         btnVerifyEmail.setOnClickListener(this);

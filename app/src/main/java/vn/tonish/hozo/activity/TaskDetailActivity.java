@@ -291,16 +291,22 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                             }
                         });
                     } else if (error.status().equals(Constants.TASK_DETAIL_BLOCK)) {
-                        taskResponse = new TaskResponse();
-                        taskResponse.setStatus(Constants.TASK_TYPE_BLOCK);
-                        updateUi();
+//                        taskResponse = new TaskResponse();
+//                        taskResponse.setStatus(Constants.TASK_TYPE_BLOCK);
+//                        updateUi();
+                        finish();
 
-                        DialogUtils.showOkDialog(TaskDetailActivity.this, getString(R.string.task_detail_block), getString(R.string.task_detail_block_reasons) + " " + error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
-                                finish();
-                            }
-                        });
+                        Intent intent = new Intent(TaskDetailActivity.this,BlockTaskActivity.class);
+                        intent.putExtra(Constants.TITLE_INFO_EXTRA,getString(R.string.task_detail_block));
+                        intent.putExtra(Constants.CONTENT_INFO_EXTRA,getString(R.string.task_detail_block_reasons) + " " + error.message());
+                        startActivity(intent,TransitionScreen.FADE_IN);
+
+//                        DialogUtils.showOkDialog(TaskDetailActivity.this, getString(R.string.task_detail_block), getString(R.string.task_detail_block_reasons) + " " + error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+//                            @Override
+//                            public void onSubmit() {
+//                                finish();
+//                            }
+//                        });
                     } else {
                         DialogUtils.showOkDialog(TaskDetailActivity.this, getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
@@ -399,16 +405,18 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
         workDetailView.updateWork(taskResponse);
 
-        if (taskResponse.getStatus().equals(Constants.TASK_TYPE_BLOCK)) {
-            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
-            layoutFooter.setVisibility(View.GONE);
-            rcvBidder.setVisibility(View.GONE);
-            rcvAssign.setVisibility(View.GONE);
-            imgMenu.setVisibility(View.GONE);
-            workDetailView.updateBtnRate(false);
-        }
-        //poster
-        else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+//        if (taskResponse.getStatus().equals(Constants.TASK_TYPE_BLOCK)) {
+//            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
+//            layoutFooter.setVisibility(View.GONE);
+//            rcvBidder.setVisibility(View.GONE);
+//            rcvAssign.setVisibility(View.GONE);
+//            imgMenu.setVisibility(View.GONE);
+//            workDetailView.updateBtnRate(false);
+//        }
+//        //poster
+//        else
+
+            if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             workDetailView.updateStatus(true, getString(R.string.update_task), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
             workDetailView.updateBtnOffer(Constants.OFFER_GONE);
             workDetailView.updateBtnRate(false);

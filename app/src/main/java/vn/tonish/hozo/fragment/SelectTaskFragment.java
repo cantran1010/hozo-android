@@ -200,7 +200,8 @@ public class SelectTaskFragment extends BaseFragment {
         settingEntiny.setUserId(UserManager.getMyUser().getId());
         settingEntiny.setLatitude(21.028511);
         settingEntiny.setLongitude(105.804817);
-        settingEntiny.setLocation("Hà Nội");
+        settingEntiny.setLocation("");
+        settingEntiny.setCity("");
         settingEntiny.setRadius(0);
         settingEntiny.setGender(getString(R.string.gender_vn_any));
         settingEntiny.setMinWorkerRate(0);
