@@ -402,5 +402,6 @@
     <string name="cancel_task_by_poster">Công việc đã bị hủy bời người tạo !</string>
     <string name="cancel_task_by_poster_title">Việc đã hủy</string>
     <string name="email_hint">Nhập email …</string>
+    <string name="alert_dialog_close">Đóng</string>
 
 </resources>

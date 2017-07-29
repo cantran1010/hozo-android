@@ -124,6 +124,9 @@
             android:name=".activity.TaskAlertsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.BlockTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.GiveInforActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
