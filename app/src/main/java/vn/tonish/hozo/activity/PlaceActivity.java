@@ -34,7 +34,6 @@ import static vn.tonish.hozo.R.string.post_task_map_get_location_error_next;
 public class PlaceActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = PlaceActivity.class.getSimpleName();
-    private ImageView imgBack;
     /**
      * GoogleApiClient wraps our service connection to Google Play Services and provides access
      * to the user's sign in state as well as the Google's APIs.
@@ -42,7 +41,6 @@ public class PlaceActivity extends BaseActivity implements View.OnClickListener,
     private GoogleApiClient googleApiClient;
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
     private AutoCompleteTextView autocompleteView;
-    private RelativeLayout layoutClear;
     private TextViewHozo tvNoAddress;
 
     @Override
@@ -52,10 +50,10 @@ public class PlaceActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initView() {
-        imgBack = findViewById(R.id.img_back);
+        ImageView imgBack = findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        layoutClear = findViewById(R.id.layout_clear);
+        RelativeLayout layoutClear = findViewById(R.id.layout_clear);
         layoutClear.setOnClickListener(this);
 
         tvNoAddress = findViewById(R.id.tv_no_address);

@@ -86,9 +86,6 @@
             android:name=".activity.ReportTaskActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ReplyActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.RateActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -75,12 +75,8 @@
     <!-- preview image -->
     <string name="preview_image_title">Xem ảnh</string>
 
-    <!-- comment -->
-    <string name="btn_comment">Bình luận</string>
-    <string name="comment_title">Bình luận</string>
-
     <!-- rate screen -->
-    <string name="rate"> Bình Chọn </string>
+    <string name="rate">Đánh giá</string>
     <string name="rate_title">Bạn có hài lòng với công việc và \n khách hàng này không ?</string>
     <string name="just_image">just_image</string>
 
@@ -120,10 +116,8 @@
     <string name="crop_image_done">Tiếp tục</string>
     <string name="report_task_content_hint">Hãy cho chúng tôi biết lý do khác của bạn là gì</string>
     <string name="next">Tiếp tục</string>
-    <string name="call">Gọi</string>
+    <string name="call">Gọi điện</string>
     <string name="make_an_offer_question">Hỏi đáp</string>
-    <string name="reply_title_hint">Nhập tiêu đề</string>
-    <string name="reply_content_hint">Nhập nội dung</string>
     <string name="done">Hoàn thành</string>
     <string name="work_detail_view_bit">Ứng Tuyển</string>
     <string name="work_detail_view_price">Giá tiền :</string>

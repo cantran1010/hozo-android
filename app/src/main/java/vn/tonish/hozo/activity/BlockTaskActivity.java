@@ -12,7 +12,8 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 public class BlockTaskActivity extends BaseActivity implements View.OnClickListener {
 
-    private TextViewHozo tvTitle, tvContent, tvYes;
+    private TextViewHozo tvTitle;
+    private TextViewHozo tvContent;
 
     @Override
     protected int getLayout() {
@@ -23,7 +24,7 @@ public class BlockTaskActivity extends BaseActivity implements View.OnClickListe
     protected void initView() {
         tvTitle = findViewById(R.id.tv_title);
         tvContent = findViewById(R.id.tv_content);
-        tvYes = findViewById(R.id.tv_yes);
+        TextViewHozo tvYes = findViewById(R.id.tv_yes);
         tvYes.setOnClickListener(this);
     }
 

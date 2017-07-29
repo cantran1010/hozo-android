@@ -81,12 +81,13 @@
 
             <vn.tonish.hozo.view.ButtonHozo
                 android:id="@+id/btn_cancel_bid"
-                style="@style/btn_style_corners"
+                android:background="@drawable/btn_cancel_selector"
                 android:layout_width="75dp"
                 android:layout_height="22dp"
                 android:layout_gravity="end"
                 android:layout_marginTop="10dp"
                 android:text="@string/cancel_bid"
+                android:textColor="@color/white"
                 android:textSize="12sp" />
 
         </LinearLayout>
