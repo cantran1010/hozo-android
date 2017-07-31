@@ -1,0 +1,2 @@
+- Xác thực qua Facebook và email.
+- Sửa lỗi và tối ưu hoá tốc độ.
