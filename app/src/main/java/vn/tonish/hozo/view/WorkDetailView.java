@@ -251,16 +251,21 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                 break;
 
             case Constants.OFFER_RATTING:
-                btnOffer.setVisibility(View.VISIBLE);
-                btnOffer.setText(getContext().getString(R.string.rate));
-                btnOffer.setClickable(true);
-                btnOffer.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (workDetailViewRateListener != null)
-                            workDetailViewRateListener.onRate();
-                    }
-                });
+                if (taskResponse.isRatePoster()) {
+                    btnOffer.setVisibility(View.GONE);
+                    btnOffer.setClickable(false);
+                } else {
+                    btnOffer.setVisibility(View.VISIBLE);
+                    btnOffer.setText(getContext().getString(R.string.rate));
+                    btnOffer.setClickable(true);
+                    btnOffer.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (workDetailViewRateListener != null)
+                                workDetailViewRateListener.onRate();
+                        }
+                    });
+                }
                 break;
 
             default:
