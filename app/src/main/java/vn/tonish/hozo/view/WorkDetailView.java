@@ -55,7 +55,7 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
     private TextViewHozo tvName, tvTitle, tvTimeAgo, tvDescription, tvImageAttachTitle;
     private RatingBar rbRate;
     private TextViewHozo tvPrice, tvDate, tvTime, tvAddress, tvStatus;
-    private ButtonHozo btnOffer, btnCallRate;
+    private ButtonHozo btnOffer;
     private MyGridView myGridView;
     private TaskProgressView taskProgressView;
     private TaskResponse taskResponse;
@@ -137,8 +137,6 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
         btnOffer.setOnClickListener(this);
 
         tvStatus = (TextViewHozo) findViewById(R.id.tv_status);
-
-        btnCallRate = (ButtonHozo) findViewById(R.id.btn_call_rate);
 
         myGridView = (MyGridView) findViewById(R.id.gr_image);
 
@@ -252,6 +250,19 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                 btnOffer.setClickable(false);
                 break;
 
+            case Constants.OFFER_RATTING:
+                btnOffer.setVisibility(View.VISIBLE);
+                btnOffer.setText(getContext().getString(R.string.rate));
+                btnOffer.setClickable(true);
+                btnOffer.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (workDetailViewRateListener != null)
+                            workDetailViewRateListener.onRate();
+                    }
+                });
+                break;
+
             default:
                 btnOffer.setVisibility(View.GONE);
                 btnOffer.setClickable(false);
@@ -288,26 +299,6 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
 //        }
 //
 //    }
-
-    public void updateBtnRate(boolean isShow) {
-        if (isShow) {
-            if (taskResponse.isRatePoster()) {
-                btnCallRate.setVisibility(View.GONE);
-            } else {
-                btnCallRate.setVisibility(View.VISIBLE);
-                btnCallRate.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (workDetailViewRateListener != null)
-                            workDetailViewRateListener.onRate();
-                    }
-                });
-            }
-        } else {
-            btnCallRate.setVisibility(View.GONE);
-        }
-    }
-
 
     @Override
     public void onClick(View v) {
