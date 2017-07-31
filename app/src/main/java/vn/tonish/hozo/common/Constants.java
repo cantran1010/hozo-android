@@ -184,4 +184,5 @@ public class Constants {
     public static final String OFFER_PENDING = "OFFER_PENDING";
     public static final String OFFER_CALL = "OFFER_CALL";
     public static final String OFFER_GONE = "OFFER_GONE";
+    public static final String OFFER_RATTING = "OFFER_RATTING";
 }
