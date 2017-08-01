@@ -29,7 +29,6 @@ platform :android do
   lane :deploy do
     gradle(task: "assembleRelease")
     supply(
-      skip_upload_metadata: true,
       skip_upload_images: true,
       skip_upload_screenshots: true,
     )
