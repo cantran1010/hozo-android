@@ -1,0 +1,6 @@
+• Sửa lỗi và tối ưu hoá tốc độ.
+• Xác thực qua Facebook và email.
+• Thêm chức năng “Hủy Chọn” ở màn hình chi tiết công việc của người đăng.
+• Người dùng có thể xóa những việc bao gồm: Đã hủy, Bỏ lỡ, Hết hạn.
+• Thông báo có việc mới, cập nhật theo thời gian thực.
+• Màn hình chọn địa điểm làm việc thêm sử dụng mỏ neo để chọn vị trí.
