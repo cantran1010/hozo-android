@@ -1,6 +1,0 @@
-- Sửa lỗi và tối ưu hoá tốc độ.
-- Xác thực qua Facebook và email.
-- Thêm chức năng “Hủy Chọn” trên trang Task Detail của Hirer
-- User có thể xóa những task bao gồm : Đã hủy, Bỏ lỡ, Hết hạn
-- Thông báo có việc mới, cập nhật theo Real time
-- Màn hình chọn địa điểm làm việc thêm sử dụng mỏ neo để chọn vị trí.
