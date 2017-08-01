@@ -386,11 +386,13 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             edtWorkingHour.requestFocus();
             edtWorkingHour.setError(getString(R.string.post_a_task_time_working_error));
             return;
-        } else if (edtDescription.getText().toString().length() < 25) {
-            edtDescription.requestFocus();
-            edtDescription.setError(getString(R.string.post_a_task_description_error));
-            return;
         }
+
+//        else if (edtDescription.getText().toString().length() < 25) {
+//            edtDescription.requestFocus();
+//            edtDescription.setError(getString(R.string.post_a_task_description_error));
+//            return;
+//        }
 
 //        else if (tvAge.getText().toString().equals("")) {
 //            tvAge.requestFocus();
