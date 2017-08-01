@@ -48,7 +48,7 @@
 
     <string name="post_a_task_name_error">Tiêu đề công việc trên 10 kí tự</string>
     <string name="post_a_task_date_error">Vui lòng nhập thời gian bắt đầu làm việc</string>
-    <string name="post_a_task_description_error">Mô tả công việc phải trên 25 kí tự</string>
+    <!--<string name="post_a_task_description_error">Mô tả công việc phải trên 25 kí tự</string>-->
 
     <string name="notify_title">Thông báo</string>
 
