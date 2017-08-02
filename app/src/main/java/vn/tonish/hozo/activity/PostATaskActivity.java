@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -23,6 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
 import java.text.ParseException;
@@ -138,7 +143,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
         if (intent.hasExtra(Constants.EXTRA_TASK)) {
             taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
-            LogUtils.d(TAG,"PostATaskActivity , taskResponse : " + taskResponse.toString());
+            LogUtils.d(TAG, "PostATaskActivity , taskResponse : " + taskResponse.toString());
 
             category = DataParse.convertCatogoryEntityToCategory(CategoryManager.getCategoryById(taskResponse.getCategoryId()));
 
@@ -167,11 +172,37 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
         final Image image = new Image();
         image.setAdd(true);
-
         images.add(image);
 
         imageAdapter = new ImageAdapter(this, images);
         grImage.setAdapter(imageAdapter);
+
+        if (taskResponse.getAttachments() != null && taskResponse.getAttachments().size() > 0) {
+
+            for (int i = 0; i < taskResponse.getAttachments().size(); i++) {
+                Glide.with(this)
+                        .load(taskResponse.getAttachments().get(i))
+                        .asBitmap()
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+                                Utils.compressBitmapToFile(resource, fileSave.getPath());
+
+                                Image imageCopy = new Image();
+                                imageCopy.setAdd(false);
+                                images.add(imageCopy);
+                                imageCopy.setPath(fileSave.getPath());
+                                imageAdapter.notifyDataSetChanged();
+
+                                LogUtils.d(TAG, "onResourceReady complete , path : " + fileSave.getPath());
+                                LogUtils.d(TAG, "onResourceReady complete , resource , width : " + resource.getWidth() + " , height : " + resource.getHeight());
+
+                            }
+                        });
+            }
+
+        }
 
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
