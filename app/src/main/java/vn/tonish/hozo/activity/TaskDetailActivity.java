@@ -189,8 +189,6 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
             }
         });
-
-
     }
 
     private void animateMapView(WorkAroundMapFragment mMapView) {
@@ -718,6 +716,11 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         else
             popup.getMenu().findItem(R.id.delete_task).setVisible(false);
 
+//        if (UserManager.getMyUser().getId() == taskResponse.getPoster().getId())
+//            popup.getMenu().findItem(R.id.create_task).setVisible(true);
+//        else
+//            popup.getMenu().findItem(R.id.create_task).setVisible(false);
+
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
@@ -758,6 +761,12 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
                                     }
                                 });
+                        break;
+
+                    case R.id.create_task:
+                        Intent intent = new Intent(TaskDetailActivity.this, PostATaskActivity.class);
+                        intent.putExtra(Constants.EXTRA_TASK, taskResponse);
+                        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                         break;
 
                 }

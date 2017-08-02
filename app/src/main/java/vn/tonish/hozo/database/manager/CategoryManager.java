@@ -38,7 +38,7 @@ public class CategoryManager {
 
 
     public static CategoryEntity getCategoryById(int id) {
-        LogUtils.d(TAG, "getAllCategories start ");
+        LogUtils.d(TAG, "getCategoryById start ");
         Realm realm = Realm.getDefaultInstance();
         return realm.where(CategoryEntity.class).equalTo("id", id).findFirst();
     }
@@ -46,7 +46,7 @@ public class CategoryManager {
 
     public static boolean checkCategoryById(int id) {
         boolean ck;
-        LogUtils.d(TAG, "getAllCategories start ");
+        LogUtils.d(TAG, "checkCategoryById start ");
         Realm realm = Realm.getDefaultInstance();
         ck = realm.where(CategoryEntity.class).equalTo("id", id).findFirst() != null && realm.where(CategoryEntity.class).equalTo("id", id).findFirst().isSelected();
         return ck;

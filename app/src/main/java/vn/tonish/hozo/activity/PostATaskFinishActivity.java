@@ -27,7 +27,6 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
-import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
@@ -55,8 +54,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
     private EdittextHozo edtNumberWorker;
     private AutoCompleteTextView edtBudget;
     private TextViewHozo tvTotal;
-    private TaskResponse work;
-    private Category category;
+    private TaskResponse taskResponse;
     private String budgetBefore;
     private static final int MAX_BUGDET = 10000000;
     private static final int MIN_BUGDET = 10000;
@@ -96,10 +94,15 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initData() {
-
-        work = (TaskResponse) getIntent().getSerializableExtra(Constants.EXTRA_TASK);
-        category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
+        taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.EXTRA_TASK);
         edtBudget.addTextChangedListener(new NumberTextWatcher(edtBudget));
+
+        if (taskResponse.getWorkerCount() != 0 && taskResponse.getWorkerRate() != 0) {
+            edtNumberWorker.setText(String.valueOf(taskResponse.getWorkerCount()));
+            edtBudget.setText(String.valueOf(taskResponse.getWorkerRate()));
+            updateTotalPayment();
+        }
+
         edtBudget.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -252,7 +255,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             edtNumberWorker.setError(getString(R.string.post_a_task_number_worker_error));
             return;
         } else if (Integer.valueOf(edtNumberWorker.getText().toString()) > MAX_WORKER) {
-            edtNumberWorker.setError(getString(R.string.max_number_worker_error,MAX_WORKER));
+            edtNumberWorker.setError(getString(R.string.max_number_worker_error, MAX_WORKER));
             return;
         } else if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) < MIN_BUGDET) {
             edtBudget.requestFocus();
@@ -263,28 +266,28 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         ProgressDialogUtils.showProgressDialog(this);
         final JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put("category_id", category.getId());
-            jsonRequest.put("title", work.getTitle());
-            jsonRequest.put("description", work.getDescription());
-            jsonRequest.put("start_time", work.getStartTime());
-            jsonRequest.put("end_time", work.getEndTime());
+            jsonRequest.put("category_id", taskResponse.getCategoryId());
+            jsonRequest.put("title", taskResponse.getTitle());
+            jsonRequest.put("description", taskResponse.getDescription());
+            jsonRequest.put("start_time", taskResponse.getStartTime());
+            jsonRequest.put("end_time", taskResponse.getEndTime());
 
-            if (work.getGender() != null)
-                jsonRequest.put("gender", work.getGender());
-            jsonRequest.put("min_age", work.getMinAge());
-            jsonRequest.put("max_age", work.getMaxAge());
-            jsonRequest.put("latitude", work.getLatitude());
-            jsonRequest.put("longitude", work.getLongitude());
-            jsonRequest.put("city", work.getCity());
-            jsonRequest.put("district", work.getDistrict());
-            jsonRequest.put("address", work.getAddress());
+            if (taskResponse.getGender() != null)
+                jsonRequest.put("gender", taskResponse.getGender());
+            jsonRequest.put("min_age", taskResponse.getMinAge());
+            jsonRequest.put("max_age", taskResponse.getMaxAge());
+            jsonRequest.put("latitude", taskResponse.getLatitude());
+            jsonRequest.put("longitude", taskResponse.getLongitude());
+            jsonRequest.put("city", taskResponse.getCity());
+            jsonRequest.put("district", taskResponse.getDistrict());
+            jsonRequest.put("address", taskResponse.getAddress());
             jsonRequest.put("worker_rate", Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
             jsonRequest.put("worker_count", Integer.valueOf(getLongEdittext(edtNumberWorker)));
 
-            if (work.getAttachmentsId() != null && work.getAttachmentsId().length > 0) {
+            if (taskResponse.getAttachmentsId() != null && taskResponse.getAttachmentsId().length > 0) {
                 JSONArray jsonArray = new JSONArray();
-                for (int i = 0; i < work.getAttachmentsId().length; i++)
-                    jsonArray.put(work.getAttachmentsId()[i]);
+                for (int i = 0; i < taskResponse.getAttachmentsId().length; i++)
+                    jsonArray.put(taskResponse.getAttachmentsId()[i]);
                 jsonRequest.put("attachments", jsonArray);
             }
 

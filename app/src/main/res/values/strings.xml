@@ -397,5 +397,6 @@
     <string name="cancel_task_by_poster_title">Việc đã hủy</string>
     <string name="email_hint">Nhập email …</string>
     <string name="alert_dialog_close">Đóng</string>
+    <string name="re_create_task">Đăng lại</string>
 
 </resources>
