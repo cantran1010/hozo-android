@@ -49,6 +49,7 @@ public class MyTaskPosterFragment extends BaseFragment {
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
     private String filter = "";
+    private boolean isReloadMyTask = false;
 
     @Override
     protected int getLayout() {
@@ -63,6 +64,7 @@ public class MyTaskPosterFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        isReloadMyTask = false;
         initList();
         if (getArguments().getBoolean(Constants.REFRESH_EXTRA)) onRefresh();
     }
@@ -70,6 +72,16 @@ public class MyTaskPosterFragment extends BaseFragment {
     @Override
     protected void resumeData() {
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER));
+        LogUtils.d(TAG, "MyTaskPosterFragment 111111 111111");
+
+        //refresh my task fragment after copy task
+        if (isReloadMyTask) {
+            Intent intent = new Intent();
+            intent.putExtra(Constants.REFRESH_EXTRA, "refresh");
+            intent.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK);
+            getActivity().sendBroadcast(intent);
+        }
+
     }
 
     private void initList() {
@@ -150,7 +162,6 @@ public class MyTaskPosterFragment extends BaseFragment {
         call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
-
                 LogUtils.d(TAG, "getTaskFromServer code : " + response.code());
                 LogUtils.d(TAG, "getTaskFromServer body : " + response.body());
 
@@ -241,6 +252,7 @@ public class MyTaskPosterFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.d(TAG, "onActivityResult , requestCode : " + requestCode + " , resultCode: " + resultCode);
         if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.RESULT_CODE_TASK_EDIT) {
             TaskResponse taskEdit = (TaskResponse) data.getSerializableExtra(Constants.EXTRA_TASK);
             for (int i = 0; i < taskResponses.size(); i++) {
@@ -259,6 +271,8 @@ public class MyTaskPosterFragment extends BaseFragment {
                     break;
                 }
             }
+        } else if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            isReloadMyTask = true;
         }
 
     }

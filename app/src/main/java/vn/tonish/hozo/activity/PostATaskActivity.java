@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -24,10 +25,16 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import java.io.File;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -38,6 +45,8 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.common.DataParse;
+import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AgeDialog;
 import vn.tonish.hozo.dialog.AlertDialogCancelTask;
@@ -77,7 +86,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private final ArrayList<Image> images = new ArrayList<>();
     private String imgPath;
     private TextViewHozo tvDate;
-    private final Calendar calendar = Calendar.getInstance();
+    private Calendar calendar = GregorianCalendar.getInstance();
     private EdittextHozo edtWorkName, edtDescription;
     private Spinner spGender;
     private Category category;
@@ -88,7 +97,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private EdittextHozo edtWorkingHour;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private TimePickerDialog timeEndPickerDialog;
-//    private Snackbar snackbar;
+    //    private Snackbar snackbar;
+    private TaskResponse taskResponse = new TaskResponse();
 
     protected int getLayout() {
         return R.layout.activity_post_a_task;
@@ -129,7 +139,32 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initData() {
 
-        category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
+        Intent intent = getIntent();
+
+        if (intent.hasExtra(Constants.EXTRA_TASK)) {
+            taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
+            LogUtils.d(TAG, "PostATaskActivity , taskResponse : " + taskResponse.toString());
+
+            category = DataParse.convertCatogoryEntityToCategory(CategoryManager.getCategoryById(taskResponse.getCategoryId()));
+
+            edtWorkName.setText(taskResponse.getTitle());
+            try {
+                calendar = DateTimeUtils.toCalendar(taskResponse.getStartTime());
+                tvDate.setText(DateTimeUtils.fromCalendarIsoCreateTask(calendar));
+                edtWorkingHour.setText(DateTimeUtils.hoursBetween(DateTimeUtils.toCalendar(taskResponse.getStartTime()), DateTimeUtils.toCalendar(taskResponse.getEndTime())) + "");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            edtDescription.setText(taskResponse.getDescription());
+            ageFrom = taskResponse.getMinAge();
+            ageTo = taskResponse.getMaxAge();
+            tvAge.setText(getString(R.string.post_a_task_age, ageFrom, ageTo));
+
+        } else {
+            category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
+        }
+
         tvTitle.setText(category.getName());
 
         edtWorkName.setHint(category.getSuggestTitle());
@@ -137,11 +172,36 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
         final Image image = new Image();
         image.setAdd(true);
-
         images.add(image);
 
         imageAdapter = new ImageAdapter(this, images);
         grImage.setAdapter(imageAdapter);
+
+        if (taskResponse.getAttachments() != null && taskResponse.getAttachments().size() > 0) {
+
+            for (int i = 0; i < taskResponse.getAttachments().size(); i++) {
+                Glide.with(this)
+                        .load(taskResponse.getAttachments().get(i))
+                        .asBitmap()
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+                                Utils.compressBitmapToFile(resource, fileSave.getPath());
+
+                                Image imageCopy = new Image();
+                                imageCopy.setAdd(false);
+                                imageCopy.setPath(fileSave.getPath());
+                                images.add(0, imageCopy);
+                                imageAdapter.notifyDataSetChanged();
+
+                                LogUtils.d(TAG, "onResourceReady complete , path : " + fileSave.getPath());
+                                LogUtils.d(TAG, "onResourceReady complete , resource , width : " + resource.getWidth() + " , height : " + resource.getHeight());
+                            }
+                        });
+            }
+
+        }
 
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -386,6 +446,10 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             edtWorkingHour.requestFocus();
             edtWorkingHour.setError(getString(R.string.post_a_task_time_working_error));
             return;
+        } else if (DateTimeUtils.minutesBetween(Calendar.getInstance(), calendar) < 30) {
+            tvDate.requestFocus();
+            tvDate.setError(getString(R.string.post_task_time_start_error));
+            return;
         }
 
 //        else if (edtDescription.getText().toString().length() < 25) {
@@ -401,7 +465,6 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 //        }
 
         if (images.size() == 1) {
-            TaskResponse taskResponse = new TaskResponse();
             taskResponse.setTitle(edtWorkName.getText().toString());
             taskResponse.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
             taskResponse.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
@@ -417,10 +480,10 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
             taskResponse.setMinAge(ageFrom);
             taskResponse.setMaxAge(ageTo);
+            taskResponse.setCategoryId(category.getId());
 
             Intent intent = new Intent(this, PostATaskMapActivity.class);
             intent.putExtra(Constants.EXTRA_TASK, taskResponse);
-            intent.putExtra(Constants.EXTRA_CATEGORY, category);
 
             LogUtils.d(TAG, "doNext , taskResponse : " + taskResponse.toString());
 
@@ -516,7 +579,6 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private void finishAttachImage() {
 
         if (imageAttachCount == 0) {
-            TaskResponse taskResponse = new TaskResponse();
             taskResponse.setTitle(edtWorkName.getText().toString());
             taskResponse.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
             taskResponse.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
@@ -532,6 +594,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
             taskResponse.setMinAge(ageFrom);
             taskResponse.setMaxAge(ageTo);
+            taskResponse.setCategoryId(category.getId());
 
             taskResponse.setAttachmentsId(imagesArr);
             Intent intent = new Intent(this, PostATaskMapActivity.class);

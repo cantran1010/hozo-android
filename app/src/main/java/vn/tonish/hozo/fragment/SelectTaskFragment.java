@@ -191,6 +191,7 @@ public class SelectTaskFragment extends BaseFragment {
             Bundle bundle = new Bundle();
             bundle.putString(Constants.ROLE_EXTRA, Constants.ROLE_POSTER);
             openFragment(R.id.layout_container, MyTaskFragment.class, bundle, false, TransitionScreen.RIGHT_TO_LEFT);
+            updateMenuUi(3);
         }
     }
 

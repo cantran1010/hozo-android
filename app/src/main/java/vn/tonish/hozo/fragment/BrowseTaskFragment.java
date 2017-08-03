@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -322,7 +323,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
         Intent intent = new Intent(getActivity(), BrowserTaskMapActivity.class);
         intent.putParcelableArrayListExtra(Constants.LIST_TASK_EXTRA, miniTasks);
-        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+        startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
     }
 
     private void showSearch(final View view, boolean isShow) {
@@ -357,6 +358,12 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     }
                 }
             }
+        } else if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            openFragment(R.id.layout_container, MyTaskFragment.class, new Bundle(), false, TransitionScreen.RIGHT_TO_LEFT);
+            updateMenuUi(3);
+        } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            openFragment(R.id.layout_container, MyTaskFragment.class, new Bundle(), false, TransitionScreen.RIGHT_TO_LEFT);
+            updateMenuUi(3);
         }
     }
 

@@ -141,13 +141,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     int taskIdAdmin = notification.getTaskId();
                     Intent intentTaskAdmin = new Intent(this, TaskDetailActivity.class);
                     intentTaskAdmin.putExtra(Constants.TASK_ID_EXTRA, taskIdAdmin);
-                    startActivity(intentTaskAdmin, TransitionScreen.RIGHT_TO_LEFT);
+                    startActivityForResult(intentTaskAdmin, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                     break;
                 default:
                     int taskId = notification.getTaskId();
                     Intent intent = new Intent(this, TaskDetailActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
-                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                    startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                     break;
             }
 
@@ -155,7 +155,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             int taskId = intentPush.getIntExtra(Constants.TASK_ID_EXTRA, 0);
             Intent intent = new Intent(this, TaskDetailActivity.class);
             intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
-            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+            startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
         }
 
         timer = new Timer();
@@ -289,13 +289,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     int taskIdAdmin = notification.getTaskId();
                     Intent intentTaskAdmin = new Intent(this, TaskDetailActivity.class);
                     intentTaskAdmin.putExtra(Constants.TASK_ID_EXTRA, taskIdAdmin);
-                    startActivity(intentTaskAdmin, TransitionScreen.RIGHT_TO_LEFT);
+                    startActivityForResult(intentTaskAdmin, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                     break;
                 default:
                     int taskId = notification.getTaskId();
                     Intent intentDetail = new Intent(this, TaskDetailActivity.class);
                     intentDetail.putExtra(Constants.TASK_ID_EXTRA, taskId);
-                    startActivity(intentDetail, TransitionScreen.RIGHT_TO_LEFT);
+                    startActivityForResult(intentDetail, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                     break;
             }
 
@@ -303,7 +303,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             int taskId = intent.getIntExtra(Constants.TASK_ID_EXTRA, 0);
             Intent intentDetail = new Intent(this, TaskDetailActivity.class);
             intentDetail.putExtra(Constants.TASK_ID_EXTRA, taskId);
-            startActivity(intentDetail, TransitionScreen.RIGHT_TO_LEFT);
+            startActivityForResult(intentDetail, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
         }
     }
 
@@ -501,7 +501,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     };
 
-//    @Override
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            openFragment(R.id.layout_container, MyTaskFragment.class, new Bundle(), false, TransitionScreen.FADE_IN);
+            updateMenuUi(3);
+        }
+    }
+
+    //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
 //    }

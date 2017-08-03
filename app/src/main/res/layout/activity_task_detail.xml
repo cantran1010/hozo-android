@@ -46,7 +46,7 @@
             android:background="@drawable/btn_back_selector"
             android:contentDescription="@string/adjust_image"
             android:scaleType="centerInside"
-            android:src="@drawable/img_comment_setting" />
+            android:src="@drawable/more" />
 
         <View
             android:layout_width="match_parent"

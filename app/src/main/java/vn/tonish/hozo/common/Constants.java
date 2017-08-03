@@ -30,8 +30,8 @@ public class Constants {
     public static final int RESULT_CODE_UPDATE_PROFILE = 876;
     public static final int REQUEST_CODE_UPDATE_PROFILE = 678;
     public static final float DEFAULT_MAP_ZOOM_LEVEL = 16f;
-    public static final int POST_A_TASK_REQUEST_CODE = 246;
-    public static final int POST_A_TASK_RESPONSE_CODE = 642;
+    public static final int POST_A_TASK_REQUEST_CODE = 2468;
+    public static final int POST_A_TASK_RESPONSE_CODE = 8642;
     public static final String COUNT_IMAGE_ATTACH_EXTRA = "extra_count_image";
 
     public static final String DB_NAME = "hozo";
@@ -173,6 +173,7 @@ public class Constants {
     public static final String LAT_EXTRA = "lat_extra";
     public static final int RESULT_CODE_ADDRESS = 5432;
     public static final String CONTENT_INFO_EXTRA = "content_extra";
+    public static final String TASK_DETAIL_EXTRA = "task_detail_extra";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static String BID_ERROR_INVALID_DATA = "invalid_data";
     public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";

@@ -31,7 +31,6 @@ import java.util.Locale;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.dialog.AlertDialogOkFullScreen;
-import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.GPSTracker;
@@ -55,8 +54,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     private GoogleMap googleMap;
     private LatLng latLng;
     private LocationProvider mLocationProvider;
-    private TaskResponse work;
-    private Category category;
+    private TaskResponse taskResponse;
     private final String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     private Marker marker;
     private boolean isOnLocation = true;
@@ -105,9 +103,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
     @Override
     protected void initData() {
-        work = (TaskResponse) getIntent().getSerializableExtra(Constants.EXTRA_TASK);
-        category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
-
+        taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.EXTRA_TASK);
         mLocationProvider = new LocationProvider(this, this);
     }
 
@@ -143,32 +139,44 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     }
 
     private void permissionGranted() {
-        LogUtils.d(TAG, "onMapReady start");
-        GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
-        if (gpsTracker.canGetLocation()) {
-            isOnLocation = true;
-            LogUtils.d(TAG, "onMapReady canGetLocation");
-            latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        LogUtils.d(TAG, "permissionGranted start");
+
+        if (isCopyAddress()) {
+            latLng = new LatLng(taskResponse.getLatitude(), taskResponse.getLongitude());
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
 
             marker = googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(latLng.latitude, latLng.longitude))
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
-
-            getAddress(true);
-
+            tvAddress.setText(taskResponse.getAddress());
         } else {
-            isOnLocation = false;
-            mLocationProvider.connect();
-            LogUtils.d(TAG, "onMapReady !!!!!! canGetLocation");
-            DialogUtils.showOkDialogFullScreen(this, getString(R.string.app_name), getString(R.string.msg_err_gps), getString(R.string.ok), new AlertDialogOkFullScreen.AlertDialogListener() {
-                @Override
-                public void onSubmit() {
-                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivity(intent);
-                }
-            });
+            GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
+            if (gpsTracker.canGetLocation()) {
+                isOnLocation = true;
+                LogUtils.d(TAG, "onMapReady canGetLocation");
+                latLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+
+                marker = googleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(latLng.latitude, latLng.longitude))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
+
+                getAddress(true);
+
+            } else {
+                isOnLocation = false;
+                mLocationProvider.connect();
+                LogUtils.d(TAG, "onMapReady !!!!!! canGetLocation");
+                DialogUtils.showOkDialogFullScreen(this, getString(R.string.app_name), getString(R.string.msg_err_gps), getString(R.string.ok), new AlertDialogOkFullScreen.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(intent);
+                    }
+                });
+            }
         }
+
     }
 
     @Override
@@ -199,6 +207,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
         LogUtils.d(TAG, "onMapReady start");
         this.googleMap = googleMap;
+
         checkPermission();
 
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -222,6 +231,12 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 Utils.hideKeyBoard(PostATaskMapActivity.this);
             }
         });
+    }
+
+    private boolean isCopyAddress() {
+        if (taskResponse.getLatitude() == 0 && taskResponse.getLongitude() == 0)
+            return false;
+        else return true;
     }
 
     private void getAddress(boolean isAddAddress) {
@@ -261,37 +276,37 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                     String[] arrAddress = strReturnedAddress.split(",");
 
                     if (arrAddress.length >= 2) {
-                        work.setCity(arrAddress[arrAddress.length - 2].trim());
+                        taskResponse.setCity(arrAddress[arrAddress.length - 2].trim());
                     } else {
-                        work.setCity(arrAddress[arrAddress.length - 1]);
+                        taskResponse.setCity(arrAddress[arrAddress.length - 1]);
                     }
 
                 } else {
                     if (addRess.getMaxAddressLineIndex() >= 1) {
-                        work.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
+                        taskResponse.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
                     } else {
-                        work.setCity(addRess.getAddressLine(0));
+                        taskResponse.setCity(addRess.getAddressLine(0));
                     }
                 }
 
                 if (addRess.getMaxAddressLineIndex() == 0) {
                     String[] arrAddress = strReturnedAddress.split(",");
                     if (arrAddress.length >= 3) {
-                        work.setDistrict(arrAddress[arrAddress.length - 3].trim());
+                        taskResponse.setDistrict(arrAddress[arrAddress.length - 3].trim());
                     } else {
-                        work.setDistrict(arrAddress[arrAddress.length - 1]);
+                        taskResponse.setDistrict(arrAddress[arrAddress.length - 1]);
                     }
                 } else {
                     if (addRess.getMaxAddressLineIndex() >= 2) {
-                        work.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
+                        taskResponse.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
                     } else {
-                        work.setDistrict(addRess.getAddressLine(0));
+                        taskResponse.setDistrict(addRess.getAddressLine(0));
                     }
                 }
 
-                work.setAddress(tvAddress.getText().toString());
-                work.setLatitude(latLng.latitude);
-                work.setLongitude(latLng.longitude);
+                taskResponse.setAddress(tvAddress.getText().toString());
+                taskResponse.setLatitude(latLng.latitude);
+                taskResponse.setLongitude(latLng.longitude);
             } else {
                 tvAddress.setText(strReturnedAddress);
 
@@ -299,37 +314,37 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                     String[] arrAddress = strReturnedAddress.split(",");
 
                     if (arrAddress.length >= 2) {
-                        work.setCity(arrAddress[arrAddress.length - 2].trim());
+                        taskResponse.setCity(arrAddress[arrAddress.length - 2].trim());
                     } else {
-                        work.setCity(arrAddress[arrAddress.length - 1]);
+                        taskResponse.setCity(arrAddress[arrAddress.length - 1]);
                     }
 
                 } else {
                     if (addRess.getMaxAddressLineIndex() >= 1) {
-                        work.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
+                        taskResponse.setCity(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 1));
                     } else {
-                        work.setCity(addRess.getAddressLine(0));
+                        taskResponse.setCity(addRess.getAddressLine(0));
                     }
                 }
 
                 if (addRess.getMaxAddressLineIndex() == 0) {
                     String[] arrAddress = strReturnedAddress.split(",");
                     if (arrAddress.length >= 3) {
-                        work.setDistrict(arrAddress[arrAddress.length - 3].trim());
+                        taskResponse.setDistrict(arrAddress[arrAddress.length - 3].trim());
                     } else {
-                        work.setDistrict(arrAddress[arrAddress.length - 1]);
+                        taskResponse.setDistrict(arrAddress[arrAddress.length - 1]);
                     }
                 } else {
                     if (addRess.getMaxAddressLineIndex() >= 2) {
-                        work.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
+                        taskResponse.setDistrict(addRess.getAddressLine(addRess.getMaxAddressLineIndex() - 2));
                     } else {
-                        work.setDistrict(addRess.getAddressLine(0));
+                        taskResponse.setDistrict(addRess.getAddressLine(0));
                     }
                 }
 
-                work.setAddress(tvAddress.getText().toString());
-                work.setLatitude(latLng.latitude);
-                work.setLongitude(latLng.longitude);
+                taskResponse.setAddress(tvAddress.getText().toString());
+                taskResponse.setLatitude(latLng.latitude);
+                taskResponse.setLongitude(latLng.longitude);
             }
 
 
@@ -394,7 +409,6 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     }
 
     private void doCurrentLocation() {
-
         if (googleMap == null) return;
         GPSTracker gpsTracker = new GPSTracker(PostATaskMapActivity.this);
         if (gpsTracker.canGetLocation()) {
@@ -468,20 +482,19 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 //            return;
 //        }
 
-        if (work.getLatitude() == 0 || work.getLongitude() == 0
-                || work.getAddress() == null || work.getAddress().equals("")
-                || work.getCity() == null || work.getCity().equals("")
-                || work.getAddress() == null || work.getAddress().equals("")) {
+        if (taskResponse.getLatitude() == 0 || taskResponse.getLongitude() == 0
+                || taskResponse.getAddress() == null || taskResponse.getAddress().equals("")
+                || taskResponse.getCity() == null || taskResponse.getCity().equals("")
+                || taskResponse.getAddress() == null || taskResponse.getAddress().equals("")) {
             Utils.showLongToast(this, getString(post_task_map_get_location_error_next), true, false);
             return;
         }
 
-        LogUtils.d(TAG, "doNext , work : " + work.toString());
+        LogUtils.d(TAG, "doNext , taskResponse : " + taskResponse.toString());
 
         Intent intent = new Intent(PostATaskMapActivity.this, PostATaskFinishActivity.class);
 //        intent.putExtra(Constants.EXTRA_ADDRESS, location);
-        intent.putExtra(Constants.EXTRA_TASK, work);
-        intent.putExtra(Constants.EXTRA_CATEGORY, category);
+        intent.putExtra(Constants.EXTRA_TASK, taskResponse);
         startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
     }
 

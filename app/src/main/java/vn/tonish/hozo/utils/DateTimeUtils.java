@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import vn.tonish.hozo.R;
 
@@ -138,9 +139,18 @@ public class DateTimeUtils {
     }
 
     /**
+     * Transform Calendar to ISO 8601 string.
+     */
+    public static String fromCalendarIsoCreateTask(final Calendar calendar) {
+        Date date = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
+        return sdf.format(date);
+    }
+
+    /**
      * Transform ISO 8601 string to Calendar.
      */
-    private static Calendar toCalendar(final String iso8601string)
+    public static Calendar toCalendar(final String iso8601string)
             throws ParseException {
         String timeZone = Calendar.getInstance().getTimeZone().getID();
         Calendar calendar = GregorianCalendar.getInstance();
@@ -209,6 +219,20 @@ public class DateTimeUtils {
         }
 
         return result;
+    }
+
+    public static long hoursBetween(Calendar startDate, Calendar endDate) {
+        long end = endDate.getTimeInMillis();
+        long start = startDate.getTimeInMillis();
+        return TimeUnit.MILLISECONDS.toHours(Math.abs(end - start));
+    }
+
+    public static long minutesBetween(Calendar startDate, Calendar endDate) {
+        long end = endDate.getTimeInMillis();
+        long start = startDate.getTimeInMillis();
+
+        if(end < start) return 0;
+        return TimeUnit.MILLISECONDS.toMinutes(Math.abs(end - start));
     }
 
 }

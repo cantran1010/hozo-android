@@ -76,7 +76,7 @@ public class BrowserTaskMapActivity extends BaseActivity implements View.OnClick
             builder.include(marker.getPosition());
         }
 
-        if(miniTasks.size() > 0){
+        if (miniTasks.size() > 0) {
             LatLngBounds bounds = builder.build();
 
             int width = getResources().getDisplayMetrics().widthPixels;
@@ -115,9 +115,18 @@ public class BrowserTaskMapActivity extends BaseActivity implements View.OnClick
 
                 Intent intent = new Intent(BrowserTaskMapActivity.this, TaskDetailActivity.class);
                 intent.putExtra(Constants.TASK_ID_EXTRA, miniTasks.get(position).getId());
-                startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+            finish();
+        }
     }
 
     private class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
