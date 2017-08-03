@@ -766,7 +766,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                     case R.id.create_task:
                         Intent intent = new Intent(TaskDetailActivity.this, PostATaskActivity.class);
                         intent.putExtra(Constants.EXTRA_TASK, taskResponse);
-                        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                        startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                         break;
 
                 }
@@ -1152,6 +1152,9 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 LogUtils.d(TAG, "is Send " + data.getExtras().getBoolean(Constants.EXTRA_SEND_COMMENT));
                 getData();
             }
+        } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+            finish();
         }
 
     }

@@ -49,6 +49,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
     private String filter = "";
+    private boolean isReloadMyTask = false;
 
     @Override
     protected int getLayout() {
@@ -63,6 +64,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        isReloadMyTask = false;
         initList();
     }
 
@@ -79,7 +81,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
                 LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 
                 if (isLoadingMoreFromServer) {
-                    getTaskFromServer(sinceStr, LIMIT,filter);
+                    getTaskFromServer(sinceStr, LIMIT, filter);
                 }
 
             }
@@ -102,6 +104,14 @@ public class MyTaskWorkerFragment extends BaseFragment {
     @Override
     protected void resumeData() {
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER));
+
+        //refresh my task fragment after copy task
+        if (isReloadMyTask) {
+            Intent intent = new Intent();
+            intent.putExtra(Constants.REFRESH_EXTRA, "refresh");
+            intent.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK);
+            getActivity().sendBroadcast(intent);
+        }
     }
 
     @Override
@@ -121,9 +131,9 @@ public class MyTaskWorkerFragment extends BaseFragment {
             if (intent.hasExtra(Constants.MYTASK_FILTER_EXTRA)) {
                 filter = intent.getStringExtra(Constants.MYTASK_FILTER_EXTRA);
                 onRefresh();
-            }else{
+            } else {
                 rcvTask.smoothScrollToPosition(0);
-                if(linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
+                if (linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
             }
 
         }
@@ -183,16 +193,16 @@ public class MyTaskWorkerFragment extends BaseFragment {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            getTaskFromServer(since, limit,filter);
+                            getTaskFromServer(since, limit, filter);
                         }
                     });
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(getActivity());
                 } else {
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            getTaskFromServer(since, limit,filter);
+                            getTaskFromServer(since, limit, filter);
                         }
 
                         @Override
@@ -213,7 +223,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
                         @Override
                         public void onSubmit() {
                             myTaskAdapter.onLoadMore();
-                            getTaskFromServer(since, limit,filter);
+                            getTaskFromServer(since, limit, filter);
                         }
 
                         @Override
@@ -246,7 +256,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
                     break;
                 }
             }
-        }else if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.RESULT_CODE_TASK_DELETE) {
+        } else if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.RESULT_CODE_TASK_DELETE) {
             TaskResponse taskEdit = (TaskResponse) data.getSerializableExtra(Constants.EXTRA_TASK);
             for (int i = 0; i < taskResponses.size(); i++) {
                 if (taskResponses.get(i).getId() == taskEdit.getId()) {
@@ -255,6 +265,8 @@ public class MyTaskWorkerFragment extends BaseFragment {
                     break;
                 }
             }
+        } else if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            isReloadMyTask = true;
         }
     }
 
@@ -266,7 +278,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
         sinceStr = null;
         myTaskAdapter.onLoadMore();
         rcvTask.smoothScrollToPosition(0);
-        getTaskFromServer(null, LIMIT,filter);
+        getTaskFromServer(null, LIMIT, filter);
     }
 
 }

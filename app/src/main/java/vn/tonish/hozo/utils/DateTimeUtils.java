@@ -227,4 +227,12 @@ public class DateTimeUtils {
         return TimeUnit.MILLISECONDS.toHours(Math.abs(end - start));
     }
 
+    public static long minutesBetween(Calendar startDate, Calendar endDate) {
+        long end = endDate.getTimeInMillis();
+        long start = startDate.getTimeInMillis();
+
+        if(end < start) return 0;
+        return TimeUnit.MILLISECONDS.toMinutes(Math.abs(end - start));
+    }
+
 }

@@ -191,13 +191,12 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
 
                                 Image imageCopy = new Image();
                                 imageCopy.setAdd(false);
-                                images.add(imageCopy);
                                 imageCopy.setPath(fileSave.getPath());
+                                images.add(0, imageCopy);
                                 imageAdapter.notifyDataSetChanged();
 
                                 LogUtils.d(TAG, "onResourceReady complete , path : " + fileSave.getPath());
                                 LogUtils.d(TAG, "onResourceReady complete , resource , width : " + resource.getWidth() + " , height : " + resource.getHeight());
-
                             }
                         });
             }
@@ -446,6 +445,10 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         } else if (edtWorkingHour.getText().toString().equals("")) {
             edtWorkingHour.requestFocus();
             edtWorkingHour.setError(getString(R.string.post_a_task_time_working_error));
+            return;
+        } else if (DateTimeUtils.minutesBetween(Calendar.getInstance(), calendar) < 30) {
+            tvDate.requestFocus();
+            tvDate.setError(getString(R.string.post_task_time_start_error));
             return;
         }
 

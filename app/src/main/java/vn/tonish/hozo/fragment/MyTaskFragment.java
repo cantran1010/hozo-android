@@ -86,14 +86,19 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (role.equals(Constants.ROLE_TASKER)) {
-                Intent intentAnswer = new Intent();
-                intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER);
-                getActivity().sendBroadcast(intentAnswer);
-            } else if (role.equals(Constants.ROLE_POSTER)) {
-                Intent intentAnswer = new Intent();
-                intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER);
-                getActivity().sendBroadcast(intentAnswer);
+            if (intent.hasExtra(Constants.REFRESH_EXTRA)) {
+                openFragment(R.id.layout_container, MyTaskFragment.class, new Bundle(), false, TransitionScreen.FADE_IN);
+                updateMenuUi(3);
+            } else {
+                if (role.equals(Constants.ROLE_TASKER)) {
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER);
+                    getActivity().sendBroadcast(intentAnswer);
+                } else if (role.equals(Constants.ROLE_POSTER)) {
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER);
+                    getActivity().sendBroadcast(intentAnswer);
+                }
             }
         }
     };

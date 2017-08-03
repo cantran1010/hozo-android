@@ -30,8 +30,8 @@ public class Constants {
     public static final int RESULT_CODE_UPDATE_PROFILE = 876;
     public static final int REQUEST_CODE_UPDATE_PROFILE = 678;
     public static final float DEFAULT_MAP_ZOOM_LEVEL = 16f;
-    public static final int POST_A_TASK_REQUEST_CODE = 246;
-    public static final int POST_A_TASK_RESPONSE_CODE = 642;
+    public static final int POST_A_TASK_REQUEST_CODE = 2468;
+    public static final int POST_A_TASK_RESPONSE_CODE = 8642;
     public static final String COUNT_IMAGE_ATTACH_EXTRA = "extra_count_image";
 
     public static final String DB_NAME = "hozo";
