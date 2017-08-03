@@ -398,5 +398,8 @@
     <string name="email_hint">Nhập email …</string>
     <string name="alert_dialog_close">Đóng</string>
     <string name="re_create_task">Đăng lại</string>
+    <string name="comment_task">Chi tiết hỏi đáp</string>
+    <string name="bidders">Danh sách ứng tuyển</string>
+    <string name="assigners">Danh sách người làm</string>
 
 </resources>

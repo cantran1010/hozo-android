@@ -85,7 +85,6 @@ public class SplashActivity extends BaseActivity {
 
             if (data.getQueryParameter("task_id") != null && !data.getQueryParameter("task_id").trim().equals("") && !data.getQueryParameter("task_id").equals("null") && data.getQueryParameter("task_id").length() > 0)
                 taskId = Integer.valueOf(data.getQueryParameter("task_id"));
-
             LogUtils.d(TAG, "schema : " + scheme);
             LogUtils.d(TAG, "schema , host : " + host);
             LogUtils.d(TAG, "schema , url : " + data.toString());
