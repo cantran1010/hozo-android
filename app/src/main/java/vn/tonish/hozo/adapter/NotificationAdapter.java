@@ -3,12 +3,14 @@ package vn.tonish.hozo.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -122,8 +124,8 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
 
 
             } else {
-                Utils.displayImageAvatar(context, notificationHolder.imgAvata, notifications.get(position).getAvatar());
-                Utils.setContentMessage(context, notificationHolder.tvContent, notifications.get(position));
+                Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());
+                Utils.setContentMessage(context, notificationHolder.tvContent, notification);
             }
 
             notificationHolder.tvContent.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +135,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
                 }
             });
 
-            notificationHolder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(notifications.get(position).getCreatedAt(), context));
+            notificationHolder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(notification.getCreatedAt(), context));
 
             notificationHolder.imgAvata.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -147,6 +149,11 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
                 }
             });
 
+            if (notification.getRead())
+                notificationHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+            else
+                notificationHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.notify_unread));
+
             LogUtils.d(TAG, "NotificationAdapter , notification : " + notification.toString());
         }
     }
@@ -156,12 +163,14 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
         private final CircleImageView imgAvata;
         private final TextViewHozo tvContent;
         private final TextViewHozo tvTimeAgo;
+        private LinearLayout mainLayout;
 
         public NotificationHolder(View itemView, Context context) {
             super(itemView, context);
             imgAvata = (CircleImageView) itemView.findViewById(R.id.img_avatar);
             tvContent = (TextViewHozo) itemView.findViewById(R.id.tv_content);
             tvTimeAgo = (TextViewHozo) itemView.findViewById(R.id.tv_time_ago);
+            mainLayout = itemView.findViewById(R.id.main_layout);
             itemView.setOnClickListener(this);
         }
 

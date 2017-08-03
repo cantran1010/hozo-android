@@ -36,91 +36,94 @@ import vn.tonish.hozo.rest.responseRes.UpdateResponse;
  */
 public interface ApiInterface {
 
-    @POST("auth/otp_code")
+    @POST("v1/auth/otp_code")
     Call<BlockResponse> getOtpCode(@Header("X-Hozo-API-Key") String apiKey, @Body RequestBody body);
 
-    @PUT("auth/refresh_token")
+    @PUT("v1/auth/refresh_token")
     Call<Token> refreshToken(@Body RequestBody body);
 
-    @GET("tasks/categories")
+    @GET("v1/tasks/categories")
     Call<List<Category>> getCategories(@Header("Authorization") String token);
 
     @Multipart
-    @POST("upload/image")
+    @POST("v1/upload/image")
     Call<ImageResponse> uploadImage(@Header("Authorization") String token, @Part MultipartBody.Part filePart);
 
-    @POST("tasks")
+    @POST("v1/tasks")
     Call<TaskResponse> createNewTask(@Header("Authorization") String token, @Body RequestBody body);
 
-    @POST("auth/login")
+    @POST("v1/auth/login")
     Call<OtpReponse> senOtp(@Body RequestBody body);
 
-    @PUT("users")
+    @PUT("v1/users")
     Call<UserEntity> updateUser(@Header("Authorization") String token, @Body RequestBody body);
 
-    @GET("tasks")
+    @GET("v1/tasks")
     Call<List<TaskResponse>> getTasks(@Header("Authorization") String token, @QueryMap Map<String, String> params, @Query("category_ids[]") List<Long> ids);
 
-    @GET("tasks/new_number")
+    @GET("v1/tasks/new_number")
     Call<NewTaskResponse> getCountNewTasks(@Header("Authorization") String token, @QueryMap Map<String, String> params, @Query("category_ids[]") List<Long> ids);
 
-    @GET("tasks/{taskId}")
+    @GET("v1/tasks/{taskId}")
     Call<TaskResponse> getDetailTask(@Header("Authorization") String token, @Path("taskId") int taskId);
 
-    @GET("users/{user_id}")
+    @GET("v1/users/{user_id}")
     Call<UserEntity> getUser(@Header("Authorization") String token, @Path("user_id") int id);
 
-    @POST("users/logout")
+    @POST("v1/users/logout")
     Call<Void> logOut(@Header("Authorization") String token);
 
-    @GET("users/{user_id}/reviews")
+    @GET("v1/users/{user_id}/reviews")
     Call<List<ReviewEntity>> getUserReviews(@Header("Authorization") String token, @Path("user_id") int id, @QueryMap Map<String, String> option);
 
-    @POST("tasks/{taskId}/comments")
+    @POST("v1/tasks/{taskId}/comments")
     Call<Comment> commentTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
 
-    @POST("comments/{commentId}/report")
+    @POST("v1/comments/{commentId}/report")
     Call<Void> report(@Header("Authorization") String token, @Path("commentId") int commentId, @Body RequestBody body);
 
-    @POST("tasks/{taskId}/bids")
+    @POST("v1/tasks/{taskId}/bids")
     Call<TaskResponse> bidsTask(@Header("Authorization") String token, @Path("taskId") int taskId);
 
-    @POST("tasks/{taskId}/accept")
+    @POST("v1/tasks/{taskId}/accept")
     Call<TaskResponse> acceptOffer(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
 
-    @PUT("tasks/{taskId}/cancel")
+    @PUT("v1/tasks/{taskId}/cancel")
     Call<TaskResponse> cancelTask(@Header("Authorization") String token, @Path("taskId") int taskId);
 
-    @PUT("tasks/{taskId}/reviews")
+    @PUT("v1/tasks/{taskId}/reviews")
     Call<RateResponse> rateTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
 
-    @GET("notifications")
+    @GET("v1/notifications")
     Call<List<Notification>> getMyNotifications(@Header("Authorization") String token, @QueryMap Map<String, String> option);
 
-    @GET("users/tasks")
+    @GET("v1/users/tasks")
     Call<List<TaskResponse>> getMyTask(@Header("Authorization") String token, @QueryMap Map<String, String> option);
 
-    @GET("tasks/{taskId}/comments")
+    @GET("v1/tasks/{taskId}/comments")
     Call<List<Comment>> getComments(@Header("Authorization") String token, @Path("taskId") int taskId, @QueryMap Map<String, String> params);
 
-    @PUT("notifications/device")
+    @PUT("v1/notifications/device")
     Call<Void> updateDeviceToken(@Header("Authorization") String token, @Body RequestBody body);
 
-    @POST("auth/check_block_user")
+    @POST("v1/auth/check_block_user")
     Call<BlockResponse> checkBlockUser(@Body RequestBody body);
 
-    @POST("applications/check_update")
+    @POST("v1/applications/check_update")
     Call<UpdateResponse> apdateVersion(@Body RequestBody body);
 
-    @GET("settings/alert_tasks")
+    @GET("v1/settings/alert_tasks")
     Call<List<Integer>> getSettingAlert(@Header("Authorization") String token);
 
-    @POST("settings/alert_tasks")
+    @POST("v1/settings/alert_tasks")
     Call<Void> postSettingAlert(@Header("Authorization") String token, @Body RequestBody body);
 
-    @DELETE("users/tasks/{taskId}")
+    @DELETE("v1/users/tasks/{taskId}")
     Call<Void> deleteTask(@Header("Authorization") String token, @Path("taskId") int taskId);
 
-    @POST("tasks/{taskId}/cancel_bid")
+    @POST("v1/tasks/{taskId}/cancel_bid")
     Call<TaskResponse> cancelBid(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
+
+    @PUT("v1/notifications/{notificationId}")
+    Call<Void> updateReadNotification(@Header("Authorization") String token, @Path("notificationId") int notificationId, @Body RequestBody body);
 }

@@ -127,7 +127,7 @@
     <string name="type_your_text">Nhập nội dung bình luận</string>
     <string name="assign_people">Người làm</string>
     <string name="assign">Chọn</string>
-    <string name="cancel_task">Hủy Việc</string>
+    <string name="cancel_task">Hủy việc</string>
     <string name="recruitment">Ứng tuyển</string>
     <string name="received">Đã nhận</string>
     <string name="update_task">Đã đăng</string>
@@ -397,6 +397,6 @@
     <string name="cancel_task_by_poster_title">Việc đã hủy</string>
     <string name="email_hint">Nhập email …</string>
     <string name="alert_dialog_close">Đóng</string>
-    <string name="re_create_task">Đăng lại</string>
+    <string name="re_create_task">Sao chép</string>
 
 </resources>

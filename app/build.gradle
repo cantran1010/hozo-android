@@ -60,14 +60,14 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "BASE_URL", '"https://staging-api.hozo.vn/v1/"'
+            buildConfigField "String", "BASE_URL", '"https://staging-api.hozo.vn/"'
             buildConfigField "String", "SHARE_URL", '"https://staging.hozo.vn/share/tasks/"'
             debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
-            buildConfigField "String", "BASE_URL", '"https://api.hozo.vn/v1/"'
+            buildConfigField "String", "BASE_URL", '"https://api.hozo.vn/"'
             buildConfigField "String", "SHARE_URL", '"https://hozo.vn/share/tasks/"'
             debuggable false
             minifyEnabled false
