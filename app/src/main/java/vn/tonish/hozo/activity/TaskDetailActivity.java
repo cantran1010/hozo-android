@@ -110,7 +110,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private GoogleMap googleMap;
     private int tempId = 0;
     private File fileAttach;
-    private TextViewHozo tvSeeMore;
+    private TextViewHozo tvSeeMore, tvSeeMoreBidders, tvSeeMoreAssigners;
     private TextViewHozo tvCommentCount, tvBidderCount, tvAssignCount;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private LinearLayout layoutFooter;
@@ -123,6 +123,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private WorkAroundMapFragment mapFragment;
     private boolean isDelete = true;
     private Call<TaskResponse> call;
+    private String mBidderType = "";
 
     @Override
     protected int getLayout() {
@@ -160,6 +161,10 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
         tvSeeMore = (TextViewHozo) findViewById(R.id.tv_see_more_comment);
         tvSeeMore.setOnClickListener(this);
+        tvSeeMoreBidders = (TextViewHozo) findViewById(R.id.tv_see_more_bidders);
+        tvSeeMoreBidders.setOnClickListener(this);
+        tvSeeMoreAssigners = (TextViewHozo) findViewById(R.id.tv_see_more_assigns);
+        tvSeeMoreAssigners.setOnClickListener(this);
 
         tvBidderCount = (TextViewHozo) findViewById(R.id.tv_bidder_count);
         tvAssignCount = (TextViewHozo) findViewById(R.id.tv_assign_count);
@@ -606,12 +611,23 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         tvBidderCount.setText(getString(R.string.count_in_detail, taskResponse.getBidderCount()));
         tvAssignCount.setText(getString(R.string.count_in_detail, taskResponse.getAssigneeCount()));
         tvCommentCount.setText(getString(R.string.count_in_detail, taskResponse.getCommentsCount()));
-
+        mBidderType = bidderType;
         updateSeeMoreComment();
     }
 
     private void refreshBidderList(String bidderType) {
-        PosterOpenAdapter posterOpenAdapter = new PosterOpenAdapter(bidders, bidderType);
+        ArrayList<Bidder> mBidders = new ArrayList<>();
+        if (bidders.size() > 5) {
+            tvSeeMoreBidders.setVisibility(View.VISIBLE);
+            for (int i = 0; i <= 4; i++) {
+                mBidders.add(bidders.get(i));
+            }
+
+        } else {
+            tvSeeMoreBidders.setVisibility(View.GONE);
+            mBidders.addAll(bidders);
+        }
+        PosterOpenAdapter posterOpenAdapter = new PosterOpenAdapter(mBidders, bidderType);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvBidder.setLayoutManager(linearLayoutManager);
         posterOpenAdapter.setTaskId(taskId);
@@ -676,6 +692,13 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             case R.id.tv_see_more_comment:
                 doSeeMoreComment();
                 break;
+            case R.id.tv_see_more_bidders:
+                doSeeMoreBidders();
+                break;
+
+            case R.id.tv_see_more_assigns:
+                doSeeMoreAssigns();
+                break;
 
 //            case R.id.tv_cancel:
 //                DialogUtils.showOkAndCancelDialog(
@@ -698,6 +721,20 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 break;
 
         }
+    }
+
+    private void doSeeMoreAssigns() {
+        Intent intent = new Intent(this, AssignersActivity.class);
+        intent.putExtra(Constants.TASK_RESPONSE_EXTRA, taskResponse);
+        intent.putExtra(Constants.BIDDER_TYPE_EXTRA, mBidderType);
+        startActivityForResult(intent, Constants.REQUEST_CODE_SEND_BINDDER, TransitionScreen.DOWN_TO_UP);
+    }
+
+    private void doSeeMoreBidders() {
+        Intent intent = new Intent(this, BiddersActivity.class);
+        intent.putExtra(Constants.TASK_RESPONSE_EXTRA, taskResponse);
+        intent.putExtra(Constants.BIDDER_TYPE_EXTRA, mBidderType);
+        startActivityForResult(intent, Constants.REQUEST_CODE_SEND_BINDDER, TransitionScreen.DOWN_TO_UP);
     }
 
     private void showMenu(boolean isShowCancel, boolean isDelete) {
