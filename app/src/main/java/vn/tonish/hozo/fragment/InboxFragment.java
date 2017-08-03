@@ -8,11 +8,16 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -102,6 +107,9 @@ public class InboxFragment extends BaseFragment {
         notificationAdapter.setNotificationAdapterListener(new NotificationAdapter.NotificationAdapterListener() {
             @Override
             public void onNotificationAdapterListener(int position) {
+
+                updateReadNotification(position);
+
                 if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)
                         || notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)
                         || notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ACTIVE_USER)
@@ -141,6 +149,48 @@ public class InboxFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    private void updateReadNotification(final int position) {
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("read", true);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LogUtils.d(TAG, "updateReadNotification data request : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().updateReadNotification(UserManager.getUserToken(), notifications.get(position).getId(), body).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                LogUtils.d(TAG, "updateReadNotification onResponse : " + response.body());
+                LogUtils.d(TAG, "updateReadNotification code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                    notifications.get(position).setRead(true);
+                    notificationAdapter.notifyDataSetChanged();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            updateReadNotification(position);
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getActivity());
+                } else {
+                    LogUtils.d(TAG, "ERROR when updateReadNotification");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                LogUtils.d(TAG, "ERROR updateReadNotification : " + t.getMessage());
+            }
+        });
+
     }
 
 //    private void getCacheDataPage(Date sinceDateSearch) {

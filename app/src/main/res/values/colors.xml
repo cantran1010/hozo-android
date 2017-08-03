@@ -9,6 +9,7 @@
     <color name="blue">#00A2E5</color>
     <color name="very_light_gray">#E5E5E5</color>
     <color name="gray">#979797</color>
+    <color name="notify_unread">#eef4ff</color>
     <color name="red">#ff0000</color>
     <color name="blue_2">#0000FF</color>
 
