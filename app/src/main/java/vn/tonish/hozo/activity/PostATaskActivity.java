@@ -99,6 +99,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private TimePickerDialog timeEndPickerDialog;
     //    private Snackbar snackbar;
     private TaskResponse taskResponse = new TaskResponse();
+    private boolean isCopy = false;
+    private int countImageCopy;
 
     protected int getLayout() {
         return R.layout.activity_post_a_task;
@@ -151,7 +153,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             try {
                 calendar = DateTimeUtils.toCalendar(taskResponse.getStartTime());
                 tvDate.setText(DateTimeUtils.fromCalendarIsoCreateTask(calendar));
-                edtWorkingHour.setText(DateTimeUtils.hoursBetween(DateTimeUtils.toCalendar(taskResponse.getStartTime()), DateTimeUtils.toCalendar(taskResponse.getEndTime())) + "");
+                edtWorkingHour.setText(String.valueOf(DateTimeUtils.hoursBetween(DateTimeUtils.toCalendar(taskResponse.getStartTime()), DateTimeUtils.toCalendar(taskResponse.getEndTime()))));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -178,29 +180,8 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         grImage.setAdapter(imageAdapter);
 
         if (taskResponse.getAttachments() != null && taskResponse.getAttachments().size() > 0) {
-
-            for (int i = 0; i < taskResponse.getAttachments().size(); i++) {
-                Glide.with(this)
-                        .load(taskResponse.getAttachments().get(i))
-                        .asBitmap()
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
-                                Utils.compressBitmapToFile(resource, fileSave.getPath());
-
-                                Image imageCopy = new Image();
-                                imageCopy.setAdd(false);
-                                imageCopy.setPath(fileSave.getPath());
-                                images.add(0, imageCopy);
-                                imageAdapter.notifyDataSetChanged();
-
-                                LogUtils.d(TAG, "onResourceReady complete , path : " + fileSave.getPath());
-                                LogUtils.d(TAG, "onResourceReady complete , resource , width : " + resource.getWidth() + " , height : " + resource.getHeight());
-                            }
-                        });
-            }
-
+            isCopy = true;
+            checkPermission();
         }
 
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -311,23 +292,58 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void permissionGranted() {
-        PickImageDialog pickImageDialog = new PickImageDialog(PostATaskActivity.this);
-        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
-            @Override
-            public void onCamera() {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
-            }
+        if (isCopy) {
+            isCopy = false;
+            countImageCopy = taskResponse.getAttachments().size() - 1;
+            ProgressDialogUtils.showProgressDialog(this);
+            for (int i = 0; i < taskResponse.getAttachments().size(); i++) {
+                Glide.with(this)
+                        .load(taskResponse.getAttachments().get(i))
+                        .asBitmap()
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                LogUtils.d(TAG, "onResourceReady complete , resource , width : " + resource.getWidth() + " , height : " + resource.getHeight());
 
-            @Override
-            public void onGallery() {
-                Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
-                intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size() - 1);
-                startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+                                // sometime glide recycled bitmap
+                                resource = resource.copy(resource.getConfig(), true); // safe copy
+                                Glide.clear(this); // added to release original bitmap
+
+                                File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+                                Utils.compressBitmapToFile(resource, fileSave.getPath());
+                                LogUtils.d(TAG, "onResourceReady complete , path : " + fileSave.getPath());
+
+                                Image imageCopy = new Image();
+                                imageCopy.setAdd(false);
+                                imageCopy.setPath(fileSave.getPath());
+                                images.add(0, imageCopy);
+                                imageAdapter.notifyDataSetChanged();
+
+                                countImageCopy--;
+                                if (countImageCopy == 0)
+                                    ProgressDialogUtils.dismissProgressDialog();
+                            }
+                        });
             }
-        });
-        pickImageDialog.showView();
+        } else {
+            PickImageDialog pickImageDialog = new PickImageDialog(PostATaskActivity.this);
+            pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+                @Override
+                public void onCamera() {
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                    startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+                }
+
+                @Override
+                public void onGallery() {
+                    Intent intent = new Intent(PostATaskActivity.this, AlbumActivity.class);
+                    intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size() - 1);
+                    startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+                }
+            });
+            pickImageDialog.showView();
+        }
     }
 
     @Override

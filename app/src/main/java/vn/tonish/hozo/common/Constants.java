@@ -174,6 +174,8 @@ public class Constants {
     public static final int RESULT_CODE_ADDRESS = 5432;
     public static final String CONTENT_INFO_EXTRA = "content_extra";
     public static final String TASK_DETAIL_EXTRA = "task_detail_extra";
+    public static final String AVATAR_EXTRA = "avatar_extra";
+    public static final String NAME_EXTRA = "name_extra";
     public static final String TASK_RESPONSE_EXTRA = "task_response";
     public static final int REQUEST_CODE_SEND_BINDDER = 1115;
     public static final String BIDDER_TYPE_EXTRA = "bidder_type";

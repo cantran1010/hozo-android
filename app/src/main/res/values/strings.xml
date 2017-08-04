@@ -223,11 +223,6 @@
 
     <!-- rate -->
     <string name="rate_submit">GỬI ĐÁNH GIÁ</string>
-    <string name="rate_content_1_star">Cạn lời !</string>
-    <string name="rate_content_2_star">Không ổn tí nào !</string>
-    <string name="rate_content_3_star">Tạm được !</string>
-    <string name="rate_content_4_star">Khá tốt !</string>
-    <string name="rate_content_5_star">Rất hài lòng !</string>
     <string name="rate_msg_no_content_error">Vui lòng xếp hạng</string>
 
     <string name="brower_task_map_activity">Tìm việc gần đây</string>
@@ -398,6 +393,7 @@
     <string name="email_hint">Nhập email …</string>
     <string name="alert_dialog_close">Đóng</string>
     <string name="re_create_task">Sao chép</string>
+    <string name="rate_content_hint">Nhập nội dung đánh giá …</string>
     <string name="comment_task">Chi tiết hỏi đáp</string>
     <string name="bidders">Danh sách ứng tuyển(%1$d)</string>
     <string name="assigners">Danh sách người làm(%1$d)</string>

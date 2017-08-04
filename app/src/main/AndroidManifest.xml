@@ -87,7 +87,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RateActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activity.BrowserTaskMapActivity"
             android:screenOrientation="portrait" />
