@@ -382,6 +382,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         PreferUtils.setLastTimeCountTask(getActivity(), DateTimeUtils.fromCalendarIso(Calendar.getInstance()));
         if (getActivity() instanceof MainActivity)
             ((MainActivity) getActivity()).updateNewTask(0);
+        MainActivity.countNewTask = 0;
     }
 
     private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {

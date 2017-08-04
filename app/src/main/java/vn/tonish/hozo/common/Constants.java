@@ -174,6 +174,8 @@ public class Constants {
     public static final int RESULT_CODE_ADDRESS = 5432;
     public static final String CONTENT_INFO_EXTRA = "content_extra";
     public static final String TASK_DETAIL_EXTRA = "task_detail_extra";
+    public static final String AVATAR_EXTRA = "avatar_extra";
+    public static final String NAME_EXTRA = "name_extra";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static String BID_ERROR_INVALID_DATA = "invalid_data";
     public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";

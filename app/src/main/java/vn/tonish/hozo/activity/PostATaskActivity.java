@@ -151,7 +151,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
             try {
                 calendar = DateTimeUtils.toCalendar(taskResponse.getStartTime());
                 tvDate.setText(DateTimeUtils.fromCalendarIsoCreateTask(calendar));
-                edtWorkingHour.setText(DateTimeUtils.hoursBetween(DateTimeUtils.toCalendar(taskResponse.getStartTime()), DateTimeUtils.toCalendar(taskResponse.getEndTime())) + "");
+                edtWorkingHour.setText(String.valueOf(DateTimeUtils.hoursBetween(DateTimeUtils.toCalendar(taskResponse.getStartTime()), DateTimeUtils.toCalendar(taskResponse.getEndTime()))));
             } catch (ParseException e) {
                 e.printStackTrace();
             }

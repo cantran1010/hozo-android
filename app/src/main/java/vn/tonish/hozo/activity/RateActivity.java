@@ -27,18 +27,20 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 4/25/2017.
  */
 
-public class   RateActivity extends BaseActivity implements View.OnClickListener {
+public class RateActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = RateActivity.class.getSimpleName();
-    private ImageView imgRate;
-    private TextViewHozo tvRateContent;
+    private ImageView imgAvatar;
     private RatingBar ratingBar;
+    private EdittextHozo edtContent;
     private int taskId, userId;
+    private TextViewHozo tvName;
 
     @Override
     protected int getLayout() {
@@ -47,11 +49,12 @@ public class   RateActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initView() {
-        imgRate = (ImageView) findViewById(R.id.img_rate);
-        tvRateContent = (TextViewHozo) findViewById(R.id.tv_rate_content);
-        ratingBar = (RatingBar) findViewById(R.id.rb_rate);
+        imgAvatar = findViewById(R.id.img_avatar);
+        ratingBar = findViewById(R.id.rb_rate);
+        edtContent = findViewById(R.id.edt_content);
+        tvName = findViewById(R.id.tv_name);
 
-        ButtonHozo btnRate = (ButtonHozo) findViewById(R.id.btn_rate);
+        ButtonHozo btnRate = findViewById(R.id.btn_rate);
         btnRate.setOnClickListener(this);
     }
 
@@ -61,32 +64,10 @@ public class   RateActivity extends BaseActivity implements View.OnClickListener
         taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
         userId = getIntent().getIntExtra(Constants.USER_ID_EXTRA, 0);
 
+        Utils.displayImageAvatar(this, imgAvatar, getIntent().getStringExtra(Constants.AVATAR_EXTRA));
+        tvName.setText(getIntent().getStringExtra(Constants.NAME_EXTRA));
+
         ratingBar.setStepSize(1.0f);
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            public void onRatingChanged(RatingBar ratingBar, float rating,
-                                        boolean fromUser) {
-
-                if (rating == 1) {
-                    imgRate.setImageResource(R.drawable.img_rate_1_star);
-                    tvRateContent.setText(getString(R.string.rate_content_1_star));
-                } else if (rating == 2) {
-                    tvRateContent.setText(getString(R.string.rate_content_2_star));
-                    imgRate.setImageResource(R.drawable.img_rate_2_star);
-                } else if (rating == 3) {
-                    tvRateContent.setText(getString(R.string.rate_content_3_star));
-                    imgRate.setImageResource(R.drawable.img_rate_3_star);
-                } else if (rating == 4) {
-                    tvRateContent.setText(getString(R.string.rate_content_4_star));
-                    imgRate.setImageResource(R.drawable.img_rate_4_star);
-                } else if (rating == 5) {
-                    tvRateContent.setText(getString(R.string.rate_content_5_star));
-                    imgRate.setImageResource(R.drawable.img_rate_5_star);
-                }
-
-//                Toast.makeText(getApplicationContext(), "Your selected Ratings  : " + String.valueOf(rating), Toast.LENGTH_LONG).show();
-
-            }
-        });
     }
 
     @Override
@@ -115,7 +96,7 @@ public class   RateActivity extends BaseActivity implements View.OnClickListener
         final JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put("user_id", userId);
-            jsonRequest.put("body", tvRateContent.getText().toString());
+            jsonRequest.put("body", edtContent.getText().toString());
             jsonRequest.put("rating", ratingBar.getRating());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -150,7 +131,7 @@ public class   RateActivity extends BaseActivity implements View.OnClickListener
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(RateActivity.this);
-                }else {
+                } else {
                     DialogUtils.showRetryDialog(RateActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

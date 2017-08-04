@@ -566,6 +566,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 Intent intent = new Intent(TaskDetailActivity.this, RateActivity.class);
                 intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                 intent.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
+                intent.putExtra(Constants.AVATAR_EXTRA, taskResponse.getPoster().getAvatar());
+                intent.putExtra(Constants.NAME_EXTRA, taskResponse.getPoster().getFullName());
                 startActivityForResult(intent, Constants.REQUEST_CODE_RATE, TransitionScreen.UP_TO_DOWN);
             }
         });
@@ -1174,6 +1176,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 Intent intentRate = new Intent(TaskDetailActivity.this, RateActivity.class);
                 intentRate.putExtra(Constants.TASK_ID_EXTRA, taskId);
                 intentRate.putExtra(Constants.USER_ID_EXTRA, assigner.getId());
+                intentRate.putExtra(Constants.AVATAR_EXTRA, assigner.getAvatar());
+                intentRate.putExtra(Constants.NAME_EXTRA, assigner.getFullName());
                 startActivityForResult(intentRate, Constants.REQUEST_CODE_RATE, TransitionScreen.UP_TO_DOWN);
             } else if (intent.hasExtra(Constants.ASSIGNER_CANCEL_BID_EXTRA)) {
                 DialogUtils.showOkAndCancelDialog(TaskDetailActivity.this, getString(R.string.cancel_bid_title), getString(R.string.cancel_bid_content), getString(R.string.cancel_task_ok), getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
