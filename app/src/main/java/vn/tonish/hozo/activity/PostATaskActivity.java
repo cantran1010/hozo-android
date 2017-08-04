@@ -305,6 +305,10 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
                             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                                 LogUtils.d(TAG, "onResourceReady complete , resource , width : " + resource.getWidth() + " , height : " + resource.getHeight());
 
+                                // sometime glide recycled bitmap
+                                resource = resource.copy(resource.getConfig(), true); // safe copy
+                                Glide.clear(this); // added to release original bitmap
+
                                 File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
                                 Utils.compressBitmapToFile(resource, fileSave.getPath());
                                 LogUtils.d(TAG, "onResourceReady complete , path : " + fileSave.getPath());
