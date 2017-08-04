@@ -176,6 +176,15 @@ public class Constants {
     public static final String TASK_DETAIL_EXTRA = "task_detail_extra";
     public static final String AVATAR_EXTRA = "avatar_extra";
     public static final String NAME_EXTRA = "name_extra";
+    public static final String TASK_RESPONSE_EXTRA = "task_response";
+    public static final int REQUEST_CODE_SEND_BINDDER = 1115;
+    public static final String BIDDER_TYPE_EXTRA = "bidder_type";
+    public static final String EXTRA_BIDDER_TASKRESPONSE = "bidder_taskresponse";
+    public static final int RESULT_CODE_BIDDER = 1116;
+    public static final String ASSIGNER_TYPE_EXTRA = "assigner_type";
+    public static final int REQUEST_CODE_SEND_ASSIGNER = 1117;
+    public static final String EXTRA_ASSIGNER_TASKRESPONSE = "assigner_taskresponse";
+    public static final int RESULT_CODE_ASSIGNER = 1118;
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static String BID_ERROR_INVALID_DATA = "invalid_data";
     public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";

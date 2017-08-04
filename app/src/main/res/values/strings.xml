@@ -394,5 +394,8 @@
     <string name="alert_dialog_close">Đóng</string>
     <string name="re_create_task">Sao chép</string>
     <string name="rate_content_hint">Nhập nội dung đánh giá …</string>
+    <string name="comment_task">Chi tiết hỏi đáp</string>
+    <string name="bidders">Danh sách ứng tuyển(%1$d)</string>
+    <string name="assigners">Danh sách người làm(%1$d)</string>
 
 </resources>
