@@ -400,7 +400,7 @@
     <string name="re_create_task">Sao chép</string>
     <string name="re_create_task">Đăng lại</string>
     <string name="comment_task">Chi tiết hỏi đáp</string>
-    <string name="bidders">Danh sách ứng tuyển</string>
-    <string name="assigners">Danh sách người làm</string>
+    <string name="bidders">Danh sách ứng tuyển(%1$d)</string>
+    <string name="assigners">Danh sách người làm(%1$d)</string>
 
 </resources>

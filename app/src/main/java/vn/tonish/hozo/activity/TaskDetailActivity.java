@@ -124,6 +124,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private boolean isDelete = true;
     private Call<TaskResponse> call;
     private String mBidderType = "";
+    private String mAssigerType = "";
 
     @Override
     protected int getLayout() {
@@ -612,6 +613,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         tvAssignCount.setText(getString(R.string.count_in_detail, taskResponse.getAssigneeCount()));
         tvCommentCount.setText(getString(R.string.count_in_detail, taskResponse.getCommentsCount()));
         mBidderType = bidderType;
+        mAssigerType = assigerType;
         updateSeeMoreComment();
     }
 
@@ -619,7 +621,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         ArrayList<Bidder> mBidders = new ArrayList<>();
         if (bidders.size() > 5) {
             tvSeeMoreBidders.setVisibility(View.VISIBLE);
-            for (int i = 0; i <= 4; i++) {
+            for (int i = 0; i < 5; i++) {
                 mBidders.add(bidders.get(i));
             }
 
@@ -635,7 +637,18 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     }
 
     private void refreshAssignerList(String assignType) {
-        AssignerCallAdapter assignerAdapter = new AssignerCallAdapter(assigners, assignType);
+        ArrayList<Assigner> mAssigners = new ArrayList<>();
+        if (assigners.size() > 5) {
+            tvSeeMoreAssigners.setVisibility(View.VISIBLE);
+            for (int i = 0; i < 5; i++) {
+                mAssigners.add(assigners.get(i));
+            }
+
+        } else {
+            tvSeeMoreAssigners.setVisibility(View.GONE);
+            mAssigners.addAll(assigners);
+        }
+        AssignerCallAdapter assignerAdapter = new AssignerCallAdapter(mAssigners, assignType);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvAssign.setLayoutManager(linearLayoutManager);
         assignerAdapter.setTaskId(taskId);
@@ -726,8 +739,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private void doSeeMoreAssigns() {
         Intent intent = new Intent(this, AssignersActivity.class);
         intent.putExtra(Constants.TASK_RESPONSE_EXTRA, taskResponse);
-        intent.putExtra(Constants.BIDDER_TYPE_EXTRA, mBidderType);
-        startActivityForResult(intent, Constants.REQUEST_CODE_SEND_BINDDER, TransitionScreen.DOWN_TO_UP);
+        intent.putExtra(Constants.ASSIGNER_TYPE_EXTRA, mAssigerType);
+        startActivityForResult(intent, Constants.REQUEST_CODE_SEND_ASSIGNER, TransitionScreen.DOWN_TO_UP);
     }
 
     private void doSeeMoreBidders() {
@@ -1187,6 +1200,16 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             setResult(Constants.POST_A_TASK_RESPONSE_CODE);
             finish();
+        } else if (requestCode == Constants.REQUEST_CODE_SEND_BINDDER && resultCode == Constants.RESULT_CODE_BIDDER) {
+            if (data.hasExtra(Constants.EXTRA_BIDDER_TASKRESPONSE)) {
+                taskResponse = (TaskResponse) data.getExtras().get(Constants.EXTRA_BIDDER_TASKRESPONSE);
+                updateUi();
+            }
+        } else if (requestCode == Constants.REQUEST_CODE_SEND_ASSIGNER && resultCode == Constants.RESULT_CODE_ASSIGNER) {
+            if (data.hasExtra(Constants.EXTRA_ASSIGNER_TASKRESPONSE)) {
+                taskResponse = (TaskResponse) data.getExtras().get(Constants.EXTRA_ASSIGNER_TASKRESPONSE);
+                updateUi();
+            }
         }
 
     }
