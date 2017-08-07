@@ -126,4 +126,7 @@ public interface ApiInterface {
 
     @PUT("v1/notifications/{notificationId}")
     Call<Void> updateReadNotification(@Header("Authorization") String token, @Path("notificationId") int notificationId, @Body RequestBody body);
+
+    @POST("v1/tasks/{taskId}/report")
+    Call<Void> reportTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
 }

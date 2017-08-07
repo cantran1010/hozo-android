@@ -236,7 +236,7 @@
     <string name="notification_task_reminder">bạn được giao sắp đến giờ đi làm</string>
     <string name="notification_new_task_alert">đã tạo một việc mới</string>
     <string name="notification_poster_canceled">đã hủy việc</string>
-    <string name="notification_task_completed">đã hoàn thành</string>
+    <string name="notification_task_completed">đã hoàn thành. Bạn có thể đánh giá đối tác!</string>
     <string name="notification_task_overdue">đã hết hạn</string>
     <string name="notification_bid_missed">mà bạn ứng tuyển vừa bị bỏ lỡ</string>
     <string name="notification_task_reopen">mà bạn ứng tuyển trước đó vừa được mở lại</string>
@@ -296,7 +296,7 @@
     <string name="comment_setting_visible">visible</string>
     <string name="comment_setting_invisible">invisible</string>
     <string name="cancel_task_success_msg">Bạn đã hủy việc thành công</string>
-    <string name="message_exit_app">Nhấn lần nữa để thoát ứng dụng !</string>
+    <string name="message_exit_app">Nhấn lần nữa để thoát ứng dụng!</string>
     <string name="gg_api_error">Không thể kết nối tới dịch vụ của Google</string>
     <string name="contacting_api_autocomplete_error">Lỗi kết nối tới dịch vụ của google</string>
     <string name="post_a_task_map_get_location_error">Không thể lấy vị trí của bạn,vui lòng kiểm tra lại kết nối và thử lại!</string>
@@ -399,5 +399,9 @@
     <string name="bidders">Danh sách ứng tuyển(%1$d)</string>
     <string name="assigners">Danh sách người làm(%1$d)</string>
     <string name="error_address">Bắt buộc phải nhập địa chỉ</string>
+    <string name="report_task">Báo xấu</string>
+    <string name="report_task_title">Báo xấu</string>
+    <string name="report_task_content">Bạn có chắc chắn muốn báo xấu việc này?</string>
+    <string name="report_task_success">Bạn đã báo xấu việc này thành công!</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package vn.tonish.hozo.activity;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -56,6 +57,9 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
 
         ButtonHozo btnRate = findViewById(R.id.btn_rate);
         btnRate.setOnClickListener(this);
+
+        imgAvatar.setOnClickListener(this);
+        tvName.setOnClickListener(this);
     }
 
     @Override
@@ -81,6 +85,14 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.btn_rate:
                 doRate();
+                break;
+
+            case R.id.img_avatar:
+            case R.id.tv_name:
+                Intent intent = new Intent(RateActivity.this, ProfileActivity.class);
+                intent.putExtra(Constants.USER_ID, userId);
+                intent.putExtra(Constants.IS_MY_USER, userId == UserManager.getMyUser().getId());
+                startActivity(intent);
                 break;
         }
     }
