@@ -109,7 +109,7 @@ public class SplashActivity extends BaseActivity {
                 LogUtils.d(TAG, "checkUpdate data body : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     UpdateResponse updateResponse = response.body();
-                    if (updateResponse.getForceUpdate().equalsIgnoreCase("true")) {
+                    if (updateResponse.isForceUpdate()) {
                         DialogUtils.showForceUpdateDialog(SplashActivity.this, new AlertDialogOkFullScreen.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
@@ -117,7 +117,7 @@ public class SplashActivity extends BaseActivity {
                             }
                         });
 
-                    } else if (updateResponse.getRecommendUpdate().equalsIgnoreCase("true")) {
+                    } else if (updateResponse.isRecommendUpdate()) {
                         showUpdateDialog();
                     } else {
                         if (UserManager.checkLogin())
@@ -191,7 +191,6 @@ public class SplashActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private void checkBlockUser() {

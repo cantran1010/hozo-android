@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -11,11 +12,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,6 +30,8 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.dialog.AlertDialogOkFullScreen;
 import vn.tonish.hozo.dialog.BlockDialog;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
@@ -34,6 +42,7 @@ import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.NewTaskResponse;
+import vn.tonish.hozo.rest.responseRes.UpdateResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -312,6 +321,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void resumeData() {
         updateCountMsg();
         registerReceiver(broadcastPushCount, new IntentFilter(Constants.BROAD_CAST_PUSH_COUNT));
+        checkUpdate();
     }
 
     @Override
@@ -510,8 +520,98 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    //    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
+    private void checkUpdate() {
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("device_type", getString(R.string.device_type));
+            jsonRequest.put("version", Utils.getCurrentVersion(this));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        LogUtils.d(TAG, "checkUpdate data request : " + jsonRequest.toString());
+        final RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        ApiClient.getApiService().apdateVersion(body).enqueue(new Callback<UpdateResponse>() {
+            @Override
+            public void onResponse(Call<UpdateResponse> call, Response<UpdateResponse> response) {
+                LogUtils.d(TAG, "checkUpdate data code : " + response.code());
+                LogUtils.d(TAG, "checkUpdate data body : " + response.body());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    UpdateResponse updateResponse = response.body();
+                    if (updateResponse.isForceUpdate()) {
+                        DialogUtils.showForceUpdateDialog(MainActivity.this, new AlertDialogOkFullScreen.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                updateVerSion();
+                            }
+                        });
+                    }
+//                    else if (updateResponse.getRecommendUpdate().equalsIgnoreCase("true")) {
+//                        showUpdateDialog();
+//                    }
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(MainActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            checkUpdate();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(MainActivity.this);
+                }
+//                else {
+//                    DialogUtils.showRetryDialog(MainActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+//                        @Override
+//                        public void onSubmit() {
+//                            checkUpdate();
+//                        }
+//
+//                        @Override
+//                        public void onCancel() {
+//
+//                        }
+//                    });
+//                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateResponse> call, Throwable throwable) {
+                LogUtils.d(TAG, "checkUpdate error : " + throwable.getMessage());
+//                DialogUtils.showRetryDialog(MainActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+//                    @Override
+//                    public void onSubmit() {
+//                        checkUpdate();
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//
+//                    }
+//                });
+            }
+        });
+    }
+
+    private void showUpdateDialog() {
+        DialogUtils.showReCommendUpdateDialog(MainActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+            @Override
+            public void onSubmit() {
+                updateVerSion();
+            }
+
+            @Override
+            public void onCancel() {
+                finish();
+            }
+        });
+    }
+
+    private void updateVerSion() {
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
+                    ("market://details?id=" + getPackageName())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
