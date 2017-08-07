@@ -340,6 +340,7 @@
     <string name="open_brower_error">Rất tiếc điện thoại bạn không hỗ trợ trình duyệt web</string>
     <string name="device_type">android</string>
     <string name="update_version">Cập nhật </string>
+    <string name="update_version_hozo">Cập nhật Hozo</string>
     <string name="update_oke">CẬP NHẬT </string>
     <string name="update_content">Bạn có muốn cập nhật phiên bản mới nhất?</string>
     <string name="update_force_content">Bạn phải cập nhật phiên bản mới nhất để tiếp tục sử dụng!</string>

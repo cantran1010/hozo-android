@@ -54,7 +54,6 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void initData() {
         Uri data = getIntent().getData();
-
         if (data != null) {
             Log.d(TAG, data.toString());
             String scheme = data.getScheme(); // "http"
@@ -68,7 +67,11 @@ public class SplashActivity extends BaseActivity {
             LogUtils.d(TAG, "schema , url : " + data.toString());
             LogUtils.d(TAG, "schema , taskId : " + taskId);
         }
+    }
 
+
+    @Override
+    protected void resumeData() {
         checkUpdate();
     }
 
@@ -262,8 +265,4 @@ public class SplashActivity extends BaseActivity {
         });
     }
 
-    @Override
-    protected void resumeData() {
-
-    }
 }
