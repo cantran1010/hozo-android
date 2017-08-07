@@ -119,6 +119,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
     private LinearLayout layoutBidderCount, layoutAssignCount;
     private ImageView imgMenu;
     private boolean isShowCancel;
+    private boolean isReportTask;
     private boolean mMapViewExpanded = false;
     private WorkAroundMapFragment mapFragment;
     private boolean isDelete = true;
@@ -402,6 +403,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
         isShowCancel = true;
         isDelete = true;
+        isReportTask = true;
 //        tvCancel.setVisibility(View.VISIBLE);
         layoutFooter.setVisibility(View.VISIBLE);
         rcvBidder.setVisibility(View.VISIBLE);
@@ -426,6 +428,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             bidderType = getString(R.string.assign);
             assigerType = getString(R.string.call);
             isDelete = false;
+            isReportTask = false;
 
             layoutBidderCount.setVisibility(View.VISIBLE);
             rcvBidder.setVisibility(View.VISIBLE);
@@ -434,6 +437,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnOffer(Constants.OFFER_GONE);
             assigerType = getString(R.string.call);
             isDelete = false;
+            isReportTask = false;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -443,6 +447,8 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
             isDelete = false;
+            isReportTask = false;
+
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
 
@@ -454,6 +460,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnOffer(Constants.OFFER_GONE);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
+            isReportTask = false;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -467,6 +474,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnOffer(Constants.OFFER_GONE);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
+            isReportTask = false;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -483,6 +491,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnOffer(Constants.OFFER_GONE);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
+            isReportTask = true;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -496,6 +505,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnOffer(Constants.OFFER_GONE);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
+            isReportTask = false;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -509,6 +519,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnOffer(Constants.OFFER_GONE);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
+            isReportTask = true;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -519,14 +530,17 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             commentType = getString(R.string.comment_setting_invisible);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
             isDelete = false;
+            isReportTask = true;
             workDetailView.updateBtnOffer(Constants.OFFER_PENDING);
             workDetailView.updateStatus(false, getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
             isDelete = false;
+            isReportTask = true;
             workDetailView.updateBtnOffer(Constants.OFFER_CALL);
             workDetailView.updateStatus(true, getString(R.string.received), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
             isDelete = false;
+            isReportTask = false;
             workDetailView.updateBtnOffer(Constants.OFFER_RATTING);
             workDetailView.updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
 //            tvCancel.setVisibility(View.GONE);
@@ -542,6 +556,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             workDetailView.updateBtnOffer(Constants.OFFER_GONE);
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
+            isReportTask = true;
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
@@ -555,12 +570,14 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         // make an offer
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
             isDelete = false;
+            isReportTask = true;
             workDetailView.updateBtnOffer(Constants.OFFER_ACTIVE);
             workDetailView.updateStatus(false, "", ContextCompat.getDrawable(this, R.drawable.bg_border_done));
 //            tvCancel.setVisibility(View.GONE);
             isShowCancel = false;
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() != UserManager.getMyUser().getId()) {
             isDelete = false;
+            isReportTask = true;
             workDetailView.updateStatus(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
             workDetailView.updateBtnOffer(Constants.OFFER_GONE);
             isShowCancel = false;
@@ -732,7 +749,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 //                break;
 
             case R.id.img_menu:
-                showMenu(isShowCancel, isDelete);
+                showMenu(isShowCancel, isDelete, isReportTask);
                 break;
 
         }
@@ -752,10 +769,9 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         startActivityForResult(intent, Constants.REQUEST_CODE_SEND_BINDDER, TransitionScreen.DOWN_TO_UP);
     }
 
-    private void showMenu(boolean isShowCancel, boolean isDelete) {
+    private void showMenu(boolean isShowCancel, boolean isDelete, boolean isReportTask) {
         //Creating the instance of PopupMenu
         PopupMenu popup = new PopupMenu(TaskDetailActivity.this, imgMenu);
-
         popup.getMenuInflater().inflate(R.menu.menu_detail, popup.getMenu());
 
         if (isShowCancel)
@@ -767,6 +783,11 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
             popup.getMenu().findItem(R.id.delete_task).setVisible(true);
         else
             popup.getMenu().findItem(R.id.delete_task).setVisible(false);
+
+        if (isReportTask)
+            popup.getMenu().findItem(R.id.report_task).setVisible(true);
+        else
+            popup.getMenu().findItem(R.id.report_task).setVisible(false);
 
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -816,11 +837,92 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                         startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                         break;
 
+                    case R.id.report_task:
+                        doReportTask();
+                        break;
+
                 }
                 return true;
             }
         });
         popup.show();//showing popup menu
+    }
+
+    private void doReportTask() {
+        DialogUtils.showOkAndCancelDialog(TaskDetailActivity.this, getString(R.string.report_task_title), getString(R.string.report_task_content), getString(R.string.cancel_task_ok), getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+            @Override
+            public void onSubmit() {
+                doSendReport();
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+    }
+
+    private void doSendReport() {
+        ProgressDialogUtils.showProgressDialog(TaskDetailActivity.this);
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("reason", "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LogUtils.d(TAG, "doSendReport data request : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().reportTask(UserManager.getUserToken(), taskId, body).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                LogUtils.d(TAG, "doSendReport , body : " + response.body());
+                LogUtils.d(TAG, "doSendReport , code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                    Utils.showLongToast(TaskDetailActivity.this, getString(R.string.report_task_success), false, false);
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(TaskDetailActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doReportTask();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(TaskDetailActivity.this);
+                } else {
+                    DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doReportTask();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                DialogUtils.showRetryDialog(TaskDetailActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doReportTask();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
     }
 
     private void doDeleteTask() {
