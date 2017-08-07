@@ -50,6 +50,7 @@ import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
+import static vn.tonish.hozo.R.id.img_avatar;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.DateTimeUtils.getDateBirthDayFromIso;
@@ -85,7 +86,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
-        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
+        imgAvatar = (CircleImageView) findViewById(img_avatar);
         imgAvatar.setOnClickListener(this);
 
         ButtonHozo btnSave = (ButtonHozo) findViewById(R.id.btn_save);
@@ -200,10 +201,33 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 updateGender(getString(R.string.gender_female));
                 break;
 
+            case img_avatar:
+                if (!UserManager.getMyUser().getAvatar().trim().equals("")) {
+                    Intent intentView = new Intent(EditProfileActivity.this, PreviewImageActivity.class);
+                    intentView.putExtra(Constants.EXTRA_IMAGE_PATH, UserManager.getMyUser().getAvatar());
+                    startActivity(intentView, TransitionScreen.RIGHT_TO_LEFT);
+                }
+                break;
+
         }
     }
 
     private void doSave() {
+
+        if (edtName.getText().toString().trim().equals("")) {
+            edtName.requestFocus();
+            edtName.setError(getString(R.string.erro_empty_name));
+            return;
+        } else if (edtDes.getText().toString().trim().length() > 500) {
+            edtDes.requestFocus();
+            edtDes.setError(getString(R.string.error_des));
+            return;
+        } else if (edtAddress.getText().toString().trim().equals("")) {
+            edtAddress.requestFocus();
+            edtAddress.setError(getString(R.string.error_address));
+            return;
+        }
+
         if (isUpdateAvata) {
             updateAvata();
         } else {
@@ -235,8 +259,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                             updateAvata();
                         }
                     });
+                    ProgressDialogUtils.dismissProgressDialog();
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(EditProfileActivity.this);
+                    ProgressDialogUtils.dismissProgressDialog();
                 } else {
                     DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
@@ -249,9 +275,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
                         }
                     });
+                    ProgressDialogUtils.dismissProgressDialog();
                 }
                 FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -275,10 +302,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void updateProfile() {
-        if (edtDes.getText().toString().trim().length()>500){
-            edtDes.setError(getString(R.string.error_des));
-            return;
-        }
         ProgressDialogUtils.showProgressDialog(this);
         JSONObject jsonRequest = new JSONObject();
         try {

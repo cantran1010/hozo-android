@@ -60,7 +60,7 @@ public class DialogUtils {
                 return;
             }
         }
-        new AlertDialogOkAndCancel(context, context.getString(R.string.update_version), context.getString(R.string.update_content), context.getString(R.string.oke), context.getString(R.string.report_cancel), alertDialogListener);
+        new AlertDialogOkAndCancel(context, context.getString(R.string.update_version_hozo), context.getString(R.string.update_content), context.getString(R.string.oke), context.getString(R.string.report_cancel), alertDialogListener);
     }
 
     public static void showForceUpdateDialog(Context context, AlertDialogOkFullScreen.AlertDialogListener alertDialogListener) {
@@ -70,7 +70,7 @@ public class DialogUtils {
                 return;
             }
         }
-        new AlertDialogOkFullScreen(context, context.getString(R.string.update_version), context.getString(R.string.update_force_content), context.getString(R.string.update_oke), alertDialogListener);
+        new AlertDialogOkFullScreen(context, context.getString(R.string.update_version_hozo), context.getString(R.string.update_force_content), context.getString(R.string.update_oke), alertDialogListener);
     }
 
 }

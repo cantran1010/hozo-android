@@ -8,31 +8,32 @@ import com.google.gson.annotations.SerializedName;
 
 public class UpdateResponse {
     @SerializedName("force_update")
-    private String forceUpdate;
+    private boolean forceUpdate;
     @SerializedName("recommend_update")
-    private String recommendUpdate;
+    private boolean recommendUpdate;
 
-    public String getForceUpdate() {
+    public boolean isForceUpdate() {
         return forceUpdate;
     }
 
-    public void setForceUpdate(String forceUpdate) {
+    public void setForceUpdate(boolean forceUpdate) {
         this.forceUpdate = forceUpdate;
     }
 
-    public String getRecommendUpdate() {
+    public boolean isRecommendUpdate() {
         return recommendUpdate;
     }
 
-    public void setRecommendUpdate(String recommendUpdate) {
+    public void setRecommendUpdate(boolean recommendUpdate) {
         this.recommendUpdate = recommendUpdate;
     }
 
     @Override
     public String toString() {
         return "UpdateResponse{" +
-                "forceUpdate='" + forceUpdate + '\'' +
-                ", recommendUpdate='" + recommendUpdate + '\'' +
+                "forceUpdate=" + forceUpdate +
+                ", recommendUpdate=" + recommendUpdate +
                 '}';
     }
+
 }

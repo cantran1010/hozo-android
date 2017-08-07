@@ -77,7 +77,7 @@
 
     <!-- rate screen -->
     <string name="rate">Đánh giá</string>
-    <string name="rate_title">Bạn có hài lòng với công việc và \n khách hàng này không ?</string>
+    <string name="rate_title">Bạn có hài lòng với công việc và \n khách hàng này không?</string>
     <string name="just_image">just_image</string>
 
     <string-array name="gender">
@@ -299,7 +299,7 @@
     <string name="message_exit_app">Nhấn lần nữa để thoát ứng dụng !</string>
     <string name="gg_api_error">Không thể kết nối tới dịch vụ của Google</string>
     <string name="contacting_api_autocomplete_error">Lỗi kết nối tới dịch vụ của google</string>
-    <string name="post_a_task_map_get_location_error">Không thể lấy vị trí của bạn,vui lòng kiểm tra lại kết nối và thử lại !</string>
+    <string name="post_a_task_map_get_location_error">Không thể lấy vị trí của bạn,vui lòng kiểm tra lại kết nối và thử lại!</string>
     <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
     <string name="km">km</string>
     <string name="all_space_type"><b> </b></string>
@@ -321,10 +321,10 @@
     <string name="push_alert">phù hợp với bạn</string>
     <string name="push_you_bidded">bạn ứng tuyển</string>
     <string name="push_complete_work">Công việc</string>
-    <string name="max_size_attach_error">File đính kèm không vượt quá %1$d Mb .\nVui lòng chọn file khác !</string>
-    <string name="post_task_map_get_location_error_next">Không thể lấy vị trí của bạn ! Vui lòng thiết lập vị trí làm việc !</string>
+    <string name="max_size_attach_error">File đính kèm không vượt quá %1$d Mb .\nVui lòng chọn file khác!</string>
+    <string name="post_task_map_get_location_error_next">Không thể lấy vị trí của bạn! Vui lòng thiết lập vị trí làm việc!</string>
     <string name="not_find_task">Không tìm thấy công việc nào</string>
-    <string name="offer_error_time">Đề nghị làm việc của bạn không được chấp nhận vì bạn đã ứng tuyển một công việc khác vào thời gian này !</string>
+    <string name="offer_error_time">Đề nghị làm việc của bạn không được chấp nhận vì bạn đã ứng tuyển một công việc khác vào thời gian này!</string>
     <string name="less_than">dưới</string>
     <string name="more_than">Trên</string>
     <string name="code_otp_is_invalid">Mã OPT không hợp lệ</string>
@@ -340,26 +340,27 @@
     <string name="open_brower_error">Rất tiếc điện thoại bạn không hỗ trợ trình duyệt web</string>
     <string name="device_type">android</string>
     <string name="update_version">Cập nhật </string>
+    <string name="update_version_hozo">Cập nhật Hozo</string>
     <string name="update_oke">CẬP NHẬT </string>
     <string name="update_content">Bạn có muốn cập nhật phiên bản mới nhất?</string>
-    <string name="update_force_content">Bạn phải cập nhật phiên bản mới nhất để tiếp tục sử dụng!!!</string>
+    <string name="update_force_content">Bạn phải cập nhật phiên bản mới nhất để tiếp tục sử dụng!</string>
     <string name="erro_empty_name">Bắt buộc phải nhập họ tên.</string>
     <string name="share">Chia sẻ</string>
     <string name="other_alert">Thông báo công việc</string>
     <string name="min_budget_error">Số tiền tối thiểu là 10.000 VNĐ</string>
     <string name="notification_title">Thông báo</string>
     <string name="term_and_policy">vi phạm điều khoản sử dụng</string>
-    <string name="edt_profile_des_hill">Giới thiệu về bản thân, không quá 500 ký tự.</string>
+    <string name="edt_profile_des_hill">Giới thiệu về bản thân, không quá 500 ký tự …</string>
     <string name="alert_task">Chọn loại công việc bạn muốn nhận thông báo.</string>
     <string name="profile_about">Giới thiệu</string>
     <string name="error_des">Lỗi vượt quá 500 ký tự.</string>
-    <string name="webview_error"><html><body style='background: white;'><p style='color: red;'>Không thể tải trang ! Vui lòng kiểm tra kết nối và thử lại !</p></body></html></string>
+    <string name="webview_error"><html><body style='background: white;'><p style='color: red;'>Không thể tải trang! Vui lòng kiểm tra kết nối và thử lại!</p></body></html></string>
     <string name="title_max_length_error">Tiêu đề không được quá 80 kí tự</string>
     <string name="working_hour_max_error">Số giờ làm việc tối đa là 8 giờ</string>
     <string name="detete_task">Xóa việc</string>
     <string name="title_delete_task">Xóa việc</string>
-    <string name="content_detete_task">Bạn có chắc chắn muốn xóa việc này ?</string>
-    <string name="delete_task_success_msg">Bạn đã xóa việc thành công !</string>
+    <string name="content_detete_task">Bạn có chắc chắn muốn xóa việc này?</string>
+    <string name="delete_task_success_msg">Bạn đã xóa việc thành công!</string>
     <string name="add_verify">Xác thực thêm</string>
     <string name="give_info">Cung Cấp Thông Tin Cá Nhân</string>
     <string name="label_header_verify">Để có thể tìm được người làm việc hay nhận việc một cách nhanh chóng và uy tín, bạn cần xác thực thông tin với HoZo!</string>
@@ -384,11 +385,11 @@
     <string name="task_detail_block_reasons">Lý do :</string>
     <string name="brower_new_task" tools:ignore="PluralsCandidate">%1$d việc mới</string>
     <string name="address_hint">Nhập địa chỉ …</string>
-    <string name="no_address">Rất tiếc,không tìm thấy địa chỉ !</string>
+    <string name="no_address">Rất tiếc,không tìm thấy địa chỉ!</string>
     <string name="waiting_active">Đang chờ xác thực.</string>
-    <string name="email_verify_done">Vui lòng kiểm tra email để hoàn thành bước xác thưc!.</string>
+    <string name="email_verify_done">Vui lòng kiểm tra email để hoàn thành bước xác thưc!</string>
     <string name="work_detail_view_bit_pending">Đang chờ giao việc</string>
-    <string name="cancel_task_by_poster">Công việc đã bị hủy bời người tạo !</string>
+    <string name="cancel_task_by_poster">Công việc đã bị hủy bời người tạo!</string>
     <string name="cancel_task_by_poster_title">Việc đã hủy</string>
     <string name="email_hint">Nhập email …</string>
     <string name="alert_dialog_close">Đóng</string>
@@ -397,5 +398,6 @@
     <string name="comment_task">Chi tiết hỏi đáp</string>
     <string name="bidders">Danh sách ứng tuyển(%1$d)</string>
     <string name="assigners">Danh sách người làm(%1$d)</string>
+    <string name="error_address">Bắt buộc phải nhập địa chỉ</string>
 
 </resources>
