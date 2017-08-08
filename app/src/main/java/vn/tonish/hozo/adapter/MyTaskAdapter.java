@@ -86,6 +86,9 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
                 if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_canceled));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
+                } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
+                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_missed));
+                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
                 } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_overdue));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
@@ -101,9 +104,6 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
                 } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_completed));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
-                } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
-                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_missed));
-                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
                 }
             } else if (taskResponse.getRole().equals(Constants.ROLE_POSTER)) {
                 switch (taskResponse.getStatus()) {
