@@ -294,7 +294,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
     private void permissionGranted() {
         if (isCopy) {
             isCopy = false;
-            countImageCopy = taskResponse.getAttachments().size() - 1;
+            countImageCopy = taskResponse.getAttachments().size();
             ProgressDialogUtils.showProgressDialog(this);
             for (int i = 0; i < taskResponse.getAttachments().size(); i++) {
                 Glide.with(this)

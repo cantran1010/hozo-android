@@ -67,7 +67,7 @@ import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
 public class RegisterFragment extends BaseFragment implements View.OnClickListener {
     private final static String TAG = RegisterFragment.class.getName();
-    private EdittextHozo edtName, edtAddress, edtDes;
+    private EdittextHozo edtName, edtAddress;
     private TextViewHozo btnSave;
     private TextViewHozo tvMale, tvFemale;
     private ImageView imgMale, imgFemale;
@@ -94,7 +94,6 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         imgFemale = (ImageView) findViewById(R.id.img_female);
         tvBirthday = (TextViewHozo) findViewById(R.id.tv_birthday);
         edtAddress = (EdittextHozo) findViewById(R.id.edt_address);
-        edtDes = (EdittextHozo) findViewById(R.id.edt_description);
 
         ImageView imgCamera = (ImageView) findViewById(R.id.img_camera);
         imgCamera.setOnClickListener(this);
@@ -168,10 +167,6 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         if (name.isEmpty()) {
             edtName.requestFocus();
             edtName.setError(getActivity().getString(R.string.erro_empty_name));
-            return;
-        } else if (edtDes.getText().toString().trim().length() > 500) {
-            edtDes.requestFocus();
-            edtDes.setError(getString(R.string.error_des));
             return;
         } else if (edtAddress.getText().toString().trim().equals("")) {
             edtAddress.requestFocus();
@@ -387,7 +382,6 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         try {
             jsonRequest.put(Constants.PARAMETER_FULL_NAME, edtName.getText().toString());
             jsonRequest.put(Constants.PARAMETER_ADDRESS, edtAddress.getText().toString());
-            jsonRequest.put(Constants.PARAMETER_DESCRIPTION, edtDes.getText().toString().trim());
 
             if (!tvBirthday.getText().toString().equals(""))
                 jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, getOnlyIsoFromDate(tvBirthday.getText().toString()));
