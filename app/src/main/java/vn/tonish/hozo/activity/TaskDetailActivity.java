@@ -500,6 +500,20 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
             layoutFooter.setVisibility(View.GONE);
             commentType = getString(R.string.comment_setting_invisible);
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
+            workDetailView.updateStatus(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
+//            tvCancel.setVisibility(View.GONE);
+            isShowCancel = false;
+            isReportTask = true;
+
+            layoutBidderCount.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.GONE);
+            layoutAssignCount.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+
+            layoutFooter.setVisibility(View.GONE);
+            commentType = getString(R.string.comment_setting_invisible);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
             workDetailView.updateStatus(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
             workDetailView.updateBtnOffer(Constants.OFFER_GONE);
@@ -548,20 +562,6 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
 
             layoutBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
-
-            layoutFooter.setVisibility(View.GONE);
-            commentType = getString(R.string.comment_setting_invisible);
-        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
-            workDetailView.updateStatus(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
-            workDetailView.updateBtnOffer(Constants.OFFER_GONE);
-//            tvCancel.setVisibility(View.GONE);
-            isShowCancel = false;
-            isReportTask = true;
-
-            layoutBidderCount.setVisibility(View.GONE);
-            rcvBidder.setVisibility(View.GONE);
-            layoutAssignCount.setVisibility(View.GONE);
-            rcvAssign.setVisibility(View.GONE);
 
             layoutFooter.setVisibility(View.GONE);
             commentType = getString(R.string.comment_setting_invisible);

@@ -12,6 +12,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.HomeActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -19,6 +20,7 @@ import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.Token;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.Utils;
 
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
@@ -72,6 +74,7 @@ public class NetworkUtils {
 
                     if (refreshListener != null) refreshListener.onRefreshFinish();
                 } else {
+                    Utils.showLongToast(context, context.getString(R.string.refresh_token), true, false);
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
                     realm.deleteAll();
