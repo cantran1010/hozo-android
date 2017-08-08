@@ -1,0 +1,7 @@
+- Sửa lỗi và tối ưu hoá tốc độ.
+- Thông báo hiển thị xem,chưa xem.
+- Thêm thông tin khi đăng kí thành viên.
+- Chi tiết công việc thêm chức năng : sao chép việc và báo xấu.
+- Thay đổi trạng thái việc hoàn thành khi có người được chọn.
+- Cải tiến màn hình đánh giá.
+- Mục hiển thị người ứng tuyển và đã giao hiển thị tối đa 5 người,nếu nhiều hơn 5 người có thêm  chức năng “xem thêm”.
