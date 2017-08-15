@@ -404,5 +404,7 @@
     <string name="report_task_content">Bạn có chắc chắn muốn báo xấu việc này?</string>
     <string name="report_task_success">Bạn đã báo xấu việc này thành công!</string>
     <string name="refresh_token">Bạn đã bị đăng suất do đăng nhập ở một thiết bị khác!</string>
+    <string name="tv_category_title">Loại việc</string>
+    <string name="post_a_task_msg_length">%1$d/%2$d</string>
 
 </resources>

@@ -34,9 +34,9 @@ import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.AlertDialogOkFullScreen;
 import vn.tonish.hozo.dialog.BlockDialog;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
+import vn.tonish.hozo.fragment.CreateTaskFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
 import vn.tonish.hozo.fragment.MyTaskFragment;
-import vn.tonish.hozo.fragment.SelectTaskFragment;
 import vn.tonish.hozo.fragment.SettingFragment;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.network.NetworkUtils;
@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initData() {
 
-        showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
+        showFragment(R.id.layout_container, CreateTaskFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
         updateMenuUi(1);
 
         layoutPostATask.setOnClickListener(this);
@@ -348,15 +348,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_post_a_task:
 
-                Intent intentRefresh = new Intent();
-                intentRefresh.setAction(Constants.BROAD_CAST_REFRESH_CATEGORY);
-                sendBroadcast(intentRefresh);
-
-                if (tabIndex == 1) break;
-
-                showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
+                showFragment(R.id.layout_container, CreateTaskFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
+                if (tabIndex == 1) break;//
                 tabIndex = 1;
                 updateMenuUi(1);
+
+//                Intent intentRefresh = new Intent();
+//                intentRefresh.setAction(Constants.BROAD_CAST_REFRESH_CATEGORY);
+//                sendBroadcast(intentRefresh);
+//
+//                if (tabIndex == 1) break;
+//
+//                showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
+//                tabIndex = 1;
+//                updateMenuUi(1);
                 break;
 
             case R.id.layout_browser_task:

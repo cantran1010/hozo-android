@@ -133,8 +133,7 @@ public class SelectTaskFragment extends BaseFragment {
             setIsSelected(list);
             CategoryManager.insertCategories(list);
         } else {
-            for (Category category : categoryList
-                    ) {
+            for (Category category : categoryList) {
                 category.setSelected(checkCategoryById(category.getId()));
             }
             list = DataParse.convertListCategoryToListCategoryEntity(categoryList);
