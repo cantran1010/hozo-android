@@ -356,7 +356,7 @@
     <string name="error_des">Lỗi vượt quá 500 ký tự.</string>
     <string name="webview_error"><html><body style='background: white;'><p style='color: red;'>Không thể tải trang! Vui lòng kiểm tra kết nối và thử lại!</p></body></html></string>
     <string name="title_max_length_error">Tiêu đề không được quá 80 kí tự</string>
-    <string name="working_hour_max_error">Số giờ làm việc tối đa là 8 giờ</string>
+    <string name="working_hour_max_error">Số giờ làm việc tối đa là %1$d giờ</string>
     <string name="detete_task">Xóa việc</string>
     <string name="title_delete_task">Xóa việc</string>
     <string name="content_detete_task">Bạn có chắc chắn muốn xóa việc này?</string>
@@ -404,7 +404,13 @@
     <string name="report_task_content">Bạn có chắc chắn muốn báo xấu việc này?</string>
     <string name="report_task_success">Bạn đã báo xấu việc này thành công!</string>
     <string name="refresh_token">Bạn đã bị đăng suất do đăng nhập ở một thiết bị khác!</string>
-    <string name="tv_category_title">Loại việc</string>
-    <string name="post_a_task_msg_length">%1$d/%2$d</string>
+    <string name="tv_category_title">Loại việc : </string>
+    <string name="post_a_task_msg_length">%1$d/%2$d kí tự</string>
+    <string name="tv_time_task_lbl">Số giờ làm</string>
+    <string name="location">Địa điểm</string>
+    <string name="price">Giá tiền</string>
+    <string name="number_worker">Số người</string>
+    <string name="all_price">Tổng tiền</string>
+    <string name="btn_create_task">ĐĂNG VIỆC</string>
 
 </resources>

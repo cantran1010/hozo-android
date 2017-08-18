@@ -157,7 +157,7 @@ public class PlaceActivity extends BaseActivity implements View.OnClickListener,
                 return;
             }
             try {
-
+                Utils.hideKeyBoard(PlaceActivity.this);
                 // Get the Place object from the buffer.
                 final Place place = places.get(0);
 

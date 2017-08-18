@@ -15,7 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.PostATaskActivity;
+import vn.tonish.hozo.activity.CreateTaskActivity;
 import vn.tonish.hozo.adapter.CategoryAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
@@ -175,7 +175,7 @@ public class SelectTaskFragment extends BaseFragment {
         categoryAdapter.setCategoryAdapterLister(new CategoryAdapter.CategoryAdapterLister() {
             @Override
             public void onCallBack(int position) {
-                Intent intent = new Intent(getActivity(), PostATaskActivity.class);
+                Intent intent = new Intent(getActivity(), CreateTaskActivity.class);
                 intent.putExtra(Constants.EXTRA_CATEGORY, categories.get(position));
                 startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.DOWN_TO_UP);
             }

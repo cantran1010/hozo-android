@@ -413,6 +413,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                             myUser.setFullName(edtName.getText().toString());
                             realm.commitTransaction();
                         }
+                        Utils.settingDefault(getActivity());
                         startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                     }
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
