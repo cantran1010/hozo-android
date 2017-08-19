@@ -85,8 +85,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
 
         });
         btnDone.setOnClickListener(this);
-        adapter = new CustomArrayAdapter(this,
-                android.R.layout.simple_list_item_1, vnds);
+        adapter = new CustomArrayAdapter(this, vnds);
         edtBudget.setAdapter(adapter);
         adapter.setNotifyOnChange(true);
         edtBudget.setThreshold(0);
@@ -237,8 +236,7 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
         if (mn * 10000000 >= MIN_BUGDET && mn * 10000000 <= MAX_BUGDET)
             vnds.add(String.valueOf(formatNumber(mn * 10000000)));
 
-        adapter = new CustomArrayAdapter(this,
-                android.R.layout.simple_list_item_1, vnds);
+        adapter = new CustomArrayAdapter(this, vnds);
         edtBudget.setAdapter(adapter);
 
 //        adapter.getFilter().filter(formatNumber(Integer.parseInt(textView.getText().toString().trim())), null);

@@ -47,7 +47,7 @@
     <string name="task_title_hint">Lau dọn nhà bếp</string>
 
     <string name="post_a_task_name_error">Tiêu đề công việc trên 10 kí tự</string>
-    <string name="post_a_task_date_error">Vui lòng nhập thời gian bắt đầu làm việc</string>
+    <string name="post_a_task_date_error">Vui lòng nhập \n thời gian bắt đầu làm việc</string>
     <!--<string name="post_a_task_description_error">Mô tả công việc phải trên 25 kí tự</string>-->
 
     <string name="notify_title">Thông báo</string>
@@ -84,6 +84,14 @@
         <item>Bất kỳ</item>
         <item>Nam</item>
         <item>Nữ</item>
+    </string-array>
+
+    <string-array name="ages">
+        <item>18–25</item>
+        <item>26–30</item>
+        <item>31–40</item>
+        <item>41–50</item>
+        <item>51–60</item>
     </string-array>
 
     <!-- make an offer-->
@@ -143,8 +151,8 @@
     <string name="profile_address">Địa chỉ</string>
     <string name="profile_phone">Điện thoại</string>
     <string name="content_description_send">Gửi</string>
-    <string name="post_a_task_budget_error">Vui lòng nhập số tiền cho một người</string>
-    <string name="post_a_task_number_worker_error">Vui lòng nhập số người cần thuê</string>
+    <string name="post_a_task_budget_error">Vui lòng nhập \n giá tiền</string>
+    <string name="post_a_task_number_worker_error">Vui lòng nhập \n số người</string>
     <string name="post_a_task_max_attach_err">Bạn chỉ được chọn tối đa 6 ảnh</string>
     <string name="select_age_title">Chọn Tuổi</string>
     <string name="select_age_to">Đến</string>
@@ -288,7 +296,7 @@
     <string name="gender_vn_mafele">Nữ</string>
     <string name="gender_vn_male">Nam</string>
     <string name="error">Lỗi</string>
-    <string name="post_task_time_start_error">Vui lòng chọn thời gian bắt đầu sớm nhất có thể sau 30 phút nữa</string>
+    <string name="post_task_time_start_error">Vui lòng chọn thời gian bắt đầu \n sớm nhất có thể sau 30 phút</string>
     <string name="post_task_date_picker_title">Chọn ngày làm việc</string>
     <string name="post_task_time_picker_title">Chọn thời gian bắt đầu</string>
     <string name="radius_everywhere">mọi nơi</string>
@@ -356,7 +364,7 @@
     <string name="error_des">Lỗi vượt quá 500 ký tự.</string>
     <string name="webview_error"><html><body style='background: white;'><p style='color: red;'>Không thể tải trang! Vui lòng kiểm tra kết nối và thử lại!</p></body></html></string>
     <string name="title_max_length_error">Tiêu đề không được quá 80 kí tự</string>
-    <string name="working_hour_max_error">Số giờ làm việc tối đa là 8 giờ</string>
+    <string name="working_hour_max_error" tools:ignore="PluralsCandidate">Số giờ làm việc tối đa là %1$d giờ</string>
     <string name="detete_task">Xóa việc</string>
     <string name="title_delete_task">Xóa việc</string>
     <string name="content_detete_task">Bạn có chắc chắn muốn xóa việc này?</string>
@@ -404,5 +412,23 @@
     <string name="report_task_content">Bạn có chắc chắn muốn báo xấu việc này?</string>
     <string name="report_task_success">Bạn đã báo xấu việc này thành công!</string>
     <string name="refresh_token">Bạn đã bị đăng suất do đăng nhập ở một thiết bị khác!</string>
+    <string name="post_a_task_msg_length">%1$d/%2$d kí tự</string>
+    <string name="tv_time_task_lbl">Số giờ làm</string>
+    <string name="location">Địa điểm</string>
+    <string name="price">Giá tiền</string>
+    <string name="number_worker">Số người</string>
+    <string name="all_price">Tổng tiền</string>
+    <string name="btn_create_task">ĐĂNG VIỆC</string>
+    <string name="create_more_title">Thêm thông tin </string>
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
+    <string name="attach_image">Ảnh</string>
+    <string name="age">Tuổi</string>
+    <string name="sex">Giới tính</string>
+    <string name="gender_non_vn">Bất kỳ</string>
+    <string name="online_job">Việc có làm online tại nhà</string>
+    <string name="auto_pick">Tự động chọn ứng viên</string>
+    <string name="post_task_address_error">Vui lòng nhập địa chỉ</string>
+    <string name="hour_default">1</string>
 
 </resources>

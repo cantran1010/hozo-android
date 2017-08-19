@@ -347,7 +347,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
 
             case R.id.layout_post_a_task:
-
                 Intent intentRefresh = new Intent();
                 intentRefresh.setAction(Constants.BROAD_CAST_REFRESH_CATEGORY);
                 sendBroadcast(intentRefresh);

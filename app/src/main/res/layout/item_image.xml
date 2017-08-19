@@ -10,6 +10,7 @@
         android:layout_height="@dimen/image_attach_post_task_height"
         android:layout_marginEnd="1dp"
         android:layout_marginRight="1dp"
+        android:layout_marginTop="2dp"
         android:contentDescription="@string/just_image" />
 
     <ImageView
@@ -27,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="1dp"
+        android:layout_margin="2dp"
         android:background="#44000000"
         android:contentDescription="@string/adjust_image"
         android:padding="5dp"

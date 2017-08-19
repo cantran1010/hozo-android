@@ -313,6 +313,7 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
                     if (user.getFullName().isEmpty()) {
                         openFragment(R.id.layout_container, RegisterFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
                     } else {
+                        Utils.settingDefault(getActivity());
                         startActivityAndClearAllTask(new Intent(getActivity(), MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                     }
                     sendRegistrationToServer();
