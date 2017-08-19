@@ -41,6 +41,7 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btn_next"
@@ -60,16 +61,18 @@
 
                 <vn.tonish.hozo.view.TextViewHozo
                     style="@style/tv_style_normal_black"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_task_title"
                     android:textStyle="bold" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_title_msg"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:gravity="end"
                     android:textColor="@color/gray" />
 
             </RelativeLayout>
@@ -95,16 +98,18 @@
 
                 <vn.tonish.hozo.view.TextViewHozo
                     style="@style/tv_style_normal_black"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:text="@string/task_description_hint"
                     android:textStyle="bold" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_des_msg"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:gravity="end"
                     android:textColor="@color/gray" />
 
             </RelativeLayout>
@@ -125,11 +130,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="4"
                     android:orientation="vertical">
@@ -141,6 +148,7 @@
                         android:layout_marginTop="20dp"
                         android:drawableLeft="@drawable/timer"
                         android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/timer"
                         android:text="@string/tv_time_task"
                         android:textStyle="bold" />
 
@@ -148,6 +156,7 @@
                         android:id="@+id/date_layout"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
                         android:background="@color/green_hozo"
                         android:minHeight="@dimen/edt_min_height">
 
@@ -176,7 +185,7 @@
                             android:layout_marginEnd="5dp"
                             android:layout_marginRight="5dp"
                             android:contentDescription="@string/drop_down"
-                            android:src="@drawable/calendar" />
+                            android:src="@drawable/calendar_create_task" />
 
                     </RelativeLayout>
 
@@ -186,6 +195,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_weight="3"
                     android:orientation="vertical">
 
@@ -196,12 +206,14 @@
                         android:layout_marginTop="20dp"
                         android:drawableLeft="@drawable/history"
                         android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/history"
                         android:text="@string/tv_time_task_lbl"
                         android:textStyle="bold" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -210,6 +222,7 @@
                             android:layout_height="40dp"
                             android:layout_centerVertical="true"
                             android:background="@color/green_hozo"
+                            android:contentDescription="@string/just_image"
                             android:scaleType="centerInside"
                             android:src="@drawable/minus" />
 
@@ -217,6 +230,7 @@
                             android:id="@+id/v1"
                             android:layout_width="1px"
                             android:layout_height="match_parent"
+                            android:layout_toEndOf="@id/img_minus"
                             android:layout_toRightOf="@id/img_minus"
                             android:background="@color/black" />
 
@@ -225,8 +239,10 @@
                             style="@style/edt_style_normal"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
+                            android:layout_toEndOf="@id/v1"
                             android:layout_toLeftOf="@+id/v2"
                             android:layout_toRightOf="@id/v1"
+                            android:layout_toStartOf="@+id/v2"
                             android:background="@color/green_hozo"
                             android:gravity="center"
                             android:inputType="number"
@@ -235,13 +251,14 @@
                             android:maxLines="1"
                             android:minHeight="@dimen/edt_min_height"
                             android:padding="5dp"
-                            android:text="1" />
+                            android:text="@string/hour_default" />
 
                         <View
                             android:id="@+id/v2"
                             android:layout_width="1px"
                             android:layout_height="match_parent"
                             android:layout_toLeftOf="@+id/img_plus"
+                            android:layout_toStartOf="@+id/img_plus"
                             android:background="@color/black" />
 
                         <ImageView
@@ -252,6 +269,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:background="@color/green_hozo"
+                            android:contentDescription="@string/just_image"
                             android:scaleType="centerInside"
                             android:src="@drawable/plus" />
 
@@ -268,6 +286,7 @@
                 android:layout_marginTop="20dp"
                 android:drawableLeft="@drawable/location_create_task"
                 android:drawablePadding="5dp"
+                android:drawableStart="@drawable/location_create_task"
                 android:text="@string/location"
                 android:textStyle="bold" />
 
@@ -275,9 +294,10 @@
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginTop="10dp"
                 android:background="@color/green_hozo"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:gravity="center_vertical"
                 android:hint="@string/address_hint"
                 android:minHeight="40dp"
@@ -289,11 +309,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
@@ -304,12 +326,14 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/money"
                         android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/money"
                         android:text="@string/price"
                         android:textStyle="bold" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:background="@color/green_hozo">
 
                         <vn.tonish.hozo.view.HozoAutoCompleteTextView
@@ -337,6 +361,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
+                            android:layout_marginEnd="5dp"
                             android:layout_marginRight="5dp"
                             android:text="@string/vn_dong"
                             android:textColor="@color/black"
@@ -349,6 +374,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
@@ -359,6 +385,7 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/avatar_create_task"
                         android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/avatar_create_task"
                         android:text="@string/number_worker"
                         android:textStyle="bold" />
 
@@ -366,6 +393,7 @@
                         android:id="@+id/edt_number_worker"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
                         android:background="@color/green_hozo"
                         android:inputType="number"
                         android:maxLength="2"
@@ -387,12 +415,14 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/money"
                         android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/money"
                         android:text="@string/all_price"
                         android:textStyle="bold" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:background="@color/green_hozo">
 
                         <vn.tonish.hozo.view.TextViewHozo
@@ -414,6 +444,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
+                            android:layout_marginEnd="5dp"
                             android:layout_marginRight="5dp"
                             android:text="@string/vn_dong"
                             android:textColor="@color/black"
@@ -423,6 +454,8 @@
 
                 </LinearLayout>
             </LinearLayout>
+
+            <include layout="@layout/create_task_more" />
 
         </LinearLayout>
     </ScrollView>

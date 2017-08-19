@@ -1,18 +1,36 @@
 package vn.tonish.hozo.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,22 +41,27 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.CustomArrayAdapter;
+import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogCancelTask;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
+import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
@@ -49,8 +72,11 @@ import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.MyGridView;
 import vn.tonish.hozo.view.TextViewHozo;
 
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.Utils.formatNumber;
 
 /**
@@ -60,10 +86,11 @@ import static vn.tonish.hozo.utils.Utils.formatNumber;
 public class CreateTaskActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = CreateTaskActivity.class.getSimpleName();
+    private ScrollView scrollView;
     private EdittextHozo edtTitle, edtDescription, edtWorkingHour, edtNumberWorker;
     private TextViewHozo tvTitleMsg, tvDesMsg;
-    private static final int MAX_LENGTH_TITLE = 5;
-    private static final int MAX_LENGTH_DES = 30;
+    private static final int MAX_LENGTH_TITLE = 80;
+    private static final int MAX_LENGTH_DES = 500;
     private static final int MAX_HOURS = 12;
     private double lat, lon;
     private String address;
@@ -79,6 +106,19 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private CustomArrayAdapter adapter;
     private static final int MAX_WORKER = 30;
     private ArrayList<String> vnds = new ArrayList<>();
+    private LinearLayout layoutMore;
+    private RadioGroup radioMore, radioSex;
+    private RadioButton radioMoreYes, radioMoreNo, radioMale, radioFemale, radioNon;
+    private MyGridView grImage;
+    private ImageAdapter imageAdapter;
+    private final ArrayList<Image> images = new ArrayList<>();
+    private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private String imgPath;
+
+    private Spinner spAge;
+    private CheckBox cbOnline, cbAuto;
+    private int imageAttachCount;
+    private int[] imagesArr;
 
     @Override
     protected int getLayout() {
@@ -87,6 +127,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initView() {
+        scrollView = findViewById(R.id.scroll_view);
+
         ImageView imgClose = (ImageView) findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
 
@@ -117,6 +159,24 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
         imgPlus = findViewById(R.id.img_plus);
         imgPlus.setOnClickListener(this);
+
+        layoutMore = findViewById(R.id.more_layout);
+
+        radioMore = findViewById(R.id.radio_more);
+        radioMoreYes = findViewById(R.id.radio_more_yes);
+        radioMoreNo = findViewById(R.id.radio_more_no);
+
+        grImage = (MyGridView) findViewById(R.id.gr_image);
+        spAge = findViewById(R.id.sp_age);
+
+        radioSex = findViewById(R.id.radio_sex);
+        radioMale = findViewById(R.id.radio_male);
+        radioFemale = findViewById(R.id.radio_female);
+        radioNon = findViewById(R.id.radio_non);
+
+        cbOnline = findViewById(R.id.cb_online_task);
+        cbAuto = findViewById(R.id.cb_auto_pick);
+
     }
 
     @Override
@@ -252,12 +312,129 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 }
             }
         });
-    }
 
+        radioMore.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                switch (i) {
+
+                    case R.id.radio_more_yes:
+                        layoutMore.setVisibility(View.VISIBLE);
+                        scrollView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                            }
+                        },200);
+
+                        break;
+
+                    case R.id.radio_more_no:
+                        layoutMore.setVisibility(View.GONE);
+                        break;
+
+                }
+            }
+        });
+
+        final Image image = new Image();
+        image.setAdd(true);
+        images.add(image);
+
+        imageAdapter = new ImageAdapter(this, images);
+        grImage.setAdapter(imageAdapter);
+
+        grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (images.get(position).isAdd) {
+                    if (images.size() >= 7) {
+                        Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_a_task_max_attach_err), true, false);
+                    } else {
+                        checkPermission();
+                    }
+                } else {
+                    Intent intent = new Intent(CreateTaskActivity.this, PreviewImageActivity.class);
+                    intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
+                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                }
+            }
+        });
+
+    }
 
     @Override
     protected void resumeData() {
 
+    }
+
+    private void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+        } else {
+            permissionGranted();
+        }
+    }
+
+    private void permissionGranted() {
+        PickImageDialog pickImageDialog = new PickImageDialog(CreateTaskActivity.this);
+        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+            @Override
+            public void onCamera() {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+            }
+
+            @Override
+            public void onGallery() {
+                Intent intent = new Intent(CreateTaskActivity.this, AlbumActivity.class);
+                intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size() - 1);
+                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
+        pickImageDialog.showView();
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0) {
+            boolean cameraPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+            boolean readExternalFile = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+            if (cameraPermission && readExternalFile) {
+                permissionGranted();
+            } else {
+//                snackbar = Snackbar.make(findViewById(android.R.id.content),
+//                        getString(R.string.attach_image_permission_message),
+//                        Snackbar.LENGTH_INDEFINITE).setAction(getString(R.string.attach_image_permission_confirm),
+//                        new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                ActivityCompat.requestPermissions(PostATaskActivity.this, permissions, Constants.PERMISSION_REQUEST_CODE);
+//                            }
+//                        });
+//                snackbar.show();
+            }
+        }
+    }
+
+    private Uri setImageUri() {
+        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+        Uri imgUri = Uri.fromFile(file);
+        this.imgPath = file.getAbsolutePath();
+        return imgUri;
+    }
+
+    private String getImagePath() {
+        return imgPath;
     }
 
     private void updateTotalPayment() {
@@ -359,16 +536,85 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             tvDate.requestFocus();
             tvDate.setError(getString(R.string.post_a_task_date_error));
             return;
-        } else if (edtWorkingHour.getText().toString().equals("")) {
-            edtWorkingHour.requestFocus();
-            edtWorkingHour.setError(getString(R.string.post_a_task_time_working_error));
-            return;
         } else if (DateTimeUtils.minutesBetween(Calendar.getInstance(), calendar) < 30) {
             tvDate.requestFocus();
             tvDate.setError(getString(R.string.post_task_time_start_error));
             return;
+        } else if (TextUtils.isEmpty(address)) {
+            tvAddress.requestFocus();
+            tvAddress.setError(getString(R.string.post_task_address_error));
+            return;
+        }
+        if (edtBudget.getText().toString().equals("0") || edtBudget.getText().toString().equals("")) {
+            edtBudget.requestFocus();
+            edtBudget.setError(getString(R.string.post_a_task_budget_error));
+            return;
+        } else if (edtNumberWorker.getText().toString().equals("0") || edtNumberWorker.getText().toString().equals("")) {
+            edtNumberWorker.requestFocus();
+            edtNumberWorker.setError(getString(R.string.post_a_task_number_worker_error));
+            return;
+        } else if (Integer.valueOf(edtNumberWorker.getText().toString()) > MAX_WORKER) {
+            edtNumberWorker.setError(getString(R.string.max_number_worker_error, MAX_WORKER));
+            return;
+        } else if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) < MIN_BUGDET) {
+            edtBudget.requestFocus();
+            edtBudget.setError(getString(R.string.min_budget_error));
+            return;
         }
 
+        if (radioMoreYes.isChecked() && images.size() > 1) doAttachFiles();
+        else createTaskOnServer();
+
+    }
+
+    private void doAttachFiles() {
+        ProgressDialogUtils.showProgressDialog(this);
+
+        imageAttachCount = images.size() - 1;
+        imagesArr = new int[images.size() - 1];
+
+        for (int i = 0; i < images.size() - 1; i++) {
+            LogUtils.d(TAG, " attachAllFile image " + i + " : " + images.get(i).getPath());
+            File file = new File(images.get(i).getPath());
+            attachFile(file, i);
+        }
+    }
+
+    private void attachFile(final File file, final int position) {
+        File fileUp = Utils.compressFile(file);
+
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
+        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
+
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(), itemPart).enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+                LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
+                if (response.code() == Constants.HTTP_CODE_CREATED) {
+                    ImageResponse imageResponse = response.body();
+                    imageAttachCount--;
+                    if (imageResponse != null)
+                        imagesArr[position] = imageResponse.getIdTemp();
+
+                    if (imageAttachCount == 0)
+                        createTaskOnServer();
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(CreateTaskActivity.this);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
+                imageAttachCount--;
+                if (imageAttachCount == 0)
+                    createTaskOnServer();
+            }
+        });
+    }
+
+    private void createTaskOnServer() {
         ProgressDialogUtils.showProgressDialog(this);
         final JSONObject jsonRequest = new JSONObject();
         try {
@@ -383,18 +629,36 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             String[] arrAddress = address.split(",");
 
-            jsonRequest.put("city", arrAddress[arrAddress.length - 2]);
-            jsonRequest.put("district", arrAddress[arrAddress.length - 3]);
+            jsonRequest.put("city", arrAddress.length >= 2 ? arrAddress[arrAddress.length - 2].trim() : arrAddress[address.length() - 1].trim());
+            jsonRequest.put("district", arrAddress.length >= 3 ? arrAddress[arrAddress.length - 3].trim() : arrAddress[address.length() - 1].trim());
+
             jsonRequest.put("address", address);
+
             jsonRequest.put("worker_rate", Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
             jsonRequest.put("worker_count", Integer.valueOf(getLongEdittext(edtNumberWorker)));
 
-//            if (taskResponse.getAttachmentsId() != null && taskResponse.getAttachmentsId().length > 0) {
-//                JSONArray jsonArray = new JSONArray();
-//                for (int i = 0; i < taskResponse.getAttachmentsId().length; i++)
-//                    jsonArray.put(taskResponse.getAttachmentsId()[i]);
-//                jsonRequest.put("attachments", jsonArray);
-//            }
+            if (radioMoreYes.isChecked()) {
+
+                if (imagesArr.length > 0) {
+                    JSONArray jsonArray = new JSONArray();
+                    for (int i = 0; i < imagesArr.length; i++)
+                        jsonArray.put(imagesArr[i]);
+                    jsonRequest.put("attachments", jsonArray);
+                }
+
+                jsonRequest.put("min_age", Integer.valueOf(spAge.getSelectedItem().toString().substring(0, 2)));
+                jsonRequest.put("max_age", Integer.valueOf(spAge.getSelectedItem().toString().substring(3, 5)));
+
+                if (radioMale.isChecked()) {
+                    jsonRequest.put("gender", Constants.GENDER_MALE);
+                } else if (radioFemale.isChecked()) {
+                    jsonRequest.put("gender", Constants.GENDER_FEMALE);
+                }
+
+                jsonRequest.put("isOnline", cbOnline.isChecked());
+                jsonRequest.put("isAuto", cbAuto.isChecked());
+
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -412,6 +676,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
                 if (response.code() == Constants.HTTP_CODE_CREATED) {
                     Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_a_task_complete), false, false);
+                    setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+                    finish();
                     FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(CreateTaskActivity.this, new NetworkUtils.RefreshListener() {
@@ -424,7 +690,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     Utils.blockUser(CreateTaskActivity.this);
                 } else {
                     APIError error = ErrorUtils.parseError(response);
-                    LogUtils.e(TAG, "createNewTask errorBody" + error.toString());
+                    LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
                     DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
@@ -453,7 +719,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 ProgressDialogUtils.dismissProgressDialog();
             }
         });
-
     }
 
     private Calendar getEndTime() {
@@ -482,6 +747,21 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             address = data.getStringExtra(Constants.EXTRA_ADDRESS);
 
             tvAddress.setText(address);
+            tvAddress.setError(null);
+        } else if (requestCode == REQUEST_CODE_PICK_IMAGE
+                && resultCode == RESPONSE_CODE_PICK_IMAGE
+                && data != null) {
+            ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+            images.addAll(0, imagesSelected);
+            imageAdapter.notifyDataSetChanged();
+        } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+            final String selectedImagePath = getImagePath();
+            LogUtils.d(TAG, "onActivityResult selectedImagePath : " + selectedImagePath);
+            Image image = new Image();
+            image.setAdd(false);
+            image.setPath(selectedImagePath);
+            images.add(0, image);
+            imageAdapter.notifyDataSetChanged();
         }
     }
 
