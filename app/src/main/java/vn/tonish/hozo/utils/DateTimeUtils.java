@@ -143,7 +143,7 @@ public class DateTimeUtils {
      */
     public static String fromCalendarIsoCreateTask(final Calendar calendar) {
         Date date = calendar.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault());
         return sdf.format(date);
     }
 

@@ -27,7 +27,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import org.json.JSONArray;
@@ -51,6 +50,7 @@ import vn.tonish.hozo.adapter.CustomArrayAdapter;
 import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AgeDialog;
 import vn.tonish.hozo.dialog.AlertDialogCancelTask;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
@@ -100,6 +100,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private AutoCompleteTextView edtBudget;
     private Category category;
     private TextViewHozo tvAddress;
+    private RelativeLayout layoutAddress;
     private ImageView imgMinus, imgPlus;
     private static final int MAX_BUGDET = 500000;
     private static final int MIN_BUGDET = 10000;
@@ -115,10 +116,12 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
 
-    private Spinner spAge;
+    private TextViewHozo tvAge;
     private CheckBox cbOnline, cbAuto;
     private int imageAttachCount;
     private int[] imagesArr;
+    private int ageFrom = 18;
+    private int ageTo = 60;
 
     @Override
     protected int getLayout() {
@@ -129,30 +132,32 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     protected void initView() {
         scrollView = findViewById(R.id.scroll_view);
 
-        ImageView imgClose = (ImageView) findViewById(R.id.img_close);
+        ImageView imgClose = findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
 
-        edtTitle = (EdittextHozo) findViewById(R.id.edt_task_name);
-        edtDescription = (EdittextHozo) findViewById(R.id.edt_description);
-        tvDate = (TextViewHozo) findViewById(R.id.tv_date);
+        edtTitle = findViewById(R.id.edt_task_name);
+        edtDescription = findViewById(R.id.edt_description);
+        tvDate = findViewById(R.id.tv_date);
 
-        tvTitleMsg = (TextViewHozo) findViewById(R.id.tv_title_msg);
-        tvDesMsg = (TextViewHozo) findViewById(R.id.tv_des_msg);
+        tvTitleMsg = findViewById(R.id.tv_title_msg);
+        tvDesMsg = findViewById(R.id.tv_des_msg);
 
-        edtBudget = (AutoCompleteTextView) findViewById(R.id.edt_budget);
-        edtNumberWorker = (EdittextHozo) findViewById(R.id.edt_number_worker);
+        layoutAddress = findViewById(R.id.layout_address);
+        layoutAddress.setOnClickListener(this);
+
+        edtBudget = findViewById(R.id.edt_budget);
+        edtNumberWorker = findViewById(R.id.edt_number_worker);
         tvTotalPrice = findViewById(R.id.tv_total_price);
 
         edtWorkingHour = findViewById(R.id.edt_working_hour);
 
-        RelativeLayout layoutDate = (RelativeLayout) findViewById(R.id.date_layout);
+        RelativeLayout layoutDate = findViewById(R.id.date_layout);
         layoutDate.setOnClickListener(this);
 
-        ButtonHozo btnNext = (ButtonHozo) findViewById(R.id.btn_next);
+        ButtonHozo btnNext = findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
 
         tvAddress = findViewById(R.id.tv_address);
-        tvAddress.setOnClickListener(this);
 
         imgMinus = findViewById(R.id.img_minus);
         imgMinus.setOnClickListener(this);
@@ -166,8 +171,10 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         radioMoreYes = findViewById(R.id.radio_more_yes);
         radioMoreNo = findViewById(R.id.radio_more_no);
 
-        grImage = (MyGridView) findViewById(R.id.gr_image);
-        spAge = findViewById(R.id.sp_age);
+        grImage = findViewById(R.id.gr_image);
+
+        tvAge = findViewById(R.id.tv_age);
+        tvAge.setOnClickListener(this);
 
         radioSex = findViewById(R.id.radio_sex);
         radioMale = findViewById(R.id.radio_male);
@@ -181,6 +188,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initData() {
+        calendar.add(Calendar.MINUTE, 40);
+        tvDate.setText(DateTimeUtils.fromCalendarIsoCreateTask(calendar));
+
         category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
 
         edtTitle.setHint(category.getSuggestTitle());
@@ -278,7 +288,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 if (!edtBudget.getText().toString().equals(""))
                     if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) > MAX_BUGDET) {
                         edtBudget.setText(edtBudget.getText().toString().substring(0, edtBudget.length() - 1));
-                        edtBudget.setError(getString(R.string.max_budget_error));
+                        edtBudget.setError(getString(R.string.max_budget_error, Utils.formatNumber(MAX_BUGDET)));
                         edtBudget.setSelection(edtBudget.getText().toString().length());
                     } else {
                         updateTotalPayment();
@@ -325,7 +335,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                             public void run() {
                                 scrollView.fullScroll(ScrollView.FOCUS_DOWN);
                             }
-                        },200);
+                        }, 200);
 
                         break;
 
@@ -503,7 +513,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                                                     calendar.set(year, monthOfYear, dayOfMonth);
                                                     calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                                                     calendar.set(Calendar.MINUTE, minute);
-                                                    String strDate = hourOfDay + ":" + minute + " " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                                                    String strDate = hourOfDay + ":" + minute + "  " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
                                                     tvDate.setText(strDate);
                                                     tvDate.setError(null);
                                                 }
@@ -540,12 +550,15 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             tvDate.requestFocus();
             tvDate.setError(getString(R.string.post_task_time_start_error));
             return;
+        } else if (edtWorkingHour.getText().toString().trim().equals("") || edtWorkingHour.getText().toString().equals("0")) {
+            edtWorkingHour.requestFocus();
+            edtWorkingHour.setError(getString(R.string.post_task_edt_working_hour_error));
+            return;
         } else if (TextUtils.isEmpty(address)) {
             tvAddress.requestFocus();
             tvAddress.setError(getString(R.string.post_task_address_error));
             return;
-        }
-        if (edtBudget.getText().toString().equals("0") || edtBudget.getText().toString().equals("")) {
+        } else if (edtBudget.getText().toString().equals("0") || edtBudget.getText().toString().equals("")) {
             edtBudget.requestFocus();
             edtBudget.setError(getString(R.string.post_a_task_budget_error));
             return;
@@ -558,7 +571,15 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             return;
         } else if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) < MIN_BUGDET) {
             edtBudget.requestFocus();
-            edtBudget.setError(getString(R.string.min_budget_error));
+            edtBudget.setError(getString(R.string.min_budget_error, Utils.formatNumber(MIN_BUGDET)));
+            return;
+        } else if (!Utils.validateInput(this, edtTitle.getText().toString())) {
+            edtTitle.requestFocus();
+            edtTitle.setError(getString(R.string.post_a_task_input_error));
+            return;
+        } else if (!Utils.validateInput(this, edtDescription.getText().toString())) {
+            edtDescription.requestFocus();
+            edtDescription.setError(getString(R.string.post_a_task_input_error));
             return;
         }
 
@@ -629,8 +650,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             String[] arrAddress = address.split(",");
 
-            jsonRequest.put("city", arrAddress.length >= 2 ? arrAddress[arrAddress.length - 2].trim() : arrAddress[address.length() - 1].trim());
-            jsonRequest.put("district", arrAddress.length >= 3 ? arrAddress[arrAddress.length - 3].trim() : arrAddress[address.length() - 1].trim());
+            jsonRequest.put("city", arrAddress.length >= 2 ? arrAddress[arrAddress.length - 2].trim() : arrAddress[arrAddress.length - 1].trim());
+            jsonRequest.put("district", arrAddress.length >= 3 ? arrAddress[arrAddress.length - 3].trim() : arrAddress[arrAddress.length - 1].trim());
 
             jsonRequest.put("address", address);
 
@@ -646,8 +667,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     jsonRequest.put("attachments", jsonArray);
                 }
 
-                jsonRequest.put("min_age", Integer.valueOf(spAge.getSelectedItem().toString().substring(0, 2)));
-                jsonRequest.put("max_age", Integer.valueOf(spAge.getSelectedItem().toString().substring(3, 5)));
+                jsonRequest.put("min_age", ageFrom);
+                jsonRequest.put("max_age", ageTo);
 
                 if (radioMale.isChecked()) {
                     jsonRequest.put("gender", Constants.GENDER_MALE);
@@ -768,19 +789,24 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     private void doMinus() {
         int value = Integer.valueOf(edtWorkingHour.getText().toString());
-        if (value >= 2)
+        if (value >= 2) {
             edtWorkingHour.setText(String.valueOf(value - 1));
-        else
+            edtWorkingHour.setError(null);
+        } else
             edtWorkingHour.setText(String.valueOf(1));
         edtWorkingHour.setSelection(edtWorkingHour.length());
     }
 
     private void doPlus() {
         int value = Integer.valueOf(edtWorkingHour.getText().toString());
-        if (value < 12)
+        if (value < 12) {
             edtWorkingHour.setText(String.valueOf(value + 1));
-        else
+            edtWorkingHour.setError(null);
+        } else {
             edtWorkingHour.setText(String.valueOf(12));
+            edtWorkingHour.requestFocus();
+            edtWorkingHour.setError(getString(R.string.working_hour_max_error, MAX_HOURS));
+        }
         edtWorkingHour.setSelection(edtWorkingHour.length());
     }
 
@@ -819,7 +845,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 doNext();
                 break;
 
-            case R.id.tv_address:
+            case R.id.layout_address:
                 Intent intent = new Intent(this, PlaceActivity.class);
                 startActivityForResult(intent, Constants.REQUEST_CODE_ADDRESS, TransitionScreen.FADE_IN);
                 break;
@@ -834,6 +860,22 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             case R.id.img_close:
                 doClose();
+                break;
+
+            case R.id.tv_age:
+                AgeDialog ageDialog = new AgeDialog(CreateTaskActivity.this);
+                ageDialog.setAgeFrom(ageFrom);
+                ageDialog.setAgeTo(ageTo);
+                ageDialog.setAgeDialogListener(new AgeDialog.AgeDialogListener() {
+                    @Override
+                    public void onAgeDialogLister(int from, int to) {
+                        tvAge.setText(getString(R.string.post_a_task_age, from, to));
+                        ageFrom = from;
+                        ageTo = to;
+                        tvAge.setError(null);
+                    }
+                });
+                ageDialog.showView();
                 break;
 
         }

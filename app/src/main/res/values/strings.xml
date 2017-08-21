@@ -322,8 +322,8 @@
     <string name="detail_task_time_ago">%1$s . Loại công việc : %2$s</string>
     <string name="edit_profile_birthday">%1$d/%2$d/%3$d</string>
     <string name="task_detail_time">%1$s - %2$s</string>
-    <string name="max_number_worker_error" tools:ignore="PluralsCandidate">Bạn được phép chọn tối đa %1$d người</string>
-    <string name="max_budget_error">Số tiền bạn nhập không quá 10.000.000 VND</string>
+    <string name="max_number_worker_error" tools:ignore="PluralsCandidate">Số người \n tối đa là %1$d người</string>
+    <string name="max_budget_error">Giá tiền \n tối đa %1$s VND</string>
     <string name="your_task">của bạn</string>
     <string name="work">Việc</string>
     <string name="push_alert">phù hợp với bạn</string>
@@ -355,7 +355,7 @@
     <string name="erro_empty_name">Bắt buộc phải nhập họ tên.</string>
     <string name="share">Chia sẻ</string>
     <string name="other_alert">Thông báo công việc</string>
-    <string name="min_budget_error">Số tiền tối thiểu là 10.000 VNĐ</string>
+    <string name="min_budget_error">Số tiền tối thiểu \n là %1$s</string>
     <string name="notification_title">Thông báo</string>
     <string name="term_and_policy">vi phạm điều khoản sử dụng</string>
     <string name="edt_profile_des_hill">Giới thiệu về bản thân, không quá 500 ký tự …</string>
@@ -429,6 +429,10 @@
     <string name="online_job">Việc có làm online tại nhà</string>
     <string name="auto_pick">Tự động chọn ứng viên</string>
     <string name="post_task_address_error">Vui lòng nhập địa chỉ</string>
-    <string name="hour_default">1</string>
+    <string name="hour_default">2</string>
+    <string name="post_task_edt_working_hour_error">Vui lòng nhập \\n số giờ làm việc</string>
+    <string name="email_input_error1">\@</string>
+    <string name="email_input_error2">email</string>
+    <string name="post_a_task_input_error">Hozo không cho phép đăng email hay số điện thoại trong bài đăng</string>
 
 </resources>
