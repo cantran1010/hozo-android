@@ -33,12 +33,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.i18n.phonenumbers.PhoneNumberMatch;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.List;
 
 import vn.tonish.hozo.BuildConfig;
@@ -707,6 +710,19 @@ public class Utils {
         settingEntiny.setMinWorkerRate(0);
         settingEntiny.setMaxWorkerRate(0);
         SettingManager.insertSetting(settingEntiny);
+    }
+
+    public static boolean validateInput(Context context, String input) {
+        if (input.contains(context.getString(R.string.email_input_error1))) return false;
+        if (input.toLowerCase().contains(context.getString(R.string.email_input_error2)))
+            return false;
+
+        Iterator<PhoneNumberMatch> existsPhone = PhoneNumberUtil.getInstance().findNumbers(input, "VN").iterator();
+        while (existsPhone.hasNext()) {
+            return false;
+        }
+
+        return true;
     }
 
 }

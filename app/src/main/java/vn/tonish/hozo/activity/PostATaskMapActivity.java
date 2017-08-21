@@ -234,9 +234,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
     }
 
     private boolean isCopyAddress() {
-        if (taskResponse.getLatitude() == 0 && taskResponse.getLongitude() == 0)
-            return false;
-        else return true;
+        return !(taskResponse.getLatitude() == 0 && taskResponse.getLongitude() == 0);
     }
 
     private void getAddress(boolean isAddAddress) {

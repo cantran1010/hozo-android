@@ -129,26 +129,26 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     protected void initView() {
         scrollView = findViewById(R.id.scroll_view);
 
-        ImageView imgClose = (ImageView) findViewById(R.id.img_close);
+        ImageView imgClose = findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
 
-        edtTitle = (EdittextHozo) findViewById(R.id.edt_task_name);
-        edtDescription = (EdittextHozo) findViewById(R.id.edt_description);
-        tvDate = (TextViewHozo) findViewById(R.id.tv_date);
+        edtTitle = findViewById(R.id.edt_task_name);
+        edtDescription = findViewById(R.id.edt_description);
+        tvDate = findViewById(R.id.tv_date);
 
-        tvTitleMsg = (TextViewHozo) findViewById(R.id.tv_title_msg);
-        tvDesMsg = (TextViewHozo) findViewById(R.id.tv_des_msg);
+        tvTitleMsg = findViewById(R.id.tv_title_msg);
+        tvDesMsg = findViewById(R.id.tv_des_msg);
 
-        edtBudget = (AutoCompleteTextView) findViewById(R.id.edt_budget);
-        edtNumberWorker = (EdittextHozo) findViewById(R.id.edt_number_worker);
+        edtBudget = findViewById(R.id.edt_budget);
+        edtNumberWorker = findViewById(R.id.edt_number_worker);
         tvTotalPrice = findViewById(R.id.tv_total_price);
 
         edtWorkingHour = findViewById(R.id.edt_working_hour);
 
-        RelativeLayout layoutDate = (RelativeLayout) findViewById(R.id.date_layout);
+        RelativeLayout layoutDate = findViewById(R.id.date_layout);
         layoutDate.setOnClickListener(this);
 
-        ButtonHozo btnNext = (ButtonHozo) findViewById(R.id.btn_next);
+        ButtonHozo btnNext = findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
 
         tvAddress = findViewById(R.id.tv_address);
@@ -166,7 +166,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         radioMoreYes = findViewById(R.id.radio_more_yes);
         radioMoreNo = findViewById(R.id.radio_more_no);
 
-        grImage = (MyGridView) findViewById(R.id.gr_image);
+        grImage = findViewById(R.id.gr_image);
         spAge = findViewById(R.id.sp_age);
 
         radioSex = findViewById(R.id.radio_sex);
@@ -181,6 +181,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initData() {
+        calendar.add(Calendar.MINUTE, 30);
+        tvDate.setText(DateTimeUtils.fromCalendarIsoCreateTask(calendar));
+
         category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
 
         edtTitle.setHint(category.getSuggestTitle());
@@ -325,7 +328,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                             public void run() {
                                 scrollView.fullScroll(ScrollView.FOCUS_DOWN);
                             }
-                        },200);
+                        }, 200);
 
                         break;
 
@@ -503,7 +506,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                                                     calendar.set(year, monthOfYear, dayOfMonth);
                                                     calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                                                     calendar.set(Calendar.MINUTE, minute);
-                                                    String strDate = hourOfDay + ":" + minute + " " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                                                    String strDate = hourOfDay + ":" + minute + "  " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
                                                     tvDate.setText(strDate);
                                                     tvDate.setError(null);
                                                 }
@@ -540,12 +543,15 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             tvDate.requestFocus();
             tvDate.setError(getString(R.string.post_task_time_start_error));
             return;
+        } else if (edtWorkingHour.getText().toString().trim().equals("") || edtWorkingHour.getText().toString().equals("0")) {
+            edtWorkingHour.requestFocus();
+            edtWorkingHour.setError(getString(R.string.post_task_edt_working_hour_error));
+            return;
         } else if (TextUtils.isEmpty(address)) {
             tvAddress.requestFocus();
             tvAddress.setError(getString(R.string.post_task_address_error));
             return;
-        }
-        if (edtBudget.getText().toString().equals("0") || edtBudget.getText().toString().equals("")) {
+        } else if (edtBudget.getText().toString().equals("0") || edtBudget.getText().toString().equals("")) {
             edtBudget.requestFocus();
             edtBudget.setError(getString(R.string.post_a_task_budget_error));
             return;
@@ -559,6 +565,14 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         } else if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) < MIN_BUGDET) {
             edtBudget.requestFocus();
             edtBudget.setError(getString(R.string.min_budget_error));
+            return;
+        } else if (!Utils.validateInput(this, edtTitle.getText().toString())) {
+            edtTitle.requestFocus();
+            edtTitle.setError(getString(R.string.post_a_task_input_error));
+            return;
+        } else if (!Utils.validateInput(this, edtDescription.getText().toString())) {
+            edtDescription.requestFocus();
+            edtDescription.setError(getString(R.string.post_a_task_input_error));
             return;
         }
 
@@ -779,8 +793,11 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         int value = Integer.valueOf(edtWorkingHour.getText().toString());
         if (value < 12)
             edtWorkingHour.setText(String.valueOf(value + 1));
-        else
+        else {
             edtWorkingHour.setText(String.valueOf(12));
+            edtWorkingHour.requestFocus();
+            edtWorkingHour.setError(getString(R.string.working_hour_max_error, MAX_HOURS));
+        }
         edtWorkingHour.setSelection(edtWorkingHour.length());
     }
 
