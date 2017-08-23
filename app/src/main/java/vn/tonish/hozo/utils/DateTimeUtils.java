@@ -21,6 +21,8 @@ import vn.tonish.hozo.R;
  */
 public class DateTimeUtils {
 
+    private static final String TAG = DateTimeUtils.class.getSimpleName();
+
     public static String getOnlyDateFromIso(String input) {
         Date date = null;
 
@@ -32,6 +34,19 @@ public class DateTimeUtils {
             e.printStackTrace();
         }
         return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date);
+    }
+
+    public static String getOnlyHourFromIso(String input) {
+        Date date = null;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        try {
+            date = sdf.parse(input);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(date);
     }
 
     public static String getDateBirthDayFromIso(String input) {
@@ -148,6 +163,24 @@ public class DateTimeUtils {
     }
 
     /**
+     * Transform Calendar to ISO 8601 string.
+     */
+    public static String fromCalendarToDate(final Calendar calendar) {
+        Date date = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        return sdf.format(date);
+    }
+
+    /**
+     * Transform Calendar to ISO 8601 string.
+     */
+    public static String fromCalendarToTime(final Calendar calendar) {
+        Date date = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        return sdf.format(date);
+    }
+
+    /**
      * Transform ISO 8601 string to Calendar.
      */
     public static Calendar toCalendar(final String iso8601string)
@@ -227,11 +260,19 @@ public class DateTimeUtils {
         return TimeUnit.MILLISECONDS.toHours(Math.abs(end - start));
     }
 
+    public static long daysBetween(Calendar startDate, Calendar endDate) {
+        long end = endDate.getTimeInMillis();
+        long start = startDate.getTimeInMillis();
+
+        LogUtils.d(TAG, "daysBetween : " + TimeUnit.DAYS.toDays(Math.abs(end - start)));
+        return TimeUnit.MILLISECONDS.toDays(Math.abs(end - start));
+    }
+
     public static long minutesBetween(Calendar startDate, Calendar endDate) {
         long end = endDate.getTimeInMillis();
         long start = startDate.getTimeInMillis();
 
-        if(end < start) return 0;
+        if (end < start) return 0;
         return TimeUnit.MILLISECONDS.toMinutes(Math.abs(end - start));
     }
 

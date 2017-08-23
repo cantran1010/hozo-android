@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -54,6 +53,7 @@ import vn.tonish.hozo.dialog.AgeDialog;
 import vn.tonish.hozo.dialog.AlertDialogCancelTask;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.dialog.HourDialog;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Image;
@@ -87,8 +87,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     private static final String TAG = CreateTaskActivity.class.getSimpleName();
     private ScrollView scrollView;
-    private EdittextHozo edtTitle, edtDescription, edtWorkingHour, edtNumberWorker;
-    private TextViewHozo tvTitleMsg, tvDesMsg;
+    private EdittextHozo edtTitle, edtDescription, edtNumberWorker;
+    private TextViewHozo tvTitleMsg, tvDesMsg, tvWorkingHour;
     private static final int MAX_LENGTH_TITLE = 80;
     private static final int MAX_LENGTH_DES = 500;
     private static final int MAX_HOURS = 12;
@@ -96,20 +96,19 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private String address;
     private TimePickerDialog timeEndPickerDialog;
     private Calendar calendar = GregorianCalendar.getInstance();
-    private TextViewHozo tvDate, tvTotalPrice;
+    private TextViewHozo tvDate, tvTime, tvTotalPrice, tvMoreShow, tvMoreHide;
     private AutoCompleteTextView edtBudget;
     private Category category;
     private TextViewHozo tvAddress;
-    private RelativeLayout layoutAddress;
-    private ImageView imgMinus, imgPlus;
+    private RelativeLayout layoutAddress, workingHourLayout;
     private static final int MAX_BUGDET = 500000;
     private static final int MIN_BUGDET = 10000;
     private CustomArrayAdapter adapter;
     private static final int MAX_WORKER = 30;
     private ArrayList<String> vnds = new ArrayList<>();
     private LinearLayout layoutMore;
-    private RadioGroup radioMore, radioSex;
-    private RadioButton radioMoreYes, radioMoreNo, radioMale, radioFemale, radioNon;
+    private RadioGroup radioSex;
+    private RadioButton radioMale, radioFemale, radioNon;
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private final ArrayList<Image> images = new ArrayList<>();
@@ -122,6 +121,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private int[] imagesArr;
     private int ageFrom = 18;
     private int ageTo = 60;
+    private boolean isAddMoreInfo = false;
 
     @Override
     protected int getLayout() {
@@ -138,6 +138,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         edtTitle = findViewById(R.id.edt_task_name);
         edtDescription = findViewById(R.id.edt_description);
         tvDate = findViewById(R.id.tv_date);
+        tvTime = findViewById(R.id.tv_time);
 
         tvTitleMsg = findViewById(R.id.tv_title_msg);
         tvDesMsg = findViewById(R.id.tv_des_msg);
@@ -149,27 +150,20 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         edtNumberWorker = findViewById(R.id.edt_number_worker);
         tvTotalPrice = findViewById(R.id.tv_total_price);
 
-        edtWorkingHour = findViewById(R.id.edt_working_hour);
+        tvWorkingHour = findViewById(R.id.tv_working_hour);
 
         RelativeLayout layoutDate = findViewById(R.id.date_layout);
         layoutDate.setOnClickListener(this);
+
+        RelativeLayout layoutTime = findViewById(R.id.time_layout);
+        layoutTime.setOnClickListener(this);
 
         ButtonHozo btnNext = findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
 
         tvAddress = findViewById(R.id.tv_address);
 
-        imgMinus = findViewById(R.id.img_minus);
-        imgMinus.setOnClickListener(this);
-
-        imgPlus = findViewById(R.id.img_plus);
-        imgPlus.setOnClickListener(this);
-
         layoutMore = findViewById(R.id.more_layout);
-
-        radioMore = findViewById(R.id.radio_more);
-        radioMoreYes = findViewById(R.id.radio_more_yes);
-        radioMoreNo = findViewById(R.id.radio_more_no);
 
         grImage = findViewById(R.id.gr_image);
 
@@ -184,12 +178,22 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         cbOnline = findViewById(R.id.cb_online_task);
         cbAuto = findViewById(R.id.cb_auto_pick);
 
+        tvMoreShow = findViewById(R.id.tv_more_show);
+        tvMoreShow.setOnClickListener(this);
+
+        tvMoreHide = findViewById(R.id.tv_more_hide);
+        tvMoreHide.setOnClickListener(this);
+
+        workingHourLayout = findViewById(R.id.working_hour_layout);
+        workingHourLayout.setOnClickListener(this);
+
     }
 
     @Override
     protected void initData() {
         calendar.add(Calendar.MINUTE, 40);
-        tvDate.setText(DateTimeUtils.fromCalendarIsoCreateTask(calendar));
+        tvDate.setText(DateTimeUtils.fromCalendarToDate(calendar));
+        tvTime.setText(DateTimeUtils.fromCalendarToTime(calendar));
 
         category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
 
@@ -239,29 +243,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     edtDescription.setSelection(MAX_LENGTH_DES);
                 } else
                     tvDesMsg.setText(getString(R.string.post_a_task_msg_length, editable.toString().length(), MAX_LENGTH_DES));
-            }
-        });
-
-        edtWorkingHour.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!edtWorkingHour.getText().toString().equals("") && Integer.valueOf(edtWorkingHour.getText().toString()) <= 8)
-                    edtWorkingHour.setError(null);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (!edtWorkingHour.getText().toString().equals(""))
-                    if (Integer.valueOf(edtWorkingHour.getText().toString()) > MAX_HOURS) {
-                        edtWorkingHour.setError(getString(R.string.working_hour_max_error, MAX_HOURS));
-                        edtWorkingHour.setText(edtWorkingHour.getText().toString().substring(0, edtWorkingHour.length() - 1));
-                        edtWorkingHour.setSelection(edtWorkingHour.length());
-                    }
             }
         });
 
@@ -319,30 +300,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                         edtNumberWorker.setError(null);
                         updateTotalPayment();
                     }
-                }
-            }
-        });
-
-        radioMore.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                switch (i) {
-
-                    case R.id.radio_more_yes:
-                        layoutMore.setVisibility(View.VISIBLE);
-                        scrollView.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                            }
-                        }, 200);
-
-                        break;
-
-                    case R.id.radio_more_no:
-                        layoutMore.setVisibility(View.GONE);
-                        break;
-
                 }
             }
         });
@@ -484,7 +441,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private void openDatePicker() {
-
         @SuppressWarnings("deprecation") DatePickerDialog datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -492,48 +448,51 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                                           final int monthOfYear, final int dayOfMonth) {
 
                         if (view.isShown()) {
-                            //noinspection deprecation
-                            timeEndPickerDialog = new TimePickerDialog(CreateTaskActivity.this, AlertDialog.THEME_HOLO_LIGHT,
-                                    new TimePickerDialog.OnTimeSetListener() {
-                                        @Override
-                                        public void onTimeSet(TimePicker view, int hourOfDay,
-                                                              int minute) {
-                                            if (view.isShown()) {
-                                                LogUtils.d(TAG, "openDatePicker onTimeSet , year : " + year + " , monthOfYear : " + monthOfYear + " , dayOfMonth : " + dayOfMonth);
-                                                LogUtils.d(TAG, "openDatePicker onTimeSet , hourOfDay : " + hourOfDay + " , minute : " + minute + " , dayOfMonth : " + dayOfMonth);
-
-                                                Calendar c2 = Calendar.getInstance();
-
-                                                if (year == c2.get(Calendar.YEAR)
-                                                        && monthOfYear == c2.get(Calendar.MONTH)
-                                                        && dayOfMonth == c2.get(Calendar.DAY_OF_MONTH)
-                                                        && (hourOfDay < c2.get(Calendar.HOUR_OF_DAY) || (hourOfDay == c2.get(Calendar.HOUR_OF_DAY) && minute <= (c2.get(Calendar.MINUTE) + 30)))) {
-                                                    Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_task_time_start_error), true, false);
-                                                } else {
-                                                    calendar.set(year, monthOfYear, dayOfMonth);
-                                                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                                    calendar.set(Calendar.MINUTE, minute);
-                                                    String strDate = hourOfDay + ":" + minute + "  " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-                                                    tvDate.setText(strDate);
-                                                    tvDate.setError(null);
-                                                }
-                                            }
-                                        }
-                                    }, calendar.get((Calendar.HOUR_OF_DAY)), calendar.get(Calendar.MINUTE), false);
-                            timeEndPickerDialog.setTitle(getString(R.string.post_task_time_picker_title));
-                            timeEndPickerDialog.show();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String strDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                            tvDate.setText(strDate);
+                            tvDate.setError(null);
                         }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendarMax = Calendar.getInstance();
         // Set calendar to 1 day next from today
-        calendar1.add(Calendar.DAY_OF_MONTH, 1);
+        calendarMax.add(Calendar.DAY_OF_MONTH, 1);
         // Set calendar to 1 month next
-        calendar1.add(Calendar.MONTH, 1);
+        calendarMax.add(Calendar.MONTH, 1);
         datePickerDialog.getDatePicker().setMinDate(new Date().getTime() - 10000);
-        datePickerDialog.getDatePicker().setMaxDate(calendar1.getTimeInMillis());
+        datePickerDialog.getDatePicker().setMaxDate(calendarMax.getTimeInMillis());
         datePickerDialog.setTitle(getString(R.string.post_task_date_picker_title));
         datePickerDialog.show();
+    }
+
+
+    private void openTimeLayout() {
+        //noinspection deprecation
+        timeEndPickerDialog = new TimePickerDialog(CreateTaskActivity.this, AlertDialog.THEME_HOLO_LIGHT,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                          int minute) {
+                        if (view.isShown()) {
+                            Calendar c2 = Calendar.getInstance();
+                            if (calendar.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
+                                    && calendar.get(Calendar.MONTH) == c2.get(Calendar.MONTH)
+                                    && calendar.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH)
+                                    && (hourOfDay < c2.get(Calendar.HOUR_OF_DAY) || (hourOfDay == c2.get(Calendar.HOUR_OF_DAY) && minute <= (c2.get(Calendar.MINUTE) + 30)))) {
+                                Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_task_time_start_error), true, false);
+                            } else {
+                                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                calendar.set(Calendar.MINUTE, minute);
+                                String strTime = hourOfDay + ":" + minute;
+                                tvDate.setText(strTime);
+                                tvDate.setError(null);
+                            }
+                        }
+                    }
+                }, calendar.get((Calendar.HOUR_OF_DAY)), calendar.get(Calendar.MINUTE), false);
+        timeEndPickerDialog.setTitle(getString(R.string.post_task_time_picker_title));
+        timeEndPickerDialog.show();
     }
 
     private void doNext() {
@@ -549,10 +508,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         } else if (DateTimeUtils.minutesBetween(Calendar.getInstance(), calendar) < 30) {
             tvDate.requestFocus();
             tvDate.setError(getString(R.string.post_task_time_start_error));
-            return;
-        } else if (edtWorkingHour.getText().toString().trim().equals("") || edtWorkingHour.getText().toString().equals("0")) {
-            edtWorkingHour.requestFocus();
-            edtWorkingHour.setError(getString(R.string.post_task_edt_working_hour_error));
             return;
         } else if (TextUtils.isEmpty(address)) {
             tvAddress.requestFocus();
@@ -583,7 +538,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             return;
         }
 
-        if (radioMoreYes.isChecked() && images.size() > 1) doAttachFiles();
+        if (isAddMoreInfo && images.size() > 1) doAttachFiles();
         else createTaskOnServer();
 
     }
@@ -658,7 +613,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             jsonRequest.put("worker_rate", Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
             jsonRequest.put("worker_count", Integer.valueOf(getLongEdittext(edtNumberWorker)));
 
-            if (radioMoreYes.isChecked()) {
+            if (isAddMoreInfo) {
 
                 if (imagesArr.length > 0) {
                     JSONArray jsonArray = new JSONArray();
@@ -745,7 +700,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private Calendar getEndTime() {
         Calendar result = Calendar.getInstance();
         result.setTime(calendar.getTime());
-        result.add(Calendar.HOUR_OF_DAY, Integer.valueOf(edtWorkingHour.getText().toString()));
+        result.add(Calendar.HOUR_OF_DAY, Integer.valueOf(tvWorkingHour.getText().toString()));
         return result;
     }
 
@@ -786,30 +741,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-
-    private void doMinus() {
-        int value = Integer.valueOf(edtWorkingHour.getText().toString());
-        if (value >= 2) {
-            edtWorkingHour.setText(String.valueOf(value - 1));
-            edtWorkingHour.setError(null);
-        } else
-            edtWorkingHour.setText(String.valueOf(1));
-        edtWorkingHour.setSelection(edtWorkingHour.length());
-    }
-
-    private void doPlus() {
-        int value = Integer.valueOf(edtWorkingHour.getText().toString());
-        if (value < 12) {
-            edtWorkingHour.setText(String.valueOf(value + 1));
-            edtWorkingHour.setError(null);
-        } else {
-            edtWorkingHour.setText(String.valueOf(12));
-            edtWorkingHour.requestFocus();
-            edtWorkingHour.setError(getString(R.string.working_hour_max_error, MAX_HOURS));
-        }
-        edtWorkingHour.setSelection(edtWorkingHour.length());
-    }
-
     private void doClose() {
         if (edtTitle.getText().toString().trim().equals("") && tvDate.getText().toString().trim().equals("")
                 && edtDescription.getText().toString().trim().equals("")) {
@@ -841,6 +772,10 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 openDatePicker();
                 break;
 
+            case R.id.time_layout:
+                openTimeLayout();
+                break;
+
             case R.id.btn_next:
                 doNext();
                 break;
@@ -848,14 +783,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             case R.id.layout_address:
                 Intent intent = new Intent(this, PlaceActivity.class);
                 startActivityForResult(intent, Constants.REQUEST_CODE_ADDRESS, TransitionScreen.FADE_IN);
-                break;
-
-            case R.id.img_minus:
-                doMinus();
-                break;
-
-            case R.id.img_plus:
-                doPlus();
                 break;
 
             case R.id.img_close:
@@ -876,6 +803,36 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     }
                 });
                 ageDialog.showView();
+                break;
+
+            case R.id.tv_more_show:
+                isAddMoreInfo = true;
+                tvMoreShow.setVisibility(View.GONE);
+                layoutMore.setVisibility(View.VISIBLE);
+                scrollView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                    }
+                }, 200);
+                break;
+
+            case R.id.tv_more_hide:
+                isAddMoreInfo = false;
+                tvMoreShow.setVisibility(View.VISIBLE);
+                layoutMore.setVisibility(View.GONE);
+                break;
+
+            case R.id.working_hour_layout:
+                HourDialog hourDialog = new HourDialog(CreateTaskActivity.this);
+                hourDialog.setHour(Integer.valueOf(tvWorkingHour.getText().toString()));
+                hourDialog.setHourDialogListener(new HourDialog.HourDialogListener() {
+                    @Override
+                    public void onHourDialogLister(int hour) {
+                        tvWorkingHour.setText(String.valueOf(hour));
+                    }
+                });
+                hourDialog.showView();
                 break;
 
         }

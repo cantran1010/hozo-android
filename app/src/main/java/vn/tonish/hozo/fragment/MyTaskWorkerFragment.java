@@ -16,7 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.TaskDetailActivity;
+import vn.tonish.hozo.activity.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.MyTaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
@@ -94,7 +94,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
                 TaskResponse taskResponse = taskResponses.get(position);
                 LogUtils.d(TAG, "myTaskAdapter.setMyTaskAdapterListener , taskResponse : " + taskResponse);
 
-                Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+                Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
                 intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                 startActivityForResult(intent, Constants.REQUEST_CODE_TASK_EDIT, TransitionScreen.RIGHT_TO_LEFT);
             }

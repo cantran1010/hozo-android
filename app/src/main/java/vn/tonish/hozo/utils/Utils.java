@@ -725,4 +725,27 @@ public class Utils {
         return true;
     }
 
+    public static void updateRole(TaskResponse taskResponse) {
+
+        //fix crash on fabric -> I don't know why crash :(
+        if (UserManager.getMyUser() == null) return;
+
+        //poster
+        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            taskResponse.setRole(Constants.ROLE_POSTER);
+        }
+        //bidder
+        else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)
+                || (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED))
+                || (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED))
+                || taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)
+                || taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
+            taskResponse.setRole(Constants.ROLE_TASKER);
+        }
+        // find task
+        else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
+            taskResponse.setRole(Constants.ROLE_FIND_TASK);
+        }
+    }
+
 }

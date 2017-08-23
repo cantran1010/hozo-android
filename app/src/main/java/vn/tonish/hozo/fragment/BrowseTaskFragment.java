@@ -31,7 +31,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AdvanceSettingsActivity;
 import vn.tonish.hozo.activity.BrowserTaskMapActivity;
 import vn.tonish.hozo.activity.MainActivity;
-import vn.tonish.hozo.activity.TaskDetailActivity;
+import vn.tonish.hozo.activity.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.TaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
@@ -164,9 +164,15 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         taskAdapter.setTaskAdapterListener(new TaskAdapter.TaskAdapterListener() {
             @Override
             public void onTaskAdapterClickListener(int position) {
+//                LogUtils.d(TAG, "onclick");
+//                TaskResponse taskResponse = taskList.get(position);
+//                Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+//                intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+//                startActivityForResult(intent, Constants.REQUEST_CODE_TASK_EDIT, TransitionScreen.RIGHT_TO_LEFT);
+
                 LogUtils.d(TAG, "onclick");
                 TaskResponse taskResponse = taskList.get(position);
-                Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+                Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
                 intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                 startActivityForResult(intent, Constants.REQUEST_CODE_TASK_EDIT, TransitionScreen.RIGHT_TO_LEFT);
             }

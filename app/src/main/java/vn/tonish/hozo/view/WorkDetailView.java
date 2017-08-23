@@ -274,11 +274,6 @@ public class WorkDetailView extends LinearLayout implements View.OnClickListener
                 break;
 
         }
-
-//        if
-//                (isShow) btnOffer.setVisibility(View.VISIBLE);
-//        else
-//            btnOffer.setVisibility(View.GONE);
     }
 
     public void updateStatus(boolean isShow, String status, Drawable drawable) {
