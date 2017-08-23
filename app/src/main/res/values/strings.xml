@@ -99,7 +99,7 @@
     <string name="login_hotline">Hotline 02473004886</string>
 
     <!-- post a task -->
-    <string name="tv_time_task">Thời gian làm việc</string>
+    <string name="tv_time_task">Giờ làm</string>
     <string name="task_description_hint">Mô tả công việc</string>
     <string name="attach_image_hint">Đăng hình ảnh</string>
     <string name="more_detail">Tùy chọn thêm</string>
@@ -413,8 +413,8 @@
     <string name="report_task_success">Bạn đã báo xấu việc này thành công!</string>
     <string name="refresh_token">Bạn đã bị đăng suất do đăng nhập ở một thiết bị khác!</string>
     <string name="post_a_task_msg_length">%1$d/%2$d kí tự</string>
-    <string name="tv_time_task_lbl">Số giờ làm</string>
-    <string name="location">Địa điểm</string>
+    <string name="tv_time_task_lbl">Số giờ</string>
+    <string name="location">Nơi làm</string>
     <string name="price">Giá tiền</string>
     <string name="number_worker">Số người</string>
     <string name="all_price">Tổng tiền</string>
@@ -434,5 +434,22 @@
     <string name="email_input_error1">\@</string>
     <string name="email_input_error2">email</string>
     <string name="post_a_task_input_error">Hozo không cho phép đăng email hay số điện thoại trong bài đăng</string>
+    <string name="detail_tab_1">Công việc</string>
+    <string name="detail_tab_2">Người làm</string>
+    <string name="detail_tab_3">Bình luận</string>
+    <string name="address_title">Nơi làm : </string>
+    <string name="task_date">Ngày làm</string>
+    <string name="description">Mô tả chi tiết</string>
+    <string name="tv_date_task">Ngày làm</string>
+    <string name="advance_more">Tùy chọn nâng cao</string>
+    <string name="advance_more_hide">Rút gọn</string>
+    <string name="number_worker_default">1</string>
+    <string name="budget_detail">Ngân sách / người</string>
+    <string name="worker_need">Người cần tuyển</string>
+    <string name="assiger_count">Được giao</string>
+    <string name="empty_count">Vị trí trống</string>
+    <string name="task_time">Giờ làm</string>
+    <string name="task_hour">Số giờ</string>
+    <string name="hour_title">Số giờ làm việc</string>
 
 </resources>
