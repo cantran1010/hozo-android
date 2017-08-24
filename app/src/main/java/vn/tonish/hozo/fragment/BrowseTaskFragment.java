@@ -70,6 +70,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private EdittextHozo edtSearch;
     private RecyclerView rcvTask;
     private TaskAdapter taskAdapter;
+    private RelativeLayout filterlayout;
     private final List<TaskResponse> taskList = new ArrayList<>();
     private String sinceStr = null;
     private String query = null;
@@ -93,7 +94,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         lanimation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_left);
         imgSearch = (ImageView) findViewById(R.id.img_search);
         imgLocation = (ImageView) findViewById(R.id.img_location);
-        imgControls = (ImageView) findViewById(R.id.img_controls);
+        filterlayout = (RelativeLayout) findViewById(R.id.layout_setting);
         imgClear = (ImageView) findViewById(R.id.img_clear);
         imgBack = (ImageView) findViewById(R.id.img_back);
         layoutHeader = (RelativeLayout) findViewById(R.id.browse_task_header);
@@ -106,7 +107,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
-        imgControls.setOnClickListener(this);
+        filterlayout.setOnClickListener(this);
         imgLocation.setOnClickListener(this);
         imgSearch.setOnClickListener(this);
         imgBack.setOnClickListener(this);
@@ -294,8 +295,8 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             case R.id.img_clear:
                 edtSearch.setText("");
                 break;
-            case R.id.img_controls:
-                startActivityForResult(new Intent(getActivity(), AdvanceSettingsActivity.class), Constants.REQUEST_CODE_SETTING, TransitionScreen.RIGHT_TO_LEFT);
+            case R.id.layout_setting:
+                startActivityForResult(new Intent(getActivity(), AdvanceSettingsActivity.class), Constants.REQUEST_CODE_SETTING, TransitionScreen.DOWN_TO_UP);
                 break;
         }
 
