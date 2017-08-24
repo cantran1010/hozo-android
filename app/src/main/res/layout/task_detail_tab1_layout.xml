@@ -70,6 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <vn.tonish.hozo.view.TextViewHozo
@@ -251,6 +252,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginTop="10dp"
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/down"
@@ -261,14 +263,15 @@
                     android:id="@+id/layout_more"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <vn.tonish.hozo.view.MyGridView
                         android:id="@+id/gr_image"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:numColumns="4" />
+                        android:numColumns="3" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -285,40 +288,21 @@
                             android:drawableStart="@drawable/age_create_task"
                             android:text="@string/age" />
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="40dp"
-                            android:layout_marginRight="40dp"
-                            android:background="@drawable/border_gray">
-
-                            <vn.tonish.hozo.view.TextViewHozo
-                                android:id="@+id/tv_age"
-                                style="@style/tv_style_normal_black"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:text="@string/age_from_hint" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginEnd="5dp"
-                                android:layout_marginRight="5dp"
-                                android:contentDescription="@string/drop_down"
-                                android:src="@drawable/dropdown" />
-
-                        </RelativeLayout>
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_age"
+                            style="@style/tv_style_normal_black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:gravity="center"
+                            android:text="@string/age_from_hint" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal">
 
@@ -336,17 +320,26 @@
                             style="@style/tv_style_normal_black"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:gravity="center"
                             android:text="Nam" />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:src="@drawable/checkbox_on" />
-
                     </LinearLayout>
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        android:id="@+id/tv_see_more_hide"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:drawablePadding="10dp"
+                        android:drawableRight="@drawable/up"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="5dp"
+                        android:text="@string/advance_more_hide"
+                        android:textColor="@color/hozo_bg" />
+
 
                 </LinearLayout>
 
@@ -397,7 +390,7 @@
                             android:layout_height="wrap_content"
                             android:text="4"
                             android:textColor="@color/hozo_bg"
-                            android:textSize="20sp" />
+                            android:textSize="22sp" />
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:layout_width="wrap_content"
@@ -419,7 +412,7 @@
                             android:layout_height="wrap_content"
                             android:text="2"
                             android:textColor="@color/hozo_bg"
-                            android:textSize="20sp" />
+                            android:textSize="22sp" />
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:layout_width="wrap_content"
@@ -441,7 +434,7 @@
                             android:layout_height="wrap_content"
                             android:text="2"
                             android:textColor="@color/hozo_bg"
-                            android:textSize="20sp" />
+                            android:textSize="22sp" />
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:layout_width="wrap_content"

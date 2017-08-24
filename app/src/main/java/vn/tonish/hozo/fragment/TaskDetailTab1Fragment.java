@@ -6,18 +6,22 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BlockTaskActivity;
+import vn.tonish.hozo.activity.PreviewImageListActivity;
 import vn.tonish.hozo.activity.RateActivity;
 import vn.tonish.hozo.activity.TaskDetailNewActivity;
+import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
@@ -36,6 +40,7 @@ import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.CircleImageView;
+import vn.tonish.hozo.view.MyGridView;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -49,10 +54,11 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
     private CircleImageView imgAvatar;
     private RatingBar rbRate;
     private TextViewHozo tvStatus, tvTimeAgo;
-    private TextViewHozo tvName, tvTitle, tvAddress, tvDate, tvTime, tvHour, tvDes, tvAge, tvSex, tvBudget, tvWorkerCount, tvAssignerCount, tvEmptyCount, tvSeeMore;
+    private TextViewHozo tvName, tvTitle, tvAddress, tvDate, tvTime, tvHour, tvDes, tvAge, tvSex, tvBudget, tvWorkerCount, tvAssignerCount, tvEmptyCount, tvSeeMore, tvSeeMoreHide;
     private LinearLayout layoutMore;
     private ButtonHozo btnOffer;
     private Call<TaskResponse> call;
+    private MyGridView myGridView;
 
     @Override
     protected int getLayout() {
@@ -87,9 +93,14 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
         tvSeeMore = (TextViewHozo) findViewById(R.id.tv_see_more);
         tvSeeMore.setOnClickListener(this);
 
+        tvSeeMoreHide = (TextViewHozo) findViewById(R.id.tv_see_more_hide);
+        tvSeeMoreHide.setOnClickListener(this);
+
         layoutMore = (LinearLayout) findViewById(R.id.layout_more);
 
         btnOffer = (ButtonHozo) findViewById(R.id.btn_bid);
+
+        myGridView = (MyGridView) findViewById(R.id.gr_image);
     }
 
     @Override
@@ -136,11 +147,35 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
         tvAssignerCount.setText(String.valueOf(taskResponse.getAssigneeCount()));
         tvEmptyCount.setText(String.valueOf(taskResponse.getWorkerCount() - taskResponse.getAssigneeCount()));
 
+        final ArrayList<String> attachments = (ArrayList<String>) taskResponse.getAttachments();
+        LogUtils.d(TAG, "updateWork , attachments : " + attachments.toString());
+
+        if (attachments.size() > 0) {
+            ImageDetailTaskAdapter imageDetailTaskAdapter = new ImageDetailTaskAdapter(getContext(), attachments);
+            myGridView.setAdapter(imageDetailTaskAdapter);
+
+            myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(getContext(), PreviewImageListActivity.class);
+                    intent.putStringArrayListExtra(Constants.IMAGE_ATTACHS_EXTRA, attachments);
+                    intent.putExtra(Constants.IMAGE_POSITITON_EXTRA, position);
+                    getContext().startActivity(intent);
+                }
+            });
+            imageDetailTaskAdapter.notifyDataSetChanged();
+            myGridView.setVisibility(View.VISIBLE);
+        } else {
+            myGridView.setVisibility(View.GONE);
+        }
+
         tvAge.setText(getString(R.string.post_a_task_age, taskResponse.getMinAge(), taskResponse.getMaxAge()));
         tvSex.setText(taskResponse.getGender());
     }
 
     private void updateStatusTask() {
+
+        //poster
         if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatus(true, getString(R.string.update_task), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_recruitment));
             updateBtnOffer(Constants.OFFER_GONE);
@@ -167,7 +202,7 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
             updateBtnOffer(Constants.OFFER_GONE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
             updateStatus(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
-            updateStatus(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
+            updateBtnOffer(Constants.OFFER_GONE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
             updateStatus(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
             updateBtnOffer(Constants.OFFER_GONE);
@@ -393,6 +428,7 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
                             updateUi();
                             Utils.updateRole(taskResponse);
                             ((TaskDetailNewActivity) getActivity()).setTaskResponse(taskResponse);
+                            ((TaskDetailNewActivity) getActivity()).showMenu();
                         }
                     }, 1000);
 
@@ -469,7 +505,13 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
         switch (view.getId()) {
 
             case R.id.tv_see_more:
+                tvSeeMore.setVisibility(View.GONE);
                 layoutMore.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.tv_see_more_hide:
+                tvSeeMore.setVisibility(View.VISIBLE);
+                layoutMore.setVisibility(View.GONE);
                 break;
 
         }

@@ -106,6 +106,7 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
     }
 
     private void getData() {
+        ProgressDialogUtils.showProgressDialog(this);
         LogUtils.d(TAG, "getDetailTask , taskId : " + taskId);
         LogUtils.d(TAG, "getDetailTask , UserManager.getUserToken() : " + UserManager.getUserToken());
 
@@ -168,6 +169,7 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
                     });
                 }
 //                onStopRefresh();
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -185,12 +187,13 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
                     }
                 });
 //                onStopRefresh();
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
 
     }
 
-    private void updateUi() {
+    public void updateUi() {
         viewPager = findViewById(R.id.pager);
         adapter = new TaskDetailAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());

@@ -121,7 +121,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private int[] imagesArr;
     private int ageFrom = 18;
     private int ageTo = 60;
-    private boolean isAddMoreInfo = false;
 
     @Override
     protected int getLayout() {
@@ -485,8 +484,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                                 calendar.set(Calendar.MINUTE, minute);
                                 String strTime = hourOfDay + ":" + minute;
-                                tvDate.setText(strTime);
-                                tvDate.setError(null);
+                                tvTime.setText(strTime);
+                                tvTime.setError(null);
                             }
                         }
                     }
@@ -538,7 +537,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             return;
         }
 
-        if (isAddMoreInfo && images.size() > 1) doAttachFiles();
+        if (images.size() > 1) doAttachFiles();
         else createTaskOnServer();
 
     }
@@ -613,28 +612,24 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             jsonRequest.put("worker_rate", Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
             jsonRequest.put("worker_count", Integer.valueOf(getLongEdittext(edtNumberWorker)));
 
-            if (isAddMoreInfo) {
-
-                if (imagesArr.length > 0) {
-                    JSONArray jsonArray = new JSONArray();
-                    for (int i = 0; i < imagesArr.length; i++)
-                        jsonArray.put(imagesArr[i]);
-                    jsonRequest.put("attachments", jsonArray);
-                }
-
-                jsonRequest.put("min_age", ageFrom);
-                jsonRequest.put("max_age", ageTo);
-
-                if (radioMale.isChecked()) {
-                    jsonRequest.put("gender", Constants.GENDER_MALE);
-                } else if (radioFemale.isChecked()) {
-                    jsonRequest.put("gender", Constants.GENDER_FEMALE);
-                }
-
-                jsonRequest.put("isOnline", cbOnline.isChecked());
-                jsonRequest.put("isAuto", cbAuto.isChecked());
-
+            if (imagesArr != null && imagesArr.length > 0) {
+                JSONArray jsonArray = new JSONArray();
+                for (int i = 0; i < imagesArr.length; i++)
+                    jsonArray.put(imagesArr[i]);
+                jsonRequest.put("attachments", jsonArray);
             }
+
+            jsonRequest.put("min_age", ageFrom);
+            jsonRequest.put("max_age", ageTo);
+
+            if (radioMale.isChecked()) {
+                jsonRequest.put("gender", Constants.GENDER_MALE);
+            } else if (radioFemale.isChecked()) {
+                jsonRequest.put("gender", Constants.GENDER_FEMALE);
+            }
+
+            jsonRequest.put("online", cbOnline.isChecked());
+            jsonRequest.put("auto_assign", cbAuto.isChecked());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -806,7 +801,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.tv_more_show:
-                isAddMoreInfo = true;
                 tvMoreShow.setVisibility(View.GONE);
                 layoutMore.setVisibility(View.VISIBLE);
                 scrollView.postDelayed(new Runnable() {
@@ -818,7 +812,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.tv_more_hide:
-                isAddMoreInfo = false;
                 tvMoreShow.setVisibility(View.VISIBLE);
                 layoutMore.setVisibility(View.GONE);
                 break;

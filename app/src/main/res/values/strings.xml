@@ -100,7 +100,7 @@
 
     <!-- post a task -->
     <string name="tv_time_task">Giờ làm</string>
-    <string name="task_description_hint">Mô tả công việc</string>
+    <string name="task_description_hint">Mô tả thêm</string>
     <string name="attach_image_hint">Đăng hình ảnh</string>
     <string name="more_detail">Tùy chọn thêm</string>
     <string name="date_pick_hint">Chọn thời gian bắt đầu làm việc</string>
@@ -423,8 +423,8 @@
     <string name="yes">Có</string>
     <string name="no">Không</string>
     <string name="attach_image">Ảnh</string>
-    <string name="age">Tuổi</string>
-    <string name="sex">Giới tính</string>
+    <string name="age">Tuổi : </string>
+    <string name="sex">Giới tính : </string>
     <string name="gender_non_vn">Bất kỳ</string>
     <string name="online_job">Việc có làm online tại nhà</string>
     <string name="auto_pick">Tự động chọn ứng viên</string>
@@ -439,7 +439,7 @@
     <string name="detail_tab_3">Bình luận</string>
     <string name="address_title">Nơi làm : </string>
     <string name="task_date">Ngày làm</string>
-    <string name="description">Mô tả chi tiết</string>
+    <string name="description">Mô tả :</string>
     <string name="tv_date_task">Ngày làm</string>
     <string name="advance_more">Tùy chọn nâng cao</string>
     <string name="advance_more_hide">Rút gọn</string>
