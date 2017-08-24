@@ -31,8 +31,7 @@
             android:layout_toEndOf="@id/img_back"
             android:layout_toRightOf="@id/img_back"
             android:ellipsize="end"
-            android:maxLines="1"
-           />
+            android:maxLines="1" />
 
         <View
             android:layout_width="match_parent"
@@ -42,13 +41,12 @@
 
     </RelativeLayout>
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lvList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/bg_gray"
         android:paddingLeft="16dp"
         android:paddingRight="16dp" />
-
 
 </LinearLayout>

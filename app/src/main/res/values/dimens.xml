@@ -22,7 +22,7 @@
     <dimen name="toast_offset">20dp</dimen>
     <dimen name="edt_min_height">37dp</dimen>
     <dimen name="main_menu_height">48dp</dimen>
-    <dimen name="avatar_width_height">52dp</dimen>
+    <dimen name="avatar_width_height">45dp</dimen>
     <dimen name="image_attach_post_task_height">85dp</dimen>
     <dimen name="alert_dialog_width">300dp</dimen>
     <dimen name="detail_task_map_height">150dp</dimen>

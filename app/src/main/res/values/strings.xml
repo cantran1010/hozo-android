@@ -124,7 +124,7 @@
     <string name="crop_image_done">Tiếp tục</string>
     <string name="report_task_content_hint">Hãy cho chúng tôi biết lý do khác của bạn là gì</string>
     <string name="next">Tiếp tục</string>
-    <string name="call">Gọi điện</string>
+    <string name="call">Gọi</string>
     <string name="make_an_offer_question">Hỏi đáp</string>
     <string name="done">Hoàn thành</string>
     <string name="work_detail_view_bit">Ứng Tuyển</string>
@@ -133,8 +133,8 @@
     <string name="work_detail_view_time">Thời gian :</string>
     <string name="work_detail_view_address">Địa điểm :</string>
     <string name="type_your_text">Nhập nội dung bình luận</string>
-    <string name="assign_people">Người làm</string>
-    <string name="assign">Chọn</string>
+    <string name="assign_people">Danh sách được giao (%1$d)</string>
+    <string name="assign">Giao</string>
     <string name="cancel_task">Hủy việc</string>
     <string name="recruitment">Ứng tuyển</string>
     <string name="received">Đã nhận</string>
@@ -173,7 +173,7 @@
     <string name="retry_title">Lỗi kết nối.</string>
     <string name="retry_content">Không thể kết nối tới máy chủ. Vui lòng kiểm tra kết nối của bạn và thử lại.</string>
     <string name="retry">THỬ LẠI</string>
-    <string name="bidder">Người ứng tuyển</string>
+    <string name="bidder">Danh sách ứng tuyển (%1$d)</string>
     <string name="text_test">Text Test</string>
     <string name="just_now">Vừa xong</string>
     <string name="minute_ago">1 phút trước</string>
@@ -381,7 +381,7 @@
     <string name="facebook_verify">Xác thực với Facebook</string>
     <string name="facebook_app_id">956632744473365</string>
     <string name="hozo_tonish">\n © 2017 Tonish. Giữ mọi quyền.</string>
-    <string name="cancel_bid">Hủy chọn</string>
+    <string name="cancel_bid">Hủy</string>
     <string name="cancel_bid_title">Hủy chọn</string>
     <string name="cancel_bid_content">Lưu ý khi hủy chọn sẽ ảnh hưởng đến tỷ lệ hoàn thành việc của bạn</string>
     <string name="cancel_task_content">Lưu ý khi hủy việc sẽ ảnh hưởng đến tỷ lệ hoàn thành việc của bạn</string>
@@ -451,5 +451,6 @@
     <string name="task_time">Giờ làm</string>
     <string name="task_hour">Số giờ</string>
     <string name="hour_title">Số giờ làm việc</string>
+    <string name="sms">SMS</string>
 
 </resources>

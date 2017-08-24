@@ -748,4 +748,16 @@ public class Utils {
         }
     }
 
+    public static void sendSms(Context context, String phoneNumber, String content) {
+        try {
+            Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+            smsIntent.setType("vnd.android-dir/mms-sms");
+            smsIntent.putExtra("address", phoneNumber);
+            smsIntent.putExtra("sms_body", content);
+            context.startActivity(smsIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -1,15 +1,73 @@
 package vn.tonish.hozo.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.AssignersActivity;
+import vn.tonish.hozo.activity.BiddersActivity;
+import vn.tonish.hozo.activity.BlockTaskActivity;
+import vn.tonish.hozo.activity.RateActivity;
+import vn.tonish.hozo.activity.TaskDetailNewActivity;
+import vn.tonish.hozo.adapter.AssignerCallAdapter;
+import vn.tonish.hozo.adapter.PosterOpenAdapter;
+import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOk;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.Assigner;
+import vn.tonish.hozo.rest.responseRes.Bidder;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
+import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.TextViewHozo;
+
+import static vn.tonish.hozo.R.string.call;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_RATE;
 
 /**
  * Created by LongBui on 8/22/17.
  */
 
-public class TaskDetailTab2Fragment extends BaseFragment {
+public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = TaskDetailTab2Fragment.class.getSimpleName();
+
+    private TaskResponse taskResponse;
+
+    private RecyclerView rcvBidder;
+    private ArrayList<Bidder> bidders = new ArrayList<>();
+
+    private RecyclerView rcvAssign;
+    private ArrayList<Assigner> assigners = new ArrayList<>();
+
+    private TextViewHozo tvSeeMoreBidders, tvSeeMoreAssigners;
+    private TextViewHozo tvBidderCount, tvAssignCount;
+
+    private String bidderType = "";
+    private String assigerType = "";
 
     @Override
     protected int getLayout() {
@@ -18,21 +76,358 @@ public class TaskDetailTab2Fragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        rcvBidder = (RecyclerView) findViewById(R.id.rcv_bidders);
+        rcvAssign = (RecyclerView) findViewById(R.id.rcv_assign);
 
+        tvSeeMoreBidders = (TextViewHozo) findViewById(R.id.tv_see_more_bidders);
+        tvSeeMoreBidders.setOnClickListener(this);
+        tvSeeMoreAssigners = (TextViewHozo) findViewById(R.id.tv_see_more_assigns);
+        tvSeeMoreAssigners.setOnClickListener(this);
+
+        tvBidderCount = (TextViewHozo) findViewById(R.id.tv_bidder_count);
+        tvAssignCount = (TextViewHozo) findViewById(R.id.tv_assign_count);
     }
 
     @Override
     protected void initData() {
-
+        taskResponse = ((TaskDetailNewActivity) getActivity()).getTaskResponse();
+        updateUi();
     }
 
     @Override
     protected void resumeData() {
-        LogUtils.d(TAG, "TaskDetailTab2Fragment resumeData");
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter("MyBroadcast"));
     }
 
-    public void updateData(){
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            getActivity().unregisterReceiver(broadcastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateUi() {
+
+        bidderType = "";
+        assigerType = "";
+
+        rcvBidder.setVisibility(View.VISIBLE);
+        rcvAssign.setVisibility(View.VISIBLE);
+
+
+        if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            bidderType = getString(R.string.assign);
+            assigerType = getString(call);
+
+            rcvBidder.setVisibility(View.VISIBLE);
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            assigerType = getString(call);
+
+            rcvBidder.setVisibility(View.GONE);
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            rcvBidder.setVisibility(View.GONE);
+
+            assigerType = getString(R.string.rate);
+
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            rcvBidder.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+
+            rcvBidder.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+        }
+
+        //bidder
+        else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
+            rcvBidder.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
+            rcvBidder.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
+            rcvBidder.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
+            rcvBidder.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
+
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+
+            rcvBidder.setVisibility(View.GONE);
+        }
+
+        // make an offer
+        else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
+
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() != UserManager.getMyUser().getId()) {
+
+        }
+
+        // update bidder list
+        bidders = (ArrayList<Bidder>) taskResponse.getBidders();
+        refreshBidderList(bidderType);
+
+        //update assigners list
+        assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
+        refreshAssignerList(assigerType);
+
+        tvBidderCount.setText(getString(R.string.bidder, taskResponse.getBidderCount()));
+        tvAssignCount.setText(getString(R.string.assign_people, taskResponse.getAssigneeCount()));
+    }
+
+    private void refreshBidderList(String bidderType) {
+        PosterOpenAdapter posterOpenAdapter;
+        if (bidders.size() > 2) {
+
+            ArrayList<Bidder> biddersNew = new ArrayList<Bidder>();
+            biddersNew.addAll(bidders.subList(0, 2));
+
+            tvSeeMoreBidders.setVisibility(View.VISIBLE);
+            posterOpenAdapter = new PosterOpenAdapter(biddersNew, bidderType);
+        } else {
+            tvSeeMoreBidders.setVisibility(View.GONE);
+            posterOpenAdapter = new PosterOpenAdapter(bidders, bidderType);
+        }
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        rcvBidder.setLayoutManager(linearLayoutManager);
+        posterOpenAdapter.setTaskId(taskResponse.getId());
+        rcvBidder.setAdapter(posterOpenAdapter);
+    }
+
+    private void refreshAssignerList(String assignType) {
+        ArrayList<Assigner> mAssigners = new ArrayList<>();
+        if (assigners.size() > 2) {
+            tvSeeMoreAssigners.setVisibility(View.VISIBLE);
+            for (int i = 0; i < 2; i++) {
+                mAssigners.add(assigners.get(i));
+            }
+
+        } else {
+            tvSeeMoreAssigners.setVisibility(View.GONE);
+            mAssigners.addAll(assigners);
+        }
+        AssignerCallAdapter assignerAdapter = new AssignerCallAdapter(mAssigners, assignType);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        rcvAssign.setLayoutManager(linearLayoutManager);
+        assignerAdapter.setTaskId(taskResponse.getId());
+        rcvAssign.setAdapter(assignerAdapter);
+    }
+
+    public void updateData() {
         LogUtils.d(TAG, "TaskDetailTab2Fragment updateData");
     }
 
+    private void doSeeMoreAssigns() {
+        Intent intent = new Intent(getActivity(), AssignersActivity.class);
+        intent.putExtra(Constants.TASK_RESPONSE_EXTRA, taskResponse);
+        intent.putExtra(Constants.ASSIGNER_TYPE_EXTRA, assigerType);
+        startActivityForResult(intent, Constants.REQUEST_CODE_SEND_ASSIGNER, TransitionScreen.DOWN_TO_UP);
+    }
+
+    private void doSeeMoreBidders() {
+        Intent intent = new Intent(getActivity(), BiddersActivity.class);
+        intent.putExtra(Constants.TASK_RESPONSE_EXTRA, taskResponse);
+        intent.putExtra(Constants.BIDDER_TYPE_EXTRA, bidderType);
+        startActivityForResult(intent, Constants.REQUEST_CODE_SEND_BINDDER, TransitionScreen.DOWN_TO_UP);
+    }
+
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, final Intent intent) {
+            if (intent.hasExtra(Constants.EXTRA_TASK)) {
+                taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
+                Utils.updateRole(taskResponse);
+                updateUi();
+                ((TaskDetailNewActivity) getActivity()).setTaskResponse(taskResponse);
+            } else if (intent.hasExtra(Constants.ASSIGNER_RATE_EXTRA)) {
+                Assigner assigner = (Assigner) intent.getSerializableExtra(Constants.ASSIGNER_RATE_EXTRA);
+                Intent intentRate = new Intent(getActivity(), RateActivity.class);
+                intentRate.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+                intentRate.putExtra(Constants.USER_ID_EXTRA, assigner.getId());
+                intentRate.putExtra(Constants.AVATAR_EXTRA, assigner.getAvatar());
+                intentRate.putExtra(Constants.NAME_EXTRA, assigner.getFullName());
+                startActivityForResult(intentRate, Constants.REQUEST_CODE_RATE, TransitionScreen.UP_TO_DOWN);
+            } else if (intent.hasExtra(Constants.ASSIGNER_CANCEL_BID_EXTRA)) {
+                DialogUtils.showOkAndCancelDialog(getActivity(), getString(R.string.cancel_bid_title), getString(R.string.cancel_bid_content), getString(R.string.cancel_task_ok), getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        Assigner assigner = (Assigner) intent.getSerializableExtra(Constants.ASSIGNER_CANCEL_BID_EXTRA);
+                        doCancelBid(assigner);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+
+        }
+    };
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQUEST_CODE_RATE && resultCode == RESPONSE_CODE_RATE) {
+            getData();
+        }
+    }
+
+    private void doCancelBid(final Assigner assigner) {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("user_id", assigner.getId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LogUtils.d(TAG, "doCancelBid data request : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().cancelBid(UserManager.getUserToken(), taskResponse.getId(), body).enqueue(new Callback<TaskResponse>() {
+            @Override
+            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+
+                LogUtils.d(TAG, "doCancelBid onResponse : " + response.body());
+                LogUtils.d(TAG, "doCancelBid code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    taskResponse = response.body();
+                    Utils.updateRole(taskResponse);
+                    updateUi();
+                    ((TaskDetailNewActivity) getActivity()).setTaskResponse(taskResponse);
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doCancelBid(assigner);
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getActivity());
+                } else {
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doCancelBid(assigner);
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<TaskResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getData() {
+        Call<TaskResponse> call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskResponse.getId());
+        call.enqueue(new Callback<TaskResponse>() {
+            @Override
+            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+                LogUtils.d(TAG, "getDetailTask , status code : " + response.code());
+                LogUtils.d(TAG, "getDetailTask , body : " + response.body());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    taskResponse = response.body();
+                    Utils.updateRole(taskResponse);
+                    updateUi();
+                    ((TaskDetailNewActivity) getActivity()).setTaskResponse(taskResponse);
+                } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.e(TAG, "createNewTask errorBody" + error.toString());
+                    if (error.status().equals(Constants.TASK_DETAIL_INPUT_REQUIRE) || error.status().equals(Constants.TASK_DETAIL_NO_EXIT)) {
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.task_detail_no_exit), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    } else if (error.status().equals(Constants.TASK_DETAIL_BLOCK)) {
+                        Intent intent = new Intent(getActivity(), BlockTaskActivity.class);
+                        intent.putExtra(Constants.TITLE_INFO_EXTRA, getString(R.string.task_detail_block));
+                        intent.putExtra(Constants.CONTENT_INFO_EXTRA, getString(R.string.task_detail_block_reasons) + " " + error.message());
+                        startActivity(intent, TransitionScreen.FADE_IN);
+                    } else {
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            getData();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getActivity());
+                } else {
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            getData();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TaskResponse> call, Throwable t) {
+                LogUtils.e(TAG, "getDetailTask , error : " + t.getMessage());
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getData();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.tv_see_more_bidders:
+                doSeeMoreBidders();
+                break;
+
+            case R.id.tv_see_more_assigns:
+                doSeeMoreAssigns();
+                break;
+
+        }
+    }
 }

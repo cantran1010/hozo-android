@@ -7,7 +7,6 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
@@ -16,7 +15,6 @@ import vn.tonish.hozo.activity.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.rest.responseRes.Assigner;
-import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 
@@ -29,13 +27,13 @@ import static android.content.ContentValues.TAG;
 public class AssignerCallView extends LinearLayout implements View.OnClickListener {
 
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName, tvTimeAgo;
+    private TextViewHozo tvName;
     private RatingBar ratingBar;
-    private ButtonHozo btnCall;
+    private ButtonHozo btnCall, btnSms, btnRate;
     private ButtonHozo btnCancelBid;
     private Assigner assigner;
     private int taskId;
-    private ImageView imgFbVerify, imgEmailVerify;
+    private LinearLayout btnLayout;
 
     public AssignerCallView(Context context) {
         super(context);
@@ -64,14 +62,13 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
 
-        imgFbVerify = findViewById(R.id.fb_verify);
-        imgEmailVerify = findViewById(R.id.email_verify);
-
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
-        tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
         ratingBar = (RatingBar) findViewById(R.id.rb_rate);
         btnCall = (ButtonHozo) findViewById(R.id.btn_call);
         btnCancelBid = findViewById(R.id.btn_cancel_bid);
+        btnSms = findViewById(R.id.btn_sms);
+        btnLayout = findViewById(R.id.btn_layout);
+        btnRate = findViewById(R.id.btn_rate);
     }
 
     public void updateData(final Assigner assigner, String assignType) {
@@ -82,20 +79,11 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
         tvName.setText(assigner.getFullName());
         ratingBar.setRating(assigner.getTaskerAverageRating());
 
-        if (assigner.getFacebookId() != null && !assigner.getFacebookId().trim().equals(""))
-            imgFbVerify.setImageResource(R.drawable.fb_on);
-        else imgFbVerify.setImageResource(R.drawable.fb_off);
-
-        if (assigner.isEmailActive())
-            imgEmailVerify.setImageResource(R.drawable.email_on);
-        else imgEmailVerify.setImageResource(R.drawable.email_off);
-
-        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(assigner.getBiddedAt(), getContext()));
-        btnCall.setText(assignType);
-
         if (assignType.equals(getContext().getString(R.string.call))) {
 
-            btnCancelBid.setVisibility(View.VISIBLE);
+            btnLayout.setVisibility(View.VISIBLE);
+            btnRate.setVisibility(View.GONE);
+
             btnCancelBid.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -107,18 +95,27 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
             });
 
 
-            btnCall.setVisibility(View.VISIBLE);
             btnCall.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Utils.call(getContext(), assigner.getPhone());
                 }
             });
+
+            btnSms.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Utils.sendSms(getContext(), assigner.getPhone(), "");
+                }
+            });
+
         } else if (assignType.equals(getContext().getString(R.string.rate))) {
-            btnCancelBid.setVisibility(View.GONE);
+
+            btnLayout.setVisibility(View.GONE);
+
             if (assigner.getRating() == 0) {
-                btnCall.setVisibility(View.VISIBLE);
-                btnCall.setOnClickListener(new OnClickListener() {
+                btnRate.setVisibility(View.VISIBLE);
+                btnRate.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intentAnswer = new Intent();
@@ -128,13 +125,12 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
                     }
                 });
             } else {
-                btnCall.setVisibility(View.GONE);
+                btnRate.setVisibility(View.GONE);
             }
 
-
         } else {
-            btnCancelBid.setVisibility(View.GONE);
-            btnCall.setVisibility(View.GONE);
+            btnLayout.setVisibility(View.GONE);
+            btnRate.setVisibility(View.GONE);
         }
 
     }
