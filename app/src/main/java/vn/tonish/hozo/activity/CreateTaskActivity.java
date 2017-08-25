@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -28,11 +29,16 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TimePicker;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -48,6 +54,8 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.CustomArrayAdapter;
 import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.common.DataParse;
+import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AgeDialog;
 import vn.tonish.hozo.dialog.AlertDialogCancelTask;
@@ -89,7 +97,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private ScrollView scrollView;
     private EdittextHozo edtTitle, edtDescription, edtNumberWorker;
     private TextViewHozo tvTitleMsg, tvDesMsg, tvWorkingHour;
-    private static final int MAX_LENGTH_TITLE = 80;
+    private static final int MAX_LENGTH_TITLE = 50;
     private static final int MAX_LENGTH_DES = 500;
     private static final int MAX_HOURS = 12;
     private double lat, lon;
@@ -121,6 +129,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private int[] imagesArr;
     private int ageFrom = 18;
     private int ageTo = 60;
+    private TaskResponse taskResponse;
+    private boolean isCopy = false;
+    private int countImageCopy;
 
     @Override
     protected int getLayout() {
@@ -190,11 +201,69 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initData() {
-        calendar.add(Calendar.MINUTE, 40);
+
+        Intent intent = getIntent();
+
+        final Image image = new Image();
+        image.setAdd(true);
+        images.add(image);
+
+        imageAdapter = new ImageAdapter(this, images);
+        grImage.setAdapter(imageAdapter);
+
+        if (intent.hasExtra(Constants.EXTRA_TASK)) {
+            taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
+            LogUtils.d(TAG, "PostATaskActivity , taskResponse : " + taskResponse.toString());
+
+            category = DataParse.convertCatogoryEntityToCategory(CategoryManager.getCategoryById(taskResponse.getCategoryId()));
+
+            edtTitle.setText(taskResponse.getTitle());
+            try {
+                calendar = DateTimeUtils.toCalendar(taskResponse.getStartTime());
+//                tvDate.setText(DateTimeUtils.fromCalendarIsoCreateTask(calendar));
+                tvWorkingHour.setText(String.valueOf(DateTimeUtils.hoursBetween(DateTimeUtils.toCalendar(taskResponse.getStartTime()), DateTimeUtils.toCalendar(taskResponse.getEndTime()))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            lat = taskResponse.getLatitude();
+            lon = taskResponse.getLongitude();
+            address = taskResponse.getAddress();
+
+            tvAddress.setText(address);
+
+            edtBudget.setText(Utils.formatNumber(taskResponse.getWorkerRate()));
+            edtNumberWorker.setText(Utils.formatNumber(taskResponse.getWorkerCount()));
+            updateTotalPayment();
+
+            edtDescription.setText(taskResponse.getDescription());
+            ageFrom = taskResponse.getMinAge();
+            ageTo = taskResponse.getMaxAge();
+            tvAge.setText(getString(R.string.post_a_task_age, ageFrom, ageTo));
+
+            if (taskResponse.getGender().equals(Constants.GENDER_MALE)) {
+                radioMale.setChecked(true);
+            } else if (taskResponse.getGender().equals(Constants.GENDER_FEMALE)) {
+                radioFemale.setChecked(true);
+            } else {
+                radioNon.setChecked(true);
+            }
+
+            cbOnline.setChecked(taskResponse.isOnline());
+            cbAuto.setChecked(taskResponse.isAutoAssign());
+
+            if (taskResponse.getAttachments() != null && taskResponse.getAttachments().size() > 0) {
+                isCopy = true;
+                checkPermission();
+            }
+
+        } else {
+            category = (Category) intent.getSerializableExtra(Constants.EXTRA_CATEGORY);
+            calendar.add(Calendar.MINUTE, 40);
+        }
+
         tvDate.setText(DateTimeUtils.fromCalendarToDate(calendar));
         tvTime.setText(DateTimeUtils.fromCalendarToTime(calendar));
-
-        category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
 
         edtTitle.setHint(category.getSuggestTitle());
         edtDescription.setHint(category.getSuggestDescription());
@@ -303,13 +372,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             }
         });
 
-        final Image image = new Image();
-        image.setAdd(true);
-        images.add(image);
-
-        imageAdapter = new ImageAdapter(this, images);
-        grImage.setAdapter(imageAdapter);
-
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -347,23 +409,59 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private void permissionGranted() {
-        PickImageDialog pickImageDialog = new PickImageDialog(CreateTaskActivity.this);
-        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
-            @Override
-            public void onCamera() {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
-            }
 
-            @Override
-            public void onGallery() {
-                Intent intent = new Intent(CreateTaskActivity.this, AlbumActivity.class);
-                intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size() - 1);
-                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+        if (isCopy) {
+            isCopy = false;
+            countImageCopy = taskResponse.getAttachments().size();
+            ProgressDialogUtils.showProgressDialog(this);
+            for (int i = 0; i < taskResponse.getAttachments().size(); i++) {
+                Glide.with(this)
+                        .load(taskResponse.getAttachments().get(i))
+                        .asBitmap()
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                LogUtils.d(TAG, "onResourceReady complete , resource , width : " + resource.getWidth() + " , height : " + resource.getHeight());
+
+                                // sometime glide recycled bitmap
+                                resource = resource.copy(resource.getConfig(), true); // safe copy
+                                Glide.clear(this); // added to release original bitmap
+
+                                File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+                                Utils.compressBitmapToFile(resource, fileSave.getPath());
+                                LogUtils.d(TAG, "onResourceReady complete , path : " + fileSave.getPath());
+
+                                Image imageCopy = new Image();
+                                imageCopy.setAdd(false);
+                                imageCopy.setPath(fileSave.getPath());
+                                images.add(0, imageCopy);
+                                imageAdapter.notifyDataSetChanged();
+
+                                countImageCopy--;
+                                if (countImageCopy == 0)
+                                    ProgressDialogUtils.dismissProgressDialog();
+                            }
+                        });
             }
-        });
-        pickImageDialog.showView();
+        } else {
+            PickImageDialog pickImageDialog = new PickImageDialog(CreateTaskActivity.this);
+            pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+                @Override
+                public void onCamera() {
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                    startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+                }
+
+                @Override
+                public void onGallery() {
+                    Intent intent = new Intent(CreateTaskActivity.this, AlbumActivity.class);
+                    intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size() - 1);
+                    startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+                }
+            });
+            pickImageDialog.showView();
+        }
 
     }
 
@@ -733,6 +831,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             image.setPath(selectedImagePath);
             images.add(0, image);
             imageAdapter.notifyDataSetChanged();
+        } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+            finish();
         }
     }
 

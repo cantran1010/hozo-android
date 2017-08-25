@@ -59,6 +59,25 @@ public class TaskResponse implements Serializable {
     private List<Bidder> bidders = new ArrayList<>();
     private List<Assigner> assignees = new ArrayList<>();
     private List<Comment> comments = new ArrayList<>();
+    private boolean online;
+    @SerializedName("auto_assign")
+    private boolean autoAssign;
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+
+    public boolean isAutoAssign() {
+        return autoAssign;
+    }
+
+    public void setAutoAssign(boolean autoAssign) {
+        this.autoAssign = autoAssign;
+    }
 
     public boolean isRatePoster() {
         return isRatePoster;
