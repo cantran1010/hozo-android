@@ -197,4 +197,9 @@ public class Constants {
     public static final String OFFER_CALL = "OFFER_CALL";
     public static final String OFFER_GONE = "OFFER_GONE";
     public static final String OFFER_RATTING = "OFFER_RATTING";
+
+    public static final String TASK_EXTRA_COPY_EDIT = "task_extra";
+
+    public static final String TASK_COPY = "task_copy";
+    public static final String TASK_EDIT = "task_edit";
 }

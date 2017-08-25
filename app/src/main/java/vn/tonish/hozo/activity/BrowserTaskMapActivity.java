@@ -113,7 +113,7 @@ public class BrowserTaskMapActivity extends BaseActivity implements View.OnClick
             public void onInfoWindowClick(Marker marker) {
                 int position = (int) marker.getTag();
 
-                Intent intent = new Intent(BrowserTaskMapActivity.this, TaskDetailActivity.class);
+                Intent intent = new Intent(BrowserTaskMapActivity.this, TaskDetailNewActivity.class);
                 intent.putExtra(Constants.TASK_ID_EXTRA, miniTasks.get(position).getId());
                 startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
             }

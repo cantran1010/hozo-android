@@ -96,7 +96,6 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initData() {
         taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
-
         getData();
     }
 
@@ -351,8 +350,9 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
                         break;
 
                     case R.id.create_task:
-                        Intent intent = new Intent(TaskDetailNewActivity.this, PostATaskActivity.class);
+                        Intent intent = new Intent(TaskDetailNewActivity.this, CreateTaskActivity.class);
                         intent.putExtra(Constants.EXTRA_TASK, taskResponse);
+                        intent.putExtra(Constants.TASK_EXTRA_COPY_EDIT, Constants.TASK_COPY);
                         startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                         break;
 
@@ -556,6 +556,15 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
         intent.putExtra(Constants.EXTRA_TASK, taskResponse);
         setResult(Constants.RESULT_CODE_TASK_EDIT, intent);
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+            finish();
+        }
     }
 
     @Override

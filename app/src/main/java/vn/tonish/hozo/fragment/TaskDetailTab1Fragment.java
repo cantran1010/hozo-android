@@ -19,6 +19,7 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BlockTaskActivity;
 import vn.tonish.hozo.activity.PreviewImageListActivity;
+import vn.tonish.hozo.activity.ProfileActivity;
 import vn.tonish.hozo.activity.RateActivity;
 import vn.tonish.hozo.activity.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
@@ -70,6 +71,10 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         rbRate = (RatingBar) findViewById(R.id.rb_rate);
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
+
+        imgAvatar.setOnClickListener(this);
+        rbRate.setOnClickListener(this);
+        tvName.setOnClickListener(this);
 
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
@@ -170,7 +175,15 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
         }
 
         tvAge.setText(getString(R.string.post_a_task_age, taskResponse.getMinAge(), taskResponse.getMaxAge()));
-        tvSex.setText(taskResponse.getGender());
+
+        if (taskResponse.getGender().equals(Constants.GENDER_MALE)) {
+            tvSex.setText(getString(R.string.gender_male_vn));
+        } else if (taskResponse.getGender().equals(Constants.GENDER_FEMALE)) {
+            tvSex.setText(getString(R.string.gender_female_vn));
+        } else {
+            tvSex.setText(getString(R.string.gender_non_vn));
+        }
+
     }
 
     private void updateStatusTask() {
@@ -512,6 +525,15 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
             case R.id.tv_see_more_hide:
                 tvSeeMore.setVisibility(View.VISIBLE);
                 layoutMore.setVisibility(View.GONE);
+                break;
+
+            case R.id.img_avatar:
+            case R.id.rb_rate:
+            case R.id.tv_name:
+                Intent intent = new Intent(getContext(), ProfileActivity.class);
+                intent.putExtra(Constants.USER_ID, taskResponse.getPoster().getId());
+                intent.putExtra(Constants.IS_MY_USER, taskResponse.getPoster().getId() == UserManager.getMyUser().getId());
+                getContext().startActivity(intent);
                 break;
 
         }

@@ -23,7 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.MainActivity;
-import vn.tonish.hozo.activity.TaskDetailActivity;
+import vn.tonish.hozo.activity.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.NotificationAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -139,11 +139,11 @@ public class InboxFragment extends BaseFragment {
                         }
                     });
                 } else if (notifications.get(position).getEvent().equals(PUSH_TYPE_ADMIN_NEW_TASK_ALERT)) {
-                    Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+                    Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
                     startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
-                    Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+                    Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
                     startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 }

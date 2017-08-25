@@ -12,9 +12,12 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
         android:drawableLeft="@drawable/img_dot"
+        android:drawableStart="@drawable/img_dot"
+        android:drawablePadding="5dp"
+        android:gravity="center"
         android:text="@string/assign_people"
         android:textColor="@color/tv_black"
-        android:textSize="12sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
@@ -44,9 +47,12 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:drawableLeft="@drawable/img_dot"
+        android:drawableStart="@drawable/img_dot"
+        android:drawablePadding="5dp"
+        android:gravity="center"
         android:text="@string/bidder"
         android:textColor="@color/tv_black"
-        android:textSize="12sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView

@@ -12,6 +12,7 @@
         android:layout_marginTop="10dp"
         android:drawablePadding="10dp"
         android:drawableRight="@drawable/down"
+        android:drawableEnd="@drawable/down"
         android:padding="5dp"
         android:text="@string/advance_more"
         android:textColor="@color/hozo_bg" />
@@ -188,6 +189,7 @@
             android:layout_gravity="center_horizontal"
             android:drawablePadding="10dp"
             android:drawableRight="@drawable/up"
+            android:drawableEnd="@drawable/up"
             android:paddingBottom="5dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
