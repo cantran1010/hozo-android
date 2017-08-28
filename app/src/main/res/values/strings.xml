@@ -441,5 +441,8 @@
     <string name="hour_title">Số giờ làm việc</string>
     <string name="sms">SMS</string>
     <string name="duplicate_task_error">Bạn không thể đăng 2 tin giống nhau liên tiếp trong vòng 1 giờ.</string>
+    <string name="edit_task">Chỉnh sửa việc</string>
+    <string name="edit_task_complete">Bạn đã chỉnh sửa việc thành công!</string>
+    <string name="tv_save">Lưu</string>
 
 </resources>

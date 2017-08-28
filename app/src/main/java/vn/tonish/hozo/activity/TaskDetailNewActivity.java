@@ -235,10 +235,12 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
         boolean isShowCancel = true;
         boolean isDelete = true;
         boolean isReportTask = true;
+        boolean isEditTask = false;
 
         if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             isDelete = false;
             isReportTask = false;
+            if (taskResponse.getBidderCount() == 0) isEditTask = true;
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             isDelete = false;
             isReportTask = false;
@@ -307,6 +309,11 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
         else
             popup.getMenu().findItem(R.id.report_task).setVisible(false);
 
+        if (isEditTask)
+            popup.getMenu().findItem(R.id.edit_task).setVisible(true);
+        else
+            popup.getMenu().findItem(R.id.edit_task).setVisible(false);
+
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
@@ -354,6 +361,13 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
                         intent.putExtra(Constants.EXTRA_TASK, taskResponse);
                         intent.putExtra(Constants.TASK_EXTRA_COPY_EDIT, Constants.TASK_COPY);
                         startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+                        break;
+
+                    case R.id.edit_task:
+                        Intent intentEdit = new Intent(TaskDetailNewActivity.this, CreateTaskActivity.class);
+                        intentEdit.putExtra(Constants.EXTRA_TASK, taskResponse);
+                        intentEdit.putExtra(Constants.TASK_EXTRA_COPY_EDIT, Constants.TASK_EDIT);
+                        startActivityForResult(intentEdit, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                         break;
 
                     case R.id.report_task:

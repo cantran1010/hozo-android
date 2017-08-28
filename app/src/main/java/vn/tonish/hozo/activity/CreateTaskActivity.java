@@ -104,7 +104,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private String address;
     private TimePickerDialog timeEndPickerDialog;
     private Calendar calendar = GregorianCalendar.getInstance();
-    private TextViewHozo tvDate, tvTime, tvTotalPrice, tvMoreShow, tvMoreHide;
+    private TextViewHozo tvDate, tvTime, tvTotalPrice, tvMoreShow, tvMoreHide, tvSave;
     private AutoCompleteTextView edtBudget;
     private Category category;
     private TextViewHozo tvAddress;
@@ -132,6 +132,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private TaskResponse taskResponse;
     private boolean isCopy = false;
     private int countImageCopy;
+    private int taskId;
+    private ButtonHozo btnNext;
 
     @Override
     protected int getLayout() {
@@ -144,6 +146,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
         ImageView imgClose = findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
+
+        tvSave = findViewById(R.id.tv_save);
+        tvSave.setOnClickListener(this);
 
         edtTitle = findViewById(R.id.edt_task_name);
         edtDescription = findViewById(R.id.edt_description);
@@ -168,7 +173,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         RelativeLayout layoutTime = findViewById(R.id.time_layout);
         layoutTime.setOnClickListener(this);
 
-        ButtonHozo btnNext = findViewById(R.id.btn_next);
+        btnNext = findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
 
         tvAddress = findViewById(R.id.tv_address);
@@ -212,8 +217,14 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         grImage.setAdapter(imageAdapter);
 
         if (intent.hasExtra(Constants.EXTRA_TASK)) {
+
             taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
             LogUtils.d(TAG, "PostATaskActivity , taskResponse : " + taskResponse.toString());
+
+            if (intent.hasExtra(Constants.TASK_EXTRA_COPY_EDIT)) {
+                taskId = taskResponse.getId();
+                btnNext.setText(getString(R.string.edit_task));
+            }
 
             category = DataParse.convertCatogoryEntityToCategory(CategoryManager.getCategoryById(taskResponse.getCategoryId()));
 
@@ -737,77 +748,152 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         LogUtils.d(TAG, "request body create task : " + body.toString());
 
-        ApiClient.getApiService().createNewTask(UserManager.getUserToken(), body).enqueue(new Callback<TaskResponse>() {
-            @Override
-            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
-                LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
-                LogUtils.d(TAG, "createNewTask code : " + response.code());
+        if (taskId != 0) {
+            LogUtils.d(TAG, "createNewTask edit task -------> : " + taskId);
+            ApiClient.getApiService().editTask(UserManager.getUserToken(), taskId, body).enqueue(new Callback<TaskResponse>() {
+                @Override
+                public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+                    LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
+                    LogUtils.d(TAG, "createNewTask code : " + response.code());
 
-                if (response.code() == Constants.HTTP_CODE_CREATED) {
-                    Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_a_task_complete), false, false);
-                    setResult(Constants.POST_A_TASK_RESPONSE_CODE);
-                    finish();
-                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(CreateTaskActivity.this, new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            doNext();
-                        }
-                    });
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(CreateTaskActivity.this);
-                } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
-                    APIError error = ErrorUtils.parseError(response);
-                    LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
-
-                    if (error.status().equals(Constants.POST_TASK_DUPLICATE)) {
-                        DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.duplicate_task_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                    if (response.code() == Constants.HTTP_CODE_CREATED) {
+                        Utils.showLongToast(CreateTaskActivity.this, getString(R.string.edit_task_complete), false, false);
+                        setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+                        finish();
+                        FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+                    } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                        NetworkUtils.refreshToken(CreateTaskActivity.this, new NetworkUtils.RefreshListener() {
                             @Override
-                            public void onSubmit() {
-
+                            public void onRefreshFinish() {
+                                doNext();
                             }
                         });
+                    } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                        Utils.blockUser(CreateTaskActivity.this);
+                    } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
+                        APIError error = ErrorUtils.parseError(response);
+                        LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
+
+                        if (error.status().equals(Constants.POST_TASK_DUPLICATE)) {
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.duplicate_task_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                        } else {
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                        }
+
                     } else {
+                        APIError error = ErrorUtils.parseError(response);
+                        LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
                         DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 
                             }
                         });
-                    }
 
-                } else {
-                    APIError error = ErrorUtils.parseError(response);
-                    LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
-                    DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                    }
+                    ProgressDialogUtils.dismissProgressDialog();
+                }
+
+                @Override
+                public void onFailure(Call<TaskResponse> call, Throwable t) {
+                    LogUtils.e(TAG, "createNewTask onFailure : " + t.getMessage());
+                    DialogUtils.showRetryDialog(CreateTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
+                            doNext();
+                        }
+
+                        @Override
+                        public void onCancel() {
 
                         }
                     });
-
+                    ProgressDialogUtils.dismissProgressDialog();
                 }
-                ProgressDialogUtils.dismissProgressDialog();
-            }
+            });
+        } else {
+            ApiClient.getApiService().createNewTask(UserManager.getUserToken(), body).enqueue(new Callback<TaskResponse>() {
+                @Override
+                public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+                    LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
+                    LogUtils.d(TAG, "createNewTask code : " + response.code());
 
-            @Override
-            public void onFailure(Call<TaskResponse> call, Throwable t) {
-                LogUtils.e(TAG, "createNewTask onFailure : " + t.getMessage());
-                DialogUtils.showRetryDialog(CreateTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        doNext();
+                    if (response.code() == Constants.HTTP_CODE_CREATED) {
+                        Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_a_task_complete), false, false);
+                        setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+                        finish();
+                        FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+                    } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                        NetworkUtils.refreshToken(CreateTaskActivity.this, new NetworkUtils.RefreshListener() {
+                            @Override
+                            public void onRefreshFinish() {
+                                doNext();
+                            }
+                        });
+                    } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                        Utils.blockUser(CreateTaskActivity.this);
+                    } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
+                        APIError error = ErrorUtils.parseError(response);
+                        LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
+
+                        if (error.status().equals(Constants.POST_TASK_DUPLICATE)) {
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.duplicate_task_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                        } else {
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                        }
+
+                    } else {
+                        APIError error = ErrorUtils.parseError(response);
+                        LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
+                        DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+
                     }
+                    ProgressDialogUtils.dismissProgressDialog();
+                }
 
-                    @Override
-                    public void onCancel() {
+                @Override
+                public void onFailure(Call<TaskResponse> call, Throwable t) {
+                    LogUtils.e(TAG, "createNewTask onFailure : " + t.getMessage());
+                    DialogUtils.showRetryDialog(CreateTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doNext();
+                        }
 
-                    }
-                });
-                ProgressDialogUtils.dismissProgressDialog();
-            }
-        });
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                    ProgressDialogUtils.dismissProgressDialog();
+                }
+            });
+        }
     }
 
     private Calendar getEndTime() {
@@ -880,6 +966,10 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         alertDialogCancelTask.showView();
     }
 
+    private void doSave() {
+
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -947,6 +1037,10 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     }
                 });
                 hourDialog.showView();
+                break;
+
+            case R.id.tv_save:
+                doSave();
                 break;
 
         }
