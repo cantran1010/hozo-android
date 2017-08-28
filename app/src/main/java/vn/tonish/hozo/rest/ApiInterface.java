@@ -129,4 +129,7 @@ public interface ApiInterface {
 
     @POST("v1/tasks/{taskId}/report")
     Call<Void> reportTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
+
+    @PUT("v1/tasks/{task_id}")
+    Call<TaskResponse> editTask(@Header("Authorization") String token, @Path("task_id") int taskId, @Body RequestBody body);
 }
