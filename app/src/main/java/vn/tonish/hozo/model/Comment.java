@@ -3,6 +3,7 @@ package vn.tonish.hozo.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 import io.realm.annotations.PrimaryKey;
@@ -15,6 +16,10 @@ public class Comment implements Serializable {
     private int id;
     @SerializedName("author_id")
     private int authorId;
+    @SerializedName("task_id")
+    private int taskId;
+    @SerializedName("parent_id")
+    private int parentId;
     @SerializedName("full_name")
     private String fullName;
     private String avatar;
@@ -24,10 +29,33 @@ public class Comment implements Serializable {
     @SerializedName("created_at")
     private String createdAt;
     private Date createdDateAt;
-    private int taskId;
+    @SerializedName("replies_count")
+    private int repliesCount;
+    @SerializedName("replies")
+    private ArrayList<Comment> comments = new ArrayList<>();
 
-    public Comment() {
+    public int getParentId() {
+        return parentId;
+    }
 
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
+    }
+
+    public int getRepliesCount() {
+        return repliesCount;
+    }
+
+    public void setRepliesCount(int repliesCount) {
+        this.repliesCount = repliesCount;
+    }
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
     }
 
     public String getImgAttach() {
@@ -107,13 +135,16 @@ public class Comment implements Serializable {
         return "Comment{" +
                 "id=" + id +
                 ", authorId=" + authorId +
+                ", taskId=" + taskId +
+                ", parentId=" + parentId +
                 ", fullName='" + fullName + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", imgAttach='" + imgAttach + '\'' +
                 ", body='" + body + '\'' +
                 ", createdAt='" + createdAt + '\'' +
                 ", createdDateAt=" + createdDateAt +
-                ", taskId='" + taskId + '\'' +
+                ", repliesCount=" + repliesCount +
+                ", comments=" + comments +
                 '}';
     }
 }

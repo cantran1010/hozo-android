@@ -186,6 +186,8 @@ public class Constants {
     public static final String EXTRA_ASSIGNER_TASKRESPONSE = "assigner_taskresponse";
     public static final int RESULT_CODE_ASSIGNER = 1118;
     public static final String POST_TASK_DUPLICATE = "duplicate_task";
+    public static final int COMMENT_REQUEST_CODE = 258;
+    public static final int COMMENT_RESPONSE_CODE = 852;
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static String BID_ERROR_INVALID_DATA = "invalid_data";
     public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";
