@@ -692,8 +692,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         final JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put("category_id", category.getId());
-            jsonRequest.put("title", edtTitle.getText().toString());
-            jsonRequest.put("description", edtDescription.getText().toString());
+            jsonRequest.put("title", edtTitle.getText().toString().trim());
+            jsonRequest.put("description", edtDescription.getText().toString().trim());
             jsonRequest.put("start_time", DateTimeUtils.fromCalendarIso(calendar));
             jsonRequest.put("end_time", DateTimeUtils.fromCalendarIso(getEndTime()));
 
@@ -757,6 +757,26 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(CreateTaskActivity.this);
+                } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
+
+                    if (error.status().equals(Constants.POST_TASK_DUPLICATE)) {
+                        DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.duplicate_task_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    } else {
+                        DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());

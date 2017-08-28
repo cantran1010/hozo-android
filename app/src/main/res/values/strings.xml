@@ -287,7 +287,7 @@
     <string name="gender_vn_any">Bất kỳ</string>
     <string name="gender_vn_mafele">Nữ</string>
     <string name="gender_vn_male">Nam</string>
-    <string name="error">Lỗi</string>
+    <string name="error">Lỗi!</string>
     <string name="post_task_time_start_error">Vui lòng chọn thời gian bắt đầu \n sớm nhất có thể sau 30 phút</string>
     <string name="post_task_date_picker_title">Chọn ngày làm việc</string>
     <string name="post_task_time_picker_title">Chọn thời gian bắt đầu</string>
@@ -418,7 +418,7 @@
     <string name="online_job">Việc có làm online tại nhà</string>
     <string name="auto_pick">Tự động chọn ứng viên</string>
     <string name="post_task_address_error">Vui lòng nhập địa chỉ</string>
-    <string name="hour_default">2</string>
+    <string name="hour_default">4</string>
     <string name="email_input_error1">\@</string>
     <string name="email_input_error2">email</string>
     <string name="post_a_task_input_error">Hozo không cho phép đăng email hay số điện thoại trong bài đăng</string>
@@ -440,5 +440,6 @@
     <string name="task_hour">Số giờ</string>
     <string name="hour_title">Số giờ làm việc</string>
     <string name="sms">SMS</string>
+    <string name="duplicate_task_error">Bạn không thể đăng 2 tin giống nhau liên tiếp trong vòng 1 giờ.</string>
 
 </resources>
