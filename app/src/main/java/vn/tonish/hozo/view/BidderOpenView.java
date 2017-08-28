@@ -75,12 +75,12 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
     private void initView() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.view_bidder_open, this, true);
-        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
+        imgAvatar = findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
-        tvName = (TextViewHozo) findViewById(R.id.tv_name);
-        tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
-        rbRate = (RatingBar) findViewById(R.id.rb_rate);
-        btnAssign = (ButtonHozo) findViewById(R.id.btn_assign);
+        tvName = findViewById(R.id.tv_name);
+        tvTimeAgo = findViewById(R.id.tv_time_ago);
+        rbRate = findViewById(R.id.rb_rate);
+        btnAssign = findViewById(R.id.btn_assign);
     }
 
     public void updateData(final Bidder bidder, String type) {

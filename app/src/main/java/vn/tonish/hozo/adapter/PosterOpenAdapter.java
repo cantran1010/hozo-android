@@ -21,7 +21,7 @@ public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.My
     private final String type;
     private int taskId;
 
-    public PosterOpenAdapter(ArrayList<Bidder> bidders,String type){
+    public PosterOpenAdapter(ArrayList<Bidder> bidders, String type) {
         this.bidders = bidders;
         this.type = type;
     }
@@ -30,11 +30,12 @@ public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.My
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_poster_open, parent, false);
-        return new MyViewHolder(itemView);    }
+        return new MyViewHolder(itemView);
+    }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.bidderOpenView.updateData(bidders.get(position),type);
+        holder.bidderOpenView.updateData(bidders.get(position), type);
         holder.bidderOpenView.setTaskId(getTaskId());
     }
 
@@ -43,13 +44,13 @@ public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.My
         return bidders.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private final BidderOpenView bidderOpenView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            bidderOpenView = (BidderOpenView) itemView.findViewById(R.id.bidder_open_view);
+            bidderOpenView = itemView.findViewById(R.id.bidder_open_view);
         }
 
     }
