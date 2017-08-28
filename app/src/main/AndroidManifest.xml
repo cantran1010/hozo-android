@@ -114,6 +114,9 @@
             android:name=".activity.CommentsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.CommentsNewActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.CostActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
