@@ -75,6 +75,7 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
                 }
             });
             CommentAdapter commentAdapter = new CommentAdapter((ArrayList<Comment>) comments.get(position).getComments());
+            commentAdapter.setCommentType(getCommentType());
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
             ((WorkHolder) holder).recyclerView.setLayoutManager(layoutManager);
 //        commentAdapter.setCommentType(getCommentType());

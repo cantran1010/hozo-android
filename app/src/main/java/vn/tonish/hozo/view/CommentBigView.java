@@ -35,6 +35,7 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
     private ImageView imgSetting;
     private Comment comment;
     private int commentType;
+    private int commentCountVisibility;
 
     public interface AnswerListener {
         public void onAnswer();
@@ -103,12 +104,6 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
         tvTimeAgo.setText(DateTimeUtils.getTimeAgo(comment.getCreatedAt(), getContext()));
         LogUtils.d(TAG, "update Data time ago : " + DateTimeUtils.getTimeAgo(comment.getCreatedAt(), getContext()));
 
-        if (comment.getRepliesCount() > 0) {
-            tvCommentCount.setText(getContext().getString(R.string.comment_count, comment.getRepliesCount()));
-            tvCommentCount.setVisibility(View.VISIBLE);
-        } else
-            tvCommentCount.setVisibility(View.GONE);
-
         if (comment.getBody().equals("")) tvComment.setVisibility(View.GONE);
 
         if (comment.getImgAttach() != null && !comment.getImgAttach().trim().equals("") && !comment.getImgAttach().equals("null")) {
@@ -116,12 +111,23 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
             Utils.displayImage(getContext(), imgAttach, comment.getImgAttach());
         } else imgAttach.setVisibility(View.GONE);
 
-        if (getCommentType() == View.VISIBLE){
+        if (getCommentType() == View.VISIBLE) {
             imgSetting.setVisibility(View.VISIBLE);
             tvAnswer.setVisibility(View.VISIBLE);
-        } else{
+        } else {
             imgSetting.setVisibility(View.GONE);
             tvAnswer.setVisibility(View.GONE);
+        }
+
+        if (getCommentCountVisibility() == View.GONE) {
+            tvCommentCount.setVisibility(View.GONE);
+        } else {
+
+            if (comment.getRepliesCount() > 2) {
+                tvCommentCount.setText(getContext().getString(R.string.comment_count, comment.getRepliesCount() - 2));
+                tvCommentCount.setVisibility(View.VISIBLE);
+            } else
+                tvCommentCount.setVisibility(View.GONE);
         }
 
     }
@@ -206,5 +212,13 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
 
     public void setCommentType(int commentType) {
         this.commentType = commentType;
+    }
+
+    public int getCommentCountVisibility() {
+        return commentCountVisibility;
+    }
+
+    public void setCommentCountVisibility(int commentCountVisibility) {
+        this.commentCountVisibility = commentCountVisibility;
     }
 }

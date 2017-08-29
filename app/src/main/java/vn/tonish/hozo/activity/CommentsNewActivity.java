@@ -54,6 +54,7 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.CommentBigView;
 import vn.tonish.hozo.view.EdittextHozo;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
@@ -77,6 +78,8 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
     private boolean isLoadingMoreFromServer = true;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private Comment comment;
+    private CommentBigView commentBigView;
+    private int vilibisity;
 
     @Override
     protected int getLayout() {
@@ -100,13 +103,19 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
         imgDelete.setOnClickListener(this);
         imgBack.setOnClickListener(this);
 
+        commentBigView = findViewById(R.id.comment_big_view);
+
     }
 
     @Override
     protected void initData() {
         comment = (Comment) getIntent().getSerializableExtra(Constants.COMMENT_EXTRA);
 
-        int vilibisity = getIntent().getIntExtra(Constants.COMMENT_INPUT_EXTRA, 0);
+        commentBigView.setCommentType(View.GONE);
+        commentBigView.setCommentCountVisibility(View.GONE);
+        commentBigView.updateData(comment);
+
+        vilibisity = getIntent().getIntExtra(Constants.COMMENT_INPUT_EXTRA, 0);
         if (View.VISIBLE == vilibisity) {
             layoutFooter.setVisibility(View.VISIBLE);
         } else {
@@ -119,6 +128,13 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
     private void setUpRecyclerView() {
         mComments = new ArrayList<>();
         commentsAdapter = new CommentsAdapter(this, mComments);
+
+        if (View.VISIBLE == vilibisity) {
+            commentsAdapter.setCommentType(View.VISIBLE);
+        } else {
+            commentsAdapter.setCommentType(View.GONE);
+        }
+
         LinearLayoutManager lvManager = new LinearLayoutManager(this);
         lvManager.setReverseLayout(true);
         lvManager.setStackFromEnd(true);
@@ -221,15 +237,21 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void doSend() {
+
         if (edtComment.getText().toString().trim().equals("")) {
             Utils.showLongToast(this, getString(R.string.empty_content_comment_error), true, false);
             return;
+        } else if (!Utils.validateInput(this, edtComment.getText().toString().trim())) {
+            Utils.showLongToast(this, getString(R.string.post_a_task_input_error), true, false);
+            return;
         }
+
         if (imgPath == null) {
             doComment();
         } else {
             doAttachImage();
         }
+
     }
 
     private void doComment() {
