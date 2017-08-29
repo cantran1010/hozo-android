@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import org.json.JSONException;
@@ -81,7 +82,7 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
     private ImageView imgAttached;
     private File fileAttach;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
+    private LinearLayout layoutFooter;
 
     @Override
     protected int getLayout() {
@@ -102,16 +103,44 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
         imgAttached.setOnClickListener(this);
         imgComment.setOnClickListener(this);
         imgDelete.setOnClickListener(this);
+
+        layoutFooter = (LinearLayout) findViewById(R.id.layout_footer);
     }
 
     @Override
     protected void initData() {
         taskResponse = ((TaskDetailNewActivity) getActivity()).getTaskResponse();
+        updateInputComment();
         setUpRecyclerView();
     }
 
     @Override
     protected void resumeData() {
+
+    }
+
+    private void updateInputComment() {
+        if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            layoutFooter.setVisibility(View.GONE);
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            layoutFooter.setVisibility(View.GONE);
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            layoutFooter.setVisibility(View.GONE);
+        }
+        //bidder
+        else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
+            layoutFooter.setVisibility(View.GONE);
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
+            layoutFooter.setVisibility(View.GONE);
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
+            layoutFooter.setVisibility(View.GONE);
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
+            layoutFooter.setVisibility(View.GONE);
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+            layoutFooter.setVisibility(View.GONE);
+        } else {
+            layoutFooter.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -122,7 +151,7 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
         lvManager.setReverseLayout(true);
         lvManager.setStackFromEnd(true);
         rcvComment.setLayoutManager(lvManager);
-//        commentsAdapter.setCommentType(commentType);
+        commentsAdapter.setCommentType(layoutFooter.getVisibility());
         rcvComment.setAdapter(commentsAdapter);
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(lvManager) {
             @Override
@@ -138,10 +167,11 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
             public void onAnswer(int position) {
                 Intent intentAnswer = new Intent(getContext(), CommentsNewActivity.class);
                 String commentType = getContext().getString(R.string.comment_setting_visible);
-                intentAnswer.putExtra(Constants.TASK_ID_EXTRA, mComments.get(position).getTaskId());
-                intentAnswer.putExtra(Constants.COMMENT_STATUS_EXTRA, commentType);
-                intentAnswer.putExtra(Constants.COMMENT_VISIBILITY, View.VISIBLE);
+//                intentAnswer.putExtra(Constants.TASK_ID_EXTRA, mComments.get(position).getTaskId());
+//                intentAnswer.putExtra(Constants.COMMENT_STATUS_EXTRA, commentType);
+//                intentAnswer.putExtra(Constants.COMMENT_VISIBILITY, View.VISIBLE);
                 intentAnswer.putExtra(Constants.COMMENT_EXTRA, mComments.get(position));
+                intentAnswer.putExtra(Constants.COMMENT_INPUT_EXTRA,layoutFooter.getVisibility());
                 startActivityForResult(intentAnswer, Constants.COMMENT_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
@@ -366,7 +396,7 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LogUtils.d(TAG,"onActivityResult , requestCode : " + requestCode + " , resultCode : " + resultCode);
+        LogUtils.d(TAG, "onActivityResult , requestCode : " + requestCode + " , resultCode : " + resultCode);
         if (requestCode == REQUEST_CODE_PICK_IMAGE
                 && resultCode == Constants.RESPONSE_CODE_PICK_IMAGE
                 && data != null) {

@@ -77,7 +77,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private boolean isLoadingMoreFromServer = true;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
-    private String commentType = "";
+    private int commentType = 0;
     private boolean isSend = false;
 
     @Override
@@ -107,7 +107,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initData() {
         taskId = getIntent().getExtras().getInt(Constants.TASK_ID_EXTRA);
-        commentType = getIntent().getStringExtra(Constants.COMMENT_STATUS_EXTRA);
+        commentType = getIntent().getIntExtra(Constants.COMMENT_STATUS_EXTRA,0);
         int vilibisity = getIntent().getIntExtra(Constants.COMMENT_VISIBILITY, 0);
         LogUtils.d(TAG, "intent :" + taskId + ": " + commentType);
         setUpRecyclerView();

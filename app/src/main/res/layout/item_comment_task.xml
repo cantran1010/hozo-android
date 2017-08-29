@@ -13,6 +13,7 @@
         android:id="@+id/rcv_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp" />
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp" />
 
 </LinearLayout>

@@ -20,7 +20,7 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
 
     private final List<Comment> comments;
     private final Context context;
-    private String commentType;
+    private int commentType;
 
     public CommentTaskAdapter(Context context, List<Comment> comments) {
         super(context, comments);
@@ -63,16 +63,17 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof WorkHolder) {
+            ((WorkHolder) holder).commentBigView.setCommentType(getCommentType());
             ((WorkHolder) holder).commentBigView.updateData(comments.get(position));
             ((WorkHolder) holder).commentBigView.setAnswerListener(new CommentBigView.AnswerListener() {
                 @Override
                 public void onAnswer() {
-                    if (answerListener != null) answerListener.onAnswer(position);
+                    if (answerListener != null)
+                        answerListener.onAnswer(holder.getAdapterPosition());
                 }
             });
-
             CommentAdapter commentAdapter = new CommentAdapter((ArrayList<Comment>) comments.get(position).getComments());
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
             ((WorkHolder) holder).recyclerView.setLayoutManager(layoutManager);
@@ -93,11 +94,11 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
 
     }
 
-    public String getCommentType() {
+    public int getCommentType() {
         return commentType;
     }
 
-    public void setCommentType(String commentType) {
+    public void setCommentType(int commentType) {
         this.commentType = commentType;
     }
 }
