@@ -23,12 +23,8 @@
             style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/title_margin_left"
-            android:layout_marginStart="@dimen/title_margin_left"
-            android:layout_toEndOf="@id/img_back"
-            android:layout_toRightOf="@id/img_back"
-            android:text="@string/make_an_offer_title" />
+            android:layout_centerInParent="true"
+            android:text="@string/answer_comment_title" />
 
         <View
             android:layout_width="match_parent"
@@ -38,12 +34,20 @@
 
     </RelativeLayout>
 
+    <vn.tonish.hozo.view.CommentBigView
+        android:id="@+id/comment_big_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_header" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lvList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/layout_footer"
-        android:layout_below="@+id/layout_header"
+        android:layout_below="@+id/comment_big_view"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
         android:scrollbars="vertical" />
 
     <include

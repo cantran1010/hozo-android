@@ -244,15 +244,23 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
         switch (status) {
             case Constants.OFFER_ACTIVE:
                 btnOffer.setVisibility(View.VISIBLE);
-                btnOffer.setText(getString(R.string.work_detail_view_bit));
-                btnOffer.setClickable(true);
-                Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(getActivity(), R.drawable.btn_selector));
-                btnOffer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        doOffer();
-                    }
-                });
+
+                if (taskResponse.getBidderCount() >= 3 * taskResponse.getWorkerCount()) {
+                    btnOffer.setText(getString(R.string.bid_limited));
+                    btnOffer.setClickable(false);
+                    Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(getActivity(), R.drawable.btn_press));
+                } else {
+                    btnOffer.setText(getString(R.string.work_detail_view_bit));
+                    btnOffer.setClickable(true);
+                    Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(getActivity(), R.drawable.btn_selector));
+                    btnOffer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            doOffer();
+                        }
+                    });
+                }
+
                 break;
 
             case Constants.OFFER_PENDING:

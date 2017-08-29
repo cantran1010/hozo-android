@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -171,7 +171,7 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
 //                intentAnswer.putExtra(Constants.COMMENT_STATUS_EXTRA, commentType);
 //                intentAnswer.putExtra(Constants.COMMENT_VISIBILITY, View.VISIBLE);
                 intentAnswer.putExtra(Constants.COMMENT_EXTRA, mComments.get(position));
-                intentAnswer.putExtra(Constants.COMMENT_INPUT_EXTRA,layoutFooter.getVisibility());
+                intentAnswer.putExtra(Constants.COMMENT_INPUT_EXTRA, layoutFooter.getVisibility());
                 startActivityForResult(intentAnswer, Constants.COMMENT_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
@@ -250,7 +250,11 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
         if (edtComment.getText().toString().trim().equals("")) {
             Utils.showLongToast(getActivity(), getString(R.string.empty_content_comment_error), true, false);
             return;
+        } else if (!Utils.validateInput(getActivity(), edtComment.getText().toString().trim())) {
+            Utils.showLongToast(getActivity(), getString(R.string.post_a_task_input_error), true, false);
+            return;
         }
+
         if (imgPath == null) {
             doComment();
         } else {
@@ -426,10 +430,30 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
                 .checkSelfPermission(getActivity(),
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), permissions, Constants.PERMISSION_REQUEST_CODE);
+            requestPermissions(permissions, Constants.PERMISSION_REQUEST_CODE);
         } else {
             permissionGranted();
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0) {
+            boolean cameraPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+            boolean readExternalFile = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+            if (cameraPermission && readExternalFile) {
+                permissionGranted();
+            } else {
+                permissionDenied();
+            }
+        }
+    }
+
+    private void permissionDenied() {
+
     }
 
     private void permissionGranted() {

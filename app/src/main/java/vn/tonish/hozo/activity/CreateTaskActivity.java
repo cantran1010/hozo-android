@@ -134,6 +134,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private int countImageCopy;
     private int taskId;
     private ButtonHozo btnNext;
+    private String status;
 
     @Override
     protected int getLayout() {
@@ -711,15 +712,20 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             jsonRequest.put("latitude", lat);
             jsonRequest.put("longitude", lon);
 
-            String[] arrAddress = address.split(",");
+            if (address != null) {
+                String[] arrAddress = address.split(",");
 
-            jsonRequest.put("city", arrAddress.length >= 2 ? arrAddress[arrAddress.length - 2].trim() : arrAddress[arrAddress.length - 1].trim());
-            jsonRequest.put("district", arrAddress.length >= 3 ? arrAddress[arrAddress.length - 3].trim() : arrAddress[arrAddress.length - 1].trim());
+                jsonRequest.put("city", arrAddress.length >= 2 ? arrAddress[arrAddress.length - 2].trim() : arrAddress[arrAddress.length - 1].trim());
+                jsonRequest.put("district", arrAddress.length >= 3 ? arrAddress[arrAddress.length - 3].trim() : arrAddress[arrAddress.length - 1].trim());
 
-            jsonRequest.put("address", address);
+                jsonRequest.put("address", address);
+            }
 
-            jsonRequest.put("worker_rate", Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
-            jsonRequest.put("worker_count", Integer.valueOf(getLongEdittext(edtNumberWorker)));
+            if (!getLongAutoCompleteTextView(edtBudget).trim().equals(""))
+                jsonRequest.put("worker_rate", Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
+
+            if (!getLongEdittext(edtNumberWorker).trim().equals(""))
+                jsonRequest.put("worker_count", Integer.valueOf(getLongEdittext(edtNumberWorker)));
 
             if (imagesArr != null && imagesArr.length > 0) {
                 JSONArray jsonArray = new JSONArray();
@@ -730,6 +736,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             jsonRequest.put("min_age", ageFrom);
             jsonRequest.put("max_age", ageTo);
+            jsonRequest.put("status", status);
 
             if (radioMale.isChecked()) {
                 jsonRequest.put("gender", Constants.GENDER_MALE);
@@ -967,7 +974,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private void doSave() {
-
+        if (images.size() > 1) doAttachFiles();
+        else createTaskOnServer();
     }
 
     @Override
@@ -980,10 +988,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             case R.id.time_layout:
                 openTimeLayout();
-                break;
-
-            case R.id.btn_next:
-                doNext();
                 break;
 
             case R.id.layout_address:
@@ -1039,7 +1043,13 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 hourDialog.showView();
                 break;
 
+            case R.id.btn_next:
+                status = Constants.CREATE_TASK_STATUS_PUBLISH;
+                doNext();
+                break;
+
             case R.id.tv_save:
+                status = Constants.CREATE_TASK_STATUS_DRAFT;
                 doSave();
                 break;
 
