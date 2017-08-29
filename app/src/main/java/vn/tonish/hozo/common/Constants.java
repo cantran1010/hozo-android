@@ -119,6 +119,7 @@ public class Constants {
     // push type notification
     public static final String PUSH_TYPE_REVIEW_RECEIVED = "review_received";
     public static final String PUSH_TYPE_COMMENT_RECEIVED = "comment_received";
+    public static final String PUSH_TYPE_COMMENT_REPLIED = "comment_replied";
     public static final String PUSH_TYPE_BIDDER_CANCELED = "bidder_canceled";
     public static final String PUSH_TYPE_BID_RECEIVED = "bid_received";
     public static final String PUSH_TYPE_BID_ACCEPTED = "bid_accepted";
@@ -188,6 +189,7 @@ public class Constants {
     public static final String POST_TASK_DUPLICATE = "duplicate_task";
     public static final int COMMENT_REQUEST_CODE = 258;
     public static final int COMMENT_RESPONSE_CODE = 852;
+    public static final String COMMENT_INPUT_EXTRA = "comment_input_extra";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static String BID_ERROR_INVALID_DATA = "invalid_data";
     public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";

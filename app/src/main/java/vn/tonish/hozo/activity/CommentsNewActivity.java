@@ -69,7 +69,6 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout layoutFooter;
     private ImageView imgAttached;
     private List<Comment> mComments;
-    private int taskId = 0;
     private int tempId = 0;
     private File fileAttach;
     private String imgPath;
@@ -77,8 +76,6 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private boolean isLoadingMoreFromServer = true;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
-    private String commentType = "";
-    private boolean isSend = false;
     private Comment comment;
 
     @Override
@@ -88,15 +85,15 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
-        lvList = (RecyclerView) findViewById(R.id.lvList);
-        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
-        edtComment = (EdittextHozo) findViewById(R.id.edt_comment);
-        imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
-        layoutFooter = (LinearLayout) findViewById(R.id.layout_footer);
-        imgAttached = (ImageView) findViewById(R.id.img_attached);
-        ImageView imgDelete = (ImageView) findViewById(R.id.img_delete);
-        ImageView imgComment = (ImageView) findViewById(R.id.img_send);
-        ImageView imgAttach = (ImageView) findViewById(R.id.img_attach);
+        lvList = findViewById(R.id.lvList);
+        ImageView imgBack = findViewById(R.id.img_back);
+        edtComment = findViewById(R.id.edt_comment);
+        imgLayout = findViewById(R.id.img_layout);
+        layoutFooter = findViewById(R.id.layout_footer);
+        imgAttached = findViewById(R.id.img_attached);
+        ImageView imgDelete = findViewById(R.id.img_delete);
+        ImageView imgComment = findViewById(R.id.img_send);
+        ImageView imgAttach = findViewById(R.id.img_attach);
         imgAttach.setOnClickListener(this);
         imgAttached.setOnClickListener(this);
         imgComment.setOnClickListener(this);
@@ -107,18 +104,16 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
-        taskId = getIntent().getExtras().getInt(Constants.TASK_ID_EXTRA);
-        commentType = getIntent().getStringExtra(Constants.COMMENT_STATUS_EXTRA);
         comment = (Comment) getIntent().getSerializableExtra(Constants.COMMENT_EXTRA);
 
-        int vilibisity = getIntent().getIntExtra(Constants.COMMENT_VISIBILITY, 0);
-        LogUtils.d(TAG, "intent :" + taskId + ": " + commentType);
-        setUpRecyclerView();
+        int vilibisity = getIntent().getIntExtra(Constants.COMMENT_INPUT_EXTRA, 0);
         if (View.VISIBLE == vilibisity) {
             layoutFooter.setVisibility(View.VISIBLE);
         } else {
             layoutFooter.setVisibility(View.GONE);
         }
+
+        setUpRecyclerView();
     }
 
     private void setUpRecyclerView() {
@@ -128,7 +123,6 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
         lvManager.setReverseLayout(true);
         lvManager.setStackFromEnd(true);
         lvList.setLayoutManager(lvManager);
-        commentsAdapter.setCommentType(commentType);
         lvList.setAdapter(commentsAdapter);
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(lvManager) {
             @Override
@@ -148,7 +142,7 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
         if (since != null)
             params.put("since", since);
         params.put("limit", LIMIT + "");
-        Call<List<Comment>> call = ApiClient.getApiService().getCommentsInComments(UserManager.getUserToken(), taskId, comment.getId(), params);
+        Call<List<Comment>> call = ApiClient.getApiService().getCommentsInComments(UserManager.getUserToken(), comment.getTaskId(), comment.getId(), params);
         call.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
@@ -162,9 +156,6 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
                     List<Comment> comments = response.body();
                     if ((comments != null ? comments.size() : 0) > 0)
                         strSince = comments.get((comments != null ? comments.size() : 0) - 1).getCreatedAt();
-                    for (Comment comment : comments != null ? comments : null) {
-                        comment.setTaskId(taskId);
-                    }
                     mComments.addAll(comments);
                     commentsAdapter.notifyDataSetChanged();
                     if (comments.size() < LIMIT) {
@@ -230,7 +221,6 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void doSend() {
-        isSend = true;
         if (edtComment.getText().toString().trim().equals("")) {
             Utils.showLongToast(this, getString(R.string.empty_content_comment_error), true, false);
             return;
@@ -257,7 +247,7 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
         LogUtils.d(TAG, "doComment data request : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
-        ApiClient.getApiService().commentTask(UserManager.getUserToken(), taskId, body).enqueue(new Callback<Comment>() {
+        ApiClient.getApiService().commentTask(UserManager.getUserToken(), comment.getTaskId(), body).enqueue(new Callback<Comment>() {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
                 LogUtils.d(TAG, "doComment , code : " + response.code());
@@ -265,7 +255,7 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
 
-                    response.body().setTaskId(taskId);
+                    response.body().setTaskId(comment.getTaskId());
 
                     mComments.add(0, response.body());
                     commentsAdapter.notifyDataSetChanged();
@@ -495,7 +485,6 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
         setResult(Constants.COMMENT_RESPONSE_CODE, in);
         finish();
     }
-
 
     @Override
     public void onClick(View v) {

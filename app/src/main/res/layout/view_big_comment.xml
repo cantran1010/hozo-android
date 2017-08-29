@@ -89,7 +89,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
-                    android:text="3 times ago"
+                    android:drawableLeft="@drawable/timer_comment"
+                    android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/timer_comment"
                     android:textSize="12sp"
                     android:textStyle="italic" />
 
@@ -99,7 +101,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:drawableLeft="@drawable/img_dot_comment"
+                    android:drawableStart="@drawable/img_dot_comment"
                     android:text="@string/answer"
                     android:textColor="@color/hozo_bg"
                     android:textSize="12sp" />

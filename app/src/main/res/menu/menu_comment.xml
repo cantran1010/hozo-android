@@ -6,8 +6,4 @@
         android:id="@+id/report"
         android:title="@string/comment_report" />
 
-    <item
-        android:id="@+id/answer"
-        android:title="@string/comment_answer"/>
-
 </menu>

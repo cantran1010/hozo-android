@@ -626,7 +626,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         realm.beginTransaction();
         for (int i = 0; i < comments.size(); i++) comments.get(i).setTaskId(taskId);
         realm.commitTransaction();
-        commentViewFull.setCommentType(commentType);
+//        commentViewFull.setCommentType(commentType);
         commentViewFull.updateData(comments);
         tvBidderCount.setText(getString(R.string.count_in_detail, taskResponse.getBidderCount()));
         tvAssignCount.setText(getString(R.string.count_in_detail, taskResponse.getAssigneeCount()));

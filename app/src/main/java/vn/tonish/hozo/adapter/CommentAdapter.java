@@ -19,7 +19,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
 
     private final ArrayList<Comment> comments;
-    private String commentType;
+    private int commentType;
 
     public CommentAdapter(ArrayList<Comment> comments) {
         this.comments = comments;
@@ -54,11 +54,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         }
     }
 
-    public String getCommentType() {
+    public int getCommentType() {
         return commentType;
     }
 
-    public void setCommentType(String commentType) {
+    public void setCommentType(int commentType) {
         this.commentType = commentType;
     }
 }

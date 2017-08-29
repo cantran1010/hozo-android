@@ -433,6 +433,11 @@ public class Utils {
                 matcher = context.getString(R.string.notification_cancel_bid_matcher);
                 matcherColor = context.getString(R.string.notification_task_overdue_color);
                 break;
+            case Constants.PUSH_TYPE_COMMENT_REPLIED:
+                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_replied) + " " + notification.getTaskName();
+                matcher = context.getString(R.string.notification_comment_replied_matcher);
+                matcherColor = context.getString(R.string.notification_comment_replied_color);
+                break;
         }
 
         tvContent.setText(content);
@@ -564,6 +569,9 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_BID_CANCEL:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_cancel_bid) + " " + context.getString(R.string.cancel_bid_task_name) + notification.getTaskName();
+                break;
+            case Constants.PUSH_TYPE_COMMENT_REPLIED:
+                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_replied) + " " + notification.getTaskName();
                 break;
         }
 

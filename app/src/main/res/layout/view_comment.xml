@@ -83,6 +83,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/timer_comment"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/timer_comment"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
@@ -93,10 +96,10 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:layout_marginEnd="@dimen/margin_right_screen"
         android:layout_marginLeft="@dimen/margin_left_screen"
         android:layout_marginRight="@dimen/margin_right_screen"
         android:layout_marginStart="@dimen/margin_left_screen"
-        android:layout_marginEnd="@dimen/margin_right_screen"
         android:layout_marginTop="0dp"
         android:background="@color/gray" />
 

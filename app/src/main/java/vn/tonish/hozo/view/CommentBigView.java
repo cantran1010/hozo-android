@@ -16,7 +16,6 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PreviewImageActivity;
 import vn.tonish.hozo.activity.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.ReportDialog;
 import vn.tonish.hozo.model.Comment;
@@ -35,9 +34,9 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
     private ImageView imgAttach;
     private ImageView imgSetting;
     private Comment comment;
-    private String commentType;
+    private int commentType;
 
-    public interface AnswerListener{
+    public interface AnswerListener {
         public void onAnswer();
     }
 
@@ -117,14 +116,13 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
             Utils.displayImage(getContext(), imgAttach, comment.getImgAttach());
         } else imgAttach.setVisibility(View.GONE);
 
-//        if (getCommentType().equals(getContext().getString(R.string.comment_setting_invisible))) {
-//            imgSetting.setVisibility(View.GONE);
-//        } else {
-//            if (comment.getAuthorId() == UserManager.getMyUser().getId())
-//                imgSetting.setVisibility(View.GONE);
-//            else
-//                imgSetting.setVisibility(View.VISIBLE);
-//        }
+        if (getCommentType() == View.VISIBLE){
+            imgSetting.setVisibility(View.VISIBLE);
+            tvAnswer.setVisibility(View.VISIBLE);
+        } else{
+            imgSetting.setVisibility(View.GONE);
+            tvAnswer.setVisibility(View.GONE);
+        }
 
     }
 
@@ -151,7 +149,7 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
 
             case R.id.tv_answer:
             case R.id.tv_comment_count:
-                if(answerListener != null) answerListener.onAnswer();
+                if (answerListener != null) answerListener.onAnswer();
 
 //                Intent intentAnswer = new Intent(getContext(), CommentsNewActivity.class);
 //                commentType = getContext().getString(R.string.comment_setting_visible);
@@ -172,10 +170,10 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
         //Inflating the Popup using xml file
         popup.getMenuInflater().inflate(R.menu.menu_comment, popup.getMenu());
 
-        if (TaskManager.getTaskById(comment.getTaskId()).getPoster().getId() == UserManager.getMyUser().getId())
-            popup.getMenu().findItem(R.id.answer).setVisible(true);
-        else
-            popup.getMenu().findItem(R.id.answer).setVisible(false);
+//        if (TaskManager.getTaskById(comment.getTaskId()).getPoster().getId() == UserManager.getMyUser().getId())
+//            popup.getMenu().findItem(R.id.answer).setVisible(true);
+//        else
+//            popup.getMenu().findItem(R.id.answer).setVisible(false);
 
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -188,12 +186,12 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
                         reportDialog.showView();
                         break;
 
-                    case R.id.answer:
-                        Intent intentAnswer = new Intent();
-                        intentAnswer.setAction("MyBroadcast");
-                        intentAnswer.putExtra(Constants.COMMENT_EXTRA, comment);
-                        getContext().sendBroadcast(intentAnswer);
-                        break;
+//                    case R.id.answer:
+//                        Intent intentAnswer = new Intent();
+//                        intentAnswer.setAction("MyBroadcast");
+//                        intentAnswer.putExtra(Constants.COMMENT_EXTRA, comment);
+//                        getContext().sendBroadcast(intentAnswer);
+//                        break;
 
                 }
                 return true;
@@ -202,11 +200,11 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
         popup.show();//showing popup menu
     }
 
-    private String getCommentType() {
+    public int getCommentType() {
         return commentType;
     }
 
-    public void setCommentType(String commentType) {
+    public void setCommentType(int commentType) {
         this.commentType = commentType;
     }
 }
