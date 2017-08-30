@@ -457,5 +457,6 @@
     <string name="follow_task_success">Bạn đã theo dõi việc thành công!</string>
     <string name="online_task_address">Online</string>
     <string name="un_follow_task_success">Bạn đã hủy theo dõi việc thành công!</string>
+    <string name="comment_duplicate_error">Bình luận của bạn không hợp lệ vì có nội dung trùng lặp!</string>
 
 </resources>
