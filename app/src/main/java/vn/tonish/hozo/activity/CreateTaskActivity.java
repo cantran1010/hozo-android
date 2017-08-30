@@ -7,9 +7,9 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -29,11 +29,16 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TimePicker;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,11 +54,14 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.CustomArrayAdapter;
 import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.common.DataParse;
+import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AgeDialog;
 import vn.tonish.hozo.dialog.AlertDialogCancelTask;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.dialog.HourDialog;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Image;
@@ -87,29 +95,28 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     private static final String TAG = CreateTaskActivity.class.getSimpleName();
     private ScrollView scrollView;
-    private EdittextHozo edtTitle, edtDescription, edtWorkingHour, edtNumberWorker;
-    private TextViewHozo tvTitleMsg, tvDesMsg;
-    private static final int MAX_LENGTH_TITLE = 80;
+    private EdittextHozo edtTitle, edtDescription, edtNumberWorker;
+    private TextViewHozo tvTitleMsg, tvDesMsg, tvWorkingHour;
+    private static final int MAX_LENGTH_TITLE = 50;
     private static final int MAX_LENGTH_DES = 500;
     private static final int MAX_HOURS = 12;
     private double lat, lon;
     private String address;
     private TimePickerDialog timeEndPickerDialog;
     private Calendar calendar = GregorianCalendar.getInstance();
-    private TextViewHozo tvDate, tvTotalPrice;
+    private TextViewHozo tvDate, tvTime, tvTotalPrice, tvMoreShow, tvMoreHide, tvSave;
     private AutoCompleteTextView edtBudget;
     private Category category;
     private TextViewHozo tvAddress;
-    private RelativeLayout layoutAddress;
-    private ImageView imgMinus, imgPlus;
+    private RelativeLayout layoutAddress, workingHourLayout;
     private static final int MAX_BUGDET = 500000;
     private static final int MIN_BUGDET = 10000;
     private CustomArrayAdapter adapter;
     private static final int MAX_WORKER = 30;
     private ArrayList<String> vnds = new ArrayList<>();
     private LinearLayout layoutMore;
-    private RadioGroup radioMore, radioSex;
-    private RadioButton radioMoreYes, radioMoreNo, radioMale, radioFemale, radioNon;
+    private RadioGroup radioSex;
+    private RadioButton radioMale, radioFemale, radioNon;
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private final ArrayList<Image> images = new ArrayList<>();
@@ -122,6 +129,12 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private int[] imagesArr;
     private int ageFrom = 18;
     private int ageTo = 60;
+    private TaskResponse taskResponse;
+    private boolean isCopy = false;
+    private int countImageCopy;
+    private int taskId;
+    private ButtonHozo btnNext;
+    private String status;
 
     @Override
     protected int getLayout() {
@@ -135,9 +148,13 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         ImageView imgClose = findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
 
+        tvSave = findViewById(R.id.tv_save);
+        tvSave.setOnClickListener(this);
+
         edtTitle = findViewById(R.id.edt_task_name);
         edtDescription = findViewById(R.id.edt_description);
         tvDate = findViewById(R.id.tv_date);
+        tvTime = findViewById(R.id.tv_time);
 
         tvTitleMsg = findViewById(R.id.tv_title_msg);
         tvDesMsg = findViewById(R.id.tv_des_msg);
@@ -149,27 +166,20 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         edtNumberWorker = findViewById(R.id.edt_number_worker);
         tvTotalPrice = findViewById(R.id.tv_total_price);
 
-        edtWorkingHour = findViewById(R.id.edt_working_hour);
+        tvWorkingHour = findViewById(R.id.tv_working_hour);
 
         RelativeLayout layoutDate = findViewById(R.id.date_layout);
         layoutDate.setOnClickListener(this);
 
-        ButtonHozo btnNext = findViewById(R.id.btn_next);
+        RelativeLayout layoutTime = findViewById(R.id.time_layout);
+        layoutTime.setOnClickListener(this);
+
+        btnNext = findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
 
         tvAddress = findViewById(R.id.tv_address);
 
-        imgMinus = findViewById(R.id.img_minus);
-        imgMinus.setOnClickListener(this);
-
-        imgPlus = findViewById(R.id.img_plus);
-        imgPlus.setOnClickListener(this);
-
         layoutMore = findViewById(R.id.more_layout);
-
-        radioMore = findViewById(R.id.radio_more);
-        radioMoreYes = findViewById(R.id.radio_more_yes);
-        radioMoreNo = findViewById(R.id.radio_more_no);
 
         grImage = findViewById(R.id.gr_image);
 
@@ -184,14 +194,95 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         cbOnline = findViewById(R.id.cb_online_task);
         cbAuto = findViewById(R.id.cb_auto_pick);
 
+        tvMoreShow = findViewById(R.id.tv_more_show);
+        tvMoreShow.setOnClickListener(this);
+
+        tvMoreHide = findViewById(R.id.tv_more_hide);
+        tvMoreHide.setOnClickListener(this);
+
+        workingHourLayout = findViewById(R.id.working_hour_layout);
+        workingHourLayout.setOnClickListener(this);
+
     }
 
     @Override
     protected void initData() {
-        calendar.add(Calendar.MINUTE, 40);
-        tvDate.setText(DateTimeUtils.fromCalendarIsoCreateTask(calendar));
 
-        category = (Category) getIntent().getSerializableExtra(Constants.EXTRA_CATEGORY);
+        Intent intent = getIntent();
+
+        final Image image = new Image();
+        image.setAdd(true);
+        images.add(image);
+
+        imageAdapter = new ImageAdapter(this, images);
+        grImage.setAdapter(imageAdapter);
+
+        if (intent.hasExtra(Constants.EXTRA_TASK)) {
+
+            taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
+            LogUtils.d(TAG, "PostATaskActivity , taskResponse : " + taskResponse.toString());
+
+            if (intent.hasExtra(Constants.TASK_EXTRA_COPY_EDIT)) {
+                taskId = taskResponse.getId();
+//                if (taskResponse.getStatus().equals(Constants.CREATE_TASK_STATUS_DRAFT))
+//                    btnNext.setText(getString(R.string.edit_task));
+//                else
+//                    btnNext.setText(getString(R.string.edit_task));
+            }
+
+            category = DataParse.convertCatogoryEntityToCategory(CategoryManager.getCategoryById(taskResponse.getCategoryId()));
+
+            edtTitle.setText(taskResponse.getTitle());
+            try {
+                calendar = DateTimeUtils.toCalendar(taskResponse.getStartTime());
+//                tvDate.setText(DateTimeUtils.fromCalendarIsoCreateTask(calendar));
+                tvWorkingHour.setText(String.valueOf(DateTimeUtils.hoursBetween(DateTimeUtils.toCalendar(taskResponse.getStartTime()), DateTimeUtils.toCalendar(taskResponse.getEndTime()))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            lat = taskResponse.getLatitude();
+            lon = taskResponse.getLongitude();
+            address = taskResponse.getAddress();
+
+            tvAddress.setText(address);
+
+            edtBudget.setText(Utils.formatNumber(taskResponse.getWorkerRate()));
+            edtNumberWorker.setText(Utils.formatNumber(taskResponse.getWorkerCount()));
+            updateTotalPayment();
+
+            edtDescription.setText(taskResponse.getDescription());
+            ageFrom = taskResponse.getMinAge();
+            ageTo = taskResponse.getMaxAge();
+            tvAge.setText(getString(R.string.post_a_task_age, ageFrom, ageTo));
+
+            if (taskResponse.getGender() != null) {
+                if (taskResponse.getGender().equals(Constants.GENDER_MALE)) {
+                    radioMale.setChecked(true);
+                } else if (taskResponse.getGender().equals(Constants.GENDER_FEMALE)) {
+                    radioFemale.setChecked(true);
+                } else {
+                    radioNon.setChecked(true);
+                }
+            } else {
+                radioNon.setChecked(true);
+            }
+
+            cbOnline.setChecked(taskResponse.isOnline());
+            cbAuto.setChecked(taskResponse.isAutoAssign());
+
+            if (taskResponse.getAttachments() != null && taskResponse.getAttachments().size() > 0) {
+                isCopy = true;
+                checkPermission();
+            }
+
+        } else {
+            category = (Category) intent.getSerializableExtra(Constants.EXTRA_CATEGORY);
+            calendar.add(Calendar.MINUTE, 40);
+        }
+
+        tvDate.setText(DateTimeUtils.fromCalendarToDate(calendar));
+        tvTime.setText(DateTimeUtils.fromCalendarToTime(calendar));
 
         edtTitle.setHint(category.getSuggestTitle());
         edtDescription.setHint(category.getSuggestDescription());
@@ -239,29 +330,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     edtDescription.setSelection(MAX_LENGTH_DES);
                 } else
                     tvDesMsg.setText(getString(R.string.post_a_task_msg_length, editable.toString().length(), MAX_LENGTH_DES));
-            }
-        });
-
-        edtWorkingHour.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!edtWorkingHour.getText().toString().equals("") && Integer.valueOf(edtWorkingHour.getText().toString()) <= 8)
-                    edtWorkingHour.setError(null);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (!edtWorkingHour.getText().toString().equals(""))
-                    if (Integer.valueOf(edtWorkingHour.getText().toString()) > MAX_HOURS) {
-                        edtWorkingHour.setError(getString(R.string.working_hour_max_error, MAX_HOURS));
-                        edtWorkingHour.setText(edtWorkingHour.getText().toString().substring(0, edtWorkingHour.length() - 1));
-                        edtWorkingHour.setSelection(edtWorkingHour.length());
-                    }
             }
         });
 
@@ -323,37 +391,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             }
         });
 
-        radioMore.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                switch (i) {
-
-                    case R.id.radio_more_yes:
-                        layoutMore.setVisibility(View.VISIBLE);
-                        scrollView.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                            }
-                        }, 200);
-
-                        break;
-
-                    case R.id.radio_more_no:
-                        layoutMore.setVisibility(View.GONE);
-                        break;
-
-                }
-            }
-        });
-
-        final Image image = new Image();
-        image.setAdd(true);
-        images.add(image);
-
-        imageAdapter = new ImageAdapter(this, images);
-        grImage.setAdapter(imageAdapter);
-
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -391,23 +428,59 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private void permissionGranted() {
-        PickImageDialog pickImageDialog = new PickImageDialog(CreateTaskActivity.this);
-        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
-            @Override
-            public void onCamera() {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
-            }
 
-            @Override
-            public void onGallery() {
-                Intent intent = new Intent(CreateTaskActivity.this, AlbumActivity.class);
-                intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size() - 1);
-                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+        if (isCopy) {
+            isCopy = false;
+            countImageCopy = taskResponse.getAttachments().size();
+            ProgressDialogUtils.showProgressDialog(this);
+            for (int i = 0; i < taskResponse.getAttachments().size(); i++) {
+                Glide.with(this)
+                        .load(taskResponse.getAttachments().get(i))
+                        .asBitmap()
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                LogUtils.d(TAG, "onResourceReady complete , resource , width : " + resource.getWidth() + " , height : " + resource.getHeight());
+
+                                // sometime glide recycled bitmap
+                                resource = resource.copy(resource.getConfig(), true); // safe copy
+                                Glide.clear(this); // added to release original bitmap
+
+                                File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+                                Utils.compressBitmapToFile(resource, fileSave.getPath());
+                                LogUtils.d(TAG, "onResourceReady complete , path : " + fileSave.getPath());
+
+                                Image imageCopy = new Image();
+                                imageCopy.setAdd(false);
+                                imageCopy.setPath(fileSave.getPath());
+                                images.add(0, imageCopy);
+                                imageAdapter.notifyDataSetChanged();
+
+                                countImageCopy--;
+                                if (countImageCopy == 0)
+                                    ProgressDialogUtils.dismissProgressDialog();
+                            }
+                        });
             }
-        });
-        pickImageDialog.showView();
+        } else {
+            PickImageDialog pickImageDialog = new PickImageDialog(CreateTaskActivity.this);
+            pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+                @Override
+                public void onCamera() {
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                    startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+                }
+
+                @Override
+                public void onGallery() {
+                    Intent intent = new Intent(CreateTaskActivity.this, AlbumActivity.class);
+                    intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size() - 1);
+                    startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+                }
+            });
+            pickImageDialog.showView();
+        }
 
     }
 
@@ -484,7 +557,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private void openDatePicker() {
-
         @SuppressWarnings("deprecation") DatePickerDialog datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -492,48 +564,51 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                                           final int monthOfYear, final int dayOfMonth) {
 
                         if (view.isShown()) {
-                            //noinspection deprecation
-                            timeEndPickerDialog = new TimePickerDialog(CreateTaskActivity.this, AlertDialog.THEME_HOLO_LIGHT,
-                                    new TimePickerDialog.OnTimeSetListener() {
-                                        @Override
-                                        public void onTimeSet(TimePicker view, int hourOfDay,
-                                                              int minute) {
-                                            if (view.isShown()) {
-                                                LogUtils.d(TAG, "openDatePicker onTimeSet , year : " + year + " , monthOfYear : " + monthOfYear + " , dayOfMonth : " + dayOfMonth);
-                                                LogUtils.d(TAG, "openDatePicker onTimeSet , hourOfDay : " + hourOfDay + " , minute : " + minute + " , dayOfMonth : " + dayOfMonth);
-
-                                                Calendar c2 = Calendar.getInstance();
-
-                                                if (year == c2.get(Calendar.YEAR)
-                                                        && monthOfYear == c2.get(Calendar.MONTH)
-                                                        && dayOfMonth == c2.get(Calendar.DAY_OF_MONTH)
-                                                        && (hourOfDay < c2.get(Calendar.HOUR_OF_DAY) || (hourOfDay == c2.get(Calendar.HOUR_OF_DAY) && minute <= (c2.get(Calendar.MINUTE) + 30)))) {
-                                                    Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_task_time_start_error), true, false);
-                                                } else {
-                                                    calendar.set(year, monthOfYear, dayOfMonth);
-                                                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                                    calendar.set(Calendar.MINUTE, minute);
-                                                    String strDate = hourOfDay + ":" + minute + "  " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-                                                    tvDate.setText(strDate);
-                                                    tvDate.setError(null);
-                                                }
-                                            }
-                                        }
-                                    }, calendar.get((Calendar.HOUR_OF_DAY)), calendar.get(Calendar.MINUTE), false);
-                            timeEndPickerDialog.setTitle(getString(R.string.post_task_time_picker_title));
-                            timeEndPickerDialog.show();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String strDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                            tvDate.setText(strDate);
+                            tvDate.setError(null);
                         }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendarMax = Calendar.getInstance();
         // Set calendar to 1 day next from today
-        calendar1.add(Calendar.DAY_OF_MONTH, 1);
+        calendarMax.add(Calendar.DAY_OF_MONTH, 1);
         // Set calendar to 1 month next
-        calendar1.add(Calendar.MONTH, 1);
+        calendarMax.add(Calendar.MONTH, 1);
         datePickerDialog.getDatePicker().setMinDate(new Date().getTime() - 10000);
-        datePickerDialog.getDatePicker().setMaxDate(calendar1.getTimeInMillis());
+        datePickerDialog.getDatePicker().setMaxDate(calendarMax.getTimeInMillis());
         datePickerDialog.setTitle(getString(R.string.post_task_date_picker_title));
         datePickerDialog.show();
+    }
+
+
+    private void openTimeLayout() {
+        //noinspection deprecation
+        timeEndPickerDialog = new TimePickerDialog(CreateTaskActivity.this, AlertDialog.THEME_HOLO_LIGHT,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                          int minute) {
+                        if (view.isShown()) {
+                            Calendar c2 = Calendar.getInstance();
+                            if (calendar.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
+                                    && calendar.get(Calendar.MONTH) == c2.get(Calendar.MONTH)
+                                    && calendar.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH)
+                                    && (hourOfDay < c2.get(Calendar.HOUR_OF_DAY) || (hourOfDay == c2.get(Calendar.HOUR_OF_DAY) && minute <= (c2.get(Calendar.MINUTE) + 30)))) {
+                                Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_task_time_start_error), true, false);
+                            } else {
+                                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                calendar.set(Calendar.MINUTE, minute);
+                                String strTime = hourOfDay + ":" + minute;
+                                tvTime.setText(strTime);
+                                tvTime.setError(null);
+                            }
+                        }
+                    }
+                }, calendar.get((Calendar.HOUR_OF_DAY)), calendar.get(Calendar.MINUTE), false);
+        timeEndPickerDialog.setTitle(getString(R.string.post_task_time_picker_title));
+        timeEndPickerDialog.show();
     }
 
     private void doNext() {
@@ -549,10 +624,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         } else if (DateTimeUtils.minutesBetween(Calendar.getInstance(), calendar) < 30) {
             tvDate.requestFocus();
             tvDate.setError(getString(R.string.post_task_time_start_error));
-            return;
-        } else if (edtWorkingHour.getText().toString().trim().equals("") || edtWorkingHour.getText().toString().equals("0")) {
-            edtWorkingHour.requestFocus();
-            edtWorkingHour.setError(getString(R.string.post_task_edt_working_hour_error));
             return;
         } else if (TextUtils.isEmpty(address)) {
             tvAddress.requestFocus();
@@ -583,7 +654,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             return;
         }
 
-        if (radioMoreYes.isChecked() && images.size() > 1) doAttachFiles();
+        if (images.size() > 1) doAttachFiles();
         else createTaskOnServer();
 
     }
@@ -640,46 +711,49 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         final JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put("category_id", category.getId());
-            jsonRequest.put("title", edtTitle.getText().toString());
-            jsonRequest.put("description", edtDescription.getText().toString());
+            jsonRequest.put("title", edtTitle.getText().toString().trim());
+            jsonRequest.put("description", edtDescription.getText().toString().trim());
             jsonRequest.put("start_time", DateTimeUtils.fromCalendarIso(calendar));
             jsonRequest.put("end_time", DateTimeUtils.fromCalendarIso(getEndTime()));
 
             jsonRequest.put("latitude", lat);
             jsonRequest.put("longitude", lon);
 
-            String[] arrAddress = address.split(",");
+            if (address != null) {
+                String[] arrAddress = address.split(",");
 
-            jsonRequest.put("city", arrAddress.length >= 2 ? arrAddress[arrAddress.length - 2].trim() : arrAddress[arrAddress.length - 1].trim());
-            jsonRequest.put("district", arrAddress.length >= 3 ? arrAddress[arrAddress.length - 3].trim() : arrAddress[arrAddress.length - 1].trim());
+                jsonRequest.put("city", arrAddress.length >= 2 ? arrAddress[arrAddress.length - 2].trim() : arrAddress[arrAddress.length - 1].trim());
+                jsonRequest.put("district", arrAddress.length >= 3 ? arrAddress[arrAddress.length - 3].trim() : arrAddress[arrAddress.length - 1].trim());
 
-            jsonRequest.put("address", address);
-
-            jsonRequest.put("worker_rate", Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
-            jsonRequest.put("worker_count", Integer.valueOf(getLongEdittext(edtNumberWorker)));
-
-            if (radioMoreYes.isChecked()) {
-
-                if (imagesArr.length > 0) {
-                    JSONArray jsonArray = new JSONArray();
-                    for (int i = 0; i < imagesArr.length; i++)
-                        jsonArray.put(imagesArr[i]);
-                    jsonRequest.put("attachments", jsonArray);
-                }
-
-                jsonRequest.put("min_age", ageFrom);
-                jsonRequest.put("max_age", ageTo);
-
-                if (radioMale.isChecked()) {
-                    jsonRequest.put("gender", Constants.GENDER_MALE);
-                } else if (radioFemale.isChecked()) {
-                    jsonRequest.put("gender", Constants.GENDER_FEMALE);
-                }
-
-                jsonRequest.put("isOnline", cbOnline.isChecked());
-                jsonRequest.put("isAuto", cbAuto.isChecked());
-
+                jsonRequest.put("address", address);
             }
+
+            if (!getLongAutoCompleteTextView(edtBudget).trim().equals(""))
+                jsonRequest.put("worker_rate", Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
+
+            if (!getLongEdittext(edtNumberWorker).trim().equals(""))
+                jsonRequest.put("worker_count", Integer.valueOf(getLongEdittext(edtNumberWorker)));
+
+            if (imagesArr != null && imagesArr.length > 0) {
+                JSONArray jsonArray = new JSONArray();
+                for (int i = 0; i < imagesArr.length; i++)
+                    jsonArray.put(imagesArr[i]);
+                jsonRequest.put("attachments", jsonArray);
+            }
+
+            jsonRequest.put("min_age", ageFrom);
+            jsonRequest.put("max_age", ageTo);
+            jsonRequest.put("status", status);
+
+            if (radioMale.isChecked()) {
+                jsonRequest.put("gender", Constants.GENDER_MALE);
+            } else if (radioFemale.isChecked()) {
+                jsonRequest.put("gender", Constants.GENDER_FEMALE);
+            }
+
+            jsonRequest.put("online", cbOnline.isChecked());
+            jsonRequest.put("auto_assign", cbAuto.isChecked());
+            jsonRequest.put("advance", layoutMore.getVisibility() == View.VISIBLE);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -689,63 +763,158 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         LogUtils.d(TAG, "request body create task : " + body.toString());
 
-        ApiClient.getApiService().createNewTask(UserManager.getUserToken(), body).enqueue(new Callback<TaskResponse>() {
-            @Override
-            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
-                LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
-                LogUtils.d(TAG, "createNewTask code : " + response.code());
+        if (taskId != 0) {
+            LogUtils.d(TAG, "createNewTask edit task -------> : " + taskId);
+            ApiClient.getApiService().editTask(UserManager.getUserToken(), taskId, body).enqueue(new Callback<TaskResponse>() {
+                @Override
+                public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+                    LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
+                    LogUtils.d(TAG, "createNewTask code : " + response.code());
 
-                if (response.code() == Constants.HTTP_CODE_CREATED) {
-                    Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_a_task_complete), false, false);
-                    setResult(Constants.POST_A_TASK_RESPONSE_CODE);
-                    finish();
-                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(CreateTaskActivity.this, new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            doNext();
+                    if (response.code() == Constants.HTTP_CODE_CREATED) {
+                        Utils.showLongToast(CreateTaskActivity.this, getString(R.string.edit_task_complete), false, false);
+                        setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+                        finish();
+                        FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+                    } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                        NetworkUtils.refreshToken(CreateTaskActivity.this, new NetworkUtils.RefreshListener() {
+                            @Override
+                            public void onRefreshFinish() {
+                                doNext();
+                            }
+                        });
+                    } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                        Utils.blockUser(CreateTaskActivity.this);
+                    } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
+                        APIError error = ErrorUtils.parseError(response);
+                        LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
+
+                        if (error.status().equals(Constants.POST_TASK_DUPLICATE)) {
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.duplicate_task_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                        } else {
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         }
-                    });
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(CreateTaskActivity.this);
-                } else {
-                    APIError error = ErrorUtils.parseError(response);
-                    LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
-                    DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+
+                    } else {
+                        APIError error = ErrorUtils.parseError(response);
+                        LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
+                        DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+
+                    }
+                    ProgressDialogUtils.dismissProgressDialog();
+                }
+
+                @Override
+                public void onFailure(Call<TaskResponse> call, Throwable t) {
+                    LogUtils.e(TAG, "createNewTask onFailure : " + t.getMessage());
+                    DialogUtils.showRetryDialog(CreateTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
+                            doNext();
+                        }
+
+                        @Override
+                        public void onCancel() {
 
                         }
                     });
-
+                    ProgressDialogUtils.dismissProgressDialog();
                 }
-                ProgressDialogUtils.dismissProgressDialog();
-            }
+            });
+        } else {
+            ApiClient.getApiService().createNewTask(UserManager.getUserToken(), body).enqueue(new Callback<TaskResponse>() {
+                @Override
+                public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+                    LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
+                    LogUtils.d(TAG, "createNewTask code : " + response.code());
 
-            @Override
-            public void onFailure(Call<TaskResponse> call, Throwable t) {
-                LogUtils.e(TAG, "createNewTask onFailure : " + t.getMessage());
-                DialogUtils.showRetryDialog(CreateTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        doNext();
+                    if (response.code() == Constants.HTTP_CODE_CREATED) {
+                        Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_a_task_complete), false, false);
+                        setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+                        finish();
+                        FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+                    } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                        NetworkUtils.refreshToken(CreateTaskActivity.this, new NetworkUtils.RefreshListener() {
+                            @Override
+                            public void onRefreshFinish() {
+                                doNext();
+                            }
+                        });
+                    } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                        Utils.blockUser(CreateTaskActivity.this);
+                    } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
+                        APIError error = ErrorUtils.parseError(response);
+                        LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
+
+                        if (error.status().equals(Constants.POST_TASK_DUPLICATE)) {
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.duplicate_task_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                        } else {
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                        }
+
+                    } else {
+                        APIError error = ErrorUtils.parseError(response);
+                        LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
+                        DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+
                     }
+                    ProgressDialogUtils.dismissProgressDialog();
+                }
 
-                    @Override
-                    public void onCancel() {
+                @Override
+                public void onFailure(Call<TaskResponse> call, Throwable t) {
+                    LogUtils.e(TAG, "createNewTask onFailure : " + t.getMessage());
+                    DialogUtils.showRetryDialog(CreateTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doNext();
+                        }
 
-                    }
-                });
-                ProgressDialogUtils.dismissProgressDialog();
-            }
-        });
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                    ProgressDialogUtils.dismissProgressDialog();
+                }
+            });
+        }
     }
 
     private Calendar getEndTime() {
         Calendar result = Calendar.getInstance();
         result.setTime(calendar.getTime());
-        result.add(Calendar.HOUR_OF_DAY, Integer.valueOf(edtWorkingHour.getText().toString()));
+        result.add(Calendar.HOUR_OF_DAY, Integer.valueOf(tvWorkingHour.getText().toString()));
         return result;
     }
 
@@ -783,31 +952,10 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             image.setPath(selectedImagePath);
             images.add(0, image);
             imageAdapter.notifyDataSetChanged();
+        } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+            finish();
         }
-    }
-
-
-    private void doMinus() {
-        int value = Integer.valueOf(edtWorkingHour.getText().toString());
-        if (value >= 2) {
-            edtWorkingHour.setText(String.valueOf(value - 1));
-            edtWorkingHour.setError(null);
-        } else
-            edtWorkingHour.setText(String.valueOf(1));
-        edtWorkingHour.setSelection(edtWorkingHour.length());
-    }
-
-    private void doPlus() {
-        int value = Integer.valueOf(edtWorkingHour.getText().toString());
-        if (value < 12) {
-            edtWorkingHour.setText(String.valueOf(value + 1));
-            edtWorkingHour.setError(null);
-        } else {
-            edtWorkingHour.setText(String.valueOf(12));
-            edtWorkingHour.requestFocus();
-            edtWorkingHour.setError(getString(R.string.working_hour_max_error, MAX_HOURS));
-        }
-        edtWorkingHour.setSelection(edtWorkingHour.length());
     }
 
     private void doClose() {
@@ -833,6 +981,11 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         alertDialogCancelTask.showView();
     }
 
+    private void doSave() {
+        if (images.size() > 1) doAttachFiles();
+        else createTaskOnServer();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -841,21 +994,13 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 openDatePicker();
                 break;
 
-            case R.id.btn_next:
-                doNext();
+            case R.id.time_layout:
+                openTimeLayout();
                 break;
 
             case R.id.layout_address:
                 Intent intent = new Intent(this, PlaceActivity.class);
                 startActivityForResult(intent, Constants.REQUEST_CODE_ADDRESS, TransitionScreen.FADE_IN);
-                break;
-
-            case R.id.img_minus:
-                doMinus();
-                break;
-
-            case R.id.img_plus:
-                doPlus();
                 break;
 
             case R.id.img_close:
@@ -876,6 +1021,44 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     }
                 });
                 ageDialog.showView();
+                break;
+
+            case R.id.tv_more_show:
+                tvMoreShow.setVisibility(View.GONE);
+                layoutMore.setVisibility(View.VISIBLE);
+                scrollView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                    }
+                }, 200);
+                break;
+
+            case R.id.tv_more_hide:
+                tvMoreShow.setVisibility(View.VISIBLE);
+                layoutMore.setVisibility(View.GONE);
+                break;
+
+            case R.id.working_hour_layout:
+                HourDialog hourDialog = new HourDialog(CreateTaskActivity.this);
+                hourDialog.setHour(Integer.valueOf(tvWorkingHour.getText().toString()));
+                hourDialog.setHourDialogListener(new HourDialog.HourDialogListener() {
+                    @Override
+                    public void onHourDialogLister(int hour) {
+                        tvWorkingHour.setText(String.valueOf(hour));
+                    }
+                });
+                hourDialog.showView();
+                break;
+
+            case R.id.btn_next:
+                status = Constants.CREATE_TASK_STATUS_PUBLISH;
+                doNext();
+                break;
+
+            case R.id.tv_save:
+                status = Constants.CREATE_TASK_STATUS_DRAFT;
+                doSave();
                 break;
 
         }

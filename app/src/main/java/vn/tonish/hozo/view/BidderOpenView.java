@@ -7,7 +7,6 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
@@ -51,7 +50,6 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
     private ButtonHozo btnAssign;
     private Bidder bidder;
     private int taskId;
-    private ImageView imgFbVerify, imgEmailVerify;
 
     public BidderOpenView(Context context) {
         super(context);
@@ -77,14 +75,12 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
     private void initView() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.view_bidder_open, this, true);
-        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
+        imgAvatar = findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
-        imgFbVerify = findViewById(R.id.fb_verify);
-        imgEmailVerify = findViewById(R.id.email_verify);
-        tvName = (TextViewHozo) findViewById(R.id.tv_name);
-        tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
-        rbRate = (RatingBar) findViewById(R.id.rb_rate);
-        btnAssign = (ButtonHozo) findViewById(R.id.btn_assign);
+        tvName = findViewById(R.id.tv_name);
+        tvTimeAgo = findViewById(R.id.tv_time_ago);
+        rbRate = findViewById(R.id.rb_rate);
+        btnAssign = findViewById(R.id.btn_assign);
     }
 
     public void updateData(final Bidder bidder, String type) {
@@ -93,14 +89,6 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
         Utils.displayImageAvatar(getContext(), imgAvatar, bidder.getAvatar());
         tvName.setText(bidder.getFullName());
         rbRate.setRating(bidder.getTaskerAverageRating());
-
-        if (bidder.getFacebookId() != null && !bidder.getFacebookId().trim().equals(""))
-            imgFbVerify.setImageResource(R.drawable.fb_on);
-        else imgFbVerify.setImageResource(R.drawable.fb_off);
-
-        if (bidder.isEmailActive())
-            imgEmailVerify.setImageResource(R.drawable.email_on);
-        else imgEmailVerify.setImageResource(R.drawable.email_off);
 
         if (bidder.getBidedAt() != null)
             tvTimeAgo.setText(DateTimeUtils.getTimeAgo(bidder.getBidedAt(), getContext()));

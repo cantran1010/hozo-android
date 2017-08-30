@@ -33,4 +33,6 @@
     <color name="browse_gray">#4b4b4b</color>
     <color name="browse_gray_blue">#cad7df</color>
     <color name="green_hozo">#ddf5ff</color>
+    <color name="green">#48df85</color>
+    <color name="bg_gray">#f0f0f0</color>
 </resources>

@@ -103,6 +103,9 @@ public interface ApiInterface {
     @GET("v1/tasks/{taskId}/comments")
     Call<List<Comment>> getComments(@Header("Authorization") String token, @Path("taskId") int taskId, @QueryMap Map<String, String> params);
 
+    @GET("v1/tasks/{taskId}/comments/{commentId}")
+    Call<List<Comment>> getCommentsInComments(@Header("Authorization") String token, @Path("taskId") int taskId, @Path("commentId") int commentId, @QueryMap Map<String, String> params);
+
     @PUT("v1/notifications/device")
     Call<Void> updateDeviceToken(@Header("Authorization") String token, @Body RequestBody body);
 
@@ -129,4 +132,10 @@ public interface ApiInterface {
 
     @POST("v1/tasks/{taskId}/report")
     Call<Void> reportTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
+
+    @PUT("v1/tasks/{taskId}")
+    Call<TaskResponse> editTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
+
+    @POST("v1/tasks/{taskId}/follow")
+    Call<Void> followTask(@Header("Authorization") String token, @Path("taskId") int taskId);
 }

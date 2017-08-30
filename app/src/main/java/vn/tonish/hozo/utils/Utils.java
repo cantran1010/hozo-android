@@ -433,6 +433,11 @@ public class Utils {
                 matcher = context.getString(R.string.notification_cancel_bid_matcher);
                 matcherColor = context.getString(R.string.notification_task_overdue_color);
                 break;
+            case Constants.PUSH_TYPE_COMMENT_REPLIED:
+                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_replied) + " " + notification.getTaskName();
+                matcher = context.getString(R.string.notification_comment_replied_matcher);
+                matcherColor = context.getString(R.string.notification_comment_replied_color);
+                break;
         }
 
         tvContent.setText(content);
@@ -564,6 +569,9 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_BID_CANCEL:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_cancel_bid) + " " + context.getString(R.string.cancel_bid_task_name) + notification.getTaskName();
+                break;
+            case Constants.PUSH_TYPE_COMMENT_REPLIED:
+                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_replied) + " " + notification.getTaskName();
                 break;
         }
 
@@ -723,6 +731,41 @@ public class Utils {
         }
 
         return true;
+    }
+
+    public static void updateRole(TaskResponse taskResponse) {
+
+        //fix crash on fabric -> I don't know why crash :(
+        if (UserManager.getMyUser() == null) return;
+
+        //poster
+        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            taskResponse.setRole(Constants.ROLE_POSTER);
+        }
+        //bidder
+        else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)
+                || (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED))
+                || (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED))
+                || taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)
+                || taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
+            taskResponse.setRole(Constants.ROLE_TASKER);
+        }
+        // find task
+        else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
+            taskResponse.setRole(Constants.ROLE_FIND_TASK);
+        }
+    }
+
+    public static void sendSms(Context context, String phoneNumber, String content) {
+        try {
+            Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+            smsIntent.setType("vnd.android-dir/mms-sms");
+            smsIntent.putExtra("address", phoneNumber);
+            smsIntent.putExtra("sms_body", content);
+            context.startActivity(smsIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

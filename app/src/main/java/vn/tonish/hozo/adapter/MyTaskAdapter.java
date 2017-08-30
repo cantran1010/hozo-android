@@ -68,7 +68,12 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
 
             TaskResponse taskResponse = taskResponses.get(position);
             workHolder.tvName.setText(taskResponse.getTitle());
-            workHolder.tvPrice.setText(context.getString(R.string.vnd, Utils.formatNumber(taskResponses.get(position).getWorkerRate())));
+
+            if (Utils.formatNumber(taskResponses.get(position).getWorkerRate()).equals("0"))
+                workHolder.tvPrice.setText(context.getString(R.string.non_value));
+            else
+                workHolder.tvPrice.setText(context.getString(R.string.vnd, Utils.formatNumber(taskResponses.get(position).getWorkerRate())));
+
             workHolder.tvStartTime.setText(DateTimeUtils.getOnlyDateFromIso(taskResponses.get(position).getStartTime()));
             String strAddress = taskResponse.getDistrict() + " - " + taskResponse.getCity();
             workHolder.tvAddress.setText(strAddress);
@@ -107,6 +112,10 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
                 }
             } else if (taskResponse.getRole().equals(Constants.ROLE_POSTER)) {
                 switch (taskResponse.getStatus()) {
+                    case Constants.TASK_TYPE_POSTER_DRAFT:
+                        workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_draft));
+                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_recruitment));
+                        break;
                     case Constants.TASK_TYPE_POSTER_OPEN:
                         workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_open));
                         Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_recruitment));

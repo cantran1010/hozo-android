@@ -22,4 +22,12 @@
         android:id="@+id/report_task"
         android:title="@string/report_task"/>
 
+    <item
+        android:id="@+id/edit_task"
+        android:title="@string/edit_task"/>
+
+    <item
+        android:id="@+id/follow_task"
+        android:title="@string/follow_task"/>
+
 </menu>

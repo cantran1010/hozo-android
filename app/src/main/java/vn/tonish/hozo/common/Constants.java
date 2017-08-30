@@ -109,6 +109,7 @@ public class Constants {
     public static final String TASK_TYPE_POSTER_COMPLETED = "completed";
     public static final String TASK_TYPE_POSTER_OVERDUE = "overdue";
     public static final String TASK_TYPE_POSTER_CANCELED = "canceled";
+    public static final String TASK_TYPE_POSTER_DRAFT = "draft";
     public static final String TASK_TYPE_BLOCK = "block";
 
     // parameter update device token
@@ -119,6 +120,7 @@ public class Constants {
     // push type notification
     public static final String PUSH_TYPE_REVIEW_RECEIVED = "review_received";
     public static final String PUSH_TYPE_COMMENT_RECEIVED = "comment_received";
+    public static final String PUSH_TYPE_COMMENT_REPLIED = "comment_replied";
     public static final String PUSH_TYPE_BIDDER_CANCELED = "bidder_canceled";
     public static final String PUSH_TYPE_BID_RECEIVED = "bid_received";
     public static final String PUSH_TYPE_BID_ACCEPTED = "bid_accepted";
@@ -185,6 +187,12 @@ public class Constants {
     public static final int REQUEST_CODE_SEND_ASSIGNER = 1117;
     public static final String EXTRA_ASSIGNER_TASKRESPONSE = "assigner_taskresponse";
     public static final int RESULT_CODE_ASSIGNER = 1118;
+    public static final String POST_TASK_DUPLICATE = "duplicate_task";
+    public static final int COMMENT_REQUEST_CODE = 258;
+    public static final int COMMENT_RESPONSE_CODE = 852;
+    public static final String COMMENT_INPUT_EXTRA = "comment_input_extra";
+    public static final String CREATE_TASK_STATUS_PUBLISH = "publish";
+    public static final String CREATE_TASK_STATUS_DRAFT = "draft";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static String BID_ERROR_INVALID_DATA = "invalid_data";
     public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";
@@ -197,4 +205,9 @@ public class Constants {
     public static final String OFFER_CALL = "OFFER_CALL";
     public static final String OFFER_GONE = "OFFER_GONE";
     public static final String OFFER_RATTING = "OFFER_RATTING";
+
+    public static final String TASK_EXTRA_COPY_EDIT = "task_extra";
+
+    public static final String TASK_COPY = "task_copy";
+    public static final String TASK_EDIT = "task_edit";
 }

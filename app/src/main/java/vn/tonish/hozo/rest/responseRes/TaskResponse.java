@@ -36,7 +36,7 @@ public class TaskResponse implements Serializable {
     private int minAge = 0;
     @SerializedName("max_age")
     private int maxAge = 0;
-    private double latitude =0;
+    private double latitude = 0;
     private double longitude = 0;
     private String city;
     private String district;
@@ -59,6 +59,34 @@ public class TaskResponse implements Serializable {
     private List<Bidder> bidders = new ArrayList<>();
     private List<Assigner> assignees = new ArrayList<>();
     private List<Comment> comments = new ArrayList<>();
+    private boolean online;
+    @SerializedName("auto_assign")
+    private boolean autoAssign;
+    private boolean advance;
+
+    public boolean isAdvance() {
+        return advance;
+    }
+
+    public void setAdvance(boolean advance) {
+        this.advance = advance;
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+
+    public boolean isAutoAssign() {
+        return autoAssign;
+    }
+
+    public void setAutoAssign(boolean autoAssign) {
+        this.autoAssign = autoAssign;
+    }
 
     public boolean isRatePoster() {
         return isRatePoster;

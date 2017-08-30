@@ -86,21 +86,13 @@
         <item>Nữ</item>
     </string-array>
 
-    <string-array name="ages">
-        <item>18–25</item>
-        <item>26–30</item>
-        <item>31–40</item>
-        <item>41–50</item>
-        <item>51–60</item>
-    </string-array>
-
     <!-- make an offer-->
     <string name="adjust_image">adjust_image</string>
     <string name="login_hotline">Hotline 02473004886</string>
 
     <!-- post a task -->
-    <string name="tv_time_task">Thời gian làm việc</string>
-    <string name="task_description_hint">Mô tả công việc</string>
+    <string name="tv_time_task">Giờ làm</string>
+    <string name="task_description_hint">Mô tả thêm</string>
     <string name="attach_image_hint">Đăng hình ảnh</string>
     <string name="more_detail">Tùy chọn thêm</string>
     <string name="date_pick_hint">Chọn thời gian bắt đầu làm việc</string>
@@ -124,7 +116,7 @@
     <string name="crop_image_done">Tiếp tục</string>
     <string name="report_task_content_hint">Hãy cho chúng tôi biết lý do khác của bạn là gì</string>
     <string name="next">Tiếp tục</string>
-    <string name="call">Gọi điện</string>
+    <string name="call">Gọi</string>
     <string name="make_an_offer_question">Hỏi đáp</string>
     <string name="done">Hoàn thành</string>
     <string name="work_detail_view_bit">Ứng Tuyển</string>
@@ -133,8 +125,8 @@
     <string name="work_detail_view_time">Thời gian :</string>
     <string name="work_detail_view_address">Địa điểm :</string>
     <string name="type_your_text">Nhập nội dung bình luận</string>
-    <string name="assign_people">Người làm</string>
-    <string name="assign">Chọn</string>
+    <string name="assign_people">Danh sách được giao (%1$d)</string>
+    <string name="assign">Giao</string>
     <string name="cancel_task">Hủy việc</string>
     <string name="recruitment">Ứng tuyển</string>
     <string name="received">Đã nhận</string>
@@ -173,7 +165,7 @@
     <string name="retry_title">Lỗi kết nối.</string>
     <string name="retry_content">Không thể kết nối tới máy chủ. Vui lòng kiểm tra kết nối của bạn và thử lại.</string>
     <string name="retry">THỬ LẠI</string>
-    <string name="bidder">Người ứng tuyển</string>
+    <string name="bidder">Danh sách ứng tuyển (%1$d)</string>
     <string name="text_test">Text Test</string>
     <string name="just_now">Vừa xong</string>
     <string name="minute_ago">1 phút trước</string>
@@ -186,7 +178,6 @@
     <string name="msg_contten_logOut">Bạn có chắc chắn muốn đăng xuất?</string>
     <string name="empty" />
     <string name="task_detail_attach_image_hint">Hình ảnh minh họa</string>
-    <string name="comment_answer">Trả lời tin nhắn</string>
     <string name="comment_report">Thông báo tin nhắn xấu</string>
     <string name="see_more">Xem thêm</string>
     <string name="bid_success">Ứng tuyển thành công</string>
@@ -238,6 +229,7 @@
     <!-- notification -->
     <string name="notification_review_received">đã gửi đánh giá về bạn</string>
     <string name="notification_comment_received">đã bình luận công việc</string>//
+    <string name="notification_comment_replied">đã trả lời bình luận công việc</string>//
     <string name="notification_bidder_canceled">đã hủy ứng tuyển công việc</string>//
     <string name="notification_bid_received">đã ứng tuyển công việc</string>//
     <string name="notification_bid_accepted">đã đồng ý ứng tuyển công việc</string>
@@ -252,6 +244,7 @@
 
     <string name="notification_review_received_matcher">đánh giá</string>
     <string name="notification_comment_received_matcher">bình luận</string>
+    <string name="notification_comment_replied_matcher">trả lời</string>
     <string name="notification_bidder_canceled_matcher">hủy ứng tuyển</string>
     <string name="notification_bid_received_matcher">ứng tuyển</string>
     <string name="notification_bid_accepted_matcher">đồng ý</string>
@@ -266,6 +259,7 @@
 
     <string name="notification_review_received_color">#00A2E5</string>
     <string name="notification_comment_received_color">#00A2E5</string>
+    <string name="notification_comment_replied_color">#00A2E5</string>
     <string name="notification_bidder_canceled_color">#FF3100</string>
     <string name="notification_bid_received_color">#00A2E5</string>
     <string name="notification_bid_accepted_color">#00A2E5</string>
@@ -282,6 +276,7 @@
     <string name="my_task_status_worker_missed">Bỏ lỡ</string>
     <string name="my_task_status_worker_canceled">Đã hủy</string>
     <string name="my_task_status_poster_open">Đã đăng</string>
+    <string name="my_task_status_poster_draft">Nháp</string>
     <string name="my_task_status_poster_assigned">Đã giao</string>
     <string name="my_task_status_poster_completed">Hoàn thành</string>
     <string name="my_task_status_poster_overdue">Hết hạn</string>
@@ -295,7 +290,7 @@
     <string name="gender_vn_any">Bất kỳ</string>
     <string name="gender_vn_mafele">Nữ</string>
     <string name="gender_vn_male">Nam</string>
-    <string name="error">Lỗi</string>
+    <string name="error">Lỗi!</string>
     <string name="post_task_time_start_error">Vui lòng chọn thời gian bắt đầu \n sớm nhất có thể sau 30 phút</string>
     <string name="post_task_date_picker_title">Chọn ngày làm việc</string>
     <string name="post_task_time_picker_title">Chọn thời gian bắt đầu</string>
@@ -353,7 +348,7 @@
     <string name="update_content">Bạn có muốn cập nhật phiên bản mới nhất?</string>
     <string name="update_force_content">Bạn phải cập nhật phiên bản mới nhất để tiếp tục sử dụng!</string>
     <string name="erro_empty_name">Bắt buộc phải nhập họ tên.</string>
-    <string name="share">Chia sẻ</string>
+    <string name="share">Chia sẻ việc</string>
     <string name="other_alert">Thông báo công việc</string>
     <string name="min_budget_error">Số tiền tối thiểu \n là %1$s</string>
     <string name="notification_title">Thông báo</string>
@@ -381,7 +376,7 @@
     <string name="facebook_verify">Xác thực với Facebook</string>
     <string name="facebook_app_id">956632744473365</string>
     <string name="hozo_tonish">\n © 2017 Tonish. Giữ mọi quyền.</string>
-    <string name="cancel_bid">Hủy chọn</string>
+    <string name="cancel_bid">Hủy</string>
     <string name="cancel_bid_title">Hủy chọn</string>
     <string name="cancel_bid_content">Lưu ý khi hủy chọn sẽ ảnh hưởng đến tỷ lệ hoàn thành việc của bạn</string>
     <string name="cancel_task_content">Lưu ý khi hủy việc sẽ ảnh hưởng đến tỷ lệ hoàn thành việc của bạn</string>
@@ -401,38 +396,63 @@
     <string name="cancel_task_by_poster_title">Việc đã hủy</string>
     <string name="email_hint">Nhập email …</string>
     <string name="alert_dialog_close">Đóng</string>
-    <string name="re_create_task">Sao chép</string>
+    <string name="re_create_task">Sao chép việc</string>
     <string name="rate_content_hint">Nhập nội dung đánh giá …</string>
     <string name="comment_task">Chi tiết hỏi đáp</string>
     <string name="bidders">Danh sách ứng tuyển(%1$d)</string>
     <string name="assigners">Danh sách người làm(%1$d)</string>
     <string name="error_address">Bắt buộc phải nhập địa chỉ</string>
-    <string name="report_task">Báo xấu</string>
+    <string name="report_task">Báo xấu việc</string>
     <string name="report_task_title">Báo xấu</string>
     <string name="report_task_content">Bạn có chắc chắn muốn báo xấu việc này?</string>
     <string name="report_task_success">Bạn đã báo xấu việc này thành công!</string>
     <string name="refresh_token">Bạn đã bị đăng suất do đăng nhập ở một thiết bị khác!</string>
     <string name="post_a_task_msg_length">%1$d/%2$d kí tự</string>
-    <string name="tv_time_task_lbl">Số giờ làm</string>
-    <string name="location">Địa điểm</string>
+    <string name="tv_time_task_lbl">Số giờ</string>
+    <string name="location">Nơi làm</string>
     <string name="price">Giá tiền</string>
     <string name="number_worker">Số người</string>
     <string name="all_price">Tổng tiền</string>
     <string name="btn_create_task">ĐĂNG VIỆC</string>
-    <string name="create_more_title">Thêm thông tin </string>
-    <string name="yes">Có</string>
-    <string name="no">Không</string>
     <string name="attach_image">Ảnh</string>
-    <string name="age">Tuổi</string>
-    <string name="sex">Giới tính</string>
+    <string name="age">Tuổi : </string>
+    <string name="sex">Giới tính : </string>
     <string name="gender_non_vn">Bất kỳ</string>
     <string name="online_job">Việc có làm online tại nhà</string>
     <string name="auto_pick">Tự động chọn ứng viên</string>
     <string name="post_task_address_error">Vui lòng nhập địa chỉ</string>
-    <string name="hour_default">2</string>
-    <string name="post_task_edt_working_hour_error">Vui lòng nhập \\n số giờ làm việc</string>
+    <string name="hour_default">4</string>
     <string name="email_input_error1">\@</string>
     <string name="email_input_error2">email</string>
     <string name="post_a_task_input_error">Hozo không cho phép đăng email hay số điện thoại trong bài đăng</string>
+    <string name="detail_tab_1">Công việc</string>
+    <string name="detail_tab_2">Người làm</string>
+    <string name="detail_tab_3">Bình luận</string>
+    <string name="address_title">Nơi làm : </string>
+    <string name="task_date">Ngày làm</string>
+    <string name="description">Mô tả :</string>
+    <string name="tv_date_task">Ngày làm</string>
+    <string name="advance_more">Tùy chọn nâng cao</string>
+    <string name="advance_more_hide">Rút gọn</string>
+    <string name="number_worker_default">1</string>
+    <string name="budget_detail">Ngân sách / người</string>
+    <string name="worker_need">Người cần tuyển</string>
+    <string name="assiger_count">Được giao</string>
+    <string name="empty_count">Vị trí trống</string>
+    <string name="task_time">Giờ làm</string>
+    <string name="task_hour">Số giờ</string>
+    <string name="hour_title">Số giờ làm việc</string>
+    <string name="sms">SMS</string>
+    <string name="duplicate_task_error">Bạn không thể đăng 2 tin giống nhau liên tiếp trong vòng 1 giờ.</string>
+    <string name="edit_task">Chỉnh sửa việc</string>
+    <string name="edit_task_complete">Bạn đã chỉnh sửa việc thành công!</string>
+    <string name="tv_save">Lưu</string>
+    <string name="answer">Trả lời</string>
+    <string name="comment_count">%1$d phản hồi khác</string>
+    <string name="answer_comment_title">Trả lời</string>
+    <string name="bid_limited">Đã đủ ứng viên</string>
+    <string name="non_value">-</string>
+    <string name="follow_task">Theo dõi việc</string>
+    <string name="follow_task_success">Bạn đã theo dõi việc thành công!</string>
 
 </resources>

@@ -18,7 +18,7 @@ public class CommentsAdapter extends BaseAdapter<Comment, CommentsAdapter.WorkHo
 
     private final List<Comment> comments;
     private final Context context;
-    private String commentType;
+    private int commentType;
 
     public CommentsAdapter(Context context, List<Comment> comments) {
         super(context, comments);
@@ -66,11 +66,12 @@ public class CommentsAdapter extends BaseAdapter<Comment, CommentsAdapter.WorkHo
 
     }
 
-    public String getCommentType() {
+    public int getCommentType() {
         return commentType;
     }
 
-    public void setCommentType(String commentType) {
+    public void setCommentType(int commentType) {
         this.commentType = commentType;
     }
+
 }
