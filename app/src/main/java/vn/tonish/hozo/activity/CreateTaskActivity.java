@@ -224,7 +224,10 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             if (intent.hasExtra(Constants.TASK_EXTRA_COPY_EDIT)) {
                 taskId = taskResponse.getId();
-                btnNext.setText(getString(R.string.edit_task));
+//                if (taskResponse.getStatus().equals(Constants.CREATE_TASK_STATUS_DRAFT))
+//                    btnNext.setText(getString(R.string.edit_task));
+//                else
+//                    btnNext.setText(getString(R.string.edit_task));
             }
 
             category = DataParse.convertCatogoryEntityToCategory(CategoryManager.getCategoryById(taskResponse.getCategoryId()));
@@ -253,10 +256,14 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             ageTo = taskResponse.getMaxAge();
             tvAge.setText(getString(R.string.post_a_task_age, ageFrom, ageTo));
 
-            if (taskResponse.getGender().equals(Constants.GENDER_MALE)) {
-                radioMale.setChecked(true);
-            } else if (taskResponse.getGender().equals(Constants.GENDER_FEMALE)) {
-                radioFemale.setChecked(true);
+            if (taskResponse.getGender() != null) {
+                if (taskResponse.getGender().equals(Constants.GENDER_MALE)) {
+                    radioMale.setChecked(true);
+                } else if (taskResponse.getGender().equals(Constants.GENDER_FEMALE)) {
+                    radioFemale.setChecked(true);
+                } else {
+                    radioNon.setChecked(true);
+                }
             } else {
                 radioNon.setChecked(true);
             }
@@ -746,6 +753,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             jsonRequest.put("online", cbOnline.isChecked());
             jsonRequest.put("auto_assign", cbAuto.isChecked());
+            jsonRequest.put("advance", layoutMore.getVisibility() == View.VISIBLE);
 
         } catch (JSONException e) {
             e.printStackTrace();

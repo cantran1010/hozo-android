@@ -36,7 +36,7 @@ public class TaskResponse implements Serializable {
     private int minAge = 0;
     @SerializedName("max_age")
     private int maxAge = 0;
-    private double latitude =0;
+    private double latitude = 0;
     private double longitude = 0;
     private String city;
     private String district;
@@ -62,6 +62,15 @@ public class TaskResponse implements Serializable {
     private boolean online;
     @SerializedName("auto_assign")
     private boolean autoAssign;
+    private boolean advance;
+
+    public boolean isAdvance() {
+        return advance;
+    }
+
+    public void setAdvance(boolean advance) {
+        this.advance = advance;
+    }
 
     public boolean isOnline() {
         return online;

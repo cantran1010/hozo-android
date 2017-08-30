@@ -45,7 +45,8 @@
             android:background="@drawable/btn_back_selector"
             android:contentDescription="@string/adjust_image"
             android:scaleType="centerInside"
-            android:src="@drawable/more" />
+            android:src="@drawable/more"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

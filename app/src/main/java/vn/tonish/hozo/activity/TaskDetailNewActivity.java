@@ -2,7 +2,6 @@ package vn.tonish.hozo.activity;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +25,6 @@ import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
-import vn.tonish.hozo.fragment.TaskDetailTab2Fragment;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
@@ -77,7 +75,8 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                if (viewPager != null)
+                    viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -117,6 +116,7 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
                 LogUtils.d(TAG, "getDetailTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    imgMenu.setVisibility(View.VISIBLE);
                     taskResponse = response.body();
                     Utils.updateRole(taskResponse);
                     updateUi();
@@ -199,28 +199,27 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Fragment frag = adapter.getItem(position);
-
-                if (position == 1) {
-                    if (frag instanceof TaskDetailTab2Fragment)
-                        ((TaskDetailTab2Fragment) frag).updateData();
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+////                Fragment frag = adapter.getItem(position);
+//
+////                if (position == 1) {
+////                    if (frag instanceof TaskDetailTab2Fragment)
+////                        ((TaskDetailTab2Fragment) frag).updateUi();
+////                }
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
     }
 
     public TaskResponse getTaskResponse() {
@@ -236,48 +235,62 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
         boolean isDelete = true;
         boolean isReportTask = true;
         boolean isEditTask = false;
+        boolean isFollow = true;
 
+        // poster
         if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             isDelete = false;
             isReportTask = false;
             if (taskResponse.getBidderCount() == 0) isEditTask = true;
+            isFollow = false;
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             isDelete = false;
             isReportTask = false;
+            isFollow = false;
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             isShowCancel = false;
             isDelete = false;
             isReportTask = false;
+            isFollow = false;
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             isShowCancel = false;
             isReportTask = false;
+            isFollow = false;
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             isShowCancel = false;
             isReportTask = false;
+            isFollow = false;
         }
         //bidder
         else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
             isShowCancel = false;
             isReportTask = true;
+            isFollow = false;
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
             isShowCancel = false;
             isReportTask = true;
+            isFollow = false;
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
             isShowCancel = false;
             isReportTask = false;
+            isFollow = false;
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
             isShowCancel = false;
             isReportTask = true;
+            isFollow = false;
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
             isDelete = false;
             isReportTask = true;
+            isFollow = false;
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
             isDelete = false;
             isReportTask = true;
+            isFollow = false;
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
             isDelete = false;
             isReportTask = false;
             isShowCancel = false;
+            isFollow = false;
         }
         // make an offer
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
@@ -288,6 +301,7 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
             isDelete = false;
             isReportTask = true;
             isShowCancel = false;
+            isFollow = false;
         }
 
         //Creating the instance of PopupMenu
@@ -313,6 +327,11 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
             popup.getMenu().findItem(R.id.edit_task).setVisible(true);
         else
             popup.getMenu().findItem(R.id.edit_task).setVisible(false);
+
+        if (isFollow)
+            popup.getMenu().findItem(R.id.follow_task).setVisible(true);
+        else
+            popup.getMenu().findItem(R.id.follow_task).setVisible(false);
 
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -374,8 +393,66 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
                         doReportTask();
                         break;
 
+                    case R.id.follow_task:
+                        doFollowTask();
+                        break;
+
                 }
                 return true;
+            }
+        });
+    }
+
+    private void doFollowTask() {
+        ProgressDialogUtils.showProgressDialog(TaskDetailNewActivity.this);
+
+        ApiClient.getApiService().followTask(UserManager.getUserToken(), taskId).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                LogUtils.d(TAG, "doFollowTask , body : " + response.body());
+                LogUtils.d(TAG, "doFollowTask , code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                    Utils.showLongToast(TaskDetailNewActivity.this, getString(R.string.follow_task_success), false, false);
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(TaskDetailNewActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doFollowTask();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(TaskDetailNewActivity.this);
+                } else {
+                    DialogUtils.showRetryDialog(TaskDetailNewActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doFollowTask();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                DialogUtils.showRetryDialog(TaskDetailNewActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doFollowTask();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
@@ -418,7 +495,7 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
                     NetworkUtils.refreshToken(TaskDetailNewActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            doReportTask();
+                            doSendReport();
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
@@ -427,7 +504,7 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
                     DialogUtils.showRetryDialog(TaskDetailNewActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            doReportTask();
+                            doSendReport();
                         }
 
                         @Override
@@ -444,7 +521,7 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
                 DialogUtils.showRetryDialog(TaskDetailNewActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        doReportTask();
+                        doSendReport();
                     }
 
                     @Override
