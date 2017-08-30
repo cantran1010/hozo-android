@@ -129,7 +129,11 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
         updateStatusTask();
 
         tvTitle.setText(taskResponse.getTitle());
-        tvAddress.setText(taskResponse.getAddress());
+
+        if (taskResponse.isOnline())
+            tvAddress.setText(getString(R.string.online_task_address));
+        else
+            tvAddress.setText(taskResponse.getAddress());
 
         if (taskResponse.getStartTime() != null)
             tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));

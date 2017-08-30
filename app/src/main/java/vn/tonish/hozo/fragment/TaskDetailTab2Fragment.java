@@ -144,13 +144,13 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
             assigerType = getString(R.string.rate);
 
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
-            rcvBidder.setVisibility(View.GONE);
-            rcvAssign.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.VISIBLE);
+            rcvAssign.setVisibility(View.VISIBLE);
 
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
 
-            rcvBidder.setVisibility(View.GONE);
-            rcvAssign.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.VISIBLE);
+            rcvAssign.setVisibility(View.VISIBLE);
         }
 
         //bidder

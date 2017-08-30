@@ -375,7 +375,7 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
                                 });
                         break;
 
-                    case R.id.create_task:
+                    case R.id.copy_task:
                         Intent intent = new Intent(TaskDetailNewActivity.this, CreateTaskActivity.class);
                         intent.putExtra(Constants.EXTRA_TASK, taskResponse);
                         intent.putExtra(Constants.TASK_EXTRA_COPY_EDIT, Constants.TASK_COPY);

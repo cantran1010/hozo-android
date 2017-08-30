@@ -454,5 +454,6 @@
     <string name="non_value">-</string>
     <string name="follow_task">Theo dõi việc</string>
     <string name="follow_task_success">Bạn đã theo dõi việc thành công!</string>
+    <string name="online_task_address">Online</string>
 
 </resources>

@@ -136,6 +136,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private ButtonHozo btnNext;
     private String status;
 
+    // copy or edit
+    private String taskType = "";
+
     @Override
     protected int getLayout() {
         return R.layout.create_task_fragment;
@@ -224,10 +227,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             if (intent.hasExtra(Constants.TASK_EXTRA_COPY_EDIT)) {
                 taskId = taskResponse.getId();
-//                if (taskResponse.getStatus().equals(Constants.CREATE_TASK_STATUS_DRAFT))
-//                    btnNext.setText(getString(R.string.edit_task));
-//                else
-//                    btnNext.setText(getString(R.string.edit_task));
+                taskType = intent.getStringExtra(Constants.TASK_EXTRA_COPY_EDIT);
+
+                if (taskType.equals(Constants.TASK_EDIT)) tvSave.setVisibility(View.GONE);
             }
 
             category = DataParse.convertCatogoryEntityToCategory(CategoryManager.getCategoryById(taskResponse.getCategoryId()));
@@ -270,6 +272,14 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             cbOnline.setChecked(taskResponse.isOnline());
             cbAuto.setChecked(taskResponse.isAutoAssign());
+
+            if (taskResponse.isAdvance()) {
+                tvMoreShow.setVisibility(View.GONE);
+                layoutMore.setVisibility(View.VISIBLE);
+            } else {
+                tvMoreShow.setVisibility(View.VISIBLE);
+                layoutMore.setVisibility(View.GONE);
+            }
 
             if (taskResponse.getAttachments() != null && taskResponse.getAttachments().size() > 0) {
                 isCopy = true;
@@ -622,8 +632,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             tvDate.setError(getString(R.string.post_a_task_date_error));
             return;
         } else if (DateTimeUtils.minutesBetween(Calendar.getInstance(), calendar) < 30) {
-            tvDate.requestFocus();
-            tvDate.setError(getString(R.string.post_task_time_start_error));
+            tvTime.requestFocus();
+            tvTime.setError(getString(R.string.post_task_time_start_error));
             return;
         } else if (TextUtils.isEmpty(address)) {
             tvAddress.requestFocus();
@@ -734,6 +744,10 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             if (!getLongEdittext(edtNumberWorker).trim().equals(""))
                 jsonRequest.put("worker_count", Integer.valueOf(getLongEdittext(edtNumberWorker)));
 
+            jsonRequest.put("status", status);
+
+            jsonRequest.put("advance", layoutMore.getVisibility() == View.VISIBLE);
+
             if (imagesArr != null && imagesArr.length > 0) {
                 JSONArray jsonArray = new JSONArray();
                 for (int i = 0; i < imagesArr.length; i++)
@@ -743,7 +757,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             jsonRequest.put("min_age", ageFrom);
             jsonRequest.put("max_age", ageTo);
-            jsonRequest.put("status", status);
 
             if (radioMale.isChecked()) {
                 jsonRequest.put("gender", Constants.GENDER_MALE);
@@ -753,7 +766,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             jsonRequest.put("online", cbOnline.isChecked());
             jsonRequest.put("auto_assign", cbAuto.isChecked());
-            jsonRequest.put("advance", layoutMore.getVisibility() == View.VISIBLE);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -763,7 +775,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         LogUtils.d(TAG, "request body create task : " + body.toString());
 
-        if (taskId != 0) {
+        if (taskId != 0 && !taskType.equals(Constants.TASK_COPY)) {
             LogUtils.d(TAG, "createNewTask edit task -------> : " + taskId);
             ApiClient.getApiService().editTask(UserManager.getUserToken(), taskId, body).enqueue(new Callback<TaskResponse>() {
                 @Override
