@@ -138,4 +138,7 @@ public interface ApiInterface {
 
     @POST("v1/tasks/{taskId}/follow")
     Call<Void> followTask(@Header("Authorization") String token, @Path("taskId") int taskId);
+
+    @DELETE("v1/tasks/{taskId}/follow")
+    Call<Void> unFollowTask(@Header("Authorization") String token, @Path("taskId") int taskId);
 }

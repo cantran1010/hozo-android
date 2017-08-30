@@ -235,6 +235,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             category = DataParse.convertCatogoryEntityToCategory(CategoryManager.getCategoryById(taskResponse.getCategoryId()));
 
             edtTitle.setText(taskResponse.getTitle());
+            tvTitleMsg.setText(getString(R.string.post_a_task_msg_length, edtTitle.getText().toString().length(), MAX_LENGTH_TITLE));
+
             try {
                 calendar = DateTimeUtils.toCalendar(taskResponse.getStartTime());
 //                tvDate.setText(DateTimeUtils.fromCalendarIsoCreateTask(calendar));
@@ -254,6 +256,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             updateTotalPayment();
 
             edtDescription.setText(taskResponse.getDescription());
+            tvDesMsg.setText(getString(R.string.post_a_task_msg_length, edtDescription.getText().toString().length(), MAX_LENGTH_DES));
+
             ageFrom = taskResponse.getMinAge();
             ageTo = taskResponse.getMaxAge();
             tvAge.setText(getString(R.string.post_a_task_age, ageFrom, ageTo));
@@ -287,6 +291,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             }
 
         } else {
+            tvTitleMsg.setText(getString(R.string.post_a_task_msg_length, 0, MAX_LENGTH_TITLE));
+            tvDesMsg.setText(getString(R.string.post_a_task_msg_length, 0, MAX_LENGTH_DES));
+
             category = (Category) intent.getSerializableExtra(Constants.EXTRA_CATEGORY);
             calendar.add(Calendar.MINUTE, 40);
         }
@@ -297,7 +304,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         edtTitle.setHint(category.getSuggestTitle());
         edtDescription.setHint(category.getSuggestDescription());
 
-        tvTitleMsg.setText(getString(R.string.post_a_task_msg_length, 0, MAX_LENGTH_TITLE));
         edtTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -320,7 +326,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             }
         });
 
-        tvDesMsg.setText(getString(R.string.post_a_task_msg_length, 0, MAX_LENGTH_DES));
         edtDescription.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
