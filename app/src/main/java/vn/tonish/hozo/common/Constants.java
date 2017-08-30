@@ -109,6 +109,7 @@ public class Constants {
     public static final String TASK_TYPE_POSTER_COMPLETED = "completed";
     public static final String TASK_TYPE_POSTER_OVERDUE = "overdue";
     public static final String TASK_TYPE_POSTER_CANCELED = "canceled";
+    public static final String TASK_TYPE_POSTER_DRAFT = "draft";
     public static final String TASK_TYPE_BLOCK = "block";
 
     // parameter update device token

@@ -127,6 +127,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
             list.add(getString(R.string.my_task_status_poster_completed));
             list.add(getString(R.string.my_task_status_poster_overdue));
             list.add(getString(R.string.my_task_status_poster_canceled));
+            list.add(getString(R.string.my_task_status_poster_draft));
         } else {
             list.add(getString(R.string.my_task_status_all));
             list.add(getString(R.string.my_task_status_worker_open));
@@ -273,6 +274,10 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
                 case 5:
                     result = "canceled";
+                    break;
+
+                case 6:
+                    result = "draft";
                     break;
 
             }

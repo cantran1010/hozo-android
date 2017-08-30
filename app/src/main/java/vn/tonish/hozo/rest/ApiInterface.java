@@ -135,4 +135,7 @@ public interface ApiInterface {
 
     @PUT("v1/tasks/{taskId}")
     Call<TaskResponse> editTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
+
+    @POST("v1/tasks/{taskId}/follow")
+    Call<Void> followTask(@Header("Authorization") String token, @Path("taskId") int taskId);
 }

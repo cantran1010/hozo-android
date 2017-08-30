@@ -276,6 +276,7 @@
     <string name="my_task_status_worker_missed">Bỏ lỡ</string>
     <string name="my_task_status_worker_canceled">Đã hủy</string>
     <string name="my_task_status_poster_open">Đã đăng</string>
+    <string name="my_task_status_poster_draft">Nháp</string>
     <string name="my_task_status_poster_assigned">Đã giao</string>
     <string name="my_task_status_poster_completed">Hoàn thành</string>
     <string name="my_task_status_poster_overdue">Hết hạn</string>
@@ -450,5 +451,8 @@
     <string name="comment_count">%1$d phản hồi khác</string>
     <string name="answer_comment_title">Trả lời</string>
     <string name="bid_limited">Đã đủ ứng viên</string>
+    <string name="non_value">-</string>
+    <string name="follow_task">Theo dõi việc</string>
+    <string name="follow_task_success">Bạn đã theo dõi việc thành công!</string>
 
 </resources>

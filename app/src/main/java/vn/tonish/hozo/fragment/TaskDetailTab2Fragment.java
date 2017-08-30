@@ -97,6 +97,7 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
     @Override
     protected void resumeData() {
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter("MyBroadcast"));
+        LogUtils.d(TAG, "resumeData start");
     }
 
     @Override
@@ -109,8 +110,18 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
         }
     }
 
-    private void updateUi() {
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        LogUtils.d(TAG, "setUserVisibleHint start , isVisibleToUser : " + isVisibleToUser);
+        if (isVisibleToUser) {
+            taskResponse = ((TaskDetailNewActivity) getActivity()).getTaskResponse();
+            updateUi();
+        }
+    }
 
+    public void updateUi() {
+        LogUtils.d(TAG, "updateUi start");
         bidderType = "";
         assigerType = "";
 
@@ -219,10 +230,6 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
         rcvAssign.setLayoutManager(linearLayoutManager);
         assignerAdapter.setTaskId(taskResponse.getId());
         rcvAssign.setAdapter(assignerAdapter);
-    }
-
-    public void updateData() {
-        LogUtils.d(TAG, "TaskDetailTab2Fragment updateData");
     }
 
     private void doSeeMoreAssigns() {

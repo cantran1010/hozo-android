@@ -184,6 +184,11 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
             tvSex.setText(getString(R.string.gender_non_vn));
         }
 
+        if (taskResponse.isAdvance())
+            tvSeeMore.setVisibility(View.VISIBLE);
+        else
+            tvSeeMore.setVisibility(View.GONE);
+
     }
 
     private void updateStatusTask() {
