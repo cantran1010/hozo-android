@@ -219,6 +219,9 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
         else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
             updateStatus(true, getString(R.string.my_task_status_worker_canceled), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
             updateBtnOffer(Constants.OFFER_GONE);
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN)) {
+            updateStatus(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
+            updateBtnOffer(Constants.OFFER_ACTIVE);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
             updateStatus(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
             updateBtnOffer(Constants.OFFER_GONE);
@@ -464,7 +467,7 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
 
                 } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
                     APIError error = ErrorUtils.parseError(response);
-                    LogUtils.e(TAG, "createNewTask errorBody" + error.toString());
+                    LogUtils.e(TAG, "bidsTask errorBody : " + error.toString());
                     if (error.status().equals(Constants.BID_ERROR_SAME_TIME)) {
                         DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.offer_error_time), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override

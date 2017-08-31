@@ -157,7 +157,8 @@
     <string name="alert_dialog_no">KHÔNG</string>
     <string name="post_a_task_working_hour_hint">Số giờ làm việc</string>
     <string name="post_a_task_time_working_error">Vui lòng nhập số giờ làm việc</string>
-    <string name="post_a_task_complete">Chúc mừng bạn đã đăng tuyển thành công</string>
+    <string name="post_a_task_complete">Chúc mừng bạn đã đăng tuyển thành công!</string>
+    <string name="draft_a_task_complete">Lưu việc thành công!</string>
     <string name="show_all">Xem thêm</string>
     <string name="my_account">Tài khoản của tôi</string>
     <string name="user_account">Tài khoản</string>
@@ -324,7 +325,8 @@
     <string name="push_alert">phù hợp với bạn</string>
     <string name="push_you_bidded">bạn ứng tuyển</string>
     <string name="push_complete_work">Công việc</string>
-    <string name="max_size_attach_error">File đính kèm không vượt quá %1$d Mb .\nVui lòng chọn file khác!</string>
+    <string name="max_size_attach_error">Ảnh đính kèm không vượt quá %1$d Mb .\nVui lòng chọn ảnh khác!</string>
+    <string name="min_size_attach_error">Ảnh đính kèm không hợp lệ .\nVui lòng chọn ảnh khác!</string>
     <string name="post_task_map_get_location_error_next">Không thể lấy vị trí của bạn! Vui lòng thiết lập vị trí làm việc!</string>
     <string name="not_find_task">Không tìm thấy công việc nào</string>
     <string name="offer_error_time">Đề nghị làm việc của bạn không được chấp nhận vì bạn đã ứng tuyển một công việc khác vào thời gian này!</string>
