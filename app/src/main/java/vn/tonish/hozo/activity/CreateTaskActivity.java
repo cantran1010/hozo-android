@@ -861,7 +861,11 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     LogUtils.d(TAG, "createNewTask code : " + response.code());
 
                     if (response.code() == Constants.HTTP_CODE_CREATED) {
-                        Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_a_task_complete), false, false);
+                        if (status.equals(Constants.CREATE_TASK_STATUS_DRAFT))
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.draft_a_task_complete), false, false);
+                        else
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_a_task_complete), false, false);
+
                         setResult(Constants.POST_A_TASK_RESPONSE_CODE);
                         finish();
                         FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));

@@ -157,7 +157,8 @@
     <string name="alert_dialog_no">KHÔNG</string>
     <string name="post_a_task_working_hour_hint">Số giờ làm việc</string>
     <string name="post_a_task_time_working_error">Vui lòng nhập số giờ làm việc</string>
-    <string name="post_a_task_complete">Chúc mừng bạn đã đăng tuyển thành công</string>
+    <string name="post_a_task_complete">Chúc mừng bạn đã đăng tuyển thành công!</string>
+    <string name="draft_a_task_complete">Lưu việc thành công!</string>
     <string name="show_all">Xem thêm</string>
     <string name="my_account">Tài khoản của tôi</string>
     <string name="user_account">Tài khoản</string>
