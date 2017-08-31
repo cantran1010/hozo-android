@@ -20,6 +20,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.DeviceUtils;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PxUtils;
 import vn.tonish.hozo.utils.Utils;
 
@@ -94,9 +95,10 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
             holder.imgImage.setPadding(0, 0, 0, 0);
         }
 
-        File file = new File(item != null ? item.getPath() : null != null ? item != null ? item.getPath() : null : null);
+        final File file = new File(item != null ? item.getPath() : null != null ? item != null ? item.getPath() : null : null);
         final long file_size = (file.length() / 1024 / 1024);
-
+        LogUtils.d(TAG, "ImageSelectAdapter , file_size : " + file_size);
+        LogUtils.d(TAG, "ImageSelectAdapter , file.length() : " + file.length());
         if (isOnlyImage) {
 
             holder.imgImage.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +108,9 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
 
                     if (file_size > Constants.MAX_FILE_SIZE) {
                         Utils.showLongToast(getContext(), getContext().getString(R.string.max_size_attach_error, Constants.MAX_FILE_SIZE), true, true);
-                    }else{
+                    } else if (file.length() == 0) {
+                        Utils.showLongToast(getContext(), getContext().getString(R.string.min_size_attach_error), true, true);
+                    } else {
                         holder.imgCheck.setVisibility(View.VISIBLE);
                         assert item != null;
                         item.setSelected(true);
@@ -130,7 +134,9 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
 
                     if (file_size > Constants.MAX_FILE_SIZE) {
                         Utils.showLongToast(getContext(), getContext().getString(R.string.max_size_attach_error, Constants.MAX_FILE_SIZE), true, true);
-                    }else{
+                    } else if (file.length() == 0) {
+                        Utils.showLongToast(getContext(), getContext().getString(R.string.min_size_attach_error), true, true);
+                    } else {
                         if (countImageSelected() + countImageAttach < Constants.MAX_IMAGE_ATTACH) {
                             if (item != null && item.isSelected) {
                                 item.setSelected(false);
