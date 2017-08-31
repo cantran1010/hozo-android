@@ -159,7 +159,7 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
         if (since != null)
             params.put("since", since);
         params.put("limit", LIMIT + "");
-        Call<List<Comment>> call = ApiClient.getApiService().getCommentsInComments(UserManager.getUserToken(), comment.getTaskId(), comment.getId(), params);
+        Call<List<Comment>> call = ApiClient.getApiService().getCommentsInComments(UserManager.getUserToken(), comment.getId(), params);
         call.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
