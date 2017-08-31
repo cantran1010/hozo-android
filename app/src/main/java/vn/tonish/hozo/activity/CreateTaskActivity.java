@@ -224,9 +224,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
             LogUtils.d(TAG, "PostATaskActivity , taskResponse : " + taskResponse.toString());
+            taskId = taskResponse.getId();
 
             if (intent.hasExtra(Constants.TASK_EXTRA_COPY_EDIT)) {
-                taskId = taskResponse.getId();
                 taskType = intent.getStringExtra(Constants.TASK_EXTRA_COPY_EDIT);
 
                 if (taskType.equals(Constants.TASK_EDIT)) tvSave.setVisibility(View.GONE);
