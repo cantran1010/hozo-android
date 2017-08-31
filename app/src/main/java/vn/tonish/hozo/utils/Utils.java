@@ -43,6 +43,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import vn.tonish.hozo.BuildConfig;
 import vn.tonish.hozo.R;
@@ -722,7 +723,7 @@ public class Utils {
 
     public static boolean validateInput(Context context, String input) {
         if (input.contains(context.getString(R.string.email_input_error1))) return false;
-        if (input.toLowerCase().contains(context.getString(R.string.email_input_error2)))
+        if (input.toLowerCase(Locale.getDefault()).contains(context.getString(R.string.email_input_error2)))
             return false;
 
         Iterator<PhoneNumberMatch> existsPhone = PhoneNumberUtil.getInstance().findNumbers(input, "VN").iterator();
