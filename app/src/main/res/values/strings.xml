@@ -453,6 +453,10 @@
     <string name="bid_limited">Đã đủ ứng viên</string>
     <string name="non_value">-</string>
     <string name="follow_task">Theo dõi việc</string>
+    <string name="un_follow_task">Hủy theo dõi việc</string>
     <string name="follow_task_success">Bạn đã theo dõi việc thành công!</string>
+    <string name="online_task_address">Online</string>
+    <string name="un_follow_task_success">Bạn đã hủy theo dõi việc thành công!</string>
+    <string name="comment_duplicate_error">Bình luận của bạn không hợp lệ vì có nội dung trùng lặp!</string>
 
 </resources>

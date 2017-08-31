@@ -333,6 +333,11 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
         else
             popup.getMenu().findItem(R.id.follow_task).setVisible(false);
 
+        if (taskResponse.isFollowed())
+            popup.getMenu().findItem(R.id.follow_task).setTitle(getString(R.string.un_follow_task));
+        else
+            popup.getMenu().findItem(R.id.follow_task).setTitle(getString(R.string.follow_task));
+
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
@@ -375,7 +380,7 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
                                 });
                         break;
 
-                    case R.id.create_task:
+                    case R.id.copy_task:
                         Intent intent = new Intent(TaskDetailNewActivity.this, CreateTaskActivity.class);
                         intent.putExtra(Constants.EXTRA_TASK, taskResponse);
                         intent.putExtra(Constants.TASK_EXTRA_COPY_EDIT, Constants.TASK_COPY);
@@ -404,26 +409,47 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
     }
 
     private void doFollowTask() {
-        ProgressDialogUtils.showProgressDialog(TaskDetailNewActivity.this);
 
-        ApiClient.getApiService().followTask(UserManager.getUserToken(), taskId).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                LogUtils.d(TAG, "doFollowTask , body : " + response.body());
-                LogUtils.d(TAG, "doFollowTask , code : " + response.code());
+        if (taskResponse.isFollowed()) {
+            ProgressDialogUtils.showProgressDialog(TaskDetailNewActivity.this);
 
-                if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
-                    Utils.showLongToast(TaskDetailNewActivity.this, getString(R.string.follow_task_success), false, false);
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(TaskDetailNewActivity.this, new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            doFollowTask();
-                        }
-                    });
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(TaskDetailNewActivity.this);
-                } else {
+            ApiClient.getApiService().unFollowTask(UserManager.getUserToken(), taskId).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    LogUtils.d(TAG, "unFollowTask , body : " + response.body());
+                    LogUtils.d(TAG, "unFollowTask , code : " + response.code());
+
+                    if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                        taskResponse.setFollowed(false);
+                        popup.getMenu().findItem(R.id.follow_task).setTitle(getString(R.string.follow_task));
+                        Utils.showLongToast(TaskDetailNewActivity.this, getString(R.string.un_follow_task_success), false, false);
+                    } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                        NetworkUtils.refreshToken(TaskDetailNewActivity.this, new NetworkUtils.RefreshListener() {
+                            @Override
+                            public void onRefreshFinish() {
+                                doFollowTask();
+                            }
+                        });
+                    } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                        Utils.blockUser(TaskDetailNewActivity.this);
+                    } else {
+                        DialogUtils.showRetryDialog(TaskDetailNewActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                doFollowTask();
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
+                    }
+                    ProgressDialogUtils.dismissProgressDialog();
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
                     DialogUtils.showRetryDialog(TaskDetailNewActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
@@ -435,26 +461,65 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
 
                         }
                     });
+                    ProgressDialogUtils.dismissProgressDialog();
                 }
-                ProgressDialogUtils.dismissProgressDialog();
-            }
+            });
+        } else {
+            ProgressDialogUtils.showProgressDialog(TaskDetailNewActivity.this);
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                DialogUtils.showRetryDialog(TaskDetailNewActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        doFollowTask();
+            ApiClient.getApiService().followTask(UserManager.getUserToken(), taskId).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    LogUtils.d(TAG, "doFollowTask , body : " + response.body());
+                    LogUtils.d(TAG, "doFollowTask , code : " + response.code());
+
+                    if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                        taskResponse.setFollowed(true);
+                        popup.getMenu().findItem(R.id.follow_task).setTitle(getString(R.string.un_follow_task));
+                        Utils.showLongToast(TaskDetailNewActivity.this, getString(R.string.follow_task_success), false, false);
+                    } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                        NetworkUtils.refreshToken(TaskDetailNewActivity.this, new NetworkUtils.RefreshListener() {
+                            @Override
+                            public void onRefreshFinish() {
+                                doFollowTask();
+                            }
+                        });
+                    } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                        Utils.blockUser(TaskDetailNewActivity.this);
+                    } else {
+                        DialogUtils.showRetryDialog(TaskDetailNewActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                doFollowTask();
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
                     }
+                    ProgressDialogUtils.dismissProgressDialog();
+                }
 
-                    @Override
-                    public void onCancel() {
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    DialogUtils.showRetryDialog(TaskDetailNewActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doFollowTask();
+                        }
 
-                    }
-                });
-                ProgressDialogUtils.dismissProgressDialog();
-            }
-        });
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                    ProgressDialogUtils.dismissProgressDialog();
+                }
+            });
+        }
+
     }
 
     private void doReportTask() {

@@ -193,6 +193,7 @@ public class Constants {
     public static final String COMMENT_INPUT_EXTRA = "comment_input_extra";
     public static final String CREATE_TASK_STATUS_PUBLISH = "publish";
     public static final String CREATE_TASK_STATUS_DRAFT = "draft";
+    public static final String DUPLICATE_COMMENT = "duplicate_comment";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static String BID_ERROR_INVALID_DATA = "invalid_data";
     public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";

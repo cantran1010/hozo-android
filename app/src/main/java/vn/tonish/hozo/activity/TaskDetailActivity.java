@@ -831,7 +831,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                                 });
                         break;
 
-                    case R.id.create_task:
+                    case R.id.copy_task:
                         Intent intent = new Intent(TaskDetailActivity.this, PostATaskActivity.class);
                         intent.putExtra(Constants.EXTRA_TASK, taskResponse);
                         startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);

@@ -115,7 +115,6 @@ public class MyTaskPosterFragment extends BaseFragment {
                 if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_DRAFT)) {
                     Intent intentEdit = new Intent(getActivity(), CreateTaskActivity.class);
                     intentEdit.putExtra(Constants.EXTRA_TASK, taskResponse);
-                    intentEdit.putExtra(Constants.TASK_EXTRA_COPY_EDIT, Constants.TASK_EDIT);
                     startActivityForResult(intentEdit, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);

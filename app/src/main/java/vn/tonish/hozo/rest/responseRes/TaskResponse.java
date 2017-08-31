@@ -63,6 +63,15 @@ public class TaskResponse implements Serializable {
     @SerializedName("auto_assign")
     private boolean autoAssign;
     private boolean advance;
+    private boolean followed;
+
+    public boolean isFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(boolean followed) {
+        this.followed = followed;
+    }
 
     public boolean isAdvance() {
         return advance;

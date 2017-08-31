@@ -38,6 +38,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.CommentsAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
@@ -158,7 +159,7 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
         if (since != null)
             params.put("since", since);
         params.put("limit", LIMIT + "");
-        Call<List<Comment>> call = ApiClient.getApiService().getCommentsInComments(UserManager.getUserToken(), comment.getTaskId(), comment.getId(), params);
+        Call<List<Comment>> call = ApiClient.getApiService().getCommentsInComments(UserManager.getUserToken(), comment.getId(), params);
         call.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
@@ -306,6 +307,23 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(CommentsNewActivity.this);
+                } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
+                    APIError error = ErrorUtils.parseError(response);
+                    if (error.status().equals(Constants.DUPLICATE_COMMENT)) {
+                        DialogUtils.showOkDialog(CommentsNewActivity.this, getString(R.string.error), getString(R.string.comment_duplicate_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    } else {
+                        DialogUtils.showOkDialog(CommentsNewActivity.this, getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
                 } else {
                     DialogUtils.showRetryDialog(CommentsNewActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override

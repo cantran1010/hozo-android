@@ -38,6 +38,7 @@ import vn.tonish.hozo.activity.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.CommentTaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
@@ -363,6 +364,23 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(getActivity());
+                } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
+                    APIError error = ErrorUtils.parseError(response);
+                    if (error.status().equals(Constants.DUPLICATE_COMMENT)) {
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.comment_duplicate_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    } else {
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
                 } else {
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override

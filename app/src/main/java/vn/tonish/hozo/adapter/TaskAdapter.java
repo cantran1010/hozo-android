@@ -11,7 +11,6 @@ import java.util.List;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
-import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -66,27 +65,35 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof WorkHolder) {
             WorkHolder workHolder = ((WorkHolder) holder);
-            LogUtils.d(TAG, "adapter " + taskResponses.get(position).toString());
-            workHolder.tvName.setText(taskResponses.get(position).getTitle());
-            workHolder.tvPrice.setText(context.getString(R.string.vnd, Utils.formatNumber(taskResponses.get(position).getWorkerRate())));
-            workHolder.tvStartTime.setText(DateTimeUtils.getOnlyDateFromIso(taskResponses.get(position).getStartTime()));
-            if (taskResponses.get(position).getWorkerCount() == taskResponses.get(position).getAssigneeCount())
+
+            TaskResponse taskResponse = taskResponses.get(position);
+
+            workHolder.tvName.setText(taskResponse.getTitle());
+            workHolder.tvPrice.setText(context.getString(R.string.vnd, Utils.formatNumber(taskResponse.getWorkerRate())));
+            workHolder.tvStartTime.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
+            if (taskResponse.getWorkerCount() == taskResponse.getAssigneeCount())
                 workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_assigned));
             else
                 workHolder.tvStatus.setText(context.getString(R.string.my_task_status_open));
-            String strAddress = taskResponses.get(position).getDistrict() + " - "+ taskResponses.get(position).getCity();
-            workHolder.tvAddress.setText(strAddress);
-            workHolder.progressBar.setMax(taskResponses.get(position).getWorkerCount());
-            workHolder.progressBar.setProgress(taskResponses.get(position).getAssigneeCount());
-            workHolder.ratingBar.setRating(taskResponses.get(position).getPoster().getPosterAverageRating());
-            if (taskResponses.get(position).getCommentsCount() > 1) {
-                String str_bidder_count = context.getString(R.string.bidder_count, Utils.formatNumber(taskResponses.get(position).getBidderCount())) + context.getString(R.string.comments, Utils.formatNumber(taskResponses.get(position).getCommentsCount()));
+
+            if (taskResponse.isOnline())
+                workHolder.tvAddress.setText(context.getString(R.string.online_task_address));
+            else {
+                String strAddress = taskResponse.getDistrict() + " - " + taskResponse.getCity();
+                workHolder.tvAddress.setText(strAddress);
+            }
+
+            workHolder.progressBar.setMax(taskResponse.getWorkerCount());
+            workHolder.progressBar.setProgress(taskResponse.getAssigneeCount());
+            workHolder.ratingBar.setRating(taskResponse.getPoster().getPosterAverageRating());
+            if (taskResponse.getCommentsCount() > 1) {
+                String str_bidder_count = context.getString(R.string.bidder_count, Utils.formatNumber(taskResponse.getBidderCount())) + context.getString(R.string.comments, Utils.formatNumber(taskResponse.getCommentsCount()));
                 workHolder.tvComment.setText(str_bidder_count);
             } else {
-                String str_bidder_count1 = context.getString(R.string.bidder_count, Utils.formatNumber(taskResponses.get(position).getBidderCount())) + context.getString(R.string.comment, Utils.formatNumber(taskResponses.get(position).getCommentsCount()));
+                String str_bidder_count1 = context.getString(R.string.bidder_count, Utils.formatNumber(taskResponse.getBidderCount())) + context.getString(R.string.comment, Utils.formatNumber(taskResponse.getCommentsCount()));
                 workHolder.tvComment.setText(str_bidder_count1);
             }
-            Utils.displayImageAvatar(context, workHolder.imgAvata, taskResponses.get(position).getPoster().getAvatar());
+            Utils.displayImageAvatar(context, workHolder.imgAvata, taskResponse.getPoster().getAvatar());
         }
     }
 
