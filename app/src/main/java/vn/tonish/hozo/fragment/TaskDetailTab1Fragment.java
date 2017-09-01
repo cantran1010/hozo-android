@@ -120,6 +120,16 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
 
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        LogUtils.d(TAG, "TaskDetailTab1Fragment setUserVisibleHint start , isVisibleToUser : " + isVisibleToUser);
+        if (isVisibleToUser && taskResponse != null) {
+            taskResponse = ((TaskDetailNewActivity) getActivity()).getTaskResponse();
+            updateUi();
+        }
+    }
+
     private void updateUi() {
         Utils.displayImageAvatar(getActivity(), imgAvatar, taskResponse.getPoster().getAvatar());
         tvName.setText(taskResponse.getPoster().getFullName());

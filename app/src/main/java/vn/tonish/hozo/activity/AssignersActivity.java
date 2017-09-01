@@ -114,6 +114,16 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (isAssigner) {
+            Intent intent = new Intent();
+            intent.putExtra(Constants.EXTRA_ASSIGNER_TASKRESPONSE, taskResponse);
+            setResult(Constants.RESULT_CODE_ASSIGNER, intent);
+        }
+    }
+
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, final Intent intent) {

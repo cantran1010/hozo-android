@@ -68,6 +68,7 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
 
     private String bidderType = "";
     private String assigerType = "";
+    private static final int MAX_WORKER = 5;
 
     @Override
     protected int getLayout() {
@@ -171,7 +172,6 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
 
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
-
             rcvBidder.setVisibility(View.GONE);
         }
 
@@ -196,10 +196,10 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
 
     private void refreshBidderList(String bidderType) {
         PosterOpenAdapter posterOpenAdapter;
-        if (bidders.size() > 2) {
+        if (bidders.size() > MAX_WORKER) {
 
             ArrayList<Bidder> biddersNew = new ArrayList<Bidder>();
-            biddersNew.addAll(bidders.subList(0, 2));
+            biddersNew.addAll(bidders.subList(0, MAX_WORKER));
 
             tvSeeMoreBidders.setVisibility(View.VISIBLE);
             posterOpenAdapter = new PosterOpenAdapter(biddersNew, bidderType);
@@ -207,6 +207,7 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
             tvSeeMoreBidders.setVisibility(View.GONE);
             posterOpenAdapter = new PosterOpenAdapter(bidders, bidderType);
         }
+        rcvBidder.setNestedScrollingEnabled(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rcvBidder.setLayoutManager(linearLayoutManager);
         posterOpenAdapter.setTaskId(taskResponse.getId());
@@ -214,18 +215,20 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
     }
 
     private void refreshAssignerList(String assignType) {
-        ArrayList<Assigner> mAssigners = new ArrayList<>();
-        if (assigners.size() > 2) {
+        AssignerCallAdapter assignerAdapter;
+        if (assigners.size() > MAX_WORKER) {
+
+            ArrayList<Assigner> assignersNew = new ArrayList<>();
+            assignersNew.addAll(assigners.subList(0, MAX_WORKER));
+
             tvSeeMoreAssigners.setVisibility(View.VISIBLE);
-            for (int i = 0; i < 2; i++) {
-                mAssigners.add(assigners.get(i));
-            }
+            assignerAdapter = new AssignerCallAdapter(assignersNew, assignType);
 
         } else {
             tvSeeMoreAssigners.setVisibility(View.GONE);
-            mAssigners.addAll(assigners);
+            assignerAdapter = new AssignerCallAdapter(assigners, assignType);
         }
-        AssignerCallAdapter assignerAdapter = new AssignerCallAdapter(mAssigners, assignType);
+        rcvAssign.setNestedScrollingEnabled(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rcvAssign.setLayoutManager(linearLayoutManager);
         assignerAdapter.setTaskId(taskResponse.getId());
@@ -285,6 +288,20 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_RATE && resultCode == RESPONSE_CODE_RATE) {
             getData();
+        } else if (requestCode == Constants.REQUEST_CODE_SEND_BINDDER && resultCode == Constants.RESULT_CODE_BIDDER) {
+            if (data.hasExtra(Constants.EXTRA_BIDDER_TASKRESPONSE)) {
+                taskResponse = (TaskResponse) data.getExtras().get(Constants.EXTRA_BIDDER_TASKRESPONSE);
+                Utils.updateRole(taskResponse);
+                updateUi();
+                ((TaskDetailNewActivity) getActivity()).setTaskResponse(taskResponse);
+            }
+        } else if (requestCode == Constants.REQUEST_CODE_SEND_ASSIGNER && resultCode == Constants.RESULT_CODE_ASSIGNER) {
+            if (data.hasExtra(Constants.EXTRA_ASSIGNER_TASKRESPONSE)) {
+                taskResponse = (TaskResponse) data.getExtras().get(Constants.EXTRA_ASSIGNER_TASKRESPONSE);
+                Utils.updateRole(taskResponse);
+                updateUi();
+                ((TaskDetailNewActivity) getActivity()).setTaskResponse(taskResponse);
+            }
         }
     }
 

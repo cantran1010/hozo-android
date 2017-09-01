@@ -90,7 +90,7 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
             Utils.displayImage(getContext(), imgAttach, comment.getImgAttach());
         } else imgAttach.setVisibility(View.GONE);
 
-        if (getCommentType() == View.VISIBLE)
+        if (getCommentType() == View.VISIBLE && comment.getAuthorId() != UserManager.getMyUser().getId())
             imgSetting.setVisibility(View.VISIBLE);
         else
             imgSetting.setVisibility(View.GONE);
