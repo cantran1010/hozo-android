@@ -241,7 +241,8 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
         if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             isDelete = false;
             isReportTask = false;
-            if (taskResponse.getBidderCount() == 0) isEditTask = true;
+            if (taskResponse.getBidderCount() == 0 && taskResponse.getAssigneeCount() == 0)
+                isEditTask = true;
             isFollow = false;
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             isDelete = false;
