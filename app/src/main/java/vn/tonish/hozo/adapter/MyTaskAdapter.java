@@ -120,7 +120,7 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
                 switch (taskResponse.getStatus()) {
                     case Constants.TASK_TYPE_POSTER_DRAFT:
                         workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_draft));
-                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_recruitment));
+                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_drag));
                         break;
                     case Constants.TASK_TYPE_POSTER_OPEN:
                         workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_open));

@@ -350,11 +350,14 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
                 LogUtils.d(TAG, "commentTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    mComments.add(0, response.body());
-                    commentsAdapter.notifyDataSetChanged();
+//                    mComments.add(0, response.body());
+//                    commentsAdapter.notifyDataSetChanged();
                     imgPath = null;
                     edtComment.setText(getString(R.string.empty));
                     imgLayout.setVisibility(View.GONE);
+
+                    strSince = null;
+                    getComments(null);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override

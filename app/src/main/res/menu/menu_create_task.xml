@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+    <item
+        android:id="@+id/save_task"
+        android:title="@string/tv_save" />
+
+    <item
+        android:id="@+id/delete_task"
+        android:title="@string/delete"
+        android:visible="false" />
+
+</menu>

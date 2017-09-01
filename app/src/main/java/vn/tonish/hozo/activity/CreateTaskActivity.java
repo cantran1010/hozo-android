@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -23,6 +24,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -104,7 +106,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private String address;
     private TimePickerDialog timeEndPickerDialog;
     private Calendar calendar = GregorianCalendar.getInstance();
-    private TextViewHozo tvDate, tvTime, tvTotalPrice, tvMoreShow, tvMoreHide, tvSave;
+    private TextViewHozo tvDate, tvTime, tvTotalPrice, tvMoreShow, tvMoreHide;
     private AutoCompleteTextView edtBudget;
     private Category category;
     private TextViewHozo tvAddress;
@@ -136,6 +138,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private ButtonHozo btnNext;
     private String status;
 
+    private ImageView imgMenu;
+    private PopupMenu popup;
+
     // copy or edit
     private String taskType = "";
 
@@ -150,9 +155,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
         ImageView imgClose = findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
-
-        tvSave = findViewById(R.id.tv_save);
-        tvSave.setOnClickListener(this);
 
         edtTitle = findViewById(R.id.edt_task_name);
         edtDescription = findViewById(R.id.edt_description);
@@ -206,6 +208,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         workingHourLayout = findViewById(R.id.working_hour_layout);
         workingHourLayout.setOnClickListener(this);
 
+        imgMenu = (ImageView) findViewById(R.id.img_menu);
+        imgMenu.setOnClickListener(this);
+
     }
 
     @Override
@@ -220,16 +225,27 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         imageAdapter = new ImageAdapter(this, images);
         grImage.setAdapter(imageAdapter);
 
+        showPopup();
+
         if (intent.hasExtra(Constants.EXTRA_TASK)) {
 
             taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
             LogUtils.d(TAG, "PostATaskActivity , taskResponse : " + taskResponse.toString());
             taskId = taskResponse.getId();
 
-            if (intent.hasExtra(Constants.TASK_EXTRA_COPY_EDIT)) {
-                taskType = intent.getStringExtra(Constants.TASK_EXTRA_COPY_EDIT);
+            if (intent.hasExtra(Constants.TASK_EDIT_EXTRA)) {
+                taskType = intent.getStringExtra(Constants.TASK_EDIT_EXTRA);
 
-                if (taskType.equals(Constants.TASK_EDIT)) tvSave.setVisibility(View.GONE);
+                if (taskType.equals(Constants.TASK_EDIT)) {
+                    popup.getMenu().findItem(R.id.delete_task).setVisible(false);
+                    popup.getMenu().findItem(R.id.save_task).setVisible(true);
+                } else if (taskType.equals(Constants.TASK_COPY)) {
+                    popup.getMenu().findItem(R.id.delete_task).setVisible(false);
+                    popup.getMenu().findItem(R.id.save_task).setVisible(true);
+                } else if (taskType.equals(Constants.TASK_DRAFT)) {
+                    popup.getMenu().findItem(R.id.delete_task).setVisible(true);
+                    popup.getMenu().findItem(R.id.save_task).setVisible(true);
+                }
             }
 
             category = DataParse.convertCatogoryEntityToCategory(CategoryManager.getCategoryById(taskResponse.getCategoryId()));
@@ -789,7 +805,13 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     LogUtils.d(TAG, "createNewTask code : " + response.code());
 
                     if (response.code() == Constants.HTTP_CODE_CREATED) {
-                        Utils.showLongToast(CreateTaskActivity.this, getString(R.string.edit_task_complete), false, false);
+//                        Utils.showLongToast(CreateTaskActivity.this, getString(R.string.edit_task_complete), false, false);
+
+                        if (status.equals(Constants.CREATE_TASK_STATUS_DRAFT))
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.draft_a_task_complete), false, false);
+                        else
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_a_task_complete), false, false);
+
                         setResult(Constants.POST_A_TASK_RESPONSE_CODE);
                         finish();
                         FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
@@ -1007,6 +1029,92 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         else createTaskOnServer();
     }
 
+    private void showPopup() {
+        //Creating the instance of PopupMenu
+        popup = new PopupMenu(this, imgMenu);
+        popup.getMenuInflater().inflate(R.menu.menu_create_task, popup.getMenu());
+
+        //registering popup with OnMenuItemClickListener
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+
+                switch (item.getItemId()) {
+
+                    case R.id.save_task:
+                        status = Constants.CREATE_TASK_STATUS_DRAFT;
+                        doSave();
+                        break;
+
+                    case R.id.delete_task:
+                        DialogUtils.showOkAndCancelDialog(
+                                CreateTaskActivity.this, getString(R.string.title_delete_task), getString(R.string.content_detete_task), getString(R.string.cancel_task_ok),
+                                getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+                                        doDeleteTask();
+                                    }
+
+                                    @Override
+                                    public void onCancel() {
+
+                                    }
+                                });
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+
+    private void doDeleteTask() {
+        ProgressDialogUtils.showProgressDialog(this);
+        ApiClient.getApiService().deleteTask(UserManager.getUserToken(), taskId).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                LogUtils.d(TAG, "doDeleteTask , code : " + response.code());
+                LogUtils.d(TAG, "doDeleteTask , body : " + response.body());
+
+                if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                    Utils.showLongToast(CreateTaskActivity.this, getString(R.string.delete_task_success_msg), false, false);
+                    Intent intent = new Intent();
+                    intent.putExtra(Constants.EXTRA_TASK, taskResponse);
+                    setResult(Constants.RESULT_CODE_TASK_DELETE, intent);
+                    finish();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(CreateTaskActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doDeleteTask();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(CreateTaskActivity.this);
+                } else {
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.d(TAG, "errorBody" + error.toString());
+                    Utils.showLongToast(CreateTaskActivity.this, error.message(), false, true);
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                DialogUtils.showRetryDialog(CreateTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doDeleteTask();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -1077,9 +1185,13 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 doNext();
                 break;
 
-            case R.id.tv_save:
-                status = Constants.CREATE_TASK_STATUS_DRAFT;
-                doSave();
+//            case R.id.tv_save:
+//                status = Constants.CREATE_TASK_STATUS_DRAFT;
+//                doSave();
+//                break;
+
+            case R.id.img_menu:
+                popup.show();//showing popup menu
                 break;
 
         }
