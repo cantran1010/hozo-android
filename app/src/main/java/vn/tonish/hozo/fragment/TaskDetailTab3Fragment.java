@@ -207,6 +207,10 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
                     }
                     LogUtils.d(TAG, "getComments size : " + mComments.size());
 
+                    if (since == null) {
+                        rcvComment.smoothScrollToPosition(0);
+                    }
+
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
@@ -357,6 +361,7 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
                     imgLayout.setVisibility(View.GONE);
 
                     strSince = null;
+                    isLoadingMoreFromServer = true;
                     getComments(null);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {

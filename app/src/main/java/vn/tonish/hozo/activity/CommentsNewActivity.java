@@ -181,6 +181,10 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
                     }
                     LogUtils.d(TAG, "getCommentsInComments size : " + mComments.size());
 
+                    if (since == null) {
+                        lvList.smoothScrollToPosition(0);
+                    }
+
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(CommentsNewActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -300,6 +304,7 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
                     comment.setComments(endList);
 
                     strSince = null;
+                    isLoadingMoreFromServer = true;
                     getCommentsInComments(null);
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
