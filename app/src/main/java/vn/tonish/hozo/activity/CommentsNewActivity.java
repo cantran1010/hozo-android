@@ -181,6 +181,10 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
                     }
                     LogUtils.d(TAG, "getCommentsInComments size : " + mComments.size());
 
+                    if (since == null) {
+                        lvList.smoothScrollToPosition(0);
+                    }
+
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(CommentsNewActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -278,10 +282,10 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
 
-                    response.body().setTaskId(comment.getTaskId());
+//                    response.body().setTaskId(comment.getTaskId());
+//                    mComments.add(0, response.body());
+//                    commentsAdapter.notifyDataSetChanged();
 
-                    mComments.add(0, response.body());
-                    commentsAdapter.notifyDataSetChanged();
                     imgPath = null;
                     edtComment.setText(getString(R.string.empty));
                     imgLayout.setVisibility(View.GONE);
@@ -298,6 +302,11 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
                     if (comment.getComments().size() > 0) endList.add(newList.get(0));
 
                     comment.setComments(endList);
+
+                    strSince = null;
+                    isLoadingMoreFromServer = true;
+                    getCommentsInComments(null);
+
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(CommentsNewActivity.this, new NetworkUtils.RefreshListener() {
                         @Override

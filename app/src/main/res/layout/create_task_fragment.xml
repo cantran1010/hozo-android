@@ -17,9 +17,9 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_toEndOf="@+id/img_close"
-            android:layout_toLeftOf="@+id/tv_save"
+            android:layout_toLeftOf="@+id/img_menu"
             android:layout_toRightOf="@+id/img_close"
-            android:layout_toStartOf="@+id/tv_save"
+            android:layout_toStartOf="@+id/img_menu"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
@@ -35,19 +35,17 @@
             android:scaleType="centerInside"
             android:src="@drawable/img_close_red" />
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_save"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+        <ImageView
+            android:id="@+id/img_menu"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:background="@drawable/btn_back_selector"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/tv_save"
-            android:textColor="@color/hozo_bg"
-            android:textSize="19sp" />
+            android:contentDescription="@string/adjust_image"
+            android:scaleType="centerInside"
+            android:src="@drawable/more"
+            android:visibility="visible" />
 
         <View
             android:layout_width="match_parent"
@@ -533,10 +531,10 @@
                     style="@style/tv_style_normal_gray"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/task_description_hint"
                     android:layout_alignBottom="@+id/tv_des_msg"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:text="@string/task_description_hint" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_des_msg"

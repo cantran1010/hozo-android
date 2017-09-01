@@ -28,7 +28,7 @@ public class BiddersActivity extends BaseActivity implements View.OnClickListene
     private ImageView imgBack;
     private TaskResponse taskResponse;
     private ArrayList<Bidder> bidders;
-    private String bidderType="";
+    private String bidderType = "";
     private PosterOpenAdapter posterOpenAdapter;
     private TextViewHozo tvTitle;
     private boolean isBidder = false;
@@ -96,6 +96,16 @@ public class BiddersActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (isBidder) {
+            Intent intent = new Intent();
+            intent.putExtra(Constants.EXTRA_BIDDER_TASKRESPONSE, taskResponse);
+            setResult(Constants.RESULT_CODE_BIDDER, intent);
+        }
+    }
+
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, final Intent intent) {
@@ -135,5 +145,6 @@ public class BiddersActivity extends BaseActivity implements View.OnClickListene
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
             taskResponse.setRole(Constants.ROLE_FIND_TASK);
         }
+
     }
 }

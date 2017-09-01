@@ -114,6 +114,11 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
         if (getCommentType() == View.VISIBLE) {
             imgSetting.setVisibility(View.VISIBLE);
             tvAnswer.setVisibility(View.VISIBLE);
+
+            if (comment.getAuthorId() == UserManager.getMyUser().getId())
+                imgSetting.setVisibility(View.GONE);
+            else imgSetting.setVisibility(View.VISIBLE);
+
         } else {
             imgSetting.setVisibility(View.GONE);
             tvAnswer.setVisibility(View.GONE);

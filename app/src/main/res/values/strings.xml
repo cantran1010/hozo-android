@@ -447,7 +447,6 @@
     <string name="sms">SMS</string>
     <string name="duplicate_task_error">Bạn không thể đăng 2 tin giống nhau liên tiếp trong vòng 1 giờ.</string>
     <string name="edit_task">Chỉnh sửa việc</string>
-    <string name="edit_task_complete">Bạn đã chỉnh sửa việc thành công!</string>
     <string name="tv_save">Lưu</string>
     <string name="answer">Trả lời</string>
     <string name="comment_count">%1$d phản hồi khác</string>
@@ -460,5 +459,6 @@
     <string name="online_task_address">Online</string>
     <string name="un_follow_task_success">Bạn đã hủy theo dõi việc thành công!</string>
     <string name="comment_duplicate_error">Bình luận của bạn không hợp lệ vì có nội dung trùng lặp!</string>
+    <string name="delete">Xóa</string>
 
 </resources>

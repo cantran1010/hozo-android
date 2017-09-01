@@ -115,6 +115,7 @@ public class MyTaskPosterFragment extends BaseFragment {
                 if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_DRAFT)) {
                     Intent intentEdit = new Intent(getActivity(), CreateTaskActivity.class);
                     intentEdit.putExtra(Constants.EXTRA_TASK, taskResponse);
+                    intentEdit.putExtra(Constants.TASK_EDIT_EXTRA, Constants.TASK_DRAFT);
                     startActivityForResult(intentEdit, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
@@ -283,6 +284,15 @@ public class MyTaskPosterFragment extends BaseFragment {
             isReloadMyTask = true;
         } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             onRefresh();
+        } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.RESULT_CODE_TASK_DELETE) {
+            TaskResponse taskEdit = (TaskResponse) data.getSerializableExtra(Constants.EXTRA_TASK);
+            for (int i = 0; i < taskResponses.size(); i++) {
+                if (taskResponses.get(i).getId() == taskEdit.getId()) {
+                    taskResponses.remove(i);
+                    myTaskAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
         }
 
     }

@@ -383,14 +383,14 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
                     case R.id.copy_task:
                         Intent intent = new Intent(TaskDetailNewActivity.this, CreateTaskActivity.class);
                         intent.putExtra(Constants.EXTRA_TASK, taskResponse);
-                        intent.putExtra(Constants.TASK_EXTRA_COPY_EDIT, Constants.TASK_COPY);
+                        intent.putExtra(Constants.TASK_EDIT_EXTRA, Constants.TASK_COPY);
                         startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                         break;
 
                     case R.id.edit_task:
                         Intent intentEdit = new Intent(TaskDetailNewActivity.this, CreateTaskActivity.class);
                         intentEdit.putExtra(Constants.EXTRA_TASK, taskResponse);
-                        intentEdit.putExtra(Constants.TASK_EXTRA_COPY_EDIT, Constants.TASK_EDIT);
+                        intentEdit.putExtra(Constants.TASK_EDIT_EXTRA, Constants.TASK_EDIT);
                         startActivityForResult(intentEdit, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                         break;
 
