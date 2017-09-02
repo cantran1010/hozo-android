@@ -32,6 +32,8 @@ GEM
     danger-android_lint (0.0.4)
       danger-plugin-api (~> 1.0)
       oga
+    danger-lgtm (0.2.0)
+      danger-plugin-api (~> 1.0)
     danger-plugin-api (1.0.0)
       danger (> 2.0)
     domain_name (0.5.20170404)
@@ -174,7 +176,8 @@ PLATFORMS
 DEPENDENCIES
   danger
   danger-android_lint
+  danger-lgtm
   fastlane
 
 BUNDLED WITH
-   1.14.6
+   1.15.4
