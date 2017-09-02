@@ -1,6 +1,3 @@
-lgtm_num = Random.new.rand(1..30).to_s.rjust(2, '0')
-lgtm.check_lgtm image_url: "https://raw.githubusercontent.com/rela1470/lgtm/master/momoka/momoka_#{lgtm_num}.jpg"
-
 # Android Lint
 android_lint.report_file = "app/build/reports/lint-results.xml"
 android_lint.lint
@@ -16,3 +13,7 @@ warn("This Pull Request is too big, which may cause trouble if we want to revert
 if git.commits.any? { |c| c.message =~ /^Merge branch/ }
   fail("Please rebase to get rid of the merge commits in this Pull Request")
 end
+
+# LGTM
+lgtm_num = Random.new.rand(1..30).to_s.rjust(2, '0')
+lgtm.check_lgtm image_url: "https://raw.githubusercontent.com/rela1470/lgtm/master/momoka/momoka_#{lgtm_num}.jpg"
