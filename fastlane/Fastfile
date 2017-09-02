@@ -11,16 +11,23 @@ platform :android do
   desc "Submit a new Beta Build to HockeyApp"
   lane :beta do
     gradle(task: "assembleDebug")
+
     raise "You must specify a FL_HOCKEY_API_TOKEN environment variable to deploy." if ENV['FL_HOCKEY_API_TOKEN'].nil?
     hockey(
       notes: last_git_commit[:message],
       notify: '0',
     )
+
+    get_android_version(apk: "app/build/outputs/apk/app-debug.apk")
+    version_name = lane_context[SharedValues::GET_ANDROID_VERSION_NAME]
+    version_code = lane_context[SharedValues::GET_ANDROID_VERSION_CODE]
+
     slack(
       default_payloads: [],
       payload: {
         "Git Commit" => last_git_commit[:message],
-        'Download'=> lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
+        "Version" => "#{version_name} (#{version_code})",
+        "Download" => lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
       },
     )
   end
