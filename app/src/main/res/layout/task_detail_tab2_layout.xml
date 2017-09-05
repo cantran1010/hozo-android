@@ -81,6 +81,17 @@
             android:textColor="@color/hozo_bg"
             android:visibility="visible" />
 
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_no_bidder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/no_bidder"
+            android:textColor="@color/hozo_bg"
+            android:textSize="20sp" />
+
     </LinearLayout>
+
 
 </android.support.v4.widget.NestedScrollView>
