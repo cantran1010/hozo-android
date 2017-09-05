@@ -12,13 +12,14 @@
         android:layout_marginRight="@dimen/margin_right_screen"
         android:layout_marginStart="@dimen/margin_left_screen"
         android:orientation="horizontal"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp">
+        android:paddingBottom="1dp"
+        android:paddingTop="1dp">
 
         <vn.tonish.hozo.view.CircleImageView
             android:id="@+id/img_avatar"
-            android:layout_width="@dimen/avatar_width_height"
-            android:layout_height="@dimen/avatar_width_height"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/avatar_default" />
 
         <LinearLayout
@@ -39,6 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/img_setting"
                     android:layout_toStartOf="@+id/img_setting"
+                    android:text="abagfdsaf"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -65,14 +67,15 @@
                 style="@style/tv_style_normal_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="dfrasdfadsfsdaf"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
             <ImageView
                 android:id="@+id/img_attach"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="5dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="1dp"
                 android:contentDescription="@string/just_image"
                 android:scaleType="centerCrop"
                 android:src="@drawable/avatar_default" />
@@ -82,10 +85,11 @@
                 style="@style/tv_style_normal_gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="1dp"
                 android:drawableLeft="@drawable/timer_comment"
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/timer_comment"
+                android:text="fasfasdfdsafsdaf"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
