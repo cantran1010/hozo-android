@@ -395,6 +395,15 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             }
         });
 
+        edtNumberWorker.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    edtNumberWorker.setText(getString(R.string.empty));
+                }
+            }
+        });
+
         edtNumberWorker.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -767,7 +776,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             jsonRequest.put("status", status);
 
-            jsonRequest.put("advance", layoutMore.getVisibility() == View.VISIBLE);
+//            jsonRequest.put("advance", layoutMore.getVisibility() == View.VISIBLE);
+            jsonRequest.put("advance", getAdvanceSetting());
 
             if (imagesArr != null && imagesArr.length > 0) {
                 JSONArray jsonArray = new JSONArray();
@@ -1113,6 +1123,15 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 ProgressDialogUtils.dismissProgressDialog();
             }
         });
+    }
+
+    private boolean getAdvanceSetting() {
+        if (imagesArr != null && imagesArr.length > 0) return true;
+        if (ageFrom != 18 || ageTo != 60) return true;
+        if (!radioNon.isChecked()) return true;
+        if (cbAuto.isChecked()) return true;
+        if (cbOnline.isChecked()) return true;
+        return false;
     }
 
     @Override

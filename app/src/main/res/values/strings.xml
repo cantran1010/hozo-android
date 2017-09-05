@@ -460,5 +460,6 @@
     <string name="un_follow_task_success">Bạn đã hủy theo dõi việc thành công!</string>
     <string name="comment_duplicate_error">Bình luận của bạn không hợp lệ vì có nội dung trùng lặp!</string>
     <string name="delete">Xóa</string>
+    <string name="make_an_offer_status">Đang tuyển</string>
 
 </resources>
