@@ -379,6 +379,11 @@ public class TaskResponse implements Serializable {
                 ", bidders=" + bidders +
                 ", assignees=" + assignees +
                 ", comments=" + comments +
+                ", online=" + online +
+                ", autoAssign=" + autoAssign +
+                ", advance=" + advance +
+                ", followed=" + followed +
                 '}';
     }
+
 }

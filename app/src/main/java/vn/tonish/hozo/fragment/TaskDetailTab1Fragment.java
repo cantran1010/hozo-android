@@ -253,7 +253,7 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
         }
         // make an offer
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
-            updateStatus(false, "", ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_done));
+            updateStatus(true, getString(R.string.make_an_offer_status), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_offer));
             updateBtnOffer(Constants.OFFER_ACTIVE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() != UserManager.getMyUser().getId()) {
             updateStatus(true, getString(R.string.delivered), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_received));
