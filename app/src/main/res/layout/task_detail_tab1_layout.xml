@@ -170,7 +170,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:gravity="center"
-                            android:text="abc"
                             android:textColor="@color/tv_black" />
                     </LinearLayout>
 
@@ -246,6 +245,7 @@
                 <vn.tonish.hozo.view.TextViewHozo
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/description"
                     android:textColor="@color/gray" />
@@ -254,8 +254,7 @@
                     android:id="@+id/tv_des"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
                     android:textColor="@color/tv_black" />
 
                 <vn.tonish.hozo.view.TextViewHozo
@@ -263,8 +262,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:drawableEnd="@drawable/down"
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/down"
