@@ -64,7 +64,7 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
     private ArrayList<Assigner> assigners = new ArrayList<>();
 
     private TextViewHozo tvSeeMoreBidders, tvSeeMoreAssigners;
-    private TextViewHozo tvBidderCount, tvAssignCount;
+    private TextViewHozo tvBidderCount, tvAssignCount, tvNoBidder;
 
     private String bidderType = "";
     private String assigerType = "";
@@ -87,6 +87,8 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
 
         tvBidderCount = (TextViewHozo) findViewById(R.id.tv_bidder_count);
         tvAssignCount = (TextViewHozo) findViewById(R.id.tv_assign_count);
+
+        tvNoBidder = (TextViewHozo) findViewById(R.id.tv_no_bidder);
     }
 
     @Override
@@ -192,6 +194,34 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
 
         tvBidderCount.setText(getString(R.string.bidder, taskResponse.getBidderCount()));
         tvAssignCount.setText(getString(R.string.assign_people, taskResponse.getAssigneeCount()));
+
+        if (bidders.size() == 0) {
+            tvBidderCount.setVisibility(View.GONE);
+            rcvBidder.setVisibility(View.GONE);
+            tvSeeMoreBidders.setVisibility(View.GONE);
+        }
+
+//        else {
+//            rcvBidder.setVisibility(View.VISIBLE);
+//            tvSeeMoreBidders.setVisibility(View.VISIBLE);
+//        }
+
+        if (assigners.size() == 0) {
+            tvAssignCount.setVisibility(View.GONE);
+            rcvAssign.setVisibility(View.GONE);
+            tvSeeMoreAssigners.setVisibility(View.GONE);
+        }
+
+//        else {
+//            rcvAssign.setVisibility(View.VISIBLE);
+//            tvSeeMoreAssigners.setVisibility(View.VISIBLE);
+//        }
+
+        if (bidders.size() == 0 && assigners.size() == 0)
+            tvNoBidder.setVisibility(View.VISIBLE);
+        else
+            tvNoBidder.setVisibility(View.GONE);
+
     }
 
     private void refreshBidderList(String bidderType) {

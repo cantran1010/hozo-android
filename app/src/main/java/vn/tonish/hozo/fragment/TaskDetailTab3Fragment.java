@@ -57,6 +57,7 @@ import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 
@@ -84,6 +85,7 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
     private File fileAttach;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private LinearLayout layoutFooter;
+    private TextViewHozo tvNoComment;
 
     @Override
     protected int getLayout() {
@@ -106,6 +108,8 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
         imgDelete.setOnClickListener(this);
 
         layoutFooter = (LinearLayout) findViewById(R.id.layout_footer);
+
+        tvNoComment = (TextViewHozo) findViewById(R.id.tv_no_comment);
     }
 
     @Override
@@ -210,6 +214,11 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
                     if (since == null) {
                         rcvComment.smoothScrollToPosition(0);
                     }
+
+                    if (mComments.size() == 0)
+                        tvNoComment.setVisibility(View.VISIBLE);
+                    else
+                        tvNoComment.setVisibility(View.GONE);
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {

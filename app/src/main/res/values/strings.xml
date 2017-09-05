@@ -461,5 +461,7 @@
     <string name="comment_duplicate_error">Bình luận của bạn không hợp lệ vì có nội dung trùng lặp!</string>
     <string name="delete">Xóa</string>
     <string name="make_an_offer_status">Đang tuyển</string>
+    <string name="no_bidder">Chưa có người ứng tuyển ở việc này</string>
+    <string name="no_comment">Chưa có bình luận nào ở công việc này</string>
 
 </resources>
