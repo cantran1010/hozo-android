@@ -82,7 +82,7 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
         tvComment = (TextViewHozo) findViewById(R.id.tv_comment);
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
         imgSetting = (ImageView) findViewById(R.id.img_setting);
-        imgAttach = (ImageView) findViewById(R.id.img_attach);
+        imgAttach = (ImageView) findViewById(R.id.img_attach_show);
         imgAttach.setOnClickListener(this);
 
         tvAnswer = findViewById(R.id.tv_answer);
@@ -152,7 +152,7 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
                 getContext().startActivity(intent);
                 break;
 
-            case R.id.img_attach:
+            case R.id.img_attach_show:
                 Intent intentViewImage = new Intent(getContext(), PreviewImageActivity.class);
                 intentViewImage.putExtra(Constants.EXTRA_IMAGE_PATH, comment.getImgAttach());
                 getContext().startActivity(intentViewImage);

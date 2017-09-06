@@ -308,7 +308,7 @@
     <string name="km">km</string>
     <string name="all_space_type"><b> </b></string>
     <string name="count_in_detail">(%1$d)</string>
-    <string name="my_task_price">%s VND</string>
+    <string name="my_task_price">%s đ</string>
     <string name="vnd">%sđ</string>
     <string name="comments">, %s comments</string>
     <string name="comment">, %s comment</string>
@@ -461,7 +461,7 @@
     <string name="comment_duplicate_error">Bình luận của bạn không hợp lệ vì có nội dung trùng lặp!</string>
     <string name="delete">Xóa</string>
     <string name="make_an_offer_status">Đang tuyển</string>
-    <string name="no_bidder">Chưa có người ứng tuyển ở việc này</string>
-    <string name="no_comment">Chưa có bình luận nào ở công việc này</string>
+    <string name="no_bidder">Chưa có người ứng tuyển \n ở công việc này</string>
+    <string name="no_comment">Chưa có bình luận \n ở công việc này</string>
 
 </resources>
