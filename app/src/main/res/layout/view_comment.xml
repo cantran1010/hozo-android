@@ -40,7 +40,6 @@
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/img_setting"
                     android:layout_toStartOf="@+id/img_setting"
-                    android:text="abagfdsaf"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -67,12 +66,11 @@
                 style="@style/tv_style_normal_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="dfrasdfadsfsdaf"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
             <ImageView
-                android:id="@+id/img_attach"
+                android:id="@+id/img_attach_show"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="1dp"
@@ -89,7 +87,6 @@
                 android:drawableLeft="@drawable/timer_comment"
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/timer_comment"
-                android:text="fasfasdfdsafsdaf"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 

@@ -15,6 +15,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 
@@ -115,15 +116,15 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         showbtnContinue();
     }
 
-        private void showbtnContinue() {
-            String mb = edtPhone.getText().toString().trim();
-            if (!mb.isEmpty() && isNumberValid("84", mb)) {
-                tvContinue.setAlpha(1f);
-                tvContinue.setEnabled(true);
-                hideSoftKeyboard(getActivity(), edtPhone);
-            } else {
-                tvContinue.setAlpha(0.5f);
-                tvContinue.setEnabled(false);
+    private void showbtnContinue() {
+        String mb = edtPhone.getText().toString().trim();
+        if (!mb.isEmpty() && isNumberValid("84", mb)) {
+            tvContinue.setAlpha(1f);
+            tvContinue.setEnabled(true);
+            hideSoftKeyboard(getActivity(), edtPhone);
+        } else {
+            tvContinue.setAlpha(0.5f);
+            tvContinue.setEnabled(false);
 
         }
     }
@@ -205,18 +206,24 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         ProgressDialogUtils.showProgressDialog(getActivity());
         JSONObject jsonRequest = new JSONObject();
         String mobile = edtPhone.getText().toString().trim();
-        LogUtils.d(TAG, "mobile" + mobile);
-        if (mobile.substring(0, 1).equals("0")) {
-            mobile = COUNTRY_CODE + mobile.substring(1);
-        } else {
-            mobile = COUNTRY_CODE + mobile;
+        LogUtils.d(TAG, "login mobile" + mobile);
+
+        PhoneNumberUtil pnu = PhoneNumberUtil.getInstance();
+        Phonenumber.PhoneNumber pn = null;
+        try {
+            pn = pnu.parse(edtPhone.getText().toString(), "VN");
+        } catch (NumberParseException e) {
+            e.printStackTrace();
         }
-        LogUtils.d(TAG, "mobile" + mobile);
+        mobile = pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.E164);
+
+        LogUtils.d(TAG, "login mobile" + mobile);
         try {
             jsonRequest.put(USER_MOBILE, mobile);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        LogUtils.d(TAG, "login jsonRequest : " + jsonRequest.toString());
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
@@ -224,9 +231,9 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         ApiClient.getApiService().getOtpCode("XXXX", body).enqueue(new Callback<BlockResponse>() {
             @Override
             public void onResponse(Call<BlockResponse> call, Response<BlockResponse> response) {
-                LogUtils.d(TAG, "onResponse status code : " + response.code());
+                LogUtils.d(TAG, "login onResponse status code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
-                    LogUtils.d(TAG, "onResponse body : " + response.body());
+                    LogUtils.d(TAG, "login onResponse body : " + response.body());
                     Bundle bundle = new Bundle();
                     bundle.putString(Constants.USER_MOBILE, finalMobile);
                     openFragment(R.id.layout_container, OtpFragment.class, bundle, true, TransitionScreen.RIGHT_TO_LEFT);
@@ -240,7 +247,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
                 } else {
                     APIError error = ErrorUtils.parseError(response);
-                    LogUtils.d(TAG, "errorBody" + error.toString());
+                    LogUtils.d(TAG, "login errorBody" + error.toString());
                     if (error.status().equalsIgnoreCase(getActivity().getString(R.string.login_status_block)))
                         Utils.showLongToast(getActivity(), getActivity().getString(R.string.login_block_phone), true, false);
                     else
@@ -254,7 +261,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
             @Override
             public void onFailure(Call<BlockResponse> call, Throwable t) {
-                LogUtils.e(TAG, "onFailure message : " + t.getMessage());
+                LogUtils.e(TAG, "login onFailure message : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
