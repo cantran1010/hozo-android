@@ -106,7 +106,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private String address;
     private TimePickerDialog timeEndPickerDialog;
     private Calendar calendar = GregorianCalendar.getInstance();
-    private TextViewHozo tvDate, tvTime, tvTotalPrice, tvMoreShow, tvMoreHide;
+    private TextViewHozo tvTitle, tvDate, tvTime, tvTotalPrice, tvMoreShow, tvMoreHide;
     private AutoCompleteTextView edtBudget;
     private Category category;
     private TextViewHozo tvAddress;
@@ -155,6 +155,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
         ImageView imgClose = findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
+
+        tvTitle = findViewById(R.id.tv_title);
 
         edtTitle = findViewById(R.id.edt_task_name);
         edtDescription = findViewById(R.id.edt_description);
@@ -313,6 +315,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             category = (Category) intent.getSerializableExtra(Constants.EXTRA_CATEGORY);
             calendar.add(Calendar.MINUTE, 40);
         }
+
+        tvTitle.setText(category.getName());
 
         tvDate.setText(DateTimeUtils.fromCalendarToDate(calendar));
         tvTime.setText(DateTimeUtils.fromCalendarToTime(calendar));
