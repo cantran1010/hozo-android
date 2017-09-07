@@ -34,6 +34,15 @@ import android.widget.TimePicker;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.AutocompletePrediction;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +64,7 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.CustomArrayAdapter;
 import vn.tonish.hozo.adapter.ImageAdapter;
+import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.manager.CategoryManager;
@@ -85,6 +95,7 @@ import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.MyGridView;
 import vn.tonish.hozo.view.TextViewHozo;
 
+import static vn.tonish.hozo.R.string.post_task_map_get_location_error_next;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.Utils.formatNumber;
@@ -93,7 +104,7 @@ import static vn.tonish.hozo.utils.Utils.formatNumber;
  * Created by LongBui on 8/18/17.
  */
 
-public class CreateTaskActivity extends BaseActivity implements View.OnClickListener {
+public class CreateTaskActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = CreateTaskActivity.class.getSimpleName();
     private ScrollView scrollView;
@@ -103,14 +114,13 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private static final int MAX_LENGTH_DES = 500;
     private static final int MAX_HOURS = 12;
     private double lat, lon;
-    private String address;
+    private String address = "";
     private TimePickerDialog timeEndPickerDialog;
     private Calendar calendar = GregorianCalendar.getInstance();
     private TextViewHozo tvTitle, tvDate, tvTime, tvTotalPrice, tvMoreShow, tvMoreHide;
     private AutoCompleteTextView edtBudget;
     private Category category;
-    private TextViewHozo tvAddress;
-    private RelativeLayout layoutAddress, workingHourLayout;
+    private RelativeLayout workingHourLayout;
     private static final int MAX_BUGDET = 500000;
     private static final int MIN_BUGDET = 10000;
     private CustomArrayAdapter adapter;
@@ -144,6 +154,14 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     // copy or edit
     private String taskType = "";
 
+    /**
+     * GoogleApiClient wraps our service connection to Google Play Services and provides access
+     * to the user's sign in state as well as the Google's APIs.
+     */
+    private GoogleApiClient googleApiClient;
+    private PlaceAutocompleteAdapter placeAutocompleteAdapter;
+    private AutoCompleteTextView autocompleteView;
+
     @Override
     protected int getLayout() {
         return R.layout.create_task_fragment;
@@ -166,9 +184,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         tvTitleMsg = findViewById(R.id.tv_title_msg);
         tvDesMsg = findViewById(R.id.tv_des_msg);
 
-        layoutAddress = findViewById(R.id.layout_address);
-        layoutAddress.setOnClickListener(this);
-
         edtBudget = findViewById(R.id.edt_budget);
         edtNumberWorker = findViewById(R.id.edt_number_worker);
         tvTotalPrice = findViewById(R.id.tv_total_price);
@@ -183,8 +198,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
         btnNext = findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
-
-        tvAddress = findViewById(R.id.tv_address);
 
         layoutMore = findViewById(R.id.more_layout);
 
@@ -210,13 +223,37 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         workingHourLayout = findViewById(R.id.working_hour_layout);
         workingHourLayout.setOnClickListener(this);
 
-        imgMenu = (ImageView) findViewById(R.id.img_menu);
+        imgMenu = findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
 
     }
 
     @Override
     protected void initData() {
+
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, 0 /* clientId */, this)
+                .addApi(Places.GEO_DATA_API)
+                .build();
+        // Retrieve the AutoCompleteTextView that will display Place suggestions.
+        autocompleteView = (AutoCompleteTextView)
+                findViewById(R.id.autocomplete_places);
+
+        autocompleteView.setThreshold(1);
+
+        // Register a listener that receives callbacks when a suggestion has been selected
+        autocompleteView.setOnItemClickListener(mAutocompleteClickListener);
+
+        final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
+                .setTypeFilter(Place.TYPE_COUNTRY)
+                .setCountry("VN")
+                .build();
+
+        // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
+        // the entire world.
+        placeAutocompleteAdapter = new PlaceAutocompleteAdapter(this, googleApiClient, null,
+                autocompleteFilter);
+        autocompleteView.setAdapter(placeAutocompleteAdapter);
 
         Intent intent = getIntent();
 
@@ -239,6 +276,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 taskType = intent.getStringExtra(Constants.TASK_EDIT_EXTRA);
 
                 if (taskType.equals(Constants.TASK_EDIT)) {
+                    imgMenu.setVisibility(View.GONE);
+                    btnNext.setText(getString(R.string.btn_edit_task));
+
                     popup.getMenu().findItem(R.id.delete_task).setVisible(false);
                     popup.getMenu().findItem(R.id.save_task).setVisible(true);
                 } else if (taskType.equals(Constants.TASK_COPY)) {
@@ -248,6 +288,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     popup.getMenu().findItem(R.id.delete_task).setVisible(true);
                     popup.getMenu().findItem(R.id.save_task).setVisible(true);
                 }
+
             }
 
             category = DataParse.convertCatogoryEntityToCategory(CategoryManager.getCategoryById(taskResponse.getCategoryId()));
@@ -265,9 +306,10 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             lat = taskResponse.getLatitude();
             lon = taskResponse.getLongitude();
+
             address = taskResponse.getAddress();
 
-            tvAddress.setText(address);
+            autocompleteView.setText(address);
 
             edtBudget.setText(Utils.formatNumber(taskResponse.getWorkerRate()));
             edtNumberWorker.setText(Utils.formatNumber(taskResponse.getWorkerCount()));
@@ -669,9 +711,19 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             tvTime.requestFocus();
             tvTime.setError(getString(R.string.post_task_time_start_error));
             return;
+        } else if (!autocompleteView.getText().toString().trim().equals(address.trim()) || (address.equals("") && !autocompleteView.getText().toString().trim().equals(""))) {
+            autocompleteView.requestFocus();
+            autocompleteView.setError(getString(R.string.post_task_address_error_google));
+
+            address = "";
+            lat = 0;
+            lon = 0;
+            autocompleteView.setText("");
+
+            return;
         } else if (TextUtils.isEmpty(address)) {
-            tvAddress.requestFocus();
-            tvAddress.setError(getString(R.string.post_task_address_error));
+            autocompleteView.requestFocus();
+            autocompleteView.setError(getString(R.string.post_task_address_error));
             return;
         } else if (edtBudget.getText().toString().equals("0") || edtBudget.getText().toString().equals("")) {
             edtBudget.requestFocus();
@@ -763,7 +815,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             jsonRequest.put("latitude", lat);
             jsonRequest.put("longitude", lon);
 
-            if (address != null) {
+            if (address != null && lat != 0 && lon != 0) {
                 String[] arrAddress = address.split(",");
 
                 jsonRequest.put("city", arrAddress.length >= 2 ? arrAddress[arrAddress.length - 2].trim() : arrAddress[arrAddress.length - 1].trim());
@@ -989,12 +1041,12 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
         if (requestCode == Constants.REQUEST_CODE_ADDRESS && resultCode == Constants.RESULT_CODE_ADDRESS) {
 
-            lat = data.getDoubleExtra(Constants.LAT_EXTRA, 0);
-            lon = data.getDoubleExtra(Constants.LON_EXTRA, 0);
-            address = data.getStringExtra(Constants.EXTRA_ADDRESS);
-
-            tvAddress.setText(address);
-            tvAddress.setError(null);
+//            lat = data.getDoubleExtra(Constants.LAT_EXTRA, 0);
+//            lon = data.getDoubleExtra(Constants.LON_EXTRA, 0);
+//            address = data.getStringExtra(Constants.EXTRA_ADDRESS);
+//
+//            tvAddress.setText(address);
+//            tvAddress.setError(null);
         } else if (requestCode == REQUEST_CODE_PICK_IMAGE
                 && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
@@ -1138,6 +1190,102 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         return false;
     }
 
+    /**
+     * Listener that handles selections from suggestions from the AutoCompleteTextView that
+     * displays Place suggestions.
+     * Gets the place id of the selected item and issues a request to the Places Geo Data API
+     * to retrieve more details about the place.
+     *
+     * @see com.google.android.gms.location.places.GeoDataApi#getPlaceById(com.google.android.gms.common.api.GoogleApiClient,
+     * String...)
+     */
+    private final AdapterView.OnItemClickListener mAutocompleteClickListener
+            = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            /*
+             Retrieve the place ID of the selected item from the Adapter.
+             The adapter stores each Place suggestion in a AutocompletePrediction from which we
+             read the place ID and title.
+              */
+            final AutocompletePrediction item = placeAutocompleteAdapter.getItem(position);
+            final String placeId = item.getPlaceId();
+            final CharSequence primaryText = item.getPrimaryText(null);
+
+            LogUtils.i(TAG, "Autocomplete item selected: " + primaryText);
+
+            /*
+             Issue a request to the Places Geo Data API to retrieve a Place object with additional
+             details about the place.
+              */
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                    .getPlaceById(googleApiClient, placeId);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+
+            LogUtils.i(TAG, "Called getPlaceById to get Place details for " + placeId);
+        }
+    };
+
+    /**
+     * Callback for results from a Places Geo Data API query that shows the first place result in
+     * the details view on screen.
+     */
+    private final ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
+            = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(@NonNull PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+                // Request did not complete successfully
+                LogUtils.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
+                places.release();
+                return;
+            }
+            try {
+
+                // Get the Place object from the buffer.
+                final Place place = places.get(0);
+
+                LogUtils.e(TAG, "Place address : " + place.getAddress());
+
+                lat = place.getLatLng().latitude;
+                lon = place.getLatLng().longitude;
+                address = autocompleteView.getText().toString();
+                autocompleteView.setError(null);
+
+                places.release();
+
+                edtBudget.requestFocus();
+
+                Utils.hideKeyBoard(CreateTaskActivity.this);
+
+            } catch (Exception e) {
+                Utils.showLongToast(CreateTaskActivity.this, getString(post_task_map_get_location_error_next), true, false);
+            }
+        }
+    };
+
+
+    /**
+     * Called when the Activity could not connect to Google Play services and the auto manager
+     * could resolve the error automatically.
+     * In this case the API is not available and notify the user.
+     *
+     * @param connectionResult can be inspected to determine the cause of the failure
+     */
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+        LogUtils.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
+                + connectionResult.getErrorCode());
+
+//        // TODO(Developer): Check error code and notify the user of error state and resolution.
+//        Toast.makeText(this,
+//                "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
+//                Toast.LENGTH_SHORT).show();
+
+        Utils.showLongToast(this, getString(R.string.gg_api_error), true, false);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -1148,11 +1296,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             case R.id.time_layout:
                 openTimeLayout();
-                break;
-
-            case R.id.layout_address:
-                Intent intent = new Intent(this, PlaceActivity.class);
-                startActivityForResult(intent, Constants.REQUEST_CODE_ADDRESS, TransitionScreen.FADE_IN);
                 break;
 
             case R.id.img_close:

@@ -43,7 +43,8 @@ import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import vn.tonish.hozo.BuildConfig;
 import vn.tonish.hozo.R;
@@ -722,9 +723,17 @@ public class Utils {
     }
 
     public static boolean validateInput(Context context, String input) {
-        if (input.contains(context.getString(R.string.email_input_error1))) return false;
-        if (input.toLowerCase(Locale.getDefault()).contains(context.getString(R.string.email_input_error2)))
+//        if (input.contains(context.getString(R.string.email_input_error1))) return false;
+//        if (input.toLowerCase(Locale.getDefault()).contains(context.getString(R.string.email_input_error2)))
+//            return false;
+
+//        String emailPattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,}";
+//        if (input.matches(emailPattern)) return false;
+
+        Matcher m = Pattern.compile("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+").matcher(input);
+        while (m.find()) {
             return false;
+        }
 
         Iterator<PhoneNumberMatch> existsPhone = PhoneNumberUtil.getInstance().findNumbers(input, "VN").iterator();
         while (existsPhone.hasNext()) {
