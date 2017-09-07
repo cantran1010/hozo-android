@@ -360,8 +360,6 @@
                 android:padding="5dp"
                 android:focusableInTouchMode="true"
                 android:hint="@string/address_hint"
-                android:inputType="text"
-                android:maxLines="1"
                 android:minHeight="40dp"
                 android:textColor="@color/tv_black"
                 android:textSize="15sp" />
