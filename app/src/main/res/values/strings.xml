@@ -463,5 +463,6 @@
     <string name="make_an_offer_status">Đang tuyển</string>
     <string name="no_bidder">Chưa có người ứng tuyển \n ở công việc này</string>
     <string name="no_comment">Chưa có bình luận \n ở công việc này</string>
+    <string name="post_task_address_error_google">Địa chỉ không đúng</string>
 
 </resources>
