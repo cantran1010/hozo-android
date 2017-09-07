@@ -276,6 +276,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 taskType = intent.getStringExtra(Constants.TASK_EDIT_EXTRA);
 
                 if (taskType.equals(Constants.TASK_EDIT)) {
+                    imgMenu.setVisibility(View.GONE);
+                    btnNext.setText(getString(R.string.btn_edit_task));
+
                     popup.getMenu().findItem(R.id.delete_task).setVisible(false);
                     popup.getMenu().findItem(R.id.save_task).setVisible(true);
                 } else if (taskType.equals(Constants.TASK_COPY)) {
@@ -285,6 +288,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     popup.getMenu().findItem(R.id.delete_task).setVisible(true);
                     popup.getMenu().findItem(R.id.save_task).setVisible(true);
                 }
+
             }
 
             category = DataParse.convertCatogoryEntityToCategory(CategoryManager.getCategoryById(taskResponse.getCategoryId()));
