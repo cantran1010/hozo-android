@@ -849,6 +849,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 jsonRequest.put("gender", Constants.GENDER_MALE);
             } else if (radioFemale.isChecked()) {
                 jsonRequest.put("gender", Constants.GENDER_FEMALE);
+            } else {
+                jsonRequest.put("gender", "");
             }
 
             jsonRequest.put("online", cbOnline.isChecked());

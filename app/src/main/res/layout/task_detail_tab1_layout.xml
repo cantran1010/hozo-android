@@ -258,100 +258,66 @@
                     android:layout_marginBottom="10dp"
                     android:textColor="@color/tv_black" />
 
-                <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tv_see_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="10dp"
-                    android:drawableEnd="@drawable/down"
-                    android:drawablePadding="10dp"
-                    android:drawableRight="@drawable/down"
-                    android:text="@string/see_more"
-                    android:textColor="@color/hozo_bg" />
-
-                <LinearLayout
-                    android:id="@+id/layout_more"
+                <vn.tonish.hozo.view.MyGridView
+                    android:id="@+id/gr_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:layout_marginTop="10dp"
+                    android:numColumns="3" />
 
-                    <vn.tonish.hozo.view.MyGridView
-                        android:id="@+id/gr_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:numColumns="3" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <vn.tonish.hozo.view.TextViewHozo
-                            style="@style/tv_style_normal_gray"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/age_create_task"
-                            android:drawablePadding="10dp"
-                            android:drawableStart="@drawable/age_create_task"
-                            android:text="@string/age" />
-
-                        <vn.tonish.hozo.view.TextViewHozo
-                            android:id="@+id/tv_age"
-                            style="@style/tv_style_normal_black"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginStart="5dp"
-                            android:gravity="center"
-                            android:text="@string/age_from_hint" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="15dp"
-                        android:orientation="horizontal">
-
-                        <vn.tonish.hozo.view.TextViewHozo
-                            style="@style/tv_style_normal_gray"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/sex"
-                            android:drawablePadding="10dp"
-                            android:drawableStart="@drawable/sex"
-                            android:text="@string/sex" />
-
-                        <vn.tonish.hozo.view.TextViewHozo
-                            android:id="@+id/tv_sex"
-                            style="@style/tv_style_normal_black"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginStart="5dp"
-                            android:gravity="center" />
-
-                    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
                     <vn.tonish.hozo.view.TextViewHozo
-                        android:id="@+id/tv_see_more_hide"
+                        android:id="@+id/tv_age_lbl"
+                        style="@style/tv_style_normal_gray"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:drawableEnd="@drawable/up"
+                        android:drawableLeft="@drawable/age_create_task"
                         android:drawablePadding="10dp"
-                        android:drawableRight="@drawable/up"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:paddingTop="5dp"
-                        android:text="@string/advance_more_hide"
-                        android:textColor="@color/hozo_bg" />
+                        android:drawableStart="@drawable/age_create_task"
+                        android:text="@string/age" />
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        android:id="@+id/tv_age"
+                        style="@style/tv_style_normal_black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center"
+                        android:text="@string/age_from_hint" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        android:id="@+id/tv_sex_lbl"
+                        style="@style/tv_style_normal_gray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/sex"
+                        android:drawablePadding="10dp"
+                        android:drawableStart="@drawable/sex"
+                        android:text="@string/sex" />
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        android:id="@+id/tv_sex"
+                        style="@style/tv_style_normal_black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center" />
 
                 </LinearLayout>
 

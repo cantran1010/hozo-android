@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import java.text.ParseException;
@@ -55,8 +54,7 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
     private CircleImageView imgAvatar;
     private RatingBar rbRate;
     private TextViewHozo tvStatus, tvTimeAgo;
-    private TextViewHozo tvName, tvTitle, tvAddress, tvDate, tvTime, tvHour, tvDes, tvAge, tvSex, tvBudget, tvWorkerCount, tvAssignerCount, tvEmptyCount, tvSeeMore, tvSeeMoreHide;
-    private LinearLayout layoutMore;
+    private TextViewHozo tvName, tvTitle, tvAddress, tvDate, tvTime, tvHour, tvDes, tvAge, tvSex, tvBudget, tvWorkerCount, tvAssignerCount, tvEmptyCount, tvAgeLbl, tvSexLbl;
     private ButtonHozo btnOffer;
     private Call<TaskResponse> call;
     private MyGridView myGridView;
@@ -95,17 +93,12 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
         tvAssignerCount = (TextViewHozo) findViewById(R.id.tv_assigner_count);
         tvEmptyCount = (TextViewHozo) findViewById(R.id.tv_empty_count);
 
-        tvSeeMore = (TextViewHozo) findViewById(R.id.tv_see_more);
-        tvSeeMore.setOnClickListener(this);
-
-        tvSeeMoreHide = (TextViewHozo) findViewById(R.id.tv_see_more_hide);
-        tvSeeMoreHide.setOnClickListener(this);
-
-        layoutMore = (LinearLayout) findViewById(R.id.layout_more);
-
         btnOffer = (ButtonHozo) findViewById(R.id.btn_bid);
 
         myGridView = (MyGridView) findViewById(R.id.gr_image);
+
+        tvAgeLbl = (TextViewHozo) findViewById(R.id.tv_age_lbl);
+        tvSexLbl = (TextViewHozo) findViewById(R.id.tv_sex_lbl);
     }
 
     @Override
@@ -188,20 +181,28 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
             myGridView.setVisibility(View.GONE);
         }
 
-        tvAge.setText(getString(R.string.post_a_task_age, taskResponse.getMinAge(), taskResponse.getMaxAge()));
+        if (taskResponse.getMinAge() != 18 || taskResponse.getMaxAge() != 60) {
+            tvAge.setText(getString(R.string.post_a_task_age, taskResponse.getMinAge(), taskResponse.getMaxAge()));
+            tvAge.setVisibility(View.VISIBLE);
+            tvAgeLbl.setVisibility(View.VISIBLE);
+        } else {
+            tvAge.setVisibility(View.GONE);
+            tvAgeLbl.setVisibility(View.GONE);
+        }
 
         if (taskResponse.getGender().equals(Constants.GENDER_MALE)) {
             tvSex.setText(getString(R.string.gender_male_vn));
+            tvSex.setVisibility(View.VISIBLE);
+            tvSexLbl.setVisibility(View.VISIBLE);
         } else if (taskResponse.getGender().equals(Constants.GENDER_FEMALE)) {
             tvSex.setText(getString(R.string.gender_female_vn));
+            tvSex.setVisibility(View.VISIBLE);
+            tvSexLbl.setVisibility(View.VISIBLE);
         } else {
             tvSex.setText(getString(R.string.gender_non_vn));
+            tvSex.setVisibility(View.GONE);
+            tvSexLbl.setVisibility(View.GONE);
         }
-
-        if (taskResponse.isAdvance())
-            tvSeeMore.setVisibility(View.VISIBLE);
-        else
-            tvSeeMore.setVisibility(View.GONE);
 
     }
 
@@ -546,17 +547,6 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
-            case R.id.tv_see_more:
-                tvSeeMore.setVisibility(View.GONE);
-                layoutMore.setVisibility(View.VISIBLE);
-                break;
-
-            case R.id.tv_see_more_hide:
-                tvSeeMore.setVisibility(View.VISIBLE);
-                layoutMore.setVisibility(View.GONE);
-                break;
-
             case R.id.img_avatar:
             case R.id.rb_rate:
             case R.id.tv_name:
