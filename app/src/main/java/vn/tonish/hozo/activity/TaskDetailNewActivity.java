@@ -1,10 +1,17 @@
 package vn.tonish.hozo.activity;
 
+import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
@@ -35,6 +42,7 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 8/22/17.
@@ -51,6 +59,9 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
     private TaskDetailAdapter adapter;
     private ImageView imgMenu;
     private PopupMenu popup;
+    private TextViewHozo tvTab1, tvTab2, tvTab3, tvCountBidder, tvCountComment;
+    private int bidderCount = 0;
+    private int commentCount = 0;
 
     @Override
     protected int getLayout() {
@@ -72,11 +83,49 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.detail_tab_3)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+
+        @SuppressLint("InflateParams") View headerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                .inflate(R.layout.custom_tab, null, false);
+
+        tvTab1 = headerView.findViewById(R.id.tv_tab1);
+        tvTab2 = headerView.findViewById(R.id.tv_tab2);
+        tvTab3 = headerView.findViewById(R.id.tv_tab3);
+
+        tvCountBidder = headerView.findViewById(R.id.tv_count_bidder);
+        tvCountComment = headerView.findViewById(R.id.tv_count_comment);
+
+        tabLayout.getTabAt(0).setCustomView(headerView.findViewById(R.id.ll));
+        tabLayout.getTabAt(1).setCustomView(headerView.findViewById(R.id.ll2));
+        tabLayout.getTabAt(2).setCustomView(headerView.findViewById(R.id.ll3));
+
+        final ViewGroup test = (ViewGroup) (tabLayout.getChildAt(0));//tabs is your Tablayout
+        int tabLen = test.getChildCount();
+
+        for (int i = 0; i < tabLen; i++) {
+            View v = test.getChildAt(i);
+            v.setPadding(0, 0, 0, 0);
+        }
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (viewPager != null)
                     viewPager.setCurrentItem(tab.getPosition());
+
+                if (tab.getPosition() == 0) {
+                    tvTab1.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.white));
+                    tvTab2.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.tv_black));
+                    tvTab3.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.tv_black));
+                } else if (tab.getPosition() == 1) {
+                    tvTab1.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.tv_black));
+                    tvTab2.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.white));
+                    tvTab3.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.tv_black));
+                } else if (tab.getPosition() == 2) {
+                    tvTab1.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.tv_black));
+                    tvTab2.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.tv_black));
+                    tvTab3.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.white));
+                }
+
             }
 
             @Override
@@ -100,7 +149,35 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void resumeData() {
+        registerReceiver(broadcastReceiver, new IntentFilter("MyBroadcast"));
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            unregisterReceiver(broadcastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateBidderCount() {
+        if (bidderCount == 0) {
+            tvCountBidder.setVisibility(View.GONE);
+        } else {
+            tvCountBidder.setText(String.valueOf(bidderCount));
+            tvCountBidder.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void updateCommentCount() {
+        if (commentCount == 0) {
+            tvCountComment.setVisibility(View.GONE);
+        } else {
+            tvCountComment.setText(String.valueOf(commentCount));
+            tvCountComment.setVisibility(View.VISIBLE);
+        }
     }
 
     private void getData() {
@@ -723,6 +800,29 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
             finish();
         }
     }
+
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, final Intent intent) {
+
+            if (intent.hasExtra(Constants.TASK_ID_EXTRA) && intent.hasExtra(Constants.PUSH_COUNT_EXTRA) && intent.getIntExtra(Constants.TASK_ID_EXTRA, 0) == taskId && taskId != 0) {
+                if (intent.getStringExtra(Constants.PUSH_COUNT_EXTRA).equals(Constants.COUNT_COMMENT)) {
+                    commentCount++;
+                    updateCommentCount();
+                } else if (intent.getStringExtra(Constants.PUSH_COUNT_EXTRA).equals(Constants.COUNT_BIDDER)) {
+                    bidderCount++;
+                    updateBidderCount();
+                }
+            } else if (intent.hasExtra(Constants.COMMENT_EXTRA)) {
+                commentCount = intent.getIntExtra(Constants.COMMENT_EXTRA, 0);
+                updateCommentCount();
+            } else if (intent.hasExtra(Constants.BIDDER_EXTRA)) {
+                bidderCount = intent.getIntExtra(Constants.BIDDER_EXTRA, 0);
+                updateBidderCount();
+            }
+
+        }
+    };
 
     @Override
     public void onClick(View view) {
