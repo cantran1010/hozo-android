@@ -172,6 +172,7 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
     }
 
     private void updateCommentCount() {
+        LogUtils.d(TAG, "updateCommentCount commentCount : " + commentCount);
         if (commentCount == 0) {
             tvCountComment.setVisibility(View.GONE);
         } else {
@@ -823,6 +824,27 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
 
         }
     };
+
+    public void updateCommentCount(int cmtCount) {
+        commentCount = cmtCount;
+        updateCommentCount();
+    }
+
+    public int getBidderCount() {
+        return bidderCount;
+    }
+
+    public void setBidderCount(int bidderCount) {
+        this.bidderCount = bidderCount;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
 
     @Override
     public void onClick(View view) {

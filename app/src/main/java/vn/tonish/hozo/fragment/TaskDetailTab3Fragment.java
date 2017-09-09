@@ -131,13 +131,20 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser){
-            if(mComments.size() <= LIMIT){
+        if (isVisibleToUser) {
 
-                Intent intentComment = new Intent();
-                intentComment.setAction(Constants.BROAD_CAST_MY);
-                intentComment.putExtra(Constants.COMMENT_EXTRA, 0);
-                getActivity().sendBroadcast(intentComment);
+            if (getActivity() instanceof TaskDetailNewActivity) {
+
+                if (((TaskDetailNewActivity) getActivity()).getCommentCount() != 0) {
+                    ((TaskDetailNewActivity) getActivity()).updateCommentCount(0);
+
+                    if (call != null) call.cancel();
+                    isLoadingMoreFromServer = true;
+                    strSince = null;
+                    commentsAdapter.onLoadMore();
+                    getComments(null);
+                }
+
             }
         }
     }
@@ -232,12 +239,10 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
                     if (since == null) {
                         rcvComment.smoothScrollToPosition(0);
 
-                        if(getUserVisibleHint()){
-                            Intent intentComment = new Intent();
-                            intentComment.setAction(Constants.BROAD_CAST_MY);
-                            intentComment.putExtra(Constants.COMMENT_EXTRA, 0);
-                            getActivity().sendBroadcast(intentComment);
-                        }
+                        Intent intentComment = new Intent();
+                        intentComment.setAction(Constants.BROAD_CAST_MY);
+                        intentComment.putExtra(Constants.COMMENT_EXTRA, 0);
+                        getActivity().sendBroadcast(intentComment);
 
                     }
 
