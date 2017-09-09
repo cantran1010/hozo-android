@@ -135,8 +135,15 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
 
         if (taskResponse.isOnline())
             tvAddress.setText(getString(R.string.online_task_address));
-        else
-            tvAddress.setText(taskResponse.getAddress());
+        else {
+            if (taskResponse.getAddress().endsWith(Constants.VN1))
+                tvAddress.setText(taskResponse.getAddress().replace(Constants.VN1, ""));
+            else if (taskResponse.getAddress().endsWith(Constants.VN2))
+                tvAddress.setText(taskResponse.getAddress().replace(Constants.VN2, ""));
+            else
+                tvAddress.setText(taskResponse.getAddress());
+        }
+
 
         if (taskResponse.getStartTime() != null)
             tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));

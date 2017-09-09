@@ -199,6 +199,8 @@ public class Constants {
     public static final String COUNT_COMMENT = "count_comment";
     public static final String COUNT_BIDDER = "count_bidder";
     public static final String BIDDER_EXTRA = "bidder_extra";
+    public static final String VN1 = ", Việt Nam";
+    public static final String VN2 = ", Vietnam";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static String BID_ERROR_INVALID_DATA = "invalid_data";
     public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";
