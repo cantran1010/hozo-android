@@ -86,6 +86,7 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private LinearLayout layoutFooter;
     private TextViewHozo tvNoComment;
+    private Call<List<Comment>> call;
 
     @Override
     protected int getLayout() {
@@ -94,6 +95,9 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
 
     @Override
     protected void initView() {
+
+        createSwipeToRefresh();
+
         rcvComment = (RecyclerView) findViewById(R.id.rcv_comment);
         edtComment = (EdittextHozo) findViewById(R.id.edt_comment);
         imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
@@ -122,6 +126,20 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
     @Override
     protected void resumeData() {
 
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            if(mComments.size() <= LIMIT){
+
+                Intent intentComment = new Intent();
+                intentComment.setAction(Constants.BROAD_CAST_MY);
+                intentComment.putExtra(Constants.COMMENT_EXTRA, 0);
+                getActivity().sendBroadcast(intentComment);
+            }
+        }
     }
 
     private void updateInputComment() {
@@ -189,7 +207,7 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
         if (since != null)
             params.put("since", since);
         params.put("limit", LIMIT + "");
-        Call<List<Comment>> call = ApiClient.getApiService().getComments(UserManager.getUserToken(), taskResponse.getId(), params);
+        call = ApiClient.getApiService().getComments(UserManager.getUserToken(), taskResponse.getId(), params);
         call.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
@@ -213,6 +231,14 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
 
                     if (since == null) {
                         rcvComment.smoothScrollToPosition(0);
+
+                        if(getUserVisibleHint()){
+                            Intent intentComment = new Intent();
+                            intentComment.setAction(Constants.BROAD_CAST_MY);
+                            intentComment.putExtra(Constants.COMMENT_EXTRA, 0);
+                            getActivity().sendBroadcast(intentComment);
+                        }
+
                     }
 
                     if (mComments.size() == 0)
@@ -235,6 +261,8 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
                     LogUtils.d(TAG, "errorBody" + error.toString());
                     Utils.showLongToast(getActivity(), error.message(), false, true);
                 }
+
+                onStopRefresh();
             }
 
             @Override
@@ -255,6 +283,7 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
 
                 commentsAdapter.stopLoadMore();
                 commentsAdapter.notifyDataSetChanged();
+                onStopRefresh();
             }
         });
     }
@@ -491,6 +520,21 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
 
     }
 
+    @Override
+    public void onRefresh() {
+        super.onRefresh();
+        if (call != null) call.cancel();
+        isLoadingMoreFromServer = true;
+        strSince = null;
+        commentsAdapter.onLoadMore();
+        getComments(null);
+//
+//        Intent intentComment = new Intent();
+//        intentComment.setAction(Constants.BROAD_CAST_MY);
+//        intentComment.putExtra(Constants.COMMENT_EXTRA, 0);
+//        getActivity().sendBroadcast(intentComment);
+    }
+
     private void permissionGranted() {
         PickImageDialog pickImageDialog = new PickImageDialog(getActivity());
         pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
@@ -538,4 +582,5 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
                 break;
         }
     }
+
 }

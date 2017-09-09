@@ -77,6 +77,8 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
 
     @Override
     protected void initView() {
+        createSwipeToRefresh();
+
         rcvBidder = (RecyclerView) findViewById(R.id.rcv_bidders);
         rcvAssign = (RecyclerView) findViewById(R.id.rcv_assign);
 
@@ -404,6 +406,12 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
                     Utils.updateRole(taskResponse);
                     updateUi();
                     ((TaskDetailNewActivity) getActivity()).setTaskResponse(taskResponse);
+
+                    Intent intentComment = new Intent();
+                    intentComment.setAction(Constants.BROAD_CAST_MY);
+                    intentComment.putExtra(Constants.BIDDER_EXTRA, 0);
+                    getActivity().sendBroadcast(intentComment);
+
                 } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.e(TAG, "createNewTask errorBody" + error.toString());
@@ -449,6 +457,7 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
                         }
                     });
                 }
+                onStopRefresh();
             }
 
             @Override
@@ -465,9 +474,16 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
 
                     }
                 });
+                onStopRefresh();
             }
         });
 
+    }
+
+    @Override
+    public void onRefresh() {
+        super.onRefresh();
+        getData();
     }
 
     @Override

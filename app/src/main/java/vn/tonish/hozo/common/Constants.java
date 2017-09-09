@@ -162,6 +162,7 @@ public class Constants {
     public static final int REQUEST_CODE_SEND_COMMENT = 1022;
     public static final String BLOCK_EXTRA = "block_extra";
     public static final String BROAD_CAST_BLOCK_USER = "vn.tonish.hozo.block_user";
+    public static final String BROAD_CAST_MY = "MyBroadcast";
     public static final String LOGOUT_EXTRA = "logout_extra";
     public static final String BROAD_CAST_PUSH_COUNT = "push_count";
     public static final String PARAMETER_DESCRIPTION = "description";
@@ -194,6 +195,10 @@ public class Constants {
     public static final String CREATE_TASK_STATUS_PUBLISH = "publish";
     public static final String CREATE_TASK_STATUS_DRAFT = "draft";
     public static final String DUPLICATE_COMMENT = "duplicate_comment";
+    public static final String PUSH_COUNT_EXTRA = "push_count";
+    public static final String COUNT_COMMENT = "count_comment";
+    public static final String COUNT_BIDDER = "count_bidder";
+    public static final String BIDDER_EXTRA = "bidder_extra";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static String BID_ERROR_INVALID_DATA = "invalid_data";
     public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";

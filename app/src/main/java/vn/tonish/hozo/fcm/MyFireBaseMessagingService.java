@@ -154,6 +154,20 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
         sendBroadcast(intentPushCount);
 
+        if (notification.getEvent().equals(Constants.PUSH_TYPE_COMMENT_RECEIVED) && notification.getTaskId() != 0) {
+            Intent intentComment = new Intent();
+            intentComment.setAction(Constants.BROAD_CAST_MY);
+            intentComment.putExtra(Constants.TASK_ID_EXTRA, notification.getTaskId());
+            intentComment.putExtra(Constants.PUSH_COUNT_EXTRA, Constants.COUNT_COMMENT);
+            sendBroadcast(intentComment);
+        } else if (notification.getEvent().equals(Constants.PUSH_TYPE_BID_RECEIVED) && notification.getTaskId() != 0) {
+            Intent intentComment = new Intent();
+            intentComment.setAction(Constants.BROAD_CAST_MY);
+            intentComment.putExtra(Constants.TASK_ID_EXTRA, notification.getTaskId());
+            intentComment.putExtra(Constants.PUSH_COUNT_EXTRA, Constants.COUNT_BIDDER);
+            sendBroadcast(intentComment);
+        }
+
     }
 
 }

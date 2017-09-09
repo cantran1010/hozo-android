@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_tab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_tab_1"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_tab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/detail_tab_2"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_count_bidder"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/red"
+            android:gravity="center"
+            android:maxLength="3"
+            android:textColor="@color/white"
+            android:textSize="8sp"
+            android:visibility="gone"
+            tools:ignore="SmallSp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_tab3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/detail_tab_3"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_count_comment"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/red"
+            android:gravity="center"
+            android:maxLength="3"
+            android:textColor="@color/white"
+            android:textSize="8sp"
+            android:visibility="gone"
+            tools:ignore="SmallSp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
