@@ -159,7 +159,13 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
             e.printStackTrace();
         }
 
-        tvDes.setText(taskResponse.getDescription());
+        if (taskResponse.getDescription().trim().equals(""))
+            tvDes.setVisibility(View.GONE);
+        else {
+            tvDes.setVisibility(View.VISIBLE);
+            tvDes.setText(taskResponse.getDescription());
+        }
+
         tvBudget.setText(getString(R.string.my_task_price, Utils.formatNumber(taskResponse.getWorkerRate())));
 
         tvWorkerCount.setText(String.valueOf(taskResponse.getWorkerCount()));

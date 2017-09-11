@@ -246,8 +246,8 @@
                 <vn.tonish.hozo.view.TextViewHozo
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:text="@string/description"
                     android:textColor="@color/gray" />
 
@@ -255,14 +255,14 @@
                     android:id="@+id/tv_des"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="8dp"
                     android:textColor="@color/tv_black" />
 
                 <vn.tonish.hozo.view.MyGridView
                     android:id="@+id/gr_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="0dp"
                     android:numColumns="3" />
 
                 <LinearLayout

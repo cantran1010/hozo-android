@@ -297,7 +297,12 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             tvTitleMsg.setText(getString(R.string.post_a_task_msg_length, edtTitle.getText().toString().length(), MAX_LENGTH_TITLE));
 
             try {
-                calendar = DateTimeUtils.toCalendar(taskResponse.getStartTime());
+
+                if (DateTimeUtils.minutesBetween(Calendar.getInstance(), DateTimeUtils.toCalendar(taskResponse.getStartTime())) < 30)
+                    calendar.add(Calendar.MINUTE, 40);
+                else
+                    calendar = DateTimeUtils.toCalendar(taskResponse.getStartTime());
+
 //                tvDate.setText(DateTimeUtils.fromCalendarIsoCreateTask(calendar));
                 tvWorkingHour.setText(String.valueOf(DateTimeUtils.hoursBetween(DateTimeUtils.toCalendar(taskResponse.getStartTime()), DateTimeUtils.toCalendar(taskResponse.getEndTime()))));
             } catch (ParseException e) {
