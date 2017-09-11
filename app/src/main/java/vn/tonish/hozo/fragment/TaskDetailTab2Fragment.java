@@ -201,6 +201,11 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
             tvBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
             tvSeeMoreBidders.setVisibility(View.GONE);
+        } else {
+            if (rcvBidder.getVisibility() == View.VISIBLE)
+                tvBidderCount.setVisibility(View.VISIBLE);
+            else
+                tvBidderCount.setVisibility(View.GONE);
         }
 
 //        else {
@@ -212,6 +217,10 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
             tvAssignCount.setVisibility(View.GONE);
             rcvAssign.setVisibility(View.GONE);
             tvSeeMoreAssigners.setVisibility(View.GONE);
+        } else {
+            if (rcvAssign.getVisibility() == View.VISIBLE)
+                tvAssignCount.setVisibility(View.VISIBLE);
+            else tvAssignCount.setVisibility(View.GONE);
         }
 
 //        else {
