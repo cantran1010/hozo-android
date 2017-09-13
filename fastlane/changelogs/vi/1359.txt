@@ -1,3 +1,0 @@
-• Tối ưu giao diện, chức năng : đăng việc, chi tiết công việc, bình luận.
-• Thêm chức năng : đăng nhập trên nhiều thiết bị, lưu  nháp, chỉnh sửa công việc.
-• Sữa lỗi và tối ưu hoá tốc độ.
