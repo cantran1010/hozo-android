@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -70,7 +71,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private EdittextHozo edtSearch;
     private RecyclerView rcvTask;
     private TaskAdapter taskAdapter;
-    private RelativeLayout filterlayout;
+    private FrameLayout filterlayout;
     private final List<TaskResponse> taskList = new ArrayList<>();
     private String sinceStr = null;
     private String query = null;
@@ -94,7 +95,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         lanimation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_left);
         imgSearch = (ImageView) findViewById(R.id.img_search);
         imgLocation = (ImageView) findViewById(R.id.img_location);
-        filterlayout = (RelativeLayout) findViewById(R.id.layout_setting);
+        filterlayout = (FrameLayout) findViewById(R.id.layout_setting);
         imgClear = (ImageView) findViewById(R.id.img_clear);
         imgBack = (ImageView) findViewById(R.id.img_back);
         layoutHeader = (RelativeLayout) findViewById(R.id.browse_task_header);
