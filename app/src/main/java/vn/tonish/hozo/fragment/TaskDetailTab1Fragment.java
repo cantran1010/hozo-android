@@ -281,10 +281,9 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
             case Constants.OFFER_ACTIVE:
                 btnOffer.setVisibility(View.VISIBLE);
 
-                if (taskResponse.getBidderCount() >= 3 * taskResponse.getWorkerCount()) {
-                    btnOffer.setText(getString(R.string.bid_limited));
+                if (taskResponse.getBidderCount() > 50) {
+                    btnOffer.setVisibility(View.GONE);
                     btnOffer.setClickable(false);
-                    Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(getActivity(), R.drawable.btn_press));
                 } else {
                     btnOffer.setText(getString(R.string.work_detail_view_bit));
                     btnOffer.setClickable(true);
