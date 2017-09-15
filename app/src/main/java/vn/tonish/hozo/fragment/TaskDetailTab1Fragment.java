@@ -280,23 +280,15 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
         switch (status) {
             case Constants.OFFER_ACTIVE:
                 btnOffer.setVisibility(View.VISIBLE);
-
-                if (taskResponse.getBidderCount() >= 3 * taskResponse.getWorkerCount()) {
-                    btnOffer.setText(getString(R.string.bid_limited));
-                    btnOffer.setClickable(false);
-                    Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(getActivity(), R.drawable.btn_press));
-                } else {
-                    btnOffer.setText(getString(R.string.work_detail_view_bit));
-                    btnOffer.setClickable(true);
-                    Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(getActivity(), R.drawable.btn_selector));
-                    btnOffer.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            doOffer();
-                        }
-                    });
-                }
-
+                btnOffer.setText(getString(R.string.work_detail_view_bit));
+                btnOffer.setClickable(true);
+                Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(getActivity(), R.drawable.btn_selector));
+                btnOffer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        doOffer();
+                    }
+                });
                 break;
 
             case Constants.OFFER_PENDING:
@@ -499,7 +491,14 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
 
                             }
                         });
-                    } else if (error.status().equals(Constants.BID_ERROR_INVALID_DATA)) {
+                    }  if (error.status().equals(Constants.BID_LIMIT_OFFER)) {
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.bid_limmit_title), getString(R.string.bid_limmit_offer_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }else if (error.status().equals(Constants.BID_ERROR_INVALID_DATA)) {
                         DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.offer_invalid_data), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {

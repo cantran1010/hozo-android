@@ -449,7 +449,6 @@
     <string name="answer">Trả lời</string>
     <string name="comment_count">%1$d phản hồi khác</string>
     <string name="answer_comment_title">Trả lời</string>
-    <string name="bid_limited">Đã đủ ứng viên</string>
     <string name="non_value">-</string>
     <string name="follow_task">Theo dõi việc</string>
     <string name="un_follow_task">Hủy theo dõi việc</string>
@@ -459,9 +458,11 @@
     <string name="comment_duplicate_error">Bình luận của bạn không hợp lệ vì có nội dung trùng lặp!</string>
     <string name="delete">Xóa</string>
     <string name="make_an_offer_status">Đang tuyển</string>
-    <string name="no_bidder">Chưa có người ứng tuyển \n ở công việc này</string>
-    <string name="no_comment">Chưa có bình luận \n ở công việc này</string>
+    <string name="no_bidder">Chưa có người ứng tuyển.</string>
+    <string name="no_comment">Chưa có bình luận nào.</string>
     <string name="post_task_address_error_google">Địa chỉ không đúng</string>
     <string name="btn_edit_task">Cập nhật</string>
+    <string name="bid_limmit_offer_error">Việc đã đủ người ứng tuyển.</string>
+    <string name="bid_limmit_title">Thông báo</string>
 
 </resources>

@@ -32,7 +32,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/no_comment"
         android:textColor="@color/hozo_bg"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:visibility="gone" />
 
     <include
