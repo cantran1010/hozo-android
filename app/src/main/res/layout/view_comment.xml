@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/img_setting"
                     android:layout_toStartOf="@+id/img_setting"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -63,10 +63,10 @@
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_comment"
-                style="@style/tv_style_normal_black"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="italic" />
 
             <ImageView

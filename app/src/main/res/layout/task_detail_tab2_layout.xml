@@ -10,8 +10,7 @@
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#f0f0f0">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -97,7 +96,7 @@
                     android:gravity="center"
                     android:text="@string/no_bidder"
                     android:textColor="@color/hozo_bg"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
