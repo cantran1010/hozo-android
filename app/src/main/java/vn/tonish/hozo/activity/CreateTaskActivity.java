@@ -323,8 +323,12 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             edtDescription.setText(taskResponse.getDescription());
             tvDesMsg.setText(getString(R.string.post_a_task_msg_length, edtDescription.getText().toString().length(), MAX_LENGTH_DES));
 
-            ageFrom = taskResponse.getMinAge();
-            ageTo = taskResponse.getMaxAge();
+            if (taskResponse.getMinAge() != 0)
+                ageFrom = taskResponse.getMinAge();
+
+            if (taskResponse.getMaxAge() != 0)
+                ageTo = taskResponse.getMaxAge();
+
             tvAge.setText(getString(R.string.post_a_task_age, ageFrom, ageTo));
 
             if (taskResponse.getGender() != null) {
@@ -752,6 +756,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         } else if (!Utils.validateInput(this, edtDescription.getText().toString())) {
             edtDescription.requestFocus();
             edtDescription.setError(getString(R.string.post_a_task_input_error));
+            return;
+        } else if (ageFrom >= ageTo) {
+            Utils.showLongToast(this, getString(R.string.select_age_error), true, false);
             return;
         }
 

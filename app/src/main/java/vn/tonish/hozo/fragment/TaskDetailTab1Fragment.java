@@ -491,14 +491,14 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
 
                             }
                         });
-                    }  if (error.status().equals(Constants.BID_LIMIT_OFFER)) {
+                    } else if (error.status().equals(Constants.BID_LIMIT_OFFER)) {
                         DialogUtils.showOkDialog(getActivity(), getString(R.string.bid_limmit_title), getString(R.string.bid_limmit_offer_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 
                             }
                         });
-                    }else if (error.status().equals(Constants.BID_ERROR_INVALID_DATA)) {
+                    } else if (error.status().equals(Constants.BID_ERROR_INVALID_DATA)) {
                         DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.offer_invalid_data), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
