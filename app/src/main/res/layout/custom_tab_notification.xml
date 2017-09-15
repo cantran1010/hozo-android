@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e4e4e4"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -13,17 +14,34 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_tab2"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/notification_tab_1"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/img_tab1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@id/tv_tab1"
+                android:src="@drawable/icon_notificaion1_on" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/tv_tab1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/notification_tab_1"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_count_bidder"
+            android:id="@+id/tv_count_tab1"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_alignParentEnd="true"
@@ -31,8 +49,9 @@
             android:background="@color/red"
             android:gravity="center"
             android:maxLength="3"
+            android:text="6"
             android:textColor="@color/white"
-            android:textSize="8sp"
+            android:textSize="12sp"
             tools:ignore="SmallSp" />
 
     </RelativeLayout>
@@ -44,17 +63,34 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_tab3"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/notification_tab_2"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/img_tab2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@id/tv_tab2"
+                android:src="@drawable/icon_notificaion2_off" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/tv_tab2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/notification_tab_2"
+                android:textColor="@color/tv_tab_notification_off"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_count_comment"
+            android:id="@+id/tv_count_tab2"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_alignParentEnd="true"
@@ -62,8 +98,9 @@
             android:background="@color/red"
             android:gravity="center"
             android:maxLength="3"
+            android:text="5"
             android:textColor="@color/white"
-            android:textSize="8sp"
+            android:textSize="12sp"
             tools:ignore="SmallSp" />
 
     </RelativeLayout>

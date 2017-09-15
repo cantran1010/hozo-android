@@ -34,8 +34,8 @@ import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.AlertDialogOkFullScreen;
 import vn.tonish.hozo.dialog.BlockDialog;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
-import vn.tonish.hozo.fragment.InboxFragment;
 import vn.tonish.hozo.fragment.MyTaskFragment;
+import vn.tonish.hozo.fragment.NotificationFragment;
 import vn.tonish.hozo.fragment.SelectTaskFragment;
 import vn.tonish.hozo.fragment.SettingFragment;
 import vn.tonish.hozo.model.Notification;
@@ -394,31 +394,37 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_inbox:
 
-                if (PreferUtils.getNewPushCount(MainActivity.this) > 0) {
-                    if (tabIndex == 4) {
-                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.FADE_IN);
-                    } else if (tabIndex > 4) {
-                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.LEFT_TO_RIGHT);
-                    } else {
-                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.RIGHT_TO_LEFT);
-                    }
-                } else {
-                    if (tabIndex == 4) {
-                        Intent intentAnswer = new Intent();
-                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_INBOX);
-                        sendBroadcast(intentAnswer);
-                        break;
-                    }
+                if (tabIndex == 4) break;
 
-                    if (tabIndex > 4) {
-                        showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
-                    } else {
-                        showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                    }
-                }
-
+                showFragment(R.id.layout_container, NotificationFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 tabIndex = 4;
                 updateMenuUi(4);
+
+//                if (PreferUtils.getNewPushCount(MainActivity.this) > 0) {
+//                    if (tabIndex == 4) {
+//                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.FADE_IN);
+//                    } else if (tabIndex > 4) {
+//                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.LEFT_TO_RIGHT);
+//                    } else {
+//                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.RIGHT_TO_LEFT);
+//                    }
+//                } else {
+//                    if (tabIndex == 4) {
+//                        Intent intentAnswer = new Intent();
+//                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_INBOX);
+//                        sendBroadcast(intentAnswer);
+//                        break;
+//                    }
+//
+//                    if (tabIndex > 4) {
+//                        showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
+//                    } else {
+//                        showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+//                    }
+//                }
+//
+//                tabIndex = 4;
+//                updateMenuUi(4);
                 break;
 
             case R.id.layout_other:
