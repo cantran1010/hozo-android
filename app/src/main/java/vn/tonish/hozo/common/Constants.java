@@ -203,7 +203,7 @@ public class Constants {
     public static final String VN2 = ", Vietnam";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static String BID_ERROR_INVALID_DATA = "invalid_data";
-    public static String BID_LIMIT_OFFER = "invalid_data";
+    public static String BID_LIMIT_OFFER = "limit_offer";
     public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";
     public static String TASK_DETAIL_NO_EXIT = "no_exist";
     public static final String TASK_DETAIL_BLOCK = "block";
