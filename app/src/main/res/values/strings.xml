@@ -464,5 +464,7 @@
     <string name="btn_edit_task">Cập nhật</string>
     <string name="bid_limmit_offer_error">Việc đã đủ người ứng tuyển.</string>
     <string name="bid_limmit_title">Thông báo</string>
+    <string name="notification_tab_1">Hệ thống</string>
+    <string name="notification_tab_2">Chat nhóm</string>
 
 </resources>
