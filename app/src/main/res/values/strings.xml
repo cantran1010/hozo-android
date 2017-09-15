@@ -463,5 +463,7 @@
     <string name="no_comment">Chưa có bình luận \n ở công việc này</string>
     <string name="post_task_address_error_google">Địa chỉ không đúng</string>
     <string name="btn_edit_task">Cập nhật</string>
+    <string name="notification_tab_1">Hệ thống</string>
+    <string name="notification_tab_2">Chat nhóm</string>
 
 </resources>

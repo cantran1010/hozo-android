@@ -66,7 +66,7 @@ public class InboxFragment extends BaseFragment {
 
     @Override
     protected int getLayout() {
-        return vn.tonish.hozo.R.layout.fragment_notify;
+        return vn.tonish.hozo.R.layout.fragment_inbox;
     }
 
     @Override
