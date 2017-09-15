@@ -22,7 +22,7 @@
             android:contentDescription="@string/content_description_back"
             android:padding="5dp"
             android:scaleType="centerInside"
-            android:src="@drawable/img_back" />
+            android:src="@drawable/img_close_red" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_title"
