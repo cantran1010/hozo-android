@@ -465,5 +465,6 @@
     <string name="btn_edit_task">Cập nhật</string>
     <string name="notification_tab_1">Hệ thống</string>
     <string name="notification_tab_2">Chat nhóm</string>
+    <string name="btn_send_msg">Gửi</string>
 
 </resources>

@@ -141,4 +141,7 @@ public interface ApiInterface {
 
     @DELETE("v1/tasks/{taskId}/follow")
     Call<Void> unFollowTask(@Header("Authorization") String token, @Path("taskId") int taskId);
+
+    @GET("v1/users/chat-rooms")
+    Call<List<TaskResponse>> getChatRooms(@Header("Authorization") String token);
 }

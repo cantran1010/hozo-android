@@ -254,6 +254,12 @@ public class DateTimeUtils {
         return result;
     }
 
+    public static String getTimeChat(long time, Context context) {
+        Date date = new Date(time);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault());
+        return sdf.format(date);
+    }
+
     public static long hoursBetween(Calendar startDate, Calendar endDate) {
         long end = endDate.getTimeInMillis();
         long start = startDate.getTimeInMillis();

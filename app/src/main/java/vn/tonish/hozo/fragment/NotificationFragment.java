@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.adapter.NotifyFragmentAdapter;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -22,6 +23,7 @@ public class NotificationFragment extends BaseFragment {
     private static final String TAG = NotificationFragment.class.getSimpleName();
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private NotifyFragmentAdapter notifyFragmentAdapter;
     private ImageView imgTab1, imgTab2;
     private TextViewHozo tvTab1, tvTab2, tvCountTab1, tvCountTab2;
 
@@ -89,6 +91,12 @@ public class NotificationFragment extends BaseFragment {
 
             }
         });
+
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        notifyFragmentAdapter = new NotifyFragmentAdapter
+                (getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(notifyFragmentAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
 
     @Override
