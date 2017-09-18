@@ -738,11 +738,16 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             edtBudget.requestFocus();
             edtBudget.setError(getString(R.string.post_a_task_budget_error));
             return;
+        } else if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) > MAX_BUGDET) {
+            edtBudget.requestFocus();
+            edtBudget.setError(getString(R.string.max_budget_error, Utils.formatNumber(MAX_BUGDET)));
+            return;
         } else if (edtNumberWorker.getText().toString().equals("0") || edtNumberWorker.getText().toString().equals("")) {
             edtNumberWorker.requestFocus();
             edtNumberWorker.setError(getString(R.string.post_a_task_number_worker_error));
             return;
         } else if (Integer.valueOf(edtNumberWorker.getText().toString()) > MAX_WORKER) {
+            edtNumberWorker.requestFocus();
             edtNumberWorker.setError(getString(R.string.max_number_worker_error, MAX_WORKER));
             return;
         } else if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) < MIN_BUGDET) {
