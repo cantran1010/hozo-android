@@ -3,6 +3,8 @@ package vn.tonish.hozo.model;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
 
+import java.util.Map;
+
 /**
  * Created by LongBui on 9/13/17.
  */
@@ -13,6 +15,7 @@ public class Message {
     private int user_id;
     private String message;
     private Object created_at;
+    private Map<String, Boolean> reads;
 
     public Message() {
         this.created_at = ServerValue.TIMESTAMP;
@@ -56,6 +59,14 @@ public class Message {
         else return null;
     }
 
+    public Map<String, Boolean> getReads() {
+        return reads;
+    }
+
+    public void setReads(Map<String, Boolean> reads) {
+        this.reads = reads;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -63,6 +74,7 @@ public class Message {
                 ", user_id=" + user_id +
                 ", message='" + message + '\'' +
                 ", created_at=" + created_at +
+                ", reads=" + reads +
                 '}';
     }
 

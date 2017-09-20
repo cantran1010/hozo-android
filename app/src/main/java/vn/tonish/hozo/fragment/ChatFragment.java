@@ -50,12 +50,12 @@ public class ChatFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        getChatRooms();
+
     }
 
     @Override
     protected void resumeData() {
-
+        getChatRooms();
     }
 
     private void getChatRooms() {

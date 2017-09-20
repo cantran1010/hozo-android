@@ -1,5 +1,6 @@
 package vn.tonish.hozo.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -35,7 +36,8 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
     private static final String TAG = MessageAdapter.class.getSimpleName();
     private final List<Message> messages;
     private Context context;
-    private HashMap<Integer, Member> memberHashMap = new HashMap<>();
+    @SuppressLint("UseSparseArrays")
+    private HashMap<Integer, Member> memberHashMap = new HashMap<Integer, Member>();
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef;
