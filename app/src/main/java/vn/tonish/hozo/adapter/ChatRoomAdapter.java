@@ -6,11 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.model.Message;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -21,11 +29,12 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyViewHolder> {
 
-
+    private static final String TAG = ChatRoomAdapter.class.getSimpleName();
     private final List<TaskResponse> tasks;
     private Context context;
+    private DatabaseReference myRef;
 
-    public interface ChatRoomListener{
+    public interface ChatRoomListener {
         public void onClick(int position);
     }
 
@@ -42,6 +51,9 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
     public ChatRoomAdapter(Context context, List<TaskResponse> tasks) {
         this.tasks = tasks;
         this.context = context;
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
     }
 
     @Override
@@ -52,13 +64,51 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
 
         TaskResponse taskResponse = tasks.get(position);
 
         Utils.displayImageAvatar(context, holder.imgAvatar, taskResponse.getPoster().getAvatar());
         holder.tvTitle.setText(taskResponse.getTitle());
         holder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), context));
+
+        ChildEventListener childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                Message message = dataSnapshot.getValue(Message.class);
+                message.setId(dataSnapshot.getKey());
+                LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , message : " + message.toString());
+
+                holder.tvLastMsg.setText(message.getMessage());
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Message message = dataSnapshot.getValue(Message.class);
+                LogUtils.d(TAG, "messageCloudEndPoint onChildChanged , message : " + message.toString());
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        DatabaseReference messageCloudEndPoint = myRef.child("task-messages").child(String.valueOf(taskResponse.getId()));
+
+        messageCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(childEventListener);
     }
 
     @Override
@@ -81,7 +131,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(chatRoomListener != null) chatRoomListener.onClick(getAdapterPosition());
+                    if (chatRoomListener != null) chatRoomListener.onClick(getAdapterPosition());
                 }
             });
 
