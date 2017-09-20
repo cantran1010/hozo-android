@@ -2,15 +2,17 @@ package vn.tonish.hozo.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -23,19 +25,20 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Message;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
-import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 9/18/17.
  */
 
-public class ChatActivity extends BaseActivity implements View.OnClickListener {
+public class ChatActivity extends BaseTouchActivity implements View.OnClickListener {
 
     private static final String TAG = ChatActivity.class.getSimpleName();
     private RecyclerView rcvMessage;
     private MessageAdapter messageAdapter;
-    private ButtonHozo btnSend;
+    private ImageView btnSend;
     private EdittextHozo edtMsg;
     private ImageView imgBack;
     private int taskId;
@@ -46,8 +49,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private int posterId;
     private DatabaseReference messageCloudEndPoint;
+    private TextViewHozo tvTitle;
+    private boolean isLoading = false;
+    private RelativeLayout mainLayout;
 
-    private static final int PAGE_COUNT = 13;
+    private static final int PAGE_COUNT = 11;
+    private ValueEventListener valueEventListener;
+    private ChildEventListener childEventListener;
+    private Query recentPostsQuery = null;
 
     @Override
     protected int getLayout() {
@@ -60,15 +69,19 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         btnSend = findViewById(R.id.btn_send);
         edtMsg = findViewById(R.id.edt_msg);
         imgBack = findViewById(R.id.img_back);
+        tvTitle = findViewById(R.id.tv_title);
 
         btnSend.setOnClickListener(this);
         imgBack.setOnClickListener(this);
+
+        mainLayout = findViewById(R.id.main_layout);
     }
 
     @Override
     protected void initData() {
         taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
         posterId = getIntent().getIntExtra(Constants.USER_ID_EXTRA, 0);
+        tvTitle.setText(getIntent().getStringExtra(Constants.TITLE_INFO_EXTRA));
 
         LogUtils.d(TAG, "initData , taskId : " + taskId);
 
@@ -93,6 +106,41 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         rcvMessage.setLayoutManager(linearLayoutManager);
         rcvMessage.setAdapter(messageAdapter);
 
+        edtMsg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    rcvMessage.smoothScrollToPosition(0);
+                }
+            }
+        });
+
+        mainLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    Utils.hideKeyBoard(ChatActivity.this);
+                    rcvMessage.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        rcvMessage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    Utils.hideKeyBoard(ChatActivity.this);
+                    rcvMessage.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
@@ -104,35 +152,97 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         };
         rcvMessage.addOnScrollListener(endlessRecyclerViewScrollListener);
 
+        if (childEventListener != null)
+            messageCloudEndPoint.removeEventListener(childEventListener);
+
+        childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                Message message = dataSnapshot.getValue(Message.class);
+                message.setId(dataSnapshot.getKey());
+                LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , message : " + message.toString());
+                LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , message id : " + dataSnapshot.getKey());
+                LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , checkContain(message) : " + checkContain(message));
+
+                if (checkContain(message)) return;
+
+                messages.add(0, message);
+                messageAdapter.notifyDataSetChanged();
+                LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , messages size : " + messages.size());
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Message message = dataSnapshot.getValue(Message.class);
+                LogUtils.d(TAG, "messageCloudEndPoint onChildChanged , message : " + message.toString());
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        messageCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(childEventListener);
+
     }
 
     private void getMessage() {
 
-        Query recentPostsQuery;
+        if (isLoading) return;
+
+        isLoading = true;
+
+        valueEventListener = null;
+
         if (lastKeyMsg == null) {
             LogUtils.d(TAG, "getMessage start");
-            recentPostsQuery = myRef.child("task-messages").child(String.valueOf(taskId)).orderByKey().limitToLast(PAGE_COUNT);
+            recentPostsQuery = messageCloudEndPoint.orderByKey().limitToLast(PAGE_COUNT);
         } else {
             LogUtils.d(TAG, "getMessage lastKeyMsg : " + lastKeyMsg);
-            recentPostsQuery = myRef.child("task-messages").child(String.valueOf(taskId)).orderByKey().endAt(lastKeyMsg).limitToLast(PAGE_COUNT);
+            recentPostsQuery = messageCloudEndPoint.orderByKey().endAt(lastKeyMsg).limitToLast(PAGE_COUNT);
         }
 
-        recentPostsQuery.addValueEventListener(new ValueEventListener() {
+        if (valueEventListener != null && recentPostsQuery != null)
+            recentPostsQuery.removeEventListener(valueEventListener);
+
+        if (valueEventListener != null)
+            messageCloudEndPoint.removeEventListener(valueEventListener);
+
+        valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 ArrayList<Message> messagesAdded = new ArrayList<Message>();
                 int i = 0;
 
+                LogUtils.d(TAG, "addValueEventListener dataSnapshot.getChildrenCount() : " + dataSnapshot.getChildrenCount());
+
+                if (dataSnapshot.getChildrenCount() == 0) messageAdapter.stopLoadMore();
+
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    LogUtils.d(TAG, "addValueEventListener dataSnapshot.getChildrenCount() : " + dataSnapshot.getChildrenCount());
 
                     if (dataSnapshot.getChildrenCount() < PAGE_COUNT) {
                         Message message = dataSnapshot1.getValue(Message.class);
+                        message.setId(dataSnapshot1.getKey());
 
                         LogUtils.d(TAG, "addValueEventListener recentPostsQuery : " + message.toString());
+                        LogUtils.d(TAG, "addValueEventListener recentPostsQuery key : " + dataSnapshot1.getKey());
 
-                        messagesAdded.add(0, message);
+                        if (!checkContain(message))
+                            messagesAdded.add(0, message);
                         isLoadingMoreFromServer = false;
 
                         messageAdapter.stopLoadMore();
@@ -140,10 +250,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                         if (i == 0) lastKeyMsg = dataSnapshot1.getKey();
                         else {
                             Message message = dataSnapshot1.getValue(Message.class);
-
+                            message.setId(dataSnapshot1.getKey());
                             LogUtils.d(TAG, "addValueEventListener recentPostsQuery : " + message.toString());
 
-                            messagesAdded.add(0, message);
+                            if (!checkContain(message))
+                                messagesAdded.add(0, message);
                         }
                     }
 
@@ -153,14 +264,31 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
                 messages.addAll(messagesAdded);
                 if (messageAdapter != null) messageAdapter.notifyDataSetChanged();
+                LogUtils.d(TAG, "addValueEventListener messages size : " + messages.size());
+                isLoading = false;
 
+
+                if (valueEventListener != null && recentPostsQuery != null)
+                    recentPostsQuery.removeEventListener(valueEventListener);
+
+                if (valueEventListener != null)
+                    messageCloudEndPoint.removeEventListener(valueEventListener);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                isLoading = false;
 
+                if (valueEventListener != null && recentPostsQuery != null)
+                    recentPostsQuery.removeEventListener(valueEventListener);
+
+                if (valueEventListener != null)
+                    messageCloudEndPoint.removeEventListener(valueEventListener);
             }
-        });
+        };
+
+        valueEventListener = recentPostsQuery.addValueEventListener(valueEventListener);
+
     }
 
     private void doSend() {
@@ -169,10 +297,32 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
         String key = messageCloudEndPoint.push().getKey();
 
-        Message message = new Message(UserManager.getMyUser().getId(), edtMsg.getText().toString().trim(), ServerValue.TIMESTAMP);
+        Message message = new Message();
+        message.setId(key);
+        message.setUser_id(UserManager.getMyUser().getId());
+        message.setMessage(edtMsg.getText().toString().trim());
+
         messageCloudEndPoint.child(key).setValue(message);
 
         LogUtils.d(TAG, "doSend , message : " + message.toString());
+
+        edtMsg.setText(getString(R.string.empty));
+    }
+
+    private boolean checkContain(Message message) {
+        for (int i = 0; i < messages.size(); i++)
+            if (message.getId().equals(messages.get(i).getId())) return true;
+
+        return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (valueEventListener != null)
+            messageCloudEndPoint.removeEventListener(valueEventListener);
+        if (childEventListener != null)
+            messageCloudEndPoint.removeEventListener(childEventListener);
     }
 
     @Override

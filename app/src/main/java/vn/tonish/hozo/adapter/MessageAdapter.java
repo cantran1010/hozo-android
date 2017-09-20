@@ -118,7 +118,7 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
                     workHolder.imgRightBoss.setVisibility(View.VISIBLE);
                 else workHolder.imgRightBoss.setVisibility(View.GONE);
 
-                workHolder.tvRightTime.setText(DateTimeUtils.getTimeChat(Long.valueOf(message.getCreated_at().get("timestamp")), context));
+                workHolder.tvRightTime.setText(DateTimeUtils.getTimeChat(message.getCreated_atLong(true), context));
 
             } else {
                 final WorkHolder workHolder = (WorkHolder) holder;
@@ -158,7 +158,7 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
                     workHolder.imgLeftBoss.setVisibility(View.VISIBLE);
                 else workHolder.imgLeftBoss.setVisibility(View.GONE);
 
-                workHolder.tvLeftTime.setText(DateTimeUtils.getTimeChat(Long.valueOf(message.getCreated_at().get("timestamp")), context));
+                workHolder.tvLeftTime.setText(DateTimeUtils.getTimeChat(message.getCreated_atLong(true), context));
 
             }
         }

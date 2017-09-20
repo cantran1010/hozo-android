@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -10,9 +11,9 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/chat_msg_margin_top"
         android:orientation="horizontal"
-        android:paddingBottom="8dp"
+        android:paddingBottom="@dimen/chat_msg_margin_top"
         android:visibility="visible">
 
         <vn.tonish.hozo.view.CircleImageView
@@ -47,7 +48,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="SenderName"
-                        android:textColor="#927ece"
+                        android:textColor="#b2b2b2"
                         android:textSize="13sp" />
 
                     <ImageView
@@ -56,7 +57,8 @@
                         android:layout_height="15dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="5dp"
-                        android:src="@drawable/boss" />
+                        android:src="@drawable/boss"
+                        tools:ignore="ContentDescription" />
 
                 </LinearLayout>
 
@@ -67,7 +69,7 @@
                     android:layout_gravity="center_vertical"
                     android:autoLink="web"
                     android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard"
-                    android:textColor="#3d3d3d"
+                    android:textColor="#222222"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -80,7 +82,7 @@
                 android:paddingBottom="2dp"
                 android:paddingLeft="4dp"
                 android:text="10:24PM"
-                android:textColor="#acaab2"
+                android:textColor="#b2b2b2"
                 android:textSize="10sp" />
         </LinearLayout>
 
@@ -91,7 +93,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|right"
-        android:orientation="horizontal">
+        android:layout_marginEnd="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="@dimen/chat_msg_margin_top"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/chat_msg_margin_top">
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_right_time"
@@ -101,7 +107,7 @@
             android:layout_marginRight="5dp"
             android:gravity="right"
             android:text="10:24 AM"
-            android:textColor="#acaab2"
+            android:textColor="#b2b2b2"
             android:textSize="10sp" />
 
         <LinearLayout
@@ -121,7 +127,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
-                    android:text="SenderName" />
+                    android:text="SenderName"
+                    android:textColor="#b2b2b2" />
 
                 <ImageView
                     android:id="@+id/img_right_boss"
@@ -129,7 +136,8 @@
                     android:layout_height="15dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
-                    android:src="@drawable/boss" />
+                    android:src="@drawable/boss"
+                    tools:ignore="ContentDescription" />
 
             </LinearLayout>
 
@@ -139,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:autoLink="web"
                 android:text="Lorem Ipsum "
-                android:textColor="#3d3d3d"
+                android:textColor="#222222"
                 android:textSize="15sp" />
         </LinearLayout>
 

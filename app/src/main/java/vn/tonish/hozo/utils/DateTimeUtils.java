@@ -256,7 +256,7 @@ public class DateTimeUtils {
 
     public static String getTimeChat(long time, Context context) {
         Date date = new Date(time);
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm\ndd/MM/yyyy", Locale.getDefault());
         return sdf.format(date);
     }
 
