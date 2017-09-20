@@ -82,6 +82,12 @@ public class InboxFragment extends BaseFragment {
 //        getCacheDataPage(sinceDate);
 //        getNotifications(false);
 
+        PreferUtils.setNewPushCount(getActivity(), 0);
+
+        Intent intentPushCount = new Intent();
+        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+        getActivity().sendBroadcast(intentPushCount);
+
     }
 
     private void initList() {
@@ -251,6 +257,10 @@ public class InboxFragment extends BaseFragment {
 
                         if (getActivity() != null && getActivity() instanceof MainActivity)
                             ((MainActivity) getActivity()).updateCountMsg();
+
+                        Intent intentPushCount = new Intent();
+                        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                        getActivity().sendBroadcast(intentPushCount);
                     }
 
                     notifications.addAll(notificationResponse != null ? notificationResponse : null);

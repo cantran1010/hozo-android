@@ -26,7 +26,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/tv_tab1"
                 android:src="@drawable/icon_notificaion1_on"
                 tools:ignore="ContentDescription" />
 
@@ -43,15 +42,19 @@
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_count_tab1"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:background="@color/red"
             android:gravity="center"
             android:maxLength="3"
+            android:minHeight="20dp"
+            android:minWidth="20dp"
+            android:padding="0dp"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="14sp"
+            android:visibility="gone"
             tools:ignore="SmallSp" />
 
     </RelativeLayout>
@@ -75,7 +78,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/tv_tab2"
                 android:src="@drawable/icon_notificaion2_off"
                 tools:ignore="ContentDescription" />
 
@@ -92,15 +94,19 @@
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_count_tab2"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:background="@color/red"
             android:gravity="center"
             android:maxLength="3"
+            android:minHeight="20dp"
+            android:minWidth="20dp"
+            android:padding="0dp"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="14sp"
+            android:visibility="gone"
             tools:ignore="SmallSp" />
 
     </RelativeLayout>

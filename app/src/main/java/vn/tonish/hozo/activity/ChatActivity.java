@@ -16,7 +16,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.MessageAdapter;
@@ -88,7 +90,6 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
         messageCloudEndPoint = myRef.child("task-messages").child(String.valueOf(taskId));
-
         setUpMessageList();
     }
 
@@ -171,12 +172,17 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 messageAdapter.notifyDataSetChanged();
                 LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , messages size : " + messages.size());
 
+                Map<String, Boolean> map = new HashMap<>();
+                map.put(String.valueOf(UserManager.getMyUser().getId()), Boolean.valueOf(true));
+
+                messageCloudEndPoint.child(dataSnapshot.getKey()).child("reads").child(String.valueOf(UserManager.getMyUser().getId())).setValue(true);
+
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Message message = dataSnapshot.getValue(Message.class);
-                LogUtils.d(TAG, "messageCloudEndPoint onChildChanged , message : " + message.toString());
+//                Message message = dataSnapshot.getValue(Message.class);
+//                LogUtils.d(TAG, "messageCloudEndPoint onChildChanged , message : " + message.toString());
             }
 
             @Override
@@ -298,11 +304,16 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         String key = messageCloudEndPoint.push().getKey();
 
         Message message = new Message();
-        message.setId(key);
         message.setUser_id(UserManager.getMyUser().getId());
         message.setMessage(edtMsg.getText().toString().trim());
 
+        Map<String, Boolean> reads = new HashMap<>();
+        reads.put(String.valueOf(UserManager.getMyUser().getId()), true);
+
+        message.setReads(reads);
+
         messageCloudEndPoint.child(key).setValue(message);
+        message.setId(key);
 
         LogUtils.d(TAG, "doSend , message : " + message.toString());
 

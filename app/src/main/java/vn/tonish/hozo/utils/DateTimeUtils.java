@@ -254,6 +254,16 @@ public class DateTimeUtils {
         return result;
     }
 
+    public static String getTimeAgo(long time, Context context) {
+        Date date = new Date(time);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String dateStr = sdf
+                .format(date);
+
+        return getTimeAgo(dateStr, context);
+    }
+
     public static String getTimeChat(long time, Context context) {
         Date date = new Date(time);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm\ndd/MM/yyyy", Locale.getDefault());

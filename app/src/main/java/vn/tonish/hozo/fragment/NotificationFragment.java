@@ -1,7 +1,10 @@
 package vn.tonish.hozo.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -12,6 +15,8 @@ import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.NotifyFragmentAdapter;
+import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -101,12 +106,50 @@ public class NotificationFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        updateCountMsg();
     }
 
     @Override
     protected void resumeData() {
+        getActivity().registerReceiver(broadcastCountNewMsg, new IntentFilter(Constants.BROAD_CAST_PUSH_COUNT));
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            getActivity().unregisterReceiver(broadcastCountNewMsg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private final BroadcastReceiver broadcastCountNewMsg = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.hasExtra(Constants.COUNT_NEW_MSG_EXTRA)) {
+                int countTab2 = intent.getIntExtra(Constants.COUNT_NEW_MSG_EXTRA, 0);
+
+                if (countTab2 > 0) {
+                    tvCountTab2.setVisibility(View.VISIBLE);
+                    tvCountTab2.setText(String.valueOf(countTab2));
+                } else
+                    tvCountTab2.setVisibility(View.GONE);
+            } else updateCountMsg();
+
+        }
+    };
+
+    public void updateCountMsg() {
+        int pushCount = PreferUtils.getNewPushCount(getActivity());
+
+        if (pushCount == 0) {
+            tvCountTab1.setVisibility(View.GONE);
+        } else {
+            tvCountTab1.setVisibility(View.VISIBLE);
+            tvCountTab1.setText(String.valueOf(PreferUtils.getNewPushCount(getActivity())));
+        }
     }
 
 }
