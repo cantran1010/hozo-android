@@ -1,6 +1,7 @@
 package vn.tonish.hozo.model;
 
-import java.util.Map;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.ServerValue;
 
 /**
  * Created by LongBui on 9/13/17.
@@ -8,22 +9,21 @@ import java.util.Map;
 
 public class Message {
 
+    private String id;
     private int user_id;
     private String message;
-    private Map<String, String> created_at;
+    private Object created_at;
 
     public Message() {
-
+        this.created_at = ServerValue.TIMESTAMP;
     }
 
-    public Message(int user_id, String message, Map<String, String> created_at) {
-        this.user_id = user_id;
-        this.message = message;
-        this.created_at = created_at;
+    public String getId() {
+        return id;
     }
 
-    public void setCreated_at(Map<String, String> created_at) {
-        this.created_at = created_at;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getUser_id() {
@@ -42,14 +42,25 @@ public class Message {
         this.message = message;
     }
 
-    public Map<String, String> getCreated_at() {
+    public Object getCreated_at() {
         return created_at;
+    }
+
+    public void setCreated_at(Object created_at) {
+        this.created_at = created_at;
+    }
+
+    @Exclude
+    public Long getCreated_atLong(boolean isLong) {
+        if (created_at instanceof Long) return (Long) created_at;
+        else return null;
     }
 
     @Override
     public String toString() {
         return "Message{" +
-                "user_id=" + user_id +
+                "id='" + id + '\'' +
+                ", user_id=" + user_id +
                 ", message='" + message + '\'' +
                 ", created_at=" + created_at +
                 '}';

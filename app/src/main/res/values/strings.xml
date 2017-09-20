@@ -467,5 +467,6 @@
     <string name="notification_tab_1">Hệ thống</string>
     <string name="notification_tab_2">Chat nhóm</string>
     <string name="btn_send_msg">Gửi</string>
+    <string name="chat_hint">Nhập tin nhắn ...</string>
 
 </resources>

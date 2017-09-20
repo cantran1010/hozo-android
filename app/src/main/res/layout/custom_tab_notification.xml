@@ -27,7 +27,8 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@id/tv_tab1"
-                android:src="@drawable/icon_notificaion1_on" />
+                android:src="@drawable/icon_notificaion1_on"
+                tools:ignore="ContentDescription" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_tab1"
@@ -49,7 +50,6 @@
             android:background="@color/red"
             android:gravity="center"
             android:maxLength="3"
-            android:text="6"
             android:textColor="@color/white"
             android:textSize="12sp"
             tools:ignore="SmallSp" />
@@ -76,7 +76,8 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@id/tv_tab2"
-                android:src="@drawable/icon_notificaion2_off" />
+                android:src="@drawable/icon_notificaion2_off"
+                tools:ignore="ContentDescription" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_tab2"
@@ -98,7 +99,6 @@
             android:background="@color/red"
             android:gravity="center"
             android:maxLength="3"
-            android:text="5"
             android:textColor="@color/white"
             android:textSize="12sp"
             tools:ignore="SmallSp" />
