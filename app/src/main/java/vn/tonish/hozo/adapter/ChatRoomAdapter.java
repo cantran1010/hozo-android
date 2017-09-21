@@ -127,6 +127,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
         Utils.displayImageAvatar(context, holder.imgAvatar, taskResponse.getPoster().getAvatar());
         holder.tvTitle.setText(taskResponse.getTitle());
 //        holder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), context));
+        holder.tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
 
         final DatabaseReference messageCloudEndPoint = myRef.child("task-messages").child(String.valueOf(taskResponse.getId()));
 
@@ -202,7 +203,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
 
     public class MyViewHolder extends BaseHolder {
         CircleImageView imgAvatar;
-        TextViewHozo tvTitle, tvTimeAgo, tvLastMsg;
+        TextViewHozo tvTitle, tvTimeAgo, tvLastMsg, tvDate;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -210,6 +211,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvTimeAgo = itemView.findViewById(R.id.tv_time_ago);
             tvLastMsg = itemView.findViewById(R.id.tv_last_msg);
+            tvDate = itemView.findViewById(R.id.tv_date);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
