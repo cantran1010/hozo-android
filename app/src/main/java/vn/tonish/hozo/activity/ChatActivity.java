@@ -55,7 +55,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     private boolean isLoading = false;
     private RelativeLayout mainLayout;
 
-    private static final int PAGE_COUNT = 11;
+    private static final int PAGE_COUNT = 31;
     private ValueEventListener valueEventListener;
     private ChildEventListener childEventListener;
     private Query recentPostsQuery = null;
