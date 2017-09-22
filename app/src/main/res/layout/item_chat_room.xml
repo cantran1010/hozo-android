@@ -39,11 +39,10 @@
                     android:layout_marginRight="5dp"
                     android:layout_toLeftOf="@+id/tv_time_ago"
                     android:layout_toStartOf="@+id/tv_time_ago"
-                    android:drawableLeft="@drawable/img_message_unread"
+                    android:drawableLeft="@drawable/img_message_read"
                     android:drawablePadding="5dp"
-                    android:drawableStart="@drawable/img_message_unread"
+                    android:drawableStart="@drawable/img_message_read"
                     android:gravity="top"
-                    android:text="Don nha"
                     android:textColor="@color/tv_black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -85,9 +84,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
+                    android:layout_marginStart="3dp"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:text="28/03/1988"
                     android:textColor="@color/tv_black"
                     android:textSize="14sp"
                     android:textStyle="normal" />
@@ -100,7 +99,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="bao gio lam day"
                 android:textColor="@color/tv_black"
                 android:textSize="14sp"
                 android:textStyle="normal" />

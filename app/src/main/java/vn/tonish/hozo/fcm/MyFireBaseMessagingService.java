@@ -76,10 +76,12 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(Notification notification) {
 
-
         // fix crash on crashlytic
         if (!UserManager.checkLogin()) return;
         if (notification == null || notification.getEvent() == null) return;
+
+        if (notification.getEvent().equals(Constants.PUSH_TYPE_CHAT) && !PreferUtils.isPushShow(getApplicationContext()))
+            return;
 
         String title;
         String message;
@@ -110,10 +112,12 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             message = Utils.getContentFromNotification(getApplicationContext(), notification);
         }
 
-        // vibrator when receive push notification from server
-        Vibrator v = (Vibrator) getApplicationContext()
-                .getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(500);
+        if (!notification.getEvent().equals(Constants.PUSH_TYPE_CHAT)) {
+            // vibrator when receive push notification from server
+            Vibrator v = (Vibrator) getApplicationContext()
+                    .getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(500);
+        }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, notification.getId() /* Request code */, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
@@ -148,11 +152,13 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             sendBroadcast(intentBlock);
         }
 
-        PreferUtils.setNewPushCount(getApplicationContext(), PreferUtils.getNewPushCount(getApplicationContext()) + 1);
+        if (!notification.getEvent().equals(Constants.PUSH_TYPE_CHAT)) {
+            PreferUtils.setNewPushCount(getApplicationContext(), PreferUtils.getNewPushCount(getApplicationContext()) + 1);
 
-        Intent intentPushCount = new Intent();
-        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-        sendBroadcast(intentPushCount);
+            Intent intentPushCount = new Intent();
+            intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+            sendBroadcast(intentPushCount);
+        }
 
         if ((notification.getEvent().equals(Constants.PUSH_TYPE_COMMENT_RECEIVED) || notification.getEvent().equals(Constants.PUSH_TYPE_COMMENT_REPLIED)) && notification.getTaskId() != 0) {
             Intent intentComment = new Intent();

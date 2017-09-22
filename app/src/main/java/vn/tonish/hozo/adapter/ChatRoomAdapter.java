@@ -227,7 +227,10 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
         int result = 0;
 
         for (int i = 0; i < messages.size(); i++) {
-            if (messages.get(i).getReads() == null || !messages.get(i).getReads().containsKey(String.valueOf(UserManager.getMyUser().getId())))
+
+            LogUtils.d(TAG, "getCountRoomUnRead messsage " + i + " : " + messages.get(i).toString());
+
+            if (messages.get(i).getReads() != null && !messages.get(i).getReads().containsKey(String.valueOf(UserManager.getMyUser().getId())))
                 result++;
         }
 

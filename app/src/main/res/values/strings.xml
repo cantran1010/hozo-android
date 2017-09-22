@@ -242,6 +242,7 @@
     <string name="notification_bid_missed">mà bạn ứng tuyển vừa bị bỏ lỡ</string>
     <string name="notification_task_reopen">mà bạn ứng tuyển trước đó vừa được mở lại</string>
     <string name="notification_cancel_bid">đã hủy chọn bạn</string>
+    <string name="notification_chat">đã gửi tin nhắn đến nhóm</string>//
 
     <string name="notification_review_received_matcher">đánh giá</string>
     <string name="notification_comment_received_matcher">bình luận</string>
@@ -469,5 +470,7 @@
     <string name="chat_hint">Nhập tin nhắn …</string>
     <string name="date_work">Ngày làm:</string>
     <string name="chat">Chat nhóm</string>
+    <string name="menu_detail_task">Xem chi tiết việc</string>
+    <string name="chat_notification_des">Bật chế độ thông báo chat nhóm</string>
 
 </resources>
