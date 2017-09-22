@@ -16,7 +16,9 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_toEndOf="@+id/img_back"
+            android:layout_toLeftOf="@+id/img_menu"
             android:layout_toRightOf="@+id/img_back"
+            android:layout_toStartOf="@+id/img_menu"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
@@ -35,6 +37,17 @@
             android:contentDescription="@string/content_description_back"
             android:scaleType="centerInside"
             android:src="@drawable/img_back" />
+
+        <ImageView
+            android:id="@+id/img_menu"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_back_selector"
+            android:contentDescription="@string/adjust_image"
+            android:scaleType="centerInside"
+            android:src="@drawable/more" />
 
         <View
             android:layout_width="match_parent"

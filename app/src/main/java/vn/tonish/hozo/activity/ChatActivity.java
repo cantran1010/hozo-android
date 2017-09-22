@@ -1,7 +1,10 @@
 package vn.tonish.hozo.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +30,8 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Message;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PreferUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -59,6 +64,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     private ValueEventListener valueEventListener;
     private ChildEventListener childEventListener;
     private Query recentPostsQuery = null;
+    private ImageView imgMenu;
 
     @Override
     protected int getLayout() {
@@ -77,6 +83,9 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         imgBack.setOnClickListener(this);
 
         mainLayout = findViewById(R.id.main_layout);
+
+        imgMenu = findViewById(R.id.img_menu);
+        imgMenu.setOnClickListener(this);
     }
 
     @Override
@@ -95,7 +104,13 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
     @Override
     protected void resumeData() {
+        PreferUtils.setPushShow(this,false);
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        PreferUtils.setPushShow(this,true);
     }
 
     private void setUpMessageList() {
@@ -336,6 +351,33 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
             messageCloudEndPoint.removeEventListener(childEventListener);
     }
 
+    public void showMenu() {
+
+        //Creating the instance of PopupMenu
+        PopupMenu popup = new PopupMenu(this, imgMenu);
+        popup.getMenuInflater().inflate(R.menu.menu_chat, popup.getMenu());
+
+        //registering popup with OnMenuItemClickListener
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+
+                switch (item.getItemId()) {
+
+                    case R.id.menu_detail_task:
+                        Intent intent = new Intent(ChatActivity.this, TaskDetailNewActivity.class);
+                        intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
+                        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                        break;
+
+                }
+                return true;
+            }
+        });
+
+        popup.show();
+    }
+
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -346,6 +388,10 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
             case R.id.img_back:
                 finish();
+                break;
+
+            case R.id.img_menu:
+                showMenu();
                 break;
 
         }

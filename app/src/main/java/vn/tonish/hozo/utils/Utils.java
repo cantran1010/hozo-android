@@ -575,6 +575,9 @@ public class Utils {
             case Constants.PUSH_TYPE_COMMENT_REPLIED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_comment_replied) + " " + notification.getTaskName();
                 break;
+            case Constants.PUSH_TYPE_CHAT:
+                content = notification.getFullName() + " " + context.getString(R.string.notification_chat) + " " + notification.getTaskName();
+                break;
         }
 
         return content;

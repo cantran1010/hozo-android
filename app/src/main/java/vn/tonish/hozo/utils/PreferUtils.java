@@ -24,7 +24,7 @@ public class PreferUtils {
 
     private static final String PREFER_PUSH_ACCEPT = "push_accept";
     private static final String PREFER_PUSH_DENY = "push_deny";
-    private static final String PREFER_PUSH_SHOW = "push_show";
+    private static final String PREFER_PUSH_SHOW = "push_show_notification_chat";
     private static final String KEY_ENCRYPTION = "key";
     private static final String LAST_TIME_COUNT_TASK = "last_time";
 
@@ -37,12 +37,12 @@ public class PreferUtils {
 
     public static boolean isPushShow(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
-        return preferences.getBoolean(PREFER_PUSH_SHOW, false);
+        return preferences.getBoolean(PREFER_PUSH_SHOW, true);
     }
 
-    public static void setPushShow(Context context, boolean isLogin) {
+    public static void setPushShow(Context context, boolean isPush) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
-        editor.putBoolean(PREFER_PUSH_SHOW, isLogin);
+        editor.putBoolean(PREFER_PUSH_SHOW, isPush);
         editor.apply();
     }
 
