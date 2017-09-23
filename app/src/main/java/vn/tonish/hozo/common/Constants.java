@@ -140,6 +140,7 @@ public class Constants {
     public static final String PUSH_TYPE_BLOCK_COMMENT = "block_comment";
     public static final String PUSH_TYPE_ACTIVE_COMMENT = "active_comment";
     public static final String PUSH_TYPE_ADMIN_NEW_TASK_ALERT = "admin_new_task_alert";
+    public static final String PUSH_TYPE_CHAT = "message_received";
 
     public static final String ROLE_EXTRA = "role_extra";
     public static final String REFRESH_EXTRA = "refresh_extra";
@@ -201,6 +202,7 @@ public class Constants {
     public static final String BIDDER_EXTRA = "bidder_extra";
     public static final String VN1 = ", Việt Nam";
     public static final String VN2 = ", Vietnam";
+    public static final String COUNT_NEW_MSG_EXTRA = "count_new_msg_extra";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static String BID_ERROR_INVALID_DATA = "invalid_data";
     public static String BID_LIMIT_OFFER = "limit_offer";
@@ -220,4 +222,5 @@ public class Constants {
     public static final String TASK_COPY = "task_copy";
     public static final String TASK_EDIT = "task_edit";
     public static final String TASK_DRAFT = "task_draft";
+    public static final String BROAD_CAST_COUNT_NEW_MSG = "broad_cast_new_msg";
 }

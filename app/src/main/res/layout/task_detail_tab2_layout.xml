@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swpRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_chat">
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -23,9 +24,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="15dp"
-                    android:drawableLeft="@drawable/img_dot"
+                    android:drawableLeft="@drawable/img_message_unread"
                     android:drawablePadding="5dp"
-                    android:drawableStart="@drawable/img_dot"
+                    android:drawableStart="@drawable/img_message_unread"
                     android:gravity="center"
                     android:text="@string/assign_people"
                     android:textColor="@color/tv_black"
@@ -58,9 +59,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:drawableLeft="@drawable/img_dot"
+                    android:drawableLeft="@drawable/img_message_unread"
                     android:drawablePadding="5dp"
-                    android:drawableStart="@drawable/img_dot"
+                    android:drawableStart="@drawable/img_message_unread"
                     android:gravity="center"
                     android:text="@string/bidder"
                     android:textColor="@color/tv_black"
@@ -102,4 +103,17 @@
         </android.support.v4.widget.NestedScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
-</LinearLayout>
+    <vn.tonish.hozo.view.ButtonHozo
+        android:id="@+id/btn_chat"
+        style="@style/btn_style_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="@dimen/margin_right_screen"
+        android:layout_marginLeft="@dimen/margin_left_screen"
+        android:layout_marginRight="@dimen/margin_right_screen"
+        android:layout_marginStart="@dimen/margin_left_screen"
+        android:text="@string/chat" />
+
+</RelativeLayout>

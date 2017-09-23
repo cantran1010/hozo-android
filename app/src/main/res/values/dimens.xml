@@ -26,5 +26,6 @@
     <dimen name="image_attach_post_task_height">85dp</dimen>
     <dimen name="alert_dialog_width">300dp</dimen>
     <dimen name="detail_task_map_height">150dp</dimen>
+    <dimen name="chat_msg_margin_top">2dp</dimen>
 
 </resources>

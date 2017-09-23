@@ -22,6 +22,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AssignersActivity;
 import vn.tonish.hozo.activity.BiddersActivity;
 import vn.tonish.hozo.activity.BlockTaskActivity;
+import vn.tonish.hozo.activity.ChatActivity;
 import vn.tonish.hozo.activity.RateActivity;
 import vn.tonish.hozo.activity.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.AssignerCallAdapter;
@@ -42,6 +43,7 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.string.call;
@@ -70,6 +72,8 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
     private String assigerType = "";
     private static final int MAX_WORKER = 5;
 
+    private ButtonHozo btnChat;
+
     @Override
     protected int getLayout() {
         return R.layout.task_detail_tab2_layout;
@@ -91,6 +95,9 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
         tvAssignCount = (TextViewHozo) findViewById(R.id.tv_assign_count);
 
         tvNoBidder = (TextViewHozo) findViewById(R.id.tv_no_bidder);
+
+        btnChat = (ButtonHozo) findViewById(R.id.btn_chat);
+        btnChat.setOnClickListener(this);
     }
 
     @Override
@@ -232,6 +239,8 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
             tvNoBidder.setVisibility(View.VISIBLE);
         else
             tvNoBidder.setVisibility(View.GONE);
+
+        updateChatBtn();
 
     }
 
@@ -495,6 +504,31 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
         getData();
     }
 
+    private void updateChatBtn() {
+        assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
+
+        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) || taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED)) {
+
+                if (assigners.size() > 0) btnChat.setVisibility(View.VISIBLE);
+                else
+                    btnChat.setVisibility(View.GONE);
+
+            } else {
+                btnChat.setVisibility(View.GONE);
+            }
+        } else {
+
+            if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+                btnChat.setVisibility(View.VISIBLE);
+            } else {
+                btnChat.setVisibility(View.GONE);
+            }
+
+        }
+
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -505,6 +539,14 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
 
             case R.id.tv_see_more_assigns:
                 doSeeMoreAssigns();
+                break;
+
+            case R.id.btn_chat:
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+                intent.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
+                intent.putExtra(Constants.TITLE_INFO_EXTRA, taskResponse.getTitle());
+                startActivity(intent, TransitionScreen.DOWN_TO_UP);
                 break;
 
         }

@@ -66,7 +66,7 @@ public class InboxFragment extends BaseFragment {
 
     @Override
     protected int getLayout() {
-        return vn.tonish.hozo.R.layout.fragment_notify;
+        return vn.tonish.hozo.R.layout.fragment_inbox;
     }
 
     @Override
@@ -81,6 +81,12 @@ public class InboxFragment extends BaseFragment {
         initList();
 //        getCacheDataPage(sinceDate);
 //        getNotifications(false);
+
+        PreferUtils.setNewPushCount(getActivity(), 0);
+
+        Intent intentPushCount = new Intent();
+        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+        getActivity().sendBroadcast(intentPushCount);
 
     }
 
@@ -251,6 +257,10 @@ public class InboxFragment extends BaseFragment {
 
                         if (getActivity() != null && getActivity() instanceof MainActivity)
                             ((MainActivity) getActivity()).updateCountMsg();
+
+                        Intent intentPushCount = new Intent();
+                        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                        getActivity().sendBroadcast(intentPushCount);
                     }
 
                     notifications.addAll(notificationResponse != null ? notificationResponse : null);

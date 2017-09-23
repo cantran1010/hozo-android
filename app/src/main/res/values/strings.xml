@@ -242,6 +242,7 @@
     <string name="notification_bid_missed">mà bạn ứng tuyển vừa bị bỏ lỡ</string>
     <string name="notification_task_reopen">mà bạn ứng tuyển trước đó vừa được mở lại</string>
     <string name="notification_cancel_bid">đã hủy chọn bạn</string>
+    <string name="notification_chat">đã gửi tin nhắn đến nhóm</string>//
 
     <string name="notification_review_received_matcher">đánh giá</string>
     <string name="notification_comment_received_matcher">bình luận</string>
@@ -424,7 +425,7 @@
     <string name="auto_pick">Tự động chọn ứng viên</string>
     <string name="post_task_address_error">Vui lòng nhập địa chỉ</string>
     <string name="hour_default">4</string>
-    <string name="post_a_task_input_error">Hozo không cho phép đăng email hay số điện thoại trong bài đăng</string>
+    <string name="post_a_task_input_error">Hozo không cho phép đăng email hay số điện thoại trong bài đăng. \nTrường hợp cố tình vi phạm sẽ có nguy cơ bị khóa tài khoản vĩnh viễn!</string>
     <string name="detail_tab_1">Công việc</string>
     <string name="detail_tab_2">Người làm</string>
     <string name="detail_tab_3">Bình luận</string>
@@ -464,5 +465,14 @@
     <string name="btn_edit_task">Cập nhật</string>
     <string name="bid_limmit_offer_error">Việc đã đủ người ứng tuyển.</string>
     <string name="bid_limmit_title">Thông báo</string>
+    <string name="notification_tab_1">Hệ thống</string>
+    <string name="notification_tab_2">Chat nhóm</string>
+    <string name="chat_hint">Nhập tin nhắn …</string>
+    <string name="date_work">Ngày làm:</string>
+    <string name="chat">Chat nhóm</string>
+    <string name="menu_detail_task">Xem chi tiết việc</string>
+    <string name="chat_notification_des">Bật chế độ thông báo chat nhóm</string>
+    <string name="permission_chat_error">Bạn không thể tiếp tục chat tại phòng này!</string>
+    <string name="no_data">Chưa có dữ liệu</string>
 
 </resources>
