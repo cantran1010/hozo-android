@@ -104,13 +104,13 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
     @Override
     protected void resumeData() {
-        PreferUtils.setPushShow(this,false);
+        PreferUtils.setPushShow(this, false);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        PreferUtils.setPushShow(this,true);
+        PreferUtils.setPushShow(this, true);
     }
 
     private void setUpMessageList() {
@@ -327,7 +327,16 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
         message.setReads(reads);
 
-        messageCloudEndPoint.child(key).setValue(message);
+        messageCloudEndPoint.child(key).setValue(message, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    LogUtils.d(TAG, "onComplete databaseError : " + databaseError.toString());
+                    Utils.showLongToast(ChatActivity.this, getString(R.string.permission_chat_error), true, false);
+                    finish();
+                }
+            }
+        });
         message.setId(key);
 
         LogUtils.d(TAG, "doSend , message : " + message.toString());

@@ -32,6 +32,7 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 9/16/17.
@@ -45,6 +46,7 @@ public class ChatFragment extends BaseFragment {
     private List<TaskResponse> taskResponses = new ArrayList<>();
     private Call<List<TaskResponse>> call;
     private ToggleButton tgOnOffNotify;
+    private TextViewHozo tvNoData;
 
     @Override
     protected int getLayout() {
@@ -55,6 +57,7 @@ public class ChatFragment extends BaseFragment {
     protected void initView() {
         rcvChatRooms = (RecyclerView) findViewById(R.id.rcv_chat_rooms);
         tgOnOffNotify = (ToggleButton) findViewById(R.id.tg_on_off);
+        tvNoData = (TextViewHozo) findViewById(R.id.tv_no_data);
 
         createSwipeToRefresh();
     }
@@ -255,6 +258,7 @@ public class ChatFragment extends BaseFragment {
     }
 
     private void refreshChatRooms() {
+
         chatRoomAdapter = new ChatRoomAdapter(getActivity(), taskResponses);
         LinearLayoutManager lvManager = new LinearLayoutManager(getActivity());
         rcvChatRooms.setLayoutManager(lvManager);
@@ -270,6 +274,15 @@ public class ChatFragment extends BaseFragment {
                 startActivity(intent, TransitionScreen.DOWN_TO_UP);
             }
         });
+
+        if (taskResponses.size() > 0) {
+            rcvChatRooms.setVisibility(View.VISIBLE);
+            tvNoData.setVisibility(View.GONE);
+        } else {
+            rcvChatRooms.setVisibility(View.GONE);
+            tvNoData.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
