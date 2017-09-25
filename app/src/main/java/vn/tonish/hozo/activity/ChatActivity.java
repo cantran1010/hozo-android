@@ -331,9 +331,11 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
+
                     LogUtils.d(TAG, "onComplete databaseError : " + databaseError.toString());
                     Utils.showLongToast(ChatActivity.this, getString(R.string.permission_chat_error), true, false);
                     finish();
+
                 }
             }
         });
