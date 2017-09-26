@@ -122,14 +122,12 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
 
                 if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
-
 //                    DialogUtils.showOkDialog(ChatActivity.this, getString(R.string.kick_out_chat_title), getString(R.string.kick_out_chat_content), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
 //                        @Override
 //                        public void onSubmit() {
 //
 //                        }
 //                    });
-
                     Utils.showLongToast(ChatActivity.this,getString(R.string.kick_out_chat_content),true,false);
                     setResult(Constants.RESULT_CODE_CHAT);
                     finish();
