@@ -474,5 +474,6 @@
     <string name="chat_notification_des">Bật chế độ thông báo chat nhóm</string>
     <string name="permission_chat_error">Bạn không thể tiếp tục chat tại phòng này!</string>
     <string name="no_data">Chưa có dữ liệu</string>
+    <string name="kick_out_chat_content">Rất tiếc bạn đã bị đẩy ra khỏi phòng chat!</string>
 
 </resources>
