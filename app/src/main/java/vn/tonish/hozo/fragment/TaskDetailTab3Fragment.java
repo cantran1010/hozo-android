@@ -177,7 +177,7 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
     private void setUpRecyclerView() {
         mComments = new ArrayList<>();
         commentsAdapter = new CommentTaskAdapter(getActivity(), mComments);
-        LinearLayoutManager lvManager = new LinearLayoutManager(getActivity());
+        final LinearLayoutManager lvManager = new LinearLayoutManager(getActivity());
         lvManager.setReverseLayout(true);
         lvManager.setStackFromEnd(true);
         rcvComment.setLayoutManager(lvManager);
@@ -187,6 +187,19 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 if (isLoadingMoreFromServer) getComments(strSince);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView view, int dx, int dy) {
+                super.onScrolled(view, dx, dy);
+
+                LogUtils.d(TAG, "manager.findFirstCompletelyVisibleItemPosition()" + lvManager.findFirstCompletelyVisibleItemPosition());
+                LogUtils.d(TAG, "manager.findLastCompletelyVisibleItemPosition()" + lvManager.findLastCompletelyVisibleItemPosition());
+
+                if (lvManager.findLastCompletelyVisibleItemPosition() == mComments.size() - 1)
+                    swipeRefreshLayout.setEnabled(true);
+                else
+                    swipeRefreshLayout.setEnabled(false);
             }
         };
 
@@ -214,6 +227,8 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
         if (since != null)
             params.put("since", since);
         params.put("limit", LIMIT + "");
+        LogUtils.d(TAG, "getComments params : " + params.toString());
+
         call = ApiClient.getApiService().getComments(UserManager.getUserToken(), taskResponse.getId(), params);
         call.enqueue(new Callback<List<Comment>>() {
             @Override
@@ -528,6 +543,7 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
     @Override
     public void onRefresh() {
         super.onRefresh();
+        swipeRefreshLayout.setEnabled(true);
         if (call != null) call.cancel();
         isLoadingMoreFromServer = true;
         strSince = null;
