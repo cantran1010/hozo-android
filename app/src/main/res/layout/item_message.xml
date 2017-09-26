@@ -71,7 +71,7 @@
                     android:layout_gravity="center_vertical"
                     android:autoLink="web"
                     android:textColor="#222222"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:autoLink="web"
                 android:textColor="#222222"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <vn.tonish.hozo.view.CircleImageView
