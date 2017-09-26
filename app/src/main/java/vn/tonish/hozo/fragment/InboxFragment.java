@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ToggleButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,10 +35,13 @@ import vn.tonish.hozo.dialog.BlockDialog;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.NofifySystemResponse;
+import vn.tonish.hozo.rest.responseRes.NotifyChatRoomResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 
@@ -63,6 +68,7 @@ public class InboxFragment extends BaseFragment {
     private Call<List<Notification>> call;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
+    private ToggleButton tbOnOffNotification;
 
     @Override
     protected int getLayout() {
@@ -72,12 +78,22 @@ public class InboxFragment extends BaseFragment {
     @Override
     protected void initView() {
         lvList = (RecyclerView) findViewById(R.id.lvList);
+        tbOnOffNotification = (ToggleButton) findViewById(R.id.tg_on_off);
         createSwipeToRefresh();
     }
 
     @Override
     protected void initData() {
         LogUtils.d(TAG, "InboxFragment life cycle , initData");
+
+        tbOnOffNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LogUtils.d(TAG, "tgOnOffNotify : " + tbOnOffNotification.isChecked());
+                updateNofityOnOff(tbOnOffNotification.isChecked());
+            }
+        });
+
         initList();
 //        getCacheDataPage(sinceDate);
 //        getNotifications(false);
@@ -88,6 +104,125 @@ public class InboxFragment extends BaseFragment {
         intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
         getActivity().sendBroadcast(intentPushCount);
 
+        getNotifyOnOff();
+
+    }
+
+    private void getNotifyOnOff() {
+        Call<NofifySystemResponse> callNotify = ApiClient.getApiService().getNotifySystem(UserManager.getUserToken());
+        callNotify.enqueue(new Callback<NofifySystemResponse>() {
+            @Override
+            public void onResponse(Call<NofifySystemResponse> call, Response<NofifySystemResponse> response) {
+                LogUtils.d(TAG, "getNotifyOnOff code : " + response.code());
+                LogUtils.d(TAG, "getNotifyOnOff body : " + response.body());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    NofifySystemResponse nofifySystemResponse = response.body();
+                    tbOnOffNotification.setChecked(nofifySystemResponse.isNotificationSystem());
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            getNotifyOnOff();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getActivity());
+                } else {
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            getNotifyOnOff();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NofifySystemResponse> call, Throwable t) {
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getNotifyOnOff();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
+    private void updateNofityOnOff(final boolean isOnOff) {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("notification_system", isOnOff);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LogUtils.d(TAG, "updateNofityOnOff data request : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().updateChatRoomsNotify(UserManager.getUserToken(), body).enqueue(new Callback<NotifyChatRoomResponse>() {
+            @Override
+            public void onResponse(Call<NotifyChatRoomResponse> call, Response<NotifyChatRoomResponse> response) {
+
+                LogUtils.d(TAG, "updateNofityOnOff onResponse : " + response.body());
+                LogUtils.d(TAG, "updateNofityOnOff code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+
+
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            updateNofityOnOff(isOnOff);
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getActivity());
+                } else {
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            updateNofityOnOff(isOnOff);
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<NotifyChatRoomResponse> call, Throwable t) {
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        updateNofityOnOff(isOnOff);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
     }
 
     private void initList() {
