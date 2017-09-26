@@ -63,8 +63,10 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     private static final int PAGE_COUNT = 31;
     private ValueEventListener valueEventListener;
     private ChildEventListener childEventListener;
+    private ChildEventListener memberEventListener;
     private Query recentPostsQuery = null;
     private ImageView imgMenu;
+    private DatabaseReference memberCloudEndPoint;
 
     @Override
     protected int getLayout() {
@@ -100,6 +102,58 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         myRef = database.getReference();
         messageCloudEndPoint = myRef.child("task-messages").child(String.valueOf(taskId));
         setUpMessageList();
+
+        memberCloudEndPoint = myRef.child("members").child(String.valueOf(UserManager.getMyUser().getId()));
+
+        memberEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+//                Member member = dataSnapshot.getValue(Member.class);
+//                LogUtils.d(TAG, "memberEventListener onChildAdded , member : " + member.toString());
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                LogUtils.d(TAG, "memberEventListener onChildChanged , dataSnapshot : " + dataSnapshot.toString());
+                Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
+                LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
+
+                if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
+
+//                    DialogUtils.showOkDialog(ChatActivity.this, getString(R.string.kick_out_chat_title), getString(R.string.kick_out_chat_content), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+//                        @Override
+//                        public void onSubmit() {
+//
+//                        }
+//                    });
+
+                    Utils.showLongToast(ChatActivity.this,getString(R.string.kick_out_chat_content),true,false);
+                    setResult(Constants.RESULT_CODE_CHAT);
+                    finish();
+                }
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        memberCloudEndPoint.addChildEventListener(memberEventListener);
     }
 
     @Override
@@ -360,6 +414,8 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
             messageCloudEndPoint.removeEventListener(valueEventListener);
         if (childEventListener != null)
             messageCloudEndPoint.removeEventListener(childEventListener);
+        if (memberEventListener != null)
+            memberCloudEndPoint.removeEventListener(memberEventListener);
     }
 
     public void showMenu() {

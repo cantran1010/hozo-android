@@ -352,6 +352,8 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
                 updateUi();
                 ((TaskDetailNewActivity) getActivity()).setTaskResponse(taskResponse);
             }
+        } else if (requestCode == Constants.REQUEST_CODE_CHAT && resultCode == Constants.RESULT_CODE_CHAT) {
+            getData();
         }
     }
 
@@ -546,7 +548,7 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
                 intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                 intent.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
                 intent.putExtra(Constants.TITLE_INFO_EXTRA, taskResponse.getTitle());
-                startActivity(intent, TransitionScreen.DOWN_TO_UP);
+                startActivityForResult(intent, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
                 break;
 
         }
