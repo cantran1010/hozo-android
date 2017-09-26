@@ -116,11 +116,9 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
                 LogUtils.d(TAG, "memberEventListener onChildChanged , dataSnapshot : " + dataSnapshot.toString());
                 Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
                 LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
-
                 if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
 //                    DialogUtils.showOkDialog(ChatActivity.this, getString(R.string.kick_out_chat_title), getString(R.string.kick_out_chat_content), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
 //                        @Override
