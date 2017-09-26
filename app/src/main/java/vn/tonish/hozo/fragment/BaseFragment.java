@@ -38,7 +38,7 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
     protected abstract void resumeData();
 
     private View view;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    public SwipeRefreshLayout swipeRefreshLayout;
     private final Stack<StackEntry> fragmentsStack = new Stack<>();
 
     @Override
