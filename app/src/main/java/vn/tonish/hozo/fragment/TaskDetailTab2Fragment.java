@@ -127,8 +127,9 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
         super.setUserVisibleHint(isVisibleToUser);
         LogUtils.d(TAG, "setUserVisibleHint start , isVisibleToUser : " + isVisibleToUser);
         if (isVisibleToUser) {
-            taskResponse = ((TaskDetailNewActivity) getActivity()).getTaskResponse();
-            updateUi();
+//            taskResponse = ((TaskDetailNewActivity) getActivity()).getTaskResponse();
+//            updateUi();
+            getData();
         }
     }
 
@@ -434,7 +435,7 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
 
                 } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
                     APIError error = ErrorUtils.parseError(response);
-                    LogUtils.e(TAG, "createNewTask errorBody" + error.toString());
+                    LogUtils.e(TAG, "getDetailTask errorBody" + error.toString());
                     if (error.status().equals(Constants.TASK_DETAIL_INPUT_REQUIRE) || error.status().equals(Constants.TASK_DETAIL_NO_EXIT)) {
                         DialogUtils.showOkDialog(getActivity(), getString(R.string.task_detail_no_exit), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override

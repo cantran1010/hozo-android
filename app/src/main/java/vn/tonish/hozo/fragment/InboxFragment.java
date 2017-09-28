@@ -98,6 +98,7 @@ public class InboxFragment extends BaseFragment {
 //        getNotifications(false);
 
         PreferUtils.setNewPushCount(getActivity(), 0);
+        PreferUtils.setNewPushChatCount(getActivity(), 0);
 
         Intent intentPushCount = new Intent();
         intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
@@ -388,6 +389,7 @@ public class InboxFragment extends BaseFragment {
                         endlessRecyclerViewScrollListener.resetState();
 
                         PreferUtils.setNewPushCount(getActivity(), 0);
+                        PreferUtils.setNewPushChatCount(getActivity(), 0);
 
                         if (getActivity() != null && getActivity() instanceof MainActivity)
                             ((MainActivity) getActivity()).updateCountMsg();

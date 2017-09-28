@@ -118,8 +118,9 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
         super.setUserVisibleHint(isVisibleToUser);
         LogUtils.d(TAG, "TaskDetailTab1Fragment setUserVisibleHint start , isVisibleToUser : " + isVisibleToUser);
         if (isVisibleToUser && taskResponse != null) {
-            taskResponse = ((TaskDetailNewActivity) getActivity()).getTaskResponse();
-            updateUi();
+//            taskResponse = ((TaskDetailNewActivity) getActivity()).getTaskResponse();
+//            updateUi();
+            getData();
         }
     }
 

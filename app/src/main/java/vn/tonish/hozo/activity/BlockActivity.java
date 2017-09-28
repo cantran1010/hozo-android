@@ -43,6 +43,7 @@ public class BlockActivity extends BaseActivity implements View.OnClickListener 
     protected void initData() {
         Utils.cancelAllNotification(this);
         PreferUtils.setNewPushCount(this, 0);
+        PreferUtils.setNewPushChatCount(this, 0);
 
         blockResponse = (BlockResponse) getIntent().getSerializableExtra(Constants.BLOCK_EXTRA);
 
