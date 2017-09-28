@@ -473,12 +473,12 @@
     <string name="date_work">Ngày làm:</string>
     <string name="chat">Chat nhóm</string>
     <string name="menu_detail_task">Xem chi tiết việc</string>
-    <string name="chat_notification_des">Bật chế độ thông báo chat nhóm</string>
+    <string name="chat_notification_des">Chế độ thông báo chat nhóm</string>
     <string name="permission_chat_error">Bạn không thể tiếp tục chat tại phòng này!</string>
     <string name="no_data">Chưa có dữ liệu</string>
     <string name="kick_out_chat_content">Rất tiếc bạn đã bị đẩy ra khỏi phòng chat!</string>
     <string name="nofification_enouth_bidder_title">Việc</string>
     <string name="nofification_enouth_bidder_footer">của bạn đã đủ người ứng tuyển, hãy giao việc</string>
-    <string name="notification_on_off_des">Tắt chế độ thông báo hệ thống</string>
+    <string name="notification_on_off_des">Chế độ thông báo hệ thống</string>
 
 </resources>
