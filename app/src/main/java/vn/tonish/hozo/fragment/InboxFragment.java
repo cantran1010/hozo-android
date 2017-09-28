@@ -36,7 +36,6 @@ import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.NofifySystemResponse;
-import vn.tonish.hozo.rest.responseRes.NotifyChatRoomResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
@@ -172,9 +171,9 @@ public class InboxFragment extends BaseFragment {
         LogUtils.d(TAG, "updateNofityOnOff data request : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
-        ApiClient.getApiService().updateChatRoomsNotify(UserManager.getUserToken(), body).enqueue(new Callback<NotifyChatRoomResponse>() {
+        ApiClient.getApiService().updateNotifySystem(UserManager.getUserToken(), body).enqueue(new Callback<NofifySystemResponse>() {
             @Override
-            public void onResponse(Call<NotifyChatRoomResponse> call, Response<NotifyChatRoomResponse> response) {
+            public void onResponse(Call<NofifySystemResponse> call, Response<NofifySystemResponse> response) {
 
                 LogUtils.d(TAG, "updateNofityOnOff onResponse : " + response.body());
                 LogUtils.d(TAG, "updateNofityOnOff code : " + response.code());
@@ -208,7 +207,7 @@ public class InboxFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<NotifyChatRoomResponse> call, Throwable t) {
+            public void onFailure(Call<NofifySystemResponse> call, Throwable t) {
                 DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {

@@ -155,4 +155,7 @@ public interface ApiInterface {
 
     @GET("v1/users/setting/notification_system")
     Call<NofifySystemResponse> getNotifySystem(@Header("Authorization") String token);
+
+    @POST("v1/users/settings")
+    Call<NofifySystemResponse> updateNotifySystem(@Header("Authorization") String token, @Body RequestBody body);
 }
