@@ -499,13 +499,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void updateCountMsg() {
-        int pushCount = PreferUtils.getNewPushCount(this);
+        int pushCount = PreferUtils.getNewPushCount(this) + PreferUtils.getNewPushChatCount(this);
 
         if (pushCount == 0) {
             tvCountMsg.setVisibility(View.GONE);
         } else {
             tvCountMsg.setVisibility(View.VISIBLE);
-            tvCountMsg.setText(String.valueOf(PreferUtils.getNewPushCount(this)));
+            tvCountMsg.setText(String.valueOf(pushCount));
         }
     }
 

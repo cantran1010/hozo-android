@@ -148,7 +148,7 @@ public class NotificationFragment extends BaseFragment {
             tvCountTab1.setVisibility(View.GONE);
         } else {
             tvCountTab1.setVisibility(View.VISIBLE);
-            tvCountTab1.setText(String.valueOf(PreferUtils.getNewPushCount(getActivity())));
+            tvCountTab1.setText(String.valueOf(pushCount));
         }
     }
 

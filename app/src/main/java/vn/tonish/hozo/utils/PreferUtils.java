@@ -21,6 +21,7 @@ public class PreferUtils {
     private static final String PREFER_IS_LOGIN = "is_login";
     private static final String PREFER_IS_AUTO_LOGIN = "auto_login";
     private static final String PREFER_NEW_PUSH_COUNT = "new_push_count";
+    private static final String PREFER_NEW_PUSH_CHAT_COUNT = "new_push_chat_count";
 
     private static final String PREFER_PUSH_ACCEPT = "push_accept";
     private static final String PREFER_PUSH_DENY = "push_deny";
@@ -171,6 +172,18 @@ public class PreferUtils {
         return preferences.getInt(PREFER_NEW_PUSH_COUNT, 0);
     }
 
+    public static void setNewPushChatCount(Context context, int count) {
+        if (context == null) return;
+        Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
+        editor.putInt(PREFER_NEW_PUSH_CHAT_COUNT, count);
+        editor.apply();
+    }
+
+    public static int getNewPushChatCount(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
+        return preferences.getInt(PREFER_NEW_PUSH_CHAT_COUNT, 0);
+    }
+
     public static void setLastTimeCountTask(Context context, String lastTime) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putString(LAST_TIME_COUNT_TASK, lastTime);
@@ -179,7 +192,7 @@ public class PreferUtils {
 
     public static String getLastTimeCountTask(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
-        return preferences.getString(LAST_TIME_COUNT_TASK,"");
+        return preferences.getString(LAST_TIME_COUNT_TASK, "");
     }
 
 }

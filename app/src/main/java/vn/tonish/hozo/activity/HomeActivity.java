@@ -28,6 +28,7 @@ public class HomeActivity extends BaseActivity {
 //            if (getIntent().getBooleanExtra(Constants.LOGOUT_EXTRA, true))
         Utils.cancelAllNotification(this);
         PreferUtils.setNewPushCount(this, 0);
+        PreferUtils.setNewPushChatCount(this, 0);
 
         openFragment(R.id.layout_container, LoginFragment.class, false, TransitionScreen.FADE_IN);
     }
