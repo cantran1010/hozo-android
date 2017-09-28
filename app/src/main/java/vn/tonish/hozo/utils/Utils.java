@@ -440,6 +440,11 @@ public class Utils {
                 matcher = context.getString(R.string.notification_comment_replied_matcher);
                 matcherColor = context.getString(R.string.notification_comment_replied_color);
                 break;
+            case Constants.PUSH_TYPE_ENOUGH_BIDDER:
+                content = context.getString(R.string.nofification_enouth_bidder_title) + " " + notification.getTaskName() + " " + context.getString(R.string.nofification_enouth_bidder_footer);
+                matcher = context.getString(R.string.notification_enough_bidder_matcher);
+                matcherColor = context.getString(R.string.notification_enough_bidder_color);
+                break;
         }
 
         tvContent.setText(content);
@@ -577,6 +582,9 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_CHAT:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_chat) + " " + notification.getTaskName();
+                break;
+            case Constants.PUSH_TYPE_ENOUGH_BIDDER:
+                content = context.getString(R.string.nofification_enouth_bidder_title) + " " + notification.getTaskName() + " " + context.getString(R.string.nofification_enouth_bidder_footer);
                 break;
         }
 

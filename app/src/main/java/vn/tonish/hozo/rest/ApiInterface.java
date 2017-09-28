@@ -25,6 +25,7 @@ import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.rest.responseRes.BlockResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.NewTaskResponse;
+import vn.tonish.hozo.rest.responseRes.NofifySystemResponse;
 import vn.tonish.hozo.rest.responseRes.NotifyChatRoomResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.RateResponse;
@@ -150,5 +151,11 @@ public interface ApiInterface {
     Call<NotifyChatRoomResponse> getChatRoomsNotify(@Header("Authorization") String token);
 
     @POST("v1/users/settings")
-    Call<NotifyChatRoomResponse> updateChatRoomsNotify(@Header("Authorization") String token,@Body RequestBody body);
+    Call<NotifyChatRoomResponse> updateChatRoomsNotify(@Header("Authorization") String token, @Body RequestBody body);
+
+    @GET("v1/users/setting/notification_system")
+    Call<NofifySystemResponse> getNotifySystem(@Header("Authorization") String token);
+
+    @POST("v1/users/settings")
+    Call<NofifySystemResponse> updateNotifySystem(@Header("Authorization") String token, @Body RequestBody body);
 }

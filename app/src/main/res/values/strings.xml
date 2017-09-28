@@ -258,6 +258,7 @@
     <string name="notification_bid_missed_matcher">bỏ lỡ</string>
     <string name="notification_task_reopen_matcher">mở lại</string>
     <string name="notification_cancel_bid_matcher">hủy chọn</string>
+    <string name="notification_enough_bidder_matcher">đã đủ</string>
 
     <string name="notification_review_received_color">#00A2E5</string>
     <string name="notification_comment_received_color">#00A2E5</string>
@@ -270,6 +271,7 @@
     <string name="notification_poster_canceled_color">#FF3100</string>
     <string name="notification_task_completed_color">#00A2E5</string>
     <string name="notification_task_overdue_color">#FF3100</string>
+    <string name="notification_enough_bidder_color">#00A2E5</string>
 
     <!-- my task adapter -->
     <string name="my_task_status_worker_open">Ứng tuyển</string>
@@ -475,5 +477,8 @@
     <string name="permission_chat_error">Bạn không thể tiếp tục chat tại phòng này!</string>
     <string name="no_data">Chưa có dữ liệu</string>
     <string name="kick_out_chat_content">Rất tiếc bạn đã bị đẩy ra khỏi phòng chat!</string>
+    <string name="nofification_enouth_bidder_title">Việc</string>
+    <string name="nofification_enouth_bidder_footer">của bạn đã đủ người ứng tuyển, hãy giao việc</string>
+    <string name="notification_on_off_des">Tắt chế độ thông báo hệ thống</string>
 
 </resources>
