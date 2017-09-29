@@ -2,6 +2,7 @@ package vn.tonish.hozo.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.ProfileActivity;
+import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Member;
 import vn.tonish.hozo.model.Message;
@@ -116,6 +119,16 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
 
                 }
 
+                workHolder.imgRightAvatar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, ProfileActivity.class);
+                        intent.putExtra(Constants.USER_ID, message.getUser_id());
+                        intent.putExtra(Constants.IS_MY_USER, message.getUser_id() == UserManager.getMyUser().getId());
+                        context.startActivity(intent);
+                    }
+                });
+
                 if (message.getUser_id() == posterId)
                     workHolder.imgRightBoss.setVisibility(View.VISIBLE);
                 else workHolder.imgRightBoss.setVisibility(View.GONE);
@@ -155,6 +168,16 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
                     });
 
                 }
+
+                workHolder.imgLeftAvatar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, ProfileActivity.class);
+                        intent.putExtra(Constants.USER_ID, message.getUser_id());
+                        intent.putExtra(Constants.IS_MY_USER, message.getUser_id() == UserManager.getMyUser().getId());
+                        context.startActivity(intent);
+                    }
+                });
 
                 if (message.getUser_id() == posterId)
                     workHolder.imgLeftBoss.setVisibility(View.VISIBLE);
