@@ -230,6 +230,7 @@
     <!-- notification -->
     <string name="notification_review_received">đã gửi đánh giá về bạn</string>
     <string name="notification_comment_received">đã bình luận công việc</string>//
+    <string name="notification_related" tools:ignore="PluralsCandidate">và %1$d người khác</string>
     <string name="notification_comment_replied">đã trả lời bình luận công việc</string>//
     <string name="notification_bidder_canceled">đã hủy ứng tuyển công việc</string>//
     <string name="notification_bid_received">đã ứng tuyển công việc</string>//

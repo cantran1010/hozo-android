@@ -371,22 +371,35 @@ public class Utils {
                 matcherColor = context.getString(R.string.notification_review_received_color);
                 break;
             case Constants.PUSH_TYPE_COMMENT_RECEIVED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received) + " " + notification.getTaskName();
+                if (notification.getRelatedCount() == 1) {
+                    content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received) + " " + notification.getTaskName();
+                } else {
+                    content = notification.getFullName() + " " + context.getString(R.string.notification_related, notification.getRelatedCount() - 1) + " " + context.getString(R.string.notification_comment_received) + " " + notification.getTaskName();
+                }
                 matcher = context.getString(R.string.notification_comment_received_matcher);
                 matcherColor = context.getString(R.string.notification_comment_received_color);
                 break;
             case Constants.PUSH_TYPE_BIDDER_CANCELED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
+                if (notification.getRelatedCount() == 1)
+                    content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
+                else
+                    content = notification.getFullName() + " " + context.getString(R.string.notification_related, notification.getRelatedCount() - 1) + " " + context.getString(R.string.notification_bidder_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
                 matcher = context.getString(R.string.notification_bidder_canceled_matcher);
                 matcherColor = context.getString(R.string.notification_bidder_canceled_color);
                 break;
             case Constants.PUSH_TYPE_BID_RECEIVED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
+                if (notification.getRelatedCount() == 1)
+                    content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
+                else
+                    content = notification.getFullName() + " " + context.getString(R.string.notification_related, notification.getRelatedCount() - 1) + " " + context.getString(R.string.notification_bid_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
                 matcher = context.getString(R.string.notification_bid_received_matcher);
                 matcherColor = context.getString(R.string.notification_bid_received_color);
                 break;
             case Constants.PUSH_TYPE_BID_ACCEPTED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
+                if (notification.getRelatedCount() == 1)
+                    content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
+                else
+                    content = notification.getFullName() + " " + context.getString(R.string.notification_bid_accepted) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.notification_related, notification.getRelatedCount() - 1);
                 matcher = context.getString(R.string.notification_bid_accepted_matcher);
                 matcherColor = context.getString(R.string.notification_bid_accepted_color);
                 break;
