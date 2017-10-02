@@ -26,6 +26,16 @@ public class Notification implements Serializable {
     private String createdAt;
     private Date createdDateAt;
     private String content;
+    @SerializedName("related_count")
+    private int relatedCount;
+
+    public int getRelatedCount() {
+        return relatedCount;
+    }
+
+    public void setRelatedCount(int relatedCount) {
+        this.relatedCount = relatedCount;
+    }
 
     public String getContent() {
         return content;
@@ -129,6 +139,7 @@ public class Notification implements Serializable {
                 ", createdAt='" + createdAt + '\'' +
                 ", createdDateAt=" + createdDateAt +
                 ", content='" + content + '\'' +
+                ", relatedCount=" + relatedCount +
                 '}';
     }
 

@@ -364,7 +364,7 @@ public class InboxFragment extends BaseFragment {
         params.put("limit", LIMIT + "");
         LogUtils.d(TAG, "getNotifications params : " + params.toString());
 
-        call = ApiClient.getApiService().getMyNotifications(UserManager.getUserToken(), params);
+        call = ApiClient.getApiService().getMyNotificationsGroup(UserManager.getUserToken(), params);
         call.enqueue(new Callback<List<Notification>>() {
             @Override
             public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {

@@ -99,6 +99,9 @@ public interface ApiInterface {
     @GET("v1/notifications")
     Call<List<Notification>> getMyNotifications(@Header("Authorization") String token, @QueryMap Map<String, String> option);
 
+    @GET("v1/notifications/group")
+    Call<List<Notification>> getMyNotificationsGroup(@Header("Authorization") String token, @QueryMap Map<String, String> option);
+
     @GET("v1/users/tasks")
     Call<List<TaskResponse>> getMyTask(@Header("Authorization") String token, @QueryMap Map<String, String> option);
 
