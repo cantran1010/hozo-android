@@ -292,16 +292,14 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
 
                     comment.setRepliesCount(comment.getRepliesCount() + 1);
 
-                    ArrayList<Comment> newList = new ArrayList<>();
-                    newList.addAll(comment.getComments());
+
+                    ArrayList<Comment> newList = new ArrayList<Comment>();
+
+                    if (comment.getComments().size() > 0)
+                        newList.add(comment.getComments().get(comment.getComments().size() - 1));
                     newList.add(response.body());
 
-                    ArrayList<Comment> endList = new ArrayList<>();
-
-                    endList.add(newList.get(newList.size() - 1));
-                    if (comment.getComments().size() > 0) endList.add(newList.get(0));
-
-                    comment.setComments(endList);
+                    comment.setComments(newList);
 
                     strSince = null;
                     isLoadingMoreFromServer = true;
