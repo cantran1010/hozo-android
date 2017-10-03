@@ -78,7 +78,7 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
 
             if (taskResponse.isOnline())
                 workHolder.tvAddress.setText(context.getString(R.string.online_task_address));
-            else{
+            else {
                 String strAddress = taskResponse.getDistrict() + " - " + taskResponse.getCity();
                 workHolder.tvAddress.setText(strAddress);
             }
@@ -102,7 +102,7 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
                 } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_overdue));
-                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
+                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_overdue));
                 } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_canceled));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
@@ -136,7 +136,7 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
                         break;
                     case Constants.TASK_TYPE_POSTER_OVERDUE:
                         workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_overdue));
-                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
+                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_overdue));
                         break;
                     case Constants.TASK_TYPE_POSTER_CANCELED:
                         workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_canceled));

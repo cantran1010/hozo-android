@@ -31,10 +31,12 @@ import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.lvList;
+import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_RATE;
 
 public class AssignersActivity extends BaseActivity implements View.OnClickListener {
     private final static String TAG = AssignersActivity.class.getSimpleName();
@@ -46,6 +48,8 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
     private AssignerCallAdapter assignerAdapter;
     private TextViewHozo tvTitle;
     private boolean isAssigner = false;
+    private int assignersIdRate;
+    private boolean isRatting = false;
 
 
     @Override
@@ -108,6 +112,11 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
                     intent.putExtra(Constants.EXTRA_ASSIGNER_TASKRESPONSE, taskResponse);
                     setResult(Constants.RESULT_CODE_ASSIGNER, intent);
                 }
+
+                if (isRatting) {
+                    setResult(Constants.RESPONSE_CODE_RATE);
+                }
+
                 finish();
                 break;
         }
@@ -116,12 +125,17 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (isAssigner) {
             Intent intent = new Intent();
             intent.putExtra(Constants.EXTRA_ASSIGNER_TASKRESPONSE, taskResponse);
             setResult(Constants.RESULT_CODE_ASSIGNER, intent);
         }
+
+        if (isRatting) {
+            setResult(Constants.RESPONSE_CODE_RATE);
+        }
+
+        finish();
     }
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -141,10 +155,35 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
 
                     }
                 });
+            } else if (intent.hasExtra(Constants.ASSIGNER_RATE_EXTRA)) {
+                Assigner assigner = (Assigner) intent.getSerializableExtra(Constants.ASSIGNER_RATE_EXTRA);
+                Intent intentRate = new Intent(AssignersActivity.this, RateActivity.class);
+                intentRate.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+                intentRate.putExtra(Constants.USER_ID_EXTRA, assigner.getId());
+                intentRate.putExtra(Constants.AVATAR_EXTRA, assigner.getAvatar());
+                intentRate.putExtra(Constants.NAME_EXTRA, assigner.getFullName());
+
+                assignersIdRate = assigner.getId();
+
+                startActivityForResult(intentRate, Constants.REQUEST_CODE_RATE, TransitionScreen.UP_TO_DOWN);
             }
 
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Constants.REQUEST_CODE_RATE && resultCode == RESPONSE_CODE_RATE) {
+            for (int i = 0; i < assigners.size(); i++) {
+                if (assigners.get(i).getId() == assignersIdRate) assigners.get(i).setRating(1);
+            }
+            assignerAdapter.notifyDataSetChanged();
+            isRatting = true;
+        }
+
+    }
 
     private void doCancelBid(final Assigner assigner) {
         ProgressDialogUtils.showProgressDialog(this);

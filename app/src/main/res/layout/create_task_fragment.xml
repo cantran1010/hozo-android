@@ -104,7 +104,7 @@
                 android:inputType="textCapSentences"
                 android:maxLines="1"
                 android:minHeight="@dimen/edt_min_height"
-                android:nextFocusDown="@+id/edt_working_hour"
+                android:nextFocusDown="@+id/autocomplete_places"
                 android:padding="5dp" />
 
             <LinearLayout

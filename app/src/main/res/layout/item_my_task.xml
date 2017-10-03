@@ -122,7 +122,8 @@
                 android:background="@drawable/bg_border_recruitment"
                 android:gravity="center"
                 android:padding="2dp"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="12sp" />
 
 
             <vn.tonish.hozo.view.TextViewHozo
