@@ -2,25 +2,35 @@ package vn.tonish.hozo.fragment;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.DatePicker;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.AutocompletePrediction;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.Calendar;
-import java.util.Date;
 
 import io.realm.Realm;
 import okhttp3.MediaType;
@@ -33,7 +43,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AlbumActivity;
 import vn.tonish.hozo.activity.CropImageActivity;
 import vn.tonish.hozo.activity.MainActivity;
-import vn.tonish.hozo.activity.PreviewImageActivity;
+import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -44,7 +54,6 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
-import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
@@ -56,30 +65,31 @@ import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.img_avatar;
+import static vn.tonish.hozo.R.string.post_task_map_get_location_error_next;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
-import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyIsoFromDate;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
 /**
- * Created by CanTran on 5/10/17.
+ * Created by CanTran on 9/13/17.
  */
 
-public class RegisterFragment extends BaseFragment implements View.OnClickListener {
+public class RegisterFragment extends BaseFragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private final static String TAG = RegisterFragment.class.getName();
-    private EdittextHozo edtName, edtAddress;
+    private EdittextHozo edtName;
     private TextViewHozo btnSave;
-    private TextViewHozo tvMale, tvFemale;
-    private ImageView imgMale, imgFemale;
-    private TextViewHozo tvBirthday;
-    private String gender;
-    private final Calendar calendar = Calendar.getInstance();
     private CircleImageView imgAvatar;
+    private ImageView imgClear, imgClearGoogle, btnBack;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private File file;
     private int avataId;
     private boolean isUpdateAvata = false;
+    private double lat, lon;
+    private String address = "";
+    private GoogleApiClient googleApiClient;
+    private PlaceAutocompleteAdapter placeAutocompleteAdapter;
+    private AutoCompleteTextView autocompleteView;
 
     @Override
     protected int getLayout() {
@@ -88,75 +98,263 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     protected void initView() {
-        tvMale = (TextViewHozo) findViewById(R.id.tv_male);
-        tvFemale = (TextViewHozo) findViewById(R.id.tv_female);
-        imgMale = (ImageView) findViewById(R.id.img_male);
-        imgFemale = (ImageView) findViewById(R.id.img_female);
-        tvBirthday = (TextViewHozo) findViewById(R.id.tv_birthday);
-        edtAddress = (EdittextHozo) findViewById(R.id.edt_address);
-
+        edtName = (EdittextHozo) findViewById(R.id.edt_name);
+        autocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete_places);
         ImageView imgCamera = (ImageView) findViewById(R.id.img_camera);
         imgCamera.setOnClickListener(this);
 
-        RelativeLayout layoutMale = (RelativeLayout) findViewById(R.id.layout_male);
-        layoutMale.setOnClickListener(this);
-        RelativeLayout layoutBirthday = (RelativeLayout) findViewById(R.id.layout_birthday);
-        layoutBirthday.setOnClickListener(this);
-        RelativeLayout layoutFemale = (RelativeLayout) findViewById(R.id.layout_female);
-        layoutFemale.setOnClickListener(this);
+        imgAvatar = (CircleImageView) findViewById(img_avatar);
 
-        edtName = (EdittextHozo) findViewById(R.id.edt_name);
         btnSave = (TextViewHozo) findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
+        imgClear = (ImageView) findViewById(R.id.img_clear);
+        btnBack = (ImageView) findViewById(R.id.img_back);
+        imgClearGoogle = (ImageView) findViewById(R.id.img_clear_google);
+        imgClear.setOnClickListener(this);
+        imgClearGoogle.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
 
-        imgAvatar = (CircleImageView) findViewById(img_avatar);
-        imgAvatar.setOnClickListener(this);
     }
+
 
     @Override
     protected void initData() {
-        btnSave.setOnClickListener(this);
+        edtName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (edtName.length() > 0) {
+                    imgClear.setVisibility(View.VISIBLE);
+
+                } else {
+                    imgClear.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        autocompleteView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (autocompleteView.length() > 0) {
+                    imgClearGoogle.setVisibility(View.VISIBLE);
+
+                } else {
+                    imgClearGoogle.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        googleApiClient = new GoogleApiClient.Builder(getActivity())
+                .enableAutoManage(getActivity(), 0 /* clientId */, this)
+                .addApi(Places.GEO_DATA_API)
+                .build();
+        // Retrieve the AutoCompleteTextView that will display Place suggestions.
+        autocompleteView = (AutoCompleteTextView)
+                findViewById(R.id.autocomplete_places);
+
+        autocompleteView.setThreshold(1);
+
+        // Register a listener that receives callbacks when a suggestion has been selected
+        autocompleteView.setOnItemClickListener(mAutocompleteClickListener);
+
+        final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
+                .setTypeFilter(Place.TYPE_COUNTRY)
+                .setCountry("VN")
+                .build();
+
+        // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
+        // the entire world.
+        placeAutocompleteAdapter = new PlaceAutocompleteAdapter(getActivity(), googleApiClient, null,
+                autocompleteFilter);
+        autocompleteView.setAdapter(placeAutocompleteAdapter);
+
+
     }
 
+
+    private final AdapterView.OnItemClickListener mAutocompleteClickListener
+            = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            /*
+             Retrieve the place ID of the selected item from the Adapter.
+             The adapter stores each Place suggestion in a AutocompletePrediction from which we
+             read the place ID and title.
+              */
+            final AutocompletePrediction item = placeAutocompleteAdapter.getItem(position);
+            final String placeId = item.getPlaceId();
+            final CharSequence primaryText = item.getPrimaryText(null);
+
+            LogUtils.i(TAG, "Autocomplete item selected: " + primaryText);
+
+            /*
+             Issue a request to the Places Geo Data API to retrieve a Place object with additional
+             details about the place.
+              */
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                    .getPlaceById(googleApiClient, placeId);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+
+            LogUtils.i(TAG, "Called getPlaceById to get Place details for " + placeId);
+        }
+    };
+
+    /**
+     * Callback for results from a Places Geo Data API query that shows the first place result in
+     * the details view on screen.
+     */
+    private final ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
+            = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(@NonNull PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+                // Request did not complete successfully
+                LogUtils.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
+                places.release();
+                return;
+            }
+            try {
+
+                // Get the Place object from the buffer.
+                final Place place = places.get(0);
+                LogUtils.e(TAG, "Place address : " + place.getAddress());
+                lat = place.getLatLng().latitude;
+                lon = place.getLatLng().longitude;
+                address = autocompleteView.getText().toString();
+                autocompleteView.setError(null);
+                places.release();
+                Utils.hideKeyBoard(getActivity());
+
+            } catch (Exception e) {
+                Utils.showLongToast(getActivity(), getString(post_task_map_get_location_error_next), true, false);
+            }
+        }
+    };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        googleApiClient.stopAutoManage(getActivity());
+        googleApiClient.disconnect();
+    }
 
     @Override
     protected void resumeData() {
 
+    }
+
+    private void doPickImage() {
+        checkPermission();
+    }
+
+    private void checkPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.CAMERA) + ContextCompat
+                .checkSelfPermission(getActivity(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(permissions, Constants.PERMISSION_REQUEST_CODE);
+        } else {
+            permissionGranted();
+        }
+    }
+
+    private void permissionGranted() {
+
+        PickImageDialog pickImageDialog = new PickImageDialog(getActivity());
+        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+            @Override
+            public void onCamera() {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+            }
+
+            @Override
+            public void onGallery() {
+                Intent intent = new Intent(getActivity(), AlbumActivity.class);
+                intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
+                intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
+                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
+        pickImageDialog.showView();
 
     }
+
+    private Uri setImageUri() {
+        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+        Uri imgUri = Uri.fromFile(file);
+        this.imgPath = file.getAbsolutePath();
+        return imgUri;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_PICK_IMAGE
+                && resultCode == RESPONSE_CODE_PICK_IMAGE
+                && data != null) {
+            String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
+            Utils.displayImage(getActivity(), imgAvatar, imgPath);
+            file = new File(imgPath);
+            isUpdateAvata = true;
+        } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+            Intent intent = new Intent(getActivity(), CropImageActivity.class);
+            intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
+            startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+        } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
+            String imgPath = data != null ? data.getStringExtra(Constants.EXTRA_IMAGE_PATH) : null;
+            Utils.displayImage(getActivity(), imgAvatar, null);
+            file = new File(imgPath != null ? imgPath : null);
+            isUpdateAvata = true;
+        }
+
+    }
+
+    private String getImagePath() {
+        return imgPath;
+    }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_save:
-                doSave();
+            case R.id.img_back:
+                openFragment(R.id.layout_container, LoginFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
                 break;
-            case R.id.layout_birthday:
-                openDatePicker();
-                break;
-
-            case R.id.layout_male:
-                gender = getString(R.string.gender_male);
-                updateGender(getString(R.string.gender_male));
-                break;
-
-            case R.id.layout_female:
-                gender = getString(R.string.gender_female);
-                updateGender(getString(R.string.gender_female));
-                break;
-
             case R.id.img_camera:
                 doPickImage();
                 break;
-
-            case img_avatar:
-                if (file != null) {
-                    Intent intentView = new Intent(getActivity(), PreviewImageActivity.class);
-                    intentView.putExtra(Constants.EXTRA_IMAGE_PATH, file.getPath());
-                    startActivity(intentView, TransitionScreen.RIGHT_TO_LEFT);
-                }
+            case R.id.btn_save:
+                doSave();
                 break;
-
+            case R.id.img_clear:
+                edtName.setText("");
+                break;
+            case R.id.img_clear_google:
+                autocompleteView.setText("");
+                break;
         }
 
     }
@@ -168,9 +366,19 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             edtName.requestFocus();
             edtName.setError(getActivity().getString(R.string.erro_empty_name));
             return;
-        } else if (edtAddress.getText().toString().trim().equals("")) {
-            edtAddress.requestFocus();
-            edtAddress.setError(getActivity().getString(R.string.error_address));
+        } else if (!autocompleteView.getText().toString().trim().equals(address.trim()) || (address.equals("") && !autocompleteView.getText().toString().trim().equals(""))) {
+            autocompleteView.requestFocus();
+            autocompleteView.setError(getString(R.string.post_task_address_error_google));
+
+            address = "";
+            lat = 0;
+            lon = 0;
+//            autocompleteView.setText("");
+
+            return;
+        } else if (TextUtils.isEmpty(address)) {
+            autocompleteView.requestFocus();
+            autocompleteView.setError(getString(R.string.post_task_address_error));
             return;
         }
 
@@ -247,147 +455,17 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         });
     }
 
-    private void doPickImage() {
-        checkPermission();
-    }
-
-    private void checkPermission() {
-        if (ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.CAMERA) + ContextCompat
-                .checkSelfPermission(getActivity(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(permissions, Constants.PERMISSION_REQUEST_CODE);
-        } else {
-            permissionGranted();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        LogUtils.d(TAG, "onRequestPermissionsResult start");
-        if (requestCode != Constants.PERMISSION_REQUEST_CODE
-                || grantResults.length == 0
-                || grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            permissionDenied();
-        } else {
-            permissionGranted();
-        }
-    }
-
-    private void permissionGranted() {
-
-        PickImageDialog pickImageDialog = new PickImageDialog(getActivity());
-        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
-            @Override
-            public void onCamera() {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
-            }
-
-            @Override
-            public void onGallery() {
-                Intent intent = new Intent(getActivity(), AlbumActivity.class);
-                intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
-                intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
-                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
-            }
-        });
-        pickImageDialog.showView();
-
-    }
-
-    private void permissionDenied() {
-        LogUtils.d(TAG, "permissionDenied camera");
-    }
-
-    private Uri setImageUri() {
-        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
-        Uri imgUri = Uri.fromFile(file);
-        this.imgPath = file.getAbsolutePath();
-        return imgUri;
-    }
-
-    private String getImagePath() {
-        return imgPath;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_PICK_IMAGE
-                && resultCode == RESPONSE_CODE_PICK_IMAGE
-                && data != null) {
-            String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
-            Utils.displayImage(getActivity(), imgAvatar, imgPath);
-            file = new File(imgPath);
-            isUpdateAvata = true;
-        } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
-            Intent intent = new Intent(getActivity(), CropImageActivity.class);
-            intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
-            startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
-        } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
-            String imgPath = data != null ? data.getStringExtra(Constants.EXTRA_IMAGE_PATH) : null;
-            Utils.displayImage(getActivity(), imgAvatar, null);
-            file = new File(imgPath != null ? imgPath : null);
-            isUpdateAvata = true;
-        }
-
-    }
-
-    private void openDatePicker() {
-
-        if (!tvBirthday.getText().toString().isEmpty()) {
-            Date date = DateTimeUtils.convertToDate(tvBirthday.getText().toString());
-            calendar.setTime(date);
-        }
-
-        @SuppressWarnings("deprecation") DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_LIGHT,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
-                        tvBirthday.setText(getString(R.string.edit_profile_birthday, dayOfMonth, monthOfYear + 1, year));
-                        calendar.set(year, monthOfYear, dayOfMonth);
-                    }
-                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis() - 10000);
-        datePickerDialog.show();
-    }
-
-    private void updateGender(String gender) {
-        if (gender.equals(getString(R.string.gender_male))) {
-            tvMale.setAlpha(1);
-            tvFemale.setAlpha(0.7f);
-            imgMale.setImageResource(R.drawable.gender_male_on);
-            imgFemale.setImageResource(R.drawable.gender_female_off);
-        } else if (gender.equals(getString(R.string.gender_female))) {
-            tvMale.setAlpha(0.7f);
-            tvFemale.setAlpha(1);
-            imgMale.setImageResource(R.drawable.gender_male_off);
-            imgFemale.setImageResource(R.drawable.gender_female_white);
-        } else {
-            tvMale.setTextColor(ContextCompat.getColor(getActivity(), R.color.tv_gray));
-            tvFemale.setTextColor(ContextCompat.getColor(getActivity(), R.color.tv_gray));
-            imgMale.setImageResource(R.drawable.gender_male_off);
-            imgFemale.setImageResource(R.drawable.gender_female_off);
-        }
-    }
-
     private void updateInfor() {
         ProgressDialogUtils.showProgressDialog(getActivity());
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(Constants.PARAMETER_FULL_NAME, edtName.getText().toString());
-            jsonRequest.put(Constants.PARAMETER_ADDRESS, edtAddress.getText().toString());
+            jsonRequest.put("latitude", lat);
+            jsonRequest.put("longitude", lon);
 
-            if (!tvBirthday.getText().toString().equals(""))
-                jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, getOnlyIsoFromDate(tvBirthday.getText().toString()));
-
-            if (gender != null)
-                jsonRequest.put(Constants.PARAMETER_GENDER, gender);
+            if (address != null && lat != 0 && lon != 0) {
+                jsonRequest.put(Constants.PARAMETER_ADDRESS, address);
+            }
 
             if (isUpdateAvata)
                 jsonRequest.put(Constants.PARAMETER_AVATA_ID, avataId);
@@ -396,7 +474,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        LogUtils.d(TAG, "aaaa onResponse updateInfor UserManager.getUserToken() : " + UserManager.getUserToken());
+        LogUtils.d(TAG, " onResponse updateInfor UserManager.getUserToken() : " + UserManager.getUserToken());
+        LogUtils.d(TAG, " jsonRequest updateInfor: " + jsonRequest.toString());
 
         ApiClient.getApiService().updateUser(UserManager.getUserToken(), body).enqueue(new Callback<UserEntity>() {
             @Override
@@ -417,6 +496,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                         startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                     }
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    LogUtils.d(TAG, "onResponse HTTP_CODE_UNAUTHORIZED : ");
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
@@ -454,4 +534,13 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         });
     }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        LogUtils.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
+                + connectionResult.getErrorCode());
+        Toast.makeText(getActivity(),
+                getString(R.string.gg_api_error),
+                Toast.LENGTH_SHORT).show();
+
+    }
 }

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/bg"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize">
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/white">
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_title"
@@ -30,157 +31,234 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/layout_profile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_back_selector"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:background="@drawable/btn_back_selector">
+
+                <ImageView
+                    android:id="@+id/img_account"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/ic_account" />
 
                 <vn.tonish.hozo.view.TextViewHozo
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/img_account"
+                    android:layout_toRightOf="@id/img_account"
                     android:text="@string/other_profile"
                     android:textColor="@color/setting_text" />
 
                 <include layout="@layout/arrow" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="56dp"
+                    android:background="@color/text_line" />
+
             </RelativeLayout>
 
-            <include layout="@layout/line" />
-
             <RelativeLayout
-                android:id="@+id/layout_alert"
+                android:id="@+id/layout_payment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_back_selector"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:background="@drawable/btn_back_selector">
+
+                <ImageView
+                    android:id="@+id/img_payment"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/ic_payment" />
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:layout_width="match_parent"
+
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:padding="16dp"
-                    android:text="@string/other_alert"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/img_payment"
+                    android:layout_toRightOf="@id/img_payment"
+                    android:text="@string/other_payment"
                     android:textColor="@color/setting_text" />
 
                 <include layout="@layout/arrow" />
 
-            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="56dp"
+                    android:background="@color/text_line" />
 
-            <include layout="@layout/line" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/layout_condition"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_back_selector"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:background="@drawable/btn_back_selector">
+
+                <ImageView
+                    android:id="@+id/img_terms"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/ic_terms" />
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:layout_width="match_parent"
+
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:padding="16dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/img_terms"
+                    android:layout_toRightOf="@id/img_terms"
                     android:text="@string/other_condition"
                     android:textColor="@color/setting_text" />
 
                 <include layout="@layout/arrow" />
 
-            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="56dp"
+                    android:background="@color/text_line" />
 
-            <include layout="@layout/line" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/layout_nda"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_back_selector"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:background="@drawable/btn_back_selector">
+
+                <ImageView
+                    android:id="@+id/img_policy"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/ic_policy" />
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:layout_width="match_parent"
+
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/img_policy"
+                    android:layout_toRightOf="@id/img_policy"
                     android:text="@string/other_nad"
                     android:textColor="@color/setting_text" />
 
                 <include layout="@layout/arrow" />
-            </RelativeLayout>
 
-            <include layout="@layout/line" />
-
-            <RelativeLayout
-                android:id="@+id/layout_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_back_selector"
-                android:orientation="horizontal">
-
-                <vn.tonish.hozo.view.TextViewHozo
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:text="@string/other_info"
-                    android:textColor="@color/setting_text" />
-
-                <include layout="@layout/arrow" />
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="56dp"
+                    android:background="@color/text_line" />
 
             </RelativeLayout>
-
-            <include layout="@layout/line" />
 
             <RelativeLayout
                 android:id="@+id/layout_share"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_back_selector"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:background="@drawable/btn_back_selector">
+
+                <ImageView
+                    android:id="@+id/img_share"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/ic_share" />
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:layout_width="match_parent"
+
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/img_share"
+                    android:layout_toRightOf="@id/img_share"
                     android:text="@string/other_share"
                     android:textColor="@color/setting_text" />
 
                 <include layout="@layout/arrow" />
-            </RelativeLayout>
 
-            <include layout="@layout/line" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="56dp"
+                    android:background="@color/text_line" />
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/layout_about"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_back_selector"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:background="@drawable/btn_back_selector">
+
+                <ImageView
+                    android:id="@+id/img_about"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/ic_about" />
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/img_about"
+                    android:layout_toRightOf="@id/img_about"
                     android:text="@string/other_about"
                     android:textColor="@color/setting_text" />
 
                 <include layout="@layout/arrow" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="56dp"
+                    android:background="@color/text_line" />
+
             </RelativeLayout>
-
-            <include layout="@layout/line" />
-
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/app_version"
@@ -190,9 +268,7 @@
                 android:gravity="center"
                 android:padding="25dp"
                 android:textColor="@color/setting_text" />
-
         </LinearLayout>
-
     </ScrollView>
 
-</LinearLayout>
+</FrameLayout>

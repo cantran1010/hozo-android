@@ -359,7 +359,6 @@
     <string name="min_budget_error">Số tiền tối thiểu \n là %1$s</string>
     <string name="notification_title">Thông báo</string>
     <string name="term_and_policy">vi phạm điều khoản sử dụng</string>
-    <string name="edt_profile_des_hill">Giới thiệu về bản thân, không quá 500 ký tự …</string>
     <string name="alert_task">Chọn loại công việc bạn muốn nhận thông báo.</string>
     <string name="profile_about">Giới thiệu</string>
     <string name="error_des">Lỗi vượt quá 500 ký tự.</string>
@@ -481,5 +480,8 @@
     <string name="nofification_enouth_bidder_title">Việc</string>
     <string name="nofification_enouth_bidder_footer">của bạn đã đủ người ứng tuyển, hãy giao việc</string>
     <string name="notification_on_off_des">Chế độ thông báo hệ thống</string>
+    <string name="register_address">Địa chỉ</string>
+    <string name="btn_done">HOÀN TẤT</string>
+    <string name="other_payment">Thanh toán</string>
 
 </resources>

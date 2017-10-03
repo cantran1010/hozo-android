@@ -11,10 +11,24 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.AutocompletePrediction;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -51,6 +66,7 @@ import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.img_avatar;
+import static vn.tonish.hozo.R.string.post_task_map_get_location_error_next;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.DateTimeUtils.getDateBirthDayFromIso;
@@ -61,7 +77,7 @@ import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyIsoFromDate;
  * Created by LongBui on 4/21/2017.
  */
 
-public class EditProfileActivity extends BaseActivity implements View.OnClickListener {
+public class EditProfileActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = EditProfileActivity.class.getSimpleName();
 
     private CircleImageView imgAvatar;
@@ -78,6 +94,12 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private TextViewHozo tvMale, tvFemale;
     private ImageView imgMale, imgFemale;
     private String gender;
+    private double lat, lon;
+    private String address = "";
+    private GoogleApiClient googleApiClient;
+    private PlaceAutocompleteAdapter placeAutocompleteAdapter;
+    private AutoCompleteTextView autocompleteView;
+
 
     @Override
     protected int getLayout() {
@@ -99,7 +121,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         imgCamera.setOnClickListener(this);
 
         edtName = (EdittextHozo) findViewById(R.id.edt_name);
-        edtAddress = (EdittextHozo) findViewById(R.id.edt_address);
+//        edtAddress = (EdittextHozo) findViewById(R.id.edt_address);
 
         tvBirthday = (TextViewHozo) findViewById(R.id.tv_birthday);
 
@@ -119,6 +141,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         RelativeLayout layoutFemale = (RelativeLayout) findViewById(R.id.layout_female);
         layoutFemale.setOnClickListener(this);
+        autocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete_places);
 
     }
 
@@ -126,8 +149,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     protected void initData() {
         UserEntity userEntity = UserManager.getMyUser();
         edtName.setText(userEntity.getFullName());
-        if (userEntity.getAddress() != null)
-            edtAddress.setText(userEntity.getAddress());
+//        if (userEntity.getAddress() != null)
+//            edtAddress.setText(userEntity.getAddress());
 
         if (userEntity.getDateOfBirth().equals("0001-01-01")) {
             tvBirthday.setText("");
@@ -144,12 +167,101 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         }
 
         edtDes.setText(userEntity.getDescription());
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, 0 /* clientId */, (GoogleApiClient.OnConnectionFailedListener) this)
+                .addApi(Places.GEO_DATA_API)
+                .build();
+        // Retrieve the AutoCompleteTextView that will display Place suggestions.
+        autocompleteView = (AutoCompleteTextView)
+                findViewById(R.id.autocomplete_places);
+
+        autocompleteView.setThreshold(1);
+
+        // Register a listener that receives callbacks when a suggestion has been selected
+        autocompleteView.setOnItemClickListener(mAutocompleteClickListener);
+
+        final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
+                .setTypeFilter(Place.TYPE_COUNTRY)
+                .setCountry("VN")
+                .build();
+
+        // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
+        // the entire world.
+        placeAutocompleteAdapter = new PlaceAutocompleteAdapter(this, googleApiClient, null,
+                autocompleteFilter);
+        autocompleteView.setAdapter(placeAutocompleteAdapter);
+
 
     }
+
+    private final AdapterView.OnItemClickListener mAutocompleteClickListener
+            = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            /*
+             Retrieve the place ID of the selected item from the Adapter.
+             The adapter stores each Place suggestion in a AutocompletePrediction from which we
+             read the place ID and title.
+              */
+            final AutocompletePrediction item = placeAutocompleteAdapter.getItem(position);
+            final String placeId = item.getPlaceId();
+            final CharSequence primaryText = item.getPrimaryText(null);
+
+            LogUtils.i(TAG, "Autocomplete item selected: " + primaryText);
+
+            /*
+             Issue a request to the Places Geo Data API to retrieve a Place object with additional
+             details about the place.
+              */
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                    .getPlaceById(googleApiClient, placeId);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+
+            LogUtils.i(TAG, "Called getPlaceById to get Place details for " + placeId);
+        }
+    };
+    /**
+     * Callback for results from a Places Geo Data API query that shows the first place result in
+     * the details view on screen.
+     */
+    private final ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
+            = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(@NonNull PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+                // Request did not complete successfully
+                LogUtils.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
+                places.release();
+                return;
+            }
+            try {
+
+                // Get the Place object from the buffer.
+                final Place place = places.get(0);
+                LogUtils.e(TAG, "Place address : " + place.getAddress());
+                lat = place.getLatLng().latitude;
+                lon = place.getLatLng().longitude;
+                address = autocompleteView.getText().toString();
+                autocompleteView.setError(null);
+                places.release();
+                Utils.hideKeyBoard(EditProfileActivity.this);
+
+            } catch (Exception e) {
+                Utils.showLongToast(EditProfileActivity.this, getString(post_task_map_get_location_error_next), true, false);
+            }
+        }
+    };
 
     @Override
     protected void resumeData() {
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        googleApiClient.stopAutoManage(this);
+        googleApiClient.disconnect();
     }
 
     private void updateGender(String gender) {
@@ -222,9 +334,19 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             edtDes.requestFocus();
             edtDes.setError(getString(R.string.error_des));
             return;
-        } else if (edtAddress.getText().toString().trim().equals("")) {
-            edtAddress.requestFocus();
-            edtAddress.setError(getString(R.string.error_address));
+        } else if (!autocompleteView.getText().toString().trim().equals(address.trim()) || (address.equals("") && !autocompleteView.getText().toString().trim().equals(""))) {
+            autocompleteView.requestFocus();
+            autocompleteView.setError(getString(R.string.post_task_address_error_google));
+
+            address = "";
+            lat = 0;
+            lon = 0;
+//            autocompleteView.setText("");
+
+            return;
+        } else if (TextUtils.isEmpty(address)) {
+            autocompleteView.requestFocus();
+            autocompleteView.setError(getString(R.string.post_task_address_error));
             return;
         }
 
@@ -306,8 +428,13 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(Constants.PARAMETER_FULL_NAME, edtName.getText().toString());
-            jsonRequest.put(Constants.PARAMETER_ADDRESS, edtAddress.getText().toString());
+//            jsonRequest.put(Constants.PARAMETER_ADDRESS, edtAddress.getText().toString());
             jsonRequest.put(Constants.PARAMETER_DESCRIPTION, edtDes.getText().toString().trim());
+            jsonRequest.put("latitude", lat);
+            jsonRequest.put("longitude", lon);
+            if (address != null && lat != 0 && lon != 0) {
+                jsonRequest.put(Constants.PARAMETER_ADDRESS, address);
+            }
 
             if (!tvBirthday.getText().toString().equals(""))
                 jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, getOnlyIsoFromDate(tvBirthday.getText().toString()));
@@ -494,5 +621,15 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     private String getImagePath() {
         return imgPath;
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        LogUtils.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
+                + connectionResult.getErrorCode());
+        Toast.makeText(this,
+                getString(R.string.gg_api_error),
+                Toast.LENGTH_SHORT).show();
+
     }
 }

@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.view.View;
+import android.widget.Toast;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.GeneralInfoActivity;
 import vn.tonish.hozo.activity.ProfileActivity;
-import vn.tonish.hozo.activity.TaskAlertsActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.utils.TransitionScreen;
@@ -30,14 +30,11 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     @Override
     protected void initView() {
         findViewById(R.id.layout_profile).setOnClickListener(this);
-        findViewById(R.id.layout_share).setOnClickListener(this);
+        findViewById(R.id.layout_payment).setOnClickListener(this);
         findViewById(R.id.layout_condition).setOnClickListener(this);
         findViewById(R.id.layout_nda).setOnClickListener(this);
-        findViewById(R.id.layout_nda).setOnClickListener(this);
-        findViewById(R.id.layout_info).setOnClickListener(this);
-        findViewById(R.id.layout_about).setOnClickListener(this);
         findViewById(R.id.layout_share).setOnClickListener(this);
-        findViewById(R.id.layout_alert).setOnClickListener(this);
+        findViewById(R.id.layout_about).setOnClickListener(this);
         appVersion = (TextViewHozo) findViewById(R.id.app_version);
     }
 
@@ -78,11 +75,11 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
 //            case R.id.tv_history:
 //                startActivity(HistoryActivity.class, TransitionScreen.RIGHT_TO_LEFT);
-//                break;
+//               break;
 //
-//            case R.id.tv_payment:
-//                startActivity(PaymentActivity.class, TransitionScreen.RIGHT_TO_LEFT);
-//                break;
+            case R.id.layout_payment:
+                Toast.makeText(getActivity(), "Hiện tại chức năng này đang trong quá trình xây dựng!!!", Toast.LENGTH_SHORT).show();
+                break;
 
             case R.id.layout_condition:
                 openGeneralInfoActivity(getString(R.string.other_condition), "http://hozo.vn/dieu-khoan-su-dung/?ref=app");
@@ -92,16 +89,16 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 openGeneralInfoActivity(getString(R.string.other_nad), "http://hozo.vn/chinh-sach-bao-mat/?ref=app");
                 break;
 
-            case R.id.layout_info:
-                openGeneralInfoActivity(getString(R.string.other_info), "http://hozo.vn/?ref=app");
-                break;
+//            case R.id.layout_info:
+//                openGeneralInfoActivity(getString(R.string.other_info), "http://hozo.vn/?ref=app");
+//                break;
 
             case R.id.layout_about:
                 openGeneralInfoActivity(getString(R.string.other_about), "http://hozo.vn/gioi-thieu/?ref=app");
                 break;
-            case R.id.layout_alert:
-                startActivity(TaskAlertsActivity.class, TransitionScreen.RIGHT_TO_LEFT);
-                break;
+//            case R.id.layout_alert:
+//                startActivity(TaskAlertsActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+//                break;
 
         }
     }
