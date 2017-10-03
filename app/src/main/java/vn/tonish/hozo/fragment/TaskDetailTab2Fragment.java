@@ -210,10 +210,13 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
             rcvBidder.setVisibility(View.GONE);
             tvSeeMoreBidders.setVisibility(View.GONE);
         } else {
-            if (rcvBidder.getVisibility() == View.VISIBLE)
+            if (rcvBidder.getVisibility() == View.VISIBLE) {
                 tvBidderCount.setVisibility(View.VISIBLE);
-            else
+                tvSeeMoreBidders.setVisibility(View.VISIBLE);
+            } else {
                 tvBidderCount.setVisibility(View.GONE);
+                tvSeeMoreBidders.setVisibility(View.GONE);
+            }
         }
 
 //        else {
@@ -338,6 +341,8 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_RATE && resultCode == RESPONSE_CODE_RATE) {
+            getData();
+        } if (requestCode == Constants.REQUEST_CODE_SEND_ASSIGNER && resultCode == RESPONSE_CODE_RATE) {
             getData();
         } else if (requestCode == Constants.REQUEST_CODE_SEND_BINDDER && resultCode == Constants.RESULT_CODE_BIDDER) {
             if (data.hasExtra(Constants.EXTRA_BIDDER_TASKRESPONSE)) {
