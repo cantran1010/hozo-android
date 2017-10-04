@@ -135,6 +135,10 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
 
     public void updateUi() {
         LogUtils.d(TAG, "updateUi start");
+
+        //fix bug fabric
+        if (taskResponse.getStatus() == null) return;
+
         bidderType = "";
         assigerType = "";
 
