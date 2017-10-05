@@ -121,10 +121,10 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/bg_border_recruitment"
                 android:gravity="center"
-                android:padding="2dp"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
-
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_comment"

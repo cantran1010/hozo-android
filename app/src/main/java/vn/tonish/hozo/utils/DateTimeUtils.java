@@ -247,7 +247,7 @@ public class DateTimeUtils {
             } else {
                 result = DateTimeUtils.getOnlyDateFromIso(date);
             }
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

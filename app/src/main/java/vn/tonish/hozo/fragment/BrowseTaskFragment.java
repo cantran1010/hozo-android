@@ -357,7 +357,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             onRefresh();
         } else if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.RESULT_CODE_TASK_EDIT) {
             TaskResponse taskEdit = (TaskResponse) data.getSerializableExtra(Constants.EXTRA_TASK);
-            if (!taskEdit.getOfferStatus().equals("")) {
+            if (taskEdit.getOfferStatus() != null && !taskEdit.getOfferStatus().equals("")) {
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getId() == taskEdit.getId()) {
                         taskList.remove(i);

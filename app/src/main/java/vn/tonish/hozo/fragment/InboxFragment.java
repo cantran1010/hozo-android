@@ -396,7 +396,7 @@ public class InboxFragment extends BaseFragment {
 
                         Intent intentPushCount = new Intent();
                         intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-                        getActivity().sendBroadcast(intentPushCount);
+                        if (getActivity() != null) getActivity().sendBroadcast(intentPushCount);
                     }
 
                     notifications.addAll(notificationResponse != null ? notificationResponse : null);

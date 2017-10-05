@@ -232,7 +232,7 @@ public class Utils {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             bitmap = BitmapFactory.decodeFile(fileIn.getPath(), options);
-        } catch (OutOfMemoryError e) {
+        } catch (Exception e) {
             e.printStackTrace();
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.RGB_565;
