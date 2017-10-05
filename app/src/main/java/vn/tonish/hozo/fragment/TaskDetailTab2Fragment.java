@@ -136,6 +136,8 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
     public void updateUi() {
         LogUtils.d(TAG, "updateUi start");
 
+        if (!isAdded() || getActivity() == null) return;
+
         //fix bug fabric
         if (taskResponse.getStatus() == null) return;
 
@@ -346,7 +348,8 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_RATE && resultCode == RESPONSE_CODE_RATE) {
             getData();
-        } if (requestCode == Constants.REQUEST_CODE_SEND_ASSIGNER && resultCode == RESPONSE_CODE_RATE) {
+        }
+        if (requestCode == Constants.REQUEST_CODE_SEND_ASSIGNER && resultCode == RESPONSE_CODE_RATE) {
             getData();
         } else if (requestCode == Constants.REQUEST_CODE_SEND_BINDDER && resultCode == Constants.RESULT_CODE_BIDDER) {
             if (data.hasExtra(Constants.EXTRA_BIDDER_TASKRESPONSE)) {
