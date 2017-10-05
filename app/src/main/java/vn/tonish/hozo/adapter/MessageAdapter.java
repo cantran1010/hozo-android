@@ -106,7 +106,8 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
                             Member member = dataSnapshot.getValue(Member.class);
                             memberHashMap.put(message.getUser_id(), member);
 
-                            Utils.displayImageAvatar(context, workHolder.imgRightAvatar, memberHashMap.get(message.getUser_id()).getAvatar());
+                            if (memberHashMap.get(message.getUser_id()).getAvatar() != null)
+                                Utils.displayImageAvatar(context, workHolder.imgRightAvatar, memberHashMap.get(message.getUser_id()).getAvatar());
                             workHolder.tvRightName.setText(memberHashMap.get(message.getUser_id()).getFull_name());
 
                         }

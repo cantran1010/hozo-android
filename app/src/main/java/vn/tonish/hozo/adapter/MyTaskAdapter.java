@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 
 import java.util.List;
@@ -97,50 +98,86 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
                 if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_canceled));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
+
+                    workHolder.progressBar.setVisibility(View.GONE);
+
                 } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_missed));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
+
+                    workHolder.progressBar.setVisibility(View.GONE);
+
                 } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_overdue));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_overdue));
+
+                    workHolder.progressBar.setVisibility(View.GONE);
+
                 } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_canceled));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
+
+                    workHolder.progressBar.setVisibility(View.GONE);
+
                 } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_open));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_recruitment));
+
+                    workHolder.progressBar.setVisibility(View.GONE);
+
                 } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_assigned));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_received));
+
+                    workHolder.progressBar.setVisibility(View.GONE);
+
                 } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_completed));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
+
+                    workHolder.progressBar.setVisibility(View.GONE);
+
                 }
             } else if (taskResponse.getRole().equals(Constants.ROLE_POSTER)) {
                 switch (taskResponse.getStatus()) {
                     case Constants.TASK_TYPE_POSTER_DRAFT:
                         workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_draft));
                         Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_drag));
+
+                        workHolder.progressBar.setVisibility(View.GONE);
                         break;
                     case Constants.TASK_TYPE_POSTER_OPEN:
                         workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_open));
-                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_recruitment));
+                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_transparent));
+
+                        workHolder.progressBar.setVisibility(View.VISIBLE);
+
+                        workHolder.progressBar.setMax(taskResponse.getWorkerCount());
+                        workHolder.progressBar.setProgress(taskResponse.getAssigneeCount());
                         break;
                     case Constants.TASK_TYPE_POSTER_ASSIGNED:
                         workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_assigned));
-                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_received));
+                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_received_poster));
+
+                        workHolder.progressBar.setVisibility(View.GONE);
                         break;
                     case Constants.TASK_TYPE_POSTER_COMPLETED:
                         workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_completed));
                         Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
+
+                        workHolder.progressBar.setVisibility(View.GONE);
                         break;
                     case Constants.TASK_TYPE_POSTER_OVERDUE:
                         workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_overdue));
                         Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_overdue));
+
+                        workHolder.progressBar.setVisibility(View.GONE);
                         break;
                     case Constants.TASK_TYPE_POSTER_CANCELED:
                         workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_canceled));
                         Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
+
+                        workHolder.progressBar.setVisibility(View.GONE);
                         break;
                 }
             }
@@ -157,6 +194,7 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
         private final TextViewHozo tvComment;
         private final RatingBar ratingBar;
         private final TextViewHozo tvPrice;
+        private final ProgressBar progressBar;
 
         public WorkHolder(View itemView) {
             super(itemView);
@@ -168,6 +206,7 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
             tvComment = (TextViewHozo) itemView.findViewById(R.id.tv_comment);
             tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
             ratingBar = (RatingBar) itemView.findViewById(R.id.rb_rating);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.simpleProgressBar);
 
             itemView.setOnClickListener(this);
         }

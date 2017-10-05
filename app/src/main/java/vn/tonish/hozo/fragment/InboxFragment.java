@@ -43,6 +43,7 @@ import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.common.Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT;
 import static vn.tonish.hozo.common.Constants.PUSH_TYPE_POSTER_CANCELED;
@@ -68,6 +69,7 @@ public class InboxFragment extends BaseFragment {
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
     private ToggleButton tbOnOffNotification;
+    private TextViewHozo tvNoData;
 
     @Override
     protected int getLayout() {
@@ -78,6 +80,8 @@ public class InboxFragment extends BaseFragment {
     protected void initView() {
         lvList = (RecyclerView) findViewById(R.id.lvList);
         tbOnOffNotification = (ToggleButton) findViewById(R.id.tg_on_off);
+        tvNoData = (TextViewHozo) findViewById(R.id.tv_no_data);
+
         createSwipeToRefresh();
     }
 
@@ -396,7 +400,7 @@ public class InboxFragment extends BaseFragment {
 
                         Intent intentPushCount = new Intent();
                         intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-                        getActivity().sendBroadcast(intentPushCount);
+                        if (getActivity() != null) getActivity().sendBroadcast(intentPushCount);
                     }
 
                     notifications.addAll(notificationResponse != null ? notificationResponse : null);
@@ -486,6 +490,12 @@ public class InboxFragment extends BaseFragment {
     private void refreshList() {
         notificationAdapter.notifyDataSetChanged();
         LogUtils.d(TAG, "refreshList , notification size : " + notifications.size());
+
+        if (notifications.size() > 0)
+            tvNoData.setVisibility(View.GONE);
+        else
+            tvNoData.setVisibility(View.VISIBLE);
+
     }
 
     private boolean checkContainsNotification(List<Notification> notifications, Notification notification) {

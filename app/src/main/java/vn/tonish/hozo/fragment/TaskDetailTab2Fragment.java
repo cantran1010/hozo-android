@@ -136,6 +136,8 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
     public void updateUi() {
         LogUtils.d(TAG, "updateUi start");
 
+        if (!isAdded() || getActivity() == null) return;
+
         //fix bug fabric
         if (taskResponse.getStatus() == null) return;
 
@@ -212,30 +214,21 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
         if (bidders.size() == 0) {
             tvBidderCount.setVisibility(View.GONE);
             rcvBidder.setVisibility(View.GONE);
-            tvSeeMoreBidders.setVisibility(View.GONE);
         } else {
-            if (rcvBidder.getVisibility() == View.VISIBLE) {
+            if (rcvBidder.getVisibility() == View.VISIBLE)
                 tvBidderCount.setVisibility(View.VISIBLE);
-                tvSeeMoreBidders.setVisibility(View.VISIBLE);
-            } else {
+            else
                 tvBidderCount.setVisibility(View.GONE);
-                tvSeeMoreBidders.setVisibility(View.GONE);
-            }
         }
-
-//        else {
-//            rcvBidder.setVisibility(View.VISIBLE);
-//            tvSeeMoreBidders.setVisibility(View.VISIBLE);
-//        }
 
         if (assigners.size() == 0) {
             tvAssignCount.setVisibility(View.GONE);
             rcvAssign.setVisibility(View.GONE);
-            tvSeeMoreAssigners.setVisibility(View.GONE);
         } else {
             if (rcvAssign.getVisibility() == View.VISIBLE)
                 tvAssignCount.setVisibility(View.VISIBLE);
-            else tvAssignCount.setVisibility(View.GONE);
+            else
+                tvAssignCount.setVisibility(View.GONE);
         }
 
 //        else {
@@ -259,7 +252,11 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
             ArrayList<Bidder> biddersNew = new ArrayList<Bidder>();
             biddersNew.addAll(bidders.subList(0, MAX_WORKER));
 
-            tvSeeMoreBidders.setVisibility(View.VISIBLE);
+            if (rcvBidder.getVisibility() == View.VISIBLE)
+                tvSeeMoreBidders.setVisibility(View.VISIBLE);
+            else
+                tvSeeMoreBidders.setVisibility(View.GONE);
+
             posterOpenAdapter = new PosterOpenAdapter(biddersNew, bidderType);
         } else {
             tvSeeMoreBidders.setVisibility(View.GONE);
@@ -279,7 +276,11 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
             ArrayList<Assigner> assignersNew = new ArrayList<>();
             assignersNew.addAll(assigners.subList(0, MAX_WORKER));
 
-            tvSeeMoreAssigners.setVisibility(View.VISIBLE);
+            if (rcvAssign.getVisibility() == View.VISIBLE)
+                tvSeeMoreAssigners.setVisibility(View.VISIBLE);
+            else
+                tvSeeMoreAssigners.setVisibility(View.GONE);
+
             assignerAdapter = new AssignerCallAdapter(assignersNew, assignType);
 
         } else {
@@ -346,7 +347,8 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_RATE && resultCode == RESPONSE_CODE_RATE) {
             getData();
-        } if (requestCode == Constants.REQUEST_CODE_SEND_ASSIGNER && resultCode == RESPONSE_CODE_RATE) {
+        }
+        if (requestCode == Constants.REQUEST_CODE_SEND_ASSIGNER && resultCode == RESPONSE_CODE_RATE) {
             getData();
         } else if (requestCode == Constants.REQUEST_CODE_SEND_BINDDER && resultCode == Constants.RESULT_CODE_BIDDER) {
             if (data.hasExtra(Constants.EXTRA_BIDDER_TASKRESPONSE)) {
