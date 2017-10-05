@@ -108,7 +108,6 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
         private final TextViewHozo tvPrice;
         private final TextViewHozo tvComment;
 
-
         public WorkHolder(View itemView) {
             super(itemView);
             imgAvata = (CircleImageView) itemView.findViewById(R.id.img_avatar);
@@ -123,7 +122,6 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
             itemView.setOnClickListener(this);
         }
 
-
         @Override
         public void onClick(View v) {
             if (taskAdapterListener != null) {
@@ -131,5 +129,6 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
             }
 
         }
+
     }
 }

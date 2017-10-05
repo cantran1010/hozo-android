@@ -21,7 +21,6 @@
     <string name="other_nad">Chính sách bảo mật</string>
     <string name="other_share">Chia sẻ với bạn bè</string>
     <string name="other_about">Giới thiệu Hozo</string>
-    <string name="other_info">Thông tin chung</string>
     <string name="ed_login_phone">Nhập số điện thoại của bạn vào</string>
     <string name="login_zone">+84</string>
     <string name="login_enter_otp">Nhập 4 mã số được gửi tới điện thoại</string>
@@ -275,7 +274,7 @@
     <string name="notification_enough_bidder_color">#00A2E5</string>
 
     <!-- my task adapter -->
-    <string name="my_task_status_worker_open">Đang tuyển</string>
+    <string name="my_task_status_worker_open">Ứng tuyển</string>
     <string name="my_task_status_worker_assigned">Đã nhận</string>
     <string name="my_task_status_worker_completed">Hoàn thành</string>
     <string name="my_task_status_worker_missed">Bỏ lỡ</string>
@@ -406,7 +405,6 @@
     <string name="comment_task">Chi tiết hỏi đáp</string>
     <string name="bidders">Danh sách ứng tuyển(%1$d)</string>
     <string name="assigners">Danh sách người làm(%1$d)</string>
-    <string name="error_address">Bắt buộc phải nhập địa chỉ</string>
     <string name="report_task">Báo xấu việc</string>
     <string name="report_task_title">Báo xấu</string>
     <string name="report_task_content">Bạn có chắc chắn muốn báo xấu việc này?</string>

@@ -91,7 +91,6 @@
                 android:textColor="@color/red"
                 android:textStyle="bold" />
 
-
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
@@ -100,8 +99,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/tv_name"
                 android:layout_marginTop="10dp"
-                android:layout_toLeftOf="@+id/tv_status"
-                android:layout_toStartOf="@+id/tv_status"
+                android:layout_toLeftOf="@+id/status_layout"
+                android:layout_toStartOf="@+id/status_layout"
                 android:drawableLeft="@drawable/ic_address"
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/ic_address"
@@ -111,20 +110,34 @@
                 android:textColor="@color/browse_gray"
                 android:textSize="@dimen/tv_size_xxtiny" />
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_status"
-                android:layout_width="82dp"
+            <RelativeLayout
+                android:id="@+id/status_layout"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/tv_price"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/bg_border_recruitment"
-                android:gravity="center"
-                android:paddingBottom="4dp"
-                android:paddingTop="4dp"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:layout_marginTop="5dp">
+
+                <ProgressBar
+                    android:id="@+id/simpleProgressBar"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="82dp"
+                    android:layout_height="23dp"
+                    android:max="1"
+                    android:progress="1"
+                    android:progressDrawable="@drawable/custom_progress" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_status"
+                    android:layout_width="82dp"
+                    android:layout_height="23dp"
+                    android:background="@drawable/bg_border_recruitment"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_comment"
@@ -146,7 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_below="@id/tv_status"
+                android:layout_below="@id/status_layout"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:gravity="end"

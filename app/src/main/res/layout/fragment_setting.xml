@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
@@ -51,7 +52,8 @@
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:src="@drawable/ic_account" />
+                    android:src="@drawable/ic_account"
+                    tools:ignore="ContentDescription" />
 
                 <vn.tonish.hozo.view.TextViewHozo
 
@@ -88,7 +90,8 @@
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:src="@drawable/ic_payment" />
+                    android:src="@drawable/ic_payment"
+                    tools:ignore="ContentDescription" />
 
                 <vn.tonish.hozo.view.TextViewHozo
 
@@ -125,7 +128,8 @@
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:src="@drawable/ic_terms" />
+                    android:src="@drawable/ic_terms"
+                    tools:ignore="ContentDescription" />
 
                 <vn.tonish.hozo.view.TextViewHozo
 
@@ -162,7 +166,8 @@
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:src="@drawable/ic_policy" />
+                    android:src="@drawable/ic_policy"
+                    tools:ignore="ContentDescription" />
 
                 <vn.tonish.hozo.view.TextViewHozo
 
@@ -199,7 +204,8 @@
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:src="@drawable/ic_share" />
+                    android:src="@drawable/ic_share"
+                    tools:ignore="ContentDescription" />
 
                 <vn.tonish.hozo.view.TextViewHozo
 
@@ -236,7 +242,8 @@
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:src="@drawable/ic_about" />
+                    android:src="@drawable/ic_about"
+                    tools:ignore="ContentDescription" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:layout_width="wrap_content"

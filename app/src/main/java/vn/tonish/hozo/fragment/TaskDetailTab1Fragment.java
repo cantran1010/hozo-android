@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 
 import java.text.ParseException;
@@ -58,6 +59,7 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
     private ButtonHozo btnOffer;
     private Call<TaskResponse> call;
     private MyGridView myGridView;
+    private ProgressBar progressBar;
 
     @Override
     protected int getLayout() {
@@ -99,6 +101,9 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
 
         tvAgeLbl = (TextViewHozo) findViewById(R.id.tv_age_lbl);
         tvSexLbl = (TextViewHozo) findViewById(R.id.tv_sex_lbl);
+
+        progressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
+
     }
 
     @Override
@@ -227,54 +232,54 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
 
         //poster
         if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
-            updateStatus(true, getString(R.string.update_task), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_recruitment));
+            updateStatus(true, true, getString(R.string.my_task_status_poster_open), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_transparent));
             updateBtnOffer(Constants.OFFER_GONE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
-            updateStatus(true, getString(R.string.delivered), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_received));
+            updateStatus(true, false, getString(R.string.delivered), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_received_poster));
             updateBtnOffer(Constants.OFFER_GONE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
-            updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_done));
+            updateStatus(true, false, getString(R.string.done), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_done));
             updateBtnOffer(Constants.OFFER_GONE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
-            updateStatus(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
+            updateStatus(true, false, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
             updateBtnOffer(Constants.OFFER_GONE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
-            updateStatus(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
+            updateStatus(true, false, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
             updateBtnOffer(Constants.OFFER_GONE);
         }
 
         //bidder
         else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
-            updateStatus(true, getString(R.string.my_task_status_worker_canceled), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
+            updateStatus(true, false, getString(R.string.my_task_status_worker_canceled), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
             updateBtnOffer(Constants.OFFER_GONE);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN)) {
-            updateStatus(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
+            updateStatus(true, false, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
             updateBtnOffer(Constants.OFFER_ACTIVE);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
-            updateStatus(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
+            updateStatus(true, false, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
             updateBtnOffer(Constants.OFFER_GONE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
-            updateStatus(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
+            updateStatus(true, false, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
             updateBtnOffer(Constants.OFFER_GONE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
-            updateStatus(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
+            updateStatus(true, false, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_missed));
             updateBtnOffer(Constants.OFFER_GONE);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
-            updateStatus(false, getString(R.string.recruitment), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_recruitment));
+            updateStatus(false, false, getString(R.string.recruitment), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_recruitment));
             updateBtnOffer(Constants.OFFER_PENDING);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
-            updateStatus(true, getString(R.string.received), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_received));
+            updateStatus(true, false, getString(R.string.received), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_received));
             updateBtnOffer(Constants.OFFER_CALL);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
-            updateStatus(true, getString(R.string.done), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_done));
+            updateStatus(true, false, getString(R.string.done), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_done));
             updateBtnOffer(Constants.OFFER_RATTING);
         }
         // make an offer
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
-            updateStatus(true, getString(R.string.make_an_offer_status), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_offer));
+            updateStatus(true, false, getString(R.string.make_an_offer_status), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_offer));
             updateBtnOffer(Constants.OFFER_ACTIVE);
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() != UserManager.getMyUser().getId()) {
-            updateStatus(true, getString(R.string.delivered), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_received));
+            updateStatus(true, false, getString(R.string.delivered), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_received));
             updateBtnOffer(Constants.OFFER_GONE);
         }
     }
@@ -442,7 +447,7 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
 
     }
 
-    public void updateStatus(boolean isShow, String status, Drawable drawable) {
+    public void updateStatus(boolean isShow, boolean isShowProgress, String status, Drawable drawable) {
         if (isShow) {
             tvStatus.setVisibility(View.VISIBLE);
             tvStatus.setText(status);
@@ -453,6 +458,14 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
                 tvStatus.setBackground(drawable);
             }
         } else tvStatus.setVisibility(View.GONE);
+
+        if (isShowProgress) {
+            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setMax(taskResponse.getWorkerCount());
+            progressBar.setProgress(taskResponse.getAssigneeCount());
+        } else
+            progressBar.setVisibility(View.GONE);
+
     }
 
     private void doOffer() {
