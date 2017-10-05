@@ -695,8 +695,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                             } else {
                                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                                 calendar.set(Calendar.MINUTE, minute);
-                                String strTime = hourOfDay + ":" + minute;
-                                tvTime.setText(strTime);
+//                                String strTime = hourOfDay + ":" + minute;
+//                                tvTime.setText(strTime);
+                                tvTime.setText(DateTimeUtils.fromCalendarToTime(calendar));
                                 tvTime.setError(null);
                             }
                         }

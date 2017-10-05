@@ -257,7 +257,9 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
                         Intent intentComment = new Intent();
                         intentComment.setAction(Constants.BROAD_CAST_MY);
                         intentComment.putExtra(Constants.COMMENT_EXTRA, 0);
-                        getActivity().sendBroadcast(intentComment);
+
+                        if (getActivity() != null)
+                            getActivity().sendBroadcast(intentComment);
 
                     }
 

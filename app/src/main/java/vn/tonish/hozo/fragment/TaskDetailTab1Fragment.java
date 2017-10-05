@@ -222,6 +222,9 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
 
     private void updateStatusTask() {
 
+        //fix bug fabric
+        if (taskResponse.getStatus() == null) return;
+
         //poster
         if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatus(true, getString(R.string.update_task), ContextCompat.getDrawable(getActivity(), R.drawable.bg_border_recruitment));
