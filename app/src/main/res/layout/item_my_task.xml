@@ -135,7 +135,7 @@
                     android:background="@drawable/bg_border_recruitment"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </RelativeLayout>
 

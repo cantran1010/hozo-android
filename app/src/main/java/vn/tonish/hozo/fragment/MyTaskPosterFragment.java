@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +33,7 @@ import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 6/2/17.
@@ -51,6 +53,7 @@ public class MyTaskPosterFragment extends BaseFragment {
     private LinearLayoutManager linearLayoutManager;
     private String filter = "";
     private boolean isReloadMyTask = false;
+    private TextViewHozo tvNoData;
 
     @Override
     protected int getLayout() {
@@ -60,6 +63,8 @@ public class MyTaskPosterFragment extends BaseFragment {
     @Override
     protected void initView() {
         rcvTask = (RecyclerView) findViewById(R.id.rcv_task);
+        tvNoData = (TextViewHozo) findViewById(R.id.tv_no_data);
+
         createSwipeToRefresh();
     }
 
@@ -256,6 +261,12 @@ public class MyTaskPosterFragment extends BaseFragment {
 
     private void refreshList() {
         myTaskAdapter.notifyDataSetChanged();
+
+        if (taskResponses.size() > 0)
+            tvNoData.setVisibility(View.GONE);
+        else
+            tvNoData.setVisibility(View.VISIBLE);
+
     }
 
     @Override
