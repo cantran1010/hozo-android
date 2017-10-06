@@ -483,5 +483,16 @@
     <string name="register_address">Địa chỉ</string>
     <string name="btn_done">HOÀN TẤT</string>
     <string name="other_payment">Thanh toán</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN">d9278fc58b4d68801c0a5a682dfcaad2</string>
+    <string name="na">NA</string>
+    <string name="permissions_read_phone_state_message">
+        Cho phép đọc số điện thoại của bạn từ thiết bị của bạn để điền vào trước.
+    </string>
+    <string name="permissions_read_phone_state_title">Read Phone Number</string>
+    <string name="permissions_receive_sms_message">
+      Cho phép đọc mã SMS của bạn từ thiết bị của bạn để điền vào trước.
+    </string>
+    <string name="permissions_receive_sms_title">Đọc Mã SMS</string>
+    <string name="error_message">An error has occurred.</string>
 
 </resources>
