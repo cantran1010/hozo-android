@@ -226,5 +226,6 @@ public class Constants {
     public static final String TASK_COPY = "task_copy";
     public static final String TASK_EDIT = "task_edit";
     public static final String TASK_DRAFT = "task_draft";
-    public static final String BROAD_CAST_COUNT_NEW_MSG = "broad_cast_new_msg";
+    public static final String HEIGHT_KEY = "height";
+    public static final String ACCOUNT_CODE = "code";
 }

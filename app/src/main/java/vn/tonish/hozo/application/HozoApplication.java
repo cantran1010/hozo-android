@@ -6,6 +6,7 @@ import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
+import com.facebook.accountkit.AccountKit;
 
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
@@ -19,7 +20,7 @@ public class HozoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        AccountKit.initialize(getApplicationContext());
         Realm.init(this);
         Realm.setDefaultConfiguration(RealmDbHelper.getRealmConfig(getApplicationContext()));
 

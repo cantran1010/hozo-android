@@ -488,5 +488,16 @@
     <string name="content_bid_task">Bạn có chắc chắn nhận được việc không? Đừng để người đăng việc thất vọng nhé.</string>
     <string name="bid_success_tittle">Ứng tuyển thành công</string>
     <string name="big_success_content">Bạn sẽ được người đăng việc xem xét và giao việc. Hãy để ý trong phần Thông báo của mình nhé.</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN">d9278fc58b4d68801c0a5a682dfcaad2</string>
+    <string name="na">NA</string>
+    <string name="permissions_read_phone_state_message">
+        Cho phép đọc số điện thoại của bạn từ thiết bị của bạn để điền vào trước.
+    </string>
+    <string name="permissions_read_phone_state_title">Read Phone Number</string>
+    <string name="permissions_receive_sms_message">
+      Cho phép đọc mã SMS của bạn từ thiết bị của bạn để điền vào trước.
+    </string>
+    <string name="permissions_receive_sms_title">Đọc Mã SMS</string>
+    <string name="error_message">An error has occurred.</string>
 
 </resources>

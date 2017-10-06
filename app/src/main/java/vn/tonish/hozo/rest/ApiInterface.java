@@ -161,4 +161,6 @@ public interface ApiInterface {
 
     @POST("v1/users/settings")
     Call<NofifySystemResponse> updateNotifySystem(@Header("Authorization") String token, @Body RequestBody body);
+    @POST("v1/auth/account-kit")
+    Call<OtpReponse> loginAccountKit(@Body RequestBody body);
 }
