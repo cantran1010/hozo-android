@@ -426,7 +426,7 @@
     <string name="auto_pick">Tự động chọn ứng viên</string>
     <string name="post_task_address_error">Vui lòng nhập địa chỉ</string>
     <string name="hour_default">4</string>
-    <string name="post_a_task_input_error">Hozo không cho phép đăng email hay số điện thoại trong bài đăng. \nTrường hợp cố tình vi phạm sẽ có nguy cơ bị khóa tài khoản vĩnh viễn!</string>
+    <string name="post_a_task_input_error">Không được phép nhập số điện thoại hoặc email.\nViệc cố tình vi phạm có thể dẫn tới việc bị khóa tài khoản vĩnh viễn!</string>
     <string name="detail_tab_1">Công việc</string>
     <string name="detail_tab_2">Người làm</string>
     <string name="detail_tab_3">Bình luận</string>
@@ -484,5 +484,9 @@
     <string name="other_payment">Thanh toán</string>
     <string name="poster_chat_msg">Bạn cần giao việc cho ứng viên để bắt đầu chat nhóm.</string>
     <string name="bidder_chat_msg">Bạn cần được giao việc để bắt đầu chat nhóm.</string>
+    <string name="title_bid_task">Ứng tuyển</string>
+    <string name="content_bid_task">Bạn có chắc chắn nhận được việc không? Đừng để người đăng việc thất vọng nhé.</string>
+    <string name="bid_success_tittle">Ứng tuyển thành công</string>
+    <string name="big_success_content">Bạn sẽ được người đăng việc xem xét và giao việc. Hãy để ý trong phần Thông báo của mình nhé.</string>
 
 </resources>

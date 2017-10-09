@@ -3,7 +3,6 @@ package vn.tonish.hozo.fragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,7 +26,6 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
-import vn.tonish.hozo.dialog.BidSuccessDialog;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
@@ -295,7 +293,21 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
                 btnOffer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        doOffer();
+
+                        DialogUtils.showOkAndCancelDialog(
+                                getActivity(), getString(R.string.title_bid_task), getString(R.string.content_bid_task), getString(R.string.cancel_task_ok),
+                                getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+                                        doOffer();
+                                    }
+
+                                    @Override
+                                    public void onCancel() {
+
+                                    }
+                                });
+
                     }
                 });
                 break;
@@ -477,26 +489,33 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
                 LogUtils.d(TAG, "bidsTask body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    final BidSuccessDialog bidSuccessDialog = new BidSuccessDialog(getActivity());
-                    bidSuccessDialog.showView();
+//                    final BidSuccessDialog bidSuccessDialog = new BidSuccessDialog(getActivity());
+//                    bidSuccessDialog.showView();
 
                     btnOffer.setText(getString(R.string.work_detail_view_bit_pending));
                     btnOffer.setClickable(false);
                     Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(getActivity(), R.drawable.btn_press));
 
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
+//                    Handler handler = new Handler();
+//                    handler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+                    taskResponse = response.body();
+                    Utils.updateRole(taskResponse);
+//                            bidSuccessDialog.hideView();
+                    updateUi();
+                    Utils.updateRole(taskResponse);
+                    ((TaskDetailNewActivity) getActivity()).setTaskResponse(taskResponse);
+                    ((TaskDetailNewActivity) getActivity()).showMenu();
+//                        }
+//                    }, 1000);
+
+                    DialogUtils.showOkDialog(getActivity(), getString(R.string.bid_success_tittle), getString(R.string.big_success_content), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                         @Override
-                        public void run() {
-                            taskResponse = response.body();
-                            Utils.updateRole(taskResponse);
-                            bidSuccessDialog.hideView();
-                            updateUi();
-                            Utils.updateRole(taskResponse);
-                            ((TaskDetailNewActivity) getActivity()).setTaskResponse(taskResponse);
-                            ((TaskDetailNewActivity) getActivity()).showMenu();
+                        public void onSubmit() {
+
                         }
-                    }, 1000);
+                    });
 
                 } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
                     APIError error = ErrorUtils.parseError(response);
