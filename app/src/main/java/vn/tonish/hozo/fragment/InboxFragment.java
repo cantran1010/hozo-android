@@ -287,6 +287,11 @@ public class InboxFragment extends BaseFragment {
                     Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
                     startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+                } else if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_TASK_COMPLETE)) {
+                    Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
+                    intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
+                    intent.putExtra(Constants.TAB_EXTRA, 1);
+                    startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());

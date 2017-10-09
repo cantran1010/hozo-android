@@ -206,6 +206,7 @@ public class Constants {
     public static final String COUNT_NEW_MSG_EXTRA = "count_new_msg_extra";
     public static final int REQUEST_CODE_CHAT = 246;
     public static final int RESULT_CODE_CHAT = 147;
+    public static final String TAB_EXTRA = "tab_extra";
     public static String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static String BID_ERROR_INVALID_DATA = "invalid_data";
     public static String BID_LIMIT_OFFER = "limit_offer";

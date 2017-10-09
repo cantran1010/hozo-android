@@ -62,6 +62,7 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
     private TextViewHozo tvTab1, tvTab2, tvTab3, tvCountBidder, tvCountComment;
     private int bidderCount = 0;
     private int commentCount = 0;
+    private int tabOpen = 0;
 
     @Override
     protected int getLayout() {
@@ -82,7 +83,6 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.detail_tab_2)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.detail_tab_3)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
 
         @SuppressLint("InflateParams") View headerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.custom_tab, null, false);
@@ -144,6 +144,9 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initData() {
         taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
+        if (getIntent().hasExtra(Constants.TAB_EXTRA))
+            tabOpen = getIntent().getIntExtra(Constants.TAB_EXTRA, 1);
+
         getData();
     }
 
@@ -276,6 +279,8 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        if (tabOpen != 0) viewPager.setCurrentItem(tabOpen);
 
 //        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 //            @Override
