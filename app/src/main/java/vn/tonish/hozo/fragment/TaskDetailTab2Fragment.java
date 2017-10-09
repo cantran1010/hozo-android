@@ -97,7 +97,7 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
         tvNoBidder = (TextViewHozo) findViewById(R.id.tv_no_bidder);
 
         btnChat = (ButtonHozo) findViewById(R.id.btn_chat);
-        btnChat.setOnClickListener(this);
+//        btnChat.setOnClickListener(this);
     }
 
     @Override
@@ -523,24 +523,61 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
 
         if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) || taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED)) {
+                if (assigners.size() > 0) {
+                    btnChat.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            openChatScreen();
+                        }
+                    });
+                } else
+                    btnChat.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            DialogUtils.showOkDialog(getActivity(), getString(R.string.app_name), getString(R.string.poster_chat_msg), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
 
-                if (assigners.size() > 0) btnChat.setVisibility(View.VISIBLE);
-                else
-                    btnChat.setVisibility(View.GONE);
-
+                                }
+                            });
+                        }
+                    });
             } else {
                 btnChat.setVisibility(View.GONE);
             }
         } else {
-
             if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
-                btnChat.setVisibility(View.VISIBLE);
+                btnChat.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        openChatScreen();
+                    }
+                });
+            } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN)) {
+                btnChat.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.app_name), getString(R.string.bidder_chat_msg), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                });
             } else {
                 btnChat.setVisibility(View.GONE);
             }
-
         }
 
+    }
+
+    private void openChatScreen() {
+        Intent intent = new Intent(getActivity(), ChatActivity.class);
+        intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+        intent.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
+        intent.putExtra(Constants.TITLE_INFO_EXTRA, taskResponse.getTitle());
+        startActivityForResult(intent, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
     }
 
     @Override
@@ -555,13 +592,13 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
                 doSeeMoreAssigns();
                 break;
 
-            case R.id.btn_chat:
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                intent.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
-                intent.putExtra(Constants.TITLE_INFO_EXTRA, taskResponse.getTitle());
-                startActivityForResult(intent, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
-                break;
+//            case R.id.btn_chat:
+//                Intent intent = new Intent(getActivity(), ChatActivity.class);
+//                intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+//                intent.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
+//                intent.putExtra(Constants.TITLE_INFO_EXTRA, taskResponse.getTitle());
+//                startActivityForResult(intent, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
+//                break;
 
         }
     }

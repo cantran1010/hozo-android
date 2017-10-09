@@ -419,7 +419,12 @@ public class Utils {
                 matcherColor = context.getString(R.string.notification_poster_canceled_color);
                 break;
             case Constants.PUSH_TYPE_TASK_COMPLETE:
-                content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.notification_task_completed);
+
+                if (notification.getUserId() == UserManager.getMyUser().getId())
+                    content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_completed);
+                else
+                    content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_completed_bidder);
+
                 matcher = context.getString(R.string.notification_task_completed_matcher);
                 matcherColor = context.getString(R.string.notification_task_completed_color);
                 break;
@@ -573,7 +578,12 @@ public class Utils {
                 content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.push_you_bidded);
                 break;
             case Constants.PUSH_TYPE_TASK_COMPLETE:
-                content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.notification_task_completed);
+
+                if (notification.getUserId() == UserManager.getMyUser().getId())
+                    content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_completed);
+                else
+                    content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_completed_bidder);
+
                 break;
             case Constants.PUSH_TYPE_TASK_OVERDUE:
                 content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.notification_task_overdue);
