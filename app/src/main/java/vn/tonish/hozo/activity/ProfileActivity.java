@@ -1,6 +1,7 @@
 package vn.tonish.hozo.activity;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -400,18 +401,24 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 //                        if (response.isSuccessful()) {
                         if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
                             AccountKit.logOut();
-                            if (AccessToken.getCurrentAccessToken() != null && Profile.getCurrentProfile() != null) {
-                                LoginManager.getInstance().logOut();
-                            }
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (AccessToken.getCurrentAccessToken() != null && Profile.getCurrentProfile() != null) {
+                                        LoginManager.getInstance().logOut();
+                                    }
 
-                            Realm realm = Realm.getDefaultInstance();
-                            realm.beginTransaction();
-                            realm.deleteAll();
-                            realm.commitTransaction();
-                            Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
-                            intent.putExtra(Constants.LOGOUT_EXTRA, true);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
+                                    Realm realm = Realm.getDefaultInstance();
+                                    realm.beginTransaction();
+                                    realm.deleteAll();
+                                    realm.commitTransaction();
+                                    Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
+                                    intent.putExtra(Constants.LOGOUT_EXTRA, true);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                }
+                            }, 500);
+
                         } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                             NetworkUtils.refreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
                                 @Override
