@@ -180,5 +180,11 @@
         <item name="colorControlActivated">@color/blue</item>
     </style>
 
+    <style name="HozoAccountKit" parent="Theme.AccountKit">
+        <item name="com_accountkit_input_background_color">@color/green_hozo</item>
+        <item name="com_accountkit_button_background_color">@color/hozo_bg</item>
+
+    </style>
+
     <color name="edt_hint">#AEAEAE</color>
 </resources>

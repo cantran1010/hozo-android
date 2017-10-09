@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.Profile;
+import com.facebook.accountkit.AccountKit;
 import com.facebook.login.LoginManager;
 
 import java.util.ArrayList;
@@ -398,19 +399,20 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     public void onResponse(Call<Void> call, Response<Void> response) {
 //                        if (response.isSuccessful()) {
                         if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
-
-                            if (AccessToken.getCurrentAccessToken() != null && Profile.getCurrentProfile() != null) {
-                                LoginManager.getInstance().logOut();
-                            }
+                            AccountKit.logOut();
+                                    if (AccessToken.getCurrentAccessToken() != null && Profile.getCurrentProfile() != null) {
+                                        LoginManager.getInstance().logOut();
+                                    }
 
                             Realm realm = Realm.getDefaultInstance();
-                            realm.beginTransaction();
-                            realm.deleteAll();
-                            realm.commitTransaction();
-                            Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
-                            intent.putExtra(Constants.LOGOUT_EXTRA, true);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
+                                    realm.beginTransaction();
+                                    realm.deleteAll();
+                                    realm.commitTransaction();
+                                    Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
+                                    intent.putExtra(Constants.LOGOUT_EXTRA, true);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+
                         } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                             NetworkUtils.refreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
                                 @Override

@@ -21,6 +21,7 @@
     <string name="other_nad">Chính sách bảo mật</string>
     <string name="other_share">Chia sẻ với bạn bè</string>
     <string name="other_about">Giới thiệu Hozo</string>
+    <string name="other_info">Thông tin chung</string>
     <string name="ed_login_phone">Nhập số điện thoại của bạn vào</string>
     <string name="login_zone">+84</string>
     <string name="login_enter_otp">Nhập 4 mã số được gửi tới điện thoại</string>
@@ -237,8 +238,7 @@
     <string name="notification_task_reminder">bạn được giao sắp đến giờ đi làm</string>
     <string name="notification_new_task_alert">đã tạo một việc mới</string>
     <string name="notification_poster_canceled">đã hủy việc</string>
-    <string name="notification_task_completed">đã hoàn thành,hãy đánh giá người làm!</string>
-    <string name="notification_task_completed_bidder">đã hoàn thành,hãy đánh giá người đăng việc!</string>
+    <string name="notification_task_completed">đã hoàn thành. Bạn có thể đánh giá đối tác!</string>
     <string name="notification_task_overdue">đã hết hạn</string>
     <string name="notification_bid_missed">mà bạn ứng tuyển vừa bị bỏ lỡ</string>
     <string name="notification_task_reopen">mà bạn ứng tuyển trước đó vừa được mở lại</string>
@@ -275,7 +275,7 @@
     <string name="notification_enough_bidder_color">#00A2E5</string>
 
     <!-- my task adapter -->
-    <string name="my_task_status_worker_open">Ứng tuyển</string>
+    <string name="my_task_status_worker_open">Đang tuyển</string>
     <string name="my_task_status_worker_assigned">Đã nhận</string>
     <string name="my_task_status_worker_completed">Hoàn thành</string>
     <string name="my_task_status_worker_missed">Bỏ lỡ</string>
@@ -336,7 +336,7 @@
     <string name="offer_error_time">Đề nghị làm việc của bạn không được chấp nhận vì bạn đã ứng tuyển một công việc khác vào thời gian này!</string>
     <string name="less_than">dưới</string>
     <string name="more_than">Trên</string>
-    <string name="code_otp_is_invalid">Mã OPT không hợp lệ</string>
+    <string name="code_otp_is_invalid">Lỗi bất ngờ!!!.</string>
     <string name="hot_line">02473004886</string>
     <string name="block_title">Tài khoản của bạn đã bị khóa vì</string>
     <string name="block_des">Liên hệ với Hozo để được hỗ trợ</string>
@@ -406,6 +406,7 @@
     <string name="comment_task">Chi tiết hỏi đáp</string>
     <string name="bidders">Danh sách ứng tuyển(%1$d)</string>
     <string name="assigners">Danh sách người làm(%1$d)</string>
+    <string name="error_address">Bắt buộc phải nhập địa chỉ</string>
     <string name="report_task">Báo xấu việc</string>
     <string name="report_task_title">Báo xấu</string>
     <string name="report_task_content">Bạn có chắc chắn muốn báo xấu việc này?</string>
@@ -426,7 +427,7 @@
     <string name="auto_pick">Tự động chọn ứng viên</string>
     <string name="post_task_address_error">Vui lòng nhập địa chỉ</string>
     <string name="hour_default">4</string>
-    <string name="post_a_task_input_error">Không được phép nhập số điện thoại hoặc email.\nViệc cố tình vi phạm có thể dẫn tới việc bị khóa tài khoản vĩnh viễn!</string>
+    <string name="post_a_task_input_error">Hozo không cho phép đăng email hay số điện thoại trong bài đăng. \nTrường hợp cố tình vi phạm sẽ có nguy cơ bị khóa tài khoản vĩnh viễn!</string>
     <string name="detail_tab_1">Công việc</string>
     <string name="detail_tab_2">Người làm</string>
     <string name="detail_tab_3">Bình luận</string>
@@ -482,11 +483,33 @@
     <string name="register_address">Địa chỉ</string>
     <string name="btn_done">HOÀN TẤT</string>
     <string name="other_payment">Thanh toán</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN">d9278fc58b4d68801c0a5a682dfcaad2</string>
+    <string name="na">NA</string>
+    <string name="permissions_read_phone_state_message">
+        Cho phép đọc số điện thoại của bạn từ thiết bị của bạn để điền vào trước.
+    </string>
+    <string name="permissions_read_phone_state_title">Read Phone Number</string>
+    <string name="permissions_receive_sms_message">
+      Cho phép đọc mã SMS của bạn từ thiết bị của bạn để điền vào trước.
+    </string>
+    <string name="permissions_receive_sms_title">Đọc Mã SMS</string>
+    <string name="error_message">An error has occurred.</string>
     <string name="poster_chat_msg">Bạn cần giao việc cho ứng viên để bắt đầu chat nhóm.</string>
     <string name="bidder_chat_msg">Bạn cần được giao việc để bắt đầu chat nhóm.</string>
     <string name="title_bid_task">Ứng tuyển</string>
     <string name="content_bid_task">Bạn có chắc chắn nhận được việc không? Đừng để người đăng việc thất vọng nhé.</string>
     <string name="bid_success_tittle">Ứng tuyển thành công</string>
     <string name="big_success_content">Bạn sẽ được người đăng việc xem xét và giao việc. Hãy để ý trong phần Thông báo của mình nhé.</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN">d9278fc58b4d68801c0a5a682dfcaad2</string>
+    <string name="na">NA</string>
+    <string name="permissions_read_phone_state_message">
+        Cho phép đọc số điện thoại của bạn từ thiết bị của bạn để điền vào trước.
+    </string>
+    <string name="permissions_read_phone_state_title">Read Phone Number</string>
+    <string name="permissions_receive_sms_message">
+      Cho phép đọc mã SMS của bạn từ thiết bị của bạn để điền vào trước.
+    </string>
+    <string name="permissions_receive_sms_title">Đọc Mã SMS</string>
+    <string name="error_message">An error has occurred.</string>
 
 </resources>
