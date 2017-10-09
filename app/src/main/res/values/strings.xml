@@ -238,6 +238,7 @@
     <string name="notification_new_task_alert">đã tạo một việc mới</string>
     <string name="notification_poster_canceled">đã hủy việc</string>
     <string name="notification_task_completed">đã hoàn thành,hãy đánh giá người làm!</string>
+    <string name="notification_task_completed_bidder">đã hoàn thành,hãy đánh giá người đăng việc!</string>
     <string name="notification_task_overdue">đã hết hạn</string>
     <string name="notification_bid_missed">mà bạn ứng tuyển vừa bị bỏ lỡ</string>
     <string name="notification_task_reopen">mà bạn ứng tuyển trước đó vừa được mở lại</string>
@@ -481,7 +482,7 @@
     <string name="register_address">Địa chỉ</string>
     <string name="btn_done">HOÀN TẤT</string>
     <string name="other_payment">Thanh toán</string>
-    <string name="poster_chat_msg">Bạn hãy giao việc để bắt đầu chat nhóm.</string>
+    <string name="poster_chat_msg">Bạn cần giao việc cho ứng viên để bắt đầu chat nhóm.</string>
     <string name="bidder_chat_msg">Bạn cần được giao việc để bắt đầu chat nhóm.</string>
 
 </resources>
