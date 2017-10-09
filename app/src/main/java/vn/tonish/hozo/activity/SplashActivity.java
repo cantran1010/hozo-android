@@ -224,7 +224,8 @@ public class SplashActivity extends BaseActivity {
                         finish();
                     } else {
                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                         if (taskId != 0)
                             intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
                         startActivity(intent, TransitionScreen.FADE_IN);

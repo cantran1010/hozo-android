@@ -108,7 +108,6 @@ public class HomeActivity extends BaseActivity {
                 = new AccountKitConfiguration.AccountKitConfigurationBuilder(
                 LoginType.PHONE,
                 AccountKitActivity.ResponseType.TOKEN);
-
         uiManager = new HozoAccountKitUIManager(ButtonType.CONTINUE, ButtonType.CONTINUE, TextPosition.BELOW_BODY, LoginType.PHONE);
         configurationBuilder.setUIManager(uiManager);
 
@@ -173,7 +172,6 @@ public class HomeActivity extends BaseActivity {
                     LogUtils.d(TAG, "onResponse body : " + response.body());
                     UserEntity user = response.body().getUser();
                     Token token = response.body().getToken();
-
                     user.setAccessToken(token.getAccessToken());
                     user.setRefreshToken(token.getRefreshToken());
                     user.setTokenExp(token.getTokenExpires());
@@ -182,7 +180,10 @@ public class HomeActivity extends BaseActivity {
                     if (user.getFullName().isEmpty()) {
                         openFragment(R.id.layout_container, RegisterFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
                     } else {
-                        startActivity(new Intent(HomeActivity.this, MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+                        Intent i = new Intent(HomeActivity.this, MainActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.putExtra(Constants.TRANSITION_EXTRA, TransitionScreen.FADE_IN);
+                        startActivity(i);
                     }
                     sendRegistrationToServer();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -269,11 +270,8 @@ public class HomeActivity extends BaseActivity {
         if (loginResult == null || loginResult.wasCancelled()) {
             finish();
         } else if (loginResult.getError() != null) {
+            LogUtils.d(TAG, "loginResult 3" + loginResult.getAccessToken().toString());
             toastMessage = loginResult.getError().getErrorType().getMessage();
-//            final Intent intent = new Intent(this, ErrorActivity.class);
-//            intent.putExtra(ErrorActivity.HELLO_TOKEN_ACTIVITY_ERROR_EXTRA, loginResult.getError());
-
-//            startActivity(intent);
             Toast.makeText(
                     this,
                     toastMessage,
@@ -284,9 +282,10 @@ public class HomeActivity extends BaseActivity {
             final AccessToken accessToken = loginResult.getAccessToken();
             if (accessToken != null) {
                 sendCodeAccountKit(accessToken.getToken());
-                LogUtils.d(TAG, "loginResult" + loginResult.getAuthorizationCode());
-                LogUtils.d(TAG, "loginResult" + accessToken.getToken());
+//                LogUtils.d(TAG, "loginResult" + loginResult.getAuthorizationCode());
+//                LogUtils.d(TAG, "loginResult 4" + loginResult.getAccessToken().toString());
             } else {
+//                LogUtils.d(TAG, "loginResult 5" + loginResult.getAccessToken().toString());
                 toastMessage = "Unknown response type";
                 Toast.makeText(
                         this,
