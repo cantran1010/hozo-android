@@ -228,4 +228,5 @@ public class Constants {
     public static final String TASK_DRAFT = "task_draft";
     public static final String HEIGHT_KEY = "height";
     public static final String ACCOUNT_CODE = "token";
+    public static final int ACCOUNT_KIT_REQUEST_CODE = 1101;
 }

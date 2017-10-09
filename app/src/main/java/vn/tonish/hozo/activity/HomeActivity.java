@@ -54,6 +54,7 @@ import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 
 import static vn.tonish.hozo.common.Constants.ACCOUNT_CODE;
+import static vn.tonish.hozo.common.Constants.ACCOUNT_KIT_REQUEST_CODE;
 import static vn.tonish.hozo.database.manager.UserManager.insertUser;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
@@ -63,7 +64,6 @@ import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
 public class HomeActivity extends BaseActivity {
     private static final String TAG = HomeActivity.class.getSimpleName();
-    private static final int FRAMEWORK_REQUEST_CODE = 1;
     private int nextPermissionsRequestCode = 4000;
     private final Map<Integer, OnCompleteListener> permissionsListeners = new HashMap<>();
 
@@ -119,7 +119,7 @@ public class HomeActivity extends BaseActivity {
         OnCompleteListener completeListener = new OnCompleteListener() {
             @Override
             public void onComplete() {
-                startActivityForResult(intent, FRAMEWORK_REQUEST_CODE);
+                startActivityForResult(intent, ACCOUNT_KIT_REQUEST_CODE);
             }
         };
         if (configuration.isReceiveSMSEnabled() && !canReadSmsWithoutPermission()) {
@@ -260,7 +260,7 @@ public class HomeActivity extends BaseActivity {
             final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode != FRAMEWORK_REQUEST_CODE) {
+        if (requestCode != ACCOUNT_KIT_REQUEST_CODE) {
             return;
         }
 
