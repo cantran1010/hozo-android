@@ -88,9 +88,7 @@ public class HomeActivity extends BaseActivity {
         AccessToken accessToken = AccountKit.getCurrentAccessToken();
         PreferUtils.setNewPushChatCount(this, 0);
         if (accessToken != null) {
-            AccountKit.logOut();
-            loginHozo();
-
+            sendCodeAccountKit(accessToken.getToken());
         } else {
             loginHozo();
         }
@@ -285,9 +283,9 @@ public class HomeActivity extends BaseActivity {
         } else {
             final AccessToken accessToken = loginResult.getAccessToken();
             if (accessToken != null) {
-//                sendCodeAccountKit(accessToken.getToken());
+                sendCodeAccountKit(accessToken.getToken());
                 LogUtils.d(TAG, "loginResult" + loginResult.getAuthorizationCode());
-                LogUtils.d(TAG, "loginResult" + accessToken.getAccountId());
+                LogUtils.d(TAG, "loginResult" + accessToken.getToken());
             } else {
                 toastMessage = "Unknown response type";
                 Toast.makeText(

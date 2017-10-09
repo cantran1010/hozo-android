@@ -227,5 +227,5 @@ public class Constants {
     public static final String TASK_EDIT = "task_edit";
     public static final String TASK_DRAFT = "task_draft";
     public static final String HEIGHT_KEY = "height";
-    public static final String ACCOUNT_CODE = "code";
+    public static final String ACCOUNT_CODE = "token";
 }
