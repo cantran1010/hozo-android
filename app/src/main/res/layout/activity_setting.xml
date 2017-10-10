@@ -35,7 +35,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:gravity="center"
+                android:layout_toEndOf="@id/img_back"
+                android:layout_toLeftOf="@+id/tv_default"
+                android:layout_toRightOf="@id/img_back"
+                android:layout_toStartOf="@+id/tv_default"
                 android:text="@string/advance_setting_title" />
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -234,8 +237,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rcv_category"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
         </vn.tonish.hozo.view.HozoExpandableRelativeLayout>
 
         <RelativeLayout
@@ -469,6 +471,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/radio_distance"
                 android:orientation="vertical">
+
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -476,14 +479,15 @@
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:layout_marginStart="25dp">
+
                     <AutoCompleteTextView
                         android:id="@+id/autocomplete_places"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/gray"
                         android:focusable="true"
-                        android:hint="@string/base_location_hint"
                         android:focusableInTouchMode="true"
+                        android:hint="@string/base_location_hint"
                         android:minHeight="@dimen/edt_min_height"
                         android:paddingEnd="30dp"
                         android:paddingRight="30dp"
