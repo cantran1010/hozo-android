@@ -1,6 +1,7 @@
 package vn.tonish.hozo.activity;
 
 import android.support.annotation.IdRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -53,7 +54,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private TextViewHozo tvDefault;
     private RelativeLayout layoutStatus, layoutCategory, layoutDateTime, layoutDistance, layoutPrice, layoutKeyword;
     private ImageView imgStatusArrow, imgCategoryArrow, imgTimeArrow, imgDistance, imgKeyword, imgPrice;
-    private TextViewHozo tvStatus, tvCategory, tvDateTime, tvCity, tvDistance;
+    private TextViewHozo tvStatus, tvCategory, tvDateTime, tvDistance;
     private RadioGroup radioStatus, radioTime, radioDistance, radioPrice;
     private RadioButton raStatusAll, radStausOpen, radStatusAssign, radAllTime, radDate, radAllDistance, radDistanceOption, radAllPrice, rad10, rad100, rad500;
     private RecyclerView rcvCategory, rcvKeyword;
@@ -66,7 +67,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private SettingAdvanceEntity advanceEntity, advanceEntityNew;
     private Category cat;
     private TextViewHozo tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday;
-    private boolean isMon, isTues, isWed, isThurs, isFri, isSat, isSun;
+    private int count = 0;
 
     @Override
     protected int getLayout() {
@@ -98,7 +99,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         tvStatus = findViewById(R.id.tv_status);
         tvCategory = findViewById(R.id.tv_category);
         tvDateTime = findViewById(R.id.tv_time);
-        tvCity = findViewById(R.id.tv_city);
         tvDistance = findViewById(R.id.tv_distance);
 
 
@@ -156,6 +156,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         layoutPrice.setOnClickListener(this);
         layoutKeyword.setOnClickListener(this);
         radioStatus.setOnCheckedChangeListener(this);
+        radioTime.setOnCheckedChangeListener(this);
     }
 
 
@@ -219,9 +220,17 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             setCategoryForView();
             // set data for  date time
             setDateTime();
+            // set distance
+            setDistance();
 
 
         }
+    }
+
+    private void setDistance() {
+        advanceEntity.getDistance();
+
+
     }
 
 
@@ -237,57 +246,44 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setDateTime() {
-        clearChooseDay();
         if (advanceEntity.getDays().size() > 0) {
             radioTime.check(R.id.radio_date);
             for (RealmInt anInt : advanceEntity.getDays()
                     ) {
                 switch (anInt.getVal()) {
                     case 1:
-                        isSun = true;
                         tvSunday.setBackgroundResource(R.drawable.bg_circle_press);
                         break;
                     case 2:
-                        isMon = true;
                         tvMonday.setBackgroundResource(R.drawable.bg_circle_press);
                         break;
                     case 3:
-                        isTues = true;
                         tvTuesday.setBackgroundResource(R.drawable.bg_circle_press);
                         break;
                     case 4:
-                        isWed = true;
                         tvWednesday.setBackgroundResource(R.drawable.bg_circle_press);
                         break;
                     case 5:
-                        isThurs = true;
                         tvThursday.setBackgroundResource(R.drawable.bg_circle_press);
                         break;
                     case 6:
-                        isFri = true;
                         tvFriday.setBackgroundResource(R.drawable.bg_circle_press);
                         break;
                     case 7:
-                        isSat = true;
                         tvSaturday.setBackgroundResource(R.drawable.bg_circle_press);
+                        break;
+                    default:
+                        clearChooseDay();
                         break;
                 }
             }
 
-        } else {
-            radioTime.check(R.id.radio_all_time);
-            isSun = false;
-            isMon = false;
-            isTues = false;
-            isWed = false;
-            isThurs = false;
-            isFri = false;
-            isSat = false;
         }
     }
 
 
     private void clearChooseDay() {
+        radioTime.check(R.id.radio_all_time);
         tvSunday.setBackgroundResource(R.drawable.bg_circle_default);
         tvMonday.setBackgroundResource(R.drawable.bg_circle_default);
         tvTuesday.setBackgroundResource(R.drawable.bg_circle_default);
@@ -295,18 +291,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         tvThursday.setBackgroundResource(R.drawable.bg_circle_default);
         tvFriday.setBackgroundResource(R.drawable.bg_circle_default);
         tvSaturday.setBackgroundResource(R.drawable.bg_circle_default);
+        tvSunday.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+        tvMonday.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+        tvTuesday.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+        tvWednesday.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+        tvThursday.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+        tvFriday.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+        tvSaturday.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
     }
-
-//    private void chooseDateTime(String status) {
-//        if (status.equalsIgnoreCase(Constants.STATUS_SETTING_OPEN)) {
-//            radioStatus.check(R.id.rd_status_open);
-//        } else if (status.equalsIgnoreCase(Constants.STATUS_SETTING_ASSIGED)) {
-//            radioStatus.check(R.id.rd_status_assign);
-//        } else {
-//            radioStatus.check(R.id.rd_status_all);
-//        }
-
-//    }
 
     private void setCategoryForView() {
         if (advanceEntity.getCategories().size() > 0) {
@@ -478,39 +470,53 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 expandableLayout(keywordExpandableLayout, imgKeyword);
                 break;
             case R.id.tv_monday:
-                clickDay(tvMonday, isMon);
+                clickDay(tvMonday);
                 break;
             case R.id.tv_tuesday:
-                clickDay(tvTuesday, isTues);
+                clickDay(tvTuesday);
                 break;
             case R.id.tv_wednesday:
-                clickDay(tvWednesday, isWed);
+                clickDay(tvWednesday);
                 break;
             case R.id.tv_thursday:
-                clickDay(tvThursday, isThurs);
+                clickDay(tvThursday);
                 break;
             case R.id.tv_friday:
-                clickDay(tvFriday, isFri);
+                clickDay(tvFriday);
                 break;
             case R.id.tv_saturday:
-                clickDay(tvSaturday, isSat);
+                clickDay(tvSaturday);
                 break;
             case R.id.tv_sunday:
-                clickDay(tvSunday, isSun);
+                clickDay(tvSunday);
                 break;
         }
 
     }
 
-    private void clickDay(TextViewHozo tv, boolean isClick) {
+    private void clickDay(TextViewHozo tv) {
         radioTime.check(R.id.radio_date);
-        LogUtils.d(TAG, "click day");
-        if (isClick) {
-            tv.setBackgroundResource(R.drawable.circle_selector);
-            isClick = false;
+        if (tv.getBackground().getConstantState().equals(ContextCompat.getDrawable(this, R.drawable.bg_circle_default).getConstantState())) {
+            LogUtils.d(TAG, "count 1 :" + count);
+            if (count == 6) {
+                count = 0;
+                clearChooseDay();
+            } else {
+                count++;
+                tv.setBackgroundResource(R.drawable.bg_circle_press);
+                tv.setTextColor(ContextCompat.getColor(this, R.color.white));
+            }
         } else {
-            tv.setBackgroundResource(R.drawable.bg_circle_press);
-            isClick = true;
+            if (count == 1) {
+                count = 0;
+                clearChooseDay();
+            } else {
+                count--;
+                tv.setBackgroundResource(R.drawable.bg_circle_default);
+                tv.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+
+            }
+
         }
     }
 
@@ -525,6 +531,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.rd_status_assign:
                 advanceEntityNew.setStatus(Constants.STATUS_SETTING_ASSIGED);
+                break;
+            case R.id.radio_all_time:
+                clearChooseDay();
+                break;
 
         }
 
