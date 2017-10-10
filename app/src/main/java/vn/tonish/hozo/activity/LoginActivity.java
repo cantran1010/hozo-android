@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.utils.HozoAccountKitUIManager;
+import vn.tonish.hozo.view.HozoAccountKitUIManager;
 
 /**
  * Created by CanTran on 10/5/17.

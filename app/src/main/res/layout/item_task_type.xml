@@ -1,38 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="72dp">
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+
+    <CheckBox
+        android:background="@drawable/btn_back_selector"
+        android:id="@+id/chkSelected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:button="@drawable/checkbox_hozo" />
 
     <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:padding="16dp"
-        android:textColor="@color/black"
-        android:textSize="@dimen/tv_size_medium" />
-
-    <CheckBox
-        android:id="@+id/chkSelected"
-        style="@style/MyCheckBox"
-        android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|end"
-        android:gravity="center"
-        android:padding="16dp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_gravity="bottom"
         android:layout_marginEnd="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        android:background="@color/gray" />
-
-</FrameLayout>
+        android:layout_marginStart="5dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:minHeight="@dimen/edt_min_height"
+        android:textColor="@color/setting_black"
+        android:textSize="@dimen/tv_size_medium" />
+</LinearLayout>

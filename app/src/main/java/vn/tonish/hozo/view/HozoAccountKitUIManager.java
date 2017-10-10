@@ -1,4 +1,4 @@
-package vn.tonish.hozo.utils;
+package vn.tonish.hozo.view;
 
 import android.app.Fragment;
 import android.os.Parcel;

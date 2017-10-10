@@ -187,4 +187,14 @@
     </style>
 
     <color name="edt_hint">#AEAEAE</color>
+    <!-- style setting advance -->
+    <style name="week_day_style">
+        <item name="android:textSize">@dimen/tv_size_xtiny</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:background">@drawable/bg_circle_default</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textColor">@color/hozo_bg</item>
+    </style>
 </resources>

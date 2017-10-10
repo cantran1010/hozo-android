@@ -18,6 +18,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import vn.tonish.hozo.database.entity.ReviewEntity;
+import vn.tonish.hozo.database.entity.SettingAdvanceEntity;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
@@ -161,6 +162,10 @@ public interface ApiInterface {
 
     @POST("v1/users/settings")
     Call<NofifySystemResponse> updateNotifySystem(@Header("Authorization") String token, @Body RequestBody body);
+
     @POST("v1/auth/account-kit")
     Call<OtpReponse> loginAccountKit(@Body RequestBody body);
+
+    @GET("v1/users/settings")
+    Call<SettingAdvanceEntity> getSettingAdvance(@Header("Authorization") String token);
 }

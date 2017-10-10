@@ -37,4 +37,5 @@
     <color name="tv_tab_notification_off">#999999</color>
     <color name="gray_status">#cad7df</color>
     <color name="drag_status">#ffa800</color>
+    <color name="setting_black">#222222</color>
 </resources>

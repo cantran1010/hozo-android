@@ -67,6 +67,9 @@
             android:name=".activity.AdvanceSettingsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.ProfileActivity"
             android:screenOrientation="portrait" />
         <activity
