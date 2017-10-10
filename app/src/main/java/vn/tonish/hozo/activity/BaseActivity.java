@@ -120,12 +120,14 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
 
     void startActivity(Class<?> cls, TransitionScreen transitionScreen) {
         Intent intent = new Intent(this, cls);
+        intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
         startActivity(intent);
         TransitionScreen.overridePendingTransition(this, transitionScreen);
     }
 
     public void startActivity(Class<?> cls, Bundle bundle, TransitionScreen transitionScreen) {
         Intent intent = new Intent(this, cls);
+        intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
         intent.putExtras(bundle);
         startActivity(intent, transitionScreen);
     }

@@ -136,6 +136,12 @@
             android:name=".activity.BlockTaskActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.PaymentHistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RechargeActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.GiveInforActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />

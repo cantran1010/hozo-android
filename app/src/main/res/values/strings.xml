@@ -501,4 +501,21 @@
     <string name="content_bid_task">Bạn có chắc chắn nhận được việc không? Đừng để người đăng việc thất vọng nhé.</string>
     <string name="bid_success_tittle">Ứng tuyển thành công</string>
     <string name="big_success_content">Bạn sẽ được người đăng việc xem xét và giao việc. Hãy để ý trong phần Thông báo của mình nhé.</string>
+    <string name="payment_history_title">Tài khoản thanh toán</string>
+    <string name="wallet_title">Tài khoản Hozo của bạn có</string>
+    <string name="my_wallet">%1$s VND</string>
+    <string name="btn_payment">Nạp tiền</string>
+    <string name="history_title">Lịch sử giao dịch (%1$s)</string>
+    <string name="more_payment_history">Xem thêm</string>
+    <string name="recharge_title">Nạp tiền</string>
+    <string name="recharge_des">Nhập số tiền bạn muốn nạp.</string>
+    <string name="unit">VND</string>
+    <string name="btn_recharge">NẠP TIỀN</string>
+    <string name="type_recharge">Chọn hình thức nạp</string>
+
+    <string-array name="recharge">
+        <item>Momo</item>
+        <item>ATM</item>
+        <item>Master Card</item>
+    </string-array>
 </resources>
