@@ -229,4 +229,17 @@ public class Constants {
     public static final String HEIGHT_KEY = "height";
     public static final String ACCOUNT_CODE = "token";
     public static final int ACCOUNT_KIT_REQUEST_CODE = 1101;
+    public static final int ACCELERATE_DECELERATE_INTERPOLATOR = 0;
+    public static final int ACCELERATE_INTERPOLATOR = 1;
+    public static final int ANTICIPATE_INTERPOLATOR = 2;
+    public static final int ANTICIPATE_OVERSHOOT_INTERPOLATOR = 3;
+    public static final int BOUNCE_INTERPOLATOR = 4;
+    public static final int DECELERATE_INTERPOLATOR = 5;
+    public static final int FAST_OUT_LINEAR_IN_INTERPOLATOR = 6;
+    public static final int FAST_OUT_SLOW_IN_INTERPOLATOR = 7;
+    public static final int LINEAR_INTERPOLATOR = 8;
+    public static final int LINEAR_OUT_SLOW_IN_INTERPOLATOR = 9;
+    public static final int OVERSHOOT_INTERPOLATOR = 10;
+    public static final String STATUS_SETTING_OPEN = "open";
+    public static final String STATUS_SETTING_ASSIGED = "assigned";
 }

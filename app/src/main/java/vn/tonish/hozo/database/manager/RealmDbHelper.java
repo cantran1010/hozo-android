@@ -6,6 +6,7 @@ import android.util.Base64;
 import java.util.Random;
 
 import io.realm.DynamicRealm;
+import io.realm.FieldAttribute;
 import io.realm.RealmConfiguration;
 import io.realm.RealmMigration;
 import io.realm.RealmSchema;
@@ -81,6 +82,33 @@ public class RealmDbHelper {
                         .addField("city", String.class);
 
                 oldVersion++;
+            }
+
+            if (oldVersion == 2) {
+                schema.create("RealmInt")
+                        .addField("val", int.class);
+                schema.create("RealmDouble")
+                        .addField("val", double.class);
+                schema.create("RealmString")
+                        .addField("val", String.class);
+                schema.create("SettingAdvanceEntity")
+                        .addField("userId", String.class, FieldAttribute.PRIMARY_KEY)
+                        .addField("notification", int.class)
+                        .addField("status", int.class)
+                        .addRealmListField("categories", schema.get("CategoryEntity"))
+                        .addRealmListField("days", schema.get("RealmInt"))
+                        .addField("city", int.class)
+                        .addField("distance", int.class)
+                        .addRealmListField("latlon", schema.get("RealmDouble"))
+                        .addField("minWorkerRate", int.class)
+                        .addField("maxWorkerRate", int.class)
+                        .addRealmListField("keywords", schema.get("RealmString"));
+
+                schema.get("UserEntity")
+                        .addField("latitude", double.class)
+                        .addField("longitude", double.class);
+
+
             }
 
             // Migrate to version 1: Add a new class.

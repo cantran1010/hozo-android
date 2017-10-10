@@ -121,7 +121,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
         List<String> list = new ArrayList<>();
         if (position == 1) {
-            list.add(getString(R.string.my_task_status_all));
+            list.add(getString(R.string.hozo_all));
             list.add(getString(R.string.my_task_status_poster_open));
             list.add(getString(R.string.my_task_status_poster_assigned));
             list.add(getString(R.string.my_task_status_poster_completed));
@@ -129,7 +129,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
             list.add(getString(R.string.my_task_status_poster_canceled));
             list.add(getString(R.string.my_task_status_poster_draft));
         } else {
-            list.add(getString(R.string.my_task_status_all));
+            list.add(getString(R.string.hozo_all));
             list.add(getString(R.string.my_task_status_worker_open));
             list.add(getString(R.string.my_task_status_worker_assigned));
             list.add(getString(R.string.my_task_status_worker_completed));

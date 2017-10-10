@@ -29,9 +29,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.AdvanceSettingsActivity;
 import vn.tonish.hozo.activity.BrowserTaskMapActivity;
 import vn.tonish.hozo.activity.MainActivity;
+import vn.tonish.hozo.activity.SettingActivity;
 import vn.tonish.hozo.activity.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.TaskAdapter;
 import vn.tonish.hozo.common.Constants;
@@ -170,7 +170,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 //                Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
 //                intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
 //                startActivityForResult(intent, Constants.REQUEST_CODE_TASK_EDIT, TransitionScreen.RIGHT_TO_LEFT);
-
                 LogUtils.d(TAG, "onclick");
                 TaskResponse taskResponse = taskList.get(position);
                 Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
@@ -303,7 +302,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 edtSearch.setText("");
                 break;
             case R.id.layout_setting:
-                startActivityForResult(new Intent(getActivity(), AdvanceSettingsActivity.class), Constants.REQUEST_CODE_SETTING, TransitionScreen.DOWN_TO_UP);
+                startActivityForResult(new Intent(getActivity(), SettingActivity.class), Constants.REQUEST_CODE_SETTING, TransitionScreen.DOWN_TO_UP);
                 break;
         }
 

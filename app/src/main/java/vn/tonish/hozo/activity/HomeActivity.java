@@ -46,7 +46,7 @@ import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.Token;
-import vn.tonish.hozo.utils.HozoAccountKitUIManager;
+import vn.tonish.hozo.view.HozoAccountKitUIManager;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
