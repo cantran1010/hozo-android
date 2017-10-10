@@ -53,7 +53,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private TextViewHozo tvDefault;
     private RelativeLayout layoutStatus, layoutCategory, layoutDateTime, layoutDistance, layoutPrice, layoutKeyword;
     private ImageView imgStatusArrow, imgCategoryArrow, imgTimeArrow, imgDistance, imgKeyword, imgPrice;
-    private TextViewHozo tvStatus, tvCategory, tvDateTime, tvDistance;
+    private TextViewHozo tvStatus, tvCategory, tvDateTime, tvCity, tvDistance;
     private RadioGroup radioStatus, radioTime, radioDistance, radioPrice;
     private RadioButton raStatusAll, radStausOpen, radStatusAssign, radAllTime, radDate, radAllDistance, radDistanceOption, radAllPrice, rad10, rad100, rad500;
     private RecyclerView rcvCategory, rcvKeyword;
@@ -98,6 +98,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         tvStatus = findViewById(R.id.tv_status);
         tvCategory = findViewById(R.id.tv_category);
         tvDateTime = findViewById(R.id.tv_time);
+        tvCity = findViewById(R.id.tv_city);
         tvDistance = findViewById(R.id.tv_distance);
 
 
@@ -529,3 +530,4 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     }
 }
+
