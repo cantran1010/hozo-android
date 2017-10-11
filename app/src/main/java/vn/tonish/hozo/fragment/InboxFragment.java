@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -71,6 +72,7 @@ public class InboxFragment extends BaseFragment {
     private LinearLayoutManager linearLayoutManager;
     private ToggleButton tbOnOffNotification;
     private TextViewHozo tvNoData;
+    private static final int TIME_DELAY = 2000;
 
     @Override
     protected int getLayout() {
@@ -102,12 +104,20 @@ public class InboxFragment extends BaseFragment {
 //        getCacheDataPage(sinceDate);
 //        getNotifications(false);
 
-        PreferUtils.setNewPushCount(getActivity(), 0);
-        PreferUtils.setNewPushChatCount(getActivity(), 0);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
-        Intent intentPushCount = new Intent();
-        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-        getActivity().sendBroadcast(intentPushCount);
+                LogUtils.d(TAG, "InboxFragment life cycle , initData delay 5000s");
+
+                PreferUtils.setNewPushCount(getActivity(), 0);
+                PreferUtils.setNewPushChatCount(getActivity(), 0);
+
+                Intent intentPushCount = new Intent();
+                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                getActivity().sendBroadcast(intentPushCount);
+            }
+        }, TIME_DELAY);
 
         getNotifyOnOff();
 
@@ -415,15 +425,22 @@ public class InboxFragment extends BaseFragment {
                         notifications.clear();
                         endlessRecyclerViewScrollListener.resetState();
 
-                        PreferUtils.setNewPushCount(getActivity(), 0);
-                        PreferUtils.setNewPushChatCount(getActivity(), 0);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                PreferUtils.setNewPushCount(getActivity(), 0);
+                                PreferUtils.setNewPushChatCount(getActivity(), 0);
 
-                        if (getActivity() != null && getActivity() instanceof MainActivity)
-                            ((MainActivity) getActivity()).updateCountMsg();
+                                if (getActivity() != null && getActivity() instanceof MainActivity)
+                                    ((MainActivity) getActivity()).updateCountMsg();
 
-                        Intent intentPushCount = new Intent();
-                        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-                        if (getActivity() != null) getActivity().sendBroadcast(intentPushCount);
+                                Intent intentPushCount = new Intent();
+                                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                                if (getActivity() != null)
+                                    getActivity().sendBroadcast(intentPushCount);
+                            }
+                        }, TIME_DELAY);
+
                     }
 
                     notifications.addAll(notificationResponse != null ? notificationResponse : null);
