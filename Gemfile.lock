@@ -35,8 +35,6 @@ GEM
     danger-android_lint (0.0.4)
       danger-plugin-api (~> 1.0)
       oga
-    danger-lgtm (0.2.0)
-      danger-plugin-api (~> 1.0)
     danger-plugin-api (1.0.0)
       danger (> 2.0)
     declarative (0.0.10)
@@ -190,7 +188,6 @@ PLATFORMS
 DEPENDENCIES
   danger
   danger-android_lint
-  danger-lgtm
   fastlane
   fastlane-plugin-get_android_version
   fastlane-plugin-s3_actions
