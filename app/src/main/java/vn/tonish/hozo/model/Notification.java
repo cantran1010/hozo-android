@@ -28,6 +28,16 @@ public class Notification implements Serializable {
     private String content;
     @SerializedName("related_count")
     private int relatedCount;
+    @SerializedName("external_link")
+    private String externalLink;
+
+    public String getExternalLink() {
+        return externalLink;
+    }
+
+    public void setExternalLink(String externalLink) {
+        this.externalLink = externalLink;
+    }
 
     public int getRelatedCount() {
         return relatedCount;
@@ -140,6 +150,7 @@ public class Notification implements Serializable {
                 ", createdDateAt=" + createdDateAt +
                 ", content='" + content + '\'' +
                 ", relatedCount=" + relatedCount +
+                ", externalLink='" + externalLink + '\'' +
                 '}';
     }
 
