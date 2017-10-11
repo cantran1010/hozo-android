@@ -10,7 +10,6 @@ platform :android do
 
   desc "Submit a new Beta Build to HockeyApp"
   lane :beta do
-    download_configs if is_ci
     gradle(task: "assembleDebug")
 
     raise "You must specify a FL_HOCKEY_API_TOKEN environment variable to deploy." if ENV['FL_HOCKEY_API_TOKEN'].nil?
@@ -35,7 +34,6 @@ platform :android do
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do
-    download_configs if is_ci
     gradle(task: "assembleRelease")
     supply(
       skip_upload_images: true,
