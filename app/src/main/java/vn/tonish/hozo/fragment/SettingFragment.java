@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.view.View;
-import android.widget.Toast;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.GeneralInfoActivity;
+import vn.tonish.hozo.activity.PaymentHistoryActivity;
 import vn.tonish.hozo.activity.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -78,7 +78,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 //               break;
 //
             case R.id.layout_payment:
-                Toast.makeText(getActivity(), "Hiện tại chức năng này đang trong quá trình xây dựng!!!", Toast.LENGTH_SHORT).show();
+                startActivity(PaymentHistoryActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+//                Toast.makeText(getActivity(), "Hiện tại chức năng này đang trong quá trình xây dựng!!!", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.layout_condition:
