@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -109,10 +110,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         Intent intentPush = getIntent();
         if (intentPush.hasExtra(Constants.NOTIFICATION_EXTRA)) {
-            Notification notification = (Notification) intentPush.getSerializableExtra(Constants.NOTIFICATION_EXTRA);
+            final Notification notification = (Notification) intentPush.getSerializableExtra(Constants.NOTIFICATION_EXTRA);
 
             switch (notification.getEvent()) {
                 case Constants.PUSH_TYPE_ADMIN_PUSH:
+                    if (TextUtils.isEmpty(notification.getExternalLink())) {
+                        BlockDialog blockDialog = new BlockDialog(MainActivity.this);
+                        blockDialog.showView();
+                        blockDialog.updateContent(notification.getContent());
+                    } else {
+                        DialogUtils.showOkDialog(this, getString(R.string.admin_link_title), notification.getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                Utils.openBrowser(MainActivity.this, notification.getExternalLink());
+                            }
+                        });
+                    }
+
+                    break;
                 case Constants.PUSH_TYPE_BLOCK_USER:
                 case Constants.PUSH_TYPE_ACTIVE_USER:
                 case Constants.PUSH_TYPE_ACTIVE_TASK:
@@ -257,10 +272,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (intent.hasExtra(Constants.NOTIFICATION_EXTRA)) {
-            Notification notification = (Notification) intent.getSerializableExtra(Constants.NOTIFICATION_EXTRA);
+            final Notification notification = (Notification) intent.getSerializableExtra(Constants.NOTIFICATION_EXTRA);
 
             switch (notification.getEvent()) {
                 case Constants.PUSH_TYPE_ADMIN_PUSH:
+                    if (TextUtils.isEmpty(notification.getExternalLink())) {
+                        BlockDialog blockDialog = new BlockDialog(MainActivity.this);
+                        blockDialog.showView();
+                        blockDialog.updateContent(notification.getContent());
+                    } else {
+                        DialogUtils.showOkDialog(this, getString(R.string.admin_link_title), notification.getContent(), getString(R.string.admin_link_submit), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                Utils.openBrowser(MainActivity.this, notification.getExternalLink());
+                            }
+                        });
+                    }
+
+                    break;
                 case Constants.PUSH_TYPE_BLOCK_USER:
                 case Constants.PUSH_TYPE_ACTIVE_USER:
                 case Constants.PUSH_TYPE_ACTIVE_TASK:

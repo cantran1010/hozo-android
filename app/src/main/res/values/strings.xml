@@ -527,6 +527,8 @@
     <string name="unit">VND</string>
     <string name="btn_recharge">NẠP TIỀN</string>
     <string name="type_recharge">Chọn hình thức nạp</string>
+    <string name="admin_link_title">Thông báo</string>
+    <string name="admin_link_submit">Xem chi tiết</string>
 
     <string-array name="recharge">
         <item>Momo</item>

@@ -151,6 +151,17 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
+        if (getIntent().hasExtra(Constants.TAB_EXTRA))
+            tabOpen = getIntent().getIntExtra(Constants.TAB_EXTRA, 1);
+
+        getData();
+    }
+
+    @Override
     protected void resumeData() {
         registerReceiver(broadcastReceiver, new IntentFilter("MyBroadcast"));
     }
