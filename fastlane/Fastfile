@@ -10,6 +10,7 @@ platform :android do
 
   desc "Submit a new Beta Build to HockeyApp"
   lane :beta do
+    download_configs if is_ci
     gradle(task: "assembleDebug")
 
     raise "You must specify a FL_HOCKEY_API_TOKEN environment variable to deploy." if ENV['FL_HOCKEY_API_TOKEN'].nil?
@@ -34,11 +35,24 @@ platform :android do
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do
+    download_configs if is_ci
     gradle(task: "assembleRelease")
     supply(
       skip_upload_images: true,
       skip_upload_screenshots: true,
     )
+  end
+
+  desc "Download configuration files"
+  lane :download_configs do
+    s3_download(
+      access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+      secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
+      bucket: "hozo-configs",
+      file_name: "android/secrets.zip",
+      output_path: "secrets.zip"
+    )
+    unzip file: "secrets.zip"
   end
 
   error do |lane, exception|

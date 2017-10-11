@@ -45,6 +45,11 @@ Submit a new Beta Build to HockeyApp
 fastlane android deploy
 ```
 Deploy a new version to the Google Play
+### android download_configs
+```
+fastlane android download_configs
+```
+Download configuration files
 
 ----
 
