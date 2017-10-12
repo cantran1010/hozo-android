@@ -601,7 +601,7 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
                 Intent intent = new Intent(getContext(), ProfileActivity.class);
                 intent.putExtra(Constants.USER_ID, taskResponse.getPoster().getId());
                 intent.putExtra(Constants.IS_MY_USER, taskResponse.getPoster().getId() == UserManager.getMyUser().getId());
-                getContext().startActivity(intent);
+                startActivity(intent,TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }
