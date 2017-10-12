@@ -191,6 +191,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 autocompleteFilter);
         autocompleteView.setAdapter(placeAutocompleteAdapter);
 
+        autocompleteView.setText(userEntity.getAddress());
 
     }
 
