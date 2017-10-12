@@ -77,6 +77,7 @@ public class ChatFragment extends BaseFragment {
 
     @Override
     protected void resumeData() {
+        LogUtils.d(TAG, "ChatFragment resumeData start");
         getNotifyOnOff();
         getChatRooms();
     }
@@ -154,7 +155,6 @@ public class ChatFragment extends BaseFragment {
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
 
-
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
@@ -199,7 +199,7 @@ public class ChatFragment extends BaseFragment {
     }
 
     private void getChatRooms() {
-        ProgressDialogUtils.showProgressDialog(getActivity());
+//        ProgressDialogUtils.showProgressDialog(getActivity());
 
         call = ApiClient.getApiService().getChatRooms(UserManager.getUserToken());
         call.enqueue(new Callback<List<TaskResponse>>() {
@@ -234,7 +234,7 @@ public class ChatFragment extends BaseFragment {
                         }
                     });
                 }
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
                 onStopRefresh();
             }
 
@@ -251,7 +251,7 @@ public class ChatFragment extends BaseFragment {
 
                     }
                 });
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
                 onStopRefresh();
             }
         });

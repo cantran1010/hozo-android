@@ -72,6 +72,7 @@
                     android:textColor="@color/white" />
 
                 <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_my_wallet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/my_wallet"
@@ -99,6 +100,7 @@
         android:gravity="center">
 
         <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_count_history"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:drawableLeft="@drawable/payment_icon_history"

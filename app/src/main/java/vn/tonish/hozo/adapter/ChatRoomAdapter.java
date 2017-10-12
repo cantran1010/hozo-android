@@ -216,7 +216,12 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (chatRoomListener != null) chatRoomListener.onClick(getAdapterPosition());
+                    try {
+                        if (chatRoomListener != null)
+                            chatRoomListener.onClick(getAdapterPosition());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 

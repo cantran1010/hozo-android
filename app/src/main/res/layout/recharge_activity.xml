@@ -140,6 +140,7 @@
         </LinearLayout>
 
         <vn.tonish.hozo.view.ButtonHozo
+            android:id="@+id/btn_recharge"
             style="@style/btn_style_normal"
             android:layout_width="match_parent"
             android:layout_height="40dp"
