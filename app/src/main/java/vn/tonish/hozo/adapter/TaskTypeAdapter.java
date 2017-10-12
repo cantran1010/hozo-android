@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -21,12 +20,26 @@ import vn.tonish.hozo.utils.LogUtils;
 
 public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHolder> {
     private final static String TAG = TaskTypeAdapter.class.getSimpleName();
-
+    private int countTick = 0;
     private final List<Category> taskTypes;
 
     public TaskTypeAdapter(List<Category> taskTypes) {
         this.taskTypes = taskTypes;
 
+    }
+
+    public interface CategoryListener {
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked);
+    }
+
+    private CategoryListener listener;
+
+    public CategoryListener getListener() {
+        return listener;
+    }
+
+    public void setListener(CategoryListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -41,30 +54,41 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         final int pos = position;
         LogUtils.d(TAG, "checkbox -:" + taskTypes.get(pos).isSelected());
-        viewHolder.tvName.setText(taskTypes.get(pos).getName());
+        if (countTick == 0) {
+            taskTypes.get(0).setSelected(true);
+            for (int i = 1; i < taskTypes.size(); i++) {
+                taskTypes.get(i).setSelected(false);
+            }
+        }
+        viewHolder.chkSelected.setText(taskTypes.get(pos).getName());
         viewHolder.chkSelected.setOnCheckedChangeListener(null);
         viewHolder.chkSelected.setChecked(taskTypes.get(pos).isSelected());
+
         viewHolder.chkSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (pos == 0 && !taskTypes.get(0).isSelected()) {
-                    for (Category category : taskTypes
-                            ) {
-                        category.setSelected(false);
-                        notifyDataSetChanged();
-
-                    }
-                } else {
-                    taskTypes.get(0).setSelected(false);
-                    notifyDataSetChanged();
-                }
-                //set your object's last status
-                taskTypes.get(pos).setSelected(isChecked);
+                if (listener != null) listener.onCheckedChanged(buttonView, isChecked);
+//                if (pos == 0 && isChecked) countTick = 0;
+//                if (!taskTypes.get(pos).isSelected()) {
+//                    if (pos > 0) {
+//                        countTick++;
+//                        taskTypes.get(0).setSelected(false);
+//                        if (countTick == taskTypes.size() - 1) countTick = 0;
+//                    }
+//                } else {
+//                    if (pos > 0) {
+//                        countTick--;
+//                    }
+//
+//                }
+//                if (pos > 0) taskTypes.get(pos).setSelected(isChecked);
 //                notifyDataSetChanged();
+
             }
         });
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -72,13 +96,11 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView tvName;
         public final CheckBox chkSelected;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
-            tvName = (TextView) itemLayoutView.findViewById(R.id.tvName);
-            chkSelected = (CheckBox) itemLayoutView.findViewById(R.id.chkSelected);
+            chkSelected = itemLayoutView.findViewById(R.id.chkSelected);
 
         }
 

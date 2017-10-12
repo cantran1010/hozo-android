@@ -26,7 +26,7 @@ public class CategoryManager {
         LogUtils.d(TAG, "insertCategories start ");
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        categoryEntity.setSelected(true);
+        categoryEntity.setSelected(false);
         realm.commitTransaction();
     }
 

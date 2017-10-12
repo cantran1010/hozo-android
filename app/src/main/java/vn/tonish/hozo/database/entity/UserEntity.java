@@ -50,6 +50,8 @@ public class UserEntity extends RealmObject implements Serializable {
     private float taskerDoneRate;
     @SerializedName("poster_done_rate")
     private float posterDoneRate;
+    private double latitude;
+    private double longitude;
 
     public void setMyUser(boolean myUser) {
         isMyUser = myUser;
@@ -247,6 +249,22 @@ public class UserEntity extends RealmObject implements Serializable {
         isMyUser = true;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -274,6 +292,8 @@ public class UserEntity extends RealmObject implements Serializable {
                 ", posterDoneCount=" + posterDoneCount +
                 ", taskerDoneRate=" + taskerDoneRate +
                 ", posterDoneRate=" + posterDoneRate +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 '}';
     }
 }
