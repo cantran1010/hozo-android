@@ -1,17 +1,31 @@
 package vn.tonish.hozo.activity;
 
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.AutocompletePrediction;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.adapter.TaskTypeAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
@@ -41,14 +56,18 @@ import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.HozoExpandableRelativeLayout;
 import vn.tonish.hozo.view.TextViewHozo;
 
+import static vn.tonish.hozo.R.id.rad_all_distance;
+import static vn.tonish.hozo.R.id.rad_distance_option;
+import static vn.tonish.hozo.R.string.post_task_map_get_location_error_next;
 import static vn.tonish.hozo.database.manager.SettingAdvanceManager.getSettingAdvace;
+import static vn.tonish.hozo.utils.Utils.getAddressFromLatlon;
 import static vn.tonish.hozo.utils.Utils.inserCategory;
 
 /**
  * Created by CanTran on 9/15/17.
  */
 
-public class SettingActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class SettingActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = SettingActivity.class.getSimpleName();
     private ImageView btnBack;
     private TextViewHozo tvDefault;
@@ -68,6 +87,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private Category cat;
     private TextViewHozo tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday;
     private int count = 0;
+    private double lat, lon;
+    private String address = "";
+    private GoogleApiClient googleApiClient;
+    private PlaceAutocompleteAdapter placeAutocompleteAdapter;
+    private AutoCompleteTextView autocompleteView;
+    private String categoryName = "";
 
     @Override
     protected int getLayout() {
@@ -121,8 +146,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         radDate = findViewById(R.id.radio_date);
         radStausOpen = findViewById(R.id.rd_status_open);
         radStatusAssign = findViewById(R.id.rd_status_assign);
-        radAllDistance = findViewById(R.id.rad_all_distance);
-        radDistanceOption = findViewById(R.id.rad_distance_option);
+        radAllDistance = findViewById(rad_all_distance);
+        radDistanceOption = findViewById(rad_distance_option);
         radAllPrice = findViewById(R.id.rad_all_price);
         rad10 = findViewById(R.id.rad_10_100);
         rad100 = findViewById(R.id.rad_100_500);
@@ -157,6 +182,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         layoutKeyword.setOnClickListener(this);
         radioStatus.setOnCheckedChangeListener(this);
         radioTime.setOnCheckedChangeListener(this);
+        radioDistance.setOnCheckedChangeListener(this);
+
     }
 
 
@@ -168,6 +195,31 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 R.anim.rotate_down);
         anim_up = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.rotate_up);
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, 0 /* clientId */, this)
+                .addApi(Places.GEO_DATA_API)
+                .build();
+        // Retrieve the AutoCompleteTextView that will display Place suggestions.
+        autocompleteView = (AutoCompleteTextView)
+                findViewById(R.id.autocomplete_places);
+
+        autocompleteView.setThreshold(1);
+
+        // Register a listener that receives callbacks when a suggestion has been selected
+        autocompleteView.setOnItemClickListener(mAutocompleteClickListener);
+
+        final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
+                .setTypeFilter(Place.TYPE_COUNTRY)
+                .setCountry("VN")
+                .build();
+
+        // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
+        // the entire world.
+        placeAutocompleteAdapter = new PlaceAutocompleteAdapter(this, googleApiClient, null,
+                autocompleteFilter);
+        autocompleteView.setAdapter(placeAutocompleteAdapter);
+
+
         categoryEntities = new ArrayList<>();
         rcvCategory.setLayoutManager(new LinearLayoutManager(this));
         categories = new ArrayList<>();
@@ -182,6 +234,69 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
 
     }
+
+    private final AdapterView.OnItemClickListener mAutocompleteClickListener
+            = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            /*
+             Retrieve the place ID of the selected item from the Adapter.
+             The adapter stores each Place suggestion in a AutocompletePrediction from which we
+             read the place ID and title.
+              */
+            final AutocompletePrediction item = placeAutocompleteAdapter.getItem(position);
+            final String placeId = item.getPlaceId();
+            final CharSequence primaryText = item.getPrimaryText(null);
+
+            LogUtils.i(TAG, "Autocomplete item selected: " + primaryText);
+
+            /*
+             Issue a request to the Places Geo Data API to retrieve a Place object with additional
+             details about the place.
+              */
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                    .getPlaceById(googleApiClient, placeId);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+
+            LogUtils.i(TAG, "Called getPlaceById to get Place details for " + placeId);
+        }
+    };
+
+    private final ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
+            = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(@NonNull PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+                // Request did not complete successfully
+                LogUtils.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
+                places.release();
+                return;
+            }
+            try {
+
+                // Get the Place object from the buffer.
+                final Place place = places.get(0);
+                LogUtils.e(TAG, "Place address : " + place.getAddress());
+                lat = place.getLatLng().latitude;
+                lon = place.getLatLng().longitude;
+                address = autocompleteView.getText().toString();
+                autocompleteView.setError(null);
+                places.release();
+                Utils.hideKeyBoard(SettingActivity.this);
+
+            } catch (Exception e) {
+                Utils.showLongToast(SettingActivity.this, getString(post_task_map_get_location_error_next), true, false);
+            }
+        }
+    };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        googleApiClient.stopAutoManage(SettingActivity.this);
+        googleApiClient.disconnect();
+    }
+
 
     private void getDataforView() {
 
@@ -199,6 +314,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private void createListCategory() {
         mAdapter = new TaskTypeAdapter(categories);
+        mAdapter.setListener(new TaskTypeAdapter.CategoryListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.getText().equals(getString(R.string.hozo_all))) {
+                    categoryName = getString(R.string.hozo_all);
+                    categories.get(0).setSelected(true);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        });
         do {
             if (CategoryManager.getAllCategories() == null) {
                 getCategoryFromeServer();
@@ -215,32 +340,63 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private void setDataForView() {
         if (advanceEntity != null) {
-            setStatus(advanceEntity.getStatus());
+            setStatusForView(advanceEntity.getStatus());
             // set category
             setCategoryForView();
             // set data for  date time
             setDateTime();
             // set distance
-            setDistance();
-
+            setBaseLocation();
+            // set price
+            setPriceForView();
+            // set key word
+            setKeyWordForView();
 
         }
     }
 
-    private void setDistance() {
-        advanceEntity.getDistance();
+    private void setKeyWordForView() {
 
 
     }
 
+    private void setPriceForView() {
+        if (advanceEntity.getMaxWorkerRate() == 10000 && advanceEntity.getMaxWorkerRate() == 100000) {
+            rad10.setChecked(true);
+        } else if (advanceEntity.getMaxWorkerRate() == 10000 && advanceEntity.getMaxWorkerRate() == 500000) {
+            rad100.setChecked(true);
+        } else if (advanceEntity.getMaxWorkerRate() == 500000) {
+            rad500.setChecked(true);
+        } else {
+            radAllPrice.setChecked(true);
+        }
 
-    private void setStatus(String status) {
+    }
+
+    private void setBaseLocation() {
+        if (advanceEntity.getLatlon().size() > 0) {
+            radDistanceOption.setChecked(true);
+            autocompleteView.setText(getAddressFromLatlon(this, advanceEntity.getLatlon().get(0).getVal(), advanceEntity.getLatlon().get(1).getVal()));
+        } else {
+            radAllDistance.setChecked(true);
+            if (UserManager.getMyUser().getLatitude() != 0 && UserManager.getMyUser().getLongitude() != 0) {
+                autocompleteView.setText(UserManager.getMyUser().getAddress());
+            }
+        }
+
+    }
+
+
+    private void setStatusForView(String status) {
         if (status.equalsIgnoreCase(Constants.STATUS_SETTING_OPEN)) {
             radioStatus.check(R.id.rd_status_open);
+            tvStatus.setText(getString(R.string.make_an_offer_status));
         } else if (status.equalsIgnoreCase(Constants.STATUS_SETTING_ASSIGED)) {
             radioStatus.check(R.id.rd_status_assign);
+            tvStatus.setText(getString(R.string.delivered));
         } else {
             radioStatus.check(R.id.rd_status_all);
+            tvStatus.setText(getString(R.string.hozo_all));
         }
 
     }
@@ -301,28 +457,41 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setCategoryForView() {
+
+
         if (advanceEntity.getCategories().size() > 0) {
+            LogUtils.d(TAG, "categories size" + advanceEntity.getCategories().size());
             for (RealmInt realmInt : advanceEntity.getCategories()
                     ) {
                 for (Category category : categories
                         ) {
                     if (category.getId() == realmInt.getVal()) {
                         category.setSelected(true);
-
-
                     }
                 }
 
             }
 
         } else {
+            LogUtils.d(TAG, "categories 0");
             categories.get(0).setSelected(true);
         }
+
         mAdapter.notifyDataSetChanged();
-
-
+        tvCategory.setText(categoryName);
     }
 
+    private String getCategoryName() {
+        String name = "";
+        for (Category c : categories
+                ) {
+            if (c.isSelected()) {
+                name = name + ", " + c.getName();
+            }
+        }
+
+        return name.substring(2, name.length());
+    }
 
     private void expandableLayout(HozoExpandableRelativeLayout expan, ImageView img) {
         if (expan.getCurrentPosition() == expan.getClosePosition()) {
@@ -535,8 +704,17 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.radio_all_time:
                 clearChooseDay();
                 break;
+            case rad_all_distance:
+                break;
+            case rad_distance_option:
+                break;
 
         }
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 }

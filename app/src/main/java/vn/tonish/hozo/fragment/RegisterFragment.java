@@ -490,6 +490,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                             Realm realm = Realm.getDefaultInstance();
                             realm.beginTransaction();
                             myUser.setFullName(edtName.getText().toString());
+                            myUser.setLongitude(lat);
+                            myUser.setLongitude(lon);
                             realm.commitTransaction();
                         }
                         Utils.settingDefault(getActivity());

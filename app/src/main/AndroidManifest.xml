@@ -68,7 +68,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SettingActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.ProfileActivity"
             android:screenOrientation="portrait" />

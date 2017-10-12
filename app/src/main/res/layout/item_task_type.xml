@@ -1,30 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="horizontal"
     android:layout_height="wrap_content">
 
     <CheckBox
-        android:background="@drawable/btn_back_selector"
         android:id="@+id/chkSelected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:layout_gravity="center_vertical"
-        android:button="@drawable/checkbox_hozo" />
-
-    <vn.tonish.hozo.view.TextViewHozo
-        android:id="@+id/tvName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="5dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="2"
-        android:minHeight="@dimen/edt_min_height"
-        android:textColor="@color/setting_black"
-        android:textSize="@dimen/tv_size_medium" />
-</LinearLayout>
+        android:button="@drawable/checkbox_hozo"
+        android:checked="false" />
+</FrameLayout>

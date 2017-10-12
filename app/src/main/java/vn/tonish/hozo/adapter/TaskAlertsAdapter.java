@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class TaskAlertsAdapter extends RecyclerView.Adapter<TaskAlertsAdapter.Vi
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         final int pos = position;
         LogUtils.d(TAG, "checkbox -:" + taskAlerts.get(pos).isSelected());
-        viewHolder.tvName.setText(taskAlerts.get(pos).getName());
+        viewHolder.chkSelected.setText(taskAlerts.get(pos).getName());
         viewHolder.chkSelected.setOnCheckedChangeListener(null);
         viewHolder.chkSelected.setChecked(taskAlerts.get(pos).isSelected());
         viewHolder.chkSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -61,12 +60,11 @@ public class TaskAlertsAdapter extends RecyclerView.Adapter<TaskAlertsAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView tvName;
+
         public final CheckBox chkSelected;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
-            tvName = (TextView) itemLayoutView.findViewById(R.id.tvName);
             chkSelected = (CheckBox) itemLayoutView.findViewById(R.id.chkSelected);
 
         }
