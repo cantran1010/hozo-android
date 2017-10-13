@@ -516,4 +516,7 @@
     <string name="setting_price_500">Trên 500.000<font size="10"> vnd</font></string>
     <string name="hint_key_word">Nhập từ khoá</string>
     <string name="send">Gửi</string>
+    <string name="enter">Nhập</string>
+    <string name="keyword_empty">Bạn chưa nhập từ khoá.</string>
+    <string name="keyword_duplicate">Từ khoá này đã tồn tại!</string>
 </resources>

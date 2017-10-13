@@ -66,7 +66,7 @@ import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 public class BrowseTaskFragment extends BaseFragment implements View.OnClickListener {
     private final static String TAG = BrowseTaskFragment.class.getSimpleName();
     private final static int limit = 20;
-    private ImageView imgSearch, imgLocation, imgControls, imgBack, imgClear;
+    private ImageView imgSearch, imgLocation,imgBack, imgClear;
     private RelativeLayout layoutHeader, layoutSearch;
     private EdittextHozo edtSearch;
     private RecyclerView rcvTask;
@@ -102,6 +102,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         edtSearch = (EdittextHozo) findViewById(edt_search);
         layoutSearch = (RelativeLayout) findViewById(fr_search);
         rcvTask = (RecyclerView) findViewById(R.id.lv_list);
+        rcvTask.setHasFixedSize(true);
         tvCountNewTask = (TextViewHozo) findViewById(R.id.tvCountNewTask);
         createSwipeToRefresh();
     }
