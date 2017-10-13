@@ -63,27 +63,22 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
         viewHolder.chkSelected.setText(taskTypes.get(pos).getName());
         viewHolder.chkSelected.setOnCheckedChangeListener(null);
         viewHolder.chkSelected.setChecked(taskTypes.get(pos).isSelected());
-
         viewHolder.chkSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (pos == 0) countTick = 0;
+                else {
+                    if (isChecked) {
+                        countTick++;
+                        taskTypes.get(0).setSelected(false);
+                        if (countTick == taskTypes.size() - 1) countTick = 0;
+                    } else {
+                        countTick--;
+                    }
+                    taskTypes.get(pos).setSelected(isChecked);
+                }
+                notifyDataSetChanged();
                 if (listener != null) listener.onCheckedChanged(buttonView, isChecked);
-//                if (pos == 0 && isChecked) countTick = 0;
-//                if (!taskTypes.get(pos).isSelected()) {
-//                    if (pos > 0) {
-//                        countTick++;
-//                        taskTypes.get(0).setSelected(false);
-//                        if (countTick == taskTypes.size() - 1) countTick = 0;
-//                    }
-//                } else {
-//                    if (pos > 0) {
-//                        countTick--;
-//                    }
-//
-//                }
-//                if (pos > 0) taskTypes.get(pos).setSelected(isChecked);
-//                notifyDataSetChanged();
-
             }
         });
 
