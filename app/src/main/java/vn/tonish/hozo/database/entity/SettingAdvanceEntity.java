@@ -31,6 +31,8 @@ public class SettingAdvanceEntity extends RealmObject {
     private long maxWorkerRate;
     @SerializedName("filter_keywords")
     private RealmList<RealmString> keywords;
+    @SerializedName("filter_original_address")
+    private String address;
 
     public int getUserId() {
         return userId;
@@ -113,6 +115,14 @@ public class SettingAdvanceEntity extends RealmObject {
         this.keywords = keywords;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return "SettingAdvanceEntity{" +
@@ -126,6 +136,7 @@ public class SettingAdvanceEntity extends RealmObject {
                 ", minWorkerRate=" + minWorkerRate +
                 ", maxWorkerRate=" + maxWorkerRate +
                 ", keywords=" + keywords +
+                ", address='" + address + '\'' +
                 '}';
     }
 }

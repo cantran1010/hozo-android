@@ -122,7 +122,7 @@
 
             </RelativeLayout>
 
-            <vn.tonish.hozo.view.HozoExpandableRelativeLayout
+            <vn.tonish.hozo.view.ExpandableLayout
                 android:id="@+id/status_expandable_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -175,7 +175,7 @@
                         android:text="@string/delivered" />
 
                 </RadioGroup>
-            </vn.tonish.hozo.view.HozoExpandableRelativeLayout>
+            </vn.tonish.hozo.view.ExpandableLayout>
 
             <RelativeLayout
                 android:id="@+id/layout_category"
@@ -229,7 +229,7 @@
 
             </RelativeLayout>
 
-            <vn.tonish.hozo.view.HozoExpandableRelativeLayout
+            <vn.tonish.hozo.view.ExpandableLayout
                 android:id="@+id/category_expandable_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -244,7 +244,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/check_all_Category" />
-            </vn.tonish.hozo.view.HozoExpandableRelativeLayout>
+            </vn.tonish.hozo.view.ExpandableLayout>
 
             <RelativeLayout
                 android:id="@+id/layout_date_time"
@@ -298,15 +298,14 @@
 
             </RelativeLayout>
 
-            <vn.tonish.hozo.view.HozoExpandableRelativeLayout
+            <vn.tonish.hozo.view.ExpandableLayout
                 android:id="@+id/layout_detail_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp">
 
-                <RadioGroup
-                    android:id="@+id/radio_time"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="25dp"
@@ -315,76 +314,82 @@
                     android:layout_marginStart="25dp"
                     android:orientation="vertical">
 
-                    <RadioButton
-                        android:id="@+id/radio_all_time"
+                    <RadioGroup
+                        android:id="@+id/radio_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:button="@drawable/radio_button_background"
-                        android:checked="true"
-                        android:paddingLeft="10dp"
-                        android:paddingStart="10dp"
-                        android:text="@string/hozo_all" />
+                        android:orientation="vertical">
 
-                    <RadioButton
-                        android:id="@+id/radio_date"
+                        <RadioButton
+                            android:id="@+id/radio_all_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:button="@drawable/radio_button_background"
+                            android:checked="true"
+                            android:paddingLeft="10dp"
+                            android:paddingStart="10dp"
+                            android:text="@string/hozo_all" />
+
+                        <RadioButton
+                            android:id="@+id/radio_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:button="@drawable/radio_button_background"
+                            android:checked="false"
+                            android:paddingLeft="10dp"
+                            android:paddingStart="10dp"
+                            android:text="@string/tv_date_task" />
+
+                    </RadioGroup>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:button="@drawable/radio_button_background"
-                        android:checked="false"
-                        android:paddingLeft="10dp"
-                        android:paddingStart="10dp"
-                        android:text="@string/tv_date_task" />
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
 
-                </RadioGroup>
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_monday"
+                            style="@style/week_day_style"
+                            android:text="T2" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/radio_time"
-                    android:layout_centerInParent="true"
-                    android:orientation="horizontal">
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_tuesday"
+                            style="@style/week_day_style"
+                            android:text="T3" />
 
-                    <vn.tonish.hozo.view.TextViewHozo
-                        android:id="@+id/tv_monday"
-                        style="@style/week_day_style"
-                        android:text="T2" />
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_wednesday"
+                            style="@style/week_day_style"
+                            android:text="T4" />
 
-                    <vn.tonish.hozo.view.TextViewHozo
-                        android:id="@+id/tv_tuesday"
-                        style="@style/week_day_style"
-                        android:text="T3" />
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_thursday"
+                            style="@style/week_day_style"
+                            android:text="T5" />
 
-                    <vn.tonish.hozo.view.TextViewHozo
-                        android:id="@+id/tv_wednesday"
-                        style="@style/week_day_style"
-                        android:text="T4" />
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_friday"
+                            style="@style/week_day_style"
+                            android:text="T6" />
 
-                    <vn.tonish.hozo.view.TextViewHozo
-                        android:id="@+id/tv_thursday"
-                        style="@style/week_day_style"
-                        android:text="T5" />
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_saturday"
+                            style="@style/week_day_style"
+                            android:text="T7" />
 
-                    <vn.tonish.hozo.view.TextViewHozo
-                        android:id="@+id/tv_friday"
-                        style="@style/week_day_style"
-                        android:text="T6" />
-
-                    <vn.tonish.hozo.view.TextViewHozo
-                        android:id="@+id/tv_saturday"
-                        style="@style/week_day_style"
-                        android:text="T7" />
-
-                    <vn.tonish.hozo.view.TextViewHozo
-                        android:id="@+id/tv_sunday"
-                        style="@style/week_day_style"
-                        android:text="CN" />
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_sunday"
+                            style="@style/week_day_style"
+                            android:text="CN" />
+                    </LinearLayout>
                 </LinearLayout>
 
 
-            </vn.tonish.hozo.view.HozoExpandableRelativeLayout>
+            </vn.tonish.hozo.view.ExpandableLayout>
 
             <RelativeLayout
                 android:id="@+id/layout_distance"
@@ -438,13 +443,12 @@
 
             </RelativeLayout>
 
-            <vn.tonish.hozo.view.HozoExpandableRelativeLayout
+            <vn.tonish.hozo.view.ExpandableLayout
                 android:id="@+id/layout_detail_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <RadioGroup
-                    android:id="@+id/radio_distance"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="25dp"
@@ -453,105 +457,113 @@
                     android:layout_marginStart="25dp"
                     android:orientation="vertical">
 
-                    <RadioButton
-                        android:id="@+id/rad_all_distance"
+                    <RadioGroup
+                        android:id="@+id/radio_distance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:button="@drawable/radio_button_background"
-                        android:checked="true"
-                        android:paddingLeft="10dp"
-                        android:paddingStart="10dp"
-                        android:text="@string/hozo_all" />
+                        android:orientation="vertical">
 
-                    <RadioButton
-                        android:id="@+id/rad_distance_option"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:button="@drawable/radio_button_background"
-                        android:checked="false"
-                        android:paddingLeft="10dp"
-                        android:paddingStart="10dp"
-                        android:text="@string/setting_optional" />
-                </RadioGroup>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/radio_distance"
-                    android:orientation="vertical">
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="150dp"
-                        android:layout_marginEnd="25dp"
-                        android:layout_marginLeft="25dp"
-                        android:layout_marginRight="25dp"
-                        android:layout_marginStart="25dp">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/autocomplete_places"
+                        <RadioButton
+                            android:id="@+id/rad_all_distance"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:background="@drawable/bg_border_search_map"
-                            android:focusable="true"
-                            android:focusableInTouchMode="true"
-                            android:hint="@string/base_location_hint"
-                            android:maxLines="2"
-                            android:minHeight="@dimen/edt_min_height"
-                            android:padding="5dp"
-                            android:textColor="@color/setting_text"
-                            android:textSize="@dimen/tv_size_nomal" />
+                            android:button="@drawable/radio_button_background"
+                            android:checked="true"
+                            android:paddingLeft="10dp"
+                            android:paddingStart="10dp"
+                            android:text="@string/hozo_all" />
 
-                        <vn.tonish.hozo.view.TextViewHozo
-                            android:id="@+id/tv_distance_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/autocomplete_places"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/a_km"
-                            android:textColor="@color/hozo_bg"
-                            android:textSize="@dimen/tv_size_medium" />
-
-                        <SeekBar
-                            android:id="@+id/seebar_distance"
+                        <RadioButton
+                            android:id="@+id/rad_distance_option"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_distance_value"
-                            android:layout_marginTop="5dp"
-                            android:max="50"
-                            android:maxHeight="10dp"
-                            android:min="1"
-                            android:progress="50"
-                            android:progressDrawable="@drawable/seebar_progress"
-                            android:thumb="@drawable/thumb" />
+                            android:layout_marginTop="10dp"
+                            android:button="@drawable/radio_button_background"
+                            android:checked="false"
+                            android:paddingLeft="10dp"
+                            android:paddingStart="10dp"
+                            android:text="@string/setting_optional" />
+                    </RadioGroup>
 
-                        <vn.tonish.hozo.view.TextViewHozo
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/radio_distance"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/seebar_distance"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/a_km"
-                            android:textColor="@color/setting_black"
-                            android:textSize="@dimen/menu_text_size" />
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:layout_marginStart="25dp">
 
-                        <vn.tonish.hozo.view.TextViewHozo
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_below="@+id/seebar_distance"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/max_km"
-                            android:textColor="@color/setting_black"
-                            android:textSize="@dimen/menu_text_size" />
-                    </RelativeLayout>
+                            <AutoCompleteTextView
+                                android:id="@+id/autocomplete_places"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/bg_border_search_map"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:hint="@string/base_location_hint"
+                                android:maxLines="2"
+                                android:minHeight="@dimen/edt_min_height"
+                                android:padding="5dp"
+                                android:textColor="@color/setting_text"
+                                android:textSize="@dimen/tv_size_nomal" />
 
+                            <vn.tonish.hozo.view.TextViewHozo
+                                android:id="@+id/tv_distance_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/autocomplete_places"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/a_km"
+                                android:textColor="@color/hozo_bg"
+                                android:textSize="@dimen/tv_size_medium" />
+
+                            <SeekBar
+                                android:id="@+id/seebar_distance"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_distance_value"
+                                android:layout_marginTop="5dp"
+                                android:max="50"
+                                android:maxHeight="10dp"
+                                android:min="1"
+                                android:progress="50"
+                                android:progressDrawable="@drawable/seebar_progress"
+                                android:thumb="@drawable/thumb" />
+
+                            <vn.tonish.hozo.view.TextViewHozo
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/seebar_distance"
+                                android:layout_marginTop="5dp"
+                                android:text="@string/a_km"
+                                android:textColor="@color/setting_black"
+                                android:textSize="@dimen/menu_text_size" />
+
+                            <vn.tonish.hozo.view.TextViewHozo
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_below="@+id/seebar_distance"
+                                android:layout_marginTop="5dp"
+                                android:text="@string/max_km"
+                                android:textColor="@color/setting_black"
+                                android:textSize="@dimen/menu_text_size" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
                 </LinearLayout>
-            </vn.tonish.hozo.view.HozoExpandableRelativeLayout>
+            </vn.tonish.hozo.view.ExpandableLayout>
 
 
             <RelativeLayout
@@ -606,7 +618,7 @@
 
             </RelativeLayout>
 
-            <vn.tonish.hozo.view.HozoExpandableRelativeLayout
+            <vn.tonish.hozo.view.ExpandableLayout
                 android:id="@+id/layout_detail_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -673,7 +685,7 @@
                         android:paddingStart="10dp"
                         android:text="@string/setting_price_500" />
                 </RadioGroup>
-            </vn.tonish.hozo.view.HozoExpandableRelativeLayout>
+            </vn.tonish.hozo.view.ExpandableLayout>
 
             <RelativeLayout
                 android:id="@+id/layout_keyword"
@@ -691,6 +703,23 @@
                     android:text="@string/setting_key_word"
                     android:textColor="@color/setting_black"
                     android:textSize="@dimen/tv_size_medium" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_keyword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="60dp"
+                    android:layout_marginRight="60dp"
+                    android:layout_toEndOf="@+id/key_word"
+                    android:layout_toRightOf="@+id/key_word"
+                    android:ellipsize="end"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:textSize="@dimen/tv_size_nomal" />
+
 
                 <ImageView
                     android:id="@+id/img_keyword"
@@ -711,57 +740,64 @@
 
             </RelativeLayout>
 
-            <vn.tonish.hozo.view.HozoExpandableRelativeLayout
+            <vn.tonish.hozo.view.ExpandableLayout
                 android:id="@+id/layout_detail_keyword"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:addStatesFromChildren="true">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:el_expanded="false">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rcv_keyword"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="25dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_marginStart="25dp" />
-
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/rcv_keyword"
-                    android:layout_margin="25dp">
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
-                    <vn.tonish.hozo.view.EdittextHozo
-                        android:id="@+id/edt_keyword"
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rcv_keyword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginStart="25dp" />
+
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@drawable/bg_border_search_map"
-                        android:ellipsize="end"
-                        android:hint="@string/hint_key_word"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:paddingEnd="70dp"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="70dp"
-                        android:paddingStart="5dp"
-                        android:textSize="@dimen/tv_size_nomal" />
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rcv_keyword"
+                        android:layout_margin="25dp">
 
-                    <vn.tonish.hozo.view.TextViewHozo
-                        android:id="@+id/btn_send"
-                        android:layout_width="50dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="end|center"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginRight="5dp"
-                        android:background="@drawable/btn_corners_selector"
-                        android:gravity="center"
-                        android:text="@string/enter"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/tv_size_xxtiny" />
+                        <vn.tonish.hozo.view.EdittextHozo
+                            android:id="@+id/edt_keyword"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_border_search_map"
+                            android:ellipsize="end"
+                            android:hint="@string/hint_key_word"
+                            android:inputType="text"
+                            android:maxLength="25"
+                            android:maxLines="2"
+                            android:paddingEnd="70dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="70dp"
+                            android:paddingStart="5dp"
+                            android:textSize="@dimen/tv_size_nomal" />
 
-                </FrameLayout>
-            </vn.tonish.hozo.view.HozoExpandableRelativeLayout>
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/btn_send"
+                            android:layout_width="50dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="end|center"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/btn_corners_selector"
+                            android:gravity="center"
+                            android:text="@string/enter"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/tv_size_xxtiny" />
+                    </FrameLayout>
+                </LinearLayout>
+            </vn.tonish.hozo.view.ExpandableLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

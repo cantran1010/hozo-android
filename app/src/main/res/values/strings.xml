@@ -519,4 +519,6 @@
     <string name="enter">Nhập</string>
     <string name="keyword_empty">Bạn chưa nhập từ khoá.</string>
     <string name="keyword_duplicate">Từ khoá này đã tồn tại!</string>
+    <string name="setting_status_open">open</string>
+    <string name="setting_status_assigned">assigned</string>
 </resources>

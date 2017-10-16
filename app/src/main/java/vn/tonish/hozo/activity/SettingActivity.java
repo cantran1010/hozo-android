@@ -3,7 +3,6 @@ package vn.tonish.hozo.activity;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -29,9 +28,14 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,13 +60,17 @@ import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
-import vn.tonish.hozo.view.HozoExpandableRelativeLayout;
+import vn.tonish.hozo.view.ExpandableLayout;
 import vn.tonish.hozo.view.TextViewHozo;
 
+import static vn.tonish.hozo.R.id.tv_monday;
 import static vn.tonish.hozo.database.manager.SettingAdvanceManager.getSettingAdvace;
 import static vn.tonish.hozo.utils.Utils.getAddressFromLatlon;
+import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
+import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 import static vn.tonish.hozo.utils.Utils.inserCategory;
 
 /**
@@ -81,13 +89,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private RecyclerView rcvCategory, rcvKeyword;
     private SeekBar seebarDistance;
     private Animation anim_down, anim_up;
-    private HozoExpandableRelativeLayout statusExpandableLayout, categoryExpandableLayout, timeExpandableLayout, distanceExpandableLayout, priceExpandableLayout, keywordExpandableLayout;
+    private ExpandableLayout statusExpandableLayout, categoryExpandableLayout, timeExpandableLayout, distanceExpandableLayout, priceExpandableLayout, keywordExpandableLayout;
     private TaskTypeAdapter mAdapter;
     private ArrayList<CategoryEntity> categoryEntities;
     private ArrayList<Category> categories;
-    private SettingAdvanceEntity advanceEntity, advanceEntityNew;
+    private SettingAdvanceEntity advanceEntity = new SettingAdvanceEntity();
     private Category cat;
-    private TextViewHozo tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday;
+    private TextViewHozo tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday, tvKeyword;
     private int count = 0;
     private double lat, lon;
     private String address = "";
@@ -100,6 +108,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private KeyWordAdapter keyWordAdapter;
     private ArrayList<String> keywords;
     private EdittextHozo edtKeyword;
+    private String mKeyWord = "";
+    private int minPrice = 0;
+    private int maxPrice = 0;
+    private ArrayList<Integer> catIds = new ArrayList<>();
+    private ArrayList<Integer> dayOfWeek = new ArrayList<>();
+    private ArrayList<Double> locations = new ArrayList<>();
+    private String mStatus = "";
 
     @Override
     protected int getLayout() {
@@ -135,6 +150,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         tvDistanceValue = findViewById(R.id.tv_distance_value);
         tvPrice = findViewById(R.id.tv_price);
         btnSend = findViewById(R.id.btn_send);
+        tvKeyword = findViewById(R.id.tv_keyword);
 
         edtKeyword = findViewById(R.id.edt_keyword);
 
@@ -168,7 +184,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         rcvKeyword = findViewById(R.id.rcv_keyword);
 
 
-        tvMonday = findViewById(R.id.tv_monday);
+        tvMonday = findViewById(tv_monday);
         tvTuesday = findViewById(R.id.tv_tuesday);
         tvWednesday = findViewById(R.id.tv_wednesday);
         tvThursday = findViewById(R.id.tv_thursday);
@@ -202,7 +218,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initData() {
-        advanceEntityNew = new SettingAdvanceEntity();
         LogUtils.d(TAG, "get setting from realm" + getSettingAdvace());
         anim_down = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.rotate_down);
@@ -240,7 +255,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rcvCategory.setLayoutManager(layoutManager);
         rcvCategory.setAdapter(mAdapter);
-
         mAdapter.setListener(new TaskTypeAdapter.CategoryListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -248,6 +262,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     categoryName = getString(R.string.hozo_all);
                 } else categoryName = getCategoryName();
                 tvCategory.setText(categoryName);
+                catIds.clear();
+                if (categories.size() > 0) {
+                    for (Category cat : categories
+                            ) {
+                        if (cat.isSelected()) catIds.add(cat.getId());
+                    }
+                }
+
 
             }
         });
@@ -256,9 +278,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 radDistanceOption.setChecked(true);
-                if (i < 1) seekBar.setProgress(1);
+                if (i < 1)
+                    seekBar.setProgress(1);
                 tvDistanceValue.setText(String.valueOf(seekBar.getProgress()) + getString(R.string.all_space_type) + getString(R.string.km));
                 tvDistance.setText(String.valueOf(seekBar.getProgress()) + getString(R.string.all_space_type) + getString(R.string.km));
+                distance = seekBar.getProgress();
 
             }
 
@@ -273,13 +297,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             }
         });
         keywords = new ArrayList<>();
-        keyWordAdapter = new KeyWordAdapter(this, keywords);
+        keyWordAdapter = new
+
+                KeyWordAdapter(this, keywords);
         keyWordAdapter.stopLoadMore();
-        rcvKeyword.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager =
-                new GridLayoutManager(this, 3);
-        rcvKeyword.setLayoutManager(gridLayoutManager);
+        RecyclerView.LayoutManager keyWordLayoutManager = new LinearLayoutManager(this);
+        rcvKeyword.setLayoutManager(keyWordLayoutManager);
         rcvKeyword.setAdapter(keyWordAdapter);
+
 
     }
 
@@ -326,10 +351,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 LogUtils.e(TAG, "Place address : " + place.getAddress());
                 lat = place.getLatLng().latitude;
                 lon = place.getLatLng().longitude;
+                locations.add(0, lat);
+                locations.add(1, lon);
                 address = autocompleteView.getText().toString();
                 autocompleteView.setError(null);
                 places.release();
-                Utils.hideKeyBoard(SettingActivity.this);
+                hideKeyBoard(SettingActivity.this);
 
             } catch (Exception e) {
                 Utils.showLongToast(SettingActivity.this, getString(R.string.post_task_map_get_location_error_next), true, false);
@@ -347,9 +374,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private void getDataforView() {
         if (SettingAdvanceManager.getSettingAdvace() == null) {
-            getSettingAdvaceFromeServer();
+            getSettingAdvanceFromeServer();
         } else {
-            getSettingAdvaceFromeServer();
+            getSettingAdvanceFromeServer();
             advanceEntity = SettingAdvanceManager.getSettingAdvace();
             LogUtils.d(TAG, "data setting : " + advanceEntity.toString());
             setDataForView();
@@ -393,8 +420,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+
     private void setKeyWordForView() {
-        if (advanceEntity.getKeywords().size() > 0) {
+        if (advanceEntity.getKeywords() != null && advanceEntity.getKeywords().size() > 0) {
             for (RealmString realmString : advanceEntity.getKeywords()
                     ) {
                 keywords.add(realmString.getValue());
@@ -402,21 +430,30 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             }
             keyWordAdapter.notifyDataSetChanged();
         }
-
+        setTextForKeyWord();
 
     }
 
+
     private void setPriceForView() {
         if (advanceEntity.getMaxWorkerRate() == 10000 && advanceEntity.getMaxWorkerRate() == 100000) {
+            minPrice = 10000;
+            maxPrice = 100000;
             rad10.setChecked(true);
             tvPrice.setText(rad10.getText());
-        } else if (advanceEntity.getMaxWorkerRate() == 10000 && advanceEntity.getMaxWorkerRate() == 500000) {
+        } else if (advanceEntity.getMaxWorkerRate() == 100000 && advanceEntity.getMaxWorkerRate() == 500000) {
+            minPrice = 100000;
+            maxPrice = 500000;
             rad100.setChecked(true);
             tvPrice.setText(rad100.getText());
         } else if (advanceEntity.getMaxWorkerRate() == 500000) {
+            minPrice = 0;
+            maxPrice = 500000;
             rad500.setChecked(true);
             tvPrice.setText(rad500.getText());
         } else {
+            minPrice = 0;
+            maxPrice = 0;
             tvPrice.setText(radAllPrice.getText());
             radAllPrice.setChecked(true);
         }
@@ -424,12 +461,17 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setBaseLocation() {
-        if (advanceEntity.getLatlon().size() > 0) {
+        if (advanceEntity.getLatlon() != null && advanceEntity.getLatlon().size() > 0) {
             radDistanceOption.setChecked(true);
+            distance = advanceEntity.getDistance();
+            locations.add(0, advanceEntity.getLatlon().get(0).getVal());
+            locations.add(1, advanceEntity.getLatlon().get(1).getVal());
             autocompleteView.setText(getAddressFromLatlon(this, advanceEntity.getLatlon().get(0).getVal(), advanceEntity.getLatlon().get(1).getVal()));
             tvDistance.setText(advanceEntity.getDistance() + getString(R.string.all_space_type) + getString(R.string.km));
         } else {
+            locations = new ArrayList<>();
             radAllDistance.setChecked(true);
+            distance = 0;
             if (UserManager.getMyUser().getLatitude() != 0 && UserManager.getMyUser().getLongitude() != 0) {
                 autocompleteView.setText(UserManager.getMyUser().getAddress());
                 tvDistance.setText(getString(R.string.hozo_all));
@@ -443,53 +485,64 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         if (status.equalsIgnoreCase(Constants.STATUS_SETTING_OPEN)) {
             radioStatus.check(R.id.rd_status_open);
             tvStatus.setText(getString(R.string.make_an_offer_status));
+            mStatus = getString(R.string.setting_status_open);
         } else if (status.equalsIgnoreCase(Constants.STATUS_SETTING_ASSIGED)) {
             radioStatus.check(R.id.rd_status_assign);
             tvStatus.setText(getString(R.string.delivered));
+            mStatus = getString(R.string.setting_status_assigned);
         } else {
             radioStatus.check(R.id.rd_status_all);
             tvStatus.setText(getString(R.string.hozo_all));
+            mStatus = "";
         }
 
     }
 
     private void setDateTime() {
         String mName = "";
-        if (advanceEntity.getDays().size() > 0) {
+        if (advanceEntity.getDays() != null && advanceEntity.getDays().size() > 0) {
             radioTime.check(R.id.radio_date);
             for (RealmInt anInt : advanceEntity.getDays()
                     ) {
                 switch (anInt.getVal()) {
 
                     case 1:
+                        dayOfWeek.add(1);
                         mName = mName + tvSunday.getText() + ", ";
                         tvSunday.setBackgroundResource(R.drawable.bg_circle_press);
                         break;
                     case 2:
+                        dayOfWeek.add(2);
                         tvMonday.setBackgroundResource(R.drawable.bg_circle_press);
                         mName = mName + tvMonday.getText() + ", ";
                         break;
                     case 3:
+                        dayOfWeek.add(3);
                         tvTuesday.setBackgroundResource(R.drawable.bg_circle_press);
                         mName = mName + tvTuesday.getText() + ", ";
                         break;
                     case 4:
+                        dayOfWeek.add(4);
                         tvWednesday.setBackgroundResource(R.drawable.bg_circle_press);
                         mName = mName + tvWednesday.getText() + ", ";
                         break;
                     case 5:
+                        dayOfWeek.add(5);
                         tvThursday.setBackgroundResource(R.drawable.bg_circle_press);
                         mName = mName + tvThursday.getText() + ", ";
                         break;
                     case 6:
+                        dayOfWeek.add(6);
                         tvFriday.setBackgroundResource(R.drawable.bg_circle_press);
                         mName = mName + tvFriday.getText() + ", ";
                         break;
                     case 7:
+                        dayOfWeek.add(7);
                         tvSaturday.setBackgroundResource(R.drawable.bg_circle_press);
                         mName = mName + tvSaturday.getText() + ", ";
                         break;
                     default:
+                        dayOfWeek = new ArrayList<>();
                         clearChooseDay();
                         break;
 
@@ -501,12 +554,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             }
 
         } else {
+            dayOfWeek = new ArrayList<>();
             tvDateTime.setText(radAllTime.getText());
         }
     }
 
 
     private void clearChooseDay() {
+        dayOfWeek = new ArrayList<>();
         radioTime.check(R.id.radio_all_time);
         count = 0;
         tvSunday.setBackgroundResource(R.drawable.bg_circle_default);
@@ -527,8 +582,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setCategoryForView() {
-
-        if (advanceEntity.getCategories().size() > 0) {
+        if (advanceEntity.getCategories() != null && advanceEntity.getCategories().size() > 0) {
             LogUtils.d(TAG, "categories size" + advanceEntity.getCategories().size());
             for (RealmInt realmInt : advanceEntity.getCategories()
                     ) {
@@ -536,11 +590,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         ) {
                     if (category.getId() == realmInt.getVal()) {
                         category.setSelected(true);
+                        catIds.add(category.getId());
                     }
                 }
             }
 
         } else {
+            catIds = new ArrayList<>();
             LogUtils.d(TAG, "categories 0");
             categories.get(0).setSelected(true);
         }
@@ -566,24 +622,24 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         return name;
     }
 
-    private void expandableLayout(HozoExpandableRelativeLayout expan, ImageView img) {
-        if (expan.getCurrentPosition() == expan.getClosePosition()) {
-            img.startAnimation(anim_up);
-        } else {
+    private void expandableLayout(ExpandableLayout expan, ImageView img) {
+        if (expan.isExpanded()) {
             img.startAnimation(anim_down);
+        } else {
+            img.startAnimation(anim_up);
         }
         expan.toggle();
 
     }
 
-    private void getSettingAdvaceFromeServer() {
+    private void getSettingAdvanceFromeServer() {
 
         ApiClient.getApiService().getSettingAdvance(UserManager.getUserToken()).enqueue(new Callback<SettingAdvanceEntity>() {
             @Override
             public void onResponse(Call<SettingAdvanceEntity> call, Response<SettingAdvanceEntity> response) {
+                LogUtils.d(TAG, "getSettingAdvaceFromeServer code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "getSettingAdvance toString : " + response.body().toString());
-                    LogUtils.d(TAG, "getSettingAdvance onResponse status code : " + response.code());
+                    LogUtils.d(TAG, "getSettingAdvance onResponse : " + response.body().toString());
                     advanceEntity = response.body();
                     SettingAdvanceManager.insertSettingAdvace(advanceEntity);
                     setDataForView();
@@ -597,9 +653,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         Utils.showLongToast(SettingActivity.this, getString(R.string.login_block_phone), true, false);
                     else
                         Utils.showLongToast(SettingActivity.this, error.message(), true, false);
-
                 }
-
             }
 
             @Override
@@ -608,7 +662,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 DialogUtils.showRetryDialog(SettingActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        getSettingAdvaceFromeServer();
+                        getSettingAdvanceFromeServer();
                     }
 
                     @Override
@@ -682,6 +736,81 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
 
+    private void postSettingAdvance() {
+        int[] ads= {1,2,3};
+        ProgressDialogUtils.showProgressDialog(this);
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("filter_task_status", mStatus);
+            jsonRequest.put("filter_worker_rate_min", String.valueOf(minPrice));
+            jsonRequest.put("filter_worker_rate_max", String.valueOf(maxPrice));
+            jsonRequest.put("filter_keywords", keywords.toString());
+            jsonRequest.put("filter_categories", ads.toString());
+            jsonRequest.put("filter_worker_days", dayOfWeek.toString());
+            if (radioDistance.getCheckedRadioButtonId() == R.id.rad_all_distance) {
+                jsonRequest.put("filter_distance", String.valueOf(distance));
+                jsonRequest.put("filter_original_location", locations.toString());
+            } else jsonRequest.put("filter_original_location", new ArrayList<Double>().toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LogUtils.d(TAG, "postSettingAdvance data request : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().postSettingAdvance(UserManager.getUserToken(), body).enqueue(new Callback<SettingAdvanceEntity>() {
+            @Override
+            public void onResponse(Call<SettingAdvanceEntity> call, Response<SettingAdvanceEntity> response) {
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    finish();
+                    LogUtils.d(TAG, " HTTP_CODE_OK " + response.body().toString());
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(SettingActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            getCategoryFromeServer();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(SettingActivity.this);
+                } else {
+                    DialogUtils.showRetryDialog(SettingActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            getCategoryFromeServer();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SettingAdvanceEntity> call, Throwable t) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.e(TAG, "getCategoryFromeServer onFailure status code : " + t.getMessage());
+                DialogUtils.showRetryDialog(SettingActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getCategoryFromeServer();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+        ProgressDialogUtils.dismissProgressDialog();
+    }
+
+
     @Override
     protected void resumeData() {
 
@@ -691,7 +820,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
-                finish();
+                postSettingAdvance();
                 break;
             case R.id.layout_status:
                 expandableLayout(statusExpandableLayout, imgStatusArrow);
@@ -711,7 +840,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.layout_keyword:
                 expandableLayout(keywordExpandableLayout, imgKeyword);
                 break;
-            case R.id.tv_monday:
+            case tv_monday:
                 clickDay(tvMonday);
                 break;
             case R.id.tv_tuesday:
@@ -749,6 +878,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             keywords.add(mKeyWord);
             keyWordAdapter.notifyItemInserted(keywords.size() - 1);
         }
+        edtKeyword.setText("");
+        hideSoftKeyboard(this, edtKeyword);
+        setTextForKeyWord();
 
     }
 
@@ -763,6 +895,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void clickDay(TextViewHozo tv) {
+
         radioTime.check(R.id.radio_date);
         if (tv.getBackground().getConstantState().equals(ContextCompat.getDrawable(this, R.drawable.bg_circle_default).getConstantState())) {
             LogUtils.d(TAG, "count 1 :" + count);
@@ -790,21 +923,45 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
         if (strTime.startsWith(", ")) strTime = strTime.replace(", ", "");
         tvDateTime.setText(strTime);
+        getDayOfWeek();
+    }
+
+    private void getDayOfWeek() {
+        dayOfWeek = new ArrayList<>();
+        if (tvSunday.getBackground().getConstantState().equals(ContextCompat.getDrawable(this, R.drawable.bg_circle_default).getConstantState()))
+            dayOfWeek.add(1);
+        if (tvMonday.getBackground().getConstantState().equals(ContextCompat.getDrawable(this, R.drawable.bg_circle_default).getConstantState()))
+            dayOfWeek.add(2);
+        if (tvTuesday.getBackground().getConstantState().equals(ContextCompat.getDrawable(this, R.drawable.bg_circle_default).getConstantState()))
+            dayOfWeek.add(3);
+        if (tvWednesday.getBackground().getConstantState().equals(ContextCompat.getDrawable(this, R.drawable.bg_circle_default).getConstantState()))
+            dayOfWeek.add(4);
+        if (tvThursday.getBackground().getConstantState().equals(ContextCompat.getDrawable(this, R.drawable.bg_circle_default).getConstantState()))
+            dayOfWeek.add(5);
+        if (tvFriday.getBackground().getConstantState().equals(ContextCompat.getDrawable(this, R.drawable.bg_circle_default).getConstantState()))
+            dayOfWeek.add(6);
+        if (tvSaturday.getBackground().getConstantState().equals(ContextCompat.getDrawable(this, R.drawable.bg_circle_default).getConstantState()))
+            dayOfWeek.add(7);
     }
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
         switch (i) {
             case R.id.rd_status_all:
-                advanceEntityNew.setStatus("");
+                tvStatus.setText(getString(R.string.hozo_all));
+                mStatus = "";
                 break;
             case R.id.rd_status_open:
-                advanceEntityNew.setStatus(Constants.STATUS_SETTING_OPEN);
+                mStatus = getString(R.string.setting_status_open);
+                tvStatus.setText(getString(R.string.make_an_offer_status));
+
                 break;
             case R.id.rd_status_assign:
-                advanceEntityNew.setStatus(Constants.STATUS_SETTING_ASSIGED);
+                mStatus = getString(R.string.setting_status_assigned);
+                tvStatus.setText(getString(R.string.delivered));
                 break;
             case R.id.radio_all_time:
+
                 clearChooseDay();
                 tvDateTime.setText(radAllTime.getText());
                 break;
@@ -815,19 +972,39 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 tvDistance.setText(String.valueOf(seebarDistance.getProgress()) + getString(R.string.all_space_type) + getString(R.string.km));
                 break;
             case R.id.rad_all_price:
+                minPrice = 0;
+                maxPrice = 0;
                 tvPrice.setText(radAllPrice.getText());
                 break;
             case R.id.rad_10_100:
+                minPrice = 10000;
+                maxPrice = 100000;
                 tvPrice.setText(rad10.getText());
                 break;
             case R.id.rad_100_500:
+                minPrice = 100000;
+                maxPrice = 500000;
                 tvPrice.setText(rad100.getText());
                 break;
             case R.id.rad_500:
+                minPrice = 500000;
+                maxPrice = 0;
                 tvPrice.setText(rad500.getText());
                 break;
 
         }
+
+    }
+
+    private void setTextForKeyWord() {
+        String strKeyWord = "";
+        if (keywords != null)
+            for (String realmString : keywords
+                    ) {
+                strKeyWord = strKeyWord + ", " + realmString;
+            }
+        if (strKeyWord.startsWith(", ")) mKeyWord = strKeyWord.substring(2, strKeyWord.length());
+        tvKeyword.setText(mKeyWord);
 
     }
 
