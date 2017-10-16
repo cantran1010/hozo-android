@@ -168,4 +168,7 @@ public interface ApiInterface {
 
     @GET("v1/users/settings")
     Call<SettingAdvanceEntity> getSettingAdvance(@Header("Authorization") String token);
+
+    @POST("v1/users/settings")
+    Call<SettingAdvanceEntity> postSettingAdvance(@Header("Authorization") String token, @Body RequestBody body);
 }
