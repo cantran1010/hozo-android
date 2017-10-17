@@ -242,4 +242,5 @@ public class Constants {
     public static final int OVERSHOOT_INTERPOLATOR = 10;
     public static final String STATUS_SETTING_OPEN = "open";
     public static final String STATUS_SETTING_ASSIGED = "assigned";
+    public static int RESULT_ADVANCE_SETTING_OK = 1203;
 }

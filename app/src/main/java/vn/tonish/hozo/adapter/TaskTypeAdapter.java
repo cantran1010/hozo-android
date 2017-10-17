@@ -54,7 +54,9 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         final int pos = position;
         LogUtils.d(TAG, "checkbox -:" + taskTypes.get(pos).isSelected());
-        if (countTick == 0) {
+        countTick = getCountTick();
+        LogUtils.d(TAG, "count tisk -:" + countTick);
+        if (countTick == 0 || countTick == 9) {
             taskTypes.get(0).setSelected(true);
             for (int i = 1; i < taskTypes.size(); i++) {
                 taskTypes.get(i).setSelected(false);
@@ -66,8 +68,13 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
         viewHolder.chkSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (pos == 0) countTick = 0;
-                else {
+                if (pos == 0) {
+                    countTick = 0;
+                    taskTypes.get(0).setSelected(true);
+                    for (int i = 1; i < taskTypes.size(); i++) {
+                        taskTypes.get(i).setSelected(false);
+                    }
+                } else {
                     if (isChecked) {
                         countTick++;
                         taskTypes.get(0).setSelected(false);
@@ -79,9 +86,22 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
                 }
                 notifyDataSetChanged();
                 if (listener != null) listener.onCheckedChanged(buttonView, isChecked);
+                LogUtils.d(TAG, "count tisk 1 :" + countTick);
             }
         });
+        LogUtils.d(TAG, "count tisk 2 :" + countTick);
 
+    }
+
+    private int getCountTick() {
+        int count = 0;
+        for (Category cat : taskTypes
+                ) {
+            if (cat.getId() == 0 && cat.isSelected()) count = 0;
+            else if (cat.getId() != 0 && cat.isSelected()) count++;
+        }
+
+        return count;
     }
 
 

@@ -536,7 +536,7 @@
                                 android:max="50"
                                 android:maxHeight="10dp"
                                 android:min="1"
-                                android:progress="50"
+                                android:progress="1"
                                 android:progressDrawable="@drawable/seebar_progress"
                                 android:thumb="@drawable/thumb" />
 
