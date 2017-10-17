@@ -11,12 +11,17 @@ import vn.tonish.hozo.database.entity.BidderEntity;
 import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.entity.CommentEntity;
 import vn.tonish.hozo.database.entity.PosterEntity;
+import vn.tonish.hozo.database.entity.RealmDouble;
+import vn.tonish.hozo.database.entity.RealmInt;
+import vn.tonish.hozo.database.entity.RealmString;
+import vn.tonish.hozo.database.entity.SettingAdvanceEntity;
 import vn.tonish.hozo.database.entity.SettingEntiny;
 import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
+import vn.tonish.hozo.model.SettingAdvance;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.Bidder;
 import vn.tonish.hozo.rest.responseRes.Poster;
@@ -380,6 +385,7 @@ public class DataParse {
         return ids;
 
     }
+
 
 
 }

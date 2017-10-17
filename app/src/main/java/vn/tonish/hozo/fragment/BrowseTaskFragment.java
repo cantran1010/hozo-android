@@ -303,7 +303,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 edtSearch.setText("");
                 break;
             case R.id.layout_setting:
-                startActivityForResult(new Intent(getActivity(), SettingActivity.class), Constants.REQUEST_CODE_SETTING, TransitionScreen.DOWN_TO_UP);
+                startActivityForResult(new Intent(getActivity(), SettingActivity.class), Constants.REQUEST_CODE_SETTING, TransitionScreen.LEFT_TO_RIGHT);
                 break;
         }
 
