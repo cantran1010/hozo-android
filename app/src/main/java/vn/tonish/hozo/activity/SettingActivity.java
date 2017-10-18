@@ -405,14 +405,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private void setKeyWordForView() {
         keywords = new ArrayList<>();
-
-        keywords = new ArrayList<>();
         if (advanceEntity.getKeywords() != null && advanceEntity.getKeywords().size() > 0) {
             LogUtils.d(TAG, "keyword" + advanceEntity.getKeywords().size());
             for (RealmString realmString : advanceEntity.getKeywords()
                     ) {
                 keywords.add(realmString.getValue());
-
             }
         }
         keyWordAdapter = new KeyWordAdapter(this, keywords);
@@ -609,7 +606,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         } else {
             catIds = new ArrayList<>();
-            LogUtils.d(TAG, "categories 0");
             categories.get(0).setSelected(true);
 
         }
@@ -841,7 +837,50 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_send:
                 sendKeyWord();
                 break;
+            case R.id.tv_default:
+                defaultSetting();
+                break;
         }
+
+    }
+
+    private void defaultSetting() {
+        radioStatus.check(R.id.rd_status_all);
+        tvStatus.setText(getString(R.string.hozo_all));
+        mStatus = "";
+
+        catIds = new ArrayList<>();
+        categories.get(0).setSelected(true);
+        if (categories.size() > 0)
+            for (int i = 1; i < categories.size(); i++) {
+                categories.get(i).setSelected(false);
+            }
+        mAdapter.notifyDataSetChanged();
+        tvCategory.setText(getString(R.string.hozo_all));
+
+        minPrice = 0;
+        maxPrice = 0;
+        radAllPrice.setChecked(true);
+        tvPrice.setText(getString(R.string.hozo_all));
+
+        clearChooseDay();
+        tvDateTime.setText(getString(R.string.hozo_all));
+
+        locations = new ArrayList<>();
+        radAllDistance.setChecked(true);
+        distance = 0;
+        if (UserManager.getMyUser().getLatitude() != 0 && UserManager.getMyUser().getLongitude() != 0) {
+            locations.add(0, UserManager.getMyUser().getLatitude());
+            locations.add(1, UserManager.getMyUser().getLongitude());
+            address = UserManager.getMyUser().getAddress();
+            tvDistance.setText(getString(R.string.hozo_all));
+        }
+        autocompleteView.setText(address);
+
+        keywords.clear();
+        keyWordAdapter.notifyDataSetChanged();
+        setTextForKeyWord();
+        edtKeyword.setText("");
 
     }
 
@@ -855,7 +894,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             keywords.add(mKeyWord);
             keyWordAdapter.notifyItemInserted(keywords.size() - 1);
         }
-        edtKeyword.setText("");
         hideSoftKeyboard(this, edtKeyword);
         setTextForKeyWord();
 
