@@ -60,7 +60,8 @@
                     android:gravity="center"
                     android:textColor="@color/tv_gray"
                     android:textSize="12sp"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 

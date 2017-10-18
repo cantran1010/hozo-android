@@ -165,6 +165,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
                     holder.tvTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.img_message_unread, 0, 0, 0);
                 }
 
+                holder.tvTimeAgo.setVisibility(View.VISIBLE);
                 holder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(message.getCreated_atLong(true), context));
 
             }
