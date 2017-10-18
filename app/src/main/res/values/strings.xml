@@ -516,6 +516,12 @@
     <string name="setting_price_500">Trên 500.000<font size="10"> vnd</font></string>
     <string name="hint_key_word">Nhập từ khoá</string>
     <string name="send">Gửi</string>
+    <string name="enter">Nhập</string>
+    <string name="keyword_empty">Bạn chưa nhập từ khoá.</string>
+    <string name="keyword_duplicate">Từ khoá này đã tồn tại!</string>
+    <string name="setting_status_open">open</string>
+    <string name="setting_status_assigned">assigned</string>
+    <string name="keyword_hint">Nhập từ khoá</string>
     <string name="payment_history_title">Tài khoản thanh toán</string>
     <string name="wallet_title">Tài khoản Hozo của bạn có</string>
     <string name="my_wallet">%1$s VND</string>

@@ -18,11 +18,11 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import vn.tonish.hozo.database.entity.ReviewEntity;
-import vn.tonish.hozo.database.entity.SettingAdvanceEntity;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
+import vn.tonish.hozo.model.SettingAdvance;
 import vn.tonish.hozo.rest.responseRes.BlockResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.NewTaskResponse;
@@ -167,5 +167,8 @@ public interface ApiInterface {
     Call<OtpReponse> loginAccountKit(@Body RequestBody body);
 
     @GET("v1/users/settings")
-    Call<SettingAdvanceEntity> getSettingAdvance(@Header("Authorization") String token);
+    Call<SettingAdvance> getSettingAdvance(@Header("Authorization") String token);
+
+    @POST("v1/users/settings")
+    Call<SettingAdvance> postSettingAdvance(@Header("Authorization") String token, @Body RequestBody body);
 }

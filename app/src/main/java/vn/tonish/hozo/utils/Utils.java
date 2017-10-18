@@ -15,6 +15,8 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -56,6 +58,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -841,6 +844,7 @@ public class Utils {
             e.printStackTrace();
         }
     }
+
     public static TimeInterpolator createInterpolator(@IntRange(from = 0, to = 10) final int interpolatorType) {
         switch (interpolatorType) {
             case ACCELERATE_DECELERATE_INTERPOLATOR:
@@ -869,6 +873,7 @@ public class Utils {
                 return new LinearInterpolator();
         }
     }
+
     public static void inserCategory(List<Category> categoryList) {
         List<CategoryEntity> list;
         for (Category category : categoryList) {
@@ -877,5 +882,21 @@ public class Utils {
         list = DataParse.convertListCategoryToListCategoryEntity(categoryList);
         CategoryManager.insertCategories(list);
     }
+
+    public static String getAddressFromLatlon(Context context, double lat, double lon) {
+        Geocoder geocoder;
+        List<Address> addresses;
+        String strAdd = "";
+        geocoder = new Geocoder(context, Locale.getDefault());
+
+        try {
+            addresses = geocoder.getFromLocation(lat, lon, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            strAdd = addresses.get(0).getAddressLine(0);  // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return strAdd;
+    }
+
 
 }

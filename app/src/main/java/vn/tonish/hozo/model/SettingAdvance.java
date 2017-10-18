@@ -1,36 +1,33 @@
-package vn.tonish.hozo.database.entity;
+package vn.tonish.hozo.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import java.util.List;
 
 /**
- * Created by CanTran on 9/23/17.
+ * Created by CanTran on 10/17/17.
  */
 
-public class SettingAdvanceEntity extends RealmObject {
-    @PrimaryKey
+public class SettingAdvance {
     private int userId;
     @SerializedName("notification_chat_group")
     private boolean notification;
     @SerializedName("filter_task_status")
     private String status;
     @SerializedName("filter_categories")
-    private RealmList<RealmInt> categories;
+    private List<Integer> categories;
     @SerializedName("filter_worker_days")
-    private RealmList<RealmInt> days;
+    private List<Integer> days;
     @SerializedName("filter_distance")
     private int distance;
     @SerializedName("filter_original_location")
-    private RealmList<RealmDouble> latlon;
+    private List<Double> latlon;
     @SerializedName("filter_worker_rate_min")
     private long minWorkerRate;
     @SerializedName("filter_worker_rate_max")
     private long maxWorkerRate;
     @SerializedName("filter_keywords")
-    private RealmList<RealmString> keywords;
+    private List<String> keywords;
     @SerializedName("filter_original_address")
     private String address;
 
@@ -58,22 +55,21 @@ public class SettingAdvanceEntity extends RealmObject {
         this.status = status;
     }
 
-    public RealmList<RealmInt> getCategories() {
+    public List<Integer> getCategories() {
         return categories;
     }
 
-    public void setCategories(RealmList<RealmInt> categories) {
+    public void setCategories(List<Integer> categories) {
         this.categories = categories;
     }
 
-    public RealmList<RealmInt> getDays() {
+    public List<Integer> getDays() {
         return days;
     }
 
-    public void setDays(RealmList<RealmInt> days) {
+    public void setDays(List<Integer> days) {
         this.days = days;
     }
-
 
     public int getDistance() {
         return distance;
@@ -83,11 +79,11 @@ public class SettingAdvanceEntity extends RealmObject {
         this.distance = distance;
     }
 
-    public RealmList<RealmDouble> getLatlon() {
+    public List<Double> getLatlon() {
         return latlon;
     }
 
-    public void setLatlon(RealmList<RealmDouble> latlon) {
+    public void setLatlon(List<Double> latlon) {
         this.latlon = latlon;
     }
 
@@ -107,11 +103,11 @@ public class SettingAdvanceEntity extends RealmObject {
         this.maxWorkerRate = maxWorkerRate;
     }
 
-    public RealmList<RealmString> getKeywords() {
+    public List<String> getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(RealmList<RealmString> keywords) {
+    public void setKeywords(List<String> keywords) {
         this.keywords = keywords;
     }
 
@@ -125,7 +121,7 @@ public class SettingAdvanceEntity extends RealmObject {
 
     @Override
     public String toString() {
-        return "SettingAdvanceEntity{" +
+        return "SettingAdvance{" +
                 "userId=" + userId +
                 ", notification=" + notification +
                 ", status='" + status + '\'' +

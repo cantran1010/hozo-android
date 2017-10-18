@@ -13,11 +13,11 @@ public class RealmDouble extends RealmObject {
 
     }
 
-    public RealmDouble(double val) {
-        this.val = val;
-    }
-
     public double getVal() {
         return val;
+    }
+
+    public void setVal(double val) {
+        this.val = val;
     }
 }
