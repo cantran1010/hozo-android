@@ -23,7 +23,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:text="@string/just_image"
         android:textColor="@color/hozo_red"
         android:textSize="22sp" />
 

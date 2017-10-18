@@ -25,6 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_toEndOf="@id/img_back"
+            android:layout_toRightOf="@id/img_back"
             android:text="@string/post_a_task_finish_title" />
 
         <View

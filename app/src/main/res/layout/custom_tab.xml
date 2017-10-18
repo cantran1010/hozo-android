@@ -21,7 +21,7 @@
             android:text="@string/detail_tab_1"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="normal" />
     </LinearLayout>
 
     <RelativeLayout
@@ -37,8 +37,9 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/detail_tab_2"
+            android:textColor="@color/hozo_bg"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="normal" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_count_bidder"
@@ -69,8 +70,9 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/detail_tab_3"
+            android:textColor="@color/hozo_bg"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="normal" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_count_comment"

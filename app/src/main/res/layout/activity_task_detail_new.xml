@@ -33,7 +33,6 @@
             android:layout_toLeftOf="@+id/img_menu"
             android:layout_toRightOf="@id/img_back"
             android:layout_toStartOf="@+id/img_menu"
-            android:gravity="center"
             android:text="@string/make_an_offer_title" />
 
         <ImageView
@@ -48,6 +47,12 @@
             android:src="@drawable/more"
             android:visibility="gone" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray" />
+
     </RelativeLayout>
 
     <android.support.design.widget.TabLayout
@@ -56,13 +61,14 @@
         android:layout_height="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
         app:tabBackground="@drawable/tab_color_selector"
         app:tabGravity="fill"
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        app:tabIndicatorColor="#212121"
+        app:tabIndicatorColor="@color/setting_text"
         app:tabIndicatorHeight="0dp"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/white"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         app:tabTextColor="@color/black" />
 
     <android.support.v4.view.ViewPager

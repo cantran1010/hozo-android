@@ -114,15 +114,15 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
 
                 if (tab.getPosition() == 0) {
                     tvTab1.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.white));
-                    tvTab2.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.tv_black));
-                    tvTab3.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.tv_black));
+                    tvTab2.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.hozo_bg));
+                    tvTab3.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.hozo_bg));
                 } else if (tab.getPosition() == 1) {
-                    tvTab1.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.tv_black));
+                    tvTab1.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.hozo_bg));
                     tvTab2.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.white));
-                    tvTab3.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.tv_black));
+                    tvTab3.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.hozo_bg));
                 } else if (tab.getPosition() == 2) {
-                    tvTab1.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.tv_black));
-                    tvTab2.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.tv_black));
+                    tvTab1.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.hozo_bg));
+                    tvTab2.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.hozo_bg));
                     tvTab3.setTextColor(ContextCompat.getColor(TaskDetailNewActivity.this, R.color.white));
                 }
 

@@ -26,14 +26,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/title_margin_left"
-            android:layout_marginStart="@dimen/title_margin_left"
             android:layout_toEndOf="@id/img_back"
-            android:layout_toRightOf="@id/img_back" />
+            android:layout_toRightOf="@id/img_back"
+            android:paddingLeft="@dimen/margin_left_screen"
+            android:paddingStart="@dimen/margin_left_screen" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="1px"
             android:layout_alignParentBottom="true"
             android:background="@color/gray" />
 

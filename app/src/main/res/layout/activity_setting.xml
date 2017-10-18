@@ -30,6 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_marginStart="@dimen/title_margin_left"
             android:layout_toEndOf="@+id/img_back"
             android:layout_toLeftOf="@+id/tv_default"
             android:layout_toRightOf="@+id/img_back"
@@ -60,12 +62,12 @@
     </RelativeLayout>
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@color/bg"
             android:orientation="vertical">
 
@@ -112,6 +114,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
+                    android:contentDescription="@string/just_image"
                     android:src="@drawable/right_arrow" />
 
                 <View
@@ -219,6 +222,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
+                    android:contentDescription="@string/just_image"
                     android:src="@drawable/right_arrow" />
 
                 <View
@@ -288,6 +292,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
+                    android:contentDescription="@string/just_image"
                     android:src="@drawable/right_arrow" />
 
                 <View
@@ -354,37 +359,37 @@
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_monday"
                             style="@style/week_day_style"
-                            android:text="T2" />
+                            android:text="@string/t2" />
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_tuesday"
                             style="@style/week_day_style"
-                            android:text="T3" />
+                            android:text="@string/tues_day" />
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_wednesday"
                             style="@style/week_day_style"
-                            android:text="T4" />
+                            android:text="@string/wed_day" />
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_thursday"
                             style="@style/week_day_style"
-                            android:text="T5" />
+                            android:text="@string/thur_day" />
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_friday"
                             style="@style/week_day_style"
-                            android:text="T6" />
+                            android:text="@string/fri_day" />
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_saturday"
                             style="@style/week_day_style"
-                            android:text="T7" />
+                            android:text="@string/sat_day" />
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_sunday"
                             style="@style/week_day_style"
-                            android:text="CN" />
+                            android:text="@string/sun_day" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -433,6 +438,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
+                    android:contentDescription="@string/just_image"
                     android:src="@drawable/right_arrow" />
 
                 <View
@@ -507,7 +513,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:background="@drawable/bg_border_search_map"
-                                android:focusable="true"
                                 android:focusableInTouchMode="true"
                                 android:hint="@string/base_location_hint"
                                 android:maxLines="2"
@@ -608,6 +613,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
+                    android:contentDescription="@string/just_image"
                     android:src="@drawable/right_arrow" />
 
                 <View
@@ -730,6 +736,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
+                    android:contentDescription="@string/just_image"
                     android:src="@drawable/right_arrow" />
 
                 <View

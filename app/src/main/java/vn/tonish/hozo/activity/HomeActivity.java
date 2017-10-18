@@ -11,7 +11,10 @@ import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.facebook.accountkit.AccessToken;
+import com.facebook.accountkit.Account;
 import com.facebook.accountkit.AccountKit;
+import com.facebook.accountkit.AccountKitCallback;
+import com.facebook.accountkit.AccountKitError;
 import com.facebook.accountkit.AccountKitLoginResult;
 import com.facebook.accountkit.ui.AccountKitActivity;
 import com.facebook.accountkit.ui.AccountKitConfiguration;
@@ -102,6 +105,18 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void loginHozo() {
+        AccountKit.getCurrentAccount(new AccountKitCallback<Account>() {
+            @Override
+            public void onSuccess(Account account) {
+
+            }
+
+            @Override
+            public void onError(AccountKitError accountKitError) {
+
+            }
+        });
+        String[] smsWhitelist = {"VN"};
         final UIManager uiManager;
         final Intent intent = new Intent(this, AccountKitActivity.class);
         final AccountKitConfiguration.AccountKitConfigurationBuilder configurationBuilder
@@ -111,7 +126,7 @@ public class HomeActivity extends BaseActivity {
         uiManager = new HozoAccountKitUIManager(ButtonType.CONTINUE, ButtonType.CONTINUE, TextPosition.BELOW_BODY, LoginType.PHONE);
         configurationBuilder.setUIManager(uiManager);
 
-        configurationBuilder.setDefaultCountryCode("VN").setReadPhoneStateEnabled(true).setReceiveSMS(true);
+        configurationBuilder.setDefaultCountryCode("VN").setReadPhoneStateEnabled(true).setReceiveSMS(true).setSMSWhitelist(smsWhitelist);
         final AccountKitConfiguration configuration = configurationBuilder.build();
         intent.putExtra(
                 AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
@@ -182,7 +197,7 @@ public class HomeActivity extends BaseActivity {
                     } else {
                         Intent i = new Intent(HomeActivity.this, MainActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.putExtra(Constants.TRANSITION_EXTRA, TransitionScreen.FADE_IN);
+                        i.putExtra(Constants.TRANSITION_EXTRA, TransitionScreen.RIGHT_TO_LEFT);
                         startActivity(i);
                     }
                     sendRegistrationToServer();

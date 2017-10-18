@@ -16,12 +16,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_marginStart="@dimen/title_margin_left"
             android:layout_toEndOf="@+id/img_close"
             android:layout_toLeftOf="@+id/img_menu"
             android:layout_toRightOf="@+id/img_close"
             android:layout_toStartOf="@+id/img_menu"
             android:ellipsize="end"
-            android:gravity="center"
             android:maxLines="1"
             android:text="@string/tv_post_a_task_title" />
 
@@ -357,10 +358,10 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@color/green_hozo"
                 android:focusable="true"
-                android:padding="5dp"
                 android:focusableInTouchMode="true"
                 android:hint="@string/address_hint"
                 android:minHeight="40dp"
+                android:padding="5dp"
                 android:textColor="@color/tv_black"
                 android:textSize="15sp" />
 

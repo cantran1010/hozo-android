@@ -158,18 +158,15 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginStart="5dp"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        card_view:cardBackgroundColor="@color/white"
         card_view:cardCornerRadius="3dp"
         card_view:cardElevation="2dp"
         card_view:cardUseCompatPadding="true">
 
         <FrameLayout
+            android:background="@drawable/btn_back_selector"
             android:id="@+id/layout_setting"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="wrap_content"

@@ -1,9 +1,7 @@
 package vn.tonish.hozo.common;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.realm.RealmList;
 import vn.tonish.hozo.database.entity.AssignerEntity;
@@ -11,23 +9,14 @@ import vn.tonish.hozo.database.entity.BidderEntity;
 import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.entity.CommentEntity;
 import vn.tonish.hozo.database.entity.PosterEntity;
-import vn.tonish.hozo.database.entity.RealmDouble;
-import vn.tonish.hozo.database.entity.RealmInt;
-import vn.tonish.hozo.database.entity.RealmString;
-import vn.tonish.hozo.database.entity.SettingAdvanceEntity;
-import vn.tonish.hozo.database.entity.SettingEntiny;
 import vn.tonish.hozo.database.entity.TaskEntity;
-import vn.tonish.hozo.database.manager.CategoryManager;
-import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
-import vn.tonish.hozo.model.SettingAdvance;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.Bidder;
 import vn.tonish.hozo.rest.responseRes.Poster;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
-import vn.tonish.hozo.utils.LogUtils;
 
 /**
  * Created by Can Tran on 24/04/2017.
@@ -337,55 +326,5 @@ public class DataParse {
             taskEntities.add(converTaskReponseToTaskEntity(taskResponses.get(i)));
         return taskEntities;
     }
-
-    public static Map<String, String> setParameterGetTasks(String sortBy, String limit, String since, String query) {
-        SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
-        Map<String, String> option = new HashMap<>();
-        if (settingEntiny.getMinWorkerRate() > 0)
-            option.put("min_worker_rate", String.valueOf(settingEntiny.getMinWorkerRate()));
-        if (settingEntiny.getMaxWorkerRate() > 0)
-            option.put("max_worker_rate", String.valueOf(settingEntiny.getMaxWorkerRate()));
-        option.put("latitude", String.valueOf(settingEntiny.getLatitude()));
-        option.put("longitude", String.valueOf(settingEntiny.getLongitude()));
-        option.put("distance", String.valueOf(settingEntiny.getRadius()));
-        if (settingEntiny.getCity() != null && settingEntiny.getCity().trim().length() > 0)
-            option.put("city", settingEntiny.getCity());
-        if (sortBy != null) option.put("sort_by", sortBy);
-        option.put("limit", limit);
-        if (since != null) option.put("since", since);
-        if (query != null) option.put("query", query);
-        LogUtils.d(TAG, " set option :" + option.toString());
-        return option;
-    }
-
-    public static Map<String, String> setParameterCountTasks(String since) {
-        SettingEntiny settingEntiny = SettingManager.getSettingEntiny();
-        Map<String, String> option = new HashMap<>();
-        if (settingEntiny.getMinWorkerRate() > 0)
-            option.put("min_worker_rate", String.valueOf(settingEntiny.getMinWorkerRate()));
-        if (settingEntiny.getMaxWorkerRate() > 0)
-            option.put("max_worker_rate", String.valueOf(settingEntiny.getMaxWorkerRate()));
-        option.put("latitude", String.valueOf(settingEntiny.getLatitude()));
-        option.put("longitude", String.valueOf(settingEntiny.getLongitude()));
-        option.put("distance", String.valueOf(settingEntiny.getRadius()));
-        if (settingEntiny.getCity() != null && settingEntiny.getCity().trim().length() > 0)
-            option.put("city", settingEntiny.getCity());
-        if (since != null) option.put("since", since);
-        LogUtils.d(TAG, " set option :" + option.toString());
-        return option;
-    }
-
-    public static List<Long> getIds() {
-        List<CategoryEntity> entityRealmList = CategoryManager.getAllCategories();
-        List<Long> ids = new ArrayList<>();
-        for (CategoryEntity categoryEntity : entityRealmList) {
-            if (categoryEntity.isSelected())
-                ids.add((long) categoryEntity.getId());
-        }
-        return ids;
-
-    }
-
-
 
 }

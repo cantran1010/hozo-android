@@ -26,7 +26,7 @@
     <string name="login_zone">+84</string>
     <string name="login_enter_otp">Nhập 4 mã số được gửi tới điện thoại</string>
     <string name="login_resend_otp">Gửi lại mã code</string>
-    <string name="tv_login_policy">Nhấn \'Tiếp tục\' đồng nghĩa với việc bạn đồng ý điều khoản sử dụng và chính sách bảo mật của chúng tôi.</string>
+    <string name="tv_login_policy">Nhấn \'HOÀN TẤT\' đồng nghĩa với việc bạn đồng ý điều khoản sử dụng và chính sách bảo mật của chúng tôi.</string>
     <string name="login_policy_condition">điều khoản sử dụng</string>
     <string name="login_policy_nad">chính sách bảo mật</string>
     <string name="login_block_phone">Lỗi vượt quá số lần đăng nhập trong 1 ngày. Vui lòng trở lại sau 24h tiếp theo.</string>
@@ -69,8 +69,8 @@
     <!-- pick image dialog -->
     <string name="attach_img_title">Chọn ảnh đính kèm</string>
     <string name="attach_img_source"> Chọn nguồn </string>
-    <string name="attach_img_camera">Camera</string>
-    <string name="attach_img_gallery">Gallery</string>
+    <string name="attach_img_camera">Máy ảnh</string>
+    <string name="attach_img_gallery">Bộ sưu tập</string>
 
     <!-- preview image -->
     <string name="preview_image_title">Xem ảnh</string>
@@ -535,6 +535,14 @@
     <string name="type_recharge">Chọn hình thức nạp</string>
     <string name="admin_link_title">Thông báo</string>
     <string name="admin_link_submit">Xem chi tiết</string>
+    <string name="web_site_hozo">www.hozo.vn</string>
+    <string name="t2">T2</string>
+    <string name="tues_day">T3</string>
+    <string name="wed_day">T4</string>
+    <string name="thur_day">T5</string>
+    <string name="fri_day">T6</string>
+    <string name="sat_day">T7</string>
+    <string name="sun_day">CN</string>
 
     <string-array name="recharge">
         <item>Momo</item>

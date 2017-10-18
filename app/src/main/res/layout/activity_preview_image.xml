@@ -24,6 +24,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_marginStart="@dimen/title_margin_left"
+            android:layout_toEndOf="@id/img_back"
+            android:layout_toRightOf="@id/img_back"
             android:text="@string/preview_image_title" />
 
         <View

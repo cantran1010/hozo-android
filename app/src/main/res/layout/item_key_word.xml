@@ -26,6 +26,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/btn_back_selector"
+        android:contentDescription="@string/just_image"
         android:padding="12dp"
         android:src="@drawable/ic_clear_gray" />
 
