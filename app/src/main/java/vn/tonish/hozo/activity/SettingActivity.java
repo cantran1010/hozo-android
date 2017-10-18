@@ -79,8 +79,8 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = SettingActivity.class.getSimpleName();
-    private ImageView btnBack;
-    private TextViewHozo tvDefault, tvDistanceValue, btnSend;
+    private ImageView btnBack, btnSend;
+    private TextViewHozo tvDefault, tvDistanceValue;
     private RelativeLayout layoutStatus, layoutCategory, layoutDateTime, layoutDistance, layoutPrice, layoutKeyword;
     private ImageView imgStatusArrow, imgCategoryArrow, imgTimeArrow, imgDistance, imgKeyword, imgPrice;
     private TextViewHozo tvStatus, tvCategory, tvDateTime, tvDistance, tvPrice;
@@ -289,13 +289,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
-        keywords = new ArrayList<>();
-        keyWordAdapter = new KeyWordAdapter(this, keywords);
-        keyWordAdapter.stopLoadMore();
-        RecyclerView.LayoutManager keyWordLayoutManager = new LinearLayoutManager(this);
-        rcvKeyword.setLayoutManager(keyWordLayoutManager);
-        rcvKeyword.setAdapter(keyWordAdapter);
-
 
     }
 
@@ -412,22 +405,34 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private void setKeyWordForView() {
         keywords = new ArrayList<>();
+
+        keywords = new ArrayList<>();
         if (advanceEntity.getKeywords() != null && advanceEntity.getKeywords().size() > 0) {
+            LogUtils.d(TAG, "keyword" + advanceEntity.getKeywords().size());
             for (RealmString realmString : advanceEntity.getKeywords()
                     ) {
                 keywords.add(realmString.getValue());
 
             }
         }
+        keyWordAdapter = new KeyWordAdapter(this, keywords);
+        keyWordAdapter.stopLoadMore();
+        RecyclerView.LayoutManager keyWordLayoutManager = new LinearLayoutManager(this);
+        rcvKeyword.setLayoutManager(keyWordLayoutManager);
+        rcvKeyword.setAdapter(keyWordAdapter);
+        keyWordAdapter.setKeyWordListener(new KeyWordAdapter.KeyWordListener() {
+            @Override
+            public void OnClickListener() {
+                setTextForKeyWord();
+            }
+        });
         setTextForKeyWord();
 
     }
 
 
     private void setPriceForView() {
-        LogUtils.d(TAG, "ahihihi" + advanceEntity.getMinWorkerRate() + " : " + advanceEntity.getMaxWorkerRate());
         if (advanceEntity.getMinWorkerRate() == 10000 && advanceEntity.getMaxWorkerRate() == 100000) {
-            LogUtils.d(TAG, "oke hehe" + advanceEntity.getMinWorkerRate() + " : " + advanceEntity.getMaxWorkerRate());
             minPrice = 10000;
             maxPrice = 100000;
             rad10.setChecked(true);
@@ -844,7 +849,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         String mKeyWord = edtKeyword.getText().toString().trim();
         if (mKeyWord.isEmpty()) {
             edtKeyword.setError(getString(R.string.keyword_empty));
-        } else if (isDuplicate(mKeyWord, keywords)) {
+        } else if (isDuplicate(mKeyWord)) {
             Toast.makeText(this, getString(R.string.keyword_duplicate), Toast.LENGTH_SHORT).show();
         } else {
             keywords.add(mKeyWord);
@@ -856,7 +861,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     }
 
-    private boolean isDuplicate(String key, ArrayList<String> listKey) {
+    private boolean isDuplicate(String key) {
         boolean ck = false;
         for (String stKey : keywords
                 ) {
@@ -975,6 +980,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 strKeyWord = strKeyWord + ", " + realmString;
             }
         if (strKeyWord.startsWith(", ")) mKeyWord = strKeyWord.substring(2, strKeyWord.length());
+        if (keywords == null || keywords.size() == 0) mKeyWord = "";
         tvKeyword.setText(mKeyWord);
 
     }
