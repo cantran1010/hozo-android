@@ -521,6 +521,7 @@
     <string name="keyword_duplicate">Từ khoá này đã tồn tại!</string>
     <string name="setting_status_open">open</string>
     <string name="setting_status_assigned">assigned</string>
+    <string name="keyword_hint">Nhập từ khoá</string>
     <string name="payment_history_title">Tài khoản thanh toán</string>
     <string name="wallet_title">Tài khoản Hozo của bạn có</string>
     <string name="my_wallet">%1$s VND</string>

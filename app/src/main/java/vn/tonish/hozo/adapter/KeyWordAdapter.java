@@ -3,6 +3,7 @@ package vn.tonish.hozo.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class KeyWordAdapter extends BaseAdapter<String, KeyWordAdapter.WorkHolde
     private final static String TAG = KeyWordAdapter.class.getSimpleName();
     private final List<String> keyWords;
     private final Context context;
+    private KeyWordListener keyWordListener;
 
     public KeyWordAdapter(Context context, List<String> keyWords) {
         super(context, keyWords);
@@ -24,6 +26,14 @@ public class KeyWordAdapter extends BaseAdapter<String, KeyWordAdapter.WorkHolde
         this.keyWords = keyWords;
     }
 
+
+    public interface KeyWordListener {
+        void OnClickListener();
+    }
+
+    public void setKeyWordListener(KeyWordListener keyWordListener) {
+        this.keyWordListener = keyWordListener;
+    }
 
     @Override
     public int getItemLayout() {
@@ -53,13 +63,27 @@ public class KeyWordAdapter extends BaseAdapter<String, KeyWordAdapter.WorkHolde
         }
     }
 
-    class WorkHolder extends BaseHolder {
+    class WorkHolder extends BaseHolder implements View.OnClickListener {
         private final TextViewHozo tvName;
+        private final ImageView imgClose;
 
         public WorkHolder(View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tv_name);
+            imgClose = itemView.findViewById(R.id.ic_close);
+            imgClose.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.ic_close:
+                    keyWords.remove(getAdapterPosition());
+                    notifyDataSetChanged();
+                    if (keyWordListener != null)
+                        keyWordListener.OnClickListener();
+                    break;
+            }
+        }
     }
 }

@@ -22,14 +22,13 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
     private final static String TAG = TaskTypeAdapter.class.getSimpleName();
     private int countTick = 0;
     private final List<Category> taskTypes;
-
     public TaskTypeAdapter(List<Category> taskTypes) {
         this.taskTypes = taskTypes;
 
     }
 
     public interface CategoryListener {
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked);
+         void onCheckedChanged(CompoundButton buttonView, boolean isChecked);
     }
 
     private CategoryListener listener;
