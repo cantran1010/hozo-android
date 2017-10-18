@@ -21,6 +21,10 @@ import static vn.tonish.hozo.view.ExpandableLayout.State.COLLAPSING;
 import static vn.tonish.hozo.view.ExpandableLayout.State.EXPANDED;
 import static vn.tonish.hozo.view.ExpandableLayout.State.EXPANDING;
 
+/**
+ * Created by CanTran on 9/15/17.
+ */
+
 public class ExpandableLayout extends FrameLayout {
     public interface State {
         int COLLAPSED = 0;
