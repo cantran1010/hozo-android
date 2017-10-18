@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package vn.tonish.hozo.utils;
 
 /**
@@ -25,6 +26,10 @@ package vn.tonish.hozo.utils;
  * P2 (0.2, 1.0)
  * P3 (1.0, 1.0)
  */
+/**
+ * Created by CanTran on 9/15/17.
+ */
+
 public class FastOutSlowInInterpolator extends LookupTableInterpolator {
 
     /**
