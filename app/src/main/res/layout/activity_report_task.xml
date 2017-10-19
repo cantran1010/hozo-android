@@ -24,7 +24,11 @@
             style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_marginStart="@dimen/title_margin_left"
+            android:layout_toEndOf="@id/img_close"
+            android:layout_toRightOf="@id/img_close"
             android:text="@string/report_reason_other_title" />
 
         <View
@@ -37,17 +41,17 @@
 
     <vn.tonish.hozo.view.EdittextHozo
         android:id="@+id/edt_content"
+        style="@style/edt_style_normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:layout_marginLeft="14dp"
-        android:minHeight="80dp"
-        android:layout_marginRight="14dp"
         android:layout_below="@id/layout_header"
-        style="@style/edt_style_normal"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="26dp"
         android:background="@drawable/border_gray"
         android:gravity="top"
         android:hint="@string/report_task_content_hint"
+        android:minHeight="80dp"
         android:padding="5dp" />
 
     <vn.tonish.hozo.view.ButtonHozo

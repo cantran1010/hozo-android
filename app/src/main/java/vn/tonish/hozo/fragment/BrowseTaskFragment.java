@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +67,7 @@ import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 public class BrowseTaskFragment extends BaseFragment implements View.OnClickListener {
     private final static String TAG = BrowseTaskFragment.class.getSimpleName();
     private final static int limit = 20;
-    private ImageView imgSearch, imgLocation,imgBack, imgClear;
+    private ImageView imgSearch, imgLocation, imgBack, imgClear;
     private RelativeLayout layoutHeader, layoutSearch;
     private EdittextHozo edtSearch;
     private RecyclerView rcvTask;
@@ -114,6 +115,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         imgSearch.setOnClickListener(this);
         imgBack.setOnClickListener(this);
         imgClear.setOnClickListener(this);
+        tvCountNewTask.setOnClickListener(this);
         edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -198,10 +200,11 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     private void getTaskResponse(final String since, final String sortBytask, final String query) {
-        Map<String, String> option;
-        option = DataParse.setParameterGetTasks(sortBytask, String.valueOf(limit), since, query);
-        LogUtils.d(TAG, "getTaskResponse option : " + option.toString());
-        call = ApiClient.getApiService().getTasks(UserManager.getUserToken(), option, DataParse.getIds());
+        Map<String, String> option = new HashMap<>();
+        option.put("limit", String.valueOf(limit));
+        if (since != null) option.put("since", since);
+        if (query != null) option.put("query", query);
+        call = ApiClient.getApiService().getTasks(UserManager.getUserToken(), option);
         call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
@@ -304,6 +307,9 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.layout_setting:
                 startActivityForResult(new Intent(getActivity(), SettingActivity.class), Constants.REQUEST_CODE_SETTING, TransitionScreen.LEFT_TO_RIGHT);
+                break;
+            case R.id.tvCountNewTask:
+                onRefresh();
                 break;
         }
 

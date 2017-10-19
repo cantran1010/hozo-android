@@ -23,6 +23,8 @@
             android:layout_alignParentStart="true" />
 
         <vn.tonish.hozo.view.TextViewHozo
+            android:paddingLeft="@dimen/margin_left_screen"
+            android:paddingStart="@dimen/margin_left_screen"
             style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -24,7 +24,11 @@
             style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/img_back"
+            android:layout_toRightOf="@id/img_back"
+            android:paddingLeft="@dimen/margin_left_screen"
+            android:paddingStart="@dimen/margin_left_screen"
             android:text="@string/gallery" />
 
         <View

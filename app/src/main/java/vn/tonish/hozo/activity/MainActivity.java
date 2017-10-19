@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,7 +29,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
@@ -42,6 +42,8 @@ import vn.tonish.hozo.fragment.SettingFragment;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.NewTaskResponse;
 import vn.tonish.hozo.rest.responseRes.UpdateResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
@@ -213,30 +215,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void getNewTaskCount(final String since) {
 
-//        for test
-//        countNewTask++;
-//        updateNewTask(countNewTask);
-//        Intent intentAnswer = new Intent();
-//        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_SEARCH);
-//        intentAnswer.putExtra(Constants.COUNT_NEW_TASK_EXTRA, countNewTask);
-//        sendBroadcast(intentAnswer);
-//        return;
-
-        Map<String, String> option;
-        option = DataParse.setParameterCountTasks(since);
-        LogUtils.d(TAG, "getNewTaskCount option : " + option.toString());
-        LogUtils.d(TAG, "getNewTaskCount since : " + since);
-        LogUtils.d(TAG, "getNewTaskCount id : " + DataParse.getIds());
-
+        Map<String, String> option = new HashMap<>();
+        if (since != null) option.put("since", since);
         if (call != null) call.cancel();
-        call = ApiClient.getApiService().getCountNewTasks(UserManager.getUserToken(), option, DataParse.getIds());
+        call = ApiClient.getApiService().getCountNewTasks(UserManager.getUserToken(), option);
         call.enqueue(new Callback<NewTaskResponse>() {
             @Override
             public void onResponse(Call<NewTaskResponse> call, Response<NewTaskResponse> response) {
-
                 LogUtils.d(TAG, "getNewTaskCount code : " + response.code());
                 LogUtils.d(TAG, "getNewTaskCount body : " + response.body());
-
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     countNewTask = response.body().getCountNewTask();
                     updateNewTask(countNewTask);
@@ -255,9 +242,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(MainActivity.this);
                 } else {
-//                    APIError error = ErrorUtils.parseError(response);
-//                    LogUtils.d(TAG, "errorBody" + error.toString());
-//                    Utils.showLongToast(MainActivity.this, error.message(), true, false);
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.d(TAG, "errorBody" + error.toString());
+                    Utils.showLongToast(MainActivity.this, error.message(), true, false);
                 }
             }
 

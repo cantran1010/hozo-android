@@ -15,7 +15,6 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.database.entity.UserEntity;
@@ -62,10 +61,10 @@ public interface ApiInterface {
     Call<UserEntity> updateUser(@Header("Authorization") String token, @Body RequestBody body);
 
     @GET("v1/tasks")
-    Call<List<TaskResponse>> getTasks(@Header("Authorization") String token, @QueryMap Map<String, String> params, @Query("category_ids[]") List<Long> ids);
+    Call<List<TaskResponse>> getTasks(@Header("Authorization") String token, @QueryMap Map<String, String> params);
 
     @GET("v1/tasks/new_number")
-    Call<NewTaskResponse> getCountNewTasks(@Header("Authorization") String token, @QueryMap Map<String, String> params, @Query("category_ids[]") List<Long> ids);
+    Call<NewTaskResponse> getCountNewTasks(@Header("Authorization") String token, @QueryMap Map<String, String> params);
 
     @GET("v1/tasks/{taskId}")
     Call<TaskResponse> getDetailTask(@Header("Authorization") String token, @Path("taskId") int taskId);

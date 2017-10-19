@@ -102,6 +102,7 @@ public class RealmDbHelper {
                         .addRealmListField("latlon", schema.get("RealmDouble"))
                         .addField("minWorkerRate", int.class)
                         .addField("maxWorkerRate", int.class)
+                        .addField("address", String.class)
                         .addRealmListField("keywords", schema.get("RealmString"));
 
                 schema.get("UserEntity")

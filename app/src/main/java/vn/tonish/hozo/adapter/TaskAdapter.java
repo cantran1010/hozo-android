@@ -74,12 +74,14 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
             if (taskResponse.getWorkerCount() == taskResponse.getAssigneeCount())
                 workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_assigned));
             else
-                workHolder.tvStatus.setText(context.getString(R.string.my_task_status_open));
+                workHolder.tvStatus.setText(context.getString(R.string.make_an_offer_status));
 
             if (taskResponse.isOnline())
                 workHolder.tvAddress.setText(context.getString(R.string.online_task_address));
             else {
                 String strAddress = taskResponse.getDistrict() + " - " + taskResponse.getCity();
+                if (strAddress.startsWith(" - "))
+                    strAddress = strAddress.substring(3, strAddress.length());
                 workHolder.tvAddress.setText(strAddress);
             }
 
