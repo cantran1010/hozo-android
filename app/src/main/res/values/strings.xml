@@ -542,4 +542,6 @@
         <item>ATM</item>
         <item>Master Card</item>
     </string-array>
+
+    <string name="distance">%1$d km</string>
 </resources>

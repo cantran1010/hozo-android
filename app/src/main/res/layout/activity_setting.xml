@@ -262,7 +262,7 @@
             <RelativeLayout
                 android:id="@+id/layout_date_time"
                 android:layout_width="wrap_content"
-                android:layout_height="56dp"
+                android:layout_height="50dp"
                 android:background="@drawable/btn_back_selector">
 
                 <vn.tonish.hozo.view.TextViewHozo
