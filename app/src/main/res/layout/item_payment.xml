@@ -9,8 +9,10 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
+        android:paddingEnd="@dimen/margin_right_screen"
         android:paddingLeft="@dimen/margin_left_screen"
         android:paddingRight="@dimen/margin_right_screen"
+        android:paddingStart="@dimen/margin_left_screen"
         android:paddingTop="10dp">
 
         <RelativeLayout
@@ -33,6 +35,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/tv_price"
+                android:layout_toRightOf="@id/tv_price"
                 android:textColor="#999999"
                 android:textSize="13sp" />
 

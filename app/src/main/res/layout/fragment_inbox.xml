@@ -21,7 +21,6 @@
             android:textColor="#363636" />
 
         <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_unread"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/hozo_bg" />

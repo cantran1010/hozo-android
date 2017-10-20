@@ -21,7 +21,6 @@
     <string name="other_nad">Chính sách bảo mật</string>
     <string name="other_share">Chia sẻ với bạn bè</string>
     <string name="other_about">Giới thiệu Hozo</string>
-    <string name="other_info">Thông tin chung</string>
     <string name="ed_login_phone">Nhập số điện thoại của bạn vào</string>
     <string name="login_zone">+84</string>
     <string name="login_enter_otp">Nhập 4 mã số được gửi tới điện thoại</string>
@@ -287,7 +286,6 @@
     <string name="my_task_status_poster_completed">Hoàn thành</string>
     <string name="my_task_status_poster_overdue">Quá hạn</string>
     <string name="my_task_status_poster_canceled">Hủy bỏ</string>
-    <string name="my_task_status_open">Nhận</string>
     <string name="hozo_all">Tất cả</string>
     <!-- share app -->
     <string name="share_app_title">Chọn ứng dụng bạn muốn chia sẻ</string>
@@ -407,7 +405,6 @@
     <string name="comment_task">Chi tiết hỏi đáp</string>
     <string name="bidders">Danh sách ứng tuyển(%1$d)</string>
     <string name="assigners">Danh sách người làm(%1$d)</string>
-    <string name="error_address">Bắt buộc phải nhập địa chỉ</string>
     <string name="report_task">Báo xấu việc</string>
     <string name="report_task_title">Báo xấu</string>
     <string name="report_task_content">Bạn có chắc chắn muốn báo xấu việc này?</string>
@@ -485,7 +482,6 @@
     <string name="btn_done">HOÀN TẤT</string>
     <string name="other_payment">Thanh toán</string>
     <string name="ACCOUNT_KIT_CLIENT_TOKEN">d9278fc58b4d68801c0a5a682dfcaad2</string>
-    <string name="na">NA</string>
     <string name="permissions_read_phone_state_message">
         Cho phép đọc số điện thoại của bạn từ thiết bị của bạn để điền vào trước.
     </string>
@@ -494,7 +490,6 @@
       Cho phép đọc mã SMS của bạn từ thiết bị của bạn để điền vào trước.
     </string>
     <string name="permissions_receive_sms_title">Đọc Mã SMS</string>
-    <string name="error_message">An error has occurred.</string>
     <string name="poster_chat_msg">Bạn cần giao việc cho ứng viên để bắt đầu chat nhóm.</string>
     <string name="bidder_chat_msg">Bạn cần được giao việc để bắt đầu chat nhóm.</string>
     <string name="title_bid_task">Ứng tuyển</string>
@@ -508,15 +503,13 @@
     <string name="setting_price">Giá tiền</string>
     <string name="setting_key_word">Từ khoá</string>
     <string name="setting_optional">Tuỳ chọn</string>
-    <string name="base_location_hint">Nhập vị trí mốc...</string>
-    <string name="a_km">1 km</string>
+    <string name="base_location_hint">Nhập vị trí mốc…</string>
+    <string name="km_25">25 km</string>
+    <string name="km_1">1 km</string>
     <string name="max_km">50 km</string>
-    <string name="setting_price_10">10.000<font size="10"> vnd</font> - 100.000<font size="10"> vnd</font></string>
-    <string name="setting_price_100">100.000<font size="10"> vnd</font> - 500.000<font size="10"> vnd</font></string>
-    <string name="setting_price_500">Trên 500.000<font size="10"> vnd</font></string>
-    <string name="hint_key_word">Nhập từ khoá</string>
-    <string name="send">Gửi</string>
-    <string name="enter">Nhập</string>
+    <string name="setting_price_10">10.000 – 100.000</string>
+    <string name="setting_price_100">100.000 – 500.000</string>
+    <string name="setting_price_500">Trên 500.000</string>
     <string name="keyword_empty">Bạn chưa nhập từ khoá.</string>
     <string name="keyword_duplicate">Từ khoá này đã tồn tại!</string>
     <string name="setting_status_open">open</string>

@@ -26,14 +26,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:layout_toEndOf="@id/img_back"
             android:layout_toLeftOf="@+id/tv_done"
             android:layout_toRightOf="@id/img_back"
             android:layout_toStartOf="@+id/tv_done"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingLeft="16dp"
-            android:paddingStart="16dp"
             android:text="@string/gallery" />
 
         <vn.tonish.hozo.view.TextViewHozo

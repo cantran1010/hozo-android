@@ -33,7 +33,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        holder.tvPrice.setText(payments.get(position).getPrice() + " ");
+        holder.tvPrice.setText(String.valueOf(payments.get(position).getPrice()));
         holder.tvDate.setText(payments.get(position).getDate());
         holder.tvContent.setText(payments.get(position).getContent());
 

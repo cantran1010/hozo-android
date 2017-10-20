@@ -52,6 +52,7 @@
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:src="@drawable/ic_account"
                     tools:ignore="ContentDescription" />
 
@@ -74,6 +75,7 @@
                     android:layout_height="1px"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="56dp"
+                    android:layout_marginStart="56dp"
                     android:background="@color/text_line" />
 
             </RelativeLayout>
@@ -90,6 +92,7 @@
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:src="@drawable/ic_payment"
                     tools:ignore="ContentDescription" />
 
@@ -112,6 +115,7 @@
                     android:layout_height="1px"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="56dp"
+                    android:layout_marginStart="56dp"
                     android:background="@color/text_line" />
 
             </RelativeLayout>
@@ -128,6 +132,7 @@
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:src="@drawable/ic_terms"
                     tools:ignore="ContentDescription" />
 
@@ -150,6 +155,7 @@
                     android:layout_height="1px"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="56dp"
+                    android:layout_marginStart="56dp"
                     android:background="@color/text_line" />
 
             </RelativeLayout>
@@ -166,6 +172,7 @@
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:src="@drawable/ic_policy"
                     tools:ignore="ContentDescription" />
 
@@ -188,6 +195,7 @@
                     android:layout_height="1px"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="56dp"
+                    android:layout_marginStart="56dp"
                     android:background="@color/text_line" />
 
             </RelativeLayout>
@@ -204,6 +212,7 @@
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:src="@drawable/ic_share"
                     tools:ignore="ContentDescription" />
 
@@ -226,6 +235,7 @@
                     android:layout_height="1px"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="56dp"
+                    android:layout_marginStart="56dp"
                     android:background="@color/text_line" />
 
             </RelativeLayout>
@@ -242,6 +252,7 @@
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
                     android:src="@drawable/ic_about"
                     tools:ignore="ContentDescription" />
 
@@ -263,6 +274,7 @@
                     android:layout_height="1px"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="56dp"
+                    android:layout_marginStart="56dp"
                     android:background="@color/text_line" />
 
             </RelativeLayout>

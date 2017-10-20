@@ -77,7 +77,6 @@
                 android:layout_marginTop="20dp">
 
                 <vn.tonish.hozo.view.EdittextHozo
-                    android:id="@+id/edt_money_recharge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/tv_unit"

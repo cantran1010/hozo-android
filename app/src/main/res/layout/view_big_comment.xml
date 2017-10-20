@@ -90,9 +90,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
-                    android:drawableLeft="@drawable/timer_comment"
+                    android:drawableLeft="@drawable/timer_gray"
                     android:drawablePadding="5dp"
-                    android:drawableStart="@drawable/timer_comment"
+                    android:drawableStart="@drawable/timer_gray"
                     android:textSize="12sp"
                     android:textStyle="italic" />
 
