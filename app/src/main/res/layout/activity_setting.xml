@@ -554,7 +554,8 @@
                             android:min="1"
                             android:progress="25"
                             android:progressDrawable="@drawable/seebar_progress"
-                            android:thumb="@drawable/thumb" />
+                            android:thumb="@drawable/thumb"
+                            tools:ignore="UnusedAttribute" />
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:layout_width="wrap_content"
