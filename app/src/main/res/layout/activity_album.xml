@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -28,8 +29,11 @@
             android:layout_toEndOf="@id/img_back"
             android:layout_toRightOf="@id/img_back"
             android:paddingLeft="@dimen/margin_left_screen"
+            android:paddingRight="0dp"
+            android:paddingEnd="0dp"
             android:paddingStart="@dimen/margin_left_screen"
-            android:text="@string/gallery" />
+            android:text="@string/gallery"
+            app:paddingEnd="0dp" />
 
         <View
             android:layout_width="match_parent"

@@ -26,8 +26,8 @@
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/img_back"
             android:layout_toRightOf="@id/img_back"
-            android:paddingLeft="@dimen/margin_left_screen"
-            android:paddingStart="@dimen/margin_left_screen"
+            android:layout_marginLeft="@dimen/margin_left_screen"
+            android:layout_marginStart="@dimen/margin_left_screen"
             android:text="@string/answer_comment_title" />
 
         <View

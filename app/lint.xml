@@ -33,5 +33,17 @@
         <ignore path="src/main/res/drawable-xhdpi/popup_map_detail.9.png" />
         <ignore path="src/main/res/drawable-xxhdpi/popup_map_detail.9.png" />
         <ignore path="src/main/res/drawable-xxxhdpi/popup_map_detail.9.png" />
+
+        <ignore path="src/main/res/drawable-hdpi/sendbird_bg_chat_bubble_gray.9.png" />
+        <ignore path="src/main/res/drawable-mdpi/sendbird_bg_chat_bubble_gray.9.png" />
+        <ignore path="src/main/res/drawable-xhdpi/sendbird_bg_chat_bubble_gray.9.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/sendbird_bg_chat_bubble_gray.9.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/sendbird_bg_chat_bubble_gray.9.png" />
+
+        <ignore path="src/main/res/drawable-hdpi/sendbird_bg_chat_bubble_purple.9.png" />
+        <ignore path="src/main/res/drawable-mdpi/sendbird_bg_chat_bubble_purple.9.png" />
+        <ignore path="src/main/res/drawable-xhdpi/sendbird_bg_chat_bubble_purple.9.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/sendbird_bg_chat_bubble_purple.9.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/sendbird_bg_chat_bubble_purple.9.png" />
     </issue>
 </lint>

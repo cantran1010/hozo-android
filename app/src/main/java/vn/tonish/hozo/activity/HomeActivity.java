@@ -1,6 +1,7 @@
 package vn.tonish.hozo.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -68,6 +69,7 @@ import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 public class HomeActivity extends BaseActivity {
     private static final String TAG = HomeActivity.class.getSimpleName();
     private int nextPermissionsRequestCode = 4000;
+    @SuppressLint("UseSparseArrays")
     private final Map<Integer, OnCompleteListener> permissionsListeners = new HashMap<>();
 
     private interface OnCompleteListener {
