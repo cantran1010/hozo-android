@@ -186,6 +186,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    view.performClick();
                     Utils.hideKeyBoard(ChatActivity.this);
                     rcvMessage.requestFocus();
                     return true;
@@ -199,6 +200,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    view.performClick();
                     Utils.hideKeyBoard(ChatActivity.this);
                     rcvMessage.requestFocus();
                     return true;

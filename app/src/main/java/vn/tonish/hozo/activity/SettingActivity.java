@@ -273,8 +273,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 radDistanceOption.setChecked(true);
                 if (i < 1)
                     seekBar.setProgress(1);
-                tvDistanceValue.setText(String.valueOf(seekBar.getProgress()) + getString(R.string.all_space_type) + getString(R.string.km));
-                tvDistance.setText(String.valueOf(seekBar.getProgress()) + getString(R.string.all_space_type) + getString(R.string.km));
+                tvDistanceValue.setText(getString(R.string.distance, seekBar.getProgress()));
+                tvDistance.setText(getString(R.string.distance, seekBar.getProgress()));
                 distance = seekBar.getProgress();
 
             }
@@ -462,8 +462,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             locations.add(1, advanceEntity.getLatlon().get(1).getVal());
             address = advanceEntity.getAddress();
             seebarDistance.setProgress(advanceEntity.getDistance());
-            tvDistanceValue.setText(advanceEntity.getDistance() + getString(R.string.all_space_type) + getString(R.string.km));
-            tvDistance.setText(advanceEntity.getDistance() + getString(R.string.all_space_type) + getString(R.string.km));
+            tvDistanceValue.setText(getString(R.string.distance, advanceEntity.getDistance()));
+            tvDistance.setText(getString(R.string.distance, advanceEntity.getDistance()));
         } else {
             locations = new ArrayList<>();
             radAllDistance.setChecked(true);
@@ -983,7 +983,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 tvDistance.setText(getString(R.string.hozo_all));
                 break;
             case R.id.rad_distance_option:
-                tvDistance.setText(String.valueOf(seebarDistance.getProgress()) + getString(R.string.all_space_type) + getString(R.string.km));
+                tvDistance.setText(getString(R.string.distance, seebarDistance.getProgress()));
                 break;
             case R.id.rad_all_price:
                 minPrice = 0;
