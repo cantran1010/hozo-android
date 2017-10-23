@@ -472,8 +472,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 locations.add(0, UserManager.getMyUser().getLatitude());
                 locations.add(1, UserManager.getMyUser().getLongitude());
                 address = UserManager.getMyUser().getAddress();
-                tvDistance.setText(getString(R.string.hozo_all));
             }
+            tvDistance.setText(getString(R.string.hozo_all));
         }
         autocompleteView.setText(address);
 
