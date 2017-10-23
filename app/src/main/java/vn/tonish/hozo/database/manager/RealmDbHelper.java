@@ -97,7 +97,6 @@ public class RealmDbHelper {
                         .addField("status", int.class)
                         .addRealmListField("categories", schema.get("CategoryEntity"))
                         .addRealmListField("days", schema.get("RealmInt"))
-                        .addField("city", int.class)
                         .addField("distance", int.class)
                         .addRealmListField("latlon", schema.get("RealmDouble"))
                         .addField("minWorkerRate", int.class)
