@@ -7,17 +7,13 @@ import io.realm.RealmObject;
  */
 
 public class RealmInt extends RealmObject {
-    private Integer val;
+    private int val;
 
-    public RealmInt() {
-
-    }
-
-    public Integer getVal() {
+    public int getVal() {
         return val;
     }
 
-    public void setVal(Integer val) {
+    public void setVal(int val) {
         this.val = val;
     }
 }

@@ -39,7 +39,7 @@ public class RealmDbHelper {
         if (realmConfiguration == null)
             realmConfiguration = new RealmConfiguration.Builder()
                     .name(Constants.DB_NAME)
-                    .schemaVersion(2)
+                    .schemaVersion(3)
                     .migration(migration)
 //                    .deleteRealmIfMigrationNeeded()
                     .encryptionKey(Base64.decode(key, Base64.DEFAULT))
@@ -92,12 +92,11 @@ public class RealmDbHelper {
                 schema.create("RealmString")
                         .addField("val", String.class);
                 schema.create("SettingAdvanceEntity")
-                        .addField("userId", String.class, FieldAttribute.PRIMARY_KEY)
-                        .addField("notification", int.class)
-                        .addField("status", int.class)
-                        .addRealmListField("categories", schema.get("CategoryEntity"))
+                        .addField("userId", int.class, FieldAttribute.PRIMARY_KEY)
+                        .addField("notification", boolean.class)
+                        .addField("status", String.class)
+                        .addRealmListField("categories", schema.get("RealmInt"))
                         .addRealmListField("days", schema.get("RealmInt"))
-                        .addField("city", int.class)
                         .addField("distance", int.class)
                         .addRealmListField("latlon", schema.get("RealmDouble"))
                         .addField("minWorkerRate", int.class)
@@ -108,7 +107,7 @@ public class RealmDbHelper {
                 schema.get("UserEntity")
                         .addField("latitude", double.class)
                         .addField("longitude", double.class);
-
+                oldVersion++;
 
             }
 
