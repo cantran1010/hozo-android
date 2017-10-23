@@ -282,7 +282,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         );
         ssBuilder.setSpan(
-                new ForegroundColorSpan(Color.parseColor("#ffffff")), // Span to add
+                new ForegroundColorSpan(Color.parseColor("#000000")), // Span to add
                 text.indexOf(getString(R.string.login_policy_condition)), // Start of the span (inclusive)
                 text.indexOf(getString(R.string.login_policy_condition)) + String.valueOf(getString(R.string.login_policy_condition)).length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -294,7 +294,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         );
         ssBuilder.setSpan(
-                new ForegroundColorSpan(Color.parseColor("#ffffff")),
+                new ForegroundColorSpan(Color.parseColor("#000000")),
                 text.indexOf(getString(R.string.login_policy_nad)),
                 text.indexOf(getString(R.string.login_policy_nad)) + String.valueOf(getString(R.string.login_policy_nad)).length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -412,13 +412,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent, TransitionScreen.FADE_IN);
 
-
-//                AccountKit.logOut();
-//                Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
-//                intent.putExtra(Constants.LOGOUT_EXTRA, true);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(intent,TransitionScreen.FADE_IN);
-//                startActivityAndClearAllTask(new Intent(this, HomeActivity.class), TransitionScreen.FADE_IN);
                 break;
             case R.id.img_camera:
                 doPickImage();

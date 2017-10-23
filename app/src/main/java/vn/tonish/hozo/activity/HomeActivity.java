@@ -108,7 +108,7 @@ public class HomeActivity extends BaseActivity {
                 = new AccountKitConfiguration.AccountKitConfigurationBuilder(
                 LoginType.PHONE,
                 AccountKitActivity.ResponseType.TOKEN);
-        uiManager = new HozoAccountKitUIManager(ButtonType.CONTINUE, ButtonType.CONTINUE, TextPosition.BELOW_BODY, LoginType.PHONE);
+        uiManager = new HozoAccountKitUIManager(ButtonType.NEXT, ButtonType.NEXT, TextPosition.ABOVE_BODY, LoginType.PHONE);
         configurationBuilder.setUIManager(uiManager);
 
         configurationBuilder.setDefaultCountryCode("VN").setReadPhoneStateEnabled(true).setReceiveSMS(true).setSMSWhitelist(smsWhitelist);
@@ -183,7 +183,7 @@ public class HomeActivity extends BaseActivity {
                         Intent i = new Intent(HomeActivity.this, MainActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         i.putExtra(Constants.TRANSITION_EXTRA, TransitionScreen.RIGHT_TO_LEFT);
-                        startActivity(i,TransitionScreen.FADE_IN);
+                        startActivity(i, TransitionScreen.FADE_IN);
                     }
                     sendRegistrationToServer();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
