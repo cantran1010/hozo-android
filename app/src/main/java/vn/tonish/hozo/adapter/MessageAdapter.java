@@ -94,7 +94,8 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
                 workHolder.tvRightMsg.setText(message.getMessage());
 
                 if (memberHashMap.containsKey(message.getUser_id())) {
-                    Utils.displayImageAvatar(context, workHolder.imgRightAvatar, memberHashMap.get(message.getUser_id()).getAvatar());
+                    if (memberHashMap.get(message.getUser_id()) != null && memberHashMap.get(message.getUser_id()).getAvatar() != null)
+                        Utils.displayImageAvatar(context, workHolder.imgRightAvatar, memberHashMap.get(message.getUser_id()).getAvatar());
                     workHolder.tvRightName.setText(memberHashMap.get(message.getUser_id()).getFull_name());
                 } else {
                     DatabaseReference memberReference = memberCloudEndPoint.child(String.valueOf(message.getUser_id()));
@@ -106,7 +107,7 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
                             Member member = dataSnapshot.getValue(Member.class);
                             memberHashMap.put(message.getUser_id(), member);
 
-                            if (memberHashMap.get(message.getUser_id()).getAvatar() != null)
+                            if (memberHashMap.get(message.getUser_id()) != null && memberHashMap.get(message.getUser_id()).getAvatar() != null)
                                 Utils.displayImageAvatar(context, workHolder.imgRightAvatar, memberHashMap.get(message.getUser_id()).getAvatar());
                             workHolder.tvRightName.setText(memberHashMap.get(message.getUser_id()).getFull_name());
 
@@ -145,7 +146,8 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
                 workHolder.tvLeftMsg.setText(message.getMessage());
 
                 if (memberHashMap.containsKey(message.getUser_id())) {
-                    Utils.displayImageAvatar(context, workHolder.imgLeftAvatar, memberHashMap.get(message.getUser_id()).getAvatar());
+                    if (memberHashMap.get(message.getUser_id()) != null && memberHashMap.get(message.getUser_id()).getAvatar() != null)
+                        Utils.displayImageAvatar(context, workHolder.imgLeftAvatar, memberHashMap.get(message.getUser_id()).getAvatar());
                     workHolder.tvLeftName.setText(memberHashMap.get(message.getUser_id()).getFull_name());
                 } else {
                     DatabaseReference memberReference = memberCloudEndPoint.child(String.valueOf(message.getUser_id()));
@@ -156,8 +158,8 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
 
                             Member member = dataSnapshot.getValue(Member.class);
                             memberHashMap.put(message.getUser_id(), member);
-
-                            Utils.displayImageAvatar(context, workHolder.imgLeftAvatar, memberHashMap.get(message.getUser_id()).getAvatar());
+                            if (memberHashMap.get(message.getUser_id()) != null && memberHashMap.get(message.getUser_id()).getAvatar() != null)
+                                Utils.displayImageAvatar(context, workHolder.imgLeftAvatar, memberHashMap.get(message.getUser_id()).getAvatar());
                             workHolder.tvLeftName.setText(memberHashMap.get(message.getUser_id()).getFull_name());
 
                         }
