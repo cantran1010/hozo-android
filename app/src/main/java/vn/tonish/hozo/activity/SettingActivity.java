@@ -289,7 +289,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
-
     }
 
     private final AdapterView.OnItemClickListener mAutocompleteClickListener
@@ -454,6 +453,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setDistanceForView() {
+        Utils.hideKeyBoard(this);
         if (advanceEntity.getLatlon() != null && advanceEntity.getLatlon().size() > 0) {
             radDistanceOption.setChecked(true);
             distance = advanceEntity.getDistance();
@@ -632,6 +632,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void expandableLayout(ExpandableLayout expan, ImageView img) {
+        closeExpandale(expan);
         if (expan.isExpanded()) {
             img.startAnimation(anim_down);
         } else {
@@ -639,6 +640,34 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
         expan.toggle();
 
+    }
+
+    private void closeExpandale(ExpandableLayout expan) {
+        Utils.hideKeyBoard(this);
+        if (statusExpandableLayout.isExpanded() && expan != statusExpandableLayout) {
+            statusExpandableLayout.toggle();
+            imgStatusArrow.startAnimation(anim_down);
+        }
+        if (categoryExpandableLayout.isExpanded() && expan != categoryExpandableLayout) {
+            categoryExpandableLayout.toggle();
+            imgCategoryArrow.startAnimation(anim_down);
+        }
+        if (timeExpandableLayout.isExpanded() && expan != timeExpandableLayout) {
+            timeExpandableLayout.toggle();
+            imgTimeArrow.startAnimation(anim_down);
+        }
+        if (distanceExpandableLayout.isExpanded() && expan != distanceExpandableLayout) {
+            distanceExpandableLayout.toggle();
+            imgDistance.startAnimation(anim_down);
+        }
+        if (priceExpandableLayout.isExpanded() && expan != priceExpandableLayout) {
+            priceExpandableLayout.toggle();
+            imgPrice.startAnimation(anim_down);
+        }
+        if (keywordExpandableLayout.isExpanded() && expan != keywordExpandableLayout) {
+            keywordExpandableLayout.toggle();
+            imgKeyword.startAnimation(anim_down);
+        }
     }
 
     private void getSettingAdvanceFromeServer() {
@@ -792,6 +821,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         switch (view.getId()) {
             case R.id.img_back:
                 postSettingAdvance();
+                Utils.hideKeyBoard(this);
                 setResult(RESULT_CODE_SETTING, new Intent());
                 finish();
                 break;
@@ -845,6 +875,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void defaultSetting() {
+        closeExpandale(null);
         radioStatus.check(R.id.rd_status_all);
         tvStatus.setText(getString(R.string.hozo_all));
         mStatus = "";
@@ -875,8 +906,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             address = UserManager.getMyUser().getAddress();
             tvDistance.setText(getString(R.string.hozo_all));
         }
-        autocompleteView.setText(address);
-
+//        autocompleteView.setText(address);
         keywords.clear();
         keyWordAdapter.notifyDataSetChanged();
         setTextForKeyWord();
@@ -894,6 +924,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             keywords.add(mKeyWord);
             keyWordAdapter.notifyItemInserted(keywords.size() - 1);
         }
+        edtKeyword.setText("");
         hideSoftKeyboard(this, edtKeyword);
         setTextForKeyWord();
 

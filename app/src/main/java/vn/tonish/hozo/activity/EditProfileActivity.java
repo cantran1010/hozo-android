@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -108,40 +109,39 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
-        imgAvatar = (CircleImageView) findViewById(img_avatar);
+        imgAvatar = findViewById(img_avatar);
         imgAvatar.setOnClickListener(this);
 
-        ButtonHozo btnSave = (ButtonHozo) findViewById(R.id.btn_save);
+        ButtonHozo btnSave = findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
 
-        ImageView imgCancel = (ImageView) findViewById(R.id.img_cancel);
+        ImageView imgCancel = findViewById(R.id.img_cancel);
         imgCancel.setOnClickListener(this);
 
-        ImageView imgCamera = (ImageView) findViewById(R.id.img_camera);
+        ImageView imgCamera = findViewById(R.id.img_camera);
         imgCamera.setOnClickListener(this);
 
-        edtName = (EdittextHozo) findViewById(R.id.edt_name);
-//        edtAddress = (EdittextHozo) findViewById(R.id.edt_address);
+        edtName = findViewById(R.id.edt_name);
 
-        tvBirthday = (TextViewHozo) findViewById(R.id.tv_birthday);
+        tvBirthday = findViewById(R.id.tv_birthday);
 
-        RelativeLayout layoutBirthday = (RelativeLayout) findViewById(R.id.layout_birthday);
+        RelativeLayout layoutBirthday = findViewById(R.id.layout_birthday);
         layoutBirthday.setOnClickListener(this);
 
-        tvMale = (TextViewHozo) findViewById(R.id.tv_male);
-        tvFemale = (TextViewHozo) findViewById(R.id.tv_female);
+        tvMale = findViewById(R.id.tv_male);
+        tvFemale = findViewById(R.id.tv_female);
 
-        imgMale = (ImageView) findViewById(R.id.img_male);
-        imgFemale = (ImageView) findViewById(R.id.img_female);
+        imgMale = findViewById(R.id.img_male);
+        imgFemale = findViewById(R.id.img_female);
 
         edtDes = findViewById(R.id.edt_description);
 
-        RelativeLayout layoutMale = (RelativeLayout) findViewById(R.id.layout_male);
+        RelativeLayout layoutMale = findViewById(R.id.layout_male);
         layoutMale.setOnClickListener(this);
 
-        RelativeLayout layoutFemale = (RelativeLayout) findViewById(R.id.layout_female);
+        RelativeLayout layoutFemale = findViewById(R.id.layout_female);
         layoutFemale.setOnClickListener(this);
-        autocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete_places);
+        autocompleteView = findViewById(R.id.autocomplete_places);
 
     }
 
@@ -165,7 +165,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             gender = userEntity.getGender();
             updateGender(gender);
         }
-
+        address = userEntity.getAddress();
         edtDes.setText(userEntity.getDescription());
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, (GoogleApiClient.OnConnectionFailedListener) this)
@@ -190,6 +190,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         placeAutocompleteAdapter = new PlaceAutocompleteAdapter(this, googleApiClient, null,
                 autocompleteFilter);
         autocompleteView.setAdapter(placeAutocompleteAdapter);
+        lat = userEntity.getLatitude();
+        lon = userEntity.getLongitude();
 
         autocompleteView.setText(userEntity.getAddress());
 
@@ -335,15 +337,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             edtDes.requestFocus();
             edtDes.setError(getString(R.string.error_des));
             return;
-        } else if (!autocompleteView.getText().toString().trim().equals(address.trim()) || (address.equals("") && !autocompleteView.getText().toString().trim().equals(""))) {
+        } else if (lat == 0 && lon == 0) {
+            Log.d(TAG, "lat +long" + lat + " : " + lon);
             autocompleteView.requestFocus();
             autocompleteView.setError(getString(R.string.post_task_address_error_google));
-
-            address = "";
-            lat = 0;
-            lon = 0;
-//            autocompleteView.setText("");
-
             return;
         } else if (TextUtils.isEmpty(address)) {
             autocompleteView.requestFocus();

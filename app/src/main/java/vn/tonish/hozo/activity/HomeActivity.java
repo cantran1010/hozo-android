@@ -12,10 +12,7 @@ import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.facebook.accountkit.AccessToken;
-import com.facebook.accountkit.Account;
 import com.facebook.accountkit.AccountKit;
-import com.facebook.accountkit.AccountKitCallback;
-import com.facebook.accountkit.AccountKitError;
 import com.facebook.accountkit.AccountKitLoginResult;
 import com.facebook.accountkit.ui.AccountKitActivity;
 import com.facebook.accountkit.ui.AccountKitConfiguration;
@@ -43,19 +40,17 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
-import vn.tonish.hozo.fragment.RegisterFragment;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.Token;
-import vn.tonish.hozo.view.HozoAccountKitUIManager;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
-import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.HozoAccountKitUIManager;
 
 import static vn.tonish.hozo.common.Constants.ACCOUNT_CODE;
 import static vn.tonish.hozo.common.Constants.ACCOUNT_KIT_REQUEST_CODE;
@@ -103,21 +98,9 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void resumeData() {
-
     }
 
     private void loginHozo() {
-        AccountKit.getCurrentAccount(new AccountKitCallback<Account>() {
-            @Override
-            public void onSuccess(Account account) {
-
-            }
-
-            @Override
-            public void onError(AccountKitError accountKitError) {
-
-            }
-        });
         String[] smsWhitelist = {"VN"};
         final UIManager uiManager;
         final Intent intent = new Intent(this, AccountKitActivity.class);
@@ -171,7 +154,7 @@ public class HomeActivity extends BaseActivity {
 
 
     private void sendCodeAccountKit(final String account_code) {
-        ProgressDialogUtils.showProgressDialog(this);
+//        ProgressDialogUtils.showProgressDialog(this);
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(ACCOUNT_CODE, account_code);
@@ -195,12 +178,12 @@ public class HomeActivity extends BaseActivity {
                     insertUser(user, true);
                     LogUtils.d(TAG, "sendCodeAccountKit onResponse body : " + token.toString());
                     if (user.getFullName().isEmpty()) {
-                        openFragment(R.id.layout_container, RegisterFragment.class, false, TransitionScreen.RIGHT_TO_LEFT);
+                        startActivity(new Intent(HomeActivity.this, RegisterActivity.class), TransitionScreen.FADE_IN);
                     } else {
                         Intent i = new Intent(HomeActivity.this, MainActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         i.putExtra(Constants.TRANSITION_EXTRA, TransitionScreen.RIGHT_TO_LEFT);
-                        startActivity(i);
+                        startActivity(i,TransitionScreen.FADE_IN);
                     }
                     sendRegistrationToServer();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -220,13 +203,13 @@ public class HomeActivity extends BaseActivity {
                     LogUtils.d(TAG, "errorBody" + error.toString());
                     Utils.showLongToast(HomeActivity.this, error.message(), true, false);
                 }
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
             public void onFailure(Call<OtpReponse> call, Throwable t) {
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
                 showRetryDialog(HomeActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {

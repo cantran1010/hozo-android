@@ -379,6 +379,7 @@
     <string name="completion_rate" tools:ignore="PluralsCandidate">hoàn thành</string>
     <string name="facebook_verify">Xác thực với Facebook</string>
     <string name="facebook_app_id">956632744473365</string>
+    <string name="facebook_app_id_test">330769947332955</string>
     <string name="hozo_tonish">\n © 2017 Tonish. Giữ mọi quyền.</string>
     <string name="cancel_bid">Hủy</string>
     <string name="cancel_bid_title">Hủy chọn</string>
@@ -482,6 +483,7 @@
     <string name="btn_done">HOÀN TẤT</string>
     <string name="other_payment">Thanh toán</string>
     <string name="ACCOUNT_KIT_CLIENT_TOKEN">d9278fc58b4d68801c0a5a682dfcaad2</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN_TEST">462ec5de77bb446a2a1baca7903111af</string>
     <string name="permissions_read_phone_state_message">
         Cho phép đọc số điện thoại của bạn từ thiết bị của bạn để điền vào trước.
     </string>
@@ -503,7 +505,7 @@
     <string name="setting_price">Giá tiền</string>
     <string name="setting_key_word">Từ khoá</string>
     <string name="setting_optional">Tuỳ chọn</string>
-    <string name="base_location_hint">Nhập vị trí mốc…</string>
+    <string name="base_location_hint">Vị trí mốc</string>
     <string name="km_25">25 km</string>
     <string name="km_1">1 km</string>
     <string name="max_km">50 km</string>
@@ -544,4 +546,5 @@
     </string-array>
 
     <string name="distance">%1$d km</string>
+    <string name="setting_location">Vị trí</string>
 </resources>

@@ -106,7 +106,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         TransitionScreen.overridePendingTransition(this, transitionScreen);
     }
 
-    private void startActivityAndClearAllTask(Intent intent, TransitionScreen transitionScreen) {
+    protected void startActivityAndClearAllTask(Intent intent, TransitionScreen transitionScreen) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
         startActivity(intent);
