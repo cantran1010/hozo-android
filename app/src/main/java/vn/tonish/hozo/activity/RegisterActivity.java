@@ -403,10 +403,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.img_back:
                 AccountKit.logOut();
+                Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+                realm.deleteAll();
+                realm.commitTransaction();
                 Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
                 intent.putExtra(Constants.LOGOUT_EXTRA, true);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent,TransitionScreen.FADE_IN);
+                startActivity(intent, TransitionScreen.FADE_IN);
+
+
+//                AccountKit.logOut();
+//                Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+//                intent.putExtra(Constants.LOGOUT_EXTRA, true);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent,TransitionScreen.FADE_IN);
 //                startActivityAndClearAllTask(new Intent(this, HomeActivity.class), TransitionScreen.FADE_IN);
                 break;
             case R.id.img_camera:
