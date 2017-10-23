@@ -422,7 +422,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
-                    android:text="@string/setting_distance"
+                    android:text="@string/setting_location"
                     android:textColor="@color/setting_black"
                     android:textSize="@dimen/tv_size_medium" />
 
@@ -465,7 +465,8 @@
             <vn.tonish.hozo.view.ExpandableLayout
                 android:id="@+id/layout_detail_distance"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:el_expanded="false">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -518,14 +519,25 @@
                         android:layout_marginRight="25dp"
                         android:layout_marginStart="25dp">
 
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/base_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="@string/base_location_hint"
+                            android:textColor="@color/setting_text"
+                            android:textSize="@dimen/tv_size_xxtiny" />
+
                         <AutoCompleteTextView
                             android:id="@+id/autocomplete_places"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_below="@+id/base_location"
                             android:layout_marginTop="10dp"
                             android:background="@drawable/bg_border_search_map"
                             android:focusableInTouchMode="true"
-                            android:hint="@string/base_location_hint"
                             android:maxLines="2"
                             android:minHeight="@dimen/edt_min_height"
                             android:padding="5dp"
@@ -533,15 +545,27 @@
                             android:textSize="@dimen/tv_size_nomal" />
 
                         <vn.tonish.hozo.view.TextViewHozo
-                            android:id="@+id/tv_distance_value"
+                            android:id="@+id/radius_location"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/autocomplete_places"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="@string/setting_distance"
+                            android:textColor="@color/setting_text"
+                            android:textSize="@dimen/tv_size_xxtiny" />
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_distance_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/radius_location"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="10dp"
                             android:text="@string/km_25"
                             android:textColor="@color/hozo_bg"
-                            android:textSize="@dimen/tv_size_medium" />
+                            android:textSize="@dimen/tv_size_nomal" />
 
                         <SeekBar
                             android:id="@+id/seebar_distance"

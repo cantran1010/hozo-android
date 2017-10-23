@@ -1,4 +1,4 @@
-package vn.tonish.hozo.fragment;
+package vn.tonish.hozo.activity;
 
 import android.Manifest;
 import android.app.Activity;
@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
@@ -23,6 +24,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.accountkit.AccountKit;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -46,10 +48,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.AlbumActivity;
-import vn.tonish.hozo.activity.CropImageActivity;
-import vn.tonish.hozo.activity.GeneralInfoActivity;
-import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
@@ -61,7 +59,6 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
-import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
@@ -78,11 +75,11 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
 /**
- * Created by CanTran on 9/13/17.
+ * Created by CanTran on 10/23/17.
  */
 
-public class RegisterFragment extends BaseFragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
-    private final static String TAG = RegisterFragment.class.getName();
+public class RegisterActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+    private final static String TAG = RegisterActivity.class.getName();
     private EdittextHozo edtName;
     private TextViewHozo btnSave;
     private CircleImageView imgAvatar;
@@ -101,7 +98,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_register;
+        return R.layout.activity_register;
     }
 
     @Override
@@ -174,8 +171,8 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             }
         });
 
-        googleApiClient = new GoogleApiClient.Builder(getActivity())
-                .enableAutoManage(getActivity(), 0 /* clientId */, this)
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, 0 /* clientId */, (GoogleApiClient.OnConnectionFailedListener) this)
                 .addApi(Places.GEO_DATA_API)
                 .build();
         // Retrieve the AutoCompleteTextView that will display Place suggestions.
@@ -194,7 +191,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
         // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
         // the entire world.
-        placeAutocompleteAdapter = new PlaceAutocompleteAdapter(getActivity(), googleApiClient, null,
+        placeAutocompleteAdapter = new PlaceAutocompleteAdapter(this, googleApiClient, null,
                 autocompleteFilter);
         autocompleteView.setAdapter(placeAutocompleteAdapter);
 
@@ -253,16 +250,16 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                 address = autocompleteView.getText().toString();
                 autocompleteView.setError(null);
                 places.release();
-                Utils.hideKeyBoard(getActivity());
+                Utils.hideKeyBoard(RegisterActivity.this);
 
             } catch (Exception e) {
-                Utils.showLongToast(getActivity(), getString(post_task_map_get_location_error_next), true, false);
+                Utils.showLongToast(RegisterActivity.this, getString(post_task_map_get_location_error_next), true, false);
             }
         }
     };
 
     private void setUnderLinePolicy(TextViewHozo textViewHozo) {
-        String text = getContext().getString(R.string.tv_login_policy);
+        String text = getString(R.string.tv_login_policy);
         SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
 
         ClickableSpan conditionClickableSpan = new ClickableSpan() {
@@ -280,26 +277,26 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
         ssBuilder.setSpan(
                 conditionClickableSpan, // Span to add
-                text.indexOf(getContext().getString(R.string.login_policy_condition)), // Start of the span (inclusive)
-                text.indexOf(getContext().getString(R.string.login_policy_condition)) + String.valueOf(getContext().getString(R.string.login_policy_condition)).length(), // End of the span (exclusive)
+                text.indexOf(getString(R.string.login_policy_condition)), // Start of the span (inclusive)
+                text.indexOf(getString(R.string.login_policy_condition)) + String.valueOf(getString(R.string.login_policy_condition)).length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         );
         ssBuilder.setSpan(
                 new ForegroundColorSpan(Color.parseColor("#ffffff")), // Span to add
-                text.indexOf(getContext().getString(R.string.login_policy_condition)), // Start of the span (inclusive)
-                text.indexOf(getContext().getString(R.string.login_policy_condition)) + String.valueOf(getContext().getString(R.string.login_policy_condition)).length(), // End of the span (exclusive)
+                text.indexOf(getString(R.string.login_policy_condition)), // Start of the span (inclusive)
+                text.indexOf(getString(R.string.login_policy_condition)) + String.valueOf(getString(R.string.login_policy_condition)).length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         );
         ssBuilder.setSpan(
                 nadClickableSpan,
-                text.indexOf(getContext().getString(R.string.login_policy_nad)),
-                text.indexOf(getContext().getString(R.string.login_policy_nad)) + String.valueOf(getContext().getString(R.string.login_policy_nad)).length(),
+                text.indexOf(getString(R.string.login_policy_nad)),
+                text.indexOf(getString(R.string.login_policy_nad)) + String.valueOf(getString(R.string.login_policy_nad)).length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         );
         ssBuilder.setSpan(
                 new ForegroundColorSpan(Color.parseColor("#ffffff")),
-                text.indexOf(getContext().getString(R.string.login_policy_nad)),
-                text.indexOf(getContext().getString(R.string.login_policy_nad)) + String.valueOf(getContext().getString(R.string.login_policy_nad)).length(),
+                text.indexOf(getString(R.string.login_policy_nad)),
+                text.indexOf(getString(R.string.login_policy_nad)) + String.valueOf(getString(R.string.login_policy_nad)).length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         );
         textViewHozo.setText(ssBuilder);
@@ -308,7 +305,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void openGeneralInfoActivity(String title, String url) {
-        Intent intent = new Intent(getActivity(), GeneralInfoActivity.class);
+        Intent intent = new Intent(this, GeneralInfoActivity.class);
         intent.putExtra(Constants.URL_EXTRA, url);
         intent.putExtra(Constants.TITLE_INFO_EXTRA, title);
         startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
@@ -317,7 +314,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onPause() {
         super.onPause();
-        googleApiClient.stopAutoManage(getActivity());
+        googleApiClient.stopAutoManage(this);
         googleApiClient.disconnect();
     }
 
@@ -331,20 +328,21 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void checkPermission() {
-        if (ContextCompat.checkSelfPermission(getActivity(),
+        if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) + ContextCompat
-                .checkSelfPermission(getActivity(),
+                .checkSelfPermission(this,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(permissions, Constants.PERMISSION_REQUEST_CODE);
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
         } else {
             permissionGranted();
         }
     }
 
+
     private void permissionGranted() {
 
-        PickImageDialog pickImageDialog = new PickImageDialog(getActivity());
+        PickImageDialog pickImageDialog = new PickImageDialog(this);
         pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
             @Override
             public void onCamera() {
@@ -355,7 +353,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
             @Override
             public void onGallery() {
-                Intent intent = new Intent(getActivity(), AlbumActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, AlbumActivity.class);
                 intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
                 intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
                 startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
@@ -379,16 +377,16 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                 && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
             String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
-            Utils.displayImage(getActivity(), imgAvatar, imgPath);
+            Utils.displayImage(RegisterActivity.this, imgAvatar, imgPath);
             file = new File(imgPath);
             isUpdateAvata = true;
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
-            Intent intent = new Intent(getActivity(), CropImageActivity.class);
+            Intent intent = new Intent(this, CropImageActivity.class);
             intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
             startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
         } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
             String imgPath = data != null ? data.getStringExtra(Constants.EXTRA_IMAGE_PATH) : null;
-            Utils.displayImage(getActivity(), imgAvatar, null);
+            Utils.displayImage(this, imgAvatar, null);
             file = new File(imgPath != null ? imgPath : null);
             isUpdateAvata = true;
         }
@@ -404,7 +402,12 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_back:
-                openFragment(R.id.layout_container, LoginFragment.class, false, TransitionScreen.LEFT_TO_RIGHT);
+                AccountKit.logOut();
+                Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+                intent.putExtra(Constants.LOGOUT_EXTRA, true);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent,TransitionScreen.FADE_IN);
+//                startActivityAndClearAllTask(new Intent(this, HomeActivity.class), TransitionScreen.FADE_IN);
                 break;
             case R.id.img_camera:
                 doPickImage();
@@ -427,7 +430,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         String name = edtName.getText().toString().trim();
         if (name.isEmpty()) {
             edtName.requestFocus();
-            edtName.setError(getActivity().getString(R.string.erro_empty_name));
+            edtName.setError(getString(R.string.erro_empty_name));
             return;
         } else if (lat == 0 && lon == 0) {
             autocompleteView.requestFocus();
@@ -454,7 +457,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
     private void updateAvata() {
 
-        ProgressDialogUtils.showProgressDialog(getActivity());
+        ProgressDialogUtils.showProgressDialog(this);
 
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
@@ -470,7 +473,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                     avataId = imageResponse != null ? imageResponse.getIdTemp() : 0;
                     updateInfor();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(RegisterActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             updateAvata();
@@ -479,9 +482,9 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                     ProgressDialogUtils.dismissProgressDialog();
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     ProgressDialogUtils.dismissProgressDialog();
-                    Utils.blockUser(getActivity());
+                    Utils.blockUser(RegisterActivity.this);
                 } else {
-                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    showRetryDialog(RegisterActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             updateAvata();
@@ -501,7 +504,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             @Override
             public void onFailure(Call<ImageResponse> call, Throwable t) {
                 LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
-                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                showRetryDialog(RegisterActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         updateAvata();
@@ -519,7 +522,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void updateInfor() {
-        ProgressDialogUtils.showProgressDialog(getActivity());
+        ProgressDialogUtils.showProgressDialog(RegisterActivity.this);
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(Constants.PARAMETER_FULL_NAME, edtName.getText().toString());
@@ -557,12 +560,12 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                             myUser.setLongitude(lon);
                             realm.commitTransaction();
                         }
-                        Utils.settingDefault(getActivity());
-                        startActivityAndClearAllTask(new Intent(getContext(), MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+                        Utils.settingDefault(RegisterActivity.this);
+                        startActivityAndClearAllTask(new Intent(RegisterActivity.this, MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                     }
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     LogUtils.d(TAG, "onResponse HTTP_CODE_UNAUTHORIZED : ");
-                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(RegisterActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             updateInfor();
@@ -570,11 +573,11 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                     });
 
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(getActivity());
+                    Utils.blockUser(RegisterActivity.this);
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-                    Utils.showLongToast(getActivity(), error.message(), true, false);
+                    Utils.showLongToast(RegisterActivity.this, error.message(), true, false);
                 }
                 ProgressDialogUtils.dismissProgressDialog();
 
@@ -583,7 +586,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
             @Override
             public void onFailure(Call<UserEntity> call, Throwable t) {
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
-                showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                showRetryDialog(RegisterActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         updateInfor();
@@ -603,7 +606,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         LogUtils.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
                 + connectionResult.getErrorCode());
-        Toast.makeText(getActivity(),
+        Toast.makeText(RegisterActivity.this,
                 getString(R.string.gg_api_error),
                 Toast.LENGTH_SHORT).show();
 
