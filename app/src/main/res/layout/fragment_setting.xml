@@ -93,8 +93,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
-                    android:contentDescription="@string/just_image"
-                    android:src="@drawable/img_sms" />
+                    android:src="@drawable/ic_payment"
+                    tools:ignore="ContentDescription" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:layout_width="wrap_content"

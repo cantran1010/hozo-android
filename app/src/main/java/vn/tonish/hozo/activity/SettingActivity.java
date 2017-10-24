@@ -98,7 +98,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private int count = 0;
     private double lat, lon;
     private String address = "";
-    private int distance = 0;
+    private int distance = 50;
     private GoogleApiClient googleApiClient;
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
     private AutoCompleteTextView autocompleteView;
@@ -470,13 +470,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             layoutOptionDistance.setVisibility(View.GONE);
             locations = new ArrayList<>();
             radAllDistance.setChecked(true);
-            distance = 0;
+            distance = seebarDistance.getProgress();
             if (UserManager.getMyUser().getLatitude() != 0 && UserManager.getMyUser().getLongitude() != 0) {
                 locations.add(0, UserManager.getMyUser().getLatitude());
                 locations.add(1, UserManager.getMyUser().getLongitude());
                 address = UserManager.getMyUser().getAddress();
             }
             tvDistance.setText(getString(R.string.hozo_all));
+            tvDistanceValue.setText(getString(R.string.distance, seebarDistance.getProgress()));
         }
         autocompleteView.setText(address);
 
@@ -744,12 +745,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 jsonRequest.put("filter_worker_days", jsonArray);
             } else jsonRequest.put("filter_worker_days", new JSONArray());
 
-            if (radioDistance.getCheckedRadioButtonId() == R.id.rad_distance_option && locations != null && locations.size() > 0 && distance > 0) {
-                JSONArray jsonArray = new JSONArray();
+            JSONArray jsonArray = new JSONArray();
+            if (locations.size() > 0) {
                 for (int i = 0; i < locations.size(); i++)
                     jsonArray.put(locations.get(i));
-                jsonRequest.put("filter_original_location", jsonArray);
+            }
+            LogUtils.d(TAG, "kt distance" + radDistanceOption.isChecked() + "--" + locations.size() + "--" + distance);
+            if (radDistanceOption.isChecked() && locations != null && locations.size() > 0 && distance > 0) {
                 jsonRequest.put("filter_distance", distance);
+                jsonRequest.put("filter_original_location", jsonArray);
+
             } else {
                 jsonRequest.put("filter_distance", 0);
                 jsonRequest.put("filter_original_location", new JSONArray());
@@ -902,7 +907,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         locations = new ArrayList<>();
         radAllDistance.setChecked(true);
-        distance = 0;
+        distance = 50;
         if (UserManager.getMyUser().getLatitude() != 0 && UserManager.getMyUser().getLongitude() != 0) {
             locations.add(0, UserManager.getMyUser().getLatitude());
             locations.add(1, UserManager.getMyUser().getLongitude());
@@ -1014,10 +1019,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 tvDateTime.setText(radAllTime.getText());
                 break;
             case R.id.rad_all_distance:
+                distance = 0;
                 layoutOptionDistance.setVisibility(View.GONE);
                 tvDistance.setText(getString(R.string.hozo_all));
                 break;
             case R.id.rad_distance_option:
+                distance = seebarDistance.getProgress();
                 layoutOptionDistance.setVisibility(View.VISIBLE);
                 tvDistance.setText(getString(R.string.distance, seebarDistance.getProgress()));
                 break;
