@@ -75,9 +75,9 @@
             android:orientation="vertical">
 
             <vn.tonish.hozo.view.TextViewHozo
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="2"
@@ -479,8 +479,7 @@
             <vn.tonish.hozo.view.ExpandableLayout
                 android:id="@+id/layout_detail_distance"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:el_expanded="false">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -521,11 +520,11 @@
                             android:paddingLeft="10dp"
                             android:paddingRight="0dp"
                             android:paddingStart="10dp"
+                            android:layout_marginBottom="10dp"
                             android:text="@string/setting_optional" />
                     </RadioGroup>
 
                     <RelativeLayout
-                        android:visibility="visible"
                         android:id="@+id/layout_option_distance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -533,7 +532,8 @@
                         android:layout_marginEnd="25dp"
                         android:layout_marginLeft="25dp"
                         android:layout_marginRight="25dp"
-                        android:layout_marginStart="25dp">
+                        android:layout_marginStart="25dp"
+                        android:visibility="visible">
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/base_location"
@@ -579,7 +579,6 @@
                             android:layout_below="@+id/radius_location"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="10dp"
-                            android:text="@string/km_25"
                             android:textColor="@color/hozo_bg"
                             android:textSize="@dimen/tv_size_nomal" />
 
@@ -592,7 +591,7 @@
                             android:max="50"
                             android:maxHeight="10dp"
                             android:min="1"
-                            android:progress="25"
+                            android:progress="50"
                             android:progressDrawable="@drawable/seebar_progress"
                             android:thumb="@drawable/thumb"
                             tools:ignore="UnusedAttribute" />
@@ -810,8 +809,7 @@
             <vn.tonish.hozo.view.ExpandableLayout
                 android:id="@+id/layout_detail_keyword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:el_expanded="false">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
