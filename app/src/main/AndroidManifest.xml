@@ -190,14 +190,14 @@
             android:value="a5706b90dc87e8fd7eb3b77dfb9f0ae4e43bc71d" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id_test" />
+            android:value="@string/facebook_app_id" />
 
         <meta-data
             android:name="com.facebook.accountkit.ApplicationName"
             android:value="@string/app_name" />
         <meta-data
             android:name="com.facebook.accountkit.ClientToken"
-            android:value="@string/ACCOUNT_KIT_CLIENT_TOKEN_TEST" />
+            android:value="@string/ACCOUNT_KIT_CLIENT_TOKEN" />
 
         <provider
             android:name="com.facebook.FacebookContentProvider"

@@ -354,7 +354,6 @@
     <string name="update_force_content">Bạn phải cập nhật phiên bản mới nhất để tiếp tục sử dụng!</string>
     <string name="erro_empty_name">Bắt buộc phải nhập họ tên.</string>
     <string name="share">Chia sẻ việc</string>
-    <string name="other_alert">Thông báo công việc</string>
     <string name="min_budget_error">Số tiền tối thiểu \n là %1$s</string>
     <string name="notification_title">Thông báo</string>
     <string name="term_and_policy">vi phạm điều khoản sử dụng</string>
@@ -379,7 +378,7 @@
     <string name="completion_rate" tools:ignore="PluralsCandidate">hoàn thành</string>
     <string name="facebook_verify">Xác thực với Facebook</string>
     <string name="facebook_app_id">956632744473365</string>
-    <string name="facebook_app_id_test">330769947332955</string>
+    <!--<string name="facebook_app_id_test">330769947332955</string>-->
     <string name="hozo_tonish">\n © 2017 Tonish. Giữ mọi quyền.</string>
     <string name="cancel_bid">Hủy</string>
     <string name="cancel_bid_title">Hủy chọn</string>
@@ -483,7 +482,7 @@
     <string name="btn_done">HOÀN TẤT</string>
     <string name="other_payment">Thanh toán</string>
     <string name="ACCOUNT_KIT_CLIENT_TOKEN">d9278fc58b4d68801c0a5a682dfcaad2</string>
-    <string name="ACCOUNT_KIT_CLIENT_TOKEN_TEST">462ec5de77bb446a2a1baca7903111af</string>
+    <!--<string name="ACCOUNT_KIT_CLIENT_TOKEN_TEST">462ec5de77bb446a2a1baca7903111af</string>-->
     <string name="permissions_read_phone_state_message">
         Cho phép đọc số điện thoại của bạn từ thiết bị của bạn để điền vào trước.
     </string>
@@ -548,4 +547,5 @@
     <string name="distance">%1$d km</string>
     <string name="setting_location">Vị trí</string>
     <string name="other_new_notification">Thông báo công việc mới</string>
+    <string name="alert_dialog_submit">ĐỒNG Ý</string>
 </resources>

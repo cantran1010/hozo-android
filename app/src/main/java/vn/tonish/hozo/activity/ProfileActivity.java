@@ -374,17 +374,15 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private void selectab(int i) {
         if (i == 1) {
             btnPoster.setTextColor(ContextCompat.getColor(this, R.color.white));
-            setViewBackground(btnPoster, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_left_reviews_selected));
-            btnWorker.setTextColor(ContextCompat.getColor(this, R.color.black));
-            setViewBackground(btnWorker, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_no_active_press));
+            setViewBackground(btnPoster, ContextCompat.getDrawable(this, R.drawable.my_task_worker_active));
+            btnWorker.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+            setViewBackground(btnWorker, ContextCompat.getDrawable(this, R.drawable.my_task_poster_default));
             setDataSelected(true);
-
-
         } else {
+            btnPoster.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+            setViewBackground(btnPoster, ContextCompat.getDrawable(this, R.drawable.my_task_worker_default));
             btnWorker.setTextColor(ContextCompat.getColor(this, R.color.white));
-            setViewBackground(btnWorker, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_no_active_selected));
-            btnPoster.setTextColor(ContextCompat.getColor(this, R.color.black));
-            setViewBackground(btnPoster, ContextCompat.getDrawable(getApplicationContext(), R.drawable.bg_profile_left_reviews_default));
+            setViewBackground(btnWorker, ContextCompat.getDrawable(this, R.drawable.my_task_poster_active));
             setDataSelected(false);
         }
     }
@@ -400,18 +398,18 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 //                        if (response.isSuccessful()) {
                         if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
                             AccountKit.logOut();
-                                    if (AccessToken.getCurrentAccessToken() != null && Profile.getCurrentProfile() != null) {
-                                        LoginManager.getInstance().logOut();
-                                    }
+                            if (AccessToken.getCurrentAccessToken() != null && Profile.getCurrentProfile() != null) {
+                                LoginManager.getInstance().logOut();
+                            }
 
                             Realm realm = Realm.getDefaultInstance();
-                                    realm.beginTransaction();
-                                    realm.deleteAll();
-                                    realm.commitTransaction();
-                                    Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
-                                    intent.putExtra(Constants.LOGOUT_EXTRA, true);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
+                            realm.beginTransaction();
+                            realm.deleteAll();
+                            realm.commitTransaction();
+                            Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
+                            intent.putExtra(Constants.LOGOUT_EXTRA, true);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
 
                         } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                             NetworkUtils.refreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {

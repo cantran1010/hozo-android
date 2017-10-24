@@ -26,6 +26,8 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.dialog.AlertDialogSubmit;
+import vn.tonish.hozo.dialog.AlertDialogSubmitAndCancel;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
@@ -294,9 +296,9 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
                     @Override
                     public void onClick(View view) {
 
-                        DialogUtils.showOkAndCancelDialog(
-                                getActivity(), getString(R.string.title_bid_task), getString(R.string.content_bid_task), getString(R.string.cancel_task_ok),
-                                getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        DialogUtils.showSubmitAndCancelDialog(
+                                getActivity(), getString(R.string.title_bid_task), getString(R.string.content_bid_task), getString(R.string.alert_dialog_submit),
+                                getString(R.string.cancel_task_cancel), new AlertDialogSubmitAndCancel.AlertDialogListener() {
                                     @Override
                                     public void onSubmit() {
                                         doOffer();
@@ -510,7 +512,7 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
 //                        }
 //                    }, 1000);
 
-                    DialogUtils.showOkDialog(getActivity(), getString(R.string.bid_success_tittle), getString(R.string.big_success_content), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                    DialogUtils.showSubmitDialog(getActivity(), getString(R.string.bid_success_tittle), getString(R.string.big_success_content), getString(R.string.alert_dialog_submit), new AlertDialogSubmit.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
 

@@ -81,7 +81,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private static final String TAG = SettingActivity.class.getSimpleName();
     private ImageView btnBack, btnSend;
     private TextViewHozo tvDefault, tvDistanceValue;
-    private RelativeLayout layoutStatus, layoutCategory, layoutDateTime, layoutDistance, layoutPrice, layoutKeyword;
+    private RelativeLayout layoutStatus, layoutCategory, layoutDateTime, layoutDistance, layoutPrice, layoutKeyword, layoutOptionDistance;
     private ImageView imgStatusArrow, imgCategoryArrow, imgTimeArrow, imgDistance, imgKeyword, imgPrice;
     private TextViewHozo tvStatus, tvCategory, tvDateTime, tvDistance, tvPrice;
     private RadioGroup radioStatus, radioTime, radioDistance, radioPrice;
@@ -141,6 +141,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         layoutDistance = findViewById(R.id.layout_distance);
         layoutPrice = findViewById(R.id.layout_price);
         layoutKeyword = findViewById(R.id.layout_keyword);
+        layoutOptionDistance = findViewById(R.id.layout_option_distance);
 
         tvStatus = findViewById(R.id.tv_status);
         tvCategory = findViewById(R.id.tv_category);
@@ -455,6 +456,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private void setDistanceForView() {
         Utils.hideKeyBoard(this);
         if (advanceEntity.getLatlon() != null && advanceEntity.getLatlon().size() > 0) {
+            layoutOptionDistance.setVisibility(View.VISIBLE);
             radDistanceOption.setChecked(true);
             distance = advanceEntity.getDistance();
             locations = new ArrayList<>();
@@ -465,6 +467,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             tvDistanceValue.setText(getString(R.string.distance, advanceEntity.getDistance()));
             tvDistance.setText(getString(R.string.distance, advanceEntity.getDistance()));
         } else {
+            layoutOptionDistance.setVisibility(View.GONE);
             locations = new ArrayList<>();
             radAllDistance.setChecked(true);
             distance = 0;
@@ -1011,9 +1014,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 tvDateTime.setText(radAllTime.getText());
                 break;
             case R.id.rad_all_distance:
+                layoutOptionDistance.setVisibility(View.GONE);
                 tvDistance.setText(getString(R.string.hozo_all));
                 break;
             case R.id.rad_distance_option:
+                layoutOptionDistance.setVisibility(View.VISIBLE);
                 tvDistance.setText(getString(R.string.distance, seebarDistance.getProgress()));
                 break;
             case R.id.rad_all_price:

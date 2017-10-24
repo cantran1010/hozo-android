@@ -32,7 +32,7 @@
             android:layout_marginStart="@dimen/title_margin_left"
             android:layout_toEndOf="@id/img_back"
             android:layout_toRightOf="@id/img_back"
-            android:text="@string/other_alert" />
+            android:text="@string/other_new_notification" />
 
         <View
             android:layout_width="match_parent"
