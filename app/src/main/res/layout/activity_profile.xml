@@ -6,6 +6,58 @@
     android:background="@color/bg"
     tools:ignore="Overdraw">
 
+    <RelativeLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_back_selector"
+            android:contentDescription="@string/content_description_back"
+            android:padding="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/img_back" />
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_title"
+            style="@style/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_marginStart="@dimen/title_margin_left"
+            android:layout_toEndOf="@id/img_back"
+            android:layout_toLeftOf="@+id/img_edit"
+            android:layout_toRightOf="@id/img_back"
+            android:layout_toStartOf="@+id/img_edit" />
+
+        <ImageView
+            android:id="@+id/img_edit"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_back_selector"
+            android:contentDescription="@string/just_image"
+            android:padding="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_edit_profile" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray" />
+
+    </RelativeLayout>
+
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -280,7 +332,7 @@
                         android:layout_marginLeft="24dp"
                         android:layout_marginStart="24dp"
                         android:layout_weight="1"
-                        android:background="@drawable/btn_profile_left_selector"
+                        android:background="@drawable/my_task_worker_active"
                         android:gravity="center"
                         android:text="@string/profile_hire"
                         android:textColor="@color/white"
@@ -294,7 +346,7 @@
                         android:layout_marginEnd="24dp"
                         android:layout_marginRight="24dp"
                         android:layout_weight="1"
-                        android:background="@drawable/btn_profile_right_selector"
+                        android:background="@drawable/my_task_poster_default"
                         android:gravity="center"
                         android:text="@string/profile_worker"
                         android:textColor="@color/black"
@@ -404,57 +456,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <RelativeLayout
-        android:id="@+id/layout_header"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/white">
-
-        <ImageView
-            android:id="@+id/img_back"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="?android:attr/actionBarSize"
-            android:layout_centerVertical="true"
-            android:background="@drawable/btn_back_selector"
-            android:contentDescription="@string/content_description_back"
-            android:padding="5dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/img_back" />
-
-        <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_title"
-            style="@style/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/title_margin_left"
-            android:layout_marginStart="@dimen/title_margin_left"
-            android:layout_toEndOf="@id/img_back"
-            android:layout_toLeftOf="@+id/img_edit"
-            android:layout_toRightOf="@id/img_back"
-            android:layout_toStartOf="@+id/img_edit" />
-
-        <ImageView
-            android:id="@+id/img_edit"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="?android:attr/actionBarSize"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/btn_back_selector"
-            android:contentDescription="@string/just_image"
-            android:padding="5dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_edit_profile" />
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_alignParentBottom="true"
-            android:background="@color/gray" />
-
-    </RelativeLayout>
 
 </FrameLayout>

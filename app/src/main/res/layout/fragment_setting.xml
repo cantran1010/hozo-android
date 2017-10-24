@@ -81,10 +81,51 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/layout_payment"
+                android:id="@+id/layout_new_notification"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/btn_back_selector">
+
+                <ImageView
+                    android:id="@+id/img_notification"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:contentDescription="@string/just_image"
+                    android:src="@drawable/img_sms" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/img_notification"
+                    android:layout_toRightOf="@id/img_notification"
+                    android:text="@string/other_new_notification"
+                    android:textColor="@color/setting_text" />
+
+                <include layout="@layout/arrow" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="56dp"
+                    android:layout_marginStart="56dp"
+                    android:background="@color/text_line" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/layout_payment"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btn_back_selector"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/img_payment"

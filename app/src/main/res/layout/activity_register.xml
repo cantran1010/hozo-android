@@ -29,12 +29,11 @@
             android:paddingRight="40dp"
             android:paddingStart="40dp">
 
+
             <RelativeLayout
-                android:layout_width="250dp"
-                android:layout_height="140dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="0dp"
-                android:padding="10dp">
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_gravity="center">
 
                 <vn.tonish.hozo.view.CircleImageView
                     android:id="@+id/img_avatar"
@@ -49,8 +48,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
                     android:contentDescription="@string/camera"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:src="@drawable/camera" />
 
             </RelativeLayout>
