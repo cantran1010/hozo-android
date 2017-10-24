@@ -74,11 +74,25 @@
             android:background="@color/bg"
             android:orientation="vertical">
 
+            <vn.tonish.hozo.view.TextViewHozo
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/tv_guide_setting"
+                android:textColor="@color/text_advance"
+                android:textSize="@dimen/tv_size_nomal" />
+
+
             <RelativeLayout
                 android:id="@+id/layout_status"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/btn_back_selector">
 
                 <vn.tonish.hozo.view.TextViewHozo

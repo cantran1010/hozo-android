@@ -138,8 +138,9 @@
                 android:layout_marginTop="20dp"
                 android:ellipsize="end"
                 android:maxLines="3"
+                android:gravity="center"
                 android:text="@string/tv_login_policy"
-                android:textColor="@color/white"
+                android:textColor="@color/setting_text"
                 android:textSize="@dimen/tv_size_xtiny" />
 
             <vn.tonish.hozo.view.TextViewHozo
