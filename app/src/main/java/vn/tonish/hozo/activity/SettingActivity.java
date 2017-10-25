@@ -233,7 +233,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
                 .setTypeFilter(Place.TYPE_COUNTRY)
-                .setCountry("VN")
+//                .setCountry("VN")
                 .build();
 
         // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
@@ -332,10 +332,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             try {
                 // Get the Place object from the buffer.
                 final Place place = places.get(0);
-                LogUtils.e(TAG, "Place address : " + place.getAddress());
                 lat = place.getLatLng().latitude;
                 lon = place.getLatLng().longitude;
-                if (lat > 0 && lon > 0) {
+                LogUtils.e(TAG, "Place address : " + place.getAddress() + "-" + lat + "-" + lon);
+                if (lat != 0 && lon != 0) {
                     locations = new ArrayList<>();
                     locations.add(0, lat);
                     locations.add(1, lon);
