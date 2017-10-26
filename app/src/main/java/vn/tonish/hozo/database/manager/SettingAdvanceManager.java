@@ -31,20 +31,19 @@ public class SettingAdvanceManager {
         SettingAdvanceEntity.setStatus(settingAdvance.getStatus());
         RealmList<RealmInt> realmInts = new RealmList<>();
         if (settingAdvance.getCategories() != null && settingAdvance.getCategories().size() > 0) {
-            for (Integer integer : settingAdvance.getCategories()
+            for (int integer : settingAdvance.getCategories()
                     ) {
                 RealmInt anInt = new RealmInt();
                 anInt.setVal(integer);
                 realmInts.add(anInt);
+                LogUtils.d(TAG, "add categoly" + integer);
 
             }
         }
         SettingAdvanceEntity.setCategories(realmInts);
-
-
         realmInts = new RealmList<>();
         if (settingAdvance.getDays() != null && settingAdvance.getDays().size() > 0) {
-            for (Integer integer : settingAdvance.getDays()
+            for (int integer : settingAdvance.getDays()
                     ) {
                 RealmInt anInt = new RealmInt();
                 anInt.setVal(integer);
@@ -82,6 +81,7 @@ public class SettingAdvanceManager {
         }
         SettingAdvanceEntity.setKeywords(realmStrings);
         insertSettingAdvanceEntity(SettingAdvanceEntity);
+        LogUtils.d(TAG, "addSettingAdvance realm: " + SettingAdvanceEntity.toString());
     }
 
 
@@ -91,7 +91,7 @@ public class SettingAdvanceManager {
         // get last update
         SettingAdvanceEntity settingEntiny = realm.where(SettingAdvanceEntity.class).findFirst();
         if (settingEntiny != null)
-            LogUtils.d(TAG, "getSettingAdvance : " + settingEntiny.toString());
+            LogUtils.d(TAG, "getSettingAdvance realm: " + settingEntiny.toString());
         return settingEntiny;
     }
 

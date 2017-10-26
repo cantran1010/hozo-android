@@ -9,7 +9,7 @@ import vn.tonish.hozo.utils.LogUtils;
  */
 
 public class SettingManager {
-    private static final String TAG = CategoryManager.class.getName();
+    private static final String TAG = SettingManager.class.getName();
 
     public static void insertSetting(SettingEntiny settingEntiny) {
         LogUtils.d(TAG, "insertSetting : " + settingEntiny.toString());
