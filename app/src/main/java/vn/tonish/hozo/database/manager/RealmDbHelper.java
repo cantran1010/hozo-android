@@ -108,7 +108,7 @@ public class RealmDbHelper {
                         .addField("latitude", double.class)
                         .addField("longitude", double.class);
 
-                schema.get("PostTaskEntity")
+                schema.create("PostTaskEntity")
                         .addField("id", int.class, FieldAttribute.PRIMARY_KEY)
                         .addField("lat", double.class)
                         .addField("lon", double.class)
