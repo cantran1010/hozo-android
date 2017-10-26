@@ -109,7 +109,6 @@ public class HomeActivity extends BaseActivity {
                 AccountKitActivity.ResponseType.TOKEN);
         uiManager = new HozoAccountKitUIManager(ButtonType.NEXT, ButtonType.NEXT, TextPosition.ABOVE_BODY, LoginType.PHONE);
         configurationBuilder.setUIManager(uiManager);
-
         configurationBuilder.setDefaultCountryCode("VN").setReadPhoneStateEnabled(true).setReceiveSMS(true);
         final AccountKitConfiguration configuration = configurationBuilder.build();
         intent.putExtra(
