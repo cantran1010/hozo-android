@@ -117,13 +117,13 @@ public class HozoAccountKitUIManager extends BaseUIManager {
         final String prefix;
         switch (state) {
             case PHONE_NUMBER_INPUT:
-                prefix = "Nhập số điện thoại của bạn ";
+                prefix = "Nhập số điện thoại của bạn";
                 break;
             case EMAIL_INPUT:
                 prefix = "Custom Email ";
                 break;
             case ACCOUNT_VERIFIED:
-                prefix = "Đang ác minh...!";
+                prefix = "Đang xác minh...!";
                 break;
             case CONFIRM_ACCOUNT_VERIFIED:
                 prefix = "Đã xác minh!";
@@ -165,7 +165,7 @@ public class HozoAccountKitUIManager extends BaseUIManager {
                 prefix = "Đang xác minh...! ";
                 break;
             case VERIFIED:
-                prefix = "chào mừng bạn đến với Hozo!";
+                prefix = "Chào mừng bạn đến với Hozo!";
                 break;
             case RESEND:
                 prefix = "Gửi lại";
