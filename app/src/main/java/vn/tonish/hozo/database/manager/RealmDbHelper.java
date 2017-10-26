@@ -107,6 +107,12 @@ public class RealmDbHelper {
                 schema.get("UserEntity")
                         .addField("latitude", double.class)
                         .addField("longitude", double.class);
+
+                schema.get("PostTaskEntity")
+                        .addField("id", int.class, FieldAttribute.PRIMARY_KEY)
+                        .addField("lat", double.class)
+                        .addField("lon", double.class)
+                        .addField("address", String.class);
                 oldVersion++;
 
             }

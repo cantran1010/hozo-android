@@ -67,7 +67,9 @@ import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
+import vn.tonish.hozo.database.entity.PostTaskEntity;
 import vn.tonish.hozo.database.manager.CategoryManager;
+import vn.tonish.hozo.database.manager.PostTaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AgeDialog;
 import vn.tonish.hozo.dialog.AlertDialogCancelTask;
@@ -231,6 +233,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initData() {
 
+
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, this)
                 .addApi(Places.GEO_DATA_API)
@@ -265,6 +268,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         grImage.setAdapter(imageAdapter);
 
         showPopup();
+
+        getDefaultAddress();
 
         if (intent.hasExtra(Constants.EXTRA_TASK)) {
 
@@ -503,6 +508,17 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             }
         });
 
+    }
+
+    private void getDefaultAddress() {
+        PostTaskEntity postTaskEntity = PostTaskManager.getPostTaskEntity();
+        if (postTaskEntity != null) {
+            lat = postTaskEntity.getLon();
+            lon = postTaskEntity.getLat();
+            address = postTaskEntity.getAddress();
+            LogUtils.d(TAG, "getDefaultAddress" + postTaskEntity.toString());
+            autocompleteView.setText(address);
+        }
     }
 
     @Override
@@ -835,11 +851,15 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             if (address != null && lat != 0 && lon != 0) {
                 String[] arrAddress = address.split(",");
-
                 jsonRequest.put("city", arrAddress.length >= 2 ? arrAddress[arrAddress.length - 2].trim() : arrAddress[arrAddress.length - 1].trim());
                 jsonRequest.put("district", arrAddress.length >= 3 ? arrAddress[arrAddress.length - 3].trim() : arrAddress[arrAddress.length - 1].trim());
-
                 jsonRequest.put("address", address);
+                PostTaskEntity postTaskEntity = new PostTaskEntity();
+                postTaskEntity.setId(0);
+                postTaskEntity.setLat(lat);
+                postTaskEntity.setLon(lon);
+                postTaskEntity.setAddress(address);
+                PostTaskManager.insertPostTask(postTaskEntity);
             }
 
             if (!getLongAutoCompleteTextView(edtBudget).trim().equals(""))

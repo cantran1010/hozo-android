@@ -1,15 +1,15 @@
 /**
  * Copyright (c) 2014-present, Facebook, Inc. All rights reserved.
- *
+ * <p>
  * You are hereby granted a non-exclusive, worldwide, royalty-free license to use,
  * copy, modify, and distribute this software in source code or binary form for use
  * in connection with the web services and APIs provided by Facebook.
- *
+ * <p>
  * As with any software that integrates with the Facebook platform, your use of
  * this software is subject to the Facebook Developer Principles and Policies
  * [http://developers.facebook.com/policy/]. This copyright notice shall be
  * included in all copies or substantial portions of the software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -27,21 +27,35 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import vn.tonish.hozo.R;
-
-import static vn.tonish.hozo.common.Constants.HEIGHT_KEY;
 
 /**
  * Created by CanTran on 10/6/17.
  */
 
 public class HozoPlaceholderFragment extends Fragment {
+    private static final String HEIGHT_KEY = "height";
+    private static final String TEXT_KEY = "text";
+    private static final String TEXT_RESOURCE_ID_KEY = "textResourceId";
 
-    public static HozoPlaceholderFragment create(final int height) {
+
+    public static HozoPlaceholderFragment create(final int height, final String text) {
         final HozoPlaceholderFragment fragment = new HozoPlaceholderFragment();
         final Bundle arguments = new Bundle();
         arguments.putInt(HEIGHT_KEY, height);
+        arguments.putString(TEXT_KEY, text);
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
+
+    public static HozoPlaceholderFragment create(final int height, final int textResourceId) {
+        final HozoPlaceholderFragment fragment = new HozoPlaceholderFragment();
+        final Bundle arguments = new Bundle();
+        arguments.putInt(HEIGHT_KEY, height);
+        arguments.putInt(TEXT_RESOURCE_ID_KEY, textResourceId);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -73,6 +87,16 @@ public class HozoPlaceholderFragment extends Fragment {
                         TypedValue.COMPLEX_UNIT_DIP,
                         height,
                         getResources().getDisplayMetrics());
+            }
+            final String text = arguments.getString(TEXT_KEY);
+            final int textResourceId = arguments.getInt(TEXT_RESOURCE_ID_KEY, -1);
+            final TextView textView = (TextView) view.findViewById(R.id.text_view);
+            if (textView != null) {
+                if (text != null) {
+                    textView.setText(text);
+                } else if (textResourceId > 0) {
+                    textView.setText(textResourceId);
+                }
             }
 
         }

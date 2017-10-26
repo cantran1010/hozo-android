@@ -548,4 +548,5 @@
     <string name="setting_location">Vị trí</string>
     <string name="other_new_notification">Thông báo công việc mới</string>
     <string name="alert_dialog_submit">ĐỒNG Ý</string>
+    <string name="error_message">Lỗi!</string>
 </resources>

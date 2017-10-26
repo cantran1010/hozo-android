@@ -11,6 +11,7 @@ import com.facebook.accountkit.ui.LoginFlowState;
 import com.facebook.accountkit.ui.LoginType;
 import com.facebook.accountkit.ui.TextPosition;
 
+import vn.tonish.hozo.R;
 import vn.tonish.hozo.fragment.HozoPlaceholderFragment;
 
 /**
@@ -74,13 +75,13 @@ public class HozoAccountKitUIManager extends BaseUIManager {
     @Nullable
     public Fragment getHeaderFragment(final LoginFlowState state) {
         if (state != LoginFlowState.ERROR) {
-            return getPlaceholderFragment(state, HEADER_HEIGHT);
+            return getPlaceholderFragment(state, HEADER_HEIGHT, "");
         }
         final String errorMessage = getErrorMessage();
         if (errorMessage == null) {
-            return HozoPlaceholderFragment.create(HEADER_HEIGHT);
+            return HozoPlaceholderFragment.create(HEADER_HEIGHT, String.valueOf(R.string.error_message));
         } else {
-            return HozoPlaceholderFragment.create(HEADER_HEIGHT);
+            return HozoPlaceholderFragment.create(HEADER_HEIGHT, errorMessage);
         }
     }
 
@@ -111,10 +112,72 @@ public class HozoAccountKitUIManager extends BaseUIManager {
     @Nullable
     private HozoPlaceholderFragment getPlaceholderFragment(
             final LoginFlowState state,
-            final int height) {
-        return HozoPlaceholderFragment.create(height);
+            final int height,
+            final String suffix) {
+        final String prefix;
+        switch (state) {
+            case PHONE_NUMBER_INPUT:
+                prefix = "Nhập số điện thoại của bạn ";
+                break;
+            case EMAIL_INPUT:
+                prefix = "Custom Email ";
+                break;
+            case ACCOUNT_VERIFIED:
+                prefix = "Đang xác minh...!";
+                break;
+            case CONFIRM_ACCOUNT_VERIFIED:
+                prefix = "Đã xác minh!";
+                break;
+            case CONFIRM_INSTANT_VERIFICATION_LOGIN:
+                prefix = "Hozo xác nhận đăng nhập";
+                break;
+            case EMAIL_VERIFY:
+                prefix = "Custom Email Verify ";
+                break;
+            case SENDING_CODE:
+                switch (loginType) {
+                    case EMAIL:
+                        prefix = "Custom Sending Email ";
+                        break;
+                    case PHONE:
+                        prefix = "Đang gửi đi...!";
+                        break;
+                    default:
+                        return null;
+                }
+                break;
+            case SENT_CODE:
+                switch (loginType) {
+                    case EMAIL:
+                        prefix = "Custom Sent Email ";
+                        break;
+                    case PHONE:
+                        prefix = "đã gửi! ";
+                        break;
+                    default:
+                        return null;
+                }
+                break;
+            case CODE_INPUT:
+                prefix = "Nhập mã";
+                break;
+            case VERIFYING_CODE:
+                prefix = "Đang xác minh...! ";
+                break;
+            case VERIFIED:
+                prefix = "Xác minh! ";
+                break;
+            case RESEND:
+                prefix = "Gửi lại";
+                break;
+            case ERROR:
+                prefix = "Lỗi! ";
+                break;
+            default:
+                return null;
+        }
+        return HozoPlaceholderFragment.create(height, prefix.concat(suffix));
     }
-
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
         super.writeToParcel(dest, flags);
