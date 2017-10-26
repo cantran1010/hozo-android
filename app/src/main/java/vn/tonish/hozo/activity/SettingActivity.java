@@ -241,33 +241,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         placeAutocompleteAdapter = new PlaceAutocompleteAdapter(this, googleApiClient, null,
                 autocompleteFilter);
         autocompleteView.setAdapter(placeAutocompleteAdapter);
-
-
-        rcvCategory.setLayoutManager(new LinearLayoutManager(this));
-        categories = new ArrayList<>();
-        mAdapter = new TaskTypeAdapter(categories);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        rcvCategory.setLayoutManager(layoutManager);
-        rcvCategory.setAdapter(mAdapter);
-        mAdapter.setListener(new TaskTypeAdapter.CategoryListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                catIds = new ArrayList<Integer>();
-                if (buttonView.getText().equals(getString(R.string.hozo_all))) {
-                    categoryName = getString(R.string.hozo_all);
-                } else categoryName = getCategoryName();
-                tvCategory.setText(categoryName);
-                if (categories.size() > 0) {
-                    for (Category cat : categories
-                            ) {
-                        if (cat.getId() != 0 && cat.isSelected()) catIds.add(cat.getId());
-                    }
-                }
-
-
-            }
-        });
         createListCategory();
+        getDataforView();
         seebarDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -369,17 +344,46 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void createListCategory() {
+        rcvCategory.setLayoutManager(new LinearLayoutManager(this));
+        categories = new ArrayList<>();
         cat = new Category();
         cat.setId(0);
         cat.setName(getString(R.string.hozo_all));
         cat.setSelected(false);
         categories.add(0, cat);
-        do {
+        if (CategoryManager.getAllCategories() != null)
             categories.addAll(DataParse.convertListCategoryEntityToListCategory(CategoryManager.getAllCategories()));
-            getDataforView();
+        for (Category category : categories
+                ) {
+            category.setSelected(false);
+        }
+        mAdapter = new TaskTypeAdapter(categories);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        rcvCategory.setLayoutManager(layoutManager);
+        rcvCategory.setAdapter(mAdapter);
+        mAdapter.setListener(new TaskTypeAdapter.CategoryListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                catIds = new ArrayList<Integer>();
+                if (buttonView.getText().equals(getString(R.string.hozo_all))) {
+                    categoryName = getString(R.string.hozo_all);
+                } else categoryName = getCategoryName();
+                tvCategory.setText(categoryName);
+                if (categories.size() > 0) {
+                    for (Category cat : categories
+                            ) {
 
-        } while (CategoryManager.getAllCategories() == null);
+                        if (cat.getId() != 0 && cat.isSelected()) {
+                            catIds.add(cat.getId());
+                            if (catIds.size() == categories.size() - 1) catIds.clear();
+                        }
+                    }
+                }
 
+
+            }
+        });
+        LogUtils.d(TAG, "categorys get 1 :" + categories.toString());
 
     }
 
@@ -596,25 +600,27 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private void setCategoryForView() {
         if (advanceEntity.getCategories() != null && advanceEntity.getCategories().size() > 0) {
             LogUtils.d(TAG, "categories size" + advanceEntity.getCategories().size());
+            LogUtils.d(TAG, "categorys get 2:" + categories.toString());
             for (RealmInt realmInt : advanceEntity.getCategories()
                     ) {
                 for (Category category : categories
                         ) {
                     LogUtils.d(TAG, "categories id" + realmInt.getVal());
                     if (category.getId() == realmInt.getVal()) {
-                        category.setSelected(true);
                         catIds.add(category.getId());
+                        category.setSelected(true);
                     }
+
                 }
             }
+
 
         } else {
             catIds = new ArrayList<>();
             categories.get(0).setSelected(true);
 
         }
-
-
+        LogUtils.d(TAG, "categorys get 3:" + categories.toString());
         tvCategory.setText(getCategoryName());
     }
 
@@ -768,7 +774,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         LogUtils.d(TAG, "SettingAdvance activity json: " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-
         ApiClient.getApiService().postSettingAdvance(UserManager.getUserToken(), body).enqueue(new Callback<SettingAdvance>() {
             @Override
             public void onResponse(Call<SettingAdvance> call, Response<SettingAdvance> response) {
