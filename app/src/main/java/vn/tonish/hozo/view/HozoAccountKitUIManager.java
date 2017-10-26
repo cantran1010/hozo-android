@@ -123,7 +123,7 @@ public class HozoAccountKitUIManager extends BaseUIManager {
                 prefix = "Custom Email ";
                 break;
             case ACCOUNT_VERIFIED:
-                prefix = "Đang xác minh...!";
+                prefix = "Đang ác minh...!";
                 break;
             case CONFIRM_ACCOUNT_VERIFIED:
                 prefix = "Đã xác minh!";
@@ -165,7 +165,7 @@ public class HozoAccountKitUIManager extends BaseUIManager {
                 prefix = "Đang xác minh...! ";
                 break;
             case VERIFIED:
-                prefix = "Xác minh! ";
+                prefix = "chào mừng bạn đến với Hozo!";
                 break;
             case RESEND:
                 prefix = "Gửi lại";
