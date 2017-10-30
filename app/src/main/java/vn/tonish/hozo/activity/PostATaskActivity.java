@@ -1,6 +1,7 @@
 package vn.tonish.hozo.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -518,6 +519,7 @@ public class PostATaskActivity extends BaseActivity implements View.OnClickListe
         return result;
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void attachAllFile() {
 
         if (Utils.isNetworkAvailable(this)) {

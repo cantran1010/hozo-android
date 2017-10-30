@@ -44,7 +44,7 @@ public class HozoAutoCompleteTextView extends android.support.v7.widget.AppCompa
     }
     private void init() {
         if (!isInEditMode()) {
-            Typeface tf;
+            Typeface tf = null;
             try {
                 int style = getTypeface().getStyle();
                 switch (style) {
@@ -59,6 +59,8 @@ public class HozoAutoCompleteTextView extends android.support.v7.widget.AppCompa
                         break;
                     default:
                         tf = TypefaceContainer.TYPEFACE_REGULAR;
+                        break;
+                    case Typeface.BOLD_ITALIC:
                         break;
                 }
             } catch (Exception e) {

@@ -1,6 +1,7 @@
 package vn.tonish.hozo.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -108,7 +109,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener 
 
     private void getAlbum() {
 
-        AsyncTask<Void, Void, Void> albumTask = new AsyncTask<Void, Void, Void>() {
+        @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, Void> albumTask = new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected void onPreExecute() {

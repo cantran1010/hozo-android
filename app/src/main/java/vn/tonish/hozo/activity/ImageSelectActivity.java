@@ -1,5 +1,6 @@
 package vn.tonish.hozo.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -80,7 +81,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void getImage() {
-        AsyncTask<Void, Void, Void> imageTask = new AsyncTask<Void, Void, Void>() {
+        @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, Void> imageTask = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
 
