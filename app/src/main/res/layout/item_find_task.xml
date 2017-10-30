@@ -12,7 +12,8 @@
     card_view:cardBackgroundColor="@color/white"
     card_view:cardCornerRadius="5dp"
     card_view:cardElevation="2dp"
-    card_view:cardUseCompatPadding="true">
+    card_view:cardUseCompatPadding="true"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -152,7 +153,7 @@
                 android:maxLines="1"
                 android:textColor="@color/browse_gray"
                 android:textSize="@dimen/tv_size_xtiny"
-                android:textStyle="italic" />
+                android:textStyle="normal" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_start_time"
@@ -167,7 +168,7 @@
                 android:padding="2dp"
                 android:textColor="@color/browse_gray"
                 android:textSize="@dimen/tv_size_xtiny"
-                android:textStyle="italic" />
+                android:textStyle="normal" />
         </RelativeLayout>
 
     </LinearLayout>

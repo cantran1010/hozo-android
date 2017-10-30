@@ -505,7 +505,6 @@
     <string name="setting_key_word">Từ khoá</string>
     <string name="setting_optional">Tuỳ chọn</string>
     <string name="base_location_hint">Vị trí mốc</string>
-    <string name="km_25">25 km</string>
     <string name="km_1">1 km</string>
     <string name="max_km">50 km</string>
     <string name="setting_price_10">10.000 – 100.000</string>
@@ -549,4 +548,8 @@
     <string name="other_new_notification">Thông báo công việc mới</string>
     <string name="alert_dialog_submit">ĐỒNG Ý</string>
     <string name="error_message">Lỗi!</string>
+    <string name="promotion_code_title">Mã khuyến mãi</string>
+    <string name="promotion_code_des">Nhập mã khuyến mãi.</string>
+    <string name="promotion_progress_des">Đang đợi xác thực</string>
+    <string name="btn_promotion">Gửi mã</string>
 </resources>

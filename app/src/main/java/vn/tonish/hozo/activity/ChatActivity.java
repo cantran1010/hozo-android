@@ -1,5 +1,6 @@
 package vn.tonish.hozo.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -163,6 +164,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         PreferUtils.setPushShow(this, true);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setUpMessageList() {
         LogUtils.d(TAG, "setUpMessageList start");
         messageAdapter = new MessageAdapter(this, messages, posterId);

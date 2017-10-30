@@ -12,6 +12,7 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    google()
 }
 
 apply plugin: 'realm-android'
@@ -29,7 +30,7 @@ int extractVersionCode() {
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "vn.tonish.hozo"
         minSdkVersion 15

@@ -15,10 +15,10 @@ public class TypefaceContainer {
 
     public static void init(Context context) {
         TYPEFACE_LIGHT = Typeface.createFromAsset(context.getAssets(),
-                "fonts/Roboto-Light.ttf");
+                "fonts/Montserrat-Regular.otf");
         TYPEFACE_MEDIUM = Typeface.createFromAsset(context.getAssets(),
-                "fonts/Roboto-Medium.ttf");
+                "fonts/Montserrat-Medium.otf");
         TYPEFACE_REGULAR = Typeface.createFromAsset(context.getAssets(),
-                "fonts/Roboto-Regular.ttf");
+                "fonts/Montserrat-Light.otf");
     }
 }
