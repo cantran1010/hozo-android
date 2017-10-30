@@ -28,26 +28,31 @@ public class ButtonHozo extends AppCompatButton {
     }
 
     private void init() {
+
         if (!isInEditMode()) {
-            Typeface tf;
+            Typeface tf = null;
             try {
-                int style = getTypeface().getStyle();
-                switch (style) {
+                int styleTxt = getTypeface().getStyle();
+
+                switch (styleTxt) {
                     case Typeface.NORMAL:
-                        tf = TypefaceContainer.TYPEFACE_REGULAR;
+                        tf = TypefaceContainer.TYPEFACE_LIGHT;
                         break;
                     case Typeface.BOLD:
-                        tf = TypefaceContainer.TYPEFACE_MEDIUM;
+                        tf = TypefaceContainer.TYPEFACE_REGULAR;
                         break;
                     case Typeface.ITALIC:
                         tf = TypefaceContainer.TYPEFACE_LIGHT;
                         break;
+                    case Typeface.BOLD_ITALIC:
+                        tf = TypefaceContainer.TYPEFACE_LIGHT;
+                        break;
                     default:
-                        tf = TypefaceContainer.TYPEFACE_REGULAR;
+                        tf = TypefaceContainer.TYPEFACE_LIGHT;
                         break;
                 }
             } catch (Exception e) {
-                tf = TypefaceContainer.TYPEFACE_REGULAR;
+                tf = TypefaceContainer.TYPEFACE_LIGHT;
             }
             setTypeface(tf);
         }
