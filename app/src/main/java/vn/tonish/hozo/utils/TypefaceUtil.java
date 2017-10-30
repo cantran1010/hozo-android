@@ -14,10 +14,10 @@ import vn.tonish.hozo.view.TextViewHozo;
  */
 class TypefaceUtil {
 
-    private static final String FONT_NORMAL = "Roboto-Medium.ttf";
+    private static final String FONT_NORMAL = "Montserrat-Medium.otf";
     private static Typeface robotoMediumTtf;
 
-    private static final String FONT_BOLD = "Roboto-Bold.ttf";
+    private static final String FONT_BOLD = "Montserrat-Regular.otf";
     private static Typeface robotoBoldTtf;
 
     /**
