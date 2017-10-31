@@ -18,7 +18,7 @@ platform :android do
       notify: '0',
     )
 
-    get_android_version(apk: "app/build/outputs/apk/app-debug.apk")
+    get_android_version(apk: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH])
     version_name = lane_context[SharedValues::GET_ANDROID_VERSION_NAME]
     version_code = lane_context[SharedValues::GET_ANDROID_VERSION_CODE]
 
