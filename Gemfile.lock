@@ -115,7 +115,7 @@ GEM
     json (2.1.0)
     jwt (1.5.6)
     kramdown (1.15.0)
-    little-plugger (1.1.4)
+    little-plugger (1.1.5)
     logging (2.2.2)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
