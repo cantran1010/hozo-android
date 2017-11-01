@@ -83,6 +83,12 @@
         <item name="android:maxHeight">32dp</item>
     </style>
 
+    <style name="StarRatingBarSupport" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingbar_support_selector</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="android:maxHeight">32dp</item>
+    </style>
+
     <style name="tv_style_normal_black">
         <item name="android:textSize">16sp</item>
         <item name="android:textColorHint">@color/gray</item>
@@ -90,6 +96,11 @@
     </style>
 
     <style name="tv_style_normal_gray">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/tv_gray</item>
+    </style>
+
+    <style name="tv_style_normal_gray_new">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/tv_gray</item>
     </style>

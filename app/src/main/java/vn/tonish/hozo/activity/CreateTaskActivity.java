@@ -233,6 +233,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initData() {
 
+        Constants.MAX_IMAGE_ATTACH = 6;
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, this)
