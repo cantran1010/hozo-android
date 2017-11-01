@@ -72,11 +72,11 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         resumeData();
     }
 
-    View findViewById(int id) {
+    public View findViewById(int id) {
         return view.findViewById(id);
     }
 
-    void createSwipeToRefresh() {
+    public void createSwipeToRefresh() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.hozo_bg, R.color.red, R.color.blue_2);
@@ -87,7 +87,7 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         swipeRefreshLayout.setRefreshing(true);
     }
 
-    void onStopRefresh() {
+    public void onStopRefresh() {
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -97,13 +97,13 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         startActivity(intent, transitionScreen);
     }
 
-    void startActivity(Intent intent, TransitionScreen transitionScreen) {
+    public void startActivity(Intent intent, TransitionScreen transitionScreen) {
         intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
         startActivity(intent);
         TransitionScreen.overridePendingTransition(getActivity(), transitionScreen);
     }
 
-    void startActivity(Class<?> cls, TransitionScreen transitionScreen) {
+    public void startActivity(Class<?> cls, TransitionScreen transitionScreen) {
         Intent intent = new Intent(getActivity(), cls);
         startActivity(intent, transitionScreen);
     }
@@ -119,18 +119,18 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
 //        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 //    }
 
-    void startActivityForResult(Intent intent, int requestCode, TransitionScreen transitionScreen) {
+    public void startActivityForResult(Intent intent, int requestCode, TransitionScreen transitionScreen) {
         intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
         startActivityForResult(intent, requestCode);
         TransitionScreen.overridePendingTransition(getActivity(), transitionScreen);
     }
 
-    void startActivityAndClearAllTask(Intent intent, TransitionScreen transitionScreen) {
+    public void startActivityAndClearAllTask(Intent intent, TransitionScreen transitionScreen) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent, transitionScreen);
     }
 
-    void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack, TransitionScreen transitionScreen) {
+    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack, TransitionScreen transitionScreen) {
         Activity activity = getActivity();
         if (activity instanceof BaseActivity) {
             BaseActivity baseActivity = (BaseActivity) activity;
@@ -138,12 +138,12 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         }
     }
 
-    void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, TransitionScreen transitionScreen) {
+    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, TransitionScreen transitionScreen) {
         openFragment(resId, fragmentClazz, null, addBackStack, transitionScreen);
     }
 
-    void showFragment(int resLayout, Class<?> newFragClass,
-                      boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
+    public void showFragment(int resLayout, Class<?> newFragClass,
+                             boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
         Activity activity = getActivity();
         if (activity instanceof BaseActivity) {
             BaseActivity baseActivity = (BaseActivity) activity;
@@ -151,8 +151,8 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         }
     }
 
-    void showChildFragment(int resLayout, Class<?> newFragClass,
-                           boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
+    public void showChildFragment(int resLayout, Class<?> newFragClass,
+                                  boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
 
         FragmentManager manager = getChildFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();

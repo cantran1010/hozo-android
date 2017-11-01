@@ -12,7 +12,7 @@ public class Constants {
     public static final int HTTP_CODE_NOT_FOUND = 404;
     public static final int HTTP_CODE_UNPROCESSABLE_ENTITY = 422;
     public static final int HTTP_CODE_BLOCK_USER = 423;
-    public static final int MAX_IMAGE_ATTACH = 6;
+    public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 123;
     public static final int RESPONSE_CODE_PICK_IMAGE = 321;

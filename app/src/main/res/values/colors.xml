@@ -17,6 +17,7 @@
     <color name="hozo_bg">#00A2E5</color>
     <color name="btn_selector">#A1A5F5</color>
     <color name="tv_gray">#787878</color>
+    <color name="tv_gray_new">#73888e</color>
     <color name="tv_black">#030303</color>
     <color name="menu_non_selected">#929292</color>
     <color name="text_hint">#FFA6E5FF</color>

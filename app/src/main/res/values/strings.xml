@@ -145,6 +145,7 @@
     <string name="post_a_task_budget_error">Vui lòng nhập \n giá tiền</string>
     <string name="post_a_task_number_worker_error">Vui lòng nhập \n số người</string>
     <string name="post_a_task_max_attach_err">Bạn chỉ được chọn tối đa 6 ảnh</string>
+    <string name="max_image_attach_err">Bạn chỉ được chọn tối đa %1$d ảnh</string>
     <string name="select_age_title">Chọn Tuổi</string>
     <string name="select_age_to">Đến</string>
     <string name="ok">OK</string>
@@ -552,4 +553,15 @@
     <string name="promotion_code_des">Nhập mã khuyến mãi.</string>
     <string name="promotion_progress_des">Đang đợi xác thực</string>
     <string name="btn_promotion">Gửi mã</string>
+    <string name="support_title">Hỗ trợ</string>
+    <string name="support_des">Cảm ơn bạn đã đồng hành cùng HoZo.\nChúng tôi luôn mong ước được lắng nghe từ bạn!</string>
+    <string name="support_call">Gọi \ncho HoZo</string>
+    <string name="support_msg">Gửi tin nhắn\ncho HoZo</string>
+    <string name="support_rate">Đánh giá\nHoZo</string>
+    <string name="support_phone_title">Điện thoại</string>
+    <string name="support_mail_content">Nhập nội dung tin nhắn</string>
+    <string name="support_image_attach">Gửi ảnh đính kèm</string>
+    <string name="btn_support_rate">Gửi</string>
+    <string name="btn_send_mail">Gửi</string>
+    <string name="support_rate_hint">Bạn nghĩ gì về chúng tôi</string>
 </resources>
