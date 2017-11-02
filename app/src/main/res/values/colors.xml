@@ -14,12 +14,12 @@
     <color name="blue_2">#0000FF</color>
 
     <!-- common-->
-    <color name="hozo_bg">#00A2E5</color>
+    <color name="hozo_bg">#14a3cf</color>
     <color name="btn_selector">#A1A5F5</color>
     <color name="tv_gray">#787878</color>
     <color name="tv_gray_new">#73888e</color>
     <color name="tv_black">#030303</color>
-    <color name="menu_non_selected">#929292</color>
+    <color name="menu_non_selected">#999999</color>
     <color name="text_hint">#FFA6E5FF</color>
     <color name="text_item_address">#8B8B8B</color>
     <color name="bg">#F8F8F8</color>
@@ -30,7 +30,7 @@
     <color name="border_gray">#CFCFCF</color>
     <color name="hozo_red">#FF3100</color>
     <color name="transparent">#00000000</color>
-    <color name="setting_text">#212121</color>
+    <color name="setting_text">#73888e</color>
     <color name="browse_gray">#4b4b4b</color>
     <color name="green_hozo">#ddf5ff</color>
     <color name="green">#48df85</color>

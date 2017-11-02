@@ -26,7 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.SupportActivity"
+            android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -176,6 +176,21 @@
         <activity
             android:name=".activity.PromotionCodeActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.BiddersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AssignersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SupportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.facebook.accountkit.ui.AccountKitActivity"
+            android:theme="@style/HozoAccountKit"
+            tools:replace="android:theme" />
+
         <!-- <receiver android:name=".broadcast.BlockBroadCastReceiver"> -->
         <!-- <intent-filter> -->
         <!-- <action -->
@@ -222,12 +237,6 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activity.BiddersActivity" />
-        <activity android:name=".activity.AssignersActivity" />
-        <activity
-            android:name="com.facebook.accountkit.ui.AccountKitActivity"
-            android:theme="@style/HozoAccountKit"
-            tools:replace="android:theme" />
     </application>
 
 </manifest>

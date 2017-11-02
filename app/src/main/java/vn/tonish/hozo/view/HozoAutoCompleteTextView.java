@@ -34,14 +34,15 @@ public class HozoAutoCompleteTextView extends android.support.v7.widget.AppCompa
     public boolean onKeyPreIme(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && isPopupShowing()) {
             InputMethodManager inputManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            if(inputManager.hideSoftInputFromWindow(findFocus().getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS)){
+            if (inputManager.hideSoftInputFromWindow(findFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS)) {
                 return true;
             }
         }
 
         return super.onKeyPreIme(keyCode, event);
     }
+
     private void init() {
         if (!isInEditMode()) {
             Typeface tf = null;
@@ -49,18 +50,19 @@ public class HozoAutoCompleteTextView extends android.support.v7.widget.AppCompa
                 int style = getTypeface().getStyle();
                 switch (style) {
                     case Typeface.NORMAL:
-                        tf = TypefaceContainer.TYPEFACE_REGULAR;
+                        tf = TypefaceContainer.TYPEFACE_LIGHT;
                         break;
                     case Typeface.BOLD:
-                        tf = TypefaceContainer.TYPEFACE_MEDIUM;
+                        tf = TypefaceContainer.TYPEFACE_REGULAR;
                         break;
                     case Typeface.ITALIC:
                         tf = TypefaceContainer.TYPEFACE_LIGHT;
                         break;
-                    default:
-                        tf = TypefaceContainer.TYPEFACE_REGULAR;
-                        break;
                     case Typeface.BOLD_ITALIC:
+                        tf = TypefaceContainer.TYPEFACE_LIGHT;
+                        break;
+                    default:
+                        tf = TypefaceContainer.TYPEFACE_LIGHT;
                         break;
                 }
             } catch (Exception e) {
