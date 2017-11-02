@@ -9,6 +9,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.GeneralInfoActivity;
 import vn.tonish.hozo.activity.PaymentHistoryActivity;
 import vn.tonish.hozo.activity.ProfileActivity;
+import vn.tonish.hozo.activity.SupportActivity;
 import vn.tonish.hozo.activity.TaskAlertsActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -37,6 +38,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         findViewById(R.id.layout_nda).setOnClickListener(this);
         findViewById(R.id.layout_share).setOnClickListener(this);
         findViewById(R.id.layout_about).setOnClickListener(this);
+        findViewById(R.id.layout_support).setOnClickListener(this);
         appVersion = (TextViewHozo) findViewById(R.id.app_version);
     }
 
@@ -99,8 +101,13 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             case R.id.layout_about:
                 openGeneralInfoActivity(getString(R.string.other_about), "http://hozo.vn/gioi-thieu/?ref=app");
                 break;
+
             case R.id.layout_new_notification:
                 startActivity(TaskAlertsActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+
+            case R.id.layout_support:
+                startActivity(SupportActivity.class, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }

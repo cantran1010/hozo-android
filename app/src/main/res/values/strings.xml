@@ -16,11 +16,11 @@
     <!--advance setting screen -->
     <string name="advance_setting_title">Bộ lọc nâng cao</string>
     <string name="tv_location">Vị trí mốc</string>
-    <string name="other_profile">Hồ sơ cá nhân</string>
+    <string name="other_profile">Cá nhân</string>
     <string name="other_condition">Điều khoản sử dụng</string>
     <string name="other_nad">Chính sách bảo mật</string>
     <string name="other_share">Chia sẻ với bạn bè</string>
-    <string name="other_about">Giới thiệu Hozo</string>
+    <string name="other_about">Về HOZO</string>
     <string name="ed_login_phone">Nhập số điện thoại của bạn vào</string>
     <string name="login_zone">+84</string>
     <string name="login_enter_otp">Nhập 4 mã số được gửi tới điện thoại</string>
@@ -37,7 +37,7 @@
     <string name="select_task_title">Đăng việc</string>
     <string name="browse_task_title">Tìm việc</string>
     <string name="my_task_title">Việc của tôi</string>
-    <string name="other_title">Cài đặt</string>
+    <string name="other_title">Khác</string>
 
     <!--  post a task layout-->
     <string name="tv_post_a_task_title">Chi tiết đăng việc</string>
@@ -481,7 +481,7 @@
     <string name="notification_on_off_des">Chế độ thông báo hệ thống</string>
     <string name="register_address">Địa chỉ</string>
     <string name="btn_done">HOÀN TẤT</string>
-    <string name="other_payment">Thanh toán</string>
+    <string name="other_payment">Ví HoZo</string>
     <string name="ACCOUNT_KIT_CLIENT_TOKEN">d9278fc58b4d68801c0a5a682dfcaad2</string>
     <!--<string name="ACCOUNT_KIT_CLIENT_TOKEN_TEST">462ec5de77bb446a2a1baca7903111af</string>-->
     <string name="permissions_read_phone_state_message">
@@ -566,4 +566,6 @@
     <string name="support_rate_hint">Bạn nghĩ gì về chúng tôi</string>
     <string name="email_hint_support">Nhập Email của bạn</string>
     <string name="rate_on_play_store">Đánh giá Hozo trên Googleplay</string>
+    <string name="other_support">Hỗ trợ</string>
+    <string name="other_connect">Liên kết trên HoZo</string>
 </resources>
