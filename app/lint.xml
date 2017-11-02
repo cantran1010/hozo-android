@@ -27,19 +27,49 @@
         <ignore path="src/main/res/drawable-xxxhdpi/ic_menu_map_off.png" />
         <ignore path="src/main/res/drawable-xxxhdpi/ic_menu_map_on.png" />
     </issue>
+    <issue id="IconDipSize">
+        <ignore path="src/main/res/drawable-hdpi/back_arrow.png" />
+        <ignore path="src/main/res/drawable-hdpi/img_close.png" />
+        <ignore path="src/main/res/drawable-hdpi/location_create_task.png" />
+        <ignore path="src/main/res/drawable-hdpi/support_star_off.png" />
+        <ignore path="src/main/res/drawable-hdpi/support_star_on.png" />
+        <ignore path="src/main/res/drawable-hdpi/timer_gray.png" />
+        <ignore path="src/main/res/drawable-mdpi/back_arrow.png" />
+        <ignore path="src/main/res/drawable-mdpi/img_close.png" />
+        <ignore path="src/main/res/drawable-mdpi/location_create_task.png" />
+        <ignore path="src/main/res/drawable-mdpi/support_star_off.png" />
+        <ignore path="src/main/res/drawable-mdpi/support_star_on.png" />
+        <ignore path="src/main/res/drawable-mdpi/timer_gray.png" />
+        <ignore path="src/main/res/drawable-xhdpi/back_arrow.png" />
+        <ignore path="src/main/res/drawable-xhdpi/img_close.png" />
+        <ignore path="src/main/res/drawable-xhdpi/location_create_task.png" />
+        <ignore path="src/main/res/drawable-xhdpi/support_star_off.png" />
+        <ignore path="src/main/res/drawable-xhdpi/support_star_on.png" />
+        <ignore path="src/main/res/drawable-xhdpi/timer_gray.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/back_arrow.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/img_close.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/location_create_task.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/support_star_off.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/support_star_on.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/timer_gray.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/back_arrow.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/img_close.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/location_create_task.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/support_star_off.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/support_star_on.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/timer_gray.png" />
+    </issue>
     <issue id="IconDuplicatesConfig">
         <ignore path="src/main/res/drawable-hdpi/popup_map_detail.9.png" />
         <ignore path="src/main/res/drawable-mdpi/popup_map_detail.9.png" />
         <ignore path="src/main/res/drawable-xhdpi/popup_map_detail.9.png" />
         <ignore path="src/main/res/drawable-xxhdpi/popup_map_detail.9.png" />
         <ignore path="src/main/res/drawable-xxxhdpi/popup_map_detail.9.png" />
-
         <ignore path="src/main/res/drawable-hdpi/sendbird_bg_chat_bubble_gray.9.png" />
         <ignore path="src/main/res/drawable-mdpi/sendbird_bg_chat_bubble_gray.9.png" />
         <ignore path="src/main/res/drawable-xhdpi/sendbird_bg_chat_bubble_gray.9.png" />
         <ignore path="src/main/res/drawable-xxhdpi/sendbird_bg_chat_bubble_gray.9.png" />
         <ignore path="src/main/res/drawable-xxxhdpi/sendbird_bg_chat_bubble_gray.9.png" />
-
         <ignore path="src/main/res/drawable-hdpi/sendbird_bg_chat_bubble_purple.9.png" />
         <ignore path="src/main/res/drawable-mdpi/sendbird_bg_chat_bubble_purple.9.png" />
         <ignore path="src/main/res/drawable-xhdpi/sendbird_bg_chat_bubble_purple.9.png" />

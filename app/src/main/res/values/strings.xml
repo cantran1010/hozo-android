@@ -559,9 +559,11 @@
     <string name="support_msg">Gửi tin nhắn\ncho HoZo</string>
     <string name="support_rate">Đánh giá\nHoZo</string>
     <string name="support_phone_title">Điện thoại</string>
-    <string name="support_mail_content">Nhập nội dung tin nhắn</string>
+    <string name="support_mail_content">Nội dung tin nhắn</string>
     <string name="support_image_attach">Gửi ảnh đính kèm</string>
     <string name="btn_support_rate">Gửi</string>
     <string name="btn_send_mail">Gửi</string>
     <string name="support_rate_hint">Bạn nghĩ gì về chúng tôi</string>
+    <string name="email_hint_support">Nhập Email của bạn</string>
+    <string name="rate_on_play_store">Đánh giá Hozo trên Googleplay</string>
 </resources>
