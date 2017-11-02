@@ -17,7 +17,7 @@ public class TypefaceContainer {
         TYPEFACE_LIGHT = Typeface.createFromAsset(context.getAssets(),
                 "fonts/Montserrat-Light.otf");
         TYPEFACE_MEDIUM = Typeface.createFromAsset(context.getAssets(),
-                "fonts/Montserrat-Medium.otf");
+                "fonts/Montserrat-Light.otf");
         TYPEFACE_REGULAR = Typeface.createFromAsset(context.getAssets(),
                 "fonts/Montserrat-Regular.otf");
     }
