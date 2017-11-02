@@ -14,44 +14,82 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_support_tab_focus"
-            android:contentDescription="@string/just_image"/>
+            android:contentDescription="@string/just_image"
+            android:src="@drawable/img_support_tab_focus" />
 
     </LinearLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#e8f0f0">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#e8f0f0"
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
+            <vn.tonish.hozo.view.EdittextHozo
+                android:id="@+id/edt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@null"
+                android:drawableEnd="@drawable/edit"
+                android:drawableRight="@drawable/edit"
+                android:hint="@string/email_hint_support"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingBottom="5dp"
+                android:paddingEnd="5dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="5dp"
+                android:paddingStart="0dp"
+                android:paddingTop="5dp"
+                android:textColor="@color/tv_gray_new"
+                android:textColorHint="@color/tv_gray_new"
+                android:textSize="@dimen/tv_size_nomal" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#c8d6da" />
+
             <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="@string/support_mail_content" />
+                android:text="@string/support_mail_content"
+                android:textColor="@color/tv_gray_new"
+                android:textSize="@dimen/tv_size_nomal" />
 
             <vn.tonish.hozo.view.EdittextHozo
+                android:id="@+id/edt_content"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/border_gray" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_white_border"
+                android:gravity="top"
+                android:minHeight="70dp"
+                android:padding="5dp"
+                android:scrollbars="vertical"
+                android:textColor="@color/tv_gray_new"
+                android:textSize="@dimen/tv_size_nomal" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:drawableLeft="@drawable/support_img_attach"
-                android:drawableStart="@drawable/support_img_attach"
                 android:drawablePadding="10dp"
+                android:drawableStart="@drawable/support_img_attach"
                 android:gravity="center"
-                android:text="@string/support_image_attach" />
+                android:text="@string/support_image_attach"
+                android:textColor="@color/tv_gray_new"
+                android:textSize="@dimen/tv_size_nomal" />
 
             <vn.tonish.hozo.view.MyGridView
                 android:id="@+id/gr_image"
@@ -69,6 +107,7 @@
                 android:layout_marginTop="30dp"
                 android:background="@drawable/btn_new_selector"
                 android:text="@string/btn_send_mail"
+                android:textAllCaps="false"
                 android:textColor="@color/white" />
 
         </LinearLayout>

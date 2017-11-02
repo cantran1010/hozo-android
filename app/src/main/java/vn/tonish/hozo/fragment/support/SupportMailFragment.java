@@ -36,6 +36,7 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.MyGridView;
 
 /**
@@ -53,6 +54,7 @@ public class SupportMailFragment extends BaseFragment implements View.OnClickLis
     private ButtonHozo btnSend;
     private int imageAttachCount;
     private int[] imagesArr;
+    private EdittextHozo edtEmail,edtContent;
 
     @Override
     protected int getLayout() {
@@ -64,6 +66,9 @@ public class SupportMailFragment extends BaseFragment implements View.OnClickLis
         grImage = (MyGridView) findViewById(R.id.gr_image);
         btnSend = (ButtonHozo) findViewById(R.id.btn_send);
         btnSend.setOnClickListener(this);
+
+        edtEmail = (EdittextHozo) findViewById(R.id.edt_email);
+        edtContent = (EdittextHozo) findViewById(R.id.edt_content);
     }
 
     @Override
