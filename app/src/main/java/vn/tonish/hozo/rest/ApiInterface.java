@@ -183,4 +183,10 @@ public interface ApiInterface {
     @GET("v1/wallet/transactions")
     Call<List<TransactionResponse>> getTransactionsHistory(@Header("Authorization") String token, @QueryMap Map<String, String> option);
 
+    @POST("v1/support/feedback")
+    Call<Void> sendFeedback(@Header("Authorization") String token, @Body RequestBody body);
+
+    @POST("v1/support/message")
+    Call<Void> sendMailSupport(@Header("Authorization") String token, @Body RequestBody body);
+
 }

@@ -8,8 +8,13 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,13 +31,16 @@ import vn.tonish.hozo.activity.PreviewImageActivity;
 import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.fragment.BaseFragment;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
@@ -54,7 +62,7 @@ public class SupportMailFragment extends BaseFragment implements View.OnClickLis
     private ButtonHozo btnSend;
     private int imageAttachCount;
     private int[] imagesArr;
-    private EdittextHozo edtEmail,edtContent;
+    private EdittextHozo edtEmail, edtContent;
 
     @Override
     protected int getLayout() {
@@ -202,7 +210,7 @@ public class SupportMailFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void doAttachFiles() {
-//        ProgressDialogUtils.showProgressDialog(getActivity());
+        ProgressDialogUtils.showProgressDialog(getActivity());
 
         imageAttachCount = images.size() - 1;
         imagesArr = new int[images.size() - 1];
@@ -249,7 +257,78 @@ public class SupportMailFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void doSendMail() {
+        if (TextUtils.isEmpty(edtEmail.getText().toString().trim())) {
+            Utils.showLongToast(getActivity(), getString(R.string.email_missing_error), true, false);
+            return;
+        } else if (TextUtils.isEmpty(edtContent.getText().toString().trim())) {
+            Utils.showLongToast(getActivity(), getString(R.string.content_missing_error), true, false);
+            return;
+        } else if (!Utils.isValidEmail(edtEmail.getText().toString().trim())) {
+            Utils.showLongToast(getActivity(), getString(R.string.validate_email_error), true, false);
+            return;
+        }
 
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("email", edtEmail.getText().toString().trim());
+            jsonRequest.put("message", edtContent.getText().toString().trim());
+
+            if (imagesArr != null && imagesArr.length > 0) {
+                JSONArray jsonArray = new JSONArray();
+                for (int i = 0; i < imagesArr.length; i++)
+                    jsonArray.put(imagesArr[i]);
+                jsonRequest.put("image_ids", jsonArray);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LogUtils.d(TAG, "doSendMail data request : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().sendMailSupport(UserManager.getUserToken(), body).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                LogUtils.d(TAG, "doSendMail onResponse : " + response.body());
+                LogUtils.d(TAG, "doSendMail code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    Utils.showLongToast(getActivity(), getString(R.string.send_mail_support_success), false, false);
+                } else {
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doSendMail();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doSendMail();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
     }
 
     @Override
