@@ -581,6 +581,6 @@
     <string name="email_missing_error">Vui lòng nhập Email của bạn!</string>
     <string name="content_missing_error">Vui lòng nhập nội dung tin nhắn!</string>
     <string name="validate_email_error">Email không đúng định dạng,vui lòng sửa lại!</string>
-    <string name="send_mail_support_success">Gủi tin nhắn thành công,cảm ơn bạn!</string>
+    <string name="send_mail_support_success">Gủi tin nhắn thành công,chúng tôi sẽ sớm phản hồi lại bạn,cảm ơn bạn!</string>
 
 </resources>
