@@ -539,9 +539,9 @@
     <string name="sun_day">CN</string>
 
     <string-array name="recharge">
-        <item>Momo</item>
+        <item>Mã khuyễn mại</item>
         <item>ATM</item>
-        <item>Master Card</item>
+        <item>Momo</item>
     </string-array>
 
     <string name="distance">%1$d km</string>
@@ -568,4 +568,13 @@
     <string name="rate_on_play_store">Đánh giá Hozo trên Googleplay</string>
     <string name="other_support">Hỗ trợ</string>
     <string name="other_connect">Liên kết trên HoZo</string>
+
+    <string name="promotion_success">Thành công !</string>
+    <string name="promotion_error_empty">Mã không hợp lệ</string>
+    <string name="promotion_error_no">Mã không hợp lệ</string>
+    <string name="promotion_error_not_started">Mã không hợp lệ</string>
+    <string name="promotion_error_expried">Mã không hợp lệ</string>
+    <string name="promotion_error_limmited">Mã không hợp lệ</string>
+    <string name="promotion_error_used">Mã không hợp lệ</string>
+
 </resources>

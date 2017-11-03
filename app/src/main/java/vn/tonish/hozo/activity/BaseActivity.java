@@ -48,7 +48,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
 
     }
 
-    void createSwipeToRefresh() {
+    public void createSwipeToRefresh() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.hozo_bg, R.color.red, R.color.blue_2);
@@ -66,7 +66,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
     }
 
 
-    void onStopRefresh() {
+    public void onStopRefresh() {
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -118,7 +118,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         startActivityAndClearAllTask(intent, transitionScreen);
     }
 
-    void startActivity(Class<?> cls, TransitionScreen transitionScreen) {
+    public void startActivity(Class<?> cls, TransitionScreen transitionScreen) {
         Intent intent = new Intent(this, cls);
         intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
         startActivity(intent);
@@ -132,7 +132,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeRefr
         startActivity(intent, transitionScreen);
     }
 
-    void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, TransitionScreen transitionScreen) {
+    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, TransitionScreen transitionScreen) {
         openFragment(resId, fragmentClazz, null, addBackStack, transitionScreen);
     }
 

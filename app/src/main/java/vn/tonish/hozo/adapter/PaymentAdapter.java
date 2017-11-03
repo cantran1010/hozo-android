@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.model.Payment;
+import vn.tonish.hozo.rest.responseRes.TransactionResponse;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -17,9 +17,9 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHolder> {
 
-    private final List<Payment> payments;
+    private final List<TransactionResponse> payments;
 
-    public PaymentAdapter(List<Payment> payments) {
+    public PaymentAdapter(List<TransactionResponse> payments) {
         this.payments = payments;
     }
 
@@ -32,11 +32,9 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
-        holder.tvPrice.setText(String.valueOf(payments.get(position).getPrice()));
-        holder.tvDate.setText(payments.get(position).getDate());
-        holder.tvContent.setText(payments.get(position).getContent());
-
+        holder.tvPrice.setText(String.valueOf(payments.get(position).getBalance()));
+        holder.tvDate.setText(payments.get(position).getCreatedAt());
+        holder.tvContent.setText(payments.get(position).getMethod());
     }
 
     @Override

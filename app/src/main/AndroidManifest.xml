@@ -144,10 +144,10 @@
             android:name=".activity.BlockTaskActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.PaymentHistoryActivity"
+            android:name=".activity.payment.PaymentHistoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.RechargeActivity"
+            android:name=".activity.payment.RechargeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.GiveInforActivity"
@@ -170,13 +170,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.ChatTestActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".activity.PromotionCodeActivity"
+            android:name=".activity.payment.PromotionCodeActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.BiddersActivity"
             android:screenOrientation="portrait" />

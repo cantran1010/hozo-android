@@ -243,4 +243,12 @@ public class Constants {
     public static final String STATUS_SETTING_OPEN = "open";
     public static final String STATUS_SETTING_ASSIGED = "assigned";
     public static int RESULT_ADVANCE_SETTING_OK = 1203;
+
+    public static String PROMOTION_ERROR_EMPTY = "empty_parameters";
+    public static String PROMOTION_ERROR_NO = "no_promotion";
+    public static String PROMOTION_ERROR_NOT_STARTED = "promotion_not_started";
+    public static String PROMOTION_ERROR_EXPRIED = "promotion_expired";
+    public static String PROMOTION_ERROR_LIMITED = "promotion_limited";
+    public static String PROMOTION_ERROR_USED = "promotion_used";
+
 }

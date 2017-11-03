@@ -28,10 +28,13 @@ import vn.tonish.hozo.rest.responseRes.NewTaskResponse;
 import vn.tonish.hozo.rest.responseRes.NofifySystemResponse;
 import vn.tonish.hozo.rest.responseRes.NotifyChatRoomResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
+import vn.tonish.hozo.rest.responseRes.PromotionResponse;
 import vn.tonish.hozo.rest.responseRes.RateResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.rest.responseRes.Token;
+import vn.tonish.hozo.rest.responseRes.TransactionResponse;
 import vn.tonish.hozo.rest.responseRes.UpdateResponse;
+import vn.tonish.hozo.rest.responseRes.WalletResponse;
 
 /**
  * Created by LongBui on 09/05/2017.
@@ -170,4 +173,14 @@ public interface ApiInterface {
 
     @POST("v1/users/settings")
     Call<SettingAdvance> postSettingAdvance(@Header("Authorization") String token, @Body RequestBody body);
+
+    @POST("v1/wallet/redeem")
+    Call<PromotionResponse> promotionCode(@Header("Authorization") String token, @Body RequestBody body);
+
+    @GET("v1/wallet")
+    Call<WalletResponse> getWalletInfo(@Header("Authorization") String token);
+
+    @GET("v1/wallet/transactions")
+    Call<List<TransactionResponse>> getTransactionsHistory(@Header("Authorization") String token, @QueryMap Map<String, String> option);
+
 }
