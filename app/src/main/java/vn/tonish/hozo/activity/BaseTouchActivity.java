@@ -46,7 +46,7 @@ public abstract class BaseTouchActivity extends FragmentActivity implements Swip
     void createSwipeToRefresh() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.hozo_bg, R.color.red, R.color.blue_2);
+        swipeRefreshLayout.setColorSchemeResources(R.color.hozo_bg, R.color.hozo_red, R.color.blue_2);
     }
 
     @Override

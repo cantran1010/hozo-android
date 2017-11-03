@@ -6,11 +6,9 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="blue">#00A2E5</color>
     <color name="very_light_gray">#E5E5E5</color>
     <color name="gray">#979797</color>
     <color name="notify_unread">#eef4ff</color>
-    <color name="red">#ff0000</color>
     <color name="blue_2">#0000FF</color>
 
     <!-- common-->
@@ -42,4 +40,9 @@
     <color name="tv_nomal">#73888e</color>
     <color name="tv_black_new">#444444</color>
     <color name="tv_orange">#ffa800</color>
+    <color name="color_create_task_lable">#73888e</color>
+    <color name="color_hint_create_task_lable">#bccad0</color>
+    <color name="color_edt_create_task_lable">#444444</color>
+    <color name="color_edt_border">#bcccd2</color>
+    <color name="color_count_word">#cf1463</color>
 </resources>

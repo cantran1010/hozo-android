@@ -60,7 +60,7 @@
     <style name="pin_edit_text_style">
         <item name="android:gravity">center</item>
         <item name="android:cursorVisible">false</item>
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColor">@color/hozo_bg</item>
         <item name="android:background">@drawable/rectangle</item>
         <item name="android:maxLength">1</item>
         <item name="android:minEms">2</item>
@@ -120,7 +120,7 @@
     <style name="tv_title">
         <item name="android:textSize">19sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/hozo_bg</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <!-- style title -->
@@ -148,7 +148,7 @@
     <style name="tv_title_cancel">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/red</item>
+        <item name="android:textColor">@color/hozo_red</item>
     </style>
 
     <!-- style advance setting -->
@@ -181,5 +181,20 @@
         <item name="android:gravity">center</item>
         <item name="android:layout_margin">5dp</item>
         <item name="android:textColor">@color/hozo_bg</item>
+    </style>
+
+    <style name="edt_create_task">
+        <item name="android:textSize">@dimen/tv_size_xxtiny</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">@color/color_edt_create_task_lable</item>
+        <item name="android:textColorHint">@color/color_hint_create_task_lable</item>
+        <item name="android:background">@drawable/selector_edittext</item>
+    </style>
+
+    <style name="btn_style_hozo">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/btn_hozo_selector</item>
     </style>
 </resources>

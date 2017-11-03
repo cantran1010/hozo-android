@@ -1,10 +1,12 @@
 package vn.tonish.hozo.activity;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,22 +15,20 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.bumptech.glide.Glide;
@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -63,6 +64,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.CustomArrayAdapter;
+import vn.tonish.hozo.adapter.HozoSpinnerAdapter;
 import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
@@ -75,7 +77,7 @@ import vn.tonish.hozo.dialog.AgeDialog;
 import vn.tonish.hozo.dialog.AlertDialogCancelTask;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
-import vn.tonish.hozo.dialog.HourDialog;
+import vn.tonish.hozo.dialog.HozoNumberDialog;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Image;
@@ -94,6 +96,7 @@ import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.ExpandableLayout;
 import vn.tonish.hozo.view.MyGridView;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -101,6 +104,7 @@ import static vn.tonish.hozo.R.string.post_task_map_get_location_error_next;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.Utils.formatNumber;
+import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 /**
  * Created by LongBui on 8/18/17.
@@ -110,11 +114,11 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     private static final String TAG = CreateTaskActivity.class.getSimpleName();
     private ScrollView scrollView;
-    private EdittextHozo edtTitle, edtDescription, edtNumberWorker;
-    private TextViewHozo tvTitleMsg, tvDesMsg, tvWorkingHour;
+    private EdittextHozo edtTitle, edtDescription, edtCoupon;
+    private TextViewHozo tvTitleMsg, tvDesMsg, tvWorkingHour, tvNumberWorker;
     private static final int MAX_LENGTH_TITLE = 50;
     private static final int MAX_LENGTH_DES = 500;
-    private static final int MAX_HOURS = 12;
+    private static final int MIN_LENGTH_TITLE = 10;
     private double lat, lon;
     private String address = "";
     private TimePickerDialog timeEndPickerDialog;
@@ -122,23 +126,21 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private TextViewHozo tvTitle, tvDate, tvTime, tvTotalPrice, tvMoreShow, tvMoreHide;
     private AutoCompleteTextView edtBudget;
     private Category category;
-    private RelativeLayout workingHourLayout;
     private static final int MAX_BUGDET = 500000;
     private static final int MIN_BUGDET = 10000;
-    private CustomArrayAdapter adapter;
     private static final int MAX_WORKER = 30;
+    private static final int MIN_WORKER = 1;
+    private static final int MIN_HOUR = 1;
+    private static final int MAX_HOUR = 12;
+    private CustomArrayAdapter adapter;
     private ArrayList<String> vnds = new ArrayList<>();
-    private LinearLayout layoutMore;
-    private RadioGroup radioSex;
-    private RadioButton radioMale, radioFemale, radioNon;
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private final ArrayList<Image> images = new ArrayList<>();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-
     private TextViewHozo tvAge;
-    private CheckBox cbOnline, cbAuto;
+    private AppCompatCheckBox cbOnline, cbAuto;
     private int imageAttachCount;
     private int[] imagesArr;
     private int ageFrom = 18;
@@ -149,9 +151,12 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private int taskId;
     private ButtonHozo btnNext;
     private String status;
-
-    private ImageView imgMenu;
+    private ImageView imgMenu, imgSaveDraf;
     private PopupMenu popup;
+    private Spinner spGender;
+    private String strGender = "";
+    private ExpandableLayout advanceExpandableLayout;
+
 
     // copy or edit
     private String taskType = "";
@@ -166,7 +171,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected int getLayout() {
-        return R.layout.create_task_fragment;
+        return R.layout.activity_create_task;
     }
 
     @Override
@@ -187,32 +192,23 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         tvDesMsg = findViewById(R.id.tv_des_msg);
 
         edtBudget = findViewById(R.id.edt_budget);
-        edtNumberWorker = findViewById(R.id.edt_number_worker);
+        edtCoupon = findViewById(R.id.edt_coupon);
+        tvNumberWorker = findViewById(R.id.tv_number_worker);
         tvTotalPrice = findViewById(R.id.tv_total_price);
+        imgSaveDraf = findViewById(R.id.tv_save);
 
         tvWorkingHour = findViewById(R.id.tv_working_hour);
+        spGender = findViewById(R.id.sp_gender);
+        advanceExpandableLayout = findViewById(R.id.advance_expandable_layout);
 
-        RelativeLayout layoutDate = findViewById(R.id.date_layout);
-        layoutDate.setOnClickListener(this);
-
-        RelativeLayout layoutTime = findViewById(R.id.time_layout);
-        layoutTime.setOnClickListener(this);
 
         btnNext = findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
-
-        layoutMore = findViewById(R.id.more_layout);
 
         grImage = findViewById(R.id.gr_image);
 
         tvAge = findViewById(R.id.tv_age);
         tvAge.setOnClickListener(this);
-
-        radioSex = findViewById(R.id.radio_sex);
-        radioMale = findViewById(R.id.radio_male);
-        radioFemale = findViewById(R.id.radio_female);
-        radioNon = findViewById(R.id.radio_non);
-
         cbOnline = findViewById(R.id.cb_online_task);
         cbAuto = findViewById(R.id.cb_auto_pick);
 
@@ -222,19 +218,20 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         tvMoreHide = findViewById(R.id.tv_more_hide);
         tvMoreHide.setOnClickListener(this);
 
-        workingHourLayout = findViewById(R.id.working_hour_layout);
-        workingHourLayout.setOnClickListener(this);
-
         imgMenu = findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
-
+        tvDate.setOnClickListener(this);
+        tvTime.setOnClickListener(this);
+        tvWorkingHour.setOnClickListener(this);
+        tvNumberWorker.setOnClickListener(this);
+        imgSaveDraf.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-
-        Constants.MAX_IMAGE_ATTACH = 6;
-
+        edtCoupon.setFocusable(true);
+        edtCoupon.setText("");
+        edtCoupon.setFocusable(true);
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, this)
                 .addApi(Places.GEO_DATA_API)
@@ -268,20 +265,23 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         imageAdapter = new ImageAdapter(this, images);
         grImage.setAdapter(imageAdapter);
 
-        showPopup();
-
         getDefaultAddress();
 
         if (intent.hasExtra(Constants.EXTRA_TASK)) {
 
+            imgSaveDraf.setVisibility(View.GONE);
+            imgMenu.setVisibility(View.VISIBLE);
+            showPopup();
             taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
             LogUtils.d(TAG, "PostATaskActivity , taskResponse : " + taskResponse.toString());
             taskId = taskResponse.getId();
 
             if (intent.hasExtra(Constants.TASK_EDIT_EXTRA)) {
+                edtCoupon.setFocusable(false);
                 taskType = intent.getStringExtra(Constants.TASK_EDIT_EXTRA);
 
                 if (taskType.equals(Constants.TASK_EDIT)) {
+                    edtCoupon.setFocusable(false);
                     imgMenu.setVisibility(View.GONE);
                     btnNext.setText(getString(R.string.btn_edit_task));
 
@@ -321,11 +321,10 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             address = taskResponse.getAddress();
 
             autocompleteView.setText(address);
-
-            edtBudget.setText(Utils.formatNumber(taskResponse.getWorkerRate()));
-            edtNumberWorker.setText(Utils.formatNumber(taskResponse.getWorkerCount()));
+            if (taskResponse.getWorkerRate() > 0)
+                edtBudget.setText(Utils.formatNumber(taskResponse.getWorkerRate()));
+            tvNumberWorker.setText(String.valueOf(taskResponse.getWorkerCount()));
             updateTotalPayment();
-
             edtDescription.setText(taskResponse.getDescription());
             tvDesMsg.setText(getString(R.string.post_a_task_msg_length, edtDescription.getText().toString().length(), MAX_LENGTH_DES));
 
@@ -336,28 +335,22 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 ageTo = taskResponse.getMaxAge();
 
             tvAge.setText(getString(R.string.post_a_task_age, ageFrom, ageTo));
-
-            if (taskResponse.getGender() != null) {
-                if (taskResponse.getGender().equals(Constants.GENDER_MALE)) {
-                    radioMale.setChecked(true);
-                } else if (taskResponse.getGender().equals(Constants.GENDER_FEMALE)) {
-                    radioFemale.setChecked(true);
-                } else {
-                    radioNon.setChecked(true);
-                }
-            } else {
-                radioNon.setChecked(true);
-            }
+            if (taskResponse.getGender() != null)
+                strGender = taskResponse.getGender();
 
             cbOnline.setChecked(taskResponse.isOnline());
             cbAuto.setChecked(taskResponse.isAutoAssign());
 
             if (taskResponse.isAdvance()) {
                 tvMoreShow.setVisibility(View.GONE);
-                layoutMore.setVisibility(View.VISIBLE);
+                if (!advanceExpandableLayout.isExpanded()) {
+                    advanceExpandableLayout.toggle();
+                }
             } else {
                 tvMoreShow.setVisibility(View.VISIBLE);
-                layoutMore.setVisibility(View.GONE);
+                if (advanceExpandableLayout.isExpanded()) {
+                    advanceExpandableLayout.toggle();
+                }
             }
 
             if (taskResponse.getAttachments() != null && taskResponse.getAttachments().size() > 0) {
@@ -366,6 +359,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             }
 
         } else {
+            imgSaveDraf.setVisibility(View.VISIBLE);
+            imgMenu.setVisibility(View.GONE);
+            tvTitleMsg.setTextColor(ContextCompat.getColor(CreateTaskActivity.this, R.color.color_create_task_lable));
             tvTitleMsg.setText(getString(R.string.post_a_task_msg_length, 0, MAX_LENGTH_TITLE));
             tvDesMsg.setText(getString(R.string.post_a_task_msg_length, 0, MAX_LENGTH_DES));
 
@@ -398,8 +394,13 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 if (editable.toString().length() > MAX_LENGTH_TITLE) {
                     edtTitle.setText(editable.subSequence(0, MAX_LENGTH_TITLE));
                     edtTitle.setSelection(MAX_LENGTH_TITLE);
-                } else
+                } else if (editable.toString().length() < MIN_LENGTH_TITLE) {
+                    tvTitleMsg.setTextColor(ContextCompat.getColor(CreateTaskActivity.this, R.color.color_count_word));
+                    tvTitleMsg.setText(getString(R.string.post_a_task_msg_length, editable.toString().length(), MIN_LENGTH_TITLE));
+                } else {
+                    tvTitleMsg.setTextColor(ContextCompat.getColor(CreateTaskActivity.this, R.color.color_create_task_lable));
                     tvTitleMsg.setText(getString(R.string.post_a_task_msg_length, editable.toString().length(), MAX_LENGTH_TITLE));
+                }
             }
         });
 
@@ -420,8 +421,33 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 if (editable.toString().length() > MAX_LENGTH_DES) {
                     edtDescription.setText(editable.subSequence(0, MAX_LENGTH_DES));
                     edtDescription.setSelection(MAX_LENGTH_DES);
+                    hideSoftKeyboard(CreateTaskActivity.this, edtDescription);
+
                 } else
                     tvDesMsg.setText(getString(R.string.post_a_task_msg_length, editable.toString().length(), MAX_LENGTH_DES));
+            }
+        });
+        edtCoupon.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String s = edtCoupon.getText().toString().trim();
+                if (charSequence.length() != 0) {
+                    if (s.length() == 6 && !s.contains(" ") && !s.contains(".") && !s.contains(",") && !s.contains("-") && !s.contains("_")) {
+                        hideSoftKeyboard(CreateTaskActivity.this, edtCoupon);
+                    } else if (s.length() >= 6) {
+                        edtCoupon.setError(getString(R.string.code_coupon_error));
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
@@ -455,41 +481,15 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     }
             }
         });
-
-        edtNumberWorker.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    edtNumberWorker.setText(getString(R.string.empty));
-                }
-            }
-        });
-
-        edtNumberWorker.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (!edtNumberWorker.getText().toString().equals("") && Integer.valueOf(edtNumberWorker.getText().toString()) <= MAX_WORKER)
-                    edtNumberWorker.setError(null);
-            }
+        edtBudget.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                in.hideSoftInputFromWindow(arg1.getWindowToken(), 0);
 
             }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!edtNumberWorker.getText().toString().equals("")) {
-                    if (Integer.valueOf(edtNumberWorker.getText().toString()) > MAX_WORKER) {
-                        edtNumberWorker.setText(edtNumberWorker.getText().toString().substring(0, edtNumberWorker.getText().toString().length() - 1));
-                        edtNumberWorker.setError(getString(R.string.max_number_worker_error, MAX_WORKER));
-                        edtNumberWorker.setSelection(edtNumberWorker.getText().toString().length());
-                    } else {
-                        edtNumberWorker.setError(null);
-                        updateTotalPayment();
-                    }
-                }
-            }
         });
 
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -506,6 +506,44 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
                     startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 }
+            }
+        });
+        createGenderSpinner();
+    }
+
+
+    private void createGenderSpinner() {
+        List<String> state = new ArrayList<>();
+        state.add(getString(R.string.gender_vn_any));
+        state.add(getString(R.string.gender_vn_male));
+        state.add(getString(R.string.gender_vn_mafele));
+        HozoSpinnerAdapter dataAdapter = new HozoSpinnerAdapter(this, state);
+        spGender.setAdapter(dataAdapter);
+        spGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0:
+                        strGender = "";
+                        break;
+                    case 1:
+                        strGender = Constants.GENDER_MALE;
+                        ;
+                        break;
+                    case 2:
+                        strGender = Constants.GENDER_FEMALE;
+                        ;
+                        break;
+                    default:
+                        strGender = "";
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
@@ -635,11 +673,11 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private void updateTotalPayment() {
 
         try {
-            if (edtBudget.getText().toString().equals("") || edtNumberWorker.getText().toString().equals("")) {
-                tvTotalPrice.setText("");
+            if (edtBudget.getText().toString().equals("")) {
+                tvTotalPrice.setText("0");
             } else {
                 Long bBudget = Long.valueOf(getLongAutoCompleteTextView(edtBudget));
-                Long bNumberWorker = Long.valueOf(getLongEdittext(edtNumberWorker));
+                Long bNumberWorker = Long.valueOf(tvNumberWorker.getText().toString());
                 Long total = bBudget * bNumberWorker;
                 tvTotalPrice.setText(formatNumber(total));
             }
@@ -650,19 +688,19 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     private void formatMoney(long mn) {
         if (mn * 10 >= MIN_BUGDET && mn * 10 <= MAX_BUGDET && mn * 10 % 1000 == 0)
-            vnds.add(String.valueOf(formatNumber(mn * 10)));
+            vnds.add(formatNumber(mn * 10));
         if (mn * 100 >= MIN_BUGDET && mn * 100 <= MAX_BUGDET && mn * 100 % 1000 == 0)
-            vnds.add(String.valueOf(formatNumber(mn * 100)));
+            vnds.add(formatNumber(mn * 100));
         if (mn * 1000 >= MIN_BUGDET && mn * 1000 <= MAX_BUGDET)
-            vnds.add(String.valueOf(formatNumber(mn * 1000)));
+            vnds.add(formatNumber(mn * 1000));
         if (mn * 10000 >= MIN_BUGDET && mn * 10000 <= MAX_BUGDET)
-            vnds.add(String.valueOf(formatNumber(mn * 10000)));
+            vnds.add(formatNumber(mn * 10000));
         if (mn * 100000 >= MIN_BUGDET && mn * 100000 <= MAX_BUGDET)
-            vnds.add(String.valueOf(formatNumber(mn * 100000)));
+            vnds.add(formatNumber(mn * 100000));
         if (mn * 1000000 >= MIN_BUGDET && mn * 1000000 <= MAX_BUGDET)
-            vnds.add(String.valueOf(formatNumber(mn * 1000000)));
+            vnds.add(formatNumber(mn * 1000000));
         if (mn * 10000000 >= MIN_BUGDET && mn * 10000000 <= MAX_BUGDET)
-            vnds.add(String.valueOf(formatNumber(mn * 10000000)));
+            vnds.add(formatNumber(mn * 10000000));
 
         adapter = new CustomArrayAdapter(this, vnds);
         edtBudget.setAdapter(adapter);
@@ -746,7 +784,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             lat = 0;
             lon = 0;
             autocompleteView.setText("");
-
             return;
         } else if (TextUtils.isEmpty(address)) {
             autocompleteView.requestFocus();
@@ -759,14 +796,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         } else if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) > MAX_BUGDET) {
             edtBudget.requestFocus();
             edtBudget.setError(getString(R.string.max_budget_error, Utils.formatNumber(MAX_BUGDET)));
-            return;
-        } else if (edtNumberWorker.getText().toString().equals("0") || edtNumberWorker.getText().toString().equals("")) {
-            edtNumberWorker.requestFocus();
-            edtNumberWorker.setError(getString(R.string.post_a_task_number_worker_error));
-            return;
-        } else if (Integer.valueOf(edtNumberWorker.getText().toString()) > MAX_WORKER) {
-            edtNumberWorker.requestFocus();
-            edtNumberWorker.setError(getString(R.string.max_number_worker_error, MAX_WORKER));
             return;
         } else if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) < MIN_BUGDET) {
             edtBudget.requestFocus();
@@ -783,11 +812,23 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         } else if (ageFrom >= ageTo) {
             Utils.showLongToast(this, getString(R.string.select_age_error), true, false);
             return;
+        } else if (!isCoupon(edtCoupon.getText().toString().trim())) {
+            if (!advanceExpandableLayout.isExpanded()) showAdvance();
+            edtCoupon.requestFocus();
+            edtCoupon.setError(getString(R.string.code_coupon_error));
+            return;
         }
 
         if (images.size() > 1) doAttachFiles();
         else createTaskOnServer();
 
+    }
+
+    private boolean isCoupon(String s) {
+        if (s.replace(" ", "").replace(".", "").replace(",", "").length() == 6)
+            return true;
+        else
+            return false;
     }
 
     private void doAttachFiles() {
@@ -865,12 +906,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             if (!getLongAutoCompleteTextView(edtBudget).trim().equals(""))
                 jsonRequest.put("worker_rate", Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
-
-            if (!getLongEdittext(edtNumberWorker).trim().equals(""))
-                jsonRequest.put("worker_count", Integer.valueOf(getLongEdittext(edtNumberWorker)));
-
+            jsonRequest.put("worker_count", Integer.valueOf(tvNumberWorker.getText().toString()));
             jsonRequest.put("status", status);
-
 //            jsonRequest.put("advance", layoutMore.getVisibility() == View.VISIBLE);
             jsonRequest.put("advance", getAdvanceSetting());
 
@@ -883,17 +920,12 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             jsonRequest.put("min_age", ageFrom);
             jsonRequest.put("max_age", ageTo);
-
-            if (radioMale.isChecked()) {
-                jsonRequest.put("gender", Constants.GENDER_MALE);
-            } else if (radioFemale.isChecked()) {
-                jsonRequest.put("gender", Constants.GENDER_FEMALE);
-            } else {
-                jsonRequest.put("gender", "");
-            }
-
+            jsonRequest.put("gender", strGender);
             jsonRequest.put("online", cbOnline.isChecked());
             jsonRequest.put("auto_assign", cbAuto.isChecked());
+            if (!edtCoupon.getText().toString().trim().isEmpty())
+                jsonRequest.put("referrer", edtCoupon.getText().toString().trim());
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -910,10 +942,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                     LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
                     LogUtils.d(TAG, "createNewTask code : " + response.code());
-
+                    APIError error = ErrorUtils.parseError(response);
                     if (response.code() == Constants.HTTP_CODE_CREATED) {
-//                        Utils.showLongToast(CreateTaskActivity.this, getString(R.string.edit_task_complete), false, false);
-
                         if (status.equals(Constants.CREATE_TASK_STATUS_DRAFT))
                             Utils.showLongToast(CreateTaskActivity.this, getString(R.string.draft_a_task_complete), false, false);
                         else
@@ -931,36 +961,48 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                         });
                     } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                         Utils.blockUser(CreateTaskActivity.this);
-                    } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
-                        APIError error = ErrorUtils.parseError(response);
-                        LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
-
-                        if (error.status().equals(Constants.POST_TASK_DUPLICATE)) {
-                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.duplicate_task_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
-
-                                }
-                            });
-                        } else {
-                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
-
-                                }
-                            });
-                        }
-
                     } else {
-                        APIError error = ErrorUtils.parseError(response);
-                        LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
-                        DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
+                        if (error.status().equals(Constants.POST_TASK_DUPLICATE)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.duplicate_task_error), true, false);
+                        } else if (error.status().equals(Constants.INVALID_CATEGORY)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_category), true, false);
+                        } else if (error.status().equals(Constants.INVALID_TITLE)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_title), true, false);
+                        } else if (error.status().equals(Constants.INVALID_DESCRIPTION)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_description), true, false);
+                        } else if (error.status().equals(Constants.INVALID_TIME)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_time), true, false);
+                        } else if (error.status().equals(Constants.INVALID_ADRESS)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_address), true, false);
+                        } else if (error.status().equals(Constants.INVALID_WORKER_RATE)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_worker_rate), true, false);
+                        } else if (error.status().equals(Constants.INVALID_WORKER_COUNT)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_worker_count), true, false);
+                        } else if (error.status().equals(Constants.INVALID_GENDER)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_gender), true, false);
+                        } else if (error.status().equals(Constants.INVALID_AGE)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_age_between), true, false);
+                        } else if (error.status().equals(Constants.INVALID_UPDATE_TASK_FAILED)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.update_task_failed), true, false);
+                        } else if (error.status().equals(Constants.NO_PERMISSION)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.no_permission), true, false);
+                        } else if (error.status().equals(Constants.NO_TASK)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.no_task), true, false);
+                        } else if (error.status().equals(Constants.EMPTY_PARAMETERS)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.empty_parameters), true, false);
+                        } else if (error.status().equals(Constants.UPDATE_NOT_ALLOWED)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.update_not_allowed), true, false);
+                        } else {
 
-                            }
-                        });
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.invalid_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
 
+                                }
+                            });
+
+
+                        }
                     }
                     ProgressDialogUtils.dismissProgressDialog();
                 }
@@ -988,7 +1030,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                     LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
                     LogUtils.d(TAG, "createNewTask code : " + response.code());
-
+                    APIError error = ErrorUtils.parseError(response);
                     if (response.code() == Constants.HTTP_CODE_CREATED) {
                         if (status.equals(Constants.CREATE_TASK_STATUS_DRAFT))
                             Utils.showLongToast(CreateTaskActivity.this, getString(R.string.draft_a_task_complete), false, false);
@@ -1007,36 +1049,44 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                         });
                     } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                         Utils.blockUser(CreateTaskActivity.this);
-                    } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
-                        APIError error = ErrorUtils.parseError(response);
-                        LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
-
+                    } else {
                         if (error.status().equals(Constants.POST_TASK_DUPLICATE)) {
-                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.duplicate_task_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.duplicate_task_error), true, false);
+                        } else if (error.status().equals(Constants.INVALID_TITLE)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_title), true, false);
+                        } else if (error.status().equals(Constants.INVALID_TIME)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_time), true, false);
+                        } else if (error.status().equals(Constants.INVALID_ADRESS)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_address), true, false);
+                        } else if (error.status().equals(Constants.INVALID_DATA)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_data), true, false);
+                        } else if (error.status().equals(Constants.NO_REFERRER)) {
+                            edtCoupon.requestFocus();
+                            if (!advanceExpandableLayout.isExpanded()) showAdvance();
+                            edtCoupon.setError(getString(R.string.code_coupon_error));
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.no_referrer), true, false);
+                        } else if (error.status().equals(Constants.REFERRER_USED)) {
+                            edtCoupon.requestFocus();
+                            if (!advanceExpandableLayout.isExpanded()) showAdvance();
+                            edtCoupon.setError(getString(R.string.code_coupon_error));
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.referrer_used), true, false);
+                        } else if (error.status().equals(Constants.INVALID_AGE)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_age_between), true, false);
+                        } else if (error.status().equals(Constants.INVALID_UPDATE_TASK_FAILED)) {
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.update_task_failed), true, false);
 
-                                }
-                            });
-                        } else {
+                        } else if (error.status().equals(Constants.INVALID_UPDATE_TASK_FAILED))
+                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_task_failed), true, false);
+                        else {
+                            LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
                             DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                                 @Override
                                 public void onSubmit() {
 
                                 }
                             });
+
                         }
-
-                    } else {
-                        APIError error = ErrorUtils.parseError(response);
-                        LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
-                        DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
-
-                            }
-                        });
-
                     }
                     ProgressDialogUtils.dismissProgressDialog();
                 }
@@ -1068,10 +1118,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         return result;
     }
 
-    private String getLongEdittext(EdittextHozo edittextHozo) {
-        return edittextHozo.getText().toString().replace(",", "").replace(".", "");
-    }
-
     private String getLongAutoCompleteTextView(AutoCompleteTextView autoCompleteTextView) {
         return autoCompleteTextView.getText().toString().replace(",", "").replace(".", "");
     }
@@ -1081,13 +1127,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == Constants.REQUEST_CODE_ADDRESS && resultCode == Constants.RESULT_CODE_ADDRESS) {
-
-//            lat = data.getDoubleExtra(Constants.LAT_EXTRA, 0);
-//            lon = data.getDoubleExtra(Constants.LON_EXTRA, 0);
-//            address = data.getStringExtra(Constants.EXTRA_ADDRESS);
-//
-//            tvAddress.setText(address);
-//            tvAddress.setError(null);
         } else if (requestCode == REQUEST_CODE_PICK_IMAGE
                 && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
@@ -1225,7 +1264,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private boolean getAdvanceSetting() {
         if (imagesArr != null && imagesArr.length > 0) return true;
         if (ageFrom != 18 || ageTo != 60) return true;
-        if (!radioNon.isChecked()) return true;
+//        if (!radioNon.isChecked()) return true;
         if (cbAuto.isChecked()) return true;
         if (cbOnline.isChecked()) return true;
         return false;
@@ -1327,16 +1366,21 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         Utils.showLongToast(this, getString(R.string.gg_api_error), true, false);
     }
 
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.date_layout:
+            case R.id.tv_date:
                 openDatePicker();
                 break;
 
-            case R.id.time_layout:
+            case R.id.tv_time:
                 openTimeLayout();
+                break;
+            case R.id.tv_save:
+                status = Constants.CREATE_TASK_STATUS_DRAFT;
+                doSave();
                 break;
 
             case R.id.img_close:
@@ -1360,31 +1404,39 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.tv_more_show:
-                tvMoreShow.setVisibility(View.GONE);
-                layoutMore.setVisibility(View.VISIBLE);
-                scrollView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                    }
-                }, 200);
+                showAdvance();
                 break;
 
             case R.id.tv_more_hide:
+                advanceExpandableLayout.toggle();
                 tvMoreShow.setVisibility(View.VISIBLE);
-                layoutMore.setVisibility(View.GONE);
                 break;
 
-            case R.id.working_hour_layout:
-                HourDialog hourDialog = new HourDialog(CreateTaskActivity.this);
-                hourDialog.setHour(Integer.valueOf(tvWorkingHour.getText().toString()));
-                hourDialog.setHourDialogListener(new HourDialog.HourDialogListener() {
+            case R.id.tv_working_hour:
+                HozoNumberDialog hozoHourDialog = new HozoNumberDialog(CreateTaskActivity.this, getString(R.string.hour_title), MIN_HOUR, MAX_HOUR);
+                hozoHourDialog.setValue(Integer.valueOf(tvWorkingHour.getText().toString()));
+                hozoHourDialog.setHourDialogListener(new HozoNumberDialog.NumberDialogListener() {
                     @Override
-                    public void onHourDialogLister(int hour) {
-                        tvWorkingHour.setText(String.valueOf(hour));
+                    public void onNumberDialogLister(int number) {
+                        tvWorkingHour.setText(String.valueOf(number));
                     }
+//
                 });
-                hourDialog.showView();
+                hozoHourDialog.showView();
+                break;
+
+            case R.id.tv_number_worker:
+                HozoNumberDialog hozoNumberDialog = new HozoNumberDialog(CreateTaskActivity.this, getString(R.string.number_title), MIN_WORKER, MAX_WORKER);
+                hozoNumberDialog.setValue(Integer.valueOf(tvNumberWorker.getText().toString()));
+                hozoNumberDialog.setHourDialogListener(new HozoNumberDialog.NumberDialogListener() {
+                    @Override
+                    public void onNumberDialogLister(int number) {
+                        tvNumberWorker.setText(String.valueOf(number));
+                        updateTotalPayment();
+                    }
+//
+                });
+                hozoNumberDialog.showView();
                 break;
 
             case R.id.btn_next:
@@ -1402,6 +1454,13 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 break;
 
         }
+    }
+
+    private void showAdvance() {
+        tvMoreShow.setVisibility(View.GONE);
+        advanceExpandableLayout.toggle();
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", scrollView.getBottom(), edtDescription.getBottom() + 30).setDuration(1000);
+        objectAnimator.start();
     }
 
 }

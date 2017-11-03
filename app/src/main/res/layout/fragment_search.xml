@@ -30,7 +30,7 @@
                 android:paddingLeft="16dp"
                 android:paddingStart="16dp"
                 android:text="@string/share_task"
-                android:textColor="@color/blue"
+                android:textColor="@color/hozo_bg"
                 android:textSize="@dimen/tv_size_title"
                 android:textStyle="bold"
                 tools:ignore="RtlSymmetry" />

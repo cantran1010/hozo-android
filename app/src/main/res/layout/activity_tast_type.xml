@@ -49,7 +49,7 @@
             android:paddingRight="16dp"
             android:paddingStart="16dp"
             android:text="@string/btn_reset"
-            android:textColor="@color/red"
+            android:textColor="@color/hozo_red"
             android:textSize="@dimen/tv_size_lager"
             android:textStyle="normal" />
 

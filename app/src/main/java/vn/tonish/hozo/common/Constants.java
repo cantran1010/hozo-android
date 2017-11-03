@@ -251,4 +251,25 @@ public class Constants {
     public static String PROMOTION_ERROR_LIMITED = "promotion_limited";
     public static String PROMOTION_ERROR_USED = "promotion_used";
 
+
+    public static final String INVALID_CATEGORY = "invalid_category";
+
+    public static final String INVALID_TITLE = "invalid_title";
+    public static final String INVALID_DESCRIPTION = "invalid_description";
+    public static final String INVALID_TIME = "invalid_time";
+    public static final String INVALID_ADRESS = "invalid_address";
+    public static final String INVALID_WORKER_RATE = "invalid_worker_rate";
+    public static final String INVALID_WORKER_COUNT = "invalid_worker_count";
+    public static final String INVALID_GENDER = "invalid_gender";
+    public static final String INVALID_AGE = "invalid_age_between";
+    public static final String INVALID_UPDATE_TASK_FAILED = "update_task_failed";
+    public static final String NO_PERMISSION = "no_permission";
+    public static final String NO_TASK = "no_task";
+    public static final String EMPTY_PARAMETERS = "empty_parameters";
+    public static final String UPDATE_NOT_ALLOWED = "update_not_allowed";
+    public static final String INVALID_DATA = "invalid_data";
+    public static final String NO_REFERRER = "no_referrer";
+    public static final String REFERRER_USED = "referrer_used";
+
+
 }

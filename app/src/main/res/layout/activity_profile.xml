@@ -147,7 +147,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/profile_verify"
-                        android:textColor="@color/blue"
+                        android:textColor="@color/hozo_bg"
                         android:textSize="@dimen/tv_size_nomal"
                         android:textStyle="bold" />
 
@@ -220,7 +220,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:text="@string/profile_address"
-                        android:textColor="@color/blue"
+                        android:textColor="@color/hozo_bg"
                         android:textSize="@dimen/tv_size_nomal"
                         android:textStyle="bold" />
 
@@ -251,7 +251,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:text="@string/profile_phone"
-                        android:textColor="@color/blue"
+                        android:textColor="@color/hozo_bg"
                         android:textSize="@dimen/tv_size_nomal"
                         android:textStyle="bold" />
 
@@ -289,7 +289,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="10dp"
                         android:text="@string/profile_about"
-                        android:textColor="@color/blue"
+                        android:textColor="@color/hozo_bg"
                         android:textSize="@dimen/tv_size_nomal"
                         android:textStyle="bold" />
 
@@ -399,7 +399,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="25dp"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/hozo_bg"
                     android:textStyle="bold" />
 
                 <vn.tonish.hozo.view.ReviewsListView
@@ -448,7 +448,7 @@
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="@string/profile_log_out"
-                    android:textColor="@color/red"
+                    android:textColor="@color/hozo_red"
                     android:textSize="@dimen/tv_size_xlager" />
             </FrameLayout>
 
