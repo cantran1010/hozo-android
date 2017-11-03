@@ -49,6 +49,7 @@
         android:textColor="@color/tv_nomal" />
 
     <vn.tonish.hozo.view.EdittextHozo
+        android:id="@+id/edt_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
@@ -76,7 +77,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ProgressBar
             android:layout_width="20dp"
