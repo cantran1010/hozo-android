@@ -384,7 +384,7 @@ public class OtpFragment extends BaseFragment implements View.OnFocusChangeListe
 
     private void startTimer() {
         btnResetOtp.setClickable(false);
-        btnResetOtp.setTextColor(ContextCompat.getColor(getActivity(), R.color.red));
+        btnResetOtp.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_red));
         countDownTimer = new CountDownTimer(60000, 1000) {
             long secondsLeft = 0;
 

@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue">
+    android:background="@color/hozo_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -102,7 +102,7 @@
             android:gravity="center"
             android:minHeight="@dimen/edt_min_height"
             android:text="@string/btn_next"
-            android:textColor="@color/blue"
+            android:textColor="@color/hozo_bg"
             android:textSize="@dimen/tv_size_nomal"
             android:textStyle="bold" />
     </LinearLayout>

@@ -74,7 +74,7 @@
                 android:layout_toStartOf="@+id/tv_price"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/blue"
+                android:textColor="@color/hozo_bg"
                 android:textSize="@dimen/tv_size_medium" />
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -89,7 +89,7 @@
                 android:gravity="end"
                 android:minWidth="72dp"
                 android:padding="2dp"
-                android:textColor="@color/red"
+                android:textColor="@color/hozo_red"
                 android:textStyle="bold" />
 
 

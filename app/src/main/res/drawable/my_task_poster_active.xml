@@ -6,7 +6,7 @@
         android:bottomRightRadius="5dp"
         android:topLeftRadius="0dp"
         android:topRightRadius="5dp" />
-    <solid android:color="@color/blue" />
+    <solid android:color="@color/hozo_bg" />
     <size
         android:width="156dp"
         android:height="21dp" />
