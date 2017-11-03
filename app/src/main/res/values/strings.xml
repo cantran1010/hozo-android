@@ -576,5 +576,11 @@
     <string name="promotion_error_expried">Mã không hợp lệ</string>
     <string name="promotion_error_limmited">Mã không hợp lệ</string>
     <string name="promotion_error_used">Mã không hợp lệ</string>
+    <string name="rate_success">Đánh giá thành công,cảm ơn bạn!</string>
+    <string name="rate_miss_star">Vui lòng nhập thông tin đánh giá!</string>
+    <string name="email_missing_error">Vui lòng nhập Email của bạn!</string>
+    <string name="content_missing_error">Vui lòng nhập nội dung tin nhắn!</string>
+    <string name="validate_email_error">Email không đúng định dạng,vui lòng sửa lại!</string>
+    <string name="send_mail_support_success">Gủi tin nhắn thành công,cảm ơn bạn!</string>
 
 </resources>
