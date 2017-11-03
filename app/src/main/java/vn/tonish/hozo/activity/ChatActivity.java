@@ -127,7 +127,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 //
 //                        }
 //                    });
-                    Utils.showLongToast(ChatActivity.this,getString(R.string.kick_out_chat_content),true,false);
+                    Utils.showLongToast(ChatActivity.this, getString(R.string.kick_out_chat_content), true, false);
                     setResult(Constants.RESULT_CODE_CHAT);
                     finish();
                 }
