@@ -17,6 +17,7 @@
             android:id="@+id/browse_task_header"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:visibility="visible">
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -91,74 +92,66 @@
 
         </RelativeLayout>
 
-        <vn.tonish.hozo.view.ExpandableLayout
-            android:id="@+id/expanded_search"
+        <RelativeLayout
+            android:id="@+id/fr_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:el_duration="1000"
-            app:el_expanded="false">
+            android:animateLayoutChanges="true"
+            android:visibility="gone">
 
-            <RelativeLayout
-                android:id="@+id/fr_search"
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btn_hozo_selector"
+                android:contentDescription="@string/content_description_back"
+                android:scaleType="centerInside"
+                android:src="@drawable/img_close" />
+
+            <vn.tonish.hozo.view.EdittextHozo
+                android:id="@+id/edt_search"
+                style="@style/edt_create_task"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible">
-
-                <ImageView
-                    android:id="@+id/img_back"
-                    android:layout_width="?android:attr/actionBarSize"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/btn_hozo_selector"
-                    android:contentDescription="@string/content_description_back"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/img_close" />
-
-                <vn.tonish.hozo.view.EdittextHozo
-                    android:id="@+id/edt_search"
-                    style="@style/edt_create_task"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toLeftOf="@id/img_back"
-                    android:layout_toStartOf="@id/img_back"
-                    android:drawableLeft="@drawable/ic_search_blue"
-                    android:drawablePadding="10dp"
-                    android:drawableStart="@drawable/ic_search_blue"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:hint="@string/search"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:paddingEnd="30dp"
-                    android:paddingRight="30dp" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@id/img_back"
+                android:layout_toStartOf="@id/img_back"
+                android:drawableLeft="@drawable/ic_search_blue"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_search_blue"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="@string/search"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingEnd="30dp"
+                android:paddingRight="30dp" />
 
 
-                <ImageView
-                    android:id="@+id/img_clear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_toLeftOf="@id/img_back"
-                    android:layout_toStartOf="@id/img_back"
-                    android:background="@null"
-                    android:contentDescription="@string/adjust_image"
-                    android:padding="8dp"
-                    android:scaleType="centerInside"
-                    android:src="@android:drawable/presence_offline"
-                    android:visibility="visible" />
-            </RelativeLayout>
-        </vn.tonish.hozo.view.ExpandableLayout>
-
+            <ImageView
+                android:id="@+id/img_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_toLeftOf="@id/img_back"
+                android:layout_toStartOf="@id/img_back"
+                android:background="@null"
+                android:contentDescription="@string/adjust_image"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:src="@android:drawable/presence_offline"
+                android:visibility="visible" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <vn.tonish.hozo.view.TextViewHozo

@@ -1,176 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="5dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginStart="5dp"
-    android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardBackgroundColor="@color/white"
-    card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="2dp"
-    card_view:cardUseCompatPadding="true"
-    android:focusable="true">
+    android:weightSum="4">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="2dp"
-        android:baselineAligned="false"
-        android:paddingEnd="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingStart="5dp"
-        android:weightSum="4">
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="0.8"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="0.8"
-            android:gravity="center"
-            android:orientation="vertical">
+        <vn.tonish.hozo.view.CircleImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="7dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar_default" />
 
-            <vn.tonish.hozo.view.CircleImageView
-                android:id="@+id/img_avatar"
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:layout_marginTop="7dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/avatar_default" />
-
-            <RatingBar
-                android:id="@+id/rb_rating"
-                style="@style/StarRatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:isIndicator="true"
-                android:stepSize="0.01" />
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_weight="3.2"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/tv_price"
-                android:layout_toStartOf="@+id/tv_price"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/hozo_bg"
-                android:textSize="@dimen/tv_size_medium" />
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/tv_name"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="3dp"
-                android:layout_marginStart="3dp"
-                android:gravity="end"
-                android:minWidth="72dp"
-                android:padding="2dp"
-                android:textColor="@color/hozo_red"
-                android:textStyle="bold" />
-
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/tv_name"
-                android:layout_marginTop="10dp"
-                android:layout_toLeftOf="@+id/layout_progress"
-                android:layout_toStartOf="@+id/layout_progress"
-                android:drawableLeft="@drawable/ic_address"
-                android:drawablePadding="5dp"
-                android:drawableStart="@drawable/ic_address"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:textColor="@color/browse_gray"
-                android:textSize="@dimen/tv_size_xxtiny" />
-
-            <FrameLayout
-                android:id="@+id/layout_progress"
-                android:layout_width="82dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/tv_price"
-                android:layout_marginTop="5dp">
-
-                <ProgressBar
-                    android:id="@+id/simpleProgressBar"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="23dp"
-                    android:max="1"
-                    android:progress="1"
-                    android:progressDrawable="@drawable/custom_progress" />
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tv_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="23dp"
-                    android:background="@color/transparent"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="13sp" />
-            </FrameLayout>
-
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_comment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/tv_start_time"
-                android:layout_below="@+id/tv_address"
-                android:layout_toLeftOf="@+id/tv_start_time"
-                android:layout_toStartOf="@+id/tv_start_time"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/browse_gray"
-                android:textSize="@dimen/tv_size_xtiny"
-                android:textStyle="normal" />
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_start_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/layout_progress"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:gravity="end"
-                android:padding="2dp"
-                android:textColor="@color/browse_gray"
-                android:textSize="@dimen/tv_size_xtiny"
-                android:textStyle="normal" />
-        </RelativeLayout>
+        <RatingBar
+            android:id="@+id/rb_rating"
+            style="@style/StarRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:isIndicator="true"
+            android:stepSize="0.01" />
 
     </LinearLayout>
-</android.support.v7.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_weight="3.2"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/tv_price"
+            android:layout_toStartOf="@+id/tv_price"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/hozo_bg"
+            android:textSize="@dimen/tv_size_medium" />
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_name"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="3dp"
+            android:layout_marginStart="3dp"
+            android:gravity="end"
+            android:minWidth="72dp"
+            android:padding="2dp"
+            android:textColor="@color/hozo_red"
+            android:textStyle="bold" />
+
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/tv_name"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/layout_progress"
+            android:layout_toStartOf="@+id/layout_progress"
+            android:drawableLeft="@drawable/ic_address"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_address"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/browse_gray"
+            android:textSize="@dimen/tv_size_xxtiny" />
+
+        <FrameLayout
+            android:id="@+id/layout_progress"
+            android:layout_width="82dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tv_price"
+            android:layout_marginTop="5dp">
+
+            <ProgressBar
+                android:id="@+id/simpleProgressBar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="23dp"
+                android:max="1"
+                android:progress="1"
+                android:progressDrawable="@drawable/custom_progress" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/tv_status"
+                android:layout_width="match_parent"
+                android:layout_height="23dp"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+        </FrameLayout>
+
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_start_time"
+            android:layout_below="@+id/tv_address"
+            android:layout_toLeftOf="@+id/tv_start_time"
+            android:layout_toStartOf="@+id/tv_start_time"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/browse_gray"
+            android:textSize="@dimen/tv_size_xtiny"
+            android:textStyle="normal" />
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/layout_progress"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:gravity="end"
+            android:padding="2dp"
+            android:textColor="@color/browse_gray"
+            android:textSize="@dimen/tv_size_xtiny"
+            android:textStyle="normal" />
+    </RelativeLayout>
+
+</LinearLayout>
+
 
