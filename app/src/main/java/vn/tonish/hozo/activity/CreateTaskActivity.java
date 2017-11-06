@@ -1459,7 +1459,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private void showAdvance() {
         tvMoreShow.setVisibility(View.GONE);
         advanceExpandableLayout.toggle();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", scrollView.getBottom(), edtDescription.getBottom() + 30).setDuration(1000);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", scrollView.getBottom(), edtDescription.getBottom()).setDuration(1000);
         objectAnimator.start();
     }
 

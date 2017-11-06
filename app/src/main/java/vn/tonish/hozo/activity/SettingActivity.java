@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -85,7 +84,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private ImageView imgStatusArrow, imgCategoryArrow, imgTimeArrow, imgDistance, imgKeyword, imgPrice;
     private TextViewHozo tvStatus, tvCategory, tvDateTime, tvDistance, tvPrice;
     private RadioGroup radioStatus, radioTime, radioDistance, radioPrice;
-    private RadioButton radAllTime, radDate, radAllDistance, radDistanceOption, radAllPrice, rad10, rad100, rad500;
+    private android.support.v7.widget.AppCompatRadioButton radAllTime, radDate, radAllDistance, radDistanceOption, radAllPrice, rad10, rad100, rad500;
     private RecyclerView rcvCategory, rcvKeyword;
     private SeekBar seebarDistance;
     private Animation anim_down, anim_up;
