@@ -28,7 +28,7 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
     }
 
     public interface CategoryListener {
-         void onCheckedChanged(CompoundButton buttonView, boolean isChecked);
+        void onCheckedChanged(CompoundButton buttonView, boolean isChecked);
     }
 
     private CategoryListener listener;
@@ -55,7 +55,7 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
         LogUtils.d(TAG, "checkbox -:" + taskTypes.get(pos).isSelected());
         countTick = getCountTick();
         LogUtils.d(TAG, "count tisk -:" + countTick);
-        if (countTick == 0 || countTick == 9) {
+        if (countTick == 0 || countTick == taskTypes.size()-1) {
             taskTypes.get(0).setSelected(true);
             for (int i = 1; i < taskTypes.size(); i++) {
                 taskTypes.get(i).setSelected(false);
@@ -85,10 +85,8 @@ public class TaskTypeAdapter extends RecyclerView.Adapter<TaskTypeAdapter.ViewHo
                 }
                 notifyDataSetChanged();
                 if (listener != null) listener.onCheckedChanged(buttonView, isChecked);
-                LogUtils.d(TAG, "count tisk 1 :" + countTick);
             }
         });
-        LogUtils.d(TAG, "count tisk 2 :" + countTick);
 
     }
 
