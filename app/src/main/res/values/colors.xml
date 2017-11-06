@@ -45,4 +45,5 @@
     <color name="color_edt_create_task_lable">#444444</color>
     <color name="color_edt_border">#bcccd2</color>
     <color name="color_count_word">#cf1463</color>
+    <color name="bag_count_task">#e8f0f0</color>
 </resources>

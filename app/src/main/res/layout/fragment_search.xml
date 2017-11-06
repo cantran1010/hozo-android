@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -76,7 +75,7 @@
 
             <ImageView
                 android:id="@+id/img_filter"
-                android:layout_width="wrap_content"
+                android:layout_width="?android:attr/actionBarSize"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
@@ -150,7 +149,7 @@
                 android:padding="8dp"
                 android:scaleType="centerInside"
                 android:src="@android:drawable/presence_offline"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -158,10 +157,12 @@
         android:id="@+id/tvCountNewTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/text_hint"
+        android:background="@color/bag_count_task"
         android:gravity="center"
         android:padding="5dp"
-        android:textColor="@color/tv_black"
+        android:textColor="@color/color_count_word"
+        android:textSize="@dimen/tv_size_xxtiny"
+        android:textStyle="normal"
         android:visibility="gone" />
 
     <FrameLayout
@@ -177,7 +178,6 @@
                 android:id="@+id/lv_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:scrollbars="vertical" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
