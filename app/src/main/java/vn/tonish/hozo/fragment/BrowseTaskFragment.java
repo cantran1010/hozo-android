@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -16,7 +15,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -54,6 +52,7 @@ import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.ExpandableLayout;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.edt_search;
@@ -72,7 +71,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private EdittextHozo edtSearch;
     private RecyclerView rcvTask;
     private TaskAdapter taskAdapter;
-    private LinearLayout filterlayout;
+    private ImageView imgFilter;
     private final List<TaskResponse> taskList = new ArrayList<>();
     private String sinceStr = null;
     private String query = null;
@@ -84,6 +83,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private Call<List<TaskResponse>> call;
     private LinearLayoutManager linearLayoutManager;
     private TextViewHozo tvCountNewTask;
+    private ExpandableLayout expandedSearch;
 
     @Override
     protected int getLayout() {
@@ -96,13 +96,14 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         lanimation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_left);
         imgSearch = (ImageView) findViewById(R.id.img_search);
         imgLocation = (ImageView) findViewById(R.id.img_location);
-        filterlayout = (LinearLayout) findViewById(R.id.layout_setting);
+        imgFilter = (ImageView) findViewById(R.id.img_filter);
         imgClear = (ImageView) findViewById(R.id.img_clear);
         imgBack = (ImageView) findViewById(R.id.img_back);
         layoutHeader = (RelativeLayout) findViewById(R.id.browse_task_header);
         edtSearch = (EdittextHozo) findViewById(edt_search);
         layoutSearch = (RelativeLayout) findViewById(fr_search);
         rcvTask = (RecyclerView) findViewById(R.id.lv_list);
+        expandedSearch = (ExpandableLayout) findViewById(R.id.expanded_search);
         rcvTask.setHasFixedSize(true);
         tvCountNewTask = (TextViewHozo) findViewById(R.id.tvCountNewTask);
         createSwipeToRefresh();
@@ -110,7 +111,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
-        filterlayout.setOnClickListener(this);
+        imgFilter.setOnClickListener(this);
         imgLocation.setOnClickListener(this);
         imgSearch.setOnClickListener(this);
         imgBack.setOnClickListener(this);
@@ -305,7 +306,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             case R.id.img_clear:
                 edtSearch.setText("");
                 break;
-            case R.id.layout_setting:
+            case R.id.img_filter:
                 startActivityForResult(new Intent(getActivity(), SettingActivity.class), Constants.REQUEST_CODE_SETTING, TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tvCountNewTask:
@@ -341,19 +342,20 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     private void showSearch(final View view, boolean isShow) {
-        if (isShow) {
-            view.setVisibility(View.VISIBLE);
-            view.startAnimation(rtAnimation);
-        } else {
-            view.startAnimation(lanimation);
-            new Handler().postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    view.setVisibility(View.GONE);
-                }
-            }, Constants.DURATION);
-        }
+        expandedSearch.toggle();
+//        if (isShow) {
+//            view.setVisibility(View.VISIBLE);
+//            view.startAnimation(rtAnimation);
+//        } else {
+//            view.startAnimation(lanimation);
+//            new Handler().postDelayed(new Runnable() {
+//
+//                @Override
+//                public void run() {
+//                    view.setVisibility(View.GONE);
+//                }
+//            }, Constants.DURATION);
+//        }
     }
 
     @Override
