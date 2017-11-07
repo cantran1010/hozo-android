@@ -18,7 +18,7 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BlockTaskActivity;
 import vn.tonish.hozo.activity.PreviewImageListActivity;
-import vn.tonish.hozo.activity.ProfileActivity;
+import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.activity.RateActivity;
 import vn.tonish.hozo.activity.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;

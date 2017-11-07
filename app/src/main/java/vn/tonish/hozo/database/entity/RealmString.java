@@ -16,4 +16,11 @@ public class RealmString extends RealmObject {
     public void setValue(String value) {
         this.val = value;
     }
+
+    @Override
+    public String toString() {
+        return "RealmString{" +
+                "val='" + val + '\'' +
+                '}';
+    }
 }

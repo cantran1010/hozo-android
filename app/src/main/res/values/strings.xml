@@ -105,9 +105,9 @@
     <string name="post_a_task_finish">ĐĂNG VIỆC</string>
 
     <!-- edit profile -->
-    <string name="edit_profile_name">Họ và Tên</string>
-    <string name="edit_profile_address">Địa chỉ</string>
-    <string name="edit_profile_birth">Ngày tháng năm sinh</string>
+    <string name="edit_profile_name">HỌ TÊN</string>
+    <string name="edit_profile_address">ĐỊA CHỈ</string>
+    <string name="edit_profile_birth">NGÀY SINH</string>
     <string name="drop_down">Drop down</string>
     <string name="camera">take picture</string>
     <string name="content_description_back">Trở lại</string>
@@ -139,8 +139,8 @@
     <string name="profile_worker">Người làm việc</string>
     <string name="profile_hire">Người đăng việc</string>
     <string name="profile_verify">Đã xác thực</string>
-    <string name="profile_address">Địa chỉ</string>
-    <string name="profile_phone">Điện thoại</string>
+    <string name="profile_address">ĐỊA CHỈ</string>
+    <string name="profile_phone">ĐIỆN THOẠI</string>
     <string name="content_description_send">Gửi</string>
     <string name="post_a_task_budget_error">Vui lòng nhập \n giá tiền</string>
     <string name="post_a_task_number_worker_error">Vui lòng nhập \n số người</string>
@@ -359,7 +359,7 @@
     <string name="notification_title">Thông báo</string>
     <string name="term_and_policy">vi phạm điều khoản sử dụng</string>
     <string name="alert_task">Chọn danh mục bạn muốn nhận thông báo khi có công việc mới.</string>
-    <string name="profile_about">Giới thiệu</string>
+    <string name="profile_about">GIỚI THIỆU</string>
     <string name="error_des">Lỗi vượt quá 500 ký tự.</string>
     <string name="webview_error"><html><body style='background: white;'><p style='color: red;'>Không thể tải trang! Vui lòng kiểm tra kết nối và thử lại!</p></body></html></string>
     <string name="title_max_length_error">Tiêu đề không được quá 80 kí tự</string>
@@ -612,4 +612,22 @@
     <string name="content_missing_error">Vui lòng nhập nội dung tin nhắn!</string>
     <string name="validate_email_error">Email không đúng định dạng,vui lòng sửa lại!</string>
     <string name="send_mail_support_success">Gủi tin nhắn thành công,chúng tôi sẽ sớm phản hồi lại bạn,cảm ơn bạn!</string>
+    <string name="count_activity">%1$d\nlượt tương tác</string>
+    <string name="count_follow">%1$d\nlượt theo dõi</string>
+    <string name="follow">Theo dõi</string>
+    <string name="verify_title">THÔNG TIN XÁC THỰC</string>
+    <string name="profile_rate_title">ĐÁNH GIÁ</string>
+    <string name="show_all_rate">Xem tất cả đánh giá</string>
+    <string name="profile_skill">KỸ NĂNG</string>
+    <string name="profile_language">NGOẠI NGỮ</string>
+    <string name="profile_experience">KINH NGHIỆM</string>
+    <string name="edit_profile_gender">GIỚI TÍNH</string>
+    <string name="hide_info">Ẩn thông tin</string>
+    <string name="profile_image">ẢNH</string>
+    <string name="profile_max_image">* Tối đa 9 ảnh</string>
+    <string name="profile_your_activity">HOẠT ĐỘNG CỦA BẠN TRÊN HOZO</string>
+    <string name="rd_poster">Người đăng việc</string>
+    <string name="rd_worker">Người làm việc</string>
+    <string name="rc_both">Cả hai</string>
+    <string name="send_tag">Gủi</string>
 </resources>

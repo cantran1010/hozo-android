@@ -8,7 +8,7 @@ import android.view.View;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.GeneralInfoActivity;
 import vn.tonish.hozo.activity.payment.PaymentHistoryActivity;
-import vn.tonish.hozo.activity.ProfileActivity;
+import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.activity.SupportActivity;
 import vn.tonish.hozo.activity.TaskAlertsActivity;
 import vn.tonish.hozo.common.Constants;

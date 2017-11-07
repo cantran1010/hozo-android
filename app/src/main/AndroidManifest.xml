@@ -75,7 +75,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.ProfileActivity"
+            android:name=".activity.profile.ProfileActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PostATaskActivity"
@@ -112,7 +112,7 @@
             android:name=".activity.GeneralInfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.EditProfileActivity"
+            android:name=".activity.profile.EditProfileActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -180,6 +180,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SupportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TagActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.facebook.accountkit.ui.AccountKitActivity"
