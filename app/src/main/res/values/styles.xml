@@ -118,8 +118,8 @@
 
     <!-- style title -->
     <style name="tv_title">
-        <item name="android:textSize">19sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">21sp</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -196,5 +196,12 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/btn_hozo_selector</item>
+    </style>
+
+    <style name="tv_item_task">
+        <item name="android:textSize">@dimen/tv_size_tiny</item>
+        <item name="android:lineSpacingExtra">4.9sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/setting_text</item>
     </style>
 </resources>

@@ -59,7 +59,7 @@ public class Constants {
     public static final String LIST_TASK_EXTRA = "list_task_extra";
     public static final String IS_MY_USER = "is_my_user";
     public static final String PARAMETER_GENDER = "gender";
-    public static final int DURATION = 200;
+    public static final int DURATION = 300;
     public static final String ROLE_FIND_TASK = "find_task";
     public static final int RESULT_CODE_COST = 1999;
     public static final int RESULT_CODE_TASK_TYPE = 2020;

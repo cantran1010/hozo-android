@@ -16,7 +16,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -72,7 +71,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private EdittextHozo edtSearch;
     private RecyclerView rcvTask;
     private TaskAdapter taskAdapter;
-    private LinearLayout filterlayout;
+    private ImageView imgFilter;
     private final List<TaskResponse> taskList = new ArrayList<>();
     private String sinceStr = null;
     private String query = null;
@@ -93,10 +92,10 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void initView() {
         rtAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_right);
-        lanimation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_left);
+        lanimation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_right);
         imgSearch = (ImageView) findViewById(R.id.img_search);
         imgLocation = (ImageView) findViewById(R.id.img_location);
-        filterlayout = (LinearLayout) findViewById(R.id.layout_setting);
+        imgFilter = (ImageView) findViewById(R.id.img_filter);
         imgClear = (ImageView) findViewById(R.id.img_clear);
         imgBack = (ImageView) findViewById(R.id.img_back);
         layoutHeader = (RelativeLayout) findViewById(R.id.browse_task_header);
@@ -110,7 +109,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
-        filterlayout.setOnClickListener(this);
+        imgFilter.setOnClickListener(this);
         imgLocation.setOnClickListener(this);
         imgSearch.setOnClickListener(this);
         imgBack.setOnClickListener(this);
@@ -305,7 +304,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             case R.id.img_clear:
                 edtSearch.setText("");
                 break;
-            case R.id.layout_setting:
+            case R.id.img_filter:
                 startActivityForResult(new Intent(getActivity(), SettingActivity.class), Constants.REQUEST_CODE_SETTING, TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tvCountNewTask:
@@ -341,6 +340,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     private void showSearch(final View view, boolean isShow) {
+//        expandedSearch.toggle();
         if (isShow) {
             view.setVisibility(View.VISIBLE);
             view.startAnimation(rtAnimation);

@@ -88,13 +88,8 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
             workHolder.progressBar.setMax(taskResponse.getWorkerCount());
             workHolder.progressBar.setProgress(taskResponse.getAssigneeCount());
             workHolder.ratingBar.setRating(taskResponse.getPoster().getPosterAverageRating());
-            if (taskResponse.getCommentsCount() > 1) {
-                String str_bidder_count = context.getString(R.string.bidder_count, Utils.formatNumber(taskResponse.getBidderCount())) + context.getString(R.string.comments, Utils.formatNumber(taskResponse.getCommentsCount()));
-                workHolder.tvComment.setText(str_bidder_count);
-            } else {
-                String str_bidder_count1 = context.getString(R.string.bidder_count, Utils.formatNumber(taskResponse.getBidderCount())) + context.getString(R.string.comment, Utils.formatNumber(taskResponse.getCommentsCount()));
-                workHolder.tvComment.setText(str_bidder_count1);
-            }
+            String str_bidder_count = context.getString(R.string.bidder_count, Utils.formatNumber(taskResponse.getBidderCount())) + " "+ context.getString(R.string.comments, Utils.formatNumber(taskResponse.getCommentsCount()));
+            workHolder.tvComment.setText(str_bidder_count);
             Utils.displayImageAvatar(context, workHolder.imgAvata, taskResponse.getPoster().getAvatar());
         }
     }
