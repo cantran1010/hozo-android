@@ -293,8 +293,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     popup.getMenu().findItem(R.id.delete_task).setVisible(false);
                     popup.getMenu().findItem(R.id.save_task).setVisible(true);
                 } else if (taskType.equals(Constants.TASK_COPY)) {
-                    popup.getMenu().findItem(R.id.delete_task).setVisible(false);
-                    popup.getMenu().findItem(R.id.save_task).setVisible(true);
+                    imgSaveDraf.setVisibility(View.VISIBLE);
+                    imgMenu.setVisibility(View.GONE);
                 } else if (taskType.equals(Constants.TASK_DRAFT)) {
                     popup.getMenu().findItem(R.id.delete_task).setVisible(true);
                     popup.getMenu().findItem(R.id.save_task).setVisible(true);
@@ -817,7 +817,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         } else if (ageFrom >= ageTo) {
             Utils.showLongToast(this, getString(R.string.select_age_error), true, false);
             return;
-        } else if (!isCoupon(edtCoupon.getText().toString().trim())) {
+        } else if (!edtCoupon.getText().toString().trim().isEmpty() && !isCoupon(edtCoupon.getText().toString().trim())) {
             if (!advanceExpandableLayout.isExpanded()) showAdvance();
             edtCoupon.requestFocus();
             edtCoupon.setError(getString(R.string.code_coupon_error));

@@ -72,7 +72,7 @@ public class MyTaskPosterFragment extends BaseFragment {
     protected void initData() {
         isReloadMyTask = false;
         initList();
-        if (getArguments().getBoolean(Constants.REFRESH_EXTRA)) onRefresh();
+//       if (getArguments().getBoolean(Constants.REFRESH_EXTRA)) onRefresh();
     }
 
     @Override

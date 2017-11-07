@@ -48,4 +48,5 @@
     <color name="bag_count_task">#e8f0f0</color>
     <color name="green_new">#d8ed97</color>
     <color name="tv_gray_new_2">#bccad0</color>
+    <color name="bg_tab_mytask">#e8f0f0</color>
 </resources>

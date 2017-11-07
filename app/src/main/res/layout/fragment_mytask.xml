@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/hozo_bg">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_title"
+            style="@style/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_marginStart="@dimen/title_margin_left"
+            android:layout_toLeftOf="@+id/img_search"
+            android:layout_toStartOf="@+id/img_search"
+            android:text="@string/my_task_title" />
+
+        <ImageView
+            android:id="@+id/img_more"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_hozo_selector"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_more" />
+
+        <View
+            android:id="@+id/heght_line"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/img_more"
+            android:layout_toStartOf="@id/img_more"
+            android:background="@color/white" />
+
+        <ImageView
+            android:id="@+id/img_saerch"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/heght_line"
+            android:layout_toStartOf="@+id/heght_line"
+            android:background="@drawable/btn_hozo_selector"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_search" />
+
+    </RelativeLayout>
+
+    <!-- our tablayout to display tabs  -->
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_tab_mytask"
+        android:minHeight="?attr/actionBarSize"
+        app:tabIndicatorColor="@color/hozo_bg"
+        app:tabIndicatorHeight="5dp"
+        app:tabSelectedTextColor="@color/hozo_bg"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+        app:tabTextColor="@color/setting_text" />
+
+    <!-- View pager to swipe views -->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent" />
+
+</LinearLayout>
