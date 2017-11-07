@@ -1,11 +1,13 @@
-package vn.tonish.hozo.activity;
+package vn.tonish.hozo.activity.profile;
 
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -24,6 +26,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.HomeActivity;
+import vn.tonish.hozo.activity.PreviewImageActivity;
+import vn.tonish.hozo.activity.ReviewsActivity;
+import vn.tonish.hozo.adapter.ProfileTagAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.database.entity.UserEntity;
@@ -46,7 +53,6 @@ import static vn.tonish.hozo.R.id.img_avatar;
 import static vn.tonish.hozo.common.Constants.REVIEW_TYPE_POSTER;
 import static vn.tonish.hozo.utils.DateTimeUtils.getDateBirthDayFromIso;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
-import static vn.tonish.hozo.utils.Utils.converGenderVn;
 import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
 
@@ -60,14 +66,15 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private ImageView imgback, imgEdit;
     private TextView btnWorker, btnPoster, tvTitle;
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvGender, tvRateCount, btnMoreReview, btnLogOut, tvAbout;
-    private TextViewHozo tvReviewsCount, tvTaskCount, tvCompletionRate, tvAddVerify;
+    private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvRateCount, btnMoreReview, btnLogOut, tvAbout;
+    private TextViewHozo tvReviewsCount, tvTaskCount, tvCompletionRate;
+    //    tvAddVerify;tvGender
     private RatingBar ratingBar;
-    private LinearLayout layoutInfor;
+    //    private LinearLayout layoutInfor;
     private float ratingPoster, ratingTasker;
     private ReviewsListView reviewsListView;
     private FrameLayout layoutLogout;
-    private ScrollView scrollView;
+    private NestedScrollView scrollView;
     private int tabIndex = 0;
     private boolean isMyUser;
     private int rateCountPoster, retaCountWorker, taskPostPoster, taskPostWorker;
@@ -79,6 +86,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private final List<ReviewEntity> taskerReviewEntity = new ArrayList<>();
     private ImageView imgFbVerify, imgEmailVerify;
 
+    private RecyclerView rcvSkills, rcvLanguages,rcvImages;
+    private ProfileTagAdapter skillsAdapter, languagesAdapter;
+
     @Override
     protected int getLayout() {
         return R.layout.activity_profile;
@@ -89,13 +99,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         imgback = (ImageView) findViewById(R.id.img_back);
         imgEdit = (ImageView) findViewById(R.id.img_edit);
         imgAvatar = (CircleImageView) findViewById(img_avatar);
-        layoutInfor = (LinearLayout) findViewById(R.id.layout_infor);
+//        layoutInfor = (LinearLayout) findViewById(R.id.layout_infor);
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
         ratingBar = (RatingBar) findViewById(R.id.rb_rating);
         tvDateOfBirth = (TextViewHozo) findViewById(R.id.tv_birthday);
         tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
         tvMobile = (TextViewHozo) findViewById(R.id.tv_phone);
-        tvGender = (TextViewHozo) findViewById(R.id.tv_gender);
+//        tvGender = (TextViewHozo) findViewById(R.id.tv_gender);
         btnLogOut = (TextViewHozo) findViewById(R.id.btn_logout);
         btnWorker = (TextViewHozo) findViewById(R.id.btn_worker);
         btnPoster = (TextViewHozo) findViewById(R.id.btn_poster);
@@ -108,12 +118,16 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         layoutLogout = (FrameLayout) findViewById(R.id.layout_logout);
         reviewsListView = (ReviewsListView) findViewById(R.id.rcv_reviews);
         btnMoreReview = (TextViewHozo) findViewById(R.id.tv_more_reviews);
-        tvAddVerify = (TextViewHozo) findViewById(R.id.btn_add_verify);
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
+//        tvAddVerify = (TextViewHozo) findViewById(R.id.btn_add_verify);
+        scrollView = (NestedScrollView) findViewById(R.id.scroll_view);
         imgFbVerify = findViewById(R.id.fb_verify);
         imgEmailVerify = findViewById(R.id.email_verify);
         ratingPoster = 0f;
         ratingTasker = 0f;
+
+        rcvImages = findViewById(R.id.rcv_images);
+        rcvSkills = findViewById(R.id.rcv_skill);
+        rcvLanguages = findViewById(R.id.rcv_languages);
     }
 
     @Override
@@ -129,7 +143,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btnWorker.setOnClickListener(this);
         btnMoreReview.setOnClickListener(this);
         imgAvatar.setOnClickListener(this);
-        tvAddVerify.setOnClickListener(this);
+//        tvAddVerify.setOnClickListener(this);
         if (isMyUser) {
             mUserEntity = UserManager.getMyUser();
         } else {
@@ -180,10 +194,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     startActivity(intentView, TransitionScreen.RIGHT_TO_LEFT);
                 }
                 break;
-            case R.id.btn_add_verify:
-                Intent intentVerify = new Intent(this, GiveInforActivity.class);
-                startActivityForResult(intentVerify, Constants.REQUEST_CODE_VERIFY, TransitionScreen.RIGHT_TO_LEFT);
-                break;
+//            case R.id.btn_add_verify:
+//                Intent intentVerify = new Intent(this, GiveInforActivity.class);
+//                startActivityForResult(intentVerify, Constants.REQUEST_CODE_VERIFY, TransitionScreen.RIGHT_TO_LEFT);
+//                break;
         }
     }
 
@@ -303,26 +317,28 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 tvDateOfBirth.setVisibility(View.VISIBLE);
                 tvDateOfBirth.setText(getDateBirthDayFromIso(userEntity.getDateOfBirth()));
             }
-            if (userEntity.getGender().equals(getString(R.string.gender_any)))
-                tvGender.setVisibility(View.GONE);
-            else {
-                tvGender.setVisibility(View.VISIBLE);
-                tvGender.setText(converGenderVn(this, userEntity.getGender()));
-            }
+
+//            if (userEntity.getGender().equals(getString(R.string.gender_any)))
+//                tvGender.setVisibility(View.GONE);
+//            else {
+//                tvGender.setVisibility(View.VISIBLE);
+//                tvGender.setText(converGenderVn(this, userEntity.getGender()));
+//            }
+
             if (isMyUser) {
-                layoutInfor.setVisibility(View.VISIBLE);
+//                layoutInfor.setVisibility(View.VISIBLE);
                 tvAddress.setText(userEntity.getAddress());
                 tvMobile.setText(userEntity.getPhone());
                 layoutLogout.setVisibility(View.VISIBLE);
                 imgEdit.setVisibility(View.VISIBLE);
                 tvTitle.setText(getString(R.string.my_account));
-                tvAddVerify.setVisibility(View.VISIBLE);
+//                tvAddVerify.setVisibility(View.VISIBLE);
             } else {
                 imgEdit.setVisibility(View.GONE);
-                layoutInfor.setVisibility(View.GONE);
+//                layoutInfor.setVisibility(View.GONE);
                 layoutLogout.setVisibility(View.GONE);
                 tvTitle.setText(getString(R.string.user_account));
-                tvAddVerify.setVisibility(View.GONE);
+//                tvAddVerify.setVisibility(View.GONE);
             }
             if (reviewEntities.size() > 5) {
                 btnMoreReview.setVisibility(View.VISIBLE);
@@ -340,9 +356,49 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
             setDataSelected(true);
             tvAbout.setText(userEntity.getDescription());
+
+            updateImagesAttach();
+            updateSkills();
+            updateLanguages();
+        }
+    }
+
+    private void updateImagesAttach(){
+
+    }
+
+    private void updateSkills() {
+
+        ArrayList<String> tests = new ArrayList<>();
+
+        for (int i = 0; i < 20; i++) {
+            tests.add("skill " + i);
         }
 
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
+        layoutManager.setAutoMeasureEnabled(true);
+        rcvSkills.setNestedScrollingEnabled(false);
 
+        rcvSkills.setLayoutManager(layoutManager);
+        skillsAdapter = new ProfileTagAdapter(tests);
+        rcvSkills.setAdapter(skillsAdapter);
+    }
+
+    private void updateLanguages() {
+
+        ArrayList<String> tests = new ArrayList<>();
+
+        for (int i = 0; i < 20; i++) {
+            tests.add("language " + i);
+        }
+
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
+        layoutManager.setAutoMeasureEnabled(true);
+        rcvLanguages.setNestedScrollingEnabled(false);
+
+        rcvLanguages.setLayoutManager(layoutManager);
+        languagesAdapter = new ProfileTagAdapter(tests);
+        rcvLanguages.setAdapter(languagesAdapter);
     }
 
 

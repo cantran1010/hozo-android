@@ -229,6 +229,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initData() {
+
+        Constants.MAX_IMAGE_ATTACH = 6;
+
         edtCoupon.setFocusable(true);
         edtCoupon.setText("");
         edtCoupon.setFocusable(true);
@@ -1127,6 +1130,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == Constants.REQUEST_CODE_ADDRESS && resultCode == Constants.RESULT_CODE_ADDRESS) {
+
         } else if (requestCode == REQUEST_CODE_PICK_IMAGE
                 && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {

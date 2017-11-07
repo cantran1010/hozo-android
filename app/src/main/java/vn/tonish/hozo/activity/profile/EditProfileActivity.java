@@ -1,4 +1,4 @@
-package vn.tonish.hozo.activity;
+package vn.tonish.hozo.activity.profile;
 
 import android.Manifest;
 import android.app.Activity;
@@ -16,8 +16,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -31,10 +33,12 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -45,12 +49,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.AlbumActivity;
+import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.CropImageActivity;
+import vn.tonish.hozo.activity.PreviewImageActivity;
+import vn.tonish.hozo.activity.TagActivity;
+import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
+import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
@@ -61,14 +72,15 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
-import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.MyGridView;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.img_avatar;
 import static vn.tonish.hozo.R.string.post_task_map_get_location_error_next;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE_AVATA;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.DateTimeUtils.getDateBirthDayFromIso;
 import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyIsoFromDate;
@@ -84,7 +96,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private CircleImageView imgAvatar;
     private String imgPath;
     //    private RadioButton rbMale, rbFemale;
-    private EdittextHozo edtName, edtAddress, edtDes;
+    private EdittextHozo edtName, edtAddress, edtDes, edtExperience;
     private TextViewHozo tvBirthday;
     private final Calendar calendar = Calendar.getInstance();
     //    private RadioGroup rgRadius;
@@ -92,7 +104,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private int avataId;
     private boolean isUpdateAvata = false;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private TextViewHozo tvMale, tvFemale;
     private ImageView imgMale, imgFemale;
     private String gender;
     private double lat, lon;
@@ -100,7 +111,15 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private GoogleApiClient googleApiClient;
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
     private AutoCompleteTextView autocompleteView;
-
+    private RadioButton rbMale, rbFemale;
+    private CheckBox cbHideGender, cbHideBirth;
+    private MyGridView grImage;
+    private ImageAdapter imageAdapter;
+    private final ArrayList<Image> images = new ArrayList<>();
+    private RelativeLayout skillsLayout, languagesLayout;
+    private UserEntity userEntity;
+    private int imageAttachCount = 0;
+    private RadioButton rbPoster, rbWorker, rbBoth;
 
     @Override
     protected int getLayout() {
@@ -112,8 +131,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         imgAvatar = findViewById(img_avatar);
         imgAvatar.setOnClickListener(this);
 
-        ButtonHozo btnSave = findViewById(R.id.btn_save);
-        btnSave.setOnClickListener(this);
+//        ButtonHozo btnSave = findViewById(R.id.btn_save);
+//        btnSave.setOnClickListener(this);
 
         ImageView imgCancel = findViewById(R.id.img_cancel);
         imgCancel.setOnClickListener(this);
@@ -128,29 +147,50 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         RelativeLayout layoutBirthday = findViewById(R.id.layout_birthday);
         layoutBirthday.setOnClickListener(this);
 
-        tvMale = findViewById(R.id.tv_male);
-        tvFemale = findViewById(R.id.tv_female);
-
-        imgMale = findViewById(R.id.img_male);
-        imgFemale = findViewById(R.id.img_female);
 
         edtDes = findViewById(R.id.edt_description);
-
-        RelativeLayout layoutMale = findViewById(R.id.layout_male);
-        layoutMale.setOnClickListener(this);
-
-        RelativeLayout layoutFemale = findViewById(R.id.layout_female);
-        layoutFemale.setOnClickListener(this);
         autocompleteView = findViewById(R.id.autocomplete_places);
 
+        rbMale = findViewById(R.id.rd_male);
+        rbFemale = findViewById(R.id.rd_female);
+
+        cbHideGender = findViewById(R.id.cb_hide_gender);
+        cbHideBirth = findViewById(R.id.cb_hide_birth);
+
+        grImage = findViewById(R.id.gr_image);
+
+        skillsLayout = findViewById(R.id.skill_layout);
+        languagesLayout = findViewById(R.id.languages_layout);
+
+        skillsLayout.setOnClickListener(this);
+        languagesLayout.setOnClickListener(this);
+
+        edtExperience = findViewById(R.id.edt_experience);
+
+        rbPoster = findViewById(R.id.rd_poster);
+        rbWorker = findViewById(R.id.rd_worker);
+        rbBoth = findViewById(R.id.rd_both);
     }
 
     @Override
     protected void initData() {
-        UserEntity userEntity = UserManager.getMyUser();
+        Constants.MAX_IMAGE_ATTACH = 9;
+        userEntity = UserManager.getMyUser();
+
+        LogUtils.d(TAG, "EditProfileActivity userEntity : " + userEntity.toString());
+
+        if (userEntity.getAvatar() != null)
+            Utils.displayImageAvatar(this, imgAvatar, userEntity.getAvatar());
+
         edtName.setText(userEntity.getFullName());
-//        if (userEntity.getAddress() != null)
-//            edtAddress.setText(userEntity.getAddress());
+
+
+        if (userEntity.getGender() != null) {
+            gender = userEntity.getGender();
+            updateGender(gender);
+        }
+
+        cbHideGender.setChecked(userEntity.isPrivacyGender());
 
         if (userEntity.getDateOfBirth().equals("0001-01-01")) {
             tvBirthday.setText("");
@@ -158,15 +198,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             tvBirthday.setText(getDateBirthDayFromIso(userEntity.getDateOfBirth()));
         }
 
-        if (userEntity.getAvatar() != null)
-            Utils.displayImageAvatar(this, imgAvatar, userEntity.getAvatar());
+        cbHideBirth.setChecked(userEntity.isPrivacyBirth());
 
-        if (userEntity.getGender() != null) {
-            gender = userEntity.getGender();
-            updateGender(gender);
-        }
         address = userEntity.getAddress();
-        edtDes.setText(userEntity.getDescription());
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, (GoogleApiClient.OnConnectionFailedListener) this)
                 .addApi(Places.GEO_DATA_API)
@@ -195,6 +229,39 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         autocompleteView.setText(userEntity.getAddress());
 
+        edtDes.setText(userEntity.getDescription());
+
+        for (int i = 0; i < userEntity.getImages().size(); i++) {
+            Image image1 = new Image();
+            image1.setId(userEntity.getImages().get(i).getId());
+            image1.setPath(userEntity.getImages().get(i).getUrl());
+            images.add(image1);
+        }
+
+        //images
+        final Image image = new Image();
+        image.setAdd(true);
+        images.add(image);
+
+        imageAdapter = new ImageAdapter(this, images);
+        grImage.setAdapter(imageAdapter);
+
+        grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (images.get(position).isAdd) {
+                    if (images.size() >= 9) {
+                        Utils.showLongToast(EditProfileActivity.this, getString(R.string.max_image_attach_err, 9), true, false);
+                    } else {
+                        checkPermission();
+                    }
+                } else {
+                    Intent intent = new Intent(EditProfileActivity.this, PreviewImageActivity.class);
+                    intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
+                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                }
+            }
+        });
     }
 
     private final AdapterView.OnItemClickListener mAutocompleteClickListener
@@ -269,61 +336,11 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     private void updateGender(String gender) {
         if (gender.equals(getString(R.string.gender_male))) {
-            tvMale.setTextColor(ContextCompat.getColor(this, R.color.tv_black));
-            tvFemale.setTextColor(ContextCompat.getColor(this, R.color.tv_gray));
-            imgMale.setImageResource(R.drawable.gender_male_black);
-            imgFemale.setImageResource(R.drawable.gender_female_off);
+            rbMale.setChecked(true);
+            rbFemale.setChecked(false);
         } else if (gender.equals(getString(R.string.gender_female))) {
-            tvMale.setTextColor(ContextCompat.getColor(this, R.color.tv_gray));
-            tvFemale.setTextColor(ContextCompat.getColor(this, R.color.tv_black));
-            imgMale.setImageResource(R.drawable.gender_male_off);
-            imgFemale.setImageResource(R.drawable.gender_female_on);
-        } else {
-            tvMale.setTextColor(ContextCompat.getColor(this, R.color.tv_gray));
-            tvFemale.setTextColor(ContextCompat.getColor(this, R.color.tv_gray));
-            imgMale.setImageResource(R.drawable.gender_male_off);
-            imgFemale.setImageResource(R.drawable.gender_female_off);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-
-            case R.id.btn_save:
-                doSave();
-                break;
-
-            case R.id.img_camera:
-                doPickImage();
-                break;
-
-            case R.id.img_cancel:
-                finish();
-                break;
-
-            case R.id.layout_birthday:
-                openDatePicker();
-                break;
-
-            case R.id.layout_male:
-                gender = getString(R.string.gender_male);
-                updateGender(getString(R.string.gender_male));
-                break;
-
-            case R.id.layout_female:
-                gender = getString(R.string.gender_female);
-                updateGender(getString(R.string.gender_female));
-                break;
-
-            case img_avatar:
-                if (!UserManager.getMyUser().getAvatar().trim().equals("")) {
-                    Intent intentView = new Intent(EditProfileActivity.this, PreviewImageActivity.class);
-                    intentView.putExtra(Constants.EXTRA_IMAGE_PATH, UserManager.getMyUser().getAvatar());
-                    startActivity(intentView, TransitionScreen.RIGHT_TO_LEFT);
-                }
-                break;
-
+            rbMale.setChecked(false);
+            rbFemale.setChecked(true);
         }
     }
 
@@ -351,8 +368,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         if (isUpdateAvata) {
             updateAvata();
         } else {
-            updateProfile();
+            updateImageAttach();
         }
+
     }
 
     private void updateAvata() {
@@ -371,7 +389,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 if (response.code() == Constants.HTTP_CODE_CREATED) {
                     ImageResponse imageResponse = response.body();
                     avataId = imageResponse != null ? imageResponse.getIdTemp() : 0;
-                    updateProfile();
+                    updateImageAttach();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -421,27 +439,117 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
+    private void updateImageAttach() {
+        LogUtils.d(TAG, " updateImageAttach start images : " + images.toString());
+
+        if (images.size() > 1) {
+            for (int i = 0; i < images.size() - 1; i++)
+                if (images.get(i).getId() == 0) imageAttachCount++;
+
+            if (imageAttachCount == 0) {
+                updateProfile();
+                return;
+            }
+
+            for (int i = 0; i < images.size() - 1; i++) {
+                if (images.get(i).getId() == 0) {
+                    LogUtils.d(TAG, " attachAllFile image " + i + " : " + images.get(i).getPath());
+                    File file = new File(images.get(i).getPath());
+                    attachFile(file, i);
+                }
+            }
+        } else {
+            updateProfile();
+        }
+
+    }
+
+    private void attachFile(final File file, final int position) {
+        File fileUp = Utils.compressFile(file);
+
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
+        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
+
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(), itemPart).enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+                LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
+                if (response.code() == Constants.HTTP_CODE_CREATED) {
+                    ImageResponse imageResponse = response.body();
+                    imageAttachCount--;
+
+                    if (imageResponse != null)
+                        images.get(position).setId(imageResponse.getIdTemp());
+
+                    if (imageAttachCount == 0)
+                        updateProfile();
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(EditProfileActivity.this);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
+                imageAttachCount--;
+                if (imageAttachCount == 0)
+                    updateProfile();
+            }
+        });
+    }
+
     private void updateProfile() {
         ProgressDialogUtils.showProgressDialog(this);
         JSONObject jsonRequest = new JSONObject();
         try {
+            if (isUpdateAvata)
+                jsonRequest.put(Constants.PARAMETER_AVATA_ID, avataId);
+
             jsonRequest.put(Constants.PARAMETER_FULL_NAME, edtName.getText().toString());
-//            jsonRequest.put(Constants.PARAMETER_ADDRESS, edtAddress.getText().toString());
-            jsonRequest.put(Constants.PARAMETER_DESCRIPTION, edtDes.getText().toString().trim());
+            if (gender != null)
+                jsonRequest.put(Constants.PARAMETER_GENDER, gender);
+            jsonRequest.put("privacy_hide_gender", cbHideGender.isChecked());
+            if (!tvBirthday.getText().toString().equals(""))
+                jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, getOnlyIsoFromDate(tvBirthday.getText().toString()));
+
             jsonRequest.put("latitude", lat);
             jsonRequest.put("longitude", lon);
             if (address != null && lat != 0 && lon != 0) {
                 jsonRequest.put(Constants.PARAMETER_ADDRESS, address);
             }
 
-            if (!tvBirthday.getText().toString().equals(""))
-                jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, getOnlyIsoFromDate(tvBirthday.getText().toString()));
+            jsonRequest.put(Constants.PARAMETER_DESCRIPTION, edtDes.getText().toString().trim());
 
-            if (gender != null)
-                jsonRequest.put(Constants.PARAMETER_GENDER, gender);
+            if (images.size() > 1) {
+                JSONArray jsonArray = new JSONArray();
+                for (int i = 0; i < images.size() - 1; i++)
+                    jsonArray.put(images.get(i).getId());
+                jsonRequest.put("images", jsonArray);
+            }
 
-            if (isUpdateAvata)
-                jsonRequest.put(Constants.PARAMETER_AVATA_ID, avataId);
+            JSONArray jsonArray = new JSONArray();
+            for (int i = 0; i < userEntity.getSkills().size(); i++) {
+                jsonArray.put(userEntity.getSkills().get(i).getValue());
+            }
+            jsonRequest.put("skills", jsonArray);
+
+
+            JSONArray jsonArrayLanguage = new JSONArray();
+            for (int i = 0; i < userEntity.getLanguages().size(); i++) {
+                jsonArrayLanguage.put(userEntity.getLanguages().get(i).getValue());
+            }
+            jsonRequest.put("languages", jsonArrayLanguage);
+
+            jsonRequest.put("experiences", edtExperience.getText().toString());
+
+            if (rbPoster.isChecked()) {
+                jsonRequest.put("role", "poster");
+            } else if (rbWorker.isChecked()) {
+                jsonRequest.put("role", "tasker");
+            } else {
+                jsonRequest.put("role", "any");
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -455,8 +563,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
 
                 LogUtils.d(TAG, "updateUser onResponse : " + response.body());
+                LogUtils.d(TAG, "updateUser code : " + response.code());
+
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    UserEntity userEntity = response.body();
+                    userEntity = response.body();
                     assert userEntity != null;
                     userEntity.setAccessToken(UserManager.getMyUser().getAccessToken());
                     userEntity.setTokenExp(UserManager.getMyUser().getTokenExp());
@@ -535,28 +645,61 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_PICK_IMAGE
+        if (requestCode == REQUEST_CODE_PICK_IMAGE_AVATA
                 && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
             String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
             Utils.displayImage(EditProfileActivity.this, imgAvatar, imgPath);
             file = new File(imgPath);
             isUpdateAvata = true;
-        } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == Constants.REQUEST_CODE_CAMERA_AVATA && resultCode == Activity.RESULT_OK) {
             Intent intent = new Intent(EditProfileActivity.this, CropImageActivity.class);
             intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
             startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+        }
+        if (requestCode == REQUEST_CODE_PICK_IMAGE
+                && resultCode == RESPONSE_CODE_PICK_IMAGE
+                && data != null) {
+            ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+            images.addAll(0, imagesSelected);
+            imageAdapter.notifyDataSetChanged();
+        } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+            final String selectedImagePath = getImagePath();
+            LogUtils.d(TAG, "onActivityResult selectedImagePath : " + selectedImagePath);
+            Image image = new Image();
+            image.setAdd(false);
+            image.setPath(selectedImagePath);
+            images.add(0, image);
+            imageAdapter.notifyDataSetChanged();
         } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
             String imgPath = data != null ? data.getStringExtra(Constants.EXTRA_IMAGE_PATH) : null;
             Utils.displayImage(EditProfileActivity.this, imgAvatar, null);
             file = new File(imgPath != null ? imgPath : null);
             isUpdateAvata = true;
+        } else if (requestCode == Constants.REQUEST_CODE_SKILL && resultCode == Constants.RESULT_CODE_TAG) {
+            userEntity = UserManager.getMyUser();
+            LogUtils.d(TAG, "onActivityResult userEntity REQUEST_CODE_SKILL : " + userEntity.toString());
+        } else if (requestCode == Constants.REQUEST_CODE_LANGUAGE && resultCode == Constants.RESULT_CODE_TAG) {
+            userEntity = UserManager.getMyUser();
+            LogUtils.d(TAG, "onActivityResult userEntity REQUEST_CODE_LANGUAGE : " + userEntity.toString());
         }
 
     }
 
     private void doPickImage() {
-        checkPermission();
+        checkPermissionAvata();
+    }
+
+    private void checkPermissionAvata() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE_AVATA);
+        } else {
+            permissionGrantedAvata();
+        }
     }
 
     private void checkPermission() {
@@ -574,11 +717,17 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode != Constants.PERMISSION_REQUEST_CODE
-                || grantResults.length == 0
-                || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+
+
+        if (
+//                requestCode != Constants.PERMISSION_REQUEST_CODE
+//                ||
+                grantResults.length == 0
+                        || grantResults[0] == PackageManager.PERMISSION_DENIED) {
             permissionDenied();
-        } else {
+        } else if (requestCode == Constants.PERMISSION_REQUEST_CODE_AVATA) {
+            permissionGrantedAvata();
+        } else if (requestCode == Constants.PERMISSION_REQUEST_CODE) {
             permissionGranted();
         }
     }
@@ -587,8 +736,30 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         LogUtils.d(TAG, "permissionDenied camera");
     }
 
-    private void permissionGranted() {
+    private void permissionGrantedAvata() {
 
+        PickImageDialog pickImageDialog = new PickImageDialog(EditProfileActivity.this);
+        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+            @Override
+            public void onCamera() {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA_AVATA);
+            }
+
+            @Override
+            public void onGallery() {
+                Intent intent = new Intent(EditProfileActivity.this, AlbumActivity.class);
+                intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
+                intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
+                startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE_AVATA, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
+        pickImageDialog.showView();
+
+    }
+
+    private void permissionGranted() {
         PickImageDialog pickImageDialog = new PickImageDialog(EditProfileActivity.this);
         pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
             @Override
@@ -601,13 +772,11 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onGallery() {
                 Intent intent = new Intent(EditProfileActivity.this, AlbumActivity.class);
-                intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
-                intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
+                intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size() - 1);
                 startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
         pickImageDialog.showView();
-
     }
 
     private Uri setImageUri() {
@@ -629,5 +798,58 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 getString(R.string.gg_api_error),
                 Toast.LENGTH_SHORT).show();
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.btn_save:
+                doSave();
+                break;
+
+            case R.id.img_camera:
+                doPickImage();
+                break;
+
+            case R.id.img_cancel:
+                doSave();
+                break;
+
+            case R.id.layout_birthday:
+                openDatePicker();
+                break;
+
+//            case R.id.layout_male:
+//                gender = getString(R.string.gender_male);
+//                updateGender(getString(R.string.gender_male));
+//                break;
+//
+//            case R.id.layout_female:
+//                gender = getString(R.string.gender_female);
+//                updateGender(getString(R.string.gender_female));
+//                break;
+
+            case img_avatar:
+                if (!UserManager.getMyUser().getAvatar().trim().equals("")) {
+                    Intent intentView = new Intent(EditProfileActivity.this, PreviewImageActivity.class);
+                    intentView.putExtra(Constants.EXTRA_IMAGE_PATH, UserManager.getMyUser().getAvatar());
+                    startActivity(intentView, TransitionScreen.RIGHT_TO_LEFT);
+                }
+                break;
+
+            case R.id.skill_layout:
+                Intent intent = new Intent(this, TagActivity.class);
+                intent.putExtra(Constants.REQUEST_CODE_EXTRA, Constants.REQUEST_CODE_SKILL);
+                startActivityForResult(intent, Constants.REQUEST_CODE_SKILL, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+
+            case R.id.languages_layout:
+                Intent intentL = new Intent(this, TagActivity.class);
+                intentL.putExtra(Constants.REQUEST_CODE_EXTRA, Constants.REQUEST_CODE_LANGUAGE);
+                startActivityForResult(intentL, Constants.REQUEST_CODE_SKILL, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+
+        }
     }
 }

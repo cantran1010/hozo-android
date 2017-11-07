@@ -106,7 +106,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
                             return null;
                         }
 
-                        long id = cursor.getLong(cursor.getColumnIndex(projection[0]));
+//                        long id = cursor.getLong(cursor.getColumnIndex(projection[0]));
                         String name = cursor.getString(cursor.getColumnIndex(projection[1]));
                         String path = cursor.getString(cursor.getColumnIndex(projection[2]));
 //                        boolean isSelected = selectedImages.contains(id);
@@ -116,7 +116,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
 
                         file = new File(path);
                         if (file.exists()) {
-                            temp.add(new Image(id, name, path, false, false));
+                            temp.add(new Image(0, name, path, false, false));
                         }
 
                     } while (cursor.moveToPrevious());

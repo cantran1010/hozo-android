@@ -39,7 +39,7 @@ public class RealmDbHelper {
         if (realmConfiguration == null)
             realmConfiguration = new RealmConfiguration.Builder()
                     .name(Constants.DB_NAME)
-                    .schemaVersion(3)
+                    .schemaVersion(4)
                     .migration(migration)
 //                    .deleteRealmIfMigrationNeeded()
                     .encryptionKey(Base64.decode(key, Base64.DEFAULT))
@@ -113,6 +113,22 @@ public class RealmDbHelper {
                         .addField("lat", double.class)
                         .addField("lon", double.class)
                         .addField("address", String.class);
+                oldVersion++;
+
+            }
+
+            if (oldVersion == 3) {
+
+                schema.get("UserEntity")
+                        .addRealmListField("skills", schema.get("RealmString"))
+                        .addRealmListField("languages", schema.get("RealmString"))
+                        .addRealmListField("images", schema.get("ImageProfileResponse"))
+                        .addField("experiences", String.class)
+                        .addField("privacyGender", boolean.class)
+                        .addField("privacyBirth", boolean.class)
+                        .addField("activitiesCount", int.class)
+                        .addField("followersCount", int.class);
+
                 oldVersion++;
 
             }
