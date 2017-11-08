@@ -79,7 +79,7 @@
 
     <style name="StarRatingBarBig" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/ratingbar_selector_images_big</item>
-        <item name="android:minHeight">31dp</item>
+        <item name="android:minHeight">32dp</item>
         <item name="android:maxHeight">32dp</item>
     </style>
 

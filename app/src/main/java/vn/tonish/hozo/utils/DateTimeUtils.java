@@ -62,6 +62,26 @@ public class DateTimeUtils {
         return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date);
     }
 
+    public static int getAgeFromIso(String birthday) {
+        Calendar calendar = GregorianCalendar.getInstance();
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(birthday);
+
+            calendar.setTime(date);
+
+            Calendar today = Calendar.getInstance();
+
+            int curYear = today.get(Calendar.YEAR);
+            int dobYear = calendar.get(Calendar.YEAR);
+
+            return curYear - dobYear;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 20;
+        }
+    }
+
 
     public static String getOnlyIsoFromDate(String input) {
         Date date = null;

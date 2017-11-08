@@ -3,12 +3,12 @@
 
     <item
         android:id="@android:id/background"
-        android:drawable="@drawable/rating_bar_progress_big" />
+        android:drawable="@drawable/star_off" />
     <item
         android:id="@android:id/secondaryProgress"
-        android:drawable="@drawable/rating_bar_progress_big" />
+        android:drawable="@drawable/star_off" />
     <item
         android:id="@android:id/progress"
-        android:drawable="@drawable/rating_bar_normal_big" />
+        android:drawable="@drawable/star_on" />
 
 </layer-list>

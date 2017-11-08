@@ -127,7 +127,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/white" />
+                    android:background="#e8f0f0" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -172,8 +172,6 @@
                             android:textColor="@color/tv_black_new" />
 
                     </LinearLayout>
-
-
                 </LinearLayout>
             </LinearLayout>
 
@@ -195,7 +193,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -219,6 +218,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
                             android:contentDescription="@string/just_image"
                             android:src="@drawable/facebook_off" />
 
@@ -233,6 +233,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
                             android:contentDescription="@string/just_image"
                             android:src="@drawable/email_off" />
 
@@ -248,6 +249,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:background="@drawable/btn_green_selector"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -270,13 +272,13 @@
                     android:id="@+id/tv_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginTop="5dp"
                     android:text="Ha Noi"
                     android:textColor="@color/tv_gray_new"
                     android:textSize="@dimen/tv_size_nomal" />
 
                 <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_phone_lbl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -289,7 +291,7 @@
                     android:id="@+id/tv_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
+                    android:layout_marginTop="5dp"
                     android:text="0978478304"
                     android:textColor="@color/tv_gray_new" />
 
@@ -306,15 +308,16 @@
                     android:id="@+id/tv_about"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:padding="5dp"
+                    android:layout_marginTop="5dp"
                     android:text="dep zai hoc gioi"
                     android:textColor="@color/tv_gray_new" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rcv_images"
+                <vn.tonish.hozo.view.MyGridView
+                    android:id="@+id/gr_image"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:numColumns="3" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:layout_width="wrap_content"
@@ -366,7 +369,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:minHeight="30dp"
+                    android:minHeight="36dp"
                     android:orientation="horizontal"
                     android:weightSum="2">
 
@@ -374,28 +377,28 @@
                         android:id="@+id/btn_poster"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="24dp"
-                        android:layout_marginStart="24dp"
+                        android:layout_marginRight="1dp"
                         android:layout_weight="1"
                         android:background="@drawable/my_task_worker_active"
                         android:gravity="center"
                         android:text="@string/profile_hire"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/tv_size_xtiny" />
+                        android:textSize="@dimen/tv_size_xtiny"
+                        android:textStyle="bold" />
 
                     <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/btn_worker"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginRight="24dp"
+                        android:layout_marginLeft="1dp"
                         android:layout_weight="1"
                         android:background="@drawable/my_task_poster_default"
                         android:gravity="center"
                         android:text="@string/profile_worker"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/tv_size_xtiny" />
+                        android:textColor="@color/tv_gray_new"
+                        android:textSize="@dimen/tv_size_xtiny"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -460,7 +463,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="15dp"
                     android:gravity="center"
                     android:text="@string/profile_rate_title"
                     android:textColor="@color/tv_gray_new_2"

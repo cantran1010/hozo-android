@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.rest.responseRes.TagResponse;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -16,11 +17,11 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 public class ProfileTagAdapter extends RecyclerView.Adapter<ProfileTagAdapter.MyViewHolder> {
 
-    public ProfileTagAdapter(List<String> strings) {
-        this.strings = strings;
+    public ProfileTagAdapter(List<TagResponse> tagResponses) {
+        this.tagResponses = tagResponses;
     }
 
-    private final List<String> strings;
+    private final List<TagResponse> tagResponses;
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,12 +32,12 @@ public class ProfileTagAdapter extends RecyclerView.Adapter<ProfileTagAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.tvTag.setText(strings.get(position));
+        holder.tvTag.setText(tagResponses.get(position).getValue());
     }
 
     @Override
     public int getItemCount() {
-        return strings.size();
+        return tagResponses.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -45,7 +46,7 @@ public class ProfileTagAdapter extends RecyclerView.Adapter<ProfileTagAdapter.My
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            tvTag = (TextViewHozo) itemView.findViewById(R.id.tv_tag);
+            tvTag = itemView.findViewById(R.id.tv_tag);
         }
 
     }
