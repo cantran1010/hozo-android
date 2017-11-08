@@ -653,4 +653,15 @@
     <string name="verified">Đã xác thực</string>
     <string name="verify_facebook_title">Tài khoản Facebook</string>
     <string name="ben_verify_email">Gửi</string>
+    <string name="status_poster_open">open</string>
+    <string name="tatus_poster_assigned">assigned</string>
+    <string name="status_poster_completed">completed</string>
+    <string name="status_poster_overdue">overdue</string>
+    <string name="status_poster_canceled">canceled</string>
+    <string name="status_poster_draft">draft</string>
+    <string name="status_worker_open">pending</string>
+    <string name="status_worker_assigned">accepted</string>
+    <string name="status_worker_completed">completed</string>
+    <string name="status_worker_missed">missed</string>
+    <string name="status_worker_canceled">canceled</string>
 </resources>
