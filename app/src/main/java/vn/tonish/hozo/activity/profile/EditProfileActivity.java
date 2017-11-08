@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -49,11 +50,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.AlbumActivity;
+import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.CropImageActivity;
-import vn.tonish.hozo.activity.PreviewImageActivity;
-import vn.tonish.hozo.activity.TagActivity;
+import vn.tonish.hozo.activity.image.PreviewImageActivity;
 import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
@@ -184,11 +184,26 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         edtName.setText(userEntity.getFullName());
 
-
         if (userEntity.getGender() != null) {
             gender = userEntity.getGender();
             updateGender(gender);
         }
+
+        rbMale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) gender = "male";
+                else gender = "female";
+            }
+        });
+
+        rbFemale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) gender = "female";
+                else gender = "male";
+            }
+        });
 
         cbHideGender.setChecked(userEntity.isPrivacyGender());
 
@@ -202,7 +217,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         address = userEntity.getAddress();
         googleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, 0 /* clientId */, (GoogleApiClient.OnConnectionFailedListener) this)
+                .enableAutoManage(this, 0 /* clientId */, this)
                 .addApi(Places.GEO_DATA_API)
                 .build();
         // Retrieve the AutoCompleteTextView that will display Place suggestions.
@@ -224,6 +239,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         placeAutocompleteAdapter = new PlaceAutocompleteAdapter(this, googleApiClient, null,
                 autocompleteFilter);
         autocompleteView.setAdapter(placeAutocompleteAdapter);
+
         lat = userEntity.getLatitude();
         lon = userEntity.getLongitude();
 
@@ -262,6 +278,17 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 }
             }
         });
+
+        edtExperience.setText(userEntity.getExperiences());
+
+        if (userEntity.getRole().equals("poster")) {
+            rbPoster.setChecked(true);
+        } else if (userEntity.getRole().equals("tasker")) {
+            rbWorker.setChecked(true);
+        } else {
+            rbBoth.setChecked(true);
+        }
+
     }
 
     private final AdapterView.OnItemClickListener mAutocompleteClickListener
@@ -512,7 +539,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             jsonRequest.put("privacy_hide_gender", cbHideGender.isChecked());
             if (!tvBirthday.getText().toString().equals(""))
                 jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, getOnlyIsoFromDate(tvBirthday.getText().toString()));
-
+            jsonRequest.put("privacy_hide_date_of_birth", cbHideBirth.isChecked());
             jsonRequest.put("latitude", lat);
             jsonRequest.put("longitude", lon);
             if (address != null && lat != 0 && lon != 0) {
@@ -533,7 +560,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 jsonArray.put(userEntity.getSkills().get(i).getValue());
             }
             jsonRequest.put("skills", jsonArray);
-
 
             JSONArray jsonArrayLanguage = new JSONArray();
             for (int i = 0; i < userEntity.getLanguages().size(); i++) {
@@ -717,8 +743,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-
         if (
 //                requestCode != Constants.PERMISSION_REQUEST_CODE
 //                ||

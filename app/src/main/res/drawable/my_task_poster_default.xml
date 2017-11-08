@@ -6,11 +6,8 @@
         android:bottomRightRadius="50dp"
         android:topLeftRadius="0dp"
         android:topRightRadius="50dp" />
-    <solid android:color="@color/white" />
+    <solid android:color="#e8f0f0" />
     <size
         android:width="156dp"
         android:height="21dp" />
-    <stroke
-        android:width="0.5dp"
-        android:color="@color/hozo_bg" />
 </shape>

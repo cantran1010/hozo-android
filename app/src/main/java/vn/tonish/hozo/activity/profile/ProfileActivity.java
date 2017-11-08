@@ -6,6 +6,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -27,9 +28,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.GiveInforActivity;
 import vn.tonish.hozo.activity.HomeActivity;
-import vn.tonish.hozo.activity.PreviewImageActivity;
 import vn.tonish.hozo.activity.ReviewsActivity;
+import vn.tonish.hozo.activity.image.PreviewImageActivity;
+import vn.tonish.hozo.activity.image.PreviewImageListActivity;
+import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
 import vn.tonish.hozo.adapter.ProfileTagAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.ReviewEntity;
@@ -40,18 +44,20 @@ import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
+import vn.tonish.hozo.rest.responseRes.ImageProfileResponse;
+import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.CircleImageView;
+import vn.tonish.hozo.view.MyGridView;
 import vn.tonish.hozo.view.ReviewsListView;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.img_avatar;
-import static vn.tonish.hozo.common.Constants.REVIEW_TYPE_POSTER;
-import static vn.tonish.hozo.utils.DateTimeUtils.getDateBirthDayFromIso;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
@@ -63,10 +69,10 @@ import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = ProfileActivity.class.getSimpleName();
-    private ImageView imgback, imgEdit;
+    private ImageView imgback, imgEdit, imgCheckedFb, imgCheckedEmail;
     private TextView btnWorker, btnPoster, tvTitle;
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvRateCount, btnMoreReview, btnLogOut, tvAbout;
+    private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvRateLbl, btnMoreReview, btnLogOut, tvAbout, tvCountActivity, tvCountFollow, tvMobileLbl, tvExperience;
     private TextViewHozo tvReviewsCount, tvTaskCount, tvCompletionRate;
     //    tvAddVerify;tvGender
     private RatingBar ratingBar;
@@ -86,8 +92,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private final List<ReviewEntity> taskerReviewEntity = new ArrayList<>();
     private ImageView imgFbVerify, imgEmailVerify;
 
-    private RecyclerView rcvSkills, rcvLanguages,rcvImages;
+    private RecyclerView rcvSkills, rcvLanguages, rcvImages;
     private ProfileTagAdapter skillsAdapter, languagesAdapter;
+    private ButtonHozo btnVerify;
+    private MyGridView myGridView;
 
     @Override
     protected int getLayout() {
@@ -109,7 +117,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btnLogOut = (TextViewHozo) findViewById(R.id.btn_logout);
         btnWorker = (TextViewHozo) findViewById(R.id.btn_worker);
         btnPoster = (TextViewHozo) findViewById(R.id.btn_poster);
-        tvRateCount = (TextViewHozo) findViewById(R.id.tv_rate);
+        tvRateLbl = (TextViewHozo) findViewById(R.id.tv_rate);
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         tvAbout = (TextViewHozo) findViewById(R.id.tv_about);
         tvReviewsCount = (TextViewHozo) findViewById(R.id.tv_reviews_count);
@@ -125,16 +133,31 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         ratingPoster = 0f;
         ratingTasker = 0f;
 
-        rcvImages = findViewById(R.id.rcv_images);
+        tvMobileLbl = findViewById(R.id.tv_phone_lbl);
+
+        btnVerify = findViewById(R.id.btn_verify);
+        btnVerify.setOnClickListener(this);
+
         rcvSkills = findViewById(R.id.rcv_skill);
         rcvLanguages = findViewById(R.id.rcv_languages);
+
+        tvCountActivity = findViewById(R.id.tv_count_activity);
+        tvCountFollow = findViewById(R.id.tv_count_follow);
+
+        imgCheckedFb = findViewById(R.id.img_checked_fb);
+        imgCheckedEmail = findViewById(R.id.img_checked_email);
+        myGridView = (MyGridView) findViewById(R.id.gr_image);
+
+        tvExperience = findViewById(R.id.tv_experience);
+
     }
 
     @Override
     protected void initData() {
         Intent intent = getIntent();
         userId = intent.getExtras().getInt(Constants.USER_ID);
-        isMyUser = intent.getExtras().getBoolean(Constants.IS_MY_USER);
+        isMyUser = (userId == UserManager.getMyUser().getId());
+
         LogUtils.d(TAG, "userId" + userId + "isMyuser" + isMyUser);
         imgback.setOnClickListener(this);
         imgEdit.setOnClickListener(this);
@@ -149,56 +172,15 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         } else {
             mUserEntity = UserManager.getUserById(userId);
         }
-        updateUi(mUserEntity);
-        updateUserFromServer();
+        updateUi();
+        getUserFromServer();
         scrollView.fullScroll(ScrollView.FOCUS_UP);
 
     }
 
     @Override
     protected void resumeData() {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.img_back:
-                finish();
-                break;
-            case R.id.img_edit:
-                doEdit();
-                break;
-            case R.id.btn_logout:
-                logOut();
-                break;
-            case R.id.btn_poster:
-                if (tabIndex == 1) break;
-                tabIndex = 1;
-                selectab(1);
-                break;
-            case R.id.btn_worker:
-                if (tabIndex == 2) break;
-                tabIndex = 2;
-                selectab(2);
-                break;
-            case R.id.tv_more_reviews:
-                Intent intent = new Intent(this, ReviewsActivity.class);
-                intent.putExtra(Constants.USER_ID, userId);
-                startActivity(intent, TransitionScreen.DOWN_TO_UP);
-                break;
-            case img_avatar:
-                if (!mUserEntity.getAvatar().trim().equals("")) {
-                    Intent intentView = new Intent(ProfileActivity.this, PreviewImageActivity.class);
-                    intentView.putExtra(Constants.EXTRA_IMAGE_PATH, mUserEntity.getAvatar());
-                    startActivity(intentView, TransitionScreen.RIGHT_TO_LEFT);
-                }
-                break;
-//            case R.id.btn_add_verify:
-//                Intent intentVerify = new Intent(this, GiveInforActivity.class);
-//                startActivityForResult(intentVerify, Constants.REQUEST_CODE_VERIFY, TransitionScreen.RIGHT_TO_LEFT);
-//                break;
-        }
+        getUserFromServer();
     }
 
     private void doEdit() {
@@ -207,27 +189,28 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_PROFILE, TransitionScreen.UP_TO_DOWN);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.REQUEST_CODE_UPDATE_PROFILE && resultCode == Constants.RESULT_CODE_UPDATE_PROFILE) {
-            updateUi(UserManager.getMyUser());
-        } else if (requestCode == Constants.REQUEST_CODE_VERIFY && resultCode == Constants.RESULT_CODE_VERIFY) {
-            updateUi(UserManager.getMyUser());
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+////        if (requestCode == Constants.REQUEST_CODE_UPDATE_PROFILE && resultCode == Constants.RESULT_CODE_UPDATE_PROFILE) {
+////            updateUi(UserManager.getMyUser());
+////        } else if (requestCode == Constants.REQUEST_CODE_VERIFY && resultCode == Constants.RESULT_CODE_VERIFY) {
+////            updateUi(UserManager.getMyUser());
+////        }
+//        mUserEntity = UserManager.getUserById(userId);
+//        updateUi();
+//    }
 
-
-    private void updateUserFromServer() {
+    private void getUserFromServer() {
         if (mUserEntity == null) {
             ProgressDialogUtils.showProgressDialog(this);
         }
-        LogUtils.d(TAG, "onResponse updateUserFromServer start");
+        LogUtils.d(TAG, "onResponse getUserFromServer start");
         ApiClient.getApiService().getUser(UserManager.getUserToken(), userId).enqueue(new Callback<UserEntity>() {
             @Override
             public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
-                LogUtils.d(TAG, "onResponse updateUserFromServer status code : " + response.code());
-                LogUtils.d(TAG, "onResponse updateUserFromServer body : " + response.body());
+                LogUtils.d(TAG, "onResponse getUserFromServer status code : " + response.code());
+                LogUtils.d(TAG, "onResponse getUserFromServer body : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     UserEntity userEntity = response.body();
                     if (isMyUser) {
@@ -239,9 +222,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                             userEntity.setRefreshToken(UserManager.getMyUser().getRefreshToken());
                     }
                     UserManager.insertUser(response.body(), isMyUser);
-                    updateUi(response.body());
 
                     mUserEntity = userEntity;
+                    updateUi();
 
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(ProfileActivity.this);
@@ -249,7 +232,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     NetworkUtils.refreshToken(ProfileActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            updateUserFromServer();
+                            getUserFromServer();
                         }
                     });
                 } else {
@@ -272,7 +255,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        updateUserFromServer();
+                        getUserFromServer();
                     }
 
                     @Override
@@ -283,121 +266,153 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
-
-
     }
 
-    private void updateUi(UserEntity userEntity) {
-        if (userEntity != null) {
-            posterReviewEntity.clear();
-            taskerReviewEntity.clear();
-            if (userEntity.getReviews() != null)
-                for (ReviewEntity reviewEntity : userEntity.getReviews()) {
-                    if (reviewEntity.getType().equals(REVIEW_TYPE_POSTER)) {
-                        posterReviewEntity.add(reviewEntity);
-                    } else {
-                        taskerReviewEntity.add(reviewEntity);
-                    }
+    private void updateUi() {
+        if (mUserEntity != null) {
 
-                }
-            Utils.displayImageAvatar(getApplicationContext(), imgAvatar, userEntity.getAvatar());
-            ratingPoster = userEntity.getPosterAverageRating();
-            rateCountPoster = userEntity.getPosterReviewCount();
-            retaCountWorker = userEntity.getTaskerReviewCount();
-            taskPostPoster = userEntity.getPosterDoneCount();
-            taskPostWorker = userEntity.getTaskerDoneCount();
-            percentDonePoster = userEntity.getPosterDoneRate();
-            percentDoneWorker = userEntity.getTaskerDoneRate();
+            LogUtils.d(TAG, "updateUi , mUserEntity : " + mUserEntity.toString());
 
-            ratingTasker = userEntity.getTaskerAverageRating();
-            tvName.setText(userEntity.getFullName());
-            if (userEntity.getDateOfBirth().equals("0001-01-01")) {
-                tvDateOfBirth.setVisibility(View.GONE);
-            } else {
-                tvDateOfBirth.setVisibility(View.VISIBLE);
-                tvDateOfBirth.setText(getDateBirthDayFromIso(userEntity.getDateOfBirth()));
+            Utils.displayImageAvatar(getApplicationContext(), imgAvatar, mUserEntity.getAvatar());
+
+            tvName.setText(mUserEntity.getFullName());
+
+            String genderAge = "";
+
+            if (isMyUser)
+                genderAge = Utils.converGenderVn(this, mUserEntity.getGender()) + " - " + DateTimeUtils.getAgeFromIso(mUserEntity.getDateOfBirth()) + " " + getString(R.string.profile_age);
+            else {
+                if (mUserEntity.isPrivacyGender() && mUserEntity.isPrivacyBirth())
+                    tvDateOfBirth.setVisibility(View.GONE);
+                else if (mUserEntity.isPrivacyGender() && !mUserEntity.isPrivacyBirth())
+                    genderAge = DateTimeUtils.getAgeFromIso(mUserEntity.getDateOfBirth()) + " " + getString(R.string.profile_age);
+                else if (!mUserEntity.isPrivacyGender() && mUserEntity.isPrivacyBirth())
+                    genderAge = Utils.converGenderVn(this, mUserEntity.getGender());
+                else
+                    genderAge = Utils.converGenderVn(this, mUserEntity.getGender()) + " - " + DateTimeUtils.getAgeFromIso(mUserEntity.getDateOfBirth()) + " " + getString(R.string.profile_age);
             }
 
-//            if (userEntity.getGender().equals(getString(R.string.gender_any)))
-//                tvGender.setVisibility(View.GONE);
-//            else {
-//                tvGender.setVisibility(View.VISIBLE);
-//                tvGender.setText(converGenderVn(this, userEntity.getGender()));
-//            }
+            tvDateOfBirth.setText(genderAge);
+
+            tvCountActivity.setText(getString(R.string.count_activity, mUserEntity.getActivitiesCount()));
+            tvCountFollow.setText(getString(R.string.count_follow, mUserEntity.getFollowersCount()));
+
+            if (mUserEntity.getFacebookId() != null && !mUserEntity.getFacebookId().trim().equals("")) {
+                imgFbVerify.setImageResource(R.drawable.facebook_on);
+                imgCheckedFb.setVisibility(View.VISIBLE);
+            } else {
+                imgFbVerify.setImageResource(R.drawable.facebook_off);
+                imgCheckedFb.setVisibility(View.GONE);
+            }
+
+            if (mUserEntity.isEmailActive()) {
+                imgEmailVerify.setImageResource(R.drawable.email_on);
+                imgCheckedEmail.setVisibility(View.VISIBLE);
+            } else {
+                imgEmailVerify.setImageResource(R.drawable.email_off);
+                imgCheckedEmail.setVisibility(View.GONE);
+            }
+
+            tvAddress.setText(mUserEntity.getAddress());
 
             if (isMyUser) {
-//                layoutInfor.setVisibility(View.VISIBLE);
-                tvAddress.setText(userEntity.getAddress());
-                tvMobile.setText(userEntity.getPhone());
+                tvMobile.setText(mUserEntity.getPhone());
+
                 layoutLogout.setVisibility(View.VISIBLE);
                 imgEdit.setVisibility(View.VISIBLE);
                 tvTitle.setText(getString(R.string.my_account));
-//                tvAddVerify.setVisibility(View.VISIBLE);
             } else {
+                tvMobile.setVisibility(View.GONE);
+                tvMobileLbl.setVisibility(View.GONE);
+
                 imgEdit.setVisibility(View.GONE);
-//                layoutInfor.setVisibility(View.GONE);
                 layoutLogout.setVisibility(View.GONE);
                 tvTitle.setText(getString(R.string.user_account));
-//                tvAddVerify.setVisibility(View.GONE);
             }
+
+            tvAbout.setText(mUserEntity.getDescription());
+
+            updateImagesAttach();
+            updateSkills();
+            updateLanguages();
+
+            tvExperience.setText(mUserEntity.getExperiences());
+
             if (reviewEntities.size() > 5) {
                 btnMoreReview.setVisibility(View.VISIBLE);
             } else {
                 btnMoreReview.setVisibility(View.GONE);
             }
 
-            if (userEntity.getFacebookId() != null && !userEntity.getFacebookId().trim().equals(""))
-                imgFbVerify.setImageResource(R.drawable.fb_on);
-            else imgFbVerify.setImageResource(R.drawable.fb_off);
-
-            if (userEntity.isEmailActive())
-                imgEmailVerify.setImageResource(R.drawable.email_on);
-            else imgEmailVerify.setImageResource(R.drawable.email_off);
-
             setDataSelected(true);
-            tvAbout.setText(userEntity.getDescription());
 
-            updateImagesAttach();
-            updateSkills();
-            updateLanguages();
+            posterReviewEntity.clear();
+            taskerReviewEntity.clear();
+            if (mUserEntity.getReviews() != null)
+                for (ReviewEntity reviewEntity : mUserEntity.getReviews()) {
+                    if (reviewEntity.getType().equals(Constants.REVIEW_TYPE_POSTER)) {
+                        posterReviewEntity.add(reviewEntity);
+                    } else {
+                        taskerReviewEntity.add(reviewEntity);
+                    }
+
+                }
+
+            ratingPoster = mUserEntity.getPosterAverageRating();
+            rateCountPoster = mUserEntity.getPosterReviewCount();
+            retaCountWorker = mUserEntity.getTaskerReviewCount();
+            taskPostPoster = mUserEntity.getPosterDoneCount();
+            taskPostWorker = mUserEntity.getTaskerDoneCount();
+            percentDonePoster = mUserEntity.getPosterDoneRate();
+            percentDoneWorker = mUserEntity.getTaskerDoneRate();
+            ratingTasker = mUserEntity.getTaskerAverageRating();
         }
     }
 
-    private void updateImagesAttach(){
+    private void updateImagesAttach() {
+        if (mUserEntity.getImages().size() > 0) {
+            final ArrayList<String> attachments = new ArrayList<>();
 
+            for (ImageProfileResponse imageProfile : mUserEntity.getImages()) {
+                attachments.add(imageProfile.getUrl());
+            }
+
+            ImageDetailTaskAdapter imageDetailTaskAdapter = new ImageDetailTaskAdapter(this, attachments);
+            myGridView.setAdapter(imageDetailTaskAdapter);
+
+            myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(ProfileActivity.this, PreviewImageListActivity.class);
+                    intent.putStringArrayListExtra(Constants.IMAGE_ATTACHS_EXTRA, attachments);
+                    intent.putExtra(Constants.IMAGE_POSITITON_EXTRA, position);
+                    startActivity(intent);
+                }
+            });
+            imageDetailTaskAdapter.notifyDataSetChanged();
+            myGridView.setVisibility(View.VISIBLE);
+        } else {
+            myGridView.setVisibility(View.GONE);
+        }
     }
 
     private void updateSkills() {
-
-        ArrayList<String> tests = new ArrayList<>();
-
-        for (int i = 0; i < 20; i++) {
-            tests.add("skill " + i);
-        }
-
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 3);
         layoutManager.setAutoMeasureEnabled(true);
         rcvSkills.setNestedScrollingEnabled(false);
 
         rcvSkills.setLayoutManager(layoutManager);
-        skillsAdapter = new ProfileTagAdapter(tests);
+        skillsAdapter = new ProfileTagAdapter(mUserEntity.getSkills());
         rcvSkills.setAdapter(skillsAdapter);
     }
 
     private void updateLanguages() {
-
-        ArrayList<String> tests = new ArrayList<>();
-
-        for (int i = 0; i < 20; i++) {
-            tests.add("language " + i);
-        }
-
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 3);
         layoutManager.setAutoMeasureEnabled(true);
         rcvLanguages.setNestedScrollingEnabled(false);
 
         rcvLanguages.setLayoutManager(layoutManager);
-        languagesAdapter = new ProfileTagAdapter(tests);
+        languagesAdapter = new ProfileTagAdapter(mUserEntity.getLanguages());
         rcvLanguages.setAdapter(languagesAdapter);
     }
 
@@ -409,17 +424,25 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             tvTaskCount.setText(getString(R.string.post_count, taskPostPoster));
             String percentDone = (int) (percentDonePoster * 100) + "% " + getString(R.string.completion_rate);
             tvCompletionRate.setText(percentDone);
-            tvRateCount.setText(R.string.profile_rate);
             ratingBar.setRating(ratingPoster);
             reviewEntities.addAll(posterReviewEntity);
+
+            if (rateCountPoster == 0) tvRateLbl.setVisibility(View.GONE);
+            else
+                tvRateLbl.setVisibility(View.VISIBLE);
+
         } else {
             tvReviewsCount.setText(getString(R.string.reviews_count, retaCountWorker));
             tvTaskCount.setText(getString(R.string.task_count, taskPostWorker));
             String percentDone = (int) (percentDoneWorker * 100) + "% " + getString(R.string.completion_rate);
             tvCompletionRate.setText(percentDone);
-            tvRateCount.setText(R.string.profile_rate);
             ratingBar.setRating(ratingTasker);
             reviewEntities.addAll(taskerReviewEntity);
+
+            if (retaCountWorker == 0) tvRateLbl.setVisibility(View.GONE);
+            else
+                tvRateLbl.setVisibility(View.VISIBLE);
+
         }
         reviewsListView.updateData((ArrayList<ReviewEntity>) reviewEntities);
         LogUtils.d(TAG, "reviews " + isPoster + reviewEntities.toString());
@@ -431,11 +454,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         if (i == 1) {
             btnPoster.setTextColor(ContextCompat.getColor(this, R.color.white));
             setViewBackground(btnPoster, ContextCompat.getDrawable(this, R.drawable.my_task_worker_active));
-            btnWorker.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+            btnWorker.setTextColor(ContextCompat.getColor(this, R.color.tv_gray_new));
             setViewBackground(btnWorker, ContextCompat.getDrawable(this, R.drawable.my_task_poster_default));
             setDataSelected(true);
         } else {
-            btnPoster.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+            btnPoster.setTextColor(ContextCompat.getColor(this, R.color.tv_gray_new));
             setViewBackground(btnPoster, ContextCompat.getDrawable(this, R.drawable.my_task_worker_default));
             btnWorker.setTextColor(ContextCompat.getColor(this, R.color.white));
             setViewBackground(btnWorker, ContextCompat.getDrawable(this, R.drawable.my_task_poster_active));
@@ -524,6 +547,47 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         super.onDestroy();
         Glide.clear(imgAvatar);
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.img_back:
+                finish();
+                break;
+            case R.id.img_edit:
+                doEdit();
+                break;
+            case R.id.btn_logout:
+                logOut();
+                break;
+            case R.id.btn_poster:
+                if (tabIndex == 1) break;
+                tabIndex = 1;
+                selectab(1);
+                break;
+            case R.id.btn_worker:
+                if (tabIndex == 2) break;
+                tabIndex = 2;
+                selectab(2);
+                break;
+            case R.id.tv_more_reviews:
+                Intent intent = new Intent(this, ReviewsActivity.class);
+                intent.putExtra(Constants.USER_ID, userId);
+                startActivity(intent, TransitionScreen.DOWN_TO_UP);
+                break;
+            case img_avatar:
+                if (!mUserEntity.getAvatar().trim().equals("")) {
+                    Intent intentView = new Intent(ProfileActivity.this, PreviewImageActivity.class);
+                    intentView.putExtra(Constants.EXTRA_IMAGE_PATH, mUserEntity.getAvatar());
+                    startActivity(intentView, TransitionScreen.RIGHT_TO_LEFT);
+                }
+                break;
+            case R.id.btn_verify:
+                Intent intentVerify = new Intent(this, GiveInforActivity.class);
+                startActivityForResult(intentVerify, Constants.REQUEST_CODE_VERIFY, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+        }
     }
 
 

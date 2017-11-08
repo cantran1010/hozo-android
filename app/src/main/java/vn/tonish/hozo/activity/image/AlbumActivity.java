@@ -1,4 +1,4 @@
-package vn.tonish.hozo.activity;
+package vn.tonish.hozo.activity.image;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.adapter.AlbumAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Album;

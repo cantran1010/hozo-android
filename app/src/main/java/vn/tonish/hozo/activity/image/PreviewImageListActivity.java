@@ -1,4 +1,4 @@
-package vn.tonish.hozo.activity;
+package vn.tonish.hozo.activity.image;
 
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import me.relex.circleindicator.CircleIndicator;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.adapter.PreviewPagerAdapter;
 import vn.tonish.hozo.common.Constants;
 

@@ -22,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.PreviewImageListActivity;
+import vn.tonish.hozo.activity.image.PreviewImageListActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
 import vn.tonish.hozo.common.Constants;

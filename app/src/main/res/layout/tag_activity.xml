@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:background="@drawable/border_gray">
+            android:background="@drawable/border_gray_conner">
 
             <vn.tonish.hozo.view.EdittextHozo
                 android:id="@+id/edt_tag"

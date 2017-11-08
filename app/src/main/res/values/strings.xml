@@ -611,8 +611,8 @@
     <string name="content_missing_error">Vui lòng nhập nội dung tin nhắn!</string>
     <string name="validate_email_error">Email không đúng định dạng,vui lòng sửa lại!</string>
     <string name="send_mail_support_success">Gủi tin nhắn thành công,chúng tôi sẽ sớm phản hồi lại bạn,cảm ơn bạn!</string>
-    <string name="count_activity">%1$d\nlượt tương tác</string>
-    <string name="count_follow">%1$d\nlượt theo dõi</string>
+    <string name="count_activity">%1$d lượt\ntương tác</string>
+    <string name="count_follow">%1$d lượt\ntheo dõi</string>
     <string name="follow">Theo dõi</string>
     <string name="verify_title">THÔNG TIN XÁC THỰC</string>
     <string name="profile_rate_title">ĐÁNH GIÁ</string>
@@ -629,4 +629,6 @@
     <string name="rd_worker">Người làm việc</string>
     <string name="rc_both">Cả hai</string>
     <string name="send_tag">Gủi</string>
+    <string name="gender_age">fadsf</string>
+    <string name="profile_age">tuổi</string>
 </resources>

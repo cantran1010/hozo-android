@@ -63,6 +63,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.image.AlbumActivity;
+import vn.tonish.hozo.activity.image.PreviewImageActivity;
 import vn.tonish.hozo.adapter.CustomArrayAdapter;
 import vn.tonish.hozo.adapter.HozoSpinnerAdapter;
 import vn.tonish.hozo.adapter.ImageAdapter;

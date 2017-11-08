@@ -1,4 +1,4 @@
-package vn.tonish.hozo.activity;
+package vn.tonish.hozo.activity.profile;
 
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import io.realm.Realm;
 import io.realm.RealmList;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.adapter.TagAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;

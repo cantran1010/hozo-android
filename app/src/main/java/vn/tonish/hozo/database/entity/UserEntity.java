@@ -68,6 +68,15 @@ public class UserEntity extends RealmObject implements Serializable {
     private int activitiesCount;
     @SerializedName("followers_count")
     private int followersCount;
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public void setMyUser(boolean myUser) {
         isMyUser = myUser;
@@ -382,7 +391,7 @@ public class UserEntity extends RealmObject implements Serializable {
                 ", privacyBirth=" + privacyBirth +
                 ", activitiesCount=" + activitiesCount +
                 ", followersCount=" + followersCount +
+                ", role='" + role + '\'' +
                 '}';
     }
-
 }
