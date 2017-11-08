@@ -71,6 +71,9 @@
             android:name=".activity.AdvanceSettingsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.FilterMyTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.SettingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />

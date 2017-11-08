@@ -613,6 +613,17 @@
     <string name="validate_email_error">Email không đúng định dạng,vui lòng sửa lại!</string>
     <string name="send_mail_support_success">Gủi tin nhắn thành công,chúng tôi sẽ sớm phản hồi lại bạn,cảm ơn bạn!</string>
     <string name="filter_mytask">Bạn có thể cài đặt để chỉ hiển thị công việc bạn mong muốn</string>
+    <string name="status_poster_open">open</string>
+    <string name="tatus_poster_assigned">assigned</string>
+    <string name="status_poster_completed">completed</string>
+    <string name="status_poster_overdue">overdue</string>
+    <string name="status_poster_canceled">canceled</string>
+    <string name="status_poster_draft">draft</string>
+    <string name="status_worker_open">pending</string>
+    <string name="status_worker_assigned">accepted</string>
+    <string name="status_worker_completed">completed</string>
+    <string name="status_worker_missed">missed</string>
+    <string name="status_worker_canceled">canceled</string>
     <string name="count_activity">%1$d lượt\ntương tác</string>
     <string name="count_follow">%1$d lượt\ntheo dõi</string>
     <string name="follow">Theo dõi</string>

@@ -160,7 +160,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
 
         LogUtils.d(TAG, "getTaskFromServer start , param : " + params);
 
-        call = ApiClient.getApiService().getMyTask(UserManager.getUserToken(), params);
+        call = ApiClient.getApiService().getMyTask(UserManager.getUserToken(), params,new ArrayList<String>());
         call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {

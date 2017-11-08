@@ -118,7 +118,12 @@ public class RealmDbHelper {
             }
 
             if (oldVersion == 3) {
-
+                schema.create("StatusEntity")
+                        .addField("id", String.class, FieldAttribute.PRIMARY_KEY)
+                        .addField("role", String.class)
+                        .addField("name", String.class)
+                        .addField("status", String.class)
+                        .addField("selected", boolean.class);
                 schema.get("UserEntity")
                         .addRealmListField("skills", schema.get("RealmString"))
                         .addRealmListField("languages", schema.get("RealmString"))

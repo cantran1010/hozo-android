@@ -1,6 +1,7 @@
 package vn.tonish.hozo.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,34 +12,24 @@ import android.widget.CompoundButton;
 import java.util.List;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.database.entity.StatusEntity;
 import vn.tonish.hozo.utils.LogUtils;
+
+import static vn.tonish.hozo.database.manager.StatusManager.insertIsSelectedStatus;
 
 /**
  * Created by CanTran on 5/16/17.
  */
 
 public class FilterMyTaskAdapter extends RecyclerView.Adapter<FilterMyTaskAdapter.ViewHolder> {
+    private Context context;
     private final static String TAG = TaskTypeAdapter.class.getSimpleName();
     private int countTick = 0;
-    private final List<Category> taskTypes;
-    public FilterMyTaskAdapter(List<Category> taskTypes) {
-        this.taskTypes = taskTypes;
+    private final List<StatusEntity> statuses;
 
-    }
-
-    public interface CategoryListener {
-        void onCheckedChanged(CompoundButton buttonView, boolean isChecked);
-    }
-
-    private CategoryListener listener;
-
-    public CategoryListener getListener() {
-        return listener;
-    }
-
-    public void setListener(CategoryListener listener) {
-        this.listener = listener;
+    public FilterMyTaskAdapter(Context context, List<StatusEntity> statuses) {
+        this.context = context;
+        this.statuses = statuses;
     }
 
     @Override
@@ -52,59 +43,51 @@ public class FilterMyTaskAdapter extends RecyclerView.Adapter<FilterMyTaskAdapte
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         final int pos = position;
-        LogUtils.d(TAG, "checkbox -:" + taskTypes.get(pos).isSelected());
-        countTick = getCountTick();
-        LogUtils.d(TAG, "count tisk -:" + countTick);
-        if (countTick == 0 || countTick == taskTypes.size()-1) {
-            taskTypes.get(0).setSelected(true);
-            for (int i = 1; i < taskTypes.size(); i++) {
-                taskTypes.get(i).setSelected(false);
-            }
-        }
-        viewHolder.chkSelected.setText(taskTypes.get(pos).getName());
+        viewHolder.chkSelected.setText(statuses.get(pos).getName());
         viewHolder.chkSelected.setOnCheckedChangeListener(null);
-        viewHolder.chkSelected.setChecked(taskTypes.get(pos).isSelected());
+        viewHolder.chkSelected.setChecked(statuses.get(pos).isSelected());
         viewHolder.chkSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (pos == 0) {
-                    countTick = 0;
-                    taskTypes.get(0).setSelected(true);
-                    for (int i = 1; i < taskTypes.size(); i++) {
-                        taskTypes.get(i).setSelected(false);
-                    }
+                LogUtils.d(TAG, "buttonView isChecked: " + isChecked);
+                if (buttonView.getText().toString().equalsIgnoreCase(context.getString(R.string.hozo_all)) && isChecked) {
+                    buttonView.setChecked(isChecked);
+                    setAllStatus();
+                } else if (!isChecked && getCountTick() == 1) {
+                    buttonView.setChecked(true);
+                    insertIsSelectedStatus(statuses.get(pos), true);
+                } else if (isChecked && !buttonView.getText().toString().equalsIgnoreCase(context.getString(R.string.hozo_all)) && (getCountTick() == statuses.size() - 2)) {
+                    setAllStatus();
                 } else {
-                    if (isChecked) {
-                        countTick++;
-                        taskTypes.get(0).setSelected(false);
-                        if (countTick == taskTypes.size() - 1) countTick = 0;
-                    } else {
-                        countTick--;
-                    }
-                    taskTypes.get(pos).setSelected(isChecked);
+                    insertIsSelectedStatus(statuses.get(0), false);
+                    insertIsSelectedStatus(statuses.get(pos), isChecked);
                 }
                 notifyDataSetChanged();
-                if (listener != null) listener.onCheckedChanged(buttonView, isChecked);
             }
         });
 
     }
 
-    private int getCountTick() {
-        int count = 0;
-        for (Category cat : taskTypes
-                ) {
-            if (cat.getId() == 0 && cat.isSelected()) count = 0;
-            else if (cat.getId() != 0 && cat.isSelected()) count++;
+    private void setAllStatus() {
+        for (int i = 1; i < statuses.size(); i++) {
+            insertIsSelectedStatus(statuses.get(i), false);
         }
+        insertIsSelectedStatus(statuses.get(0), true);
+    }
 
-        return count;
+    private int getCountTick() {
+        int n = 0;
+        for (StatusEntity s : statuses
+                ) {
+            if (s.isSelected()) n++;
+        }
+        return n;
     }
 
 
     @Override
     public int getItemCount() {
-        return taskTypes.size();
+        return statuses.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

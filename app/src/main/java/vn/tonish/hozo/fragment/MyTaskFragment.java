@@ -11,11 +11,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Spinner;
+import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.FilterMyTaskActivity;
 import vn.tonish.hozo.adapter.MyTaskFragmentAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.TypefaceContainer;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -24,17 +26,14 @@ import vn.tonish.hozo.view.TextViewHozo;
  * Created by LongBui on 4/4/2017.
  */
 
-public class MyTaskFragment extends BaseFragment {
+public class MyTaskFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = MyTaskFragment.class.getSimpleName();
-    private TextViewHozo tvWorker, tvPoster;
     private String role = Constants.ROLE_POSTER;
-    private Spinner spType;
-    private int posterFilterPosition = 0;
-    private int workerFilterPosition = 0;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private MyTaskFragmentAdapter myTaskFragmentAdapter;
     private TextViewHozo tvTab1, tvTab2;
+    private ImageView imgFilter, imgSearch;
 
     @Override
     protected int getLayout() {
@@ -44,6 +43,10 @@ public class MyTaskFragment extends BaseFragment {
     @Override
     protected void initView() {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        imgFilter = (ImageView) findViewById(R.id.img_filter);
+        imgSearch = (ImageView) findViewById(R.id.img_saerch);
+        imgFilter.setOnClickListener(this);
+        imgSearch.setOnClickListener(this);
         viewPager = (ViewPager) findViewById(R.id.pager);
         tabLayout.addTab(tabLayout.newTab().setText(getContext().getString(R.string.my_task_poster)));
         tabLayout.addTab(tabLayout.newTab().setText(getContext().getString(R.string.my_task_worker)));
@@ -63,7 +66,6 @@ public class MyTaskFragment extends BaseFragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 if (viewPager != null)
                     viewPager.setCurrentItem(tab.getPosition());
-
                 if (tab.getPosition() == 0) {
                     tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
                     tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
@@ -74,7 +76,7 @@ public class MyTaskFragment extends BaseFragment {
                         intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER);
                         getActivity().sendBroadcast(intentAnswer);
                     }
-                    role = Constants.ROLE_TASKER;
+                    role = Constants.ROLE_POSTER;
 
                 } else if (tab.getPosition() == 1) {
                     if (role.equals(Constants.ROLE_POSTER)) {
@@ -82,12 +84,13 @@ public class MyTaskFragment extends BaseFragment {
                         intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER);
                         getActivity().sendBroadcast(intentAnswer);
                     }
-                    role = Constants.ROLE_POSTER;
+                    role = Constants.ROLE_TASKER;
                     tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
                     tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
                     tvTab1.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
                     tvTab2.setTypeface(TypefaceContainer.TYPEFACE_REGULAR);
                 }
+                LogUtils.d(TAG, "my role: " + role);
             }
 
             @Override
@@ -106,7 +109,8 @@ public class MyTaskFragment extends BaseFragment {
     protected void initData() {
         Bundle bundle = getArguments();
         if (bundle.containsKey(Constants.ROLE_EXTRA)) role = bundle.getString(Constants.ROLE_EXTRA);
-        tabLayout.getTabAt(1).select();
+        if (role.equalsIgnoreCase(Constants.ROLE_POSTER))
+        tabLayout.getTabAt(0).select();else  tabLayout.getTabAt(1).select();
 //
 //        if (role != null && role.equals(Constants.ROLE_POSTER)) {
 //            new Handler().postDelayed(
@@ -191,8 +195,8 @@ public class MyTaskFragment extends BaseFragment {
 //            list.add(getString(R.string.my_task_status_worker_canceled));
 //            list.add(getString(R.string.my_task_status_poster_overdue));
 //        }
-//
-//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(),
+
+//      FilterMyTaskAdapter dataAdapter = new ArrayAdapter<>(getActivity(),
 //                android.R.layout.simple_spinner_item, list);
 //        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        spType.setAdapter(dataAdapter);
@@ -202,7 +206,7 @@ public class MyTaskFragment extends BaseFragment {
 //        } else if (role.equals(Constants.ROLE_POSTER)) {
 //            spType.setSelection(posterFilterPosition);
 //        }
-//
+
 //        spType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
 //            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -308,5 +312,29 @@ public class MyTaskFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_filter:
+                actionFilter();
+                break;
+            case R.id.img_search:
+                actionSearch();
+                break;
+        }
+
+    }
+
+    private void actionSearch() {
+
+
+    }
+
+    private void actionFilter() {
+        Intent intent = new Intent(getContext(), FilterMyTaskActivity.class);
+        intent.putExtra(Constants.EXTRA_MY_TASK, role);
+        startActivityForResult(intent, Constants.REQUEST_CODE_FILTER_MY_TASK, TransitionScreen.LEFT_TO_RIGHT);
+
+    }
 }
 

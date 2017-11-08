@@ -22,6 +22,10 @@ import vn.tonish.hozo.activity.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.MyTaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
+import vn.tonish.hozo.database.entity.CategoryEntity;
+import vn.tonish.hozo.database.entity.StatusEntity;
+import vn.tonish.hozo.database.manager.CategoryManager;
+import vn.tonish.hozo.database.manager.StatusManager;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
@@ -54,6 +58,8 @@ public class MyTaskPosterFragment extends BaseFragment {
     private String filter = "";
     private boolean isReloadMyTask = false;
     private TextViewHozo tvNoData;
+    private String query = "";
+    private ArrayList<String> listStatus;
 
     @Override
     protected int getLayout() {
@@ -70,13 +76,41 @@ public class MyTaskPosterFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        getStatus();
+//        LogUtils.d(TAG, "list status" + listStatus.size() + listStatus.toString());
+//        LogUtils.d(TAG, "list status" + statusEntities.toString());
         isReloadMyTask = false;
         initList();
 //       if (getArguments().getBoolean(Constants.REFRESH_EXTRA)) onRefresh();
     }
 
+    private void getStatus() {
+        listStatus = new ArrayList<>();
+        List<StatusEntity> statusEntities = StatusManager.getStatuswithRole(Constants.ROLE_POSTER);
+        if (!(statusEntities == null || !(statusEntities.size() > 0))) {
+            for (StatusEntity statusEntity : statusEntities) {
+                if (statusEntity.isSelected())
+                    listStatus.add(statusEntity.getStatus());
+            }
+
+
+        }
+    }
+
+    public static List<Long> getIds() {
+        List<CategoryEntity> entityRealmList = CategoryManager.getAllCategories();
+        List<Long> ids = new ArrayList<>();
+        for (CategoryEntity categoryEntity : entityRealmList) {
+            if (categoryEntity.isSelected())
+                ids.add((long) categoryEntity.getId());
+        }
+        return ids;
+
+    }
+
     @Override
     protected void resumeData() {
+        getStatus();
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER));
         LogUtils.d(TAG, "MyTaskPosterFragment 111111 111111");
 
@@ -157,6 +191,7 @@ public class MyTaskPosterFragment extends BaseFragment {
         }
     };
 
+
     private void getTaskFromServer(final String since, final int limit, final String filter) {
 
         if (call != null) call.cancel();
@@ -166,13 +201,12 @@ public class MyTaskPosterFragment extends BaseFragment {
         params.put("role", Constants.ROLE_POSTER);
         if (since != null) params.put("since", since);
         params.put("limit", limit + "");
-
+        if (!query.isEmpty()) params.put("query", query);
         if (!filter.equals(""))
             params.put("status", filter);
-
         LogUtils.d(TAG, "getTaskFromServer start , param : " + params);
 
-        call = ApiClient.getApiService().getMyTask(UserManager.getUserToken(), params);
+        call = ApiClient.getApiService().getMyTask(UserManager.getUserToken(), params, listStatus);
         call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
