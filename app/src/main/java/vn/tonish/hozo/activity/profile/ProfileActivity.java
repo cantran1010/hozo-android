@@ -19,10 +19,15 @@ import com.facebook.Profile;
 import com.facebook.accountkit.AccountKit;
 import com.facebook.login.LoginManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -96,6 +101,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private ProfileTagAdapter skillsAdapter, languagesAdapter;
     private ButtonHozo btnVerify;
     private MyGridView myGridView;
+    private ButtonHozo btnFollow;
+    private boolean isFollow = false;
 
     @Override
     protected int getLayout() {
@@ -149,6 +156,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         myGridView = (MyGridView) findViewById(R.id.gr_image);
 
         tvExperience = findViewById(R.id.tv_experience);
+
+        btnFollow = findViewById(R.id.btn_follow);
+        btnFollow.setOnClickListener(this);
 
     }
 
@@ -224,6 +234,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     UserManager.insertUser(response.body(), isMyUser);
 
                     mUserEntity = userEntity;
+                    isFollow = mUserEntity.isFollowed();
+
                     updateUi();
 
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
@@ -297,6 +309,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             tvCountActivity.setText(getString(R.string.count_activity, mUserEntity.getActivitiesCount()));
             tvCountFollow.setText(getString(R.string.count_follow, mUserEntity.getFollowersCount()));
 
+            updateFollowUi();
+
             if (mUserEntity.getFacebookId() != null && !mUserEntity.getFacebookId().trim().equals("")) {
                 imgFbVerify.setImageResource(R.drawable.facebook_on);
                 imgCheckedFb.setVisibility(View.VISIBLE);
@@ -321,6 +335,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 layoutLogout.setVisibility(View.VISIBLE);
                 imgEdit.setVisibility(View.VISIBLE);
                 tvTitle.setText(getString(R.string.my_account));
+                btnVerify.setVisibility(View.VISIBLE);
             } else {
                 tvMobile.setVisibility(View.GONE);
                 tvMobileLbl.setVisibility(View.GONE);
@@ -328,6 +343,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 imgEdit.setVisibility(View.GONE);
                 layoutLogout.setVisibility(View.GONE);
                 tvTitle.setText(getString(R.string.user_account));
+                btnVerify.setVisibility(View.GONE);
             }
 
             tvAbout.setText(mUserEntity.getDescription());
@@ -366,6 +382,16 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             percentDonePoster = mUserEntity.getPosterDoneRate();
             percentDoneWorker = mUserEntity.getTaskerDoneRate();
             ratingTasker = mUserEntity.getTaskerAverageRating();
+        }
+    }
+
+    private void updateFollowUi() {
+        if (isMyUser)
+            btnFollow.setVisibility(View.GONE);
+        else {
+            if (isFollow) btnFollow.setText(getString(R.string.un_follow));
+            else btnFollow.setText(getString(R.string.follow));
+
         }
     }
 
@@ -546,7 +572,62 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void onDestroy() {
         super.onDestroy();
         Glide.clear(imgAvatar);
+    }
 
+    private void doFollow() {
+        ProgressDialogUtils.showProgressDialog(this);
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("follow", !isFollow);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LogUtils.d(TAG, "doFollow data request : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().follow(UserManager.getUserToken(), userId, body).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                LogUtils.d(TAG, "doFollow onResponse : " + response.body());
+                LogUtils.d(TAG, "doFollow code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    isFollow = !isFollow;
+                    updateFollowUi();
+                } else {
+                    DialogUtils.showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doFollow();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                DialogUtils.showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doFollow();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
     }
 
     @Override
@@ -586,6 +667,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_verify:
                 Intent intentVerify = new Intent(this, GiveInforActivity.class);
                 startActivityForResult(intentVerify, Constants.REQUEST_CODE_VERIFY, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+            case R.id.btn_follow:
+                doFollow();
                 break;
         }
     }
