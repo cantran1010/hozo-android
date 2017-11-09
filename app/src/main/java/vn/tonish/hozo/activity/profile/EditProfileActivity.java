@@ -81,6 +81,7 @@ import static vn.tonish.hozo.R.id.img_avatar;
 import static vn.tonish.hozo.R.string.post_task_map_get_location_error_next;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE_AVATA;
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE_BACKGROUND;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.DateTimeUtils.getDateBirthDayFromIso;
 import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyIsoFromDate;
@@ -94,14 +95,14 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private static final String TAG = EditProfileActivity.class.getSimpleName();
 
     private CircleImageView imgAvatar;
-    private String imgPath;
+    private String imgPath, imgPathBackground;
     //    private RadioButton rbMale, rbFemale;
     private EdittextHozo edtName, edtAddress, edtDes, edtExperience;
     private TextViewHozo tvBirthday;
     private final Calendar calendar = Calendar.getInstance();
     //    private RadioGroup rgRadius;
-    private File file;
-    private int avataId;
+    private File file, fileBackground;
+    private int avataId, backgroundId;
     private boolean isUpdateAvata = false;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private ImageView imgMale, imgFemale;
@@ -111,7 +112,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private GoogleApiClient googleApiClient;
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
     private AutoCompleteTextView autocompleteView;
-    private RadioButton rbMale, rbFemale;
+    private RadioButton rbMale, rbFemale, rbAny;
     private CheckBox cbHideGender, cbHideBirth;
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
@@ -120,6 +121,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private UserEntity userEntity;
     private int imageAttachCount = 0;
     private RadioButton rbPoster, rbWorker, rbBoth;
+    private ImageView imgEditBackground, imgBackground;
 
     @Override
     protected int getLayout() {
@@ -128,7 +130,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
-        imgAvatar = (CircleImageView) findViewById(img_avatar);
+        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
 
 //        ButtonHozo btnSave = findViewById(R.id.btn_save);
@@ -153,6 +155,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         rbMale = (RadioButton) findViewById(R.id.rd_male);
         rbFemale = (RadioButton) findViewById(R.id.rd_female);
+        rbAny = (RadioButton) findViewById(R.id.rd_any);
 
         cbHideGender = (CheckBox) findViewById(R.id.cb_hide_gender);
         cbHideBirth = (CheckBox) findViewById(R.id.cb_hide_birth);
@@ -170,6 +173,11 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         rbPoster = (RadioButton) findViewById(R.id.rd_poster);
         rbWorker = (RadioButton) findViewById(R.id.rd_worker);
         rbBoth = (RadioButton) findViewById(R.id.rd_both);
+
+        imgEditBackground = (ImageView) findViewById(R.id.img_edit_background);
+        imgEditBackground.setOnClickListener(this);
+
+        imgBackground = (ImageView) findViewById(R.id.img_background);
     }
 
     @Override
@@ -184,6 +192,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         edtName.setText(userEntity.getFullName());
 
+        Utils.displayImage(this, imgBackground, userEntity.getBackground());
+
         if (userEntity.getGender() != null) {
             gender = userEntity.getGender();
             updateGender(gender);
@@ -193,7 +203,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) gender = "male";
-                else gender = "female";
             }
         });
 
@@ -201,7 +210,13 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) gender = "female";
-                else gender = "male";
+            }
+        });
+
+        rbAny.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) gender = "any";
             }
         });
 
@@ -269,7 +284,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     if (images.size() >= 10) {
                         Utils.showLongToast(EditProfileActivity.this, getString(R.string.max_image_attach_err, 9), true, false);
                     } else {
-                        checkPermission();
+                        checkPermissionImageAttach();
                     }
                 } else {
                     Intent intent = new Intent(EditProfileActivity.this, PreviewImageActivity.class);
@@ -364,11 +379,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private void updateGender(String gender) {
         if (gender.equals(getString(R.string.gender_male))) {
             rbMale.setChecked(true);
-            rbFemale.setChecked(false);
         } else if (gender.equals(getString(R.string.gender_female))) {
-            rbMale.setChecked(false);
             rbFemale.setChecked(true);
-        }
+        } else
+            rbAny.setChecked(true);
     }
 
     private void doSave() {
@@ -395,7 +409,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         if (isUpdateAvata) {
             updateAvata();
         } else {
-            updateImageAttach();
+            updateBackground();
         }
 
     }
@@ -410,13 +424,13 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         ApiClient.getApiService().uploadImage(UserManager.getUserToken(), itemPart).enqueue(new Callback<ImageResponse>() {
             @Override
             public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
-                LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
-                LogUtils.d(TAG, "uploadImage code : " + response.code());
+                LogUtils.d(TAG, "updateAvata onResponse : " + response.body());
+                LogUtils.d(TAG, "updateAvata code : " + response.code());
 
                 if (response.code() == Constants.HTTP_CODE_CREATED) {
                     ImageResponse imageResponse = response.body();
                     avataId = imageResponse != null ? imageResponse.getIdTemp() : 0;
-                    updateImageAttach();
+                    updateBackground();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -448,11 +462,82 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void onFailure(Call<ImageResponse> call, Throwable t) {
-                LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
+                LogUtils.e(TAG, "updateAvata onFailure : " + t.getMessage());
                 DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         updateAvata();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
+    }
+
+    private void updateBackground() {
+
+        if (fileBackground == null) {
+            updateImageAttach();
+            return;
+        }
+
+        ProgressDialogUtils.showProgressDialog(this);
+
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileBackground);
+        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileBackground.getName(), requestBody);
+
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(), itemPart).enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+                LogUtils.d(TAG, "updateBackground onResponse : " + response.body());
+                LogUtils.d(TAG, "updateBackground code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_CREATED) {
+                    ImageResponse imageResponse = response.body();
+                    backgroundId = imageResponse != null ? imageResponse.getIdTemp() : 0;
+                    updateImageAttach();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            updateBackground();
+                        }
+                    });
+                    ProgressDialogUtils.dismissProgressDialog();
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(EditProfileActivity.this);
+                    ProgressDialogUtils.dismissProgressDialog();
+                } else {
+                    DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            updateBackground();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                    ProgressDialogUtils.dismissProgressDialog();
+                }
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+//                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                LogUtils.e(TAG, "updateBackground onFailure : " + t.getMessage());
+                DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        updateBackground();
                     }
 
                     @Override
@@ -532,6 +617,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         try {
             if (isUpdateAvata)
                 jsonRequest.put(Constants.PARAMETER_AVATA_ID, avataId);
+
+            if (fileBackground != null)
+                jsonRequest.put("background_id", backgroundId);
 
             jsonRequest.put(Constants.PARAMETER_FULL_NAME, edtName.getText().toString());
             if (gender != null)
@@ -671,6 +759,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        //avata
         if (requestCode == REQUEST_CODE_PICK_IMAGE_AVATA
                 && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
@@ -683,7 +773,24 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
             startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
         }
-        if (requestCode == REQUEST_CODE_PICK_IMAGE
+
+        // background
+        else if (requestCode == REQUEST_CODE_PICK_IMAGE_BACKGROUND
+                && resultCode == RESPONSE_CODE_PICK_IMAGE
+                && data != null) {
+            ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+            String imgPath = imagesSelected.get(0).getPath();
+            Utils.displayImage(EditProfileActivity.this, imgBackground, imgPath);
+            LogUtils.d(TAG, "imgPath background : " + imgPath);
+            fileBackground = new File(imgPath);
+        } else if (requestCode == Constants.REQUEST_CODE_CAMERA_BACKGROUND && resultCode == Activity.RESULT_OK) {
+            String selectedImagePath = getImagePathBackground();
+            Utils.displayImage(EditProfileActivity.this, imgBackground, selectedImagePath);
+            fileBackground = new File(selectedImagePath);
+        }
+
+        // image attach
+        else if (requestCode == REQUEST_CODE_PICK_IMAGE
                 && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
@@ -697,15 +804,25 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             image.setPath(selectedImagePath);
             images.add(0, image);
             imageAdapter.notifyDataSetChanged();
-        } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
+        }
+
+
+        // crop image
+        else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
             String imgPath = data != null ? data.getStringExtra(Constants.EXTRA_IMAGE_PATH) : null;
-            Utils.displayImage(EditProfileActivity.this, imgAvatar, null);
+            Utils.displayImage(EditProfileActivity.this, imgAvatar, imgPath);
             file = new File(imgPath != null ? imgPath : null);
             isUpdateAvata = true;
-        } else if (requestCode == Constants.REQUEST_CODE_SKILL && resultCode == Constants.RESULT_CODE_TAG) {
+        }
+
+        // skill
+        else if (requestCode == Constants.REQUEST_CODE_SKILL && resultCode == Constants.RESULT_CODE_TAG) {
             userEntity = UserManager.getMyUser();
             LogUtils.d(TAG, "onActivityResult userEntity REQUEST_CODE_SKILL : " + userEntity.toString());
-        } else if (requestCode == Constants.REQUEST_CODE_LANGUAGE && resultCode == Constants.RESULT_CODE_TAG) {
+        }
+
+        // language
+        else if (requestCode == Constants.REQUEST_CODE_LANGUAGE && resultCode == Constants.RESULT_CODE_TAG) {
             userEntity = UserManager.getMyUser();
             LogUtils.d(TAG, "onActivityResult userEntity REQUEST_CODE_LANGUAGE : " + userEntity.toString());
         }
@@ -714,6 +831,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     private void doPickImage() {
         checkPermissionAvata();
+    }
+
+    private void doPickImageBackground() {
+        checkPermissionBackground();
     }
 
     private void checkPermissionAvata() {
@@ -728,7 +849,19 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    private void checkPermission() {
+    private void checkPermissionBackground() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE_BACKGROUND);
+        } else {
+            permissionGrantedBackground();
+        }
+    }
+
+    private void checkPermissionImageAttach() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) + ContextCompat
                 .checkSelfPermission(this,
@@ -736,7 +869,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
         } else {
-            permissionGranted();
+            permissionGrantedImageAttach();
         }
     }
 
@@ -752,7 +885,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         } else if (requestCode == Constants.PERMISSION_REQUEST_CODE_AVATA) {
             permissionGrantedAvata();
         } else if (requestCode == Constants.PERMISSION_REQUEST_CODE) {
-            permissionGranted();
+            permissionGrantedImageAttach();
         }
     }
 
@@ -766,6 +899,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
             @Override
             public void onCamera() {
+                LogUtils.d(TAG, "permissionGrantedAvata onCamera start");
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
                 startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA_AVATA);
@@ -783,7 +917,28 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     }
 
-    private void permissionGranted() {
+    private void permissionGrantedBackground() {
+        PickImageDialog pickImageDialog = new PickImageDialog(EditProfileActivity.this);
+        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+            @Override
+            public void onCamera() {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUriBackground());
+                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA_BACKGROUND);
+            }
+
+            @Override
+            public void onGallery() {
+                Intent intent = new Intent(EditProfileActivity.this, AlbumActivity.class);
+                intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
+                startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE_BACKGROUND, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
+        pickImageDialog.showView();
+
+    }
+
+    private void permissionGrantedImageAttach() {
         PickImageDialog pickImageDialog = new PickImageDialog(EditProfileActivity.this);
         pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
             @Override
@@ -810,8 +965,19 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         return imgUri;
     }
 
+    private Uri setImageUriBackground() {
+        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+        Uri imgUri = Uri.fromFile(file);
+        this.imgPathBackground = file.getAbsolutePath();
+        return imgUri;
+    }
+
     private String getImagePath() {
         return imgPath;
+    }
+
+    private String getImagePathBackground() {
+        return imgPathBackground;
     }
 
     @Override
@@ -827,11 +993,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
-            case R.id.btn_save:
-                doSave();
-                break;
-
             case R.id.img_camera:
                 doPickImage();
                 break;
@@ -872,6 +1033,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 Intent intentL = new Intent(this, TagActivity.class);
                 intentL.putExtra(Constants.REQUEST_CODE_EXTRA, Constants.REQUEST_CODE_LANGUAGE);
                 startActivityForResult(intentL, Constants.REQUEST_CODE_SKILL, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+
+            case R.id.img_edit_background:
+                doPickImageBackground();
                 break;
 
         }

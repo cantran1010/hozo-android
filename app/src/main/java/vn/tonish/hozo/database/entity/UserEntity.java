@@ -70,6 +70,15 @@ public class UserEntity extends RealmObject implements Serializable {
     private int followersCount;
     private String role;
     private boolean followed;
+    private String background;
+
+    public String getBackground() {
+        return background;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
+    }
 
     public boolean isFollowed() {
         return followed;
@@ -402,6 +411,7 @@ public class UserEntity extends RealmObject implements Serializable {
                 ", followersCount=" + followersCount +
                 ", role='" + role + '\'' +
                 ", followed=" + followed +
+                ", background='" + background + '\'' +
                 '}';
     }
 }

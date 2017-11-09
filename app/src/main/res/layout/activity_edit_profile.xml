@@ -51,6 +51,12 @@
                 android:layout_gravity="center"
                 android:background="@color/hozo_bg">
 
+                <ImageView
+                    android:id="@+id/img_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+
                 <vn.tonish.hozo.view.CircleImageView
                     android:id="@+id/img_avatar"
                     android:layout_width="100dp"
@@ -69,6 +75,17 @@
                     android:contentDescription="@string/camera"
                     android:padding="5dp"
                     android:src="@drawable/edit_img_present" />
+
+                <ImageView
+                    android:id="@+id/img_edit_background"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="#33000000"
+                    android:padding="10dp"
+                    android:src="@drawable/edit_profile" />
 
             </RelativeLayout>
 
@@ -145,6 +162,16 @@
                             android:button="@drawable/radio_button_background"
                             android:paddingLeft="5dp"
                             android:text="@string/gender_vn_mafele"
+                            android:textColor="@color/tv_gray_new" />
+
+                        <RadioButton
+                            android:id="@+id/rd_any"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:button="@drawable/radio_button_background"
+                            android:paddingLeft="5dp"
+                            android:text="@string/gender_vn_any"
                             android:textColor="@color/tv_gray_new" />
 
                     </RadioGroup>
