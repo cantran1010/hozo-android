@@ -476,6 +476,7 @@
                     android:id="@+id/rcv_reviews"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginTop="16dp" />
 
                 <vn.tonish.hozo.view.TextViewHozo
@@ -483,11 +484,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/bg_gray_corners"
                     android:gravity="center"
                     android:minHeight="@dimen/edt_min_height"
-                    android:padding="5dp"
-                    android:text="@string/show_all_rate" />
+                    android:paddingBottom="7dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="7dp"
+                    android:text="@string/show_all_rate"
+                    android:textColor="@color/tv_gray_new" />
 
                 <FrameLayout
                     android:id="@+id/layout_logout"

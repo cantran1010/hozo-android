@@ -266,7 +266,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (images.get(position).isAdd) {
-                    if (images.size() >= 9) {
+                    if (images.size() >= 10) {
                         Utils.showLongToast(EditProfileActivity.this, getString(R.string.max_image_attach_err, 9), true, false);
                     } else {
                         checkPermission();
