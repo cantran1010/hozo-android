@@ -76,18 +76,18 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
     @Override
     protected void initView() {
-        rcvMessage = findViewById(R.id.rcv_msg);
-        btnSend = findViewById(R.id.btn_send);
-        edtMsg = findViewById(R.id.edt_msg);
-        imgBack = findViewById(R.id.img_back);
-        tvTitle = findViewById(R.id.tv_title);
+        rcvMessage = (RecyclerView) findViewById(R.id.rcv_msg);
+        btnSend = (ImageView) findViewById(R.id.btn_send);
+        edtMsg = (EdittextHozo) findViewById(R.id.edt_msg);
+        imgBack = (ImageView) findViewById(R.id.img_back);
+        tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
 
         btnSend.setOnClickListener(this);
         imgBack.setOnClickListener(this);
 
-        mainLayout = findViewById(R.id.main_layout);
+        mainLayout = (RelativeLayout) findViewById(R.id.main_layout);
 
-        imgMenu = findViewById(R.id.img_menu);
+        imgMenu = (ImageView) findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
     }
 

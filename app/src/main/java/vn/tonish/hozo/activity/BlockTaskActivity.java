@@ -22,9 +22,9 @@ public class BlockTaskActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initView() {
-        tvTitle = findViewById(R.id.tv_title);
-        tvContent = findViewById(R.id.tv_content);
-        TextViewHozo tvYes = findViewById(R.id.tv_yes);
+        tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
+        tvContent = (TextViewHozo) findViewById(R.id.tv_content);
+        TextViewHozo tvYes = (TextViewHozo) findViewById(R.id.tv_yes);
         tvYes.setOnClickListener(this);
     }
 

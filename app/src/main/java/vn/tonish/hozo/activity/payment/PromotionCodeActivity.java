@@ -47,15 +47,15 @@ public class PromotionCodeActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initView() {
-        imgBack = findViewById(R.id.img_back);
+        imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        btnPromotion = findViewById(R.id.btn_promotion);
+        btnPromotion = (ButtonHozo) findViewById(R.id.btn_promotion);
         btnPromotion.setOnClickListener(this);
 
-        progressLayout = findViewById(R.id.progress_layout);
+        progressLayout = (LinearLayout) findViewById(R.id.progress_layout);
 
-        edtCode = findViewById(R.id.edt_code);
+        edtCode = (EdittextHozo) findViewById(R.id.edt_code);
     }
 
     @Override

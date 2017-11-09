@@ -131,29 +131,29 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         reviewsListView = (ReviewsListView) findViewById(R.id.rcv_reviews);
         btnMoreReview = (TextViewHozo) findViewById(R.id.tv_more_reviews);
         scrollView = (NestedScrollView) findViewById(R.id.scroll_view);
-        imgFbVerify = findViewById(R.id.fb_verify);
-        imgEmailVerify = findViewById(R.id.email_verify);
+        imgFbVerify = (ImageView) findViewById(R.id.fb_verify);
+        imgEmailVerify = (ImageView) findViewById(R.id.email_verify);
         ratingPoster = 0f;
         ratingTasker = 0f;
 
-        tvMobileLbl = findViewById(R.id.tv_phone_lbl);
+        tvMobileLbl = (TextViewHozo) findViewById(R.id.tv_phone_lbl);
 
-        btnVerify = findViewById(R.id.btn_verify);
+        btnVerify = (ButtonHozo) findViewById(R.id.btn_verify);
         btnVerify.setOnClickListener(this);
 
-        rcvSkills = findViewById(R.id.rcv_skill);
-        rcvLanguages = findViewById(R.id.rcv_languages);
+        rcvSkills = (RecyclerView) findViewById(R.id.rcv_skill);
+        rcvLanguages = (RecyclerView) findViewById(R.id.rcv_languages);
 
-        tvCountActivity = findViewById(R.id.tv_count_activity);
-        tvCountFollow = findViewById(R.id.tv_count_follow);
+        tvCountActivity = (TextViewHozo) findViewById(R.id.tv_count_activity);
+        tvCountFollow = (TextViewHozo) findViewById(R.id.tv_count_follow);
 
-        imgCheckedFb = findViewById(R.id.img_checked_fb);
-        imgCheckedEmail = findViewById(R.id.img_checked_email);
+        imgCheckedFb = (ImageView) findViewById(R.id.img_checked_fb);
+        imgCheckedEmail = (ImageView) findViewById(R.id.img_checked_email);
         myGridView = (MyGridView) findViewById(R.id.gr_image);
 
-        tvExperience = findViewById(R.id.tv_experience);
+        tvExperience = (TextViewHozo) findViewById(R.id.tv_experience);
 
-        btnFollow = findViewById(R.id.btn_follow);
+        btnFollow = (ButtonHozo) findViewById(R.id.btn_follow);
         btnFollow.setOnClickListener(this);
 
     }

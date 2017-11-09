@@ -55,8 +55,8 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-        rcvReviews = findViewById(lvList);
-        imgBack = findViewById(R.id.img_back);
+        rcvReviews = (RecyclerView) findViewById(lvList);
+        imgBack = (ImageView) findViewById(R.id.img_back);
         createSwipeToRefresh();
 
     }

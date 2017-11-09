@@ -122,70 +122,70 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-        btnBack = findViewById(R.id.img_back);
-        tvDefault = findViewById(R.id.tv_default);
-        seebarDistance = findViewById(R.id.seebar_distance);
-        rcvCategory = findViewById(R.id.rcv_category);
+        btnBack = (ImageView) findViewById(R.id.img_back);
+        tvDefault = (TextViewHozo) findViewById(R.id.tv_default);
+        seebarDistance = (SeekBar) findViewById(R.id.seebar_distance);
+        rcvCategory = (RecyclerView) findViewById(R.id.rcv_category);
 
-        statusExpandableLayout = findViewById(R.id.status_expandable_layout);
-        categoryExpandableLayout = findViewById(R.id.category_expandable_layout);
-        timeExpandableLayout = findViewById(R.id.layout_detail_time);
-        distanceExpandableLayout = findViewById(R.id.layout_detail_distance);
-        priceExpandableLayout = findViewById(R.id.layout_detail_price);
-        keywordExpandableLayout = findViewById(R.id.layout_detail_keyword);
-
-
-        layoutStatus = findViewById(R.id.layout_status);
-        layoutCategory = findViewById(R.id.layout_category);
-        layoutDateTime = findViewById(R.id.layout_date_time);
-        layoutDistance = findViewById(R.id.layout_distance);
-        layoutPrice = findViewById(R.id.layout_price);
-        layoutKeyword = findViewById(R.id.layout_keyword);
-        layoutOptionDistance = findViewById(R.id.layout_option_distance);
-
-        tvStatus = findViewById(R.id.tv_status);
-        tvCategory = findViewById(R.id.tv_category);
-        tvDateTime = findViewById(R.id.tv_time);
-        tvDistance = findViewById(R.id.tv_distance);
-        tvDistanceValue = findViewById(R.id.tv_distance_value);
-        tvPrice = findViewById(R.id.tv_price);
-        btnSend = findViewById(R.id.btn_send);
-        tvKeyword = findViewById(R.id.tv_keyword);
-
-        edtKeyword = findViewById(R.id.edt_keyword);
-
-        imgStatusArrow = findViewById(R.id.img_status_arrow);
-        imgCategoryArrow = findViewById(R.id.img_category_arrow);
-        imgTimeArrow = findViewById(R.id.img_time_arrow);
-        imgDistance = findViewById(R.id.img_distance);
-        imgPrice = findViewById(R.id.img_price);
-        imgKeyword = findViewById(R.id.img_keyword);
+        statusExpandableLayout = (ExpandableLayout) findViewById(R.id.status_expandable_layout);
+        categoryExpandableLayout = (ExpandableLayout) findViewById(R.id.category_expandable_layout);
+        timeExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_time);
+        distanceExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_distance);
+        priceExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_price);
+        keywordExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_keyword);
 
 
-        radioStatus = findViewById(R.id.radio_status);
-        radioTime = findViewById(R.id.radio_time);
-        radioDistance = findViewById(R.id.radio_distance);
-        radioPrice = findViewById(R.id.radio_price);
-        radAllTime = findViewById(R.id.radio_all_time);
-        radDate = findViewById(R.id.radio_date);
-        radAllDistance = findViewById(R.id.rad_all_distance);
-        radDistanceOption = findViewById(R.id.rad_distance_option);
-        radAllPrice = findViewById(R.id.rad_all_price);
-        rad10 = findViewById(R.id.rad_10_100);
-        rad100 = findViewById(R.id.rad_100_500);
-        rad500 = findViewById(R.id.rad_500);
+        layoutStatus = (RelativeLayout) findViewById(R.id.layout_status);
+        layoutCategory = (RelativeLayout) findViewById(R.id.layout_category);
+        layoutDateTime = (RelativeLayout) findViewById(R.id.layout_date_time);
+        layoutDistance = (RelativeLayout) findViewById(R.id.layout_distance);
+        layoutPrice = (RelativeLayout) findViewById(R.id.layout_price);
+        layoutKeyword = (RelativeLayout) findViewById(R.id.layout_keyword);
+        layoutOptionDistance = (RelativeLayout) findViewById(R.id.layout_option_distance);
 
-        rcvCategory = findViewById(R.id.rcv_category);
-        rcvKeyword = findViewById(R.id.rcv_keyword);
+        tvStatus = (TextViewHozo) findViewById(R.id.tv_status);
+        tvCategory = (TextViewHozo) findViewById(R.id.tv_category);
+        tvDateTime = (TextViewHozo) findViewById(R.id.tv_time);
+        tvDistance = (TextViewHozo) findViewById(R.id.tv_distance);
+        tvDistanceValue = (TextViewHozo) findViewById(R.id.tv_distance_value);
+        tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
+        btnSend = (ImageView) findViewById(R.id.btn_send);
+        tvKeyword = (TextViewHozo) findViewById(R.id.tv_keyword);
+
+        edtKeyword = (EdittextHozo) findViewById(R.id.edt_keyword);
+
+        imgStatusArrow = (ImageView) findViewById(R.id.img_status_arrow);
+        imgCategoryArrow = (ImageView) findViewById(R.id.img_category_arrow);
+        imgTimeArrow = (ImageView) findViewById(R.id.img_time_arrow);
+        imgDistance = (ImageView) findViewById(R.id.img_distance);
+        imgPrice = (ImageView) findViewById(R.id.img_price);
+        imgKeyword = (ImageView) findViewById(R.id.img_keyword);
 
 
-        tvMonday = findViewById(tv_monday);
-        tvTuesday = findViewById(R.id.tv_tuesday);
-        tvWednesday = findViewById(R.id.tv_wednesday);
-        tvThursday = findViewById(R.id.tv_thursday);
-        tvFriday = findViewById(R.id.tv_friday);
-        tvSaturday = findViewById(R.id.tv_saturday);
-        tvSunday = findViewById(R.id.tv_sunday);
+        radioStatus = (RadioGroup) findViewById(R.id.radio_status);
+        radioTime = (RadioGroup) findViewById(R.id.radio_time);
+        radioDistance = (RadioGroup) findViewById(R.id.radio_distance);
+        radioPrice = (RadioGroup) findViewById(R.id.radio_price);
+        radAllTime = (RadioButton) findViewById(R.id.radio_all_time);
+        radDate = (RadioButton) findViewById(R.id.radio_date);
+        radAllDistance = (RadioButton) findViewById(R.id.rad_all_distance);
+        radDistanceOption = (RadioButton) findViewById(R.id.rad_distance_option);
+        radAllPrice = (RadioButton) findViewById(R.id.rad_all_price);
+        rad10 = (RadioButton) findViewById(R.id.rad_10_100);
+        rad100 = (RadioButton) findViewById(R.id.rad_100_500);
+        rad500 = (RadioButton) findViewById(R.id.rad_500);
+
+        rcvCategory = (RecyclerView) findViewById(R.id.rcv_category);
+        rcvKeyword = (RecyclerView) findViewById(R.id.rcv_keyword);
+
+
+        tvMonday = (TextViewHozo) findViewById(tv_monday);
+        tvTuesday = (TextViewHozo) findViewById(R.id.tv_tuesday);
+        tvWednesday = (TextViewHozo) findViewById(R.id.tv_wednesday);
+        tvThursday = (TextViewHozo) findViewById(R.id.tv_thursday);
+        tvFriday = (TextViewHozo) findViewById(R.id.tv_friday);
+        tvSaturday = (TextViewHozo) findViewById(R.id.tv_saturday);
+        tvSunday = (TextViewHozo) findViewById(R.id.tv_sunday);
 
         tvMonday.setOnClickListener(this);
         tvTuesday.setOnClickListener(this);
@@ -209,7 +209,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         radioPrice.setOnCheckedChangeListener(this);
 
     }
-
 
     @Override
     protected void initData() {

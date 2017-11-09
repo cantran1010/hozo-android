@@ -52,19 +52,19 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initView() {
-        imgBack = findViewById(R.id.img_back);
+        imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        tvMore = findViewById(R.id.tv_more);
+        tvMore = (TextViewHozo) findViewById(R.id.tv_more);
         tvMore.setOnClickListener(this);
 
-        btnPayment = findViewById(R.id.btn_payment);
+        btnPayment = (ButtonHozo) findViewById(R.id.btn_payment);
         btnPayment.setOnClickListener(this);
 
-        tvMyWallet = findViewById(R.id.tv_my_wallet);
-        tvCountHistory = findViewById(R.id.tv_count_history);
+        tvMyWallet = (TextViewHozo) findViewById(R.id.tv_my_wallet);
+        tvCountHistory = (TextViewHozo) findViewById(R.id.tv_count_history);
 
-        rcvPayment = findViewById(R.id.rcv_payment_history);
+        rcvPayment = (RecyclerView) findViewById(R.id.rcv_payment_history);
     }
 
     @Override

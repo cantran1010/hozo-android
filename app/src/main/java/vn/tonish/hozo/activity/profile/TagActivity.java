@@ -44,13 +44,13 @@ public class TagActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initView() {
-        edtTag = findViewById(R.id.edt_tag);
-        btnSend = findViewById(R.id.btn_send);
+        edtTag = (EdittextHozo) findViewById(R.id.edt_tag);
+        btnSend = (ButtonHozo) findViewById(R.id.btn_send);
         btnSend.setOnClickListener(this);
 
-        rcvTag = findViewById(R.id.rcv_tag);
+        rcvTag = (RecyclerView) findViewById(R.id.rcv_tag);
 
-        imgBack = findViewById(R.id.img_back);
+        imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
     }
 
