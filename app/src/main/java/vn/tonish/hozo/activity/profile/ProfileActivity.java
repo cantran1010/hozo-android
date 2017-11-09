@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -74,7 +75,7 @@ import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = ProfileActivity.class.getSimpleName();
-    private ImageView imgback, imgEdit, imgCheckedFb, imgCheckedEmail;
+    private ImageView imgback, imgEdit, imgCheckedFb, imgCheckedEmail, imgBackground;
     private TextView btnWorker, btnPoster, tvTitle;
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvRateLbl, btnMoreReview, btnLogOut, tvAbout, tvCountActivity, tvCountFollow, tvMobileLbl, tvExperience;
@@ -102,6 +103,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private ButtonHozo btnFollow;
     private boolean isFollow = false;
     private boolean isTabPoster = true;
+    private LinearLayout layoutFollow;
 
     @Override
     protected int getLayout() {
@@ -135,6 +137,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         imgEmailVerify = (ImageView) findViewById(R.id.email_verify);
         ratingPoster = 0f;
         ratingTasker = 0f;
+        imgBackground = (ImageView) findViewById(R.id.img_background);
 
         tvMobileLbl = (TextViewHozo) findViewById(R.id.tv_phone_lbl);
 
@@ -155,6 +158,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         btnFollow = (ButtonHozo) findViewById(R.id.btn_follow);
         btnFollow.setOnClickListener(this);
+
+        layoutFollow = (LinearLayout) findViewById(R.id.layout_follow);
 
     }
 
@@ -285,6 +290,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
             tvName.setText(mUserEntity.getFullName());
 
+            Utils.displayImage(this, imgBackground, mUserEntity.getBackground());
+
             String genderAge = "";
 
             if (isMyUser)
@@ -382,9 +389,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void updateFollowUi() {
-        if (isMyUser)
+        if (isMyUser) {
             btnFollow.setVisibility(View.GONE);
-        else {
+            layoutFollow.setVisibility(View.GONE);
+        } else {
             if (isFollow) btnFollow.setText(getString(R.string.un_follow));
             else btnFollow.setText(getString(R.string.follow));
 

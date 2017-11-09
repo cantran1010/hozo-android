@@ -129,7 +129,8 @@ public class RealmDbHelper {
                         .addField("activitiesCount", int.class)
                         .addField("followersCount", int.class)
                         .addField("role", String.class)
-                        .addField("followed", boolean.class);
+                        .addField("followed", boolean.class)
+                        .addField("background", String.class);
 
                 schema.create("TagResponse")
                         .addField("id", int.class)
