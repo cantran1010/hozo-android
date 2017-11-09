@@ -3,7 +3,7 @@ package vn.tonish.hozo.view;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 
 import vn.tonish.hozo.utils.TypefaceContainer;
@@ -12,7 +12,7 @@ import vn.tonish.hozo.utils.TypefaceContainer;
  * Created by CanTran on 5/16/17.
  */
 
-public class RadioButtonHozo extends AppCompatCheckBox {
+public class RadioButtonHozo extends AppCompatRadioButton {
     public RadioButtonHozo(Context context) {
         super(context);
         init();

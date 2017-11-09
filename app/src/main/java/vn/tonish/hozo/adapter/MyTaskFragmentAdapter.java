@@ -44,8 +44,9 @@ public class MyTaskFragmentAdapter extends FragmentStatePagerAdapter {
 
     public void onRefreshTab(int pos) {
         if (pos == 0)
-            tab1.onRefresh();
-        else tab2.onRefresh();
+            if (tab1 != null)
+                tab1.onRefresh();
+            else if (tab2 != null) tab2.onRefresh();
     }
 
 

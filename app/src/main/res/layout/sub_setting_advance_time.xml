@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vn.tonish.hozo.view.ExpandableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_detail_time"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,16 +17,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatRadioButton
+            <vn.tonish.hozo.view.RadioButtonHozo
                 android:id="@+id/radio_all_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:button="@drawable/radio_button_background"
                 android:checked="true"
                 android:padding="5dp"
-                android:text="@string/hozo_all" />
+                android:text="@string/hozo_all"
+                android:textColor="@color/tv_gray_new"
+                android:textSize="@dimen/tv_size_medium" />
 
-            <android.support.v7.widget.AppCompatRadioButton
+            <vn.tonish.hozo.view.RadioButtonHozo
                 android:id="@+id/radio_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,7 +36,9 @@
                 android:button="@drawable/radio_button_background"
                 android:checked="false"
                 android:padding="5dp"
-                android:text="@string/tv_date_task" />
+                android:text="@string/tv_date_task"
+                android:textColor="@color/tv_gray_new"
+                android:textSize="@dimen/tv_size_medium" />
 
         </RadioGroup>
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vn.tonish.hozo.view.ExpandableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_detail_price"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatRadioButton
+        <vn.tonish.hozo.view.RadioButtonHozo
             android:id="@+id/rad_all_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -20,9 +21,11 @@
             android:button="@drawable/radio_button_background"
             android:checked="true"
             android:padding="5dp"
-            android:text="@string/hozo_all" />
+            android:text="@string/hozo_all"
+            android:textColor="@color/tv_gray_new"
+            android:textSize="@dimen/tv_size_medium" />
 
-        <android.support.v7.widget.AppCompatRadioButton
+        <vn.tonish.hozo.view.RadioButtonHozo
             android:id="@+id/rad_10_100"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,9 +35,11 @@
             android:button="@drawable/radio_button_background"
             android:checked="false"
             android:padding="5dp"
-            android:text="@string/setting_price_10" />
+            android:text="@string/setting_price_10"
+            android:textColor="@color/tv_gray_new"
+            android:textSize="@dimen/tv_size_medium" />
 
-        <android.support.v7.widget.AppCompatRadioButton
+        <vn.tonish.hozo.view.RadioButtonHozo
             android:id="@+id/rad_100_500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,9 +49,11 @@
             android:button="@drawable/radio_button_background"
             android:checked="false"
             android:padding="5dp"
-            android:text="@string/setting_price_100" />
+            android:text="@string/setting_price_100"
+            android:textColor="@color/tv_gray_new"
+            android:textSize="@dimen/tv_size_medium" />
 
-        <android.support.v7.widget.AppCompatRadioButton
+        <vn.tonish.hozo.view.RadioButtonHozo
             android:id="@+id/rad_500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,6 +64,8 @@
             android:button="@drawable/radio_button_background"
             android:checked="false"
             android:padding="5dp"
-            android:text="@string/setting_price_500" />
+            android:text="@string/setting_price_500"
+            android:textColor="@color/tv_gray_new"
+            android:textSize="@dimen/tv_size_medium" />
     </RadioGroup>
 </vn.tonish.hozo.view.ExpandableLayout>

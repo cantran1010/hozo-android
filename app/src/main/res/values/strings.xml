@@ -508,9 +508,9 @@
     <string name="base_location_hint">Vị trí mốc</string>
     <string name="km_1">1 km</string>
     <string name="max_km">50 km</string>
-    <string name="setting_price_10">10.000 – 100.000</string>
-    <string name="setting_price_100">100.000 – 500.000</string>
-    <string name="setting_price_500">Trên 500.000</string>
+    <string name="setting_price_10">10.000 VND – 100.000 VND</string>
+    <string name="setting_price_100">100.000 VND – 500.000 VND</string>
+    <string name="setting_price_500">Trên 500.000 VND</string>
     <string name="keyword_empty">Bạn chưa nhập từ khoá.</string>
     <string name="keyword_duplicate">Từ khoá này đã tồn tại!</string>
     <string name="setting_status_open">open</string>

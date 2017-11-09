@@ -156,7 +156,7 @@
         android:id="@+id/tvCountNewTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bag_count_task"
+        android:background="@color/bg_tab_mytask"
         android:gravity="center"
         android:padding="5dp"
         android:textColor="@color/color_count_word"

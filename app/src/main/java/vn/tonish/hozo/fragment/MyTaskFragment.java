@@ -94,20 +94,20 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                     tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
                     tvTab1.setTypeface(TypefaceContainer.TYPEFACE_REGULAR);
                     tvTab2.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
-                    if (role.equals(Constants.ROLE_TASKER)) {
-                        Intent intentAnswer = new Intent();
-                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER);
-                        getActivity().sendBroadcast(intentAnswer);
-                    }
+//                    if (role.equals(Constants.ROLE_TASKER)) {
+//                        Intent intentAnswer = new Intent();
+//                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER);
+//                        getActivity().sendBroadcast(intentAnswer);
+//                    }
                     role = Constants.ROLE_POSTER;
 
 
                 } else if (tab.getPosition() == 1) {
-                    if (role.equals(Constants.ROLE_POSTER)) {
-                        Intent intentAnswer = new Intent();
-                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER);
-                        getActivity().sendBroadcast(intentAnswer);
-                    }
+//                    if (role.equals(Constants.ROLE_POSTER)) {
+//                        Intent intentAnswer = new Intent();
+//                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER);
+//                        getActivity().sendBroadcast(intentAnswer);
+//                    }
                     role = Constants.ROLE_TASKER;
                     tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
                     tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
@@ -135,10 +135,8 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         if (bundle.containsKey(Constants.ROLE_EXTRA)) role = bundle.getString(Constants.ROLE_EXTRA);
         if (role.equalsIgnoreCase(Constants.ROLE_POSTER)) {
             tabLayout.getTabAt(0).select();
-            myTaskFragmentAdapter.onRefreshTab(0);
         } else {
             tabLayout.getTabAt(1).select();
-            myTaskFragmentAdapter.onRefreshTab(1);
         }
         edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

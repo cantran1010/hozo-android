@@ -31,34 +31,25 @@
             android:id="@+id/img_close"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
-            android:background="@drawable/button_selector"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:contentDescription="@string/content_description_back"
             android:scaleType="centerInside"
             android:src="@drawable/img_close" />
 
         <ImageView
-            android:src="@drawable/ic_save"
             android:id="@+id/tv_save"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:background="@drawable/button_selector"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:contentDescription="@string/adjust_image"
             android:scaleType="centerInside"
+            android:src="@drawable/ic_save"
             android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/img_menu"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="?android:attr/actionBarSize"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/button_selector"
-            android:contentDescription="@string/adjust_image"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_more"
-            android:visibility="gone" />
     </RelativeLayout>
 
     <ScrollView
@@ -420,5 +411,19 @@
         android:layout_margin="16dp"
         android:text="@string/btn_create_task"
         android:textAllCaps="false" />
+
+    <ImageView
+        android:id="@+id/img_menu"
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="@string/adjust_image"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_more"
+        android:visibility="gone" />
 
 </RelativeLayout>

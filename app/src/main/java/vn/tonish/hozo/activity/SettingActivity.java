@@ -65,6 +65,7 @@ import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.ExpandableLayout;
+import vn.tonish.hozo.view.RadioButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.tv_monday;
@@ -85,7 +86,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private ImageView imgStatusArrow, imgCategoryArrow, imgTimeArrow, imgDistance, imgKeyword, imgPrice;
     private TextViewHozo tvStatus, tvCategory, tvDateTime, tvDistance, tvPrice;
     private RadioGroup radioStatus, radioTime, radioDistance, radioPrice;
-    private android.support.v7.widget.AppCompatRadioButton radAllTime, radDate, radAllDistance, radDistanceOption, radAllPrice, rad10, rad100, rad500;
+    private RadioButtonHozo radAllTime, radDate, radAllDistance, radDistanceOption, radAllPrice, rad10, rad100, rad500;
     private RecyclerView rcvCategory, rcvKeyword;
     private SeekBar seebarDistance;
     private Animation anim_down, anim_up;

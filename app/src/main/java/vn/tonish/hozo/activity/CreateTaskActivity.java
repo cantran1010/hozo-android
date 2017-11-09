@@ -15,7 +15,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -97,6 +96,7 @@ import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.CheckBoxHozo;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.ExpandableLayout;
 import vn.tonish.hozo.view.MyGridView;
@@ -142,7 +142,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private TextViewHozo tvAge;
-    private AppCompatCheckBox cbOnline, cbAuto;
+    private CheckBoxHozo cbOnline, cbAuto;
     private int imageAttachCount;
     private int[] imagesArr;
     private int ageFrom = 18;
@@ -471,7 +471,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     edtBudget.setThreshold(edtBudget.getText().length());
                     formatMoney(Long.parseLong(edtBudget.getText().toString().trim().replace(",", "").replace(".", "")));
                 }
-
+                updateTotalPayment();
             }
 
             @Override
@@ -481,8 +481,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                         edtBudget.setText(edtBudget.getText().toString().substring(0, edtBudget.length() - 1));
                         edtBudget.setError(getString(R.string.max_budget_error, Utils.formatNumber(MAX_BUGDET)));
                         edtBudget.setSelection(edtBudget.getText().toString().length());
-                    } else {
-                        updateTotalPayment();
                     }
             }
         });
@@ -649,17 +647,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             if (cameraPermission && readExternalFile) {
                 permissionGranted();
-            } else {
-//                snackbar = Snackbar.make(findViewById(android.R.id.content),
-//                        getString(R.string.attach_image_permission_message),
-//                        Snackbar.LENGTH_INDEFINITE).setAction(getString(R.string.attach_image_permission_confirm),
-//                        new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                ActivityCompat.requestPermissions(PostATaskActivity.this, permissions, Constants.PERMISSION_REQUEST_CODE);
-//                            }
-//                        });
-//                snackbar.show();
             }
         }
     }
@@ -816,12 +803,13 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         } else if (ageFrom >= ageTo) {
             Utils.showLongToast(this, getString(R.string.select_age_error), true, false);
             return;
-        } else if (!edtCoupon.getText().toString().trim().isEmpty() && !isCoupon(edtCoupon.getText().toString().trim())) {
-            if (!advanceExpandableLayout.isExpanded()) showAdvance();
-            edtCoupon.requestFocus();
-            edtCoupon.setError(getString(R.string.code_coupon_error));
-            return;
         }
+//        } else if (!edtCoupon.getText().toString().trim().isEmpty() && !isCoupon(edtCoupon.getText().toString().trim())) {
+//            if (!advanceExpandableLayout.isExpanded()) showAdvance();
+//            edtCoupon.requestFocus();
+//            edtCoupon.setError(getString(R.string.code_coupon_error));
+//            return;
+//        }
 
         if (images.size() > 1) doAttachFiles();
         else createTaskOnServer();
