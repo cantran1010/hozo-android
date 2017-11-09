@@ -13,6 +13,9 @@ import vn.tonish.hozo.fragment.MyTaskWorkerFragment;
 
 public class MyTaskFragmentAdapter extends FragmentStatePagerAdapter {
     int tabCount;
+    private MyTaskPosterFragment tab1;
+    private MyTaskWorkerFragment tab2;
+
 
     public MyTaskFragmentAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
@@ -24,10 +27,10 @@ public class MyTaskFragmentAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                MyTaskPosterFragment tab1 = new MyTaskPosterFragment();
+                tab1 = new MyTaskPosterFragment();
                 return tab1;
             case 1:
-                MyTaskWorkerFragment tab2 = new MyTaskWorkerFragment();
+                tab2 = new MyTaskWorkerFragment();
                 return tab2;
             default:
                 return null;
@@ -38,4 +41,27 @@ public class MyTaskFragmentAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return tabCount;
     }
+
+    public void onRefreshTab(int pos) {
+        if (pos == 0)
+            tab1.onRefresh();
+        else tab2.onRefresh();
+    }
+
+
+    public void search(String query, int pos) {
+        if (pos == 0)
+            tab1.search(query);
+        else tab2.search(query);
+
+    }
+
+    public void resetState(int pos) {
+        if (pos == 0)
+            tab1.endlessRecyclerViewScrollListener.resetState();
+        else tab2.endlessRecyclerViewScrollListener.resetState();
+
+    }
+
+
 }

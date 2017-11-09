@@ -5,15 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -56,8 +53,8 @@ import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.edt_search;
-import static vn.tonish.hozo.R.id.fr_search;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
+import static vn.tonish.hozo.utils.Utils.showSearch;
 
 /**
  * Created by CanTran on 4/11/17.
@@ -76,8 +73,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private String sinceStr = null;
     private String query = null;
     private final String strSortBy = null;
-    private Animation rtAnimation;
-    private Animation lanimation;
     private boolean isLoadingMoreFromServer = true;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private Call<List<TaskResponse>> call;
@@ -91,8 +86,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initView() {
-        rtAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_right);
-        lanimation = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_right);
         imgSearch = (ImageView) findViewById(R.id.img_search);
         imgLocation = (ImageView) findViewById(R.id.img_location);
         imgFilter = (ImageView) findViewById(R.id.img_filter);
@@ -100,7 +93,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         imgBack = (ImageView) findViewById(R.id.img_back);
         layoutHeader = (RelativeLayout) findViewById(R.id.browse_task_header);
         edtSearch = (EdittextHozo) findViewById(edt_search);
-        layoutSearch = (RelativeLayout) findViewById(fr_search);
+        layoutSearch = (RelativeLayout) findViewById(R.id.fr_search);
         rcvTask = (RecyclerView) findViewById(R.id.lv_list);
         rcvTask.setHasFixedSize(true);
         tvCountNewTask = (TextViewHozo) findViewById(R.id.tvCountNewTask);
@@ -167,11 +160,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         taskAdapter.setTaskAdapterListener(new TaskAdapter.TaskAdapterListener() {
             @Override
             public void onTaskAdapterClickListener(int position) {
-//                LogUtils.d(TAG, "onclick");
-//                TaskResponse taskResponse = taskList.get(position);
-//                Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
-//                intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-//                startActivityForResult(intent, Constants.REQUEST_CODE_TASK_EDIT, TransitionScreen.RIGHT_TO_LEFT);
                 LogUtils.d(TAG, "onclick");
                 TaskResponse taskResponse = taskList.get(position);
                 Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
@@ -289,15 +277,15 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 goToMapScren();
                 break;
             case R.id.img_search:
-                showSearch(layoutSearch, true);
-                showSearch(layoutHeader, false);
+                showSearch(getActivity(), layoutSearch, true);
+                showSearch(getActivity(), layoutHeader, false);
 
                 break;
             case R.id.img_back:
                 query = null;
                 edtSearch.setText("");
-                showSearch(layoutHeader, true);
-                showSearch(layoutSearch, false);
+                showSearch(getActivity(), layoutHeader, true);
+                showSearch(getActivity(), layoutSearch, false);
                 endlessRecyclerViewScrollListener.resetState();
                 onRefresh();
                 break;
@@ -339,22 +327,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
     }
 
-    private void showSearch(final View view, boolean isShow) {
-//        expandedSearch.toggle();
-        if (isShow) {
-            view.setVisibility(View.VISIBLE);
-            view.startAnimation(rtAnimation);
-        } else {
-            view.startAnimation(lanimation);
-            new Handler().postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    view.setVisibility(View.GONE);
-                }
-            }, Constants.DURATION);
-        }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

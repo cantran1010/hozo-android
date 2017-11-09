@@ -1,7 +1,6 @@
 package vn.tonish.hozo.utils;
 
 
-import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -15,17 +14,12 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
-import android.support.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.IntRange;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
+import android.os.Handler;
+import android.support.media.ExifInterface;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -34,14 +28,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AnticipateInterpolator;
-import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -58,7 +45,6 @@ import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,30 +52,13 @@ import vn.tonish.hozo.BuildConfig;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.SplashActivity;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.common.DataParse;
-import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.entity.SettingEntiny;
-import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
-import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
-
-import static vn.tonish.hozo.common.Constants.ACCELERATE_DECELERATE_INTERPOLATOR;
-import static vn.tonish.hozo.common.Constants.ACCELERATE_INTERPOLATOR;
-import static vn.tonish.hozo.common.Constants.ANTICIPATE_INTERPOLATOR;
-import static vn.tonish.hozo.common.Constants.ANTICIPATE_OVERSHOOT_INTERPOLATOR;
-import static vn.tonish.hozo.common.Constants.BOUNCE_INTERPOLATOR;
-import static vn.tonish.hozo.common.Constants.DECELERATE_INTERPOLATOR;
-import static vn.tonish.hozo.common.Constants.FAST_OUT_LINEAR_IN_INTERPOLATOR;
-import static vn.tonish.hozo.common.Constants.FAST_OUT_SLOW_IN_INTERPOLATOR;
-import static vn.tonish.hozo.common.Constants.LINEAR_INTERPOLATOR;
-import static vn.tonish.hozo.common.Constants.LINEAR_OUT_SLOW_IN_INTERPOLATOR;
-import static vn.tonish.hozo.common.Constants.OVERSHOOT_INTERPOLATOR;
-import static vn.tonish.hozo.database.manager.CategoryManager.checkCategoryById;
 
 /**
  * Created by LongBui on 4/12/17.
@@ -675,17 +644,7 @@ public class Utils {
         return sex;
     }
 
-    public static String converGenderEn(Context context, String gender) {
-        String sex;
-        if (gender.equals(context.getString(R.string.gender_vn_male)))
-            sex = context.getString(R.string.gender_male);
-        else if (gender.equals(context.getString(R.string.gender_vn_mafele))) {
-            sex = context.getString(R.string.gender_female);
-        } else {
-            sex = context.getString(R.string.gender_any);
-        }
-        return sex;
-    }
+
 
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager
@@ -845,65 +804,28 @@ public class Utils {
         }
     }
 
-    public static TimeInterpolator createInterpolator(@IntRange(from = 0, to = 10) final int interpolatorType) {
-        switch (interpolatorType) {
-            case ACCELERATE_DECELERATE_INTERPOLATOR:
-                return new AccelerateDecelerateInterpolator();
-            case ACCELERATE_INTERPOLATOR:
-                return new AccelerateInterpolator();
-            case ANTICIPATE_INTERPOLATOR:
-                return new AnticipateInterpolator();
-            case ANTICIPATE_OVERSHOOT_INTERPOLATOR:
-                return new AnticipateOvershootInterpolator();
-            case BOUNCE_INTERPOLATOR:
-                return new BounceInterpolator();
-            case DECELERATE_INTERPOLATOR:
-                return new DecelerateInterpolator();
-            case FAST_OUT_LINEAR_IN_INTERPOLATOR:
-                return new FastOutLinearInInterpolator();
-            case FAST_OUT_SLOW_IN_INTERPOLATOR:
-                return new FastOutSlowInInterpolator();
-            case LINEAR_INTERPOLATOR:
-                return new LinearInterpolator();
-            case LINEAR_OUT_SLOW_IN_INTERPOLATOR:
-                return new LinearOutSlowInInterpolator();
-            case OVERSHOOT_INTERPOLATOR:
-                return new OvershootInterpolator();
-            default:
-                return new LinearInterpolator();
-        }
-    }
-
-    public static void inserCategory(List<Category> categoryList) {
-        List<CategoryEntity> list;
-        for (Category category : categoryList) {
-            category.setSelected(checkCategoryById(category.getId()));
-        }
-        list = DataParse.convertListCategoryToListCategoryEntity(categoryList);
-        CategoryManager.insertCategories(list);
-    }
-
-    public static String getAddressFromLatlon(Context context, double lat, double lon) {
-        Geocoder geocoder;
-        List<Address> addresses;
-        String strAdd = "";
-        geocoder = new Geocoder(context, Locale.getDefault());
-
-        try {
-            addresses = geocoder.getFromLocation(lat, lon, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            strAdd = addresses.get(0).getAddressLine(0);  // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return strAdd;
-    }
-
     public static void openPlayStore(Context context) {
         final String appPackageName = context.getPackageName(); // getPackageName() from Context or Activity object
         try {
             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
         } catch (android.content.ActivityNotFoundException anfe) {
             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
+    }
+
+    public static void showSearch(final Context context, final View view, boolean isShow) {
+        if (isShow) {
+            view.setVisibility(View.VISIBLE);
+            view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_right));
+        } else {
+            view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_out_right));
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    view.setVisibility(View.GONE);
+                }
+            }, Constants.DURATION);
         }
     }
 

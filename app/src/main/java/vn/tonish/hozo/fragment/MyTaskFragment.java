@@ -9,9 +9,15 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.FilterMyTaskActivity;
@@ -20,7 +26,11 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.TypefaceContainer;
+import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
+
+import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
+import static vn.tonish.hozo.utils.Utils.showSearch;
 
 /**
  * Created by LongBui on 4/4/2017.
@@ -33,7 +43,12 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     private ViewPager viewPager;
     private MyTaskFragmentAdapter myTaskFragmentAdapter;
     private TextViewHozo tvTab1, tvTab2;
-    private ImageView imgFilter, imgSearch;
+    private ImageView imgFilter, imgSearch, imgBack, imgClear;
+    private String mQuery = "";
+    private int position = 0;
+    private EdittextHozo edtSearch;
+    private RelativeLayout layoutHeader, layoutSearch;
+
 
     @Override
     protected int getLayout() {
@@ -42,11 +57,18 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     protected void initView() {
+        layoutHeader = (RelativeLayout) findViewById(R.id.layout_header_my_task);
+        layoutSearch = (RelativeLayout) findViewById(R.id.layout_hedaer_search);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         imgFilter = (ImageView) findViewById(R.id.img_filter);
-        imgSearch = (ImageView) findViewById(R.id.img_saerch);
+        imgSearch = (ImageView) findViewById(R.id.img_search);
+        edtSearch = (EdittextHozo) findViewById(R.id.edt_search);
+        imgClear = (ImageView) findViewById(R.id.img_clear);
+        imgBack = (ImageView) findViewById(R.id.img_back);
         imgFilter.setOnClickListener(this);
         imgSearch.setOnClickListener(this);
+        imgClear.setOnClickListener(this);
+        imgBack.setOnClickListener(this);
         viewPager = (ViewPager) findViewById(R.id.pager);
         tabLayout.addTab(tabLayout.newTab().setText(getContext().getString(R.string.my_task_poster)));
         tabLayout.addTab(tabLayout.newTab().setText(getContext().getString(R.string.my_task_worker)));
@@ -64,6 +86,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                position = tab.getPosition();
                 if (viewPager != null)
                     viewPager.setCurrentItem(tab.getPosition());
                 if (tab.getPosition() == 0) {
@@ -77,6 +100,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                         getActivity().sendBroadcast(intentAnswer);
                     }
                     role = Constants.ROLE_POSTER;
+
 
                 } else if (tab.getPosition() == 1) {
                     if (role.equals(Constants.ROLE_POSTER)) {
@@ -109,35 +133,54 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     protected void initData() {
         Bundle bundle = getArguments();
         if (bundle.containsKey(Constants.ROLE_EXTRA)) role = bundle.getString(Constants.ROLE_EXTRA);
-        if (role.equalsIgnoreCase(Constants.ROLE_POSTER))
-        tabLayout.getTabAt(0).select();else  tabLayout.getTabAt(1).select();
-//
-//        if (role != null && role.equals(Constants.ROLE_POSTER)) {
-//            new Handler().postDelayed(
-//                    new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            tabLayout.getTabAt(0).select();
-//                        }
-//                    }, 100);
-//
-////            Bundle bundleRefresh = new Bundle();
-////            bundleRefresh.putBoolean(Constants.REFRESH_EXTRA, true);
-////            showChildFragment(R.id.layout_container_my_task, MyTaskPosterFragment.class, false, bundleRefresh, TransitionScreen.FADE_IN);
-////            selectedTab(1);
-//        } else {
-//            new Handler().postDelayed(
-//                    new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            tabLayout.getTabAt(1).select();
-//                        }
-//                    }, 100);
-////            showChildFragment(R.id.layout_container_my_task, MyTaskPosterFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
-////            selectedTab(1);
-//        }
-//        updateSpinner(1);
+        if (role.equalsIgnoreCase(Constants.ROLE_POSTER)) {
+            tabLayout.getTabAt(0).select();
+            myTaskFragmentAdapter.onRefreshTab(0);
+        } else {
+            tabLayout.getTabAt(1).select();
+            myTaskFragmentAdapter.onRefreshTab(1);
+        }
+        edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                search();
+                hideKeyBoard(getActivity());
+                return actionId == EditorInfo.IME_ACTION_SEARCH;
+            }
+        });
+
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (edtSearch.getText().toString().length() > 0) {
+                    imgClear.setVisibility(View.VISIBLE);
+                } else {
+                    imgClear.setVisibility(View.GONE);
+                }
+                search();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
     }
+
+    private void search() {
+        mQuery = edtSearch.getText().toString().trim();
+        if (position == 0)
+            myTaskFragmentAdapter.search(mQuery, 0);
+        else myTaskFragmentAdapter.search(mQuery, 1);
+    }
+
 
     @Override
     protected void resumeData() {
@@ -175,143 +218,6 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     };
 
 
-//    private void updateSpinner(final int position) {
-//
-//        List<String> list = new ArrayList<>();
-//        if (position == 1) {
-//            list.add(getString(R.string.hozo_all));
-//            list.add(getString(R.string.my_task_status_poster_open));
-//            list.add(getString(R.string.my_task_status_poster_assigned));
-//            list.add(getString(R.string.my_task_status_poster_completed));
-//            list.add(getString(R.string.my_task_status_poster_overdue));
-//            list.add(getString(R.string.my_task_status_poster_canceled));
-//            list.add(getString(R.string.my_task_status_poster_draft));
-//        } else {
-//            list.add(getString(R.string.hozo_all));
-//            list.add(getString(R.string.my_task_status_worker_open));
-//            list.add(getString(R.string.my_task_status_worker_assigned));
-//            list.add(getString(R.string.my_task_status_worker_completed));
-//            list.add(getString(R.string.my_task_status_worker_missed));
-//            list.add(getString(R.string.my_task_status_worker_canceled));
-//            list.add(getString(R.string.my_task_status_poster_overdue));
-//        }
-
-//      FilterMyTaskAdapter dataAdapter = new ArrayAdapter<>(getActivity(),
-//                android.R.layout.simple_spinner_item, list);
-//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spType.setAdapter(dataAdapter);
-//
-//        if (role.equals(Constants.ROLE_TASKER)) {
-//            spType.setSelection(workerFilterPosition);
-//        } else if (role.equals(Constants.ROLE_POSTER)) {
-//            spType.setSelection(posterFilterPosition);
-//        }
-
-//        spType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-//                LogUtils.d(TAG, "onItemSelected , pos : " + pos + " , workerFilterPosition : " + workerFilterPosition + " , posterFilterPosition : " + posterFilterPosition);
-////                if (pos == 0) return;
-//                if (role.equals(Constants.ROLE_TASKER)) {
-//
-//                    if (pos == workerFilterPosition) return;
-//
-//                    workerFilterPosition = pos;
-//                    Intent intentAnswer = new Intent();
-//                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER);
-//                    intentAnswer.putExtra(Constants.MYTASK_FILTER_EXTRA, getStatus(Constants.ROLE_TASKER, pos));
-//                    getActivity().sendBroadcast(intentAnswer);
-//                } else if (role.equals(Constants.ROLE_POSTER)) {
-//
-//                    if (pos == posterFilterPosition) return;
-//
-//                    posterFilterPosition = pos;
-//                    Intent intentAnswer = new Intent();
-//                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER);
-//                    intentAnswer.putExtra(Constants.MYTASK_FILTER_EXTRA, getStatus(Constants.ROLE_POSTER, pos));
-//                    getActivity().sendBroadcast(intentAnswer);
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
-//    }
-
-
-    private String getStatus(String role, int pos) {
-
-        String result = "";
-        if (role.equals(Constants.ROLE_TASKER)) {
-
-            switch (pos) {
-                case 0:
-                    result = "";
-                    break;
-
-                case 1:
-                    result = "pending";
-                    break;
-
-                case 2:
-                    result = "accepted";
-                    break;
-
-                case 3:
-                    result = "completed";
-                    break;
-                case 4:
-                    result = "missed";
-                    break;
-                case 5:
-                    result = "canceled";
-                    break;
-
-                case 6:
-                    result = "overdue";
-                    break;
-            }
-
-        } else {
-
-            switch (pos) {
-
-                case 0:
-                    result = "";
-                    break;
-
-                case 1:
-                    result = "open";
-                    break;
-
-                case 2:
-                    result = "assigned";
-                    break;
-
-                case 3:
-                    result = "completed";
-                    break;
-
-                case 4:
-                    result = "overdue";
-                    break;
-
-                case 5:
-                    result = "canceled";
-                    break;
-
-                case 6:
-                    result = "draft";
-                    break;
-
-            }
-        }
-        return result;
-    }
-
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -319,21 +225,41 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                 actionFilter();
                 break;
             case R.id.img_search:
-                actionSearch();
+                showSearch(getContext(), layoutSearch, true);
+                showSearch(getContext(), layoutHeader, false);
+
+                break;
+            case R.id.img_back:
+                mQuery = null;
+                edtSearch.setText("");
+                showSearch(getContext(), layoutHeader, true);
+                showSearch(getContext(), layoutSearch, false);
+                myTaskFragmentAdapter.resetState(position);
+                myTaskFragmentAdapter.onRefreshTab(position);
+                break;
+            case R.id.img_clear:
+                edtSearch.setText("");
                 break;
         }
 
     }
 
-    private void actionSearch() {
-
-
-    }
 
     private void actionFilter() {
         Intent intent = new Intent(getContext(), FilterMyTaskActivity.class);
         intent.putExtra(Constants.EXTRA_MY_TASK, role);
         startActivityForResult(intent, Constants.REQUEST_CODE_FILTER_MY_TASK, TransitionScreen.LEFT_TO_RIGHT);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQUEST_CODE_FILTER_MY_TASK && resultCode == Constants.FILTER_MY_TASK_RESPONSE_CODE) {
+            if (position == 0)
+                myTaskFragmentAdapter.onRefreshTab(0);
+            else
+                myTaskFragmentAdapter.onRefreshTab(1);
+        }
 
     }
 }

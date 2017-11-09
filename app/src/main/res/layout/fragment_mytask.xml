@@ -13,48 +13,117 @@
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/hozo_bg">
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_title"
-            style="@style/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/title_margin_left"
-            android:layout_marginStart="@dimen/title_margin_left"
-            android:layout_toLeftOf="@+id/img_search"
-            android:layout_toStartOf="@+id/img_search"
-            android:text="@string/my_task_title" />
-
-        <ImageView
-            android:id="@+id/img_filter"
-            android:layout_width="?android:attr/actionBarSize"
+        <RelativeLayout
+            android:id="@+id/layout_header_my_task"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/btn_hozo_selector"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_more" />
+            android:animateLayoutChanges="true"
+            android:visibility="visible">
 
-        <View
-            android:id="@+id/heght_line"
-            android:layout_width="1px"
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/tv_title"
+                style="@style/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_margin_left"
+                android:layout_marginStart="@dimen/title_margin_left"
+                android:layout_toLeftOf="@+id/img_search"
+                android:layout_toStartOf="@+id/img_search"
+                android:text="@string/my_task_title" />
+
+            <ImageView
+                android:id="@+id/img_filter"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btn_hozo_selector"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_more" />
+
+            <View
+                android:id="@+id/heght_line"
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@+id/img_filter"
+                android:layout_toStartOf="@id/img_filter"
+                android:background="@color/white" />
+
+            <ImageView
+                android:id="@+id/img_search"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/heght_line"
+                android:layout_toStartOf="@+id/heght_line"
+                android:background="@drawable/btn_hozo_selector"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_search" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_hedaer_search"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toLeftOf="@+id/img_filter"
-            android:layout_toStartOf="@id/img_filter"
-            android:background="@color/white" />
+            android:animateLayoutChanges="true"
+            android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/img_saerch"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/heght_line"
-            android:layout_toStartOf="@+id/heght_line"
-            android:background="@drawable/btn_hozo_selector"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_search" />
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btn_hozo_selector"
+                android:contentDescription="@string/content_description_back"
+                android:scaleType="centerInside"
+                android:src="@drawable/img_close" />
 
+            <vn.tonish.hozo.view.EdittextHozo
+                android:id="@+id/edt_search"
+                style="@style/edt_create_task"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@id/img_back"
+                android:layout_toStartOf="@id/img_back"
+                android:drawableLeft="@drawable/ic_search_blue"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_search_blue"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="@string/search"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingEnd="30dp"
+                android:paddingRight="30dp" />
+
+
+            <ImageView
+                android:id="@+id/img_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_toLeftOf="@id/img_back"
+                android:layout_toStartOf="@id/img_back"
+                android:background="@null"
+                android:contentDescription="@string/adjust_image"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:src="@android:drawable/presence_offline"
+                android:visibility="gone" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <!-- our tablayout to display tabs  -->
@@ -74,6 +143,5 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" />
-
+        android:layout_height="match_parent" />
 </LinearLayout>

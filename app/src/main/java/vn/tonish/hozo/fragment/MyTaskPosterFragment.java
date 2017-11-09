@@ -22,9 +22,7 @@ import vn.tonish.hozo.activity.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.MyTaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
-import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.entity.StatusEntity;
-import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.database.manager.StatusManager;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -53,12 +51,12 @@ public class MyTaskPosterFragment extends BaseFragment {
     private String sinceStr;
     private boolean isLoadingMoreFromServer = true;
     private Call<List<TaskResponse>> call;
-    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+    public EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
     private String filter = "";
     private boolean isReloadMyTask = false;
     private TextViewHozo tvNoData;
-    private String query = "";
+    private String mQuery = "";
     private ArrayList<String> listStatus;
 
     @Override
@@ -77,11 +75,8 @@ public class MyTaskPosterFragment extends BaseFragment {
     @Override
     protected void initData() {
         getStatus();
-//        LogUtils.d(TAG, "list status" + listStatus.size() + listStatus.toString());
-//        LogUtils.d(TAG, "list status" + statusEntities.toString());
         isReloadMyTask = false;
         initList();
-//       if (getArguments().getBoolean(Constants.REFRESH_EXTRA)) onRefresh();
     }
 
     private void getStatus() {
@@ -92,28 +87,13 @@ public class MyTaskPosterFragment extends BaseFragment {
                 if (statusEntity.isSelected())
                     listStatus.add(statusEntity.getStatus());
             }
-
-
         }
-    }
-
-    public static List<Long> getIds() {
-        List<CategoryEntity> entityRealmList = CategoryManager.getAllCategories();
-        List<Long> ids = new ArrayList<>();
-        for (CategoryEntity categoryEntity : entityRealmList) {
-            if (categoryEntity.isSelected())
-                ids.add((long) categoryEntity.getId());
-        }
-        return ids;
-
     }
 
     @Override
     protected void resumeData() {
-        getStatus();
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER));
-        LogUtils.d(TAG, "MyTaskPosterFragment 111111 111111");
-
+        LogUtils.d(TAG, "MyTaskPosterFragment resumeData");
         //refresh my task fragment after copy task
         if (isReloadMyTask) {
             Intent intent = new Intent();
@@ -137,7 +117,7 @@ public class MyTaskPosterFragment extends BaseFragment {
                 LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 
                 if (isLoadingMoreFromServer) {
-                    getTaskFromServer(sinceStr, LIMIT, filter);
+                    getTaskFromServer(sinceStr, LIMIT, filter, mQuery);
                 }
 
             }
@@ -150,7 +130,6 @@ public class MyTaskPosterFragment extends BaseFragment {
             public void onMyTaskAdapterClickListener(int position) {
                 TaskResponse taskResponse = taskResponses.get(position);
                 LogUtils.d(TAG, "myTaskAdapter.setMyTaskAdapterListener , taskResponse : " + taskResponse);
-
                 if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_DRAFT)) {
                     Intent intentEdit = new Intent(getActivity(), CreateTaskActivity.class);
                     intentEdit.putExtra(Constants.EXTRA_TASK, taskResponse);
@@ -191,13 +170,9 @@ public class MyTaskPosterFragment extends BaseFragment {
         }
     };
 
-
-    private void getTaskFromServer(final String since, final int limit, final String filter) {
-
+    private void getTaskFromServer(final String since, final int limit, final String filter, final String query) {
         if (call != null) call.cancel();
-
         Map<String, String> params = new HashMap<>();
-
         params.put("role", Constants.ROLE_POSTER);
         if (since != null) params.put("since", since);
         params.put("limit", limit + "");
@@ -244,17 +219,19 @@ public class MyTaskPosterFragment extends BaseFragment {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            getTaskFromServer(since, limit, filter);
+                            getTaskFromServer(since, limit, filter, query);
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(getActivity());
+                } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
+                    Utils.showLongToast(getActivity(), getString(R.string.invalid_error), true, false);
                 } else {
                     myTaskAdapter.stopLoadMore();
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            getTaskFromServer(since, limit, filter);
+                            getTaskFromServer(since, limit, filter, query);
                         }
 
                         @Override
@@ -276,7 +253,7 @@ public class MyTaskPosterFragment extends BaseFragment {
                         @Override
                         public void onSubmit() {
                             myTaskAdapter.onLoadMore();
-                            getTaskFromServer(since, limit, filter);
+                            getTaskFromServer(since, limit, filter, query);
                         }
 
                         @Override
@@ -342,15 +319,22 @@ public class MyTaskPosterFragment extends BaseFragment {
 
     }
 
+    public void search(String query) {
+        mQuery = query;
+        sinceStr = null;
+        getTaskFromServer(sinceStr, LIMIT, filter, query);
+    }
+
     @Override
     public void onRefresh() {
         super.onRefresh();
         LogUtils.d(TAG, "onRefresh start");
+        getStatus();
         if (call != null) call.cancel();
         isLoadingMoreFromServer = true;
         sinceStr = null;
         myTaskAdapter.onLoadMore();
         rcvTask.smoothScrollToPosition(0);
-        getTaskFromServer(null, LIMIT, filter);
+        getTaskFromServer(null, LIMIT, filter, mQuery);
     }
 }

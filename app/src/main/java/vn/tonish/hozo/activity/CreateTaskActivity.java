@@ -768,7 +768,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private void doNext() {
-
         if (edtTitle.getText().toString().length() < 10) {
             edtTitle.requestFocus();
             edtTitle.setError(getString(R.string.post_a_task_name_error));
