@@ -50,13 +50,13 @@ public class PlaceActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initView() {
-        ImageView imgBack = findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        RelativeLayout layoutClear = findViewById(R.id.layout_clear);
+        RelativeLayout layoutClear = (RelativeLayout) findViewById(R.id.layout_clear);
         layoutClear.setOnClickListener(this);
 
-        tvNoAddress = findViewById(R.id.tv_no_address);
+        tvNoAddress = (TextViewHozo) findViewById(R.id.tv_no_address);
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, this)

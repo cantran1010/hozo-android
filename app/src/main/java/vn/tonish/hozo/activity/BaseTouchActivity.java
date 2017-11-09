@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 
 import java.io.Serializable;
 import java.util.Stack;
@@ -21,7 +21,7 @@ import vn.tonish.hozo.utils.TransitionScreen;
 /**
  * Created by LongBui on 4/12/17.
  */
-public abstract class BaseTouchActivity extends FragmentActivity implements SwipeRefreshLayout.OnRefreshListener {
+public abstract class BaseTouchActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = BaseTouchActivity.class.getName();
     private FragmentManager fragmentManager;
     private TransitionScreen transitionScreen;
@@ -52,6 +52,7 @@ public abstract class BaseTouchActivity extends FragmentActivity implements Swip
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         if (getIntent().hasExtra(Constants.TRANSITION_EXTRA))
             transitionScreen = (TransitionScreen) getIntent().getSerializableExtra(Constants.TRANSITION_EXTRA);
         fragmentManager = getSupportFragmentManager();

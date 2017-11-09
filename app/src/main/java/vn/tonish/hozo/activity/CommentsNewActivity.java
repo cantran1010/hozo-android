@@ -91,22 +91,22 @@ public class CommentsNewActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
-        lvList = findViewById(R.id.lvList);
-        ImageView imgBack = findViewById(R.id.img_back);
-        edtComment = findViewById(R.id.edt_comment);
-        imgLayout = findViewById(R.id.img_layout);
-        layoutFooter = findViewById(R.id.layout_footer);
-        imgAttached = findViewById(R.id.img_attached);
-        ImageView imgDelete = findViewById(R.id.img_delete);
-        ImageView imgComment = findViewById(R.id.img_send);
-        ImageView imgAttach = findViewById(R.id.img_attach);
+        lvList = (RecyclerView) findViewById(R.id.lvList);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
+        edtComment = (EdittextHozo) findViewById(R.id.edt_comment);
+        imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
+        layoutFooter = (LinearLayout) findViewById(R.id.layout_footer);
+        imgAttached = (ImageView) findViewById(R.id.img_attached);
+        ImageView imgDelete = (ImageView) findViewById(R.id.img_delete);
+        ImageView imgComment = (ImageView) findViewById(R.id.img_send);
+        ImageView imgAttach = (ImageView) findViewById(R.id.img_attach);
         imgAttach.setOnClickListener(this);
         imgAttached.setOnClickListener(this);
         imgComment.setOnClickListener(this);
         imgDelete.setOnClickListener(this);
         imgBack.setOnClickListener(this);
 
-        commentBigView = findViewById(R.id.comment_big_view);
+        commentBigView = (CommentBigView) findViewById(R.id.comment_big_view);
 
     }
 

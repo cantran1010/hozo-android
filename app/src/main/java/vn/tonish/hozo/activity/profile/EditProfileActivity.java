@@ -128,48 +128,48 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
-        imgAvatar = findViewById(img_avatar);
+        imgAvatar = (CircleImageView) findViewById(img_avatar);
         imgAvatar.setOnClickListener(this);
 
 //        ButtonHozo btnSave = findViewById(R.id.btn_save);
 //        btnSave.setOnClickListener(this);
 
-        ImageView imgCancel = findViewById(R.id.img_cancel);
+        ImageView imgCancel = (ImageView) findViewById(R.id.img_cancel);
         imgCancel.setOnClickListener(this);
 
-        ImageView imgCamera = findViewById(R.id.img_camera);
+        ImageView imgCamera = (ImageView) findViewById(R.id.img_camera);
         imgCamera.setOnClickListener(this);
 
-        edtName = findViewById(R.id.edt_name);
+        edtName = (EdittextHozo) findViewById(R.id.edt_name);
 
-        tvBirthday = findViewById(R.id.tv_birthday);
+        tvBirthday = (TextViewHozo) findViewById(R.id.tv_birthday);
 
-        RelativeLayout layoutBirthday = findViewById(R.id.layout_birthday);
+        RelativeLayout layoutBirthday = (RelativeLayout) findViewById(R.id.layout_birthday);
         layoutBirthday.setOnClickListener(this);
 
 
-        edtDes = findViewById(R.id.edt_description);
-        autocompleteView = findViewById(R.id.autocomplete_places);
+        edtDes = (EdittextHozo) findViewById(R.id.edt_description);
+        autocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete_places);
 
-        rbMale = findViewById(R.id.rd_male);
-        rbFemale = findViewById(R.id.rd_female);
+        rbMale = (RadioButton) findViewById(R.id.rd_male);
+        rbFemale = (RadioButton) findViewById(R.id.rd_female);
 
-        cbHideGender = findViewById(R.id.cb_hide_gender);
-        cbHideBirth = findViewById(R.id.cb_hide_birth);
+        cbHideGender = (CheckBox) findViewById(R.id.cb_hide_gender);
+        cbHideBirth = (CheckBox) findViewById(R.id.cb_hide_birth);
 
-        grImage = findViewById(R.id.gr_image);
+        grImage = (MyGridView) findViewById(R.id.gr_image);
 
-        skillsLayout = findViewById(R.id.skill_layout);
-        languagesLayout = findViewById(R.id.languages_layout);
+        skillsLayout = (RelativeLayout) findViewById(R.id.skill_layout);
+        languagesLayout = (RelativeLayout) findViewById(R.id.languages_layout);
 
         skillsLayout.setOnClickListener(this);
         languagesLayout.setOnClickListener(this);
 
-        edtExperience = findViewById(R.id.edt_experience);
+        edtExperience = (EdittextHozo) findViewById(R.id.edt_experience);
 
-        rbPoster = findViewById(R.id.rd_poster);
-        rbWorker = findViewById(R.id.rd_worker);
-        rbBoth = findViewById(R.id.rd_both);
+        rbPoster = (RadioButton) findViewById(R.id.rd_poster);
+        rbWorker = (RadioButton) findViewById(R.id.rd_worker);
+        rbBoth = (RadioButton) findViewById(R.id.rd_both);
     }
 
     @Override
