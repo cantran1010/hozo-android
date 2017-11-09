@@ -46,6 +46,7 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
     private int user_id;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private Call<List<ReviewEntity>> call;
+    private boolean isTabPoster = true;
 
     @Override
     protected int getLayout() {
@@ -54,8 +55,8 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-        rcvReviews = (RecyclerView) findViewById(lvList);
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        rcvReviews = findViewById(lvList);
+        imgBack = findViewById(R.id.img_back);
         createSwipeToRefresh();
 
     }
@@ -65,8 +66,8 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
         imgBack.setOnClickListener(this);
         Intent i = getIntent();
         user_id = i.getExtras().getInt(Constants.USER_ID);
+        isTabPoster = i.getBooleanExtra(Constants.TAB_EXTRA, true);
         setUpRecyclerView();
-//        getReviews(null, user_id);
     }
 
     @Override
@@ -87,7 +88,6 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
         };
 
         rcvReviews.addOnScrollListener(endlessRecyclerViewScrollListener);
-
     }
 
     private void getReviews(final String since, final int userId) {
@@ -96,8 +96,14 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
         if (since != null)
             params.put("since", "");
         params.put("limit", LIMIT + "");
-        String typeReview = "worker";
-        params.put("review_type", typeReview);
+
+        if (isTabPoster)
+            params.put("review_type", "poster");
+        else
+            params.put("review_type", "tasker");
+
+        LogUtils.d(TAG, "getReviews , data request : " + params.toString());
+
         call = ApiClient.getApiService().getUserReviews(UserManager.getUserToken(), userId, params);
         call.enqueue(new Callback<List<ReviewEntity>>() {
             @Override
@@ -145,8 +151,6 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
                 }
 
                 onStopRefresh();
-
-
             }
 
 
@@ -169,8 +173,6 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
                 reviewsAdapter.stopLoadMore();
                 onStopRefresh();
                 reviewsAdapter.notifyDataSetChanged();
-
-
             }
         });
     }

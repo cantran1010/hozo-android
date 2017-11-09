@@ -79,14 +79,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvRateLbl, btnMoreReview, btnLogOut, tvAbout, tvCountActivity, tvCountFollow, tvMobileLbl, tvExperience;
     private TextViewHozo tvReviewsCount, tvTaskCount, tvCompletionRate;
-    //    tvAddVerify;tvGender
     private RatingBar ratingBar;
-    //    private LinearLayout layoutInfor;
     private float ratingPoster, ratingTasker;
     private ReviewsListView reviewsListView;
     private FrameLayout layoutLogout;
     private NestedScrollView scrollView;
-    private int tabIndex = 0;
+    private int tabIndex = 1;
     private boolean isMyUser;
     private int rateCountPoster, retaCountWorker, taskPostPoster, taskPostWorker;
     private float percentDonePoster, percentDoneWorker;
@@ -97,12 +95,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private final List<ReviewEntity> taskerReviewEntity = new ArrayList<>();
     private ImageView imgFbVerify, imgEmailVerify;
 
-    private RecyclerView rcvSkills, rcvLanguages, rcvImages;
+    private RecyclerView rcvSkills, rcvLanguages;
     private ProfileTagAdapter skillsAdapter, languagesAdapter;
     private ButtonHozo btnVerify;
     private MyGridView myGridView;
     private ButtonHozo btnFollow;
     private boolean isFollow = false;
+    private boolean isTabPoster = true;
 
     @Override
     protected int getLayout() {
@@ -114,13 +113,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         imgback = (ImageView) findViewById(R.id.img_back);
         imgEdit = (ImageView) findViewById(R.id.img_edit);
         imgAvatar = (CircleImageView) findViewById(img_avatar);
-//        layoutInfor = (LinearLayout) findViewById(R.id.layout_infor);
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
         ratingBar = (RatingBar) findViewById(R.id.rb_rating);
         tvDateOfBirth = (TextViewHozo) findViewById(R.id.tv_birthday);
         tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
         tvMobile = (TextViewHozo) findViewById(R.id.tv_phone);
-//        tvGender = (TextViewHozo) findViewById(R.id.tv_gender);
         btnLogOut = (TextViewHozo) findViewById(R.id.btn_logout);
         btnWorker = (TextViewHozo) findViewById(R.id.btn_worker);
         btnPoster = (TextViewHozo) findViewById(R.id.btn_poster);
@@ -133,7 +130,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         layoutLogout = (FrameLayout) findViewById(R.id.layout_logout);
         reviewsListView = (ReviewsListView) findViewById(R.id.rcv_reviews);
         btnMoreReview = (TextViewHozo) findViewById(R.id.tv_more_reviews);
-//        tvAddVerify = (TextViewHozo) findViewById(R.id.btn_add_verify);
         scrollView = (NestedScrollView) findViewById(R.id.scroll_view);
         imgFbVerify = findViewById(R.id.fb_verify);
         imgEmailVerify = findViewById(R.id.email_verify);
@@ -360,7 +356,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 btnMoreReview.setVisibility(View.GONE);
             }
 
-            setDataSelected(true);
+            setDataSelected(isTabPoster);
 
             posterReviewEntity.clear();
             taskerReviewEntity.clear();
@@ -444,6 +440,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
 
     private void setDataSelected(boolean isPoster) {
+        isTabPoster = isPoster;
         reviewEntities.clear();
         if (isPoster) {
             tvReviewsCount.setText(getString(R.string.reviews_count, rateCountPoster));
@@ -655,6 +652,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             case R.id.tv_more_reviews:
                 Intent intent = new Intent(this, ReviewsActivity.class);
                 intent.putExtra(Constants.USER_ID, userId);
+                intent.putExtra(Constants.TAB_EXTRA, isTabPoster);
                 startActivity(intent, TransitionScreen.DOWN_TO_UP);
                 break;
             case img_avatar:
