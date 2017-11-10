@@ -18,7 +18,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="5dp"
-        android:text="Kĩ năng A"
         android:textColor="@color/tv_gray_new"
         android:textSize="12sp" />
 

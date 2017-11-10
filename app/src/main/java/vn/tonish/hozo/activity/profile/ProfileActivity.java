@@ -601,6 +601,19 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     isFollow = !isFollow;
                     updateFollowUi();
+
+                    if (mUserEntity.isFollowed()) {
+                        if (isFollow)
+                            tvCountFollow.setText(getString(R.string.count_follow, mUserEntity.getFollowersCount()));
+                        else
+                            tvCountFollow.setText(getString(R.string.count_follow, mUserEntity.getFollowersCount() - 1));
+                    } else {
+                        if (isFollow)
+                            tvCountFollow.setText(getString(R.string.count_follow, mUserEntity.getFollowersCount() + 1));
+                        else
+                            tvCountFollow.setText(getString(R.string.count_follow, mUserEntity.getFollowersCount()));
+                    }
+
                 } else {
                     DialogUtils.showRetryDialog(ProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
