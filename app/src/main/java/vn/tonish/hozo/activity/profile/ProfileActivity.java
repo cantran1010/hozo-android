@@ -34,7 +34,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
-import vn.tonish.hozo.activity.GiveInforActivity;
 import vn.tonish.hozo.activity.HomeActivity;
 import vn.tonish.hozo.activity.ReviewsActivity;
 import vn.tonish.hozo.activity.image.PreviewImageActivity;
@@ -684,7 +683,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
             case R.id.btn_verify:
-                Intent intentVerify = new Intent(this, GiveInforActivity.class);
+                Intent intentVerify = new Intent(this, VerifyUserActivity.class);
                 startActivityForResult(intentVerify, Constants.REQUEST_CODE_VERIFY, TransitionScreen.RIGHT_TO_LEFT);
                 break;
             case R.id.btn_follow:

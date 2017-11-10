@@ -1,11 +1,12 @@
-package vn.tonish.hozo.activity;
+package vn.tonish.hozo.activity.profile;
 
 import android.content.Intent;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -25,6 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -35,19 +37,20 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
-import static vn.tonish.hozo.utils.Utils.isValidEmail;
-
-public class GiveInforActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = GiveInforActivity.class.getSimpleName();
-    private TextViewHozo btnVerifyFaceBook, btnVerifyEmail;
+public class VerifyUserActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = VerifyUserActivity.class.getSimpleName();
+    private TextViewHozo tvVerifyFaceBook, tvVerifyEmail;
     private EdittextHozo edtEmail;
     private CallbackManager callbackmanager;
     private UserEntity mUserEntity;
     private String mEmail, mFacebookID;
-    private TextViewHozo tvActiveEmail;
+    private RelativeLayout layoutEmail;
+    private LinearLayout layoutVerifyEmail;
+    private ButtonHozo btnSendEmail;
 
     @Override
     protected int getLayout() {
@@ -56,59 +59,76 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initView() {
-        btnVerifyFaceBook = (TextViewHozo) findViewById(R.id.btn_verify_facebook);
-        btnVerifyEmail = (TextViewHozo) findViewById(R.id.btn_verify_email);
-        tvActiveEmail = (TextViewHozo) findViewById(R.id.tv_noti_active);
+        tvVerifyFaceBook = (TextViewHozo) findViewById(R.id.tv_verify_facebook);
+        tvVerifyEmail = (TextViewHozo) findViewById(R.id.tv_verify_email);
+
         edtEmail = (EdittextHozo) findViewById(R.id.edt_verify_email);
+
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
-        btnVerifyFaceBook.setOnClickListener(this);
+        tvVerifyFaceBook.setOnClickListener(this);
         imgBack.setOnClickListener(this);
-        btnVerifyEmail.setOnClickListener(this);
-        btnVerifyEmail.setAlpha(0.5f);
-        btnVerifyEmail.setEnabled(false);
+
+        layoutEmail = (RelativeLayout) findViewById(R.id.email_layout);
+        layoutEmail.setOnClickListener(this);
+
+        layoutVerifyEmail = (LinearLayout) findViewById(R.id.email_verify_layout);
+
+        btnSendEmail = (ButtonHozo) findViewById(R.id.btn_send_email);
+        btnSendEmail.setOnClickListener(this);
 
     }
 
     @Override
     protected void initData() {
         mUserEntity = UserManager.getMyUser();
-        mEmail = mUserEntity.getEmail();
         LogUtils.d(TAG, "user info: " + mUserEntity.toString());
+
+        mEmail = mUserEntity.getEmail();
         mFacebookID = mUserEntity.getFacebookId();
+
         if (!(mFacebookID.equalsIgnoreCase("") || mFacebookID == null)) {
-            btnVerifyFaceBook.setText(R.string.update_version);
+            tvVerifyFaceBook.setText(R.string.verified);
+            tvVerifyFaceBook.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+            tvVerifyFaceBook.setEnabled(false);
+            tvVerifyFaceBook.setPadding(0, 0, 0, 0);
+            Utils.setViewBackground(tvVerifyFaceBook, ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
         } else {
-            btnVerifyFaceBook.setText(R.string.verify);
+            tvVerifyFaceBook.setText(R.string.verify);
+            tvVerifyFaceBook.setTextColor(ContextCompat.getColor(this, R.color.tv_black_new));
+            tvVerifyFaceBook.setEnabled(true);
+            Utils.setViewBackground(tvVerifyFaceBook, ContextCompat.getDrawable(this, R.drawable.btn_green_selector));
         }
 
-        if (!(mEmail.equalsIgnoreCase("") || mEmail == null)) {
-            btnVerifyEmail.setText(R.string.update_version);
-            edtEmail.setText(mEmail);
-            if (mUserEntity.isEmailActive()) {
-                tvActiveEmail.setVisibility(View.GONE);
-            } else {
-                tvActiveEmail.setVisibility(View.VISIBLE);
-            }
+        if (!(mEmail.equalsIgnoreCase("") || mEmail == null) && mUserEntity.isEmailActive()) {
+            tvVerifyEmail.setText(R.string.verified);
+            tvVerifyEmail.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+            layoutVerifyEmail.setEnabled(false);
+            tvVerifyEmail.setPadding(0, 0, 0, 0);
+            Utils.setViewBackground(tvVerifyEmail, ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
         } else {
-            btnVerifyEmail.setText(R.string.verify);
+            tvVerifyEmail.setText(R.string.verify);
+            tvVerifyEmail.setTextColor(ContextCompat.getColor(this, R.color.tv_black_new));
+            Utils.setViewBackground(tvVerifyEmail, ContextCompat.getDrawable(this, R.drawable.btn_green_selector));
+            layoutVerifyEmail.setEnabled(true);
         }
-        edtEmail.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                validateEmail();
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
+//        edtEmail.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                validateEmail();
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//
+//            }
+//        });
 
     }
 
@@ -117,17 +137,17 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    private void validateEmail() {
-        String email = edtEmail.getText().toString().trim();
-        if (isValidEmail(email) && !email.equalsIgnoreCase(mEmail)) {
-            btnVerifyEmail.setAlpha(1f);
-            btnVerifyEmail.setEnabled(true);
-        } else {
-            btnVerifyEmail.setAlpha(0.5f);
-            btnVerifyEmail.setEnabled(false);
-
-        }
-    }
+//    private void validateEmail() {
+//        String email = edtEmail.getText().toString().trim();
+//        if (isValidEmail(email) && !email.equalsIgnoreCase(mEmail)) {
+//            tvVerifyEmail.setAlpha(1f);
+//            tvVerifyEmail.setEnabled(true);
+//        } else {
+//            tvVerifyEmail.setAlpha(0.5f);
+//            tvVerifyEmail.setEnabled(false);
+//
+//        }
+//    }
 
     // Private method to handle Facebook login and callback
     private void onFblogin() {
@@ -170,24 +190,13 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
         callbackmanager.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_verify_facebook:
-                onFblogin();
-                break;
-            case R.id.img_back:
-                setResult(Constants.RESULT_CODE_VERIFY);
-                finish();
-                break;
-            case R.id.btn_verify_email:
-                verifyUserInfo(null, edtEmail.getText().toString().trim());
-                break;
+    private void verifyUserInfo(final String facebookId, final String email) {
+
+        if (email != null && !Utils.isValidEmail(email)) {
+            Utils.showLongToast(this, getString(R.string.validate_email_error), true, false);
+            return;
         }
 
-    }
-
-    private void verifyUserInfo(final String facebookId, final String email) {
         ProgressDialogUtils.showProgressDialog(this);
         JSONObject jsonRequest = new JSONObject();
         try {
@@ -216,20 +225,20 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
                         UserManager.getMyUser().setEmail(email);
                     Realm.getDefaultInstance().commitTransaction();
                     if (!response.body().getEmail().equalsIgnoreCase("") && facebookId == null) {
-                        Utils.showLongToast(GiveInforActivity.this, getString(R.string.email_verify_done), false, true);
+                        Utils.showLongToast(VerifyUserActivity.this, getString(R.string.email_verify_done), true, true);
                     }
                     initData();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(GiveInforActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(VerifyUserActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             verifyUserInfo(facebookId, email);
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(GiveInforActivity.this);
+                    Utils.blockUser(VerifyUserActivity.this);
                 } else {
-                    DialogUtils.showRetryDialog(GiveInforActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    DialogUtils.showRetryDialog(VerifyUserActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             verifyUserInfo(facebookId, email);
@@ -247,7 +256,7 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onFailure(Call<UserEntity> call, Throwable t) {
                 LogUtils.e(TAG, "verifyUserInfo onFailure error : " + t.getMessage());
-                DialogUtils.showRetryDialog(GiveInforActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showRetryDialog(VerifyUserActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         verifyUserInfo(facebookId, email);
@@ -263,5 +272,34 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
         });
 
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.tv_verify_facebook:
+                onFblogin();
+                break;
+
+            case R.id.img_back:
+                setResult(Constants.RESULT_CODE_VERIFY);
+                finish();
+                break;
+
+            case R.id.btn_send_email:
+                verifyUserInfo(null, edtEmail.getText().toString().trim());
+                break;
+
+            case R.id.email_layout:
+                if (layoutVerifyEmail.getVisibility() == View.VISIBLE)
+                    layoutVerifyEmail.setVisibility(View.GONE);
+                else
+                    layoutVerifyEmail.setVisibility(View.VISIBLE);
+                break;
+
+        }
+
+    }
+
 
 }

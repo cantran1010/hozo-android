@@ -343,7 +343,6 @@
     <string name="support_mail_body">Nội dung : </string>
     <string name="open_brower_error">Rất tiếc điện thoại bạn không hỗ trợ trình duyệt web</string>
     <string name="device_type">android</string>
-    <string name="update_version">Cập nhật </string>
     <string name="update_version_hozo">Cập nhật Hozo</string>
     <string name="update_oke">CẬP NHẬT </string>
     <string name="update_content">Bạn có muốn cập nhật phiên bản mới nhất?</string>
@@ -364,15 +363,16 @@
     <string name="content_detete_task">Bạn có chắc chắn muốn xóa việc này?</string>
     <string name="delete_task_success_msg">Bạn đã xóa việc thành công!</string>
     <string name="add_verify">Xác thực thêm</string>
-    <string name="give_info">Cung Cấp Thông Tin Cá Nhân</string>
-    <string name="label_header_verify">Để có thể tìm được người làm việc hay nhận việc một cách nhanh chóng và uy tín, bạn cần xác thực thông tin với HoZo!</string>
-    <string name="email_verify">Xác thực với email</string>
+    <string name="give_info">Xác thực thêm</string>
+    <string name="label_header_verify">Để có thể tìm được người làm việc hay nhận việc
+       \nmột cách nhanh chóng và đảm bảo.
+        \nBạn cần xác thực thông tin với HoZo!</string>
+    <string name="email_verify">Email</string>
     <string name="verify">Xác thực</string>
     <string name="reviews_count">%1$d đánh giá</string>
     <string name="post_count" tools:ignore="PluralsCandidate">%1$d việc đã đăng </string>
     <string name="task_count" tools:ignore="PluralsCandidate">%1$d việc đã nhận </string>
     <string name="completion_rate" tools:ignore="PluralsCandidate">hoàn thành</string>
-    <string name="facebook_verify">Xác thực với Facebook</string>
     <string name="facebook_app_id">956632744473365</string>
     <!--<string name="facebook_app_id_test">330769947332955</string>-->
     <string name="hozo_tonish">\n © 2017 Tonish. Giữ mọi quyền.</string>
@@ -389,12 +389,11 @@
     <string name="brower_new_task" tools:ignore="PluralsCandidate">%1$d việc mới</string>
     <string name="address_hint">Nhập địa chỉ …</string>
     <string name="no_address">Rất tiếc,không tìm thấy địa chỉ!</string>
-    <string name="waiting_active">Đang chờ xác thực.</string>
     <string name="email_verify_done">Vui lòng kiểm tra email để hoàn thành bước xác thưc!</string>
     <string name="work_detail_view_bit_pending">Đang chờ giao việc</string>
     <string name="cancel_task_by_poster">Công việc đã bị hủy bời người tạo!</string>
     <string name="cancel_task_by_poster_title">Việc đã hủy</string>
-    <string name="email_hint">Nhập email …</string>
+    <string name="email_hint">Nhập Email của bạn</string>
     <string name="alert_dialog_close">Đóng</string>
     <string name="re_create_task">Sao chép việc</string>
     <string name="rate_content_hint">Nhập nội dung đánh giá …</string>
@@ -619,4 +618,8 @@
     <string name="profile_age">tuổi</string>
     <string name="un_follow">Hủy theo dõi</string>
     <string name="review_all_title">Tất cả đánh giá</string>
+    <string name="verify_phone_title">Điện thoại</string>
+    <string name="verified">Đã xác thực</string>
+    <string name="verify_facebook_title">Tài khoản Facebook</string>
+    <string name="ben_verify_email">Gửi</string>
 </resources>
