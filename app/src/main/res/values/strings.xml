@@ -414,7 +414,6 @@
     <string name="post_a_task_msg_length">%1$d/%2$d kí tự</string>
     <string name="tv_time_task_lbl">Số giờ</string>
     <string name="location">Nơi làm</string>
-    <string name="price">Giá tiền</string>
     <string name="number_worker">Số người</string>
     <string name="all_price">Tổng tiền</string>
     <string name="btn_create_task">ĐĂNG VIỆC</string>
@@ -425,7 +424,6 @@
     <string name="online_job">Việc có làm online tại nhà</string>
     <string name="auto_pick">Tự động chọn ứng viên</string>
     <string name="post_task_address_error">Vui lòng nhập địa chỉ</string>
-    <string name="hour_default">4</string>
     <string name="post_a_task_input_error">Hozo không cho phép đăng email hay số điện thoại trong bài đăng. \nTrường hợp cố tình vi phạm sẽ có nguy cơ bị khóa tài khoản vĩnh viễn!</string>
     <string name="detail_tab_1">Công việc</string>
     <string name="detail_tab_2">Người làm</string>
@@ -436,7 +434,6 @@
     <string name="tv_date_task">Ngày làm</string>
     <string name="advance_more">Tùy chọn nâng cao</string>
     <string name="advance_more_hide">Rút gọn</string>
-    <string name="number_worker_default">1</string>
     <string name="budget_detail">Ngân sách / người</string>
     <string name="worker_need">Người cần tuyển</string>
     <string name="assiger_count">Được giao</string>
@@ -576,12 +573,7 @@
     <string name="promotion_error_expried">Mã không hợp lệ</string>
     <string name="promotion_error_limmited">Mã không hợp lệ</string>
     <string name="promotion_error_used">Mã không hợp lệ</string>
-    <string name="save_draf">Lưu nháp</string>
     <string name="code_coupon">Mã giới thiệu</string>
-    <string name="title_activity_scrolling">ScrollingActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="wage">Tiền công</string>
-    <string name="money">%1$s đ</string>
     <string name="code_coupon_error">Mã giới Thiệu không hợp lệ!</string>
     <string name="hint_coupon_edt">Mã giới thiệu gồm 6 ký tự. Ví dụ: AbDf23</string>
     <string name="invalid_category">Danh mục không hợp lệ</string>
@@ -664,4 +656,8 @@
     <string name="status_worker_completed">completed</string>
     <string name="status_worker_missed">missed</string>
     <string name="status_worker_canceled">canceled</string>
+    <string name="int_4">4</string>
+    <string name="money_vnd">đ</string>
+    <string name="int_1">1</string>
+    <string name="int_zero">0</string>
 </resources>
