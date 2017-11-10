@@ -148,11 +148,11 @@ public class DataParse {
         taskEntity.setCreatedAt(DateTimeUtils.getDateFromStringIso(taskResponse.getCreatedAt()));
 
         List<String> atachments = taskResponse.getAttachments();
-        String strAtachments = "";
+        StringBuilder strAtachments = new StringBuilder();
         for (int i = 0; i < atachments.size(); i++) {
-            strAtachments = strAtachments + "," + atachments.get(i);
+            strAtachments.append(",").append(atachments.get(i));
         }
-        taskEntity.setAttachments(strAtachments);
+        taskEntity.setAttachments(strAtachments.toString());
 
         taskEntity.setBidders(convertListBidderToListBidderEntity(taskResponse.getBidders()));
 

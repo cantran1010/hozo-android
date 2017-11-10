@@ -624,6 +624,10 @@
     <string name="status_worker_completed">completed</string>
     <string name="status_worker_missed">missed</string>
     <string name="status_worker_canceled">canceled</string>
+    <string name="int_4">4</string>
+    <string name="money_vnd">đ</string>
+    <string name="int_1">1</string>
+    <string name="int_zero">0</string>
     <string name="count_activity">%1$d lượt\ntương tác</string>
     <string name="count_follow">%1$d lượt\ntheo dõi</string>
     <string name="follow">Theo dõi</string>

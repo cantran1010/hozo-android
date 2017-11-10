@@ -83,9 +83,9 @@ import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 public class RegisterActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private final static String TAG = RegisterActivity.class.getName();
     private EdittextHozo edtName;
-    private TextViewHozo btnSave;
     private CircleImageView imgAvatar;
-    private ImageView imgClear, imgClearGoogle, btnBack;
+    private ImageView imgClear;
+    private ImageView imgClearGoogle;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private File file;
@@ -113,10 +113,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         imgAvatar = (CircleImageView) findViewById(img_avatar);
 
-        btnSave = (TextViewHozo) findViewById(R.id.btn_save);
+        TextViewHozo btnSave = (TextViewHozo) findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
         imgClear = (ImageView) findViewById(R.id.img_clear);
-        btnBack = (ImageView) findViewById(R.id.img_back);
+        ImageView btnBack = (ImageView) findViewById(R.id.img_back);
         imgClearGoogle = (ImageView) findViewById(R.id.img_clear_google);
         imgClear.setOnClickListener(this);
         imgClearGoogle.setOnClickListener(this);
@@ -389,7 +389,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
             String imgPath = data != null ? data.getStringExtra(Constants.EXTRA_IMAGE_PATH) : null;
             Utils.displayImage(this, imgAvatar, null);
-            file = new File(imgPath != null ? imgPath : null);
+            file = new File(imgPath);
             isUpdateAvata = true;
         }
 

@@ -201,12 +201,6 @@
         <item name="android:background">@drawable/btn_hozo_selector</item>
     </style>
 
-    <style name="tv_item_task">
-        <item name="android:textSize">@dimen/tv_size_tiny</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/setting_text</item>
-    </style>
-
     <style name="tv_setting_advance_show">
         <item name="android:textSize">@dimen/tv_size_tiny</item>
         <item name="android:textStyle">normal</item>

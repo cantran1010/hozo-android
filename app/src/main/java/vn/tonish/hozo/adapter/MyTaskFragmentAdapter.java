@@ -12,7 +12,7 @@ import vn.tonish.hozo.fragment.MyTaskWorkerFragment;
  */
 
 public class MyTaskFragmentAdapter extends FragmentStatePagerAdapter {
-    int tabCount;
+    private int tabCount;
     private MyTaskPosterFragment tab1;
     private MyTaskWorkerFragment tab2;
 

@@ -18,6 +18,7 @@ import vn.tonish.hozo.fragment.HozoPlaceholderFragment;
  * Created by CanTran on 10/6/17.
  */
 
+@SuppressWarnings("ALL")
 public class HozoAccountKitUIManager extends BaseUIManager {
 
     private static final int HEADER_HEIGHT = 120;
@@ -75,7 +76,7 @@ public class HozoAccountKitUIManager extends BaseUIManager {
     @Nullable
     public Fragment getHeaderFragment(final LoginFlowState state) {
         if (state != LoginFlowState.ERROR) {
-            return getPlaceholderFragment(state, HEADER_HEIGHT, "");
+            return getPlaceholderFragment(state);
         }
         final String errorMessage = getErrorMessage();
         if (errorMessage == null) {
@@ -111,9 +112,7 @@ public class HozoAccountKitUIManager extends BaseUIManager {
 
     @Nullable
     private HozoPlaceholderFragment getPlaceholderFragment(
-            final LoginFlowState state,
-            final int height,
-            final String suffix) {
+            final LoginFlowState state) {
         final String prefix;
         switch (state) {
             case PHONE_NUMBER_INPUT:
@@ -176,7 +175,7 @@ public class HozoAccountKitUIManager extends BaseUIManager {
             default:
                 return null;
         }
-        return HozoPlaceholderFragment.create(height, prefix.concat(suffix));
+        return HozoPlaceholderFragment.create(HozoAccountKitUIManager.HEADER_HEIGHT, prefix.concat(""));
     }
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {

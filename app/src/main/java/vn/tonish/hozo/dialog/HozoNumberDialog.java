@@ -30,7 +30,6 @@ public class HozoNumberDialog extends BaseDialog implements View.OnClickListener
     }
 
     private NumberPicker npHour;
-    private TextViewHozo tvTitle;
 
     private int value;
     private String title;
@@ -57,7 +56,7 @@ public class HozoNumberDialog extends BaseDialog implements View.OnClickListener
         btnOk.setOnClickListener(this);
 
         npHour = findViewById(R.id.np_hour);
-        tvTitle = findViewById(R.id.tv_title_dialog);
+        TextViewHozo tvTitle = findViewById(R.id.tv_title_dialog);
         tvTitle.setText(title);
         npHour.setMinValue(min);
         npHour.setMaxValue(max);

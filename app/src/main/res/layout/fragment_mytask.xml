@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
@@ -38,7 +39,10 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/btn_hozo_selector"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/just_image"
+                android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_more" />
 
@@ -58,7 +62,10 @@
                 android:layout_height="match_parent"
                 android:layout_toLeftOf="@+id/heght_line"
                 android:layout_toStartOf="@+id/heght_line"
-                android:background="@drawable/btn_hozo_selector"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/just_image"
+                android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_search" />
 
@@ -77,8 +84,10 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/btn_hozo_selector"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:contentDescription="@string/content_description_back"
+                android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/img_close" />
 
@@ -109,7 +118,8 @@
                 android:paddingRight="30dp"
                 android:textColor="@color/color_edt_create_task_lable"
                 android:textColorHint="@color/color_hint_create_task_lable"
-                android:textSize="@dimen/tv_size_xxtiny" />
+                android:textSize="@dimen/tv_size_xxtiny"
+                tools:ignore="RtlSymmetry" />
 
 
             <ImageView

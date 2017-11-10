@@ -68,7 +68,6 @@ public class MyTaskPosterFragment extends BaseFragment {
     protected void initView() {
         rcvTask = (RecyclerView) findViewById(R.id.rcv_task);
         tvNoData = (TextViewHozo) findViewById(R.id.tv_no_data);
-
         createSwipeToRefresh();
     }
 
@@ -193,15 +192,15 @@ public class MyTaskPosterFragment extends BaseFragment {
 
                     LogUtils.d(TAG, "getTaskFromServer taskResponsesBody size : " + (taskResponsesBody != null ? taskResponsesBody.size() : 0));
 
-                    if (taskResponsesBody.size() > 0)
-                        sinceStr = taskResponsesBody.get(taskResponsesBody.size() - 1).getCreatedAt();
+                    if ((taskResponsesBody != null ? taskResponsesBody.size() : 0) > 0)
+                        sinceStr = taskResponsesBody.get((taskResponsesBody != null ? taskResponsesBody.size() : 0) - 1).getCreatedAt();
 
                     if (since == null) {
                         taskResponses.clear();
                         endlessRecyclerViewScrollListener.resetState();
                     }
 
-                    for (TaskResponse taskReponse : taskResponsesBody)
+                    for (TaskResponse taskReponse : taskResponsesBody != null ? taskResponsesBody : null)
                         taskReponse.setRole(Constants.ROLE_POSTER);
                     taskResponses.addAll(taskResponsesBody);
 
@@ -322,7 +321,7 @@ public class MyTaskPosterFragment extends BaseFragment {
     public void search(String query) {
         mQuery = query;
         sinceStr = null;
-        getTaskFromServer(sinceStr, LIMIT, filter, query);
+        getTaskFromServer(null, LIMIT, filter, query);
     }
 
     @Override

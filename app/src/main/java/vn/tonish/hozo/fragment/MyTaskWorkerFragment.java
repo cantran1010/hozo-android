@@ -92,7 +92,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
 
     @Override
     protected void resumeData() {
-        getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER));
+        getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER));
         LogUtils.d(TAG, "MyTaskPosterFragment resumeData");
         //refresh my task fragment after copy task
         if (isReloadMyTask) {
@@ -193,15 +193,15 @@ public class MyTaskWorkerFragment extends BaseFragment {
 
                     LogUtils.d(TAG, "getTaskFromServer taskResponsesBody size : " + (taskResponsesBody != null ? taskResponsesBody.size() : 0));
 
-                    if (taskResponsesBody.size() > 0)
-                        sinceStr = taskResponsesBody.get(taskResponsesBody.size() - 1).getCreatedAt();
+                    if ((taskResponsesBody != null ? taskResponsesBody.size() : 0) > 0)
+                        sinceStr = taskResponsesBody.get((taskResponsesBody != null ? taskResponsesBody.size() : 0) - 1).getCreatedAt();
 
                     if (since == null) {
                         taskResponses.clear();
                         endlessRecyclerViewScrollListener.resetState();
                     }
 
-                    for (TaskResponse taskReponse : taskResponsesBody)
+                    for (TaskResponse taskReponse : taskResponsesBody != null ? taskResponsesBody : null)
                         taskReponse.setRole(Constants.ROLE_TASKER);
                     taskResponses.addAll(taskResponsesBody);
 
@@ -322,7 +322,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
     public void search(String query) {
         mQuery = query;
         sinceStr = null;
-        getTaskFromServer(sinceStr, LIMIT, filter, query);
+        getTaskFromServer(null, LIMIT, filter, query);
     }
 
     @Override

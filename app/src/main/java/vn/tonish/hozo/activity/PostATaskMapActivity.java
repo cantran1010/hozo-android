@@ -252,26 +252,26 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
             LogUtils.d(TAG, "getAddress address : " + addRess.toString());
             LogUtils.d(TAG, "getAddress addRess.getMaxAddressLineIndex() : " + addRess.getMaxAddressLineIndex());
 
-            String strReturnedAddress = "";
+            StringBuilder strReturnedAddress = new StringBuilder();
 
             if (addRess.getMaxAddressLineIndex() == 0) {
-                strReturnedAddress = addRess.getAddressLine(0);
+                strReturnedAddress = new StringBuilder(addRess.getAddressLine(0));
             } else {
                 for (int i = 0; i < addRess.getMaxAddressLineIndex(); i++) {
-                    strReturnedAddress = strReturnedAddress + addRess.getAddressLine(i) + ", ";
+                    strReturnedAddress.append(addRess.getAddressLine(i)).append(", ");
                 }
                 LogUtils.d(TAG, "getAddress strReturnedAddress before : " + strReturnedAddress);
-                strReturnedAddress = strReturnedAddress.substring(0, strReturnedAddress.length() - 2);
+                strReturnedAddress = new StringBuilder(strReturnedAddress.substring(0, strReturnedAddress.length() - 2));
                 LogUtils.d(TAG, "getAddress strReturnedAddress : " + strReturnedAddress);
             }
 
             if (pickType == 1) {
                 if (isAddAddress) {
-                    tvAddress.setText(strReturnedAddress);
+                    tvAddress.setText(strReturnedAddress.toString());
                 }
 
                 if (addRess.getMaxAddressLineIndex() == 0) {
-                    String[] arrAddress = strReturnedAddress.split(",");
+                    String[] arrAddress = strReturnedAddress.toString().split(",");
 
                     if (arrAddress.length >= 2) {
                         taskResponse.setCity(arrAddress[arrAddress.length - 2].trim());
@@ -288,7 +288,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 }
 
                 if (addRess.getMaxAddressLineIndex() == 0) {
-                    String[] arrAddress = strReturnedAddress.split(",");
+                    String[] arrAddress = strReturnedAddress.toString().split(",");
                     if (arrAddress.length >= 3) {
                         taskResponse.setDistrict(arrAddress[arrAddress.length - 3].trim());
                     } else {
@@ -306,10 +306,10 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 taskResponse.setLatitude(latLng.latitude);
                 taskResponse.setLongitude(latLng.longitude);
             } else {
-                tvAddress.setText(strReturnedAddress);
+                tvAddress.setText(strReturnedAddress.toString());
 
                 if (addRess.getMaxAddressLineIndex() == 0) {
-                    String[] arrAddress = strReturnedAddress.split(",");
+                    String[] arrAddress = strReturnedAddress.toString().split(",");
 
                     if (arrAddress.length >= 2) {
                         taskResponse.setCity(arrAddress[arrAddress.length - 2].trim());
@@ -326,7 +326,7 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
                 }
 
                 if (addRess.getMaxAddressLineIndex() == 0) {
-                    String[] arrAddress = strReturnedAddress.split(",");
+                    String[] arrAddress = strReturnedAddress.toString().split(",");
                     if (arrAddress.length >= 3) {
                         taskResponse.setDistrict(arrAddress[arrAddress.length - 3].trim());
                     } else {

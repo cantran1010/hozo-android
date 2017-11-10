@@ -51,7 +51,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        String vcode = getContext().getString(R.string.app_name) + " " + pInfo.versionName + " (" + String.valueOf(pInfo.versionCode) + ")" + getContext().getString(R.string.hozo_tonish);
+        String vcode = getContext().getString(R.string.app_name) + " " + (pInfo != null ? pInfo.versionName : null) + " (" + String.valueOf(pInfo != null ? pInfo.versionCode : 0) + ")" + getContext().getString(R.string.hozo_tonish);
         appVersion.setText(vcode);
 
     }

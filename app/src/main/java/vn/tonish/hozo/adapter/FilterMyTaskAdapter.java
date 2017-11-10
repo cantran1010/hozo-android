@@ -24,7 +24,6 @@ import static vn.tonish.hozo.database.manager.StatusManager.insertIsSelectedStat
 public class FilterMyTaskAdapter extends RecyclerView.Adapter<FilterMyTaskAdapter.ViewHolder> {
     private Context context;
     private final static String TAG = TaskTypeAdapter.class.getSimpleName();
-    private int countTick = 0;
     private final List<StatusEntity> statuses;
 
     public FilterMyTaskAdapter(Context context, List<StatusEntity> statuses) {
@@ -51,7 +50,7 @@ public class FilterMyTaskAdapter extends RecyclerView.Adapter<FilterMyTaskAdapte
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 LogUtils.d(TAG, "buttonView isChecked: " + isChecked);
                 if (buttonView.getText().toString().equalsIgnoreCase(context.getString(R.string.hozo_all)) && isChecked) {
-                    buttonView.setChecked(isChecked);
+                    buttonView.setChecked(true);
                     setAllStatus();
                 } else if (!isChecked && getCountTick() == 1) {
                     buttonView.setChecked(true);

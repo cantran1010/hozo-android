@@ -23,8 +23,6 @@ import vn.tonish.hozo.utils.LogUtils;
 public class FilterMyTaskActivity extends BaseActivity implements View.OnClickListener {
     private final static String TAG = FilterMyTaskActivity.class.getSimpleName();
     private List<StatusEntity> statuses = new ArrayList<>();
-    private FilterMyTaskAdapter filterMyTaskAdapter;
-    private ImageView imgBack;
     private String role = Constants.ROLE_POSTER;
 
     @Override
@@ -34,7 +32,7 @@ public class FilterMyTaskActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initView() {
-        imgBack = findViewById(R.id.img_back);
+        ImageView imgBack = findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
     }
 
@@ -52,7 +50,7 @@ public class FilterMyTaskActivity extends BaseActivity implements View.OnClickLi
         RecyclerView mRecyclerView = findViewById(R.id.rcv_task);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         statuses = StatusManager.getStatuswithRole(role);
-        filterMyTaskAdapter = new FilterMyTaskAdapter(this, statuses);
+        FilterMyTaskAdapter filterMyTaskAdapter = new FilterMyTaskAdapter(this, statuses);
         mRecyclerView.setAdapter(filterMyTaskAdapter);
 
     }

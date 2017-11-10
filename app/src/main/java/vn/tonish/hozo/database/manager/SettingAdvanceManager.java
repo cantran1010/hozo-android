@@ -16,7 +16,7 @@ import vn.tonish.hozo.utils.LogUtils;
 public class SettingAdvanceManager {
     private static final String TAG = CategoryManager.class.getName();
 
-    public static void insertSettingAdvanceEntity(SettingAdvanceEntity settingEntiny) {
+    private static void insertSettingAdvanceEntity(SettingAdvanceEntity settingEntiny) {
         LogUtils.d(TAG, "insertSettingAdvance : " + settingEntiny.toString());
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();

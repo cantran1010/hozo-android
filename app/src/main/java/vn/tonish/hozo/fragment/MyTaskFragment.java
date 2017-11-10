@@ -43,7 +43,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     private ViewPager viewPager;
     private MyTaskFragmentAdapter myTaskFragmentAdapter;
     private TextViewHozo tvTab1, tvTab2;
-    private ImageView imgFilter, imgSearch, imgBack, imgClear;
+    private ImageView imgClear;
     private String mQuery = "";
     private int position = 0;
     private EdittextHozo edtSearch;
@@ -60,11 +60,11 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         layoutHeader = (RelativeLayout) findViewById(R.id.layout_header_my_task);
         layoutSearch = (RelativeLayout) findViewById(R.id.layout_hedaer_search);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        imgFilter = (ImageView) findViewById(R.id.img_filter);
-        imgSearch = (ImageView) findViewById(R.id.img_search);
+        ImageView imgFilter = (ImageView) findViewById(R.id.img_filter);
+        ImageView imgSearch = (ImageView) findViewById(R.id.img_search);
         edtSearch = (EdittextHozo) findViewById(R.id.edt_search);
         imgClear = (ImageView) findViewById(R.id.img_clear);
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgFilter.setOnClickListener(this);
         imgSearch.setOnClickListener(this);
         imgClear.setOnClickListener(this);
@@ -72,8 +72,8 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         viewPager = (ViewPager) findViewById(R.id.pager);
         tabLayout.addTab(tabLayout.newTab().setText(getContext().getString(R.string.my_task_poster)));
         tabLayout.addTab(tabLayout.newTab().setText(getContext().getString(R.string.my_task_worker)));
-        @SuppressLint("InflateParams") View headerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                .inflate(R.layout.custom_tab_mytask, null, false);
+        @SuppressLint("InflateParams") View headerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                .inflate(R.layout.custom_tab_mytask, null, false) : null : null;
         tabLayout.getTabAt(0).setCustomView(headerView.findViewById(R.id.ll1));
         tabLayout.getTabAt(1).setCustomView(headerView.findViewById(R.id.ll2));
         tvTab1 = (TextViewHozo) findViewById(R.id.tv_tab1);

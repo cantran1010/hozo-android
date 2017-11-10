@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:id="@+id/layout_header"
@@ -34,6 +34,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:contentDescription="@string/content_description_back"
+            android:focusable="true"
             android:scaleType="centerInside"
             android:src="@drawable/img_close" />
 
@@ -46,6 +47,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:contentDescription="@string/adjust_image"
+            android:focusable="true"
             android:scaleType="centerInside"
             android:src="@drawable/ic_save"
             android:visibility="gone" />
@@ -108,6 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -195,7 +198,7 @@
                         android:drawableEnd="@drawable/ic_down_arrow"
                         android:drawableRight="@drawable/ic_down_arrow"
                         android:gravity="center"
-                        android:text="4" />
+                        android:text="@string/int_4" />
 
                 </LinearLayout>
 
@@ -227,6 +230,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -273,10 +277,11 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:padding="10dp"
-                            android:text="đ"
+                            android:text="@string/money_vnd"
                             android:textColor="@color/color_edt_create_task_lable"
                             android:textSize="@dimen/tv_size_xxtiny"
-                            android:textStyle="normal" />
+                            android:textStyle="normal"
+                            tools:ignore="RelativeOverlap" />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -306,7 +311,7 @@
                         android:gravity="center"
                         android:inputType="number"
                         android:maxLength="2"
-                        android:text="1" />
+                        android:text="@string/int_1" />
 
                 </LinearLayout>
 
@@ -339,7 +344,7 @@
                             android:inputType="number"
                             android:paddingEnd="20dp"
                             android:paddingRight="20dp"
-                            android:text="0"
+                            android:text="@string/int_zero"
                             tools:ignore="RtlSymmetry" />
 
                         <vn.tonish.hozo.view.TextViewHozo
@@ -349,10 +354,11 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:padding="10dp"
-                            android:text="đ"
+                            android:text="@string/money_vnd"
                             android:textColor="@color/color_edt_create_task_lable"
                             android:textSize="@dimen/tv_size_xxtiny"
-                            android:textStyle="normal" />
+                            android:textStyle="normal"
+                            tools:ignore="RelativeOverlap" />
                     </RelativeLayout>
 
 
@@ -422,6 +428,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:contentDescription="@string/adjust_image"
+        android:focusable="true"
         android:scaleType="centerInside"
         android:src="@drawable/ic_more"
         android:visibility="gone" />

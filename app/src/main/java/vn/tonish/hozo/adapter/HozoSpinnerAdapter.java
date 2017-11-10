@@ -1,5 +1,6 @@
 package vn.tonish.hozo.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,7 @@ public class HozoSpinnerAdapter extends BaseAdapter {
         return i;
     }
 
+    @SuppressLint({"InflateParams", "ViewHolder"})
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = LayoutInflater.from(context).inflate(R.layout.item_spinner_hozo, null);

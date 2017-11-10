@@ -42,14 +42,12 @@ public class NotificationFragment extends BaseFragment {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.notification_tab_1)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.notification_tab_2)));
-
         final ViewGroup test = (ViewGroup) (tabLayout.getChildAt(0));//tabs is your Tablayout
         int tabLen = test.getChildCount();
         for (int i = 0; i < tabLen; i++) {
             View v = test.getChildAt(i);
             v.setPadding(0, 0, 0, 0);
         }
-
         @SuppressLint("InflateParams") View headerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.custom_tab_notification, null, false);
 
@@ -127,7 +125,6 @@ public class NotificationFragment extends BaseFragment {
     private final BroadcastReceiver broadcastCountNewMsg = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
             if (intent.hasExtra(Constants.COUNT_NEW_MSG_EXTRA)) {
                 int countTab2 = intent.getIntExtra(Constants.COUNT_NEW_MSG_EXTRA, 0);
 

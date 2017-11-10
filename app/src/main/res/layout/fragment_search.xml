@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
@@ -29,7 +29,8 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="16dp"
                 android:paddingStart="16dp"
-                android:text="@string/share_task" />
+                android:text="@string/share_task"
+                tools:ignore="RtlSymmetry" />
 
             <ImageView
                 android:id="@+id/img_search"
@@ -37,8 +38,10 @@
                 android:layout_height="match_parent"
                 android:layout_toLeftOf="@+id/img_location"
                 android:layout_toStartOf="@+id/img_location"
-                android:background="@drawable/btn_hozo_selector"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:contentDescription="@string/just_image"
+                android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_search" />
 
@@ -57,8 +60,10 @@
                 android:layout_height="match_parent"
                 android:layout_toLeftOf="@+id/tv_line1"
                 android:layout_toStartOf="@id/tv_line1"
-                android:background="@drawable/btn_hozo_selector"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:contentDescription="@string/just_image"
+                android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_placeholder" />
 
@@ -78,8 +83,10 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/btn_hozo_selector"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:contentDescription="@string/just_image"
+                android:focusable="true"
                 android:paddingEnd="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -103,8 +110,10 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/btn_hozo_selector"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:contentDescription="@string/content_description_back"
+                android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/img_close" />
 
@@ -131,7 +140,8 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingEnd="30dp"
-                android:paddingRight="30dp" />
+                android:paddingRight="30dp"
+                tools:ignore="RtlSymmetry" />
 
 
             <ImageView
@@ -143,8 +153,10 @@
                 android:layout_marginRight="16dp"
                 android:layout_toLeftOf="@id/img_back"
                 android:layout_toStartOf="@id/img_back"
-                android:background="@null"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:contentDescription="@string/adjust_image"
+                android:focusable="true"
                 android:padding="8dp"
                 android:scaleType="centerInside"
                 android:src="@android:drawable/presence_offline"

@@ -204,9 +204,9 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                         taskList.clear();
                         endlessRecyclerViewScrollListener.resetState();
                     }
-                    if (taskResponses.size() > 0)
-                        sinceStr = taskResponses.get(taskResponses.size() - 1).getCreatedAt();
-                    taskList.addAll(taskResponses);
+                    if ((taskResponses != null ? taskResponses.size() : 0) > 0)
+                        sinceStr = taskResponses.get((taskResponses != null ? taskResponses.size() : 0) - 1).getCreatedAt();
+                    taskList.addAll(taskResponses != null ? taskResponses : null);
                     taskAdapter.notifyDataSetChanged();
                     LogUtils.d(TAG, "getTaskResponse size : " + taskList.size());
                     TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));

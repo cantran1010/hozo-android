@@ -4,7 +4,7 @@ package vn.tonish.hozo.model;
  * Created by CanTran on 11/8/17.
  */
 
-public class Status {
+class Status {
     private String name;
     private boolean selected;
 

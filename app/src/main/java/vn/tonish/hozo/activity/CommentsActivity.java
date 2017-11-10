@@ -63,7 +63,7 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
 public class CommentsActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = CommentsActivity.class.getSimpleName();
-    public final static int LIMIT = 20;
+    private final static int LIMIT = 20;
     private CommentsAdapter commentsAdapter;
     private RecyclerView lvList;
     private EdittextHozo edtComment;
