@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
-import vn.tonish.hozo.activity.CropImageActivity;
 import vn.tonish.hozo.adapter.ImageSelectAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.Image;

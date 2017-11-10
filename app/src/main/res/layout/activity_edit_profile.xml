@@ -48,7 +48,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="180dp"
                 android:layout_gravity="center"
                 android:background="@color/hozo_bg">
 

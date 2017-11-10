@@ -47,7 +47,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.image.AlbumActivity;
-import vn.tonish.hozo.activity.CropImageActivity;
+import vn.tonish.hozo.activity.image.CropImageActivity;
 import vn.tonish.hozo.activity.GeneralInfoActivity;
 import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
