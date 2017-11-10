@@ -117,19 +117,19 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/img_close" />
 
+
             <vn.tonish.hozo.view.EdittextHozo
                 android:id="@+id/edt_search"
-                style="@style/edt_create_task"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginEnd="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="10dp"
                 android:layout_toLeftOf="@id/img_back"
                 android:layout_toStartOf="@id/img_back"
+                android:background="@drawable/selector_edittext"
                 android:drawableLeft="@drawable/ic_search_blue"
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/ic_search_blue"
@@ -139,9 +139,15 @@
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:maxLines="1"
+                android:minHeight="@dimen/edt_min_height"
+                android:padding="5dp"
                 android:paddingEnd="30dp"
                 android:paddingRight="30dp"
+                android:textColor="@color/color_edt_create_task_lable"
+                android:textColorHint="@color/color_hint_create_task_lable"
+                android:textSize="@dimen/tv_size_xxtiny"
                 tools:ignore="RtlSymmetry" />
+
 
 
             <ImageView

@@ -293,7 +293,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 edtSearch.setText("");
                 break;
             case R.id.img_filter:
-                startActivityForResult(new Intent(getActivity(), SettingActivity.class), Constants.REQUEST_CODE_SETTING, TransitionScreen.LEFT_TO_RIGHT);
+                startActivityForResult(new Intent(getActivity(), SettingActivity.class), Constants.REQUEST_CODE_SETTING, TransitionScreen.RIGHT_TO_LEFT);
                 break;
             case R.id.tvCountNewTask:
                 onRefresh();

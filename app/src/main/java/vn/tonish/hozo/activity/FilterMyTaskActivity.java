@@ -32,7 +32,7 @@ public class FilterMyTaskActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initView() {
-        ImageView imgBack = findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
     }
 
@@ -47,7 +47,7 @@ public class FilterMyTaskActivity extends BaseActivity implements View.OnClickLi
             LogUtils.d(TAG, "check role " + statuses.toString());
             setData(role);
         }
-        RecyclerView mRecyclerView = findViewById(R.id.rcv_task);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rcv_task);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         statuses = StatusManager.getStatuswithRole(role);
         FilterMyTaskAdapter filterMyTaskAdapter = new FilterMyTaskAdapter(this, statuses);

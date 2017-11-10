@@ -246,7 +246,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     private void actionFilter() {
         Intent intent = new Intent(getContext(), FilterMyTaskActivity.class);
         intent.putExtra(Constants.EXTRA_MY_TASK, role);
-        startActivityForResult(intent, Constants.REQUEST_CODE_FILTER_MY_TASK, TransitionScreen.LEFT_TO_RIGHT);
+        startActivityForResult(intent, Constants.REQUEST_CODE_FILTER_MY_TASK, TransitionScreen.RIGHT_TO_LEFT);
     }
 
     @Override

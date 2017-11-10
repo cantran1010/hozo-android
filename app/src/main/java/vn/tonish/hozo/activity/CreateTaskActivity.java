@@ -276,7 +276,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         getDefaultAddress();
 
         if (intent.hasExtra(Constants.EXTRA_TASK)) {
-
             imgSaveDraf.setVisibility(View.GONE);
             imgMenu.setVisibility(View.VISIBLE);
             showPopup();
@@ -301,6 +300,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                         imgMenu.setVisibility(View.GONE);
                         break;
                     case Constants.TASK_DRAFT:
+                        LogUtils.d(TAG, "nhap");
                         imgSaveDraf.setVisibility(View.GONE);
                         imgMenu.setVisibility(View.VISIBLE);
                         popup.getMenu().findItem(R.id.delete_task).setVisible(true);
@@ -311,7 +311,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             }
 
             category = DataParse.convertCatogoryEntityToCategory(CategoryManager.getCategoryById(taskResponse.getCategoryId()));
-
             edtTitle.setText(taskResponse.getTitle());
             tvTitleMsg.setText(getString(R.string.post_a_task_msg_length, edtTitle.getText().toString().length(), MAX_LENGTH_TITLE));
 

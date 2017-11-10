@@ -13,30 +13,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:layout_marginTop="5dp"
-        android:weightSum="4"
-        android:baselineAligned="false">
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="8dp"
+        android:baselineAligned="false"
+        android:weightSum="6">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="0.8"
-            android:gravity="center"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <vn.tonish.hozo.view.CircleImageView
                 android:id="@+id/img_avatar"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="5dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/avatar_default" />
 
             <RatingBar
                 android:id="@+id/rb_rating"
-                style="@style/StarRatingBar"
+                style="@style/StarRatingSmallBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -48,9 +48,9 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_weight="3.2"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_weight="5"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -60,7 +60,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
                 android:layout_toLeftOf="@+id/tv_price"
                 android:layout_toStartOf="@+id/tv_price"
                 android:ellipsize="end"
@@ -89,7 +88,8 @@
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
-                android:layout_centerVertical="true"
+                android:layout_below="@+id/tv_name"
+                android:layout_marginTop="3dp"
                 android:layout_toLeftOf="@+id/layout_progress"
                 android:layout_toStartOf="@+id/layout_progress"
                 android:drawableLeft="@drawable/ic_address"
@@ -101,13 +101,14 @@
                 android:textColor="@color/setting_text"
                 android:textSize="@dimen/tv_size_tiny" />
 
-            <FrameLayout
+            <RelativeLayout
                 android:id="@+id/layout_progress"
                 android:layout_width="78dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true">
+                android:layout_below="@+id/tv_price"
+                android:layout_marginTop="3dp">
 
                 <ProgressBar
                     android:id="@+id/simpleProgressBar"
@@ -127,7 +128,7 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/tv_size_tiny"
                     android:textStyle="normal" />
-            </FrameLayout>
+            </RelativeLayout>
 
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -136,6 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/tv_start_time"
                 android:layout_below="@+id/tv_address"
+                android:layout_marginTop="3dp"
                 android:layout_toLeftOf="@+id/tv_start_time"
                 android:layout_toStartOf="@+id/tv_start_time"
                 android:ellipsize="end"
@@ -152,8 +154,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/layout_progress"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="3dp"
                 android:gravity="center"
-                android:padding="2dp"
                 android:textColor="@color/setting_text"
                 android:textSize="@dimen/tv_size_xtiny"
                 android:textStyle="normal" />
