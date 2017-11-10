@@ -63,6 +63,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.image.AlbumActivity;
+import vn.tonish.hozo.activity.image.PreviewImageActivity;
 import vn.tonish.hozo.adapter.CustomArrayAdapter;
 import vn.tonish.hozo.adapter.HozoSpinnerAdapter;
 import vn.tonish.hozo.adapter.ImageAdapter;
@@ -176,49 +178,49 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initView() {
-        scrollView = findViewById(R.id.scroll_view);
+        scrollView = (ScrollView) findViewById(R.id.scroll_view);
 
-        ImageView imgClose = findViewById(R.id.img_close);
+        ImageView imgClose = (ImageView) findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
 
-        tvTitle = findViewById(R.id.tv_title);
+        tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
 
-        edtTitle = findViewById(R.id.edt_task_name);
-        edtDescription = findViewById(R.id.edt_description);
-        tvDate = findViewById(R.id.tv_date);
-        tvTime = findViewById(R.id.tv_time);
+        edtTitle = (EdittextHozo) findViewById(R.id.edt_task_name);
+        edtDescription = (EdittextHozo) findViewById(R.id.edt_description);
+        tvDate = (TextViewHozo) findViewById(R.id.tv_date);
+        tvTime = (TextViewHozo) findViewById(R.id.tv_time);
 
-        tvTitleMsg = findViewById(R.id.tv_title_msg);
-        tvDesMsg = findViewById(R.id.tv_des_msg);
+        tvTitleMsg = (TextViewHozo) findViewById(R.id.tv_title_msg);
+        tvDesMsg = (TextViewHozo) findViewById(R.id.tv_des_msg);
 
-        edtBudget = findViewById(R.id.edt_budget);
-        edtCoupon = findViewById(R.id.edt_coupon);
-        tvNumberWorker = findViewById(R.id.tv_number_worker);
-        tvTotalPrice = findViewById(R.id.tv_total_price);
-        imgSaveDraf = findViewById(R.id.tv_save);
+        edtBudget = (AutoCompleteTextView) findViewById(R.id.edt_budget);
+        edtCoupon = (EdittextHozo) findViewById(R.id.edt_coupon);
+        tvNumberWorker = (TextViewHozo) findViewById(R.id.tv_number_worker);
+        tvTotalPrice = (TextViewHozo) findViewById(R.id.tv_total_price);
+        imgSaveDraf = (ImageView) findViewById(R.id.tv_save);
 
-        tvWorkingHour = findViewById(R.id.tv_working_hour);
-        spGender = findViewById(R.id.sp_gender);
-        advanceExpandableLayout = findViewById(R.id.advance_expandable_layout);
+        tvWorkingHour = (TextViewHozo) findViewById(R.id.tv_working_hour);
+        spGender = (Spinner) findViewById(R.id.sp_gender);
+        advanceExpandableLayout = (ExpandableLayout) findViewById(R.id.advance_expandable_layout);
 
 
-        btnNext = findViewById(R.id.btn_next);
+        btnNext = (ButtonHozo) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
 
-        grImage = findViewById(R.id.gr_image);
+        grImage = (MyGridView) findViewById(R.id.gr_image);
 
-        tvAge = findViewById(R.id.tv_age);
+        tvAge = (TextViewHozo) findViewById(R.id.tv_age);
         tvAge.setOnClickListener(this);
-        cbOnline = findViewById(R.id.cb_online_task);
-        cbAuto = findViewById(R.id.cb_auto_pick);
+        cbOnline = (AppCompatCheckBox) findViewById(R.id.cb_online_task);
+        cbAuto = (AppCompatCheckBox) findViewById(R.id.cb_auto_pick);
 
-        tvMoreShow = findViewById(R.id.tv_more_show);
+        tvMoreShow = (TextViewHozo) findViewById(R.id.tv_more_show);
         tvMoreShow.setOnClickListener(this);
 
-        tvMoreHide = findViewById(R.id.tv_more_hide);
+        tvMoreHide = (TextViewHozo) findViewById(R.id.tv_more_hide);
         tvMoreHide.setOnClickListener(this);
 
-        imgMenu = findViewById(R.id.img_menu);
+        imgMenu = (ImageView) findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
         tvDate.setOnClickListener(this);
         tvTime.setOnClickListener(this);
@@ -229,6 +231,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initData() {
+
+        Constants.MAX_IMAGE_ATTACH = 6;
+
         edtCoupon.setFocusable(true);
         edtCoupon.setText("");
         edtCoupon.setFocusable(true);
@@ -1127,6 +1132,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == Constants.REQUEST_CODE_ADDRESS && resultCode == Constants.RESULT_CODE_ADDRESS) {
+
         } else if (requestCode == REQUEST_CODE_PICK_IMAGE
                 && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {

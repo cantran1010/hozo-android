@@ -14,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
@@ -50,12 +51,12 @@ public class RateActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initView() {
-        imgAvatar = findViewById(R.id.img_avatar);
-        ratingBar = findViewById(R.id.rb_rate);
-        edtContent = findViewById(R.id.edt_content);
-        tvName = findViewById(R.id.tv_name);
+        imgAvatar = (ImageView) findViewById(R.id.img_avatar);
+        ratingBar = (RatingBar) findViewById(R.id.rb_rate);
+        edtContent = (EdittextHozo) findViewById(R.id.edt_content);
+        tvName = (TextViewHozo) findViewById(R.id.tv_name);
 
-        ButtonHozo btnRate = findViewById(R.id.btn_rate);
+        ButtonHozo btnRate = (ButtonHozo) findViewById(R.id.btn_rate);
         btnRate.setOnClickListener(this);
 
         imgAvatar.setOnClickListener(this);

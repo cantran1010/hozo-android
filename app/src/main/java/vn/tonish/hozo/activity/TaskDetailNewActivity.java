@@ -78,7 +78,7 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
         imgMenu = (ImageView) findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
 
-        tabLayout = findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.detail_tab_1)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.detail_tab_2)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.detail_tab_3)));
@@ -285,7 +285,7 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
     }
 
     public void updateUi() {
-        viewPager = findViewById(R.id.pager);
+        viewPager = (ViewPager) findViewById(R.id.pager);
         adapter = new TaskDetailAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);

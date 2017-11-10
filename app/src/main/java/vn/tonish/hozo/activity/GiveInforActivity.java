@@ -56,11 +56,11 @@ public class GiveInforActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initView() {
-        btnVerifyFaceBook = findViewById(R.id.btn_verify_facebook);
-        btnVerifyEmail = findViewById(R.id.btn_verify_email);
-        tvActiveEmail = findViewById(R.id.tv_noti_active);
-        edtEmail = findViewById(R.id.edt_verify_email);
-        ImageView imgBack = findViewById(R.id.img_back);
+        btnVerifyFaceBook = (TextViewHozo) findViewById(R.id.btn_verify_facebook);
+        btnVerifyEmail = (TextViewHozo) findViewById(R.id.btn_verify_email);
+        tvActiveEmail = (TextViewHozo) findViewById(R.id.tv_noti_active);
+        edtEmail = (EdittextHozo) findViewById(R.id.edt_verify_email);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         btnVerifyFaceBook.setOnClickListener(this);
         imgBack.setOnClickListener(this);
         btnVerifyEmail.setOnClickListener(this);

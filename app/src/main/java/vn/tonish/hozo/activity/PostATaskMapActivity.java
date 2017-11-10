@@ -70,15 +70,15 @@ public class PostATaskMapActivity extends BaseActivity implements OnMapReadyCall
 
     @Override
     protected void initView() {
-        tvAddress = findViewById(R.id.tv_address);
+        tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
         tvAddress.setOnClickListener(this);
 
-        locationLayout = findViewById(R.id.location_layout);
+        locationLayout = (RelativeLayout) findViewById(R.id.location_layout);
 
-        imgPickList = findViewById(R.id.img_pick_list);
+        imgPickList = (ImageView) findViewById(R.id.img_pick_list);
         imgPickList.setOnClickListener(this);
 
-        imgPickMap = findViewById(R.id.img_pick_map);
+        imgPickMap = (ImageView) findViewById(R.id.img_pick_map);
         imgPickMap.setOnClickListener(this);
 
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);

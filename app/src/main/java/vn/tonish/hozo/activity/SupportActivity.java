@@ -34,23 +34,23 @@ public class SupportActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-        phoneLayout = findViewById(R.id.support_phone_layout);
-        mailLayout = findViewById(R.id.support_mail_layout);
-        rateLayout = findViewById(R.id.support_rate_layout);
+        phoneLayout = (LinearLayout) findViewById(R.id.support_phone_layout);
+        mailLayout = (LinearLayout) findViewById(R.id.support_mail_layout);
+        rateLayout = (LinearLayout) findViewById(R.id.support_rate_layout);
 
         phoneLayout.setOnClickListener(this);
         mailLayout.setOnClickListener(this);
         rateLayout.setOnClickListener(this);
 
-        tvPhone = findViewById(R.id.tv_support_phone);
-        tvMail = findViewById(R.id.tv_support_mail);
-        tvRate = findViewById(R.id.tv_support_rate);
+        tvPhone = (TextViewHozo) findViewById(R.id.tv_support_phone);
+        tvMail = (TextViewHozo) findViewById(R.id.tv_support_mail);
+        tvRate = (TextViewHozo) findViewById(R.id.tv_support_rate);
 
-        imgPhone = findViewById(R.id.img_support_phone);
-        imgMail = findViewById(R.id.img_support_mail);
-        imgRate = findViewById(R.id.img_support_rate);
+        imgPhone = (ImageView) findViewById(R.id.img_support_phone);
+        imgMail = (ImageView) findViewById(R.id.img_support_mail);
+        imgRate = (ImageView) findViewById(R.id.img_support_rate);
 
-        imgBack = findViewById(R.id.img_back);
+        imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
     }
 

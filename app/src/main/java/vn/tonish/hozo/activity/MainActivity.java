@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tvOther = (TextViewHozo) findViewById(R.id.tv_other);
 
         tvCountMsg = (TextViewHozo) findViewById(R.id.tv_count_new_push);
-        tvCountNewTask = findViewById(R.id.tv_count_new_task);
+        tvCountNewTask = (TextViewHozo) findViewById(R.id.tv_count_new_task);
     }
 
     @Override

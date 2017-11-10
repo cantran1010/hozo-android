@@ -189,4 +189,7 @@ public interface ApiInterface {
     @POST("v1/support/message")
     Call<Void> sendMailSupport(@Header("Authorization") String token, @Body RequestBody body);
 
+    @POST("v1/users/{userId}/follow")
+    Call<Void> follow(@Header("Authorization") String token, @Path("userId") int userId, @Body RequestBody body);
+
 }

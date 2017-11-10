@@ -12,18 +12,28 @@ public class Constants {
     public static final int HTTP_CODE_NOT_FOUND = 404;
     public static final int HTTP_CODE_UNPROCESSABLE_ENTITY = 422;
     public static final int HTTP_CODE_BLOCK_USER = 423;
+    public static final int REQUEST_CODE_CAMERA_AVATA = 987;
+    public static final int REQUEST_CODE_PICK_IMAGE_AVATA = 654;
+    public static final int REQUEST_CODE_SKILL = 741;
+    public static final int RESULT_CODE_TAG = 136;
+    public static final String USER_EXTRA = "user_extra";
+    public static final String REQUEST_CODE_EXTRA = "request_code_extra";
+    public static final int REQUEST_CODE_LANGUAGE = 456;
+    public static final int PERMISSION_REQUEST_CODE_BACKGROUND = 238;
+    public static final int REQUEST_CODE_CAMERA_BACKGROUND = 369;
+    public static final int REQUEST_CODE_PICK_IMAGE_BACKGROUND = 147;
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
-    public static final int REQUEST_CODE_PICK_IMAGE = 123;
-    public static final int RESPONSE_CODE_PICK_IMAGE = 321;
+    public static final int REQUEST_CODE_PICK_IMAGE = 357;
+    public static final int RESPONSE_CODE_PICK_IMAGE = 753;
     public static final String INTENT_EXTRA_IMAGES = "extra_image";
     public static final int REQUEST_CODE_CAMERA = 567;
     public static final int REQUEST_CODE_ADDRESS = 2345;
     public static final String EXTRA_ONLY_IMAGE = "extra_only_image";
     public static final String EXTRA_IS_CROP_PROFILE = "extra_is_crop_profile";
     public static final String EXTRA_IMAGE_PATH = "extra_image_path";
-    public static final int REQUEST_CODE_CROP_IMAGE = 123;
-    public static final int RESPONSE_CODE_CROP_IMAGE = 321;
+    public static final int REQUEST_CODE_CROP_IMAGE = 951;
+    public static final int RESPONSE_CODE_CROP_IMAGE = 159;
 
     public static final String EXTRA_CATEGORY = "extra_category";
     public static final String EXTRA_TASK = "extra_work";
@@ -43,6 +53,7 @@ public class Constants {
     public static final String USER_OTP = "otp_code";
 
     public static final int PERMISSION_REQUEST_CODE = 987;
+    public static final int PERMISSION_REQUEST_CODE_AVATA = 852;
     public static final String TRANSITION_EXTRA = "transition_extra";
     public static final String IMAGE_ATTACHS_EXTRA = "image_attachs_extra";
     public static final String IMAGE_POSITITON_EXTRA = "position_extra";

@@ -33,7 +33,6 @@
 
     <!--Edit profile Screen-->
     <string name="edit_profile_tv_header">Sửa đổi thông tin</string>
-    <string name="edit_profile_btn_save">Lưu lại</string>
     <string name="select_task_title">Đăng việc</string>
     <string name="browse_task_title">Tìm việc</string>
     <string name="my_task_title">Việc của tôi</string>
@@ -105,9 +104,9 @@
     <string name="post_a_task_finish">ĐĂNG VIỆC</string>
 
     <!-- edit profile -->
-    <string name="edit_profile_name">Họ và Tên</string>
-    <string name="edit_profile_address">Địa chỉ</string>
-    <string name="edit_profile_birth">Ngày tháng năm sinh</string>
+    <string name="edit_profile_name">HỌ TÊN</string>
+    <string name="edit_profile_address">ĐỊA CHỈ</string>
+    <string name="edit_profile_birth">NGÀY SINH</string>
     <string name="drop_down">Drop down</string>
     <string name="camera">take picture</string>
     <string name="content_description_back">Trở lại</string>
@@ -138,9 +137,8 @@
     <string name="btn_reset">Mặc định</string>
     <string name="profile_worker">Người làm việc</string>
     <string name="profile_hire">Người đăng việc</string>
-    <string name="profile_verify">Đã xác thực</string>
-    <string name="profile_address">Địa chỉ</string>
-    <string name="profile_phone">Điện thoại</string>
+    <string name="profile_address">ĐỊA CHỈ</string>
+    <string name="profile_phone">ĐIỆN THOẠI</string>
     <string name="content_description_send">Gửi</string>
     <string name="post_a_task_budget_error">Vui lòng nhập \n giá tiền</string>
     <string name="post_a_task_number_worker_error">Vui lòng nhập \n số người</string>
@@ -159,10 +157,8 @@
     <string name="post_a_task_time_working_error">Vui lòng nhập số giờ làm việc</string>
     <string name="post_a_task_complete">Chúc mừng bạn đã đăng tuyển thành công!</string>
     <string name="draft_a_task_complete">Lưu việc thành công!</string>
-    <string name="show_all">Xem thêm</string>
     <string name="my_account">Tài khoản của tôi</string>
     <string name="user_account">Tài khoản</string>
-    <string name="profile_rate">Đánh giá</string>
     <string name="retry_title">Lỗi kết nối.</string>
     <string name="retry_content">Không thể kết nối tới máy chủ. Vui lòng kiểm tra kết nối của bạn và thử lại.</string>
     <string name="retry">THỬ LẠI</string>
@@ -358,7 +354,7 @@
     <string name="notification_title">Thông báo</string>
     <string name="term_and_policy">vi phạm điều khoản sử dụng</string>
     <string name="alert_task">Chọn danh mục bạn muốn nhận thông báo khi có công việc mới.</string>
-    <string name="profile_about">Giới thiệu</string>
+    <string name="profile_about">GIỚI THIỆU</string>
     <string name="error_des">Lỗi vượt quá 500 ký tự.</string>
     <string name="webview_error"><html><body style='background: white;'><p style='color: red;'>Không thể tải trang! Vui lòng kiểm tra kết nối và thử lại!</p></body></html></string>
     <string name="title_max_length_error">Tiêu đề không được quá 80 kí tự</string>
@@ -402,7 +398,6 @@
     <string name="alert_dialog_close">Đóng</string>
     <string name="re_create_task">Sao chép việc</string>
     <string name="rate_content_hint">Nhập nội dung đánh giá …</string>
-    <string name="comment_task">Chi tiết hỏi đáp</string>
     <string name="bidders">Danh sách ứng tuyển(%1$d)</string>
     <string name="assigners">Danh sách người làm(%1$d)</string>
     <string name="report_task">Báo xấu việc</string>
@@ -413,7 +408,6 @@
     <string name="post_a_task_msg_length">%1$d/%2$d kí tự</string>
     <string name="tv_time_task_lbl">Số giờ</string>
     <string name="location">Nơi làm</string>
-    <string name="price">Giá tiền</string>
     <string name="number_worker">Số người</string>
     <string name="all_price">Tổng tiền</string>
     <string name="btn_create_task">ĐĂNG VIỆC</string>
@@ -424,7 +418,6 @@
     <string name="online_job">Việc có làm online tại nhà</string>
     <string name="auto_pick">Tự động chọn ứng viên</string>
     <string name="post_task_address_error">Vui lòng nhập địa chỉ</string>
-    <string name="hour_default">4</string>
     <string name="post_a_task_input_error">Hozo không cho phép đăng email hay số điện thoại trong bài đăng. \nTrường hợp cố tình vi phạm sẽ có nguy cơ bị khóa tài khoản vĩnh viễn!</string>
     <string name="detail_tab_1">Công việc</string>
     <string name="detail_tab_2">Người làm</string>
@@ -435,7 +428,6 @@
     <string name="tv_date_task">Ngày làm</string>
     <string name="advance_more">Tùy chọn nâng cao</string>
     <string name="advance_more_hide">Rút gọn</string>
-    <string name="number_worker_default">1</string>
     <string name="budget_detail">Ngân sách / người</string>
     <string name="worker_need">Người cần tuyển</string>
     <string name="assiger_count">Được giao</string>
@@ -575,12 +567,7 @@
     <string name="promotion_error_expried">Mã không hợp lệ</string>
     <string name="promotion_error_limmited">Mã không hợp lệ</string>
     <string name="promotion_error_used">Mã không hợp lệ</string>
-    <string name="save_draf">Lưu nháp</string>
     <string name="code_coupon">Mã giới thiệu</string>
-    <string name="title_activity_scrolling">ScrollingActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="wage">Tiền công</string>
-    <string name="money">%1$s đ</string>
     <string name="code_coupon_error">Mã giới Thiệu không hợp lệ!</string>
     <string name="hint_coupon_edt">Mã giới thiệu gồm 6 ký tự. Ví dụ: AbDf23</string>
     <string name="invalid_category">Danh mục không hợp lệ</string>
@@ -611,4 +598,25 @@
     <string name="content_missing_error">Vui lòng nhập nội dung tin nhắn!</string>
     <string name="validate_email_error">Email không đúng định dạng,vui lòng sửa lại!</string>
     <string name="send_mail_support_success">Gủi tin nhắn thành công,chúng tôi sẽ sớm phản hồi lại bạn,cảm ơn bạn!</string>
+    <string name="count_activity">%1$d lượt\ntương tác</string>
+    <string name="count_follow">%1$d lượt\ntheo dõi</string>
+    <string name="follow">Theo dõi</string>
+    <string name="verify_title">THÔNG TIN XÁC THỰC</string>
+    <string name="profile_rate_title">ĐÁNH GIÁ</string>
+    <string name="show_all_rate">Xem tất cả đánh giá</string>
+    <string name="profile_skill">KỸ NĂNG</string>
+    <string name="profile_language">NGOẠI NGỮ</string>
+    <string name="profile_experience">KINH NGHIỆM</string>
+    <string name="edit_profile_gender">GIỚI TÍNH</string>
+    <string name="hide_info">Ẩn thông tin</string>
+    <string name="profile_image">ẢNH</string>
+    <string name="profile_max_image">* Tối đa 9 ảnh</string>
+    <string name="profile_your_activity">HOẠT ĐỘNG CỦA BẠN TRÊN HOZO</string>
+    <string name="rd_poster">Người đăng việc</string>
+    <string name="rd_worker">Người làm việc</string>
+    <string name="rc_both">Cả hai</string>
+    <string name="send_tag">Gủi</string>
+    <string name="profile_age">tuổi</string>
+    <string name="un_follow">Hủy theo dõi</string>
+    <string name="review_all_title">Tất cả đánh giá</string>
 </resources>

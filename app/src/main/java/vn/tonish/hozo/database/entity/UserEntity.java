@@ -7,6 +7,8 @@ import java.io.Serializable;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import vn.tonish.hozo.rest.responseRes.ImageProfileResponse;
+import vn.tonish.hozo.rest.responseRes.TagResponse;
 
 /**
  * Created by LongBui.
@@ -52,6 +54,47 @@ public class UserEntity extends RealmObject implements Serializable {
     private float posterDoneRate;
     private double latitude;
     private double longitude;
+
+//    // version 1.8.0
+    private RealmList<TagResponse> skills;
+    private RealmList<TagResponse> languages;
+    private RealmList<ImageProfileResponse> images;
+    private String experiences;
+    @SerializedName("privacy_hide_gender")
+    private boolean privacyGender;
+    @SerializedName("privacy_hide_date_of_birth")
+    private boolean privacyBirth;
+    @SerializedName("activities_count")
+    private int activitiesCount;
+    @SerializedName("followers_count")
+    private int followersCount;
+    private String role;
+    private boolean followed;
+    private String background;
+
+    public String getBackground() {
+        return background;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
+    }
+
+    public boolean isFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(boolean followed) {
+        this.followed = followed;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public void setMyUser(boolean myUser) {
         isMyUser = myUser;
@@ -265,6 +308,70 @@ public class UserEntity extends RealmObject implements Serializable {
         this.longitude = longitude;
     }
 
+    public RealmList<ImageProfileResponse> getImages() {
+        return images;
+    }
+
+    public void setImages(RealmList<ImageProfileResponse> images) {
+        this.images = images;
+    }
+
+    public String getExperiences() {
+        return experiences;
+    }
+
+    public void setExperiences(String experiences) {
+        this.experiences = experiences;
+    }
+
+    public boolean isPrivacyGender() {
+        return privacyGender;
+    }
+
+    public void setPrivacyGender(boolean privacyGender) {
+        this.privacyGender = privacyGender;
+    }
+
+    public boolean isPrivacyBirth() {
+        return privacyBirth;
+    }
+
+    public void setPrivacyBirth(boolean privacyBirth) {
+        this.privacyBirth = privacyBirth;
+    }
+
+    public int getActivitiesCount() {
+        return activitiesCount;
+    }
+
+    public void setActivitiesCount(int activitiesCount) {
+        this.activitiesCount = activitiesCount;
+    }
+
+    public int getFollowersCount() {
+        return followersCount;
+    }
+
+    public void setFollowersCount(int followersCount) {
+        this.followersCount = followersCount;
+    }
+
+    public RealmList<TagResponse> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(RealmList<TagResponse> skills) {
+        this.skills = skills;
+    }
+
+    public RealmList<TagResponse> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(RealmList<TagResponse> languages) {
+        this.languages = languages;
+    }
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -294,6 +401,17 @@ public class UserEntity extends RealmObject implements Serializable {
                 ", posterDoneRate=" + posterDoneRate +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", skills=" + skills +
+                ", languages=" + languages +
+                ", images=" + images +
+                ", experiences='" + experiences + '\'' +
+                ", privacyGender=" + privacyGender +
+                ", privacyBirth=" + privacyBirth +
+                ", activitiesCount=" + activitiesCount +
+                ", followersCount=" + followersCount +
+                ", role='" + role + '\'' +
+                ", followed=" + followed +
+                ", background='" + background + '\'' +
                 '}';
     }
 }

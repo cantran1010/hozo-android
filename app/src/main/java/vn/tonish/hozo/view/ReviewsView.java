@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.ProfileActivity;
+import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -28,6 +28,7 @@ public class ReviewsView extends LinearLayout implements View.OnClickListener {
     private TextViewHozo tvName, tvReviews, tvTimeAgo;
     private RatingBar ratingBar;
     private ReviewEntity reviewEntity;
+    private TextViewHozo tvTaskName;
 
     public ReviewsView(Context context) {
         super(context);
@@ -60,6 +61,7 @@ public class ReviewsView extends LinearLayout implements View.OnClickListener {
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
         ratingBar = (RatingBar) findViewById(R.id.rating);
         imgAvatar.setOnClickListener(this);
+        tvTaskName = findViewById(R.id.tv_task_name);
     }
 
     public void updateData(ReviewEntity review) {
@@ -68,7 +70,8 @@ public class ReviewsView extends LinearLayout implements View.OnClickListener {
         tvName.setText(review.getAuthorName());
         ratingBar.setRating((float) review.getRating());
         tvReviews.setText(review.getBody());
-        tvTimeAgo.setText(DateTimeUtils.getTimeAgo(review.getCreatedAt(), getContext()));
+        tvTimeAgo.setText(DateTimeUtils.getOnlyDateFromIso(review.getCreatedAt()));
+        tvTaskName.setText(review.getTaskName());
     }
 
     @Override

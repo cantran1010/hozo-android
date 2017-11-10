@@ -31,15 +31,15 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initView() {
-        imgBack = findViewById(R.id.img_back);
+        imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        btnRecharge = findViewById(R.id.btn_recharge);
+        btnRecharge = (ButtonHozo) findViewById(R.id.btn_recharge);
         btnRecharge.setOnClickListener(this);
 
-        spType = findViewById(R.id.sp_type);
+        spType = (Spinner) findViewById(R.id.sp_type);
 
-        edtMoney = findViewById(R.id.edt_money);
+        edtMoney = (EdittextHozo) findViewById(R.id.edt_money);
     }
 
     @Override
