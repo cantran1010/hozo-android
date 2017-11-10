@@ -32,13 +32,13 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         holder.tvTag.setText(tagResponses.get(position).getValue());
 
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tagResponses.remove(position);
+                tagResponses.remove(holder.getAdapterPosition());
                 notifyDataSetChanged();
             }
         });

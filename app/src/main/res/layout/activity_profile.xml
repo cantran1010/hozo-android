@@ -77,7 +77,8 @@
                         android:id="@+id/img_background"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        tools:ignore="ContentDescription" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -104,7 +105,6 @@
                             android:gravity="center"
                             android:maxEms="10"
                             android:maxLines="2"
-                            android:text="Name"
                             android:textColor="@color/white"
                             android:textSize="@dimen/tv_size_xlager"
                             android:textStyle="bold" />
@@ -115,12 +115,10 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginBottom="5dp"
-                            android:text="28/03/1988"
                             android:textColor="@color/white"
                             android:textSize="@dimen/tv_size_xtiny" />
 
                         <vn.tonish.hozo.view.TextViewHozo
-                            android:id="@+id/tv_gender"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -149,7 +147,9 @@
                     android:paddingBottom="10dp"
                     android:paddingLeft="@dimen/margin_left_screen"
                     android:paddingRight="@dimen/margin_right_screen"
-                    android:paddingTop="10dp">
+                    android:paddingTop="10dp"
+                    android:paddingStart="@dimen/margin_left_screen"
+                    android:paddingEnd="@dimen/margin_right_screen">
 
                     <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/tv_count_activity"
@@ -179,7 +179,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="right">
+                        android:gravity="end">
 
                         <vn.tonish.hozo.view.ButtonHozo
                             android:id="@+id/btn_follow"
@@ -203,7 +203,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_left_screen"
                 android:layout_marginRight="@dimen/margin_right_screen"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/margin_left_screen"
+                android:layout_marginEnd="@dimen/margin_right_screen">
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:layout_width="wrap_content"
@@ -231,10 +233,10 @@
                             android:src="@drawable/phone_on" />
 
                         <ImageView
-                            android:id="@+id/img_checked_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/checked" />
+                            android:src="@drawable/checked"
+                            tools:ignore="ContentDescription" />
 
                         <ImageView
                             android:id="@+id/fb_verify"
@@ -243,13 +245,15 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="5dp"
                             android:contentDescription="@string/just_image"
-                            android:src="@drawable/facebook_off" />
+                            android:src="@drawable/facebook_off"
+                            android:layout_marginStart="5dp" />
 
                         <ImageView
                             android:id="@+id/img_checked_fb"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/checked" />
+                            android:src="@drawable/checked"
+                            tools:ignore="ContentDescription" />
 
                         <ImageView
                             android:id="@+id/email_verify"
@@ -258,13 +262,15 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="5dp"
                             android:contentDescription="@string/just_image"
-                            android:src="@drawable/email_off" />
+                            android:src="@drawable/email_off"
+                            android:layout_marginStart="5dp" />
 
                         <ImageView
                             android:id="@+id/img_checked_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/checked" />
+                            android:src="@drawable/checked"
+                            tools:ignore="ContentDescription" />
                     </LinearLayout>
 
                     <vn.tonish.hozo.view.ButtonHozo
@@ -278,7 +284,9 @@
                         android:paddingRight="10dp"
                         android:text="@string/add_verify"
                         android:textAllCaps="false"
-                        android:textColor="@color/tv_black_new" />
+                        android:textColor="@color/tv_black_new"
+                        tools:ignore="RelativeOverlap"
+                        android:layout_alignParentEnd="true" />
 
                 </RelativeLayout>
 
@@ -296,7 +304,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Ha Noi"
                     android:textColor="@color/tv_gray_new"
                     android:textSize="@dimen/tv_size_nomal" />
 
@@ -315,7 +322,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="0978478304"
                     android:textColor="@color/tv_gray_new" />
 
                 <vn.tonish.hozo.view.TextViewHozo
@@ -332,7 +338,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="dep zai hoc gioi"
                     android:textColor="@color/tv_gray_new" />
 
                 <vn.tonish.hozo.view.MyGridView
@@ -385,7 +390,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:padding="5dp"
-                    android:text="ken sao"
                     android:textColor="@color/tv_gray_new" />
 
                 <LinearLayout
@@ -407,7 +411,8 @@
                         android:text="@string/profile_hire"
                         android:textColor="@color/white"
                         android:textSize="@dimen/tv_size_xtiny"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginEnd="1dp" />
 
                     <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/btn_worker"
@@ -421,7 +426,8 @@
                         android:text="@string/profile_worker"
                         android:textColor="@color/tv_gray_new"
                         android:textSize="@dimen/tv_size_xtiny"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginStart="1dp" />
 
                 </LinearLayout>
 
@@ -448,7 +454,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="10 danh gia"
                         android:textColor="@color/tv_gray_new" />
 
                     <View
@@ -466,7 +471,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="6 viec dang"
                         android:textColor="@color/tv_gray_new" />
 
                 </LinearLayout>
@@ -478,7 +482,6 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:text="8 hoan thanh"
                     android:textColor="@color/tv_gray_new" />
 
                 <vn.tonish.hozo.view.TextViewHozo

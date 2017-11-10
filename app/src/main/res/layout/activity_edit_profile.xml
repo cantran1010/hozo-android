@@ -28,6 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/img_cancel"
             android:layout_toRightOf="@id/img_cancel"
             android:text="@string/edit_profile_tv_header" />
 
@@ -55,7 +56,8 @@
                     android:id="@+id/img_background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    tools:ignore="ContentDescription" />
 
                 <vn.tonish.hozo.view.CircleImageView
                     android:id="@+id/img_avatar"
@@ -71,6 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/img_avatar"
                     android:layout_margin="0dp"
+                    android:layout_toEndOf="@id/img_avatar"
                     android:layout_toRightOf="@id/img_avatar"
                     android:contentDescription="@string/camera"
                     android:padding="5dp"
@@ -85,7 +88,8 @@
                     android:layout_alignParentRight="true"
                     android:background="#33000000"
                     android:padding="10dp"
-                    android:src="@drawable/edit_profile" />
+                    android:src="@drawable/edit_profile"
+                    tools:ignore="ContentDescription" />
 
             </RelativeLayout>
 
@@ -117,7 +121,6 @@
                     android:maxLines="1"
                     android:minHeight="@dimen/edt_min_height"
                     android:padding="5dp"
-                    android:text="Bui Duc Long"
                     android:textColor="@color/tv_gray_new"
                     android:textSize="@dimen/edt_size_nomal" />
 
@@ -151,28 +154,36 @@
                             android:layout_height="wrap_content"
                             android:button="@drawable/radio_button_background"
                             android:paddingLeft="5dp"
+                            android:paddingStart="5dp"
                             android:text="@string/gender_vn_male"
-                            android:textColor="@color/tv_gray_new" />
+                            android:textColor="@color/tv_gray_new"
+                            tools:ignore="RtlSymmetry" />
 
                         <RadioButton
                             android:id="@+id/rd_female"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
+                            android:layout_marginStart="20dp"
                             android:button="@drawable/radio_button_background"
                             android:paddingLeft="5dp"
+                            android:paddingStart="5dp"
                             android:text="@string/gender_vn_mafele"
-                            android:textColor="@color/tv_gray_new" />
+                            android:textColor="@color/tv_gray_new"
+                            tools:ignore="RtlSymmetry" />
 
                         <RadioButton
                             android:id="@+id/rd_any"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
+                            android:layout_marginStart="20dp"
                             android:button="@drawable/radio_button_background"
                             android:paddingLeft="5dp"
+                            android:paddingStart="5dp"
                             android:text="@string/gender_vn_any"
-                            android:textColor="@color/tv_gray_new" />
+                            android:textColor="@color/tv_gray_new"
+                            tools:ignore="RtlSymmetry" />
 
                     </RadioGroup>
 
@@ -180,11 +191,14 @@
                         android:id="@+id/cb_hide_gender"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:button="@drawable/checkbox_selector_2"
                         android:paddingLeft="5dp"
+                        android:paddingStart="5dp"
                         android:text="@string/hide_info"
-                        android:textColor="@color/tv_gray_new" />
+                        android:textColor="@color/tv_gray_new"
+                        tools:ignore="RelativeOverlap,RtlSymmetry" />
 
                 </RelativeLayout>
 
@@ -225,7 +239,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:contentDescription="@string/just_image"
-                        android:src="@drawable/edit_profile_calendar" />
+                        android:src="@drawable/ic_calendar" />
                 </RelativeLayout>
 
                 <View
@@ -237,13 +251,14 @@
                     android:id="@+id/cb_hide_birth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:layout_marginTop="5dp"
                     android:button="@drawable/checkbox_selector_2"
                     android:paddingLeft="5dp"
+                    android:paddingStart="5dp"
                     android:text="@string/hide_info"
-                    android:textColor="@color/tv_gray_new" />
+                    android:textColor="@color/tv_gray_new"
+                    tools:ignore="RtlSymmetry" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:layout_width="wrap_content"
@@ -310,10 +325,12 @@
                     <vn.tonish.hozo.view.TextViewHozo
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="10dp"
                         android:text="@string/profile_max_image"
-                        android:textColor="@color/tv_gray_new" />
+                        android:textColor="@color/tv_gray_new"
+                        tools:ignore="RelativeOverlap" />
 
                 </RelativeLayout>
 
@@ -343,7 +360,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/profile_skill"
                         android:textColor="@color/tv_gray_new"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -376,7 +394,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/profile_language"
                         android:textColor="@color/tv_gray_new"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -430,7 +449,6 @@
                     android:textStyle="bold" />
 
                 <RadioGroup
-                    android:id="@+id/radio_activity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
@@ -443,8 +461,10 @@
                         android:layout_marginTop="10dp"
                         android:button="@drawable/radio_button_background"
                         android:paddingLeft="5dp"
+                        android:paddingStart="5dp"
                         android:text="@string/rd_poster"
-                        android:textColor="@color/tv_gray_new" />
+                        android:textColor="@color/tv_gray_new"
+                        tools:ignore="RtlSymmetry" />
 
                     <RadioButton
                         android:id="@+id/rd_worker"
@@ -453,8 +473,10 @@
                         android:layout_marginTop="10dp"
                         android:button="@drawable/radio_button_background"
                         android:paddingLeft="5dp"
+                        android:paddingStart="5dp"
                         android:text="@string/rd_worker"
-                        android:textColor="@color/tv_gray_new" />
+                        android:textColor="@color/tv_gray_new"
+                        tools:ignore="RtlSymmetry" />
 
                     <RadioButton
                         android:id="@+id/rd_both"
@@ -463,8 +485,10 @@
                         android:layout_marginTop="10dp"
                         android:button="@drawable/radio_button_background"
                         android:paddingLeft="5dp"
+                        android:paddingStart="5dp"
                         android:text="@string/rc_both"
-                        android:textColor="@color/tv_gray_new" />
+                        android:textColor="@color/tv_gray_new"
+                        tools:ignore="RtlSymmetry" />
 
                 </RadioGroup>
 
