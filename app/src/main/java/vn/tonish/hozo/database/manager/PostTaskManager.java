@@ -20,8 +20,7 @@ public class PostTaskManager {
 
     public static PostTaskEntity getPostTaskEntity() {
         Realm realm = Realm.getDefaultInstance();
-        PostTaskEntity postTaskEntity = realm.where(PostTaskEntity.class).findFirst();
-        return postTaskEntity;
+        return realm.where(PostTaskEntity.class).findFirst();
     }
 
 

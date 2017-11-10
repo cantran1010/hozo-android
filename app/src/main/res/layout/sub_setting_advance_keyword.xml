@@ -8,11 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
         android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
@@ -26,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/bg_border_chat_corners">
+            android:background="@drawable/bg_border_hozo_edt_press">
 
             <ImageView
                 android:id="@+id/btn_send"
@@ -51,7 +47,9 @@
                 android:maxLength="50"
                 android:minHeight="@dimen/edt_min_height"
                 android:padding="5dp"
-                android:textColorHint="@color/tv_gray" />
+                android:textColor="@color/tv_gray_new"
+                android:textColorHint="@color/color_hint_create_task_lable"
+                android:textSize="@dimen/tv_size_nomal" />
         </RelativeLayout>
     </LinearLayout>
 </vn.tonish.hozo.view.ExpandableLayout>

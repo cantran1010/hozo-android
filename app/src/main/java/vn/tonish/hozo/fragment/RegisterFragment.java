@@ -84,9 +84,9 @@ import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 public class RegisterFragment extends BaseFragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private final static String TAG = RegisterFragment.class.getName();
     private EdittextHozo edtName;
-    private TextViewHozo btnSave;
     private CircleImageView imgAvatar;
-    private ImageView imgClear, imgClearGoogle, btnBack;
+    private ImageView imgClear;
+    private ImageView imgClearGoogle;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private File file;
@@ -114,10 +114,10 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
         imgAvatar = (CircleImageView) findViewById(img_avatar);
 
-        btnSave = (TextViewHozo) findViewById(R.id.btn_save);
+        TextViewHozo btnSave = (TextViewHozo) findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
         imgClear = (ImageView) findViewById(R.id.img_clear);
-        btnBack = (ImageView) findViewById(R.id.img_back);
+        ImageView btnBack = (ImageView) findViewById(R.id.img_back);
         imgClearGoogle = (ImageView) findViewById(R.id.img_clear_google);
         imgClear.setOnClickListener(this);
         imgClearGoogle.setOnClickListener(this);

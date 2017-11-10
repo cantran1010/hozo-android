@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -65,6 +64,7 @@ import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.ExpandableLayout;
+import vn.tonish.hozo.view.RadioButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.tv_monday;
@@ -77,15 +77,16 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
  * Created by CanTran on 9/15/17.
  */
 
+@SuppressWarnings("ALL")
 public class SettingActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = SettingActivity.class.getSimpleName();
-    private ImageView btnBack, btnSend;
-    private TextViewHozo tvDefault, tvDistanceValue;
-    private RelativeLayout layoutStatus, layoutCategory, layoutDateTime, layoutDistance, layoutPrice, layoutKeyword, layoutOptionDistance;
+    private TextViewHozo tvDistanceValue;
+    private RelativeLayout layoutOptionDistance;
     private ImageView imgStatusArrow, imgCategoryArrow, imgTimeArrow, imgDistance, imgKeyword, imgPrice;
     private TextViewHozo tvStatus, tvCategory, tvDateTime, tvDistance, tvPrice;
-    private RadioGroup radioStatus, radioTime, radioDistance, radioPrice;
-    private android.support.v7.widget.AppCompatRadioButton radAllTime, radDate, radAllDistance, radDistanceOption, radAllPrice, rad10, rad100, rad500;
+    private RadioGroup radioStatus;
+    private RadioGroup radioTime;
+    private RadioButtonHozo radAllTime, radDate, radAllDistance, radDistanceOption, radAllPrice, rad10, rad100, rad500;
     private RecyclerView rcvCategory, rcvKeyword;
     private SeekBar seebarDistance;
     private Animation anim_down, anim_up;
@@ -93,10 +94,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private TaskTypeAdapter mAdapter;
     private ArrayList<Category> categories;
     private SettingAdvanceEntity advanceEntity;
-    private Category cat;
     private TextViewHozo tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday, tvKeyword;
     private int count = 0;
-    private double lat, lon;
     private String address = "";
     private int distance = 50;
     private GoogleApiClient googleApiClient;
@@ -122,8 +121,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-        btnBack = (ImageView) findViewById(R.id.img_back);
-        tvDefault = (TextViewHozo) findViewById(R.id.tv_default);
+        ImageView btnBack = (ImageView) findViewById(R.id.img_back);
+        TextViewHozo  tvDefault = (TextViewHozo) findViewById(R.id.tv_default);
         seebarDistance = (SeekBar) findViewById(R.id.seebar_distance);
         rcvCategory = (RecyclerView) findViewById(R.id.rcv_category);
 
@@ -135,12 +134,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         keywordExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_keyword);
 
 
-        layoutStatus = (RelativeLayout) findViewById(R.id.layout_status);
-        layoutCategory = (RelativeLayout) findViewById(R.id.layout_category);
-        layoutDateTime = (RelativeLayout) findViewById(R.id.layout_date_time);
-        layoutDistance = (RelativeLayout) findViewById(R.id.layout_distance);
-        layoutPrice = (RelativeLayout) findViewById(R.id.layout_price);
-        layoutKeyword = (RelativeLayout) findViewById(R.id.layout_keyword);
+        RelativeLayout     layoutStatus = (RelativeLayout) findViewById(R.id.layout_status);
+        RelativeLayout     layoutCategory = (RelativeLayout) findViewById(R.id.layout_category);
+        RelativeLayout  layoutDateTime = (RelativeLayout) findViewById(R.id.layout_date_time);
+        RelativeLayout  layoutDistance = (RelativeLayout) findViewById(R.id.layout_distance);
+        RelativeLayout  layoutPrice = (RelativeLayout) findViewById(R.id.layout_price);
+        RelativeLayout layoutKeyword = (RelativeLayout) findViewById(R.id.layout_keyword);
         layoutOptionDistance = (RelativeLayout) findViewById(R.id.layout_option_distance);
 
         tvStatus = (TextViewHozo) findViewById(R.id.tv_status);
@@ -149,7 +148,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         tvDistance = (TextViewHozo) findViewById(R.id.tv_distance);
         tvDistanceValue = (TextViewHozo) findViewById(R.id.tv_distance_value);
         tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
-        btnSend = (ImageView) findViewById(R.id.btn_send);
+        ImageView   btnSend = (ImageView) findViewById(R.id.btn_send);
         tvKeyword = (TextViewHozo) findViewById(R.id.tv_keyword);
 
         edtKeyword = (EdittextHozo) findViewById(R.id.edt_keyword);
@@ -164,16 +163,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         radioStatus = (RadioGroup) findViewById(R.id.radio_status);
         radioTime = (RadioGroup) findViewById(R.id.radio_time);
-        radioDistance = (RadioGroup) findViewById(R.id.radio_distance);
-        radioPrice = (RadioGroup) findViewById(R.id.radio_price);
-        radAllTime = (AppCompatRadioButton) findViewById(R.id.radio_all_time);
-        radDate = (AppCompatRadioButton) findViewById(R.id.radio_date);
-        radAllDistance = (AppCompatRadioButton) findViewById(R.id.rad_all_distance);
-        radDistanceOption = (AppCompatRadioButton) findViewById(R.id.rad_distance_option);
-        radAllPrice = (AppCompatRadioButton) findViewById(R.id.rad_all_price);
-        rad10 = (AppCompatRadioButton) findViewById(R.id.rad_10_100);
-        rad100 = (AppCompatRadioButton) findViewById(R.id.rad_100_500);
-        rad500 = (AppCompatRadioButton) findViewById(R.id.rad_500);
+        RadioGroup radioDistance = (RadioGroup) findViewById(R.id.radio_distance);
+        RadioGroup  radioPrice = (RadioGroup) findViewById(R.id.radio_price);
+        radAllTime = (RadioButtonHozo) findViewById(R.id.radio_all_time);
+        radDate = (RadioButtonHozo) findViewById(R.id.radio_date);
+        radAllDistance = (RadioButtonHozo) findViewById(R.id.rad_all_distance);
+        radDistanceOption = (RadioButtonHozo) findViewById(R.id.rad_distance_option);
+        radAllPrice = (RadioButtonHozo) findViewById(R.id.rad_all_price);
+        rad10 = (RadioButtonHozo) findViewById(R.id.rad_10_100);
+        rad100 = (RadioButtonHozo) findViewById(R.id.rad_100_500);
+        rad500 = (RadioButtonHozo) findViewById(R.id.rad_500);
 
         rcvCategory = (RecyclerView) findViewById(R.id.rcv_category);
         rcvKeyword = (RecyclerView) findViewById(R.id.rcv_keyword);
@@ -276,8 +275,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
              read the place ID and title.
               */
             final AutocompletePrediction item = placeAutocompleteAdapter.getItem(position);
-            final String placeId = item.getPlaceId();
-            final CharSequence primaryText = item.getPrimaryText(null);
+            final String placeId = item != null ? item.getPlaceId() : null;
+            final CharSequence primaryText = item != null ? item.getPrimaryText(null) : null;
 
             LogUtils.i(TAG, "Autocomplete item selected: " + primaryText);
 
@@ -306,8 +305,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             try {
                 // Get the Place object from the buffer.
                 final Place place = places.get(0);
-                lat = place.getLatLng().latitude;
-                lon = place.getLatLng().longitude;
+                double lat = place.getLatLng().latitude;
+                double lon = place.getLatLng().longitude;
                 LogUtils.e(TAG, "Place address : " + place.getAddress() + "-" + lat + "-" + lon);
                 if (lat != 0 && lon != 0) {
                     locations = new ArrayList<>();
@@ -345,7 +344,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private void createListCategory() {
         rcvCategory.setLayoutManager(new LinearLayoutManager(this));
         categories = new ArrayList<>();
-        cat = new Category();
+        Category cat = new Category();
         cat.setId(0);
         cat.setName(getString(R.string.hozo_all));
         cat.setSelected(false);
@@ -363,7 +362,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mAdapter.setListener(new TaskTypeAdapter.CategoryListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                catIds = new ArrayList<Integer>();
+                catIds = new ArrayList<>();
                 if (buttonView.getText().equals(getString(R.string.hozo_all))) {
                     categoryName = getString(R.string.hozo_all);
                 } else categoryName = getCategoryName();
@@ -625,19 +624,19 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private String getCategoryName() {
         int n = 0;
-        String name = "";
+        StringBuilder name = new StringBuilder();
         for (Category c : categories
                 ) {
             if (c.isSelected()) {
                 n++;
-                name = name + ", " + c.getName();
+                name.append(", ").append(c.getName());
             }
         }
         if (n == categories.size() - 1 || name.length() < 2)
-            name = getString(R.string.hozo_all);
-        else name = name.substring(2, name.length());
+            name = new StringBuilder(getString(R.string.hozo_all));
+        else name = new StringBuilder(name.substring(2, name.length()));
 
-        return name;
+        return name.toString();
     }
 
     private void expandableLayout(ExpandableLayout expan, ImageView img) {
@@ -685,6 +684,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             public void onResponse(Call<SettingAdvance> call, Response<SettingAdvance> response) {
                 LogUtils.d(TAG, "getSettingAdvaceFromeServer code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    //noinspection ConstantConditions
                     LogUtils.d(TAG, "SettingAdvance activity onResponse : " + response.body().toString());
                     SettingAdvanceManager.insertSettingAdvance(response.body());
                     advanceEntity = SettingAdvanceManager.getSettingAdvace();
@@ -1058,13 +1058,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setTextForKeyWord() {
-        String strKeyWord = "";
+        StringBuilder strKeyWord = new StringBuilder();
         if (keywords != null)
             for (String realmString : keywords
                     ) {
-                strKeyWord = strKeyWord + ", " + realmString;
+                strKeyWord.append(", ").append(realmString);
             }
-        if (strKeyWord.startsWith(", ")) mKeyWord = strKeyWord.substring(2, strKeyWord.length());
+        if (strKeyWord.toString().startsWith(", ")) mKeyWord = strKeyWord.substring(2, strKeyWord.length());
         if (keywords == null || keywords.size() == 0) mKeyWord = "";
         tvKeyword.setText(mKeyWord);
 

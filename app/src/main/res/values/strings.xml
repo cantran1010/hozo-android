@@ -33,6 +33,7 @@
 
     <!--Edit profile Screen-->
     <string name="edit_profile_tv_header">Sửa đổi thông tin</string>
+    <string name="edit_profile_btn_save">Lưu lại</string>
     <string name="select_task_title">Đăng việc</string>
     <string name="browse_task_title">Tìm việc</string>
     <string name="my_task_title">Việc của tôi</string>
@@ -137,6 +138,7 @@
     <string name="btn_reset">Mặc định</string>
     <string name="profile_worker">Người làm việc</string>
     <string name="profile_hire">Người đăng việc</string>
+    <string name="profile_verify">Đã xác thực</string>
     <string name="profile_address">ĐỊA CHỈ</string>
     <string name="profile_phone">ĐIỆN THOẠI</string>
     <string name="content_description_send">Gửi</string>
@@ -157,8 +159,10 @@
     <string name="post_a_task_time_working_error">Vui lòng nhập số giờ làm việc</string>
     <string name="post_a_task_complete">Chúc mừng bạn đã đăng tuyển thành công!</string>
     <string name="draft_a_task_complete">Lưu việc thành công!</string>
+    <string name="show_all">Xem thêm</string>
     <string name="my_account">Tài khoản của tôi</string>
     <string name="user_account">Tài khoản</string>
+    <string name="profile_rate">Đánh giá</string>
     <string name="retry_title">Lỗi kết nối.</string>
     <string name="retry_content">Không thể kết nối tới máy chủ. Vui lòng kiểm tra kết nối của bạn và thử lại.</string>
     <string name="retry">THỬ LẠI</string>
@@ -343,6 +347,7 @@
     <string name="support_mail_body">Nội dung : </string>
     <string name="open_brower_error">Rất tiếc điện thoại bạn không hỗ trợ trình duyệt web</string>
     <string name="device_type">android</string>
+    <string name="update_version">Cập nhật </string>
     <string name="update_version_hozo">Cập nhật Hozo</string>
     <string name="update_oke">CẬP NHẬT </string>
     <string name="update_content">Bạn có muốn cập nhật phiên bản mới nhất?</string>
@@ -389,6 +394,7 @@
     <string name="brower_new_task" tools:ignore="PluralsCandidate">%1$d việc mới</string>
     <string name="address_hint">Nhập địa chỉ …</string>
     <string name="no_address">Rất tiếc,không tìm thấy địa chỉ!</string>
+    <string name="waiting_active">Đang chờ xác thực.</string>
     <string name="email_verify_done">Vui lòng kiểm tra email để hoàn thành bước xác thưc!</string>
     <string name="work_detail_view_bit_pending">Đang chờ giao việc</string>
     <string name="cancel_task_by_poster">Công việc đã bị hủy bời người tạo!</string>
@@ -397,6 +403,7 @@
     <string name="alert_dialog_close">Đóng</string>
     <string name="re_create_task">Sao chép việc</string>
     <string name="rate_content_hint">Nhập nội dung đánh giá …</string>
+    <string name="comment_task">Chi tiết hỏi đáp</string>
     <string name="bidders">Danh sách ứng tuyển(%1$d)</string>
     <string name="assigners">Danh sách người làm(%1$d)</string>
     <string name="report_task">Báo xấu việc</string>
@@ -498,9 +505,9 @@
     <string name="base_location_hint">Vị trí mốc</string>
     <string name="km_1">1 km</string>
     <string name="max_km">50 km</string>
-    <string name="setting_price_10">10.000 – 100.000</string>
-    <string name="setting_price_100">100.000 – 500.000</string>
-    <string name="setting_price_500">Trên 500.000</string>
+    <string name="setting_price_10">10.000 VND – 100.000 VND</string>
+    <string name="setting_price_100">100.000 VND – 500.000 VND</string>
+    <string name="setting_price_500">Trên 500.000 VND</string>
     <string name="keyword_empty">Bạn chưa nhập từ khoá.</string>
     <string name="keyword_duplicate">Từ khoá này đã tồn tại!</string>
     <string name="setting_status_open">open</string>
@@ -597,6 +604,22 @@
     <string name="content_missing_error">Vui lòng nhập nội dung tin nhắn!</string>
     <string name="validate_email_error">Email không đúng định dạng,vui lòng sửa lại!</string>
     <string name="send_mail_support_success">Gủi tin nhắn thành công,chúng tôi sẽ sớm phản hồi lại bạn,cảm ơn bạn!</string>
+    <string name="filter_mytask">Bạn có thể cài đặt để chỉ hiển thị công việc bạn mong muốn</string>
+    <string name="status_poster_open">open</string>
+    <string name="tatus_poster_assigned">assigned</string>
+    <string name="status_poster_completed">completed</string>
+    <string name="status_poster_overdue">overdue</string>
+    <string name="status_poster_canceled">canceled</string>
+    <string name="status_poster_draft">draft</string>
+    <string name="status_worker_open">pending</string>
+    <string name="status_worker_assigned">accepted</string>
+    <string name="status_worker_completed">completed</string>
+    <string name="status_worker_missed">missed</string>
+    <string name="status_worker_canceled">canceled</string>
+    <string name="int_4">4</string>
+    <string name="money_vnd">đ</string>
+    <string name="int_1">1</string>
+    <string name="int_zero">0</string>
     <string name="count_activity">%1$d lượt\ntương tác</string>
     <string name="count_follow">%1$d lượt\ntheo dõi</string>
     <string name="follow">Theo dõi</string>

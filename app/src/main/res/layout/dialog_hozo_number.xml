@@ -9,14 +9,19 @@
 
     <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tv_title_dialog"
-        style="@style/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/hozo_bg"
         android:gravity="center"
         android:padding="10dp"
-        android:text="@string/hour_title" />
+        android:text="@string/hour_title"
+        android:textColor="@color/tv_gray_new"
+        android:textSize="@dimen/tv_size_title" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_line" />
 
 
     <NumberPicker
@@ -31,8 +36,15 @@
 
     <vn.tonish.hozo.view.ButtonHozo
         android:id="@+id/btn_ok"
-        style="@style/btn_style_normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/ok" />
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:padding="10dp"
+        android:text="@string/ok"
+        android:textColor="@color/tv_gray_new"
+        android:textSize="@dimen/tv_size_title"
+        android:textStyle="normal" />
+
 </LinearLayout>

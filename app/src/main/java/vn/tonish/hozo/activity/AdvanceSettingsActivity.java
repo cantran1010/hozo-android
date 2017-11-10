@@ -40,6 +40,7 @@ import static vn.tonish.hozo.utils.Utils.formatNumber;
  * Created by CanTran on 5/16/17.
  */
 
+@SuppressWarnings("ALL")
 public class AdvanceSettingsActivity extends BaseActivity implements View.OnClickListener {
     private final static String TAG = AdvanceSettingsActivity.class.getSimpleName();
     private TextViewHozo tvWorkType, tvPrice, tvLocation, tvRadius;
@@ -181,25 +182,25 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
 
 
     private void getNameRealmCategorys() {
-        String name = "";
+        StringBuilder name = new StringBuilder();
         for (CategoryEntity entity : CategoryManager.getAllCategories()
                 ) {
             if (entity.isSelected()) {
-                name = name + entity.getName() + "-";
+                name.append(entity.getName()).append("-");
             }
 
         }
 
-        nameTask = name.substring(0, name.lastIndexOf('-'));
+        nameTask = name.substring(0, name.toString().lastIndexOf('-'));
     }
 
     private void getNameCategorys(ArrayList<Category> categoryEntities) {
-        String name = "";
+        StringBuilder name = new StringBuilder();
         for (int i = 0; i < categoryEntities.size(); i++) {
-            name = name + categoryEntities.get(i).getName() + "-";
+            name.append(categoryEntities.get(i).getName()).append("-");
         }
 
-        nameTask = name.substring(0, name.lastIndexOf('-'));
+        nameTask = name.substring(0, name.toString().lastIndexOf('-'));
     }
 
 
@@ -225,6 +226,7 @@ public class AdvanceSettingsActivity extends BaseActivity implements View.OnClic
         super.onActivityResult(requestCode, resultCode, data);
         Log.i(TAG, "requestCode: " + requestCode);
         if (requestCode == REQUEST_CODE_TASK_TYPE && resultCode == RESULT_CODE_TASK_TYPE && data != null) {
+            //noinspection ConstantConditions
             Category category = (Category) data.getExtras().get(Constants.EXTRA_CATEGORY_ID);
             if ((category != null ? category.getCategories().size() : 0) > 0) {
                 List<Category> list = new ArrayList<>();

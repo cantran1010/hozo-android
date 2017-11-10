@@ -15,6 +15,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.database.entity.UserEntity;
@@ -106,7 +107,7 @@ public interface ApiInterface {
     Call<List<Notification>> getMyNotificationsGroup(@Header("Authorization") String token, @QueryMap Map<String, String> option);
 
     @GET("v1/users/tasks")
-    Call<List<TaskResponse>> getMyTask(@Header("Authorization") String token, @QueryMap Map<String, String> option);
+    Call<List<TaskResponse>> getMyTask(@Header("Authorization") String token, @QueryMap Map<String, String> option,@Query("status[]") List<String> statuses);
 
     @GET("v1/tasks/{taskId}/comments")
     Call<List<Comment>> getComments(@Header("Authorization") String token, @Path("taskId") int taskId, @QueryMap Map<String, String> params);

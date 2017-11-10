@@ -118,7 +118,12 @@ public class RealmDbHelper {
             }
 
             if (oldVersion == 3) {
-
+                schema.create("StatusEntity")
+                        .addField("id", String.class, FieldAttribute.PRIMARY_KEY)
+                        .addField("role", String.class)
+                        .addField("name", String.class)
+                        .addField("status", String.class)
+                        .addField("selected", boolean.class);
                 schema.get("UserEntity")
                         .addRealmListField("skills", schema.get("RealmString"))
                         .addRealmListField("languages", schema.get("RealmString"))
@@ -135,43 +140,17 @@ public class RealmDbHelper {
                 schema.create("TagResponse")
                         .addField("id", int.class)
                         .addField("value", String.class);
+                schema.create("StatusEntity")
+                        .addField("id", String.class, FieldAttribute.PRIMARY_KEY)
+                        .addField("role", String.class)
+                        .addField("name", String.class)
+                        .addField("status", String.class)
+                        .addField("selected", boolean.class);
+                oldVersion++;
 
                 oldVersion++;
 
             }
-
-            // Migrate to version 1: Add a new class.
-            // Example:
-            // public Person extends RealmObject {
-            //     private String name;
-            //     private int age;
-            //     // getters and setters left out for brevity
-            // }
-//            if (oldVersion == 0) {
-//                schema.create("Person")
-//                        .addField("name", String.class)
-//                        .addField("age", int.class);
-//                oldVersion++;
-//            }
-
-            // Migrate to version 2: Add a primary key + object references
-            // Example:
-            // public Person extends RealmObject {
-            //     private String name;
-            //     @PrimaryKey
-            //     private int age;
-            //     private Dog favoriteDog;
-            //     private RealmList<Dog> dogs;
-            //     // getters and setters left out for brevity
-            // }
-//            if (oldVersion == 1) {
-//                schema.get("CategoryEntity")
-//                        .addField("newColumn", String.class);
-////                        .addField("id", long.class, FieldAttribute.PRIMARY_KEY)
-////                        .addRealmObjectField("favoriteDog", schema.get("Dog"))
-////                        .addRealmListField("dogs", schema.get("Dog"));
-//                oldVersion++;
-//            }
         }
     };
 

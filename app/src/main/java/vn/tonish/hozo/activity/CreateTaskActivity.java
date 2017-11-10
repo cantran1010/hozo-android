@@ -15,7 +15,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -97,6 +96,7 @@ import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.CheckBoxHozo;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.ExpandableLayout;
 import vn.tonish.hozo.view.MyGridView;
@@ -123,9 +123,12 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private static final int MIN_LENGTH_TITLE = 10;
     private double lat, lon;
     private String address = "";
-    private TimePickerDialog timeEndPickerDialog;
     private Calendar calendar = GregorianCalendar.getInstance();
-    private TextViewHozo tvTitle, tvDate, tvTime, tvTotalPrice, tvMoreShow, tvMoreHide;
+    private TextViewHozo tvTitle;
+    private TextViewHozo tvDate;
+    private TextViewHozo tvTime;
+    private TextViewHozo tvTotalPrice;
+    private TextViewHozo tvMoreShow;
     private AutoCompleteTextView edtBudget;
     private Category category;
     private static final int MAX_BUGDET = 500000;
@@ -142,7 +145,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private TextViewHozo tvAge;
-    private AppCompatCheckBox cbOnline, cbAuto;
+    private CheckBoxHozo cbOnline, cbAuto;
     private int imageAttachCount;
     private int[] imagesArr;
     private int ageFrom = 18;
@@ -211,13 +214,13 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
         tvAge = (TextViewHozo) findViewById(R.id.tv_age);
         tvAge.setOnClickListener(this);
-        cbOnline = (AppCompatCheckBox) findViewById(R.id.cb_online_task);
-        cbAuto = (AppCompatCheckBox) findViewById(R.id.cb_auto_pick);
+        cbOnline = (CheckBoxHozo) findViewById(R.id.cb_online_task);
+        cbAuto = (CheckBoxHozo) findViewById(R.id.cb_auto_pick);
 
         tvMoreShow = (TextViewHozo) findViewById(R.id.tv_more_show);
         tvMoreShow.setOnClickListener(this);
 
-        tvMoreHide = (TextViewHozo) findViewById(R.id.tv_more_hide);
+        TextViewHozo tvMoreHide = (TextViewHozo) findViewById(R.id.tv_more_hide);
         tvMoreHide.setOnClickListener(this);
 
         imgMenu = (ImageView) findViewById(R.id.img_menu);
@@ -273,7 +276,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         getDefaultAddress();
 
         if (intent.hasExtra(Constants.EXTRA_TASK)) {
-
             imgSaveDraf.setVisibility(View.GONE);
             imgMenu.setVisibility(View.VISIBLE);
             showPopup();
@@ -284,26 +286,31 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             if (intent.hasExtra(Constants.TASK_EDIT_EXTRA)) {
                 edtCoupon.setFocusable(false);
                 taskType = intent.getStringExtra(Constants.TASK_EDIT_EXTRA);
-
-                if (taskType.equals(Constants.TASK_EDIT)) {
-                    edtCoupon.setFocusable(false);
-                    imgMenu.setVisibility(View.GONE);
-                    btnNext.setText(getString(R.string.btn_edit_task));
-
-                    popup.getMenu().findItem(R.id.delete_task).setVisible(false);
-                    popup.getMenu().findItem(R.id.save_task).setVisible(true);
-                } else if (taskType.equals(Constants.TASK_COPY)) {
-                    popup.getMenu().findItem(R.id.delete_task).setVisible(false);
-                    popup.getMenu().findItem(R.id.save_task).setVisible(true);
-                } else if (taskType.equals(Constants.TASK_DRAFT)) {
-                    popup.getMenu().findItem(R.id.delete_task).setVisible(true);
-                    popup.getMenu().findItem(R.id.save_task).setVisible(true);
+                switch (taskType) {
+                    case Constants.TASK_EDIT:
+                        edtCoupon.setFocusable(false);
+                        imgSaveDraf.setVisibility(View.GONE);
+                        imgMenu.setVisibility(View.GONE);
+                        btnNext.setText(getString(R.string.btn_edit_task));
+                        popup.getMenu().findItem(R.id.delete_task).setVisible(false);
+                        popup.getMenu().findItem(R.id.save_task).setVisible(true);
+                        break;
+                    case Constants.TASK_COPY:
+                        imgSaveDraf.setVisibility(View.VISIBLE);
+                        imgMenu.setVisibility(View.GONE);
+                        break;
+                    case Constants.TASK_DRAFT:
+                        LogUtils.d(TAG, "nhap");
+                        imgSaveDraf.setVisibility(View.GONE);
+                        imgMenu.setVisibility(View.VISIBLE);
+                        popup.getMenu().findItem(R.id.delete_task).setVisible(true);
+                        popup.getMenu().findItem(R.id.save_task).setVisible(true);
+                        break;
                 }
 
             }
 
             category = DataParse.convertCatogoryEntityToCategory(CategoryManager.getCategoryById(taskResponse.getCategoryId()));
-
             edtTitle.setText(taskResponse.getTitle());
             tvTitleMsg.setText(getString(R.string.post_a_task_msg_length, edtTitle.getText().toString().length(), MAX_LENGTH_TITLE));
 
@@ -471,7 +478,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     edtBudget.setThreshold(edtBudget.getText().length());
                     formatMoney(Long.parseLong(edtBudget.getText().toString().trim().replace(",", "").replace(".", "")));
                 }
-
+                updateTotalPayment();
             }
 
             @Override
@@ -481,8 +488,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                         edtBudget.setText(edtBudget.getText().toString().substring(0, edtBudget.length() - 1));
                         edtBudget.setError(getString(R.string.max_budget_error, Utils.formatNumber(MAX_BUGDET)));
                         edtBudget.setSelection(edtBudget.getText().toString().length());
-                    } else {
-                        updateTotalPayment();
                     }
             }
         });
@@ -491,6 +496,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                assert in != null;
                 in.hideSoftInputFromWindow(arg1.getWindowToken(), 0);
 
             }
@@ -533,11 +539,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                         break;
                     case 1:
                         strGender = Constants.GENDER_MALE;
-                        ;
                         break;
                     case 2:
                         strGender = Constants.GENDER_FEMALE;
-                        ;
                         break;
                     default:
                         strGender = "";
@@ -649,17 +653,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             if (cameraPermission && readExternalFile) {
                 permissionGranted();
-            } else {
-//                snackbar = Snackbar.make(findViewById(android.R.id.content),
-//                        getString(R.string.attach_image_permission_message),
-//                        Snackbar.LENGTH_INDEFINITE).setAction(getString(R.string.attach_image_permission_confirm),
-//                        new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                ActivityCompat.requestPermissions(PostATaskActivity.this, permissions, Constants.PERMISSION_REQUEST_CODE);
-//                            }
-//                        });
-//                snackbar.show();
             }
         }
     }
@@ -740,7 +733,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     private void openTimeLayout() {
         //noinspection deprecation
-        timeEndPickerDialog = new TimePickerDialog(CreateTaskActivity.this, AlertDialog.THEME_HOLO_LIGHT,
+        TimePickerDialog timeEndPickerDialog = new TimePickerDialog(CreateTaskActivity.this, AlertDialog.THEME_HOLO_LIGHT,
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay,
@@ -768,7 +761,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private void doNext() {
-
         if (edtTitle.getText().toString().length() < 10) {
             edtTitle.requestFocus();
             edtTitle.setError(getString(R.string.post_a_task_name_error));
@@ -817,12 +809,13 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         } else if (ageFrom >= ageTo) {
             Utils.showLongToast(this, getString(R.string.select_age_error), true, false);
             return;
-        } else if (!isCoupon(edtCoupon.getText().toString().trim())) {
-            if (!advanceExpandableLayout.isExpanded()) showAdvance();
-            edtCoupon.requestFocus();
-            edtCoupon.setError(getString(R.string.code_coupon_error));
-            return;
         }
+//        } else if (!edtCoupon.getText().toString().trim().isEmpty() && !isCoupon(edtCoupon.getText().toString().trim())) {
+//            if (!advanceExpandableLayout.isExpanded()) showAdvance();
+//            edtCoupon.requestFocus();
+//            edtCoupon.setError(getString(R.string.code_coupon_error));
+//            return;
+//        }
 
         if (images.size() > 1) doAttachFiles();
         else createTaskOnServer();
@@ -830,10 +823,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private boolean isCoupon(String s) {
-        if (s.replace(" ", "").replace(".", "").replace(",", "").length() == 6)
-            return true;
-        else
-            return false;
+        return s.replace(" ", "").replace(".", "").replace(",", "").length() == 6;
     }
 
     private void doAttachFiles() {
@@ -918,8 +908,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
             if (imagesArr != null && imagesArr.length > 0) {
                 JSONArray jsonArray = new JSONArray();
-                for (int i = 0; i < imagesArr.length; i++)
-                    jsonArray.put(imagesArr[i]);
+                for (int anImagesArr : imagesArr) jsonArray.put(anImagesArr);
                 jsonRequest.put("attachments", jsonArray);
             }
 
@@ -1132,7 +1121,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == Constants.REQUEST_CODE_ADDRESS && resultCode == Constants.RESULT_CODE_ADDRESS) {
-
         } else if (requestCode == REQUEST_CODE_PICK_IMAGE
                 && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
@@ -1271,9 +1259,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         if (imagesArr != null && imagesArr.length > 0) return true;
         if (ageFrom != 18 || ageTo != 60) return true;
 //        if (!radioNon.isChecked()) return true;
-        if (cbAuto.isChecked()) return true;
-        if (cbOnline.isChecked()) return true;
-        return false;
+        return cbAuto.isChecked() || cbOnline.isChecked();
     }
 
     /**
@@ -1295,7 +1281,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
              read the place ID and title.
               */
             final AutocompletePrediction item = placeAutocompleteAdapter.getItem(position);
-            final String placeId = item.getPlaceId();
+            final String placeId = item != null ? item.getPlaceId() : null;
             final CharSequence primaryText = item.getPrimaryText(null);
 
             LogUtils.i(TAG, "Autocomplete item selected: " + primaryText);

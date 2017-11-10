@@ -22,6 +22,8 @@ import vn.tonish.hozo.activity.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.MyTaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
+import vn.tonish.hozo.database.entity.StatusEntity;
+import vn.tonish.hozo.database.manager.StatusManager;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
@@ -49,11 +51,13 @@ public class MyTaskPosterFragment extends BaseFragment {
     private String sinceStr;
     private boolean isLoadingMoreFromServer = true;
     private Call<List<TaskResponse>> call;
-    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+    public EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
     private String filter = "";
     private boolean isReloadMyTask = false;
     private TextViewHozo tvNoData;
+    private String mQuery = "";
+    private ArrayList<String> listStatus;
 
     @Override
     protected int getLayout() {
@@ -64,22 +68,31 @@ public class MyTaskPosterFragment extends BaseFragment {
     protected void initView() {
         rcvTask = (RecyclerView) findViewById(R.id.rcv_task);
         tvNoData = (TextViewHozo) findViewById(R.id.tv_no_data);
-
         createSwipeToRefresh();
     }
 
     @Override
     protected void initData() {
+        getStatus();
         isReloadMyTask = false;
         initList();
-        if (getArguments().getBoolean(Constants.REFRESH_EXTRA)) onRefresh();
+    }
+
+    private void getStatus() {
+        listStatus = new ArrayList<>();
+        List<StatusEntity> statusEntities = StatusManager.getStatuswithRole(Constants.ROLE_POSTER);
+        if (!(statusEntities == null || !(statusEntities.size() > 0))) {
+            for (StatusEntity statusEntity : statusEntities) {
+                if (statusEntity.isSelected())
+                    listStatus.add(statusEntity.getStatus());
+            }
+        }
     }
 
     @Override
     protected void resumeData() {
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER));
-        LogUtils.d(TAG, "MyTaskPosterFragment 111111 111111");
-
+        LogUtils.d(TAG, "MyTaskPosterFragment resumeData");
         //refresh my task fragment after copy task
         if (isReloadMyTask) {
             Intent intent = new Intent();
@@ -103,7 +116,7 @@ public class MyTaskPosterFragment extends BaseFragment {
                 LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
 
                 if (isLoadingMoreFromServer) {
-                    getTaskFromServer(sinceStr, LIMIT, filter);
+                    getTaskFromServer(sinceStr, LIMIT, filter, mQuery);
                 }
 
             }
@@ -116,7 +129,6 @@ public class MyTaskPosterFragment extends BaseFragment {
             public void onMyTaskAdapterClickListener(int position) {
                 TaskResponse taskResponse = taskResponses.get(position);
                 LogUtils.d(TAG, "myTaskAdapter.setMyTaskAdapterListener , taskResponse : " + taskResponse);
-
                 if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_DRAFT)) {
                     Intent intentEdit = new Intent(getActivity(), CreateTaskActivity.class);
                     intentEdit.putExtra(Constants.EXTRA_TASK, taskResponse);
@@ -157,22 +169,18 @@ public class MyTaskPosterFragment extends BaseFragment {
         }
     };
 
-    private void getTaskFromServer(final String since, final int limit, final String filter) {
-
+    private void getTaskFromServer(final String since, final int limit, final String filter, final String query) {
         if (call != null) call.cancel();
-
         Map<String, String> params = new HashMap<>();
-
         params.put("role", Constants.ROLE_POSTER);
         if (since != null) params.put("since", since);
         params.put("limit", limit + "");
-
+        if (!query.isEmpty()) params.put("query", query);
         if (!filter.equals(""))
             params.put("status", filter);
-
         LogUtils.d(TAG, "getTaskFromServer start , param : " + params);
 
-        call = ApiClient.getApiService().getMyTask(UserManager.getUserToken(), params);
+        call = ApiClient.getApiService().getMyTask(UserManager.getUserToken(), params, listStatus);
         call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
@@ -184,15 +192,15 @@ public class MyTaskPosterFragment extends BaseFragment {
 
                     LogUtils.d(TAG, "getTaskFromServer taskResponsesBody size : " + (taskResponsesBody != null ? taskResponsesBody.size() : 0));
 
-                    if (taskResponsesBody.size() > 0)
-                        sinceStr = taskResponsesBody.get(taskResponsesBody.size() - 1).getCreatedAt();
+                    if ((taskResponsesBody != null ? taskResponsesBody.size() : 0) > 0)
+                        sinceStr = taskResponsesBody.get((taskResponsesBody != null ? taskResponsesBody.size() : 0) - 1).getCreatedAt();
 
                     if (since == null) {
                         taskResponses.clear();
                         endlessRecyclerViewScrollListener.resetState();
                     }
 
-                    for (TaskResponse taskReponse : taskResponsesBody)
+                    for (TaskResponse taskReponse : taskResponsesBody != null ? taskResponsesBody : null)
                         taskReponse.setRole(Constants.ROLE_POSTER);
                     taskResponses.addAll(taskResponsesBody);
 
@@ -210,17 +218,19 @@ public class MyTaskPosterFragment extends BaseFragment {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            getTaskFromServer(since, limit, filter);
+                            getTaskFromServer(since, limit, filter, query);
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(getActivity());
+                } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
+                    Utils.showLongToast(getActivity(), getString(R.string.invalid_error), true, false);
                 } else {
                     myTaskAdapter.stopLoadMore();
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            getTaskFromServer(since, limit, filter);
+                            getTaskFromServer(since, limit, filter, query);
                         }
 
                         @Override
@@ -242,7 +252,7 @@ public class MyTaskPosterFragment extends BaseFragment {
                         @Override
                         public void onSubmit() {
                             myTaskAdapter.onLoadMore();
-                            getTaskFromServer(since, limit, filter);
+                            getTaskFromServer(since, limit, filter, query);
                         }
 
                         @Override
@@ -308,15 +318,22 @@ public class MyTaskPosterFragment extends BaseFragment {
 
     }
 
+    public void search(String query) {
+        mQuery = query;
+        sinceStr = null;
+        getTaskFromServer(null, LIMIT, filter, query);
+    }
+
     @Override
     public void onRefresh() {
         super.onRefresh();
         LogUtils.d(TAG, "onRefresh start");
+        getStatus();
         if (call != null) call.cancel();
         isLoadingMoreFromServer = true;
         sinceStr = null;
         myTaskAdapter.onLoadMore();
         rcvTask.smoothScrollToPosition(0);
-        getTaskFromServer(null, LIMIT, filter);
+        getTaskFromServer(null, LIMIT, filter, mQuery);
     }
 }

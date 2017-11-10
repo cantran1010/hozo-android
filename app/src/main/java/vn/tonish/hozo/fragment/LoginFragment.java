@@ -281,7 +281,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     }
 
 
-    public static boolean isNumberValid(String countryCode, String phNumber) {
+    private static boolean isNumberValid(String countryCode, String phNumber) {
         if (TextUtils.isEmpty(countryCode)) {// Country code could not be empty
             return false;
         }
