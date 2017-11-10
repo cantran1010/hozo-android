@@ -27,5 +27,6 @@
     <dimen name="chat_msg_margin_top">2dp</dimen>
     <dimen name="setting_margin_left">65dp</dimen>
     <dimen name="tv_setting_title">15sp</dimen>
+    <dimen name="tv_size_title">21sp</dimen>
 
 </resources>

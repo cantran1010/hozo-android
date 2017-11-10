@@ -140,11 +140,6 @@ public class RealmDbHelper {
                 schema.create("TagResponse")
                         .addField("id", int.class)
                         .addField("value", String.class);
-
-                oldVersion++;
-
-            }
-            if (oldVersion == 3) {
                 schema.create("StatusEntity")
                         .addField("id", String.class, FieldAttribute.PRIMARY_KEY)
                         .addField("role", String.class)
@@ -153,9 +148,9 @@ public class RealmDbHelper {
                         .addField("selected", boolean.class);
                 oldVersion++;
 
+                oldVersion++;
+
             }
-
-
         }
     };
 
