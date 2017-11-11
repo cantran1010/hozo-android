@@ -418,8 +418,8 @@
     <string name="all_price">Tổng tiền</string>
     <string name="btn_create_task">ĐĂNG VIỆC</string>
     <string name="attach_image">Ảnh</string>
-    <string name="age">Tuổi : </string>
-    <string name="sex">Giới tính : </string>
+    <string name="age">TUỔI</string>
+    <string name="sex">GIỚI TÍNH</string>
     <string name="gender_non_vn">Bất kỳ</string>
     <string name="online_job">Việc có làm online tại nhà</string>
     <string name="auto_pick">Tự động chọn ứng viên</string>
@@ -428,9 +428,9 @@
     <string name="detail_tab_1">Công việc</string>
     <string name="detail_tab_2">Người làm</string>
     <string name="detail_tab_3">Bình luận</string>
-    <string name="address_title">Nơi làm : </string>
-    <string name="task_date">Ngày làm</string>
-    <string name="description">Mô tả :</string>
+    <string name="address_title">NƠI LÀM</string>
+    <string name="task_date">NGÀY LÀM</string>
+    <string name="description">MÔ TẢ</string>
     <string name="tv_date_task">Ngày làm</string>
     <string name="advance_more">Tùy chọn nâng cao</string>
     <string name="advance_more_hide">Rút gọn</string>
@@ -438,8 +438,8 @@
     <string name="worker_need">Người cần tuyển</string>
     <string name="assiger_count">Được giao</string>
     <string name="empty_count">Vị trí trống</string>
-    <string name="task_time">Giờ làm</string>
-    <string name="task_hour">Số giờ</string>
+    <string name="task_time">GIỜ LÀM</string>
+    <string name="task_hour">SỐ GIỜ</string>
     <string name="hour_title">Số giờ làm việc</string>
     <string name="sms">SMS</string>
     <string name="duplicate_task_error">Bạn không thể đăng 2 tin giống nhau liên tiếp trong vòng 1 giờ.</string>
@@ -645,4 +645,8 @@
     <string name="verified">Đã xác thực</string>
     <string name="verify_facebook_title">Tài khoản Facebook</string>
     <string name="ben_verify_email">Gửi</string>
+    <string name="detail_task_header">Chi tiết</string>
+    <string name="view_map">Xem bản đồ</string>
+    <string name="detail_vnd">VND</string>
+    <string name="see_more_detail">Chi tiết công việc</string>
 </resources>

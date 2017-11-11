@@ -34,7 +34,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.CommentsNewActivity;
 import vn.tonish.hozo.activity.image.PreviewImageActivity;
-import vn.tonish.hozo.activity.TaskDetailNewActivity;
+import vn.tonish.hozo.activity.task_detail.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.CommentTaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;

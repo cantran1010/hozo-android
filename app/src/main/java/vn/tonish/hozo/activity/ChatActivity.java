@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.task_detail.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.MessageAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
