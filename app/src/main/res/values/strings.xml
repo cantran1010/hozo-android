@@ -33,6 +33,7 @@
 
     <!--Edit profile Screen-->
     <string name="edit_profile_tv_header">Sửa đổi thông tin</string>
+    <string name="edit_profile_btn_save">Lưu lại</string>
     <string name="select_task_title">Đăng việc</string>
     <string name="browse_task_title">Tìm việc</string>
     <string name="my_task_title">Việc của tôi</string>
@@ -636,6 +637,7 @@
     <string name="verified">Đã xác thực</string>
     <string name="verify_facebook_title">Tài khoản Facebook</string>
     <string name="ben_verify_email">Gửi</string>
+    <string name="notification_tab_3">Việc mới</string>
     <string name="detail_task_header">Chi tiết</string>
     <string name="view_map">Xem bản đồ</string>
     <string name="detail_vnd">VND</string>

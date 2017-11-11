@@ -107,7 +107,7 @@ public interface ApiInterface {
     Call<List<Notification>> getMyNotificationsGroup(@Header("Authorization") String token, @QueryMap Map<String, String> option);
 
     @GET("v1/users/tasks")
-    Call<List<TaskResponse>> getMyTask(@Header("Authorization") String token, @QueryMap Map<String, String> option,@Query("status[]") List<String> statuses);
+    Call<List<TaskResponse>> getMyTask(@Header("Authorization") String token, @QueryMap Map<String, String> option, @Query("status[]") List<String> statuses);
 
     @GET("v1/tasks/{taskId}/comments")
     Call<List<Comment>> getComments(@Header("Authorization") String token, @Path("taskId") int taskId, @QueryMap Map<String, String> params);
@@ -192,5 +192,6 @@ public interface ApiInterface {
 
     @POST("v1/users/{userId}/follow")
     Call<Void> follow(@Header("Authorization") String token, @Path("userId") int userId, @Body RequestBody body);
+
 
 }

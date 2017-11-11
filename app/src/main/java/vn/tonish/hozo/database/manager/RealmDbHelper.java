@@ -136,7 +136,6 @@ public class RealmDbHelper {
                         .addField("role", String.class)
                         .addField("followed", boolean.class)
                         .addField("background", String.class);
-
                 schema.create("TagResponse")
                         .addField("id", int.class)
                         .addField("value", String.class);
@@ -147,9 +146,6 @@ public class RealmDbHelper {
                         .addField("status", String.class)
                         .addField("selected", boolean.class);
                 oldVersion++;
-
-                oldVersion++;
-
             }
         }
     };

@@ -11,12 +11,12 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.NotifyFragmentAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.utils.PreferUtils;
+import vn.tonish.hozo.utils.TypefaceContainer;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -29,8 +29,8 @@ public class NotificationFragment extends BaseFragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private NotifyFragmentAdapter notifyFragmentAdapter;
-    private ImageView imgTab1, imgTab2;
-    private TextViewHozo tvTab1, tvTab2, tvCountTab1, tvCountTab2;
+    private TextViewHozo tvTab1, tvTab2, tvTab3, tvCountTab1, tvCountTab2, tvCountTab3;
+    private int position = 0;
 
     @Override
     protected int getLayout() {
@@ -39,9 +39,10 @@ public class NotificationFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tab);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.notification_tab_1)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.notification_tab_2)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.notification_tab_3)));
         final ViewGroup test = (ViewGroup) (tabLayout.getChildAt(0));//tabs is your Tablayout
         int tabLen = test.getChildCount();
         for (int i = 0; i < tabLen; i++) {
@@ -53,34 +54,50 @@ public class NotificationFragment extends BaseFragment {
 
         tabLayout.getTabAt(0).setCustomView(headerView.findViewById(R.id.ll1));
         tabLayout.getTabAt(1).setCustomView(headerView.findViewById(R.id.ll2));
-
-        imgTab1 = (ImageView) findViewById(R.id.img_tab1);
-        imgTab2 = (ImageView) findViewById(R.id.img_tab2);
+        tabLayout.getTabAt(2).setCustomView(headerView.findViewById(R.id.ll3));
 
         tvTab1 = (TextViewHozo) findViewById(R.id.tv_tab1);
         tvTab2 = (TextViewHozo) findViewById(R.id.tv_tab2);
+        tvTab3 = (TextViewHozo) findViewById(R.id.tv_tab3);
 
         tvCountTab1 = (TextViewHozo) findViewById(R.id.tv_count_tab1);
         tvCountTab2 = (TextViewHozo) findViewById(R.id.tv_count_tab2);
-
+        tvCountTab3 = (TextViewHozo) findViewById(R.id.tv_count_tab3);
+        viewPager = (ViewPager) findViewById(R.id.pagerView);
+        notifyFragmentAdapter = new NotifyFragmentAdapter
+                (getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(notifyFragmentAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                position = tab.getPosition();
                 if (viewPager != null)
                     viewPager.setCurrentItem(tab.getPosition());
-
                 if (tab.getPosition() == 0) {
-                    tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
-                    tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.tv_tab_notification_off));
+                    tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
+                    tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
+                    tvTab3.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
+                    tvTab1.setTypeface(TypefaceContainer.TYPEFACE_REGULAR);
+                    tvTab2.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
+                    tvTab3.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
 
-                    imgTab1.setImageResource(R.drawable.icon_notificaion1_on);
-                    imgTab2.setImageResource(R.drawable.icon_notificaion2_off);
                 } else if (tab.getPosition() == 1) {
-                    tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.tv_tab_notification_off));
-                    tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
+                    tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
+                    tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
+                    tvTab3.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
+                    tvTab1.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
+                    tvTab2.setTypeface(TypefaceContainer.TYPEFACE_REGULAR);
+                    tvTab3.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
 
-                    imgTab1.setImageResource(R.drawable.icon_notificaion1_off);
-                    imgTab2.setImageResource(R.drawable.icon_notificaion2_on);
+                } else if (tab.getPosition() == 3) {
+                    tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
+                    tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
+                    tvTab3.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
+                    tvTab1.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
+                    tvTab2.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
+                    tvTab3.setTypeface(TypefaceContainer.TYPEFACE_REGULAR);
+
                 }
             }
 
@@ -95,11 +112,6 @@ public class NotificationFragment extends BaseFragment {
             }
         });
 
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        notifyFragmentAdapter = new NotifyFragmentAdapter
-                (getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(notifyFragmentAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
 
     @Override
