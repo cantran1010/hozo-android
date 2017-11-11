@@ -49,11 +49,12 @@ import static vn.tonish.hozo.common.Constants.PUSH_TYPE_POSTER_CANCELED;
 
 /**
  * Created by LongBui on 4/4/2017.
- * Edit by Cantran
  */
 
-public class InboxFragment extends BaseFragment {
-    private static final String TAG = InboxFragment.class.getSimpleName();
+public class TaskAlertsFragment extends BaseFragment {
+
+    private static final String TAG = TaskAlertsFragment.class.getSimpleName();
+
     private NotificationAdapter notificationAdapter;
     private RecyclerView lvList;
     private final List<Notification> notifications = new ArrayList<>();
@@ -71,7 +72,7 @@ public class InboxFragment extends BaseFragment {
 
     @Override
     protected int getLayout() {
-        return vn.tonish.hozo.R.layout.fragment_notifacation;
+        return R.layout.fragment_notifacation;
     }
 
     @Override
@@ -84,25 +85,21 @@ public class InboxFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        LogUtils.d(TAG, "InboxFragment life cycle , initData");
-        initList();
-//        getCacheDataPage(sinceDate);
-//        getNotifications(false);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                LogUtils.d(TAG, "InboxFragment life cycle , initData delay 5000s");
-
-                PreferUtils.setNewPushCount(getActivity(), 0);
-                PreferUtils.setNewPushChatCount(getActivity(), 0);
-
-                Intent intentPushCount = new Intent();
-                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-                getActivity().sendBroadcast(intentPushCount);
-            }
-        }, TIME_DELAY);
+//        LogUtils.d(TAG, "TaskAlertsFragment life cycle , initData");
+//
+//        initList();
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                LogUtils.d(TAG, "TaskAlertsFragment life cycle , initData delay 5000s");
+//                PreferUtils.setNewPushCount(getActivity(), 0);
+//                PreferUtils.setNewPushChatCount(getActivity(), 0);
+//                Intent intentPushCount = new Intent();
+//                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+//                getActivity().sendBroadcast(intentPushCount);
+//            }
+//        }, TIME_DELAY);
+//
 
     }
 
@@ -117,7 +114,6 @@ public class InboxFragment extends BaseFragment {
             public void onLoadMore(int page, int totalItemsCount) {
 
                 LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
-
 //                    if (isLoadingMoreFromDb) getCacheDataPage(sinceDate);
                 if (isLoadingMoreFromServer) getNotifications();
 
@@ -149,14 +145,6 @@ public class InboxFragment extends BaseFragment {
                         || notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ACTIVE_USER)
                         || notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ACTIVE_TASK)
                         || notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ACTIVE_COMMENT)) {
-//                    DialogUtils.showOkDialog(getActivity(), getString(R.string.app_name), notifications.get(position).getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-//                                @Override
-//                                public void onSubmit() {
-//
-//                                }
-//                            }
-//                    );
-
                     BlockDialog blockDialog = new BlockDialog(getActivity());
                     blockDialog.showView();
                     blockDialog.updateContent(notifications.get(position).getContent());
@@ -237,33 +225,12 @@ public class InboxFragment extends BaseFragment {
 
     }
 
-//    private void getCacheDataPage(Date sinceDateSearch) {
-//        LogUtils.d(TAG, "getCacheDataPage start");
-//        List<Notification> notificationEntities = NotificationManager.getNotificationsSince(sinceDateSearch);
-//        LogUtils.d(TAG, "getCacheDataPage notificationEntities : " + notificationEntities.toString());
-//        LogUtils.d(TAG, "getCacheDataPage notificationEntities size : " + notificationEntities.size());
-//
-//        if (notificationEntities.size() > 0)
-//            sinceDate = notificationEntities.get(notificationEntities.size() - 1).getCreatedDateAt();
-//
-//        if (notificationEntities.size() < LIMIT) isLoadingMoreFromDb = false;
-//
-//        notifications.addAll(notificationEntities);
-//        refreshList();
-//    }
-
     private void getNotifications() {
-//        ProgressDialogUtils.showProgressDialog(getActivity());
-//        if (isLoadingFromServer) return;
-//        isLoadingFromServer = true;
-//        notificationAdapter.stopLoadMore();
-
         LogUtils.d(TAG, "getNotifications start");
         Map<String, String> params = new HashMap<>();
 
         if (since != null)
             params.put("since", since);
-
         params.put("limit", LIMIT + "");
         LogUtils.d(TAG, "getNotifications params : " + params.toString());
 
@@ -277,29 +244,16 @@ public class InboxFragment extends BaseFragment {
                 if (response.code() == Constants.HTTP_CODE_OK) {
 
                     List<Notification> notificationResponse = response.body();
-//                    for (int i = 0; i < notificationResponse.size(); i++) {
-//                        notificationResponse.get(i).setCreatedDateAt(DateTimeUtils.getDateFromStringIso(notificationResponse.get(i).getCreatedAt()));
-//
-////                        if (!notifications.contains(notificationResponse.get(i)))
-////                            notifications.add(notificationResponse.get(i));
-//
-////                        if (!checkContainsNotification(notifications, notificationResponse.get(i)))
-//                            notifications.add(notificationResponse.get(i));
-//                    }
-
                     if (since == null) {
                         notifications.clear();
                         endlessRecyclerViewScrollListener.resetState();
-
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 PreferUtils.setNewPushCount(getActivity(), 0);
                                 PreferUtils.setNewPushChatCount(getActivity(), 0);
-
                                 if (getActivity() != null && getActivity() instanceof MainActivity)
                                     ((MainActivity) getActivity()).updateCountMsg();
-
                                 Intent intentPushCount = new Intent();
                                 intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
                                 if (getActivity() != null)
@@ -310,14 +264,6 @@ public class InboxFragment extends BaseFragment {
                     }
 
                     notifications.addAll(notificationResponse != null ? notificationResponse : null);
-
-//                    Collections.sort(notifications, new Comparator<Notification>() {
-//                        @Override
-//                        public int compare(Notification o1, Notification o2) {
-//                            return o2.getCreatedDateAt().compareTo(o1.getCreatedDateAt());
-//                        }
-//                    });
-
                     if ((notificationResponse != null ? notificationResponse.size() : 0) > 0)
                         since = notificationResponse.get(notificationResponse.size() - 1).getCreatedAt();
 
@@ -329,10 +275,6 @@ public class InboxFragment extends BaseFragment {
                     refreshList();
                     LogUtils.d(TAG, "getNotifications notificationResponse size : " + notificationResponse.size());
                     LogUtils.d(TAG, "getNotifications notifications size : " + notifications.size());
-//                    NotificationManager.insertNotifications(notificationResponse);
-
-                    //        if (since == null) Utils.cancelAllNotification(getActivity());
-
                     for (Notification notification : notifications)
                         if (getActivity() != null)
                             Utils.cancelNotification(getActivity(), notification.getId());
@@ -403,7 +345,6 @@ public class InboxFragment extends BaseFragment {
             tvNoData.setVisibility(View.VISIBLE);
 
     }
-
 
     @Override
     protected void resumeData() {

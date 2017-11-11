@@ -645,4 +645,5 @@
     <string name="verified">Đã xác thực</string>
     <string name="verify_facebook_title">Tài khoản Facebook</string>
     <string name="ben_verify_email">Gửi</string>
+    <string name="notification_tab_3">Việc mới</string>
 </resources>

@@ -23,6 +23,7 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.TypefaceContainer;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -95,25 +96,11 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
                     || notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT)) {
                 notificationHolder.imgAvata.setImageResource(R.mipmap.app_icon);
                 notificationHolder.tvContent.setText(notification.getContent());
-
-
                 String matcher = context.getString(R.string.term_and_policy);
-
                 SpannableString spannable = new SpannableString(notificationHolder.tvContent.getText().toString());
 
                 Pattern patternId = Pattern.compile(matcher);
                 Matcher matcherId = patternId.matcher(notificationHolder.tvContent.getText().toString());
-//                while (matcherId.find()) {
-//                    spannable.setSpan(new ClickableSpan() {
-//                        @Override
-//                        public void onClick(View widget) {
-////                            Utils.openGeneralInfoActivity(context, context.getString(R.string.other_condition), "http://hozo.vn/dieu-khoan-su-dung/?ref=app");
-//                            notificationAdapterListener.onNotificationAdapterListener(position);
-//                        }
-//                    }, matcherId.start(), matcherId.end(), 0);
-////            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#00A2E5")), matcherId.start(), matcherId.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                }
-
                 while (matcherId.find()) {
                     spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#00A2E5")), matcherId.start(), matcherId.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
@@ -123,6 +110,8 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
                 notificationHolder.tvContent.setContentDescription(spannable);
 
 
+            } else if (notification.getEvent().equals(Constants.PUSH_TYPE_NEW_TASK_ALERT)) {
+                notificationHolder.tvContent.setText(notification.getFullName() + context.getString(R.string.all_space_type) + notification.getContent());
             } else {
                 Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());
                 Utils.setContentMessage(context, notificationHolder.tvContent, notification);
@@ -149,17 +138,25 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
                 }
             });
 
-            if (notification.getRead())
-                notificationHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
-            else
-                notificationHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.notify_unread));
+            if (notification.getRead()) {
+                if (notification.getEvent().equalsIgnoreCase(Constants.PUSH_TYPE_NEW_TASK_ALERT)) {
+                    notificationHolder.tvContent.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
+                    notificationHolder.tvContent.setTextColor(ContextCompat.getColor(context, R.color.color_create_task_lable));
+                } else
+                    notificationHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+            } else {
+                if (notification.getEvent().equalsIgnoreCase(Constants.PUSH_TYPE_NEW_TASK_ALERT)) {
+                    notificationHolder.tvContent.setTypeface(TypefaceContainer.TYPEFACE_REGULAR);
+                    notificationHolder.tvContent.setTextColor(ContextCompat.getColor(context, R.color.hozo_bg));
+                } else
+                    notificationHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.notify_unread));
+            }
 
             LogUtils.d(TAG, "NotificationAdapter , notification : " + notification.toString());
         }
     }
 
     public class NotificationHolder extends BaseHolder implements View.OnClickListener {
-
         private final CircleImageView imgAvata;
         private final TextViewHozo tvContent;
         private final TextViewHozo tvTimeAgo;

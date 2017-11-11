@@ -368,7 +368,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 sendBroadcast(intentRefresh);
 
                 if (tabIndex == 1) break;
-
                 showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 tabIndex = 1;
                 updateMenuUi(1);
