@@ -170,7 +170,6 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeRef
 
     public void showFragment(int resLayout, Class<?> newFragClass,
                              boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
-
         transaction = fragmentManager.beginTransaction();
         TransitionScreen.setCustomAnimationsFragment(transaction, transitionScreen);
         String newTag = newFragClass.getName();

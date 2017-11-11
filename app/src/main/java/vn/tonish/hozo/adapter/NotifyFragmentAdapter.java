@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import vn.tonish.hozo.fragment.ChatFragment;
 import vn.tonish.hozo.fragment.InboxFragment;
+import vn.tonish.hozo.fragment.TaskAlertsFragment;
 
 /**
  * Created by LongBui on 8/22/17.
@@ -29,6 +30,9 @@ public class NotifyFragmentAdapter extends FragmentStatePagerAdapter {
             case 1:
                 ChatFragment tab2 = new ChatFragment();
                 return tab2;
+            case 2:
+                TaskAlertsFragment tab3 = new TaskAlertsFragment();
+                return tab3;
             default:
                 return null;
         }
