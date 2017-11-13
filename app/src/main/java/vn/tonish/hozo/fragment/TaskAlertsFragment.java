@@ -334,7 +334,7 @@ public class TaskAlertsFragment extends BaseFragment {
 
     @Override
     protected void resumeData() {
-        getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_INBOX));
+        getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_NEW_TASK));
     }
 
     @Override
