@@ -22,6 +22,7 @@ public class PreferUtils {
     private static final String PREFER_IS_AUTO_LOGIN = "auto_login";
     private static final String PREFER_NEW_PUSH_COUNT = "new_push_count";
     private static final String PREFER_NEW_PUSH_CHAT_COUNT = "new_push_chat_count";
+    private static final String PREFER_PUSH_NEW_TASK_COUNT = "new_task_push_count";
 
     private static final String PREFER_PUSH_ACCEPT = "push_accept";
     private static final String PREFER_PUSH_DENY = "push_deny";
@@ -159,8 +160,20 @@ public class PreferUtils {
         return preferences.getString(KEY_ENCRYPTION, Constants.KEY_ENCRYPTION_DEFAULT);
     }
 
-    public static void setNewPushCount(Context context, int count) {
+    public static void setPushNewTaskCount(Context context, int count) {
 
+        if (context == null) return;
+        Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
+        editor.putInt(PREFER_PUSH_NEW_TASK_COUNT, count);
+        editor.apply();
+    }
+
+    public static int getPushNewTaskCount(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
+        return preferences.getInt(PREFER_PUSH_NEW_TASK_COUNT, 0);
+    }
+
+    public static void setNewPushCount(Context context, int count) {
         if (context == null) return;
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putInt(PREFER_NEW_PUSH_COUNT, count);

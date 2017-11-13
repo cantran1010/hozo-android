@@ -151,16 +151,18 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             intentBlock.setAction(Constants.BROAD_CAST_BLOCK_USER);
             sendBroadcast(intentBlock);
         }
-
         if (!notification.getEvent().equals(Constants.PUSH_TYPE_CHAT)) {
             PreferUtils.setNewPushCount(getApplicationContext(), PreferUtils.getNewPushCount(getApplicationContext()) + 1);
-
             Intent intentPushCount = new Intent();
             intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
             sendBroadcast(intentPushCount);
-        }else{
+        } else if (!notification.getEvent().equals(Constants.PUSH_TYPE_NEW_TASK_ALERT)) {
+            PreferUtils.setPushNewTaskCount(getApplicationContext(), PreferUtils.getPushNewTaskCount(getApplicationContext()) + 1);
+            Intent intentPushCount = new Intent();
+            intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+            sendBroadcast(intentPushCount);
+        } else {
             PreferUtils.setNewPushChatCount(getApplicationContext(), PreferUtils.getNewPushChatCount(getApplicationContext()) + 1);
-
             Intent intentPushCount = new Intent();
             intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
             sendBroadcast(intentPushCount);

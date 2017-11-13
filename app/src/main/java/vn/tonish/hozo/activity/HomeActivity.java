@@ -85,6 +85,7 @@ public class HomeActivity extends BaseActivity {
     protected void initData() {
         Utils.cancelAllNotification(this);
         PreferUtils.setNewPushCount(this, 0);
+        PreferUtils.setPushNewTaskCount(this, 0);
         AccessToken accessToken = AccountKit.getCurrentAccessToken();
         PreferUtils.setNewPushChatCount(this, 0);
         if (accessToken != null) {
