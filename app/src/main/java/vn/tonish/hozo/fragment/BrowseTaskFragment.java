@@ -144,10 +144,15 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
 
     private void setUpRecyclerView() {
+        rcvTask.setItemAnimator(new FadeInAnimator());
         taskAdapter = new TaskAdapter(getActivity(), taskList);
+        ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(taskAdapter);
+        scaleInAnimationAdapter.setFirstOnly(false);
+        scaleInAnimationAdapter.setDuration(500);
+        scaleInAnimationAdapter.setInterpolator(new OvershootInterpolator(.5f));
         linearLayoutManager = new LinearLayoutManager(getActivity());
         rcvTask.setLayoutManager(linearLayoutManager);
-        rcvTask.setAdapter(taskAdapter);
+        rcvTask.setAdapter(scaleInAnimationAdapter);
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {

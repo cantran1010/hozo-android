@@ -23,6 +23,7 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
     private final static String TAG = TaskAdapter.class.getSimpleName();
     private final List<TaskResponse> taskResponses;
     private final Context context;
+    private int lastPosition = -1;
 
     public TaskAdapter(Context context, List<TaskResponse> taskResponses) {
         super(context, taskResponses);
@@ -88,7 +89,7 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
             workHolder.progressBar.setMax(taskResponse.getWorkerCount());
             workHolder.progressBar.setProgress(taskResponse.getAssigneeCount());
             workHolder.ratingBar.setRating(taskResponse.getPoster().getPosterAverageRating());
-            String str_bidder_count = context.getString(R.string.bidder_count, Utils.formatNumber(taskResponse.getBidderCount())) + " "+ context.getString(R.string.comments, Utils.formatNumber(taskResponse.getCommentsCount()));
+            String str_bidder_count = context.getString(R.string.bidder_count, Utils.formatNumber(taskResponse.getBidderCount())) + " " + context.getString(R.string.comments, Utils.formatNumber(taskResponse.getCommentsCount()));
             workHolder.tvComment.setText(str_bidder_count);
             Utils.displayImageAvatar(context, workHolder.imgAvata, taskResponse.getPoster().getAvatar());
         }

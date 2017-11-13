@@ -25,6 +25,7 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
 
     private final List<TaskResponse> taskResponses;
     private final Context context;
+    private int lastPosition = -1;
 
     public MyTaskAdapter(Context context, List<TaskResponse> taskResponses) {
         super(context, taskResponses);
@@ -41,6 +42,12 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
     public void setMyTaskAdapterListener(MyTaskAdapterListener myTaskAdapterListener) {
         this.myTaskAdapterListener = myTaskAdapterListener;
     }
+
+//    @Override
+//    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+//        super.onViewAttachedToWindow(holder);
+//        holder.itemView.clearAnimation();
+//    }
 
     @Override
     public int getItemLayout() {
@@ -178,6 +185,11 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
             }
 
         }
+//        Animation animation = AnimationUtils.loadAnimation(context,
+//                (position > lastPosition) ? R.anim.up_from_bottom
+//                        : R.anim.down_from_top);
+//        holder.itemView.startAnimation(animation);
+//        lastPosition = position;
     }
 
     class WorkHolder extends BaseHolder implements View.OnClickListener {
