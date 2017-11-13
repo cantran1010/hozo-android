@@ -137,6 +137,7 @@ public class NotificationFragment extends BaseFragment {
     private final BroadcastReceiver broadcastCountNewMsg = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             if (intent.hasExtra(Constants.COUNT_NEW_MSG_EXTRA)) {
                 int countTab2 = intent.getIntExtra(Constants.COUNT_NEW_MSG_EXTRA, 0);
 
@@ -146,6 +147,24 @@ public class NotificationFragment extends BaseFragment {
                 } else
                     tvCountTab2.setVisibility(View.GONE);
             } else updateCountMsg();
+            if (intent.hasExtra(Constants.REFRESH_EXTRA)) {
+
+                if (intent.getStringExtra(Constants.REFRESH_EXTRA).equalsIgnoreCase(Constants.REFRESH_EXTRA)) {
+                    if (position == 0) {
+                        Intent intentAnswer = new Intent();
+                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_SYS_TEM);
+                        getActivity().sendBroadcast(intentAnswer);
+                    } else if (position == 1) {
+                        Intent intentAnswer = new Intent();
+                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_CHAT);
+                        getActivity().sendBroadcast(intentAnswer);
+                    } else {
+                        Intent intentAnswer = new Intent();
+                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_NEW_TASK);
+                        getActivity().sendBroadcast(intentAnswer);
+                    }
+                }
+            }
 
         }
     };
