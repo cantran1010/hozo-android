@@ -97,10 +97,9 @@ public class MyTaskPosterFragment extends BaseFragment {
         if (isReloadMyTask) {
             Intent intent = new Intent();
             intent.putExtra(Constants.REFRESH_EXTRA, "refresh");
-            intent.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK);
+            intent.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER);
             getActivity().sendBroadcast(intent);
         }
-
     }
 
     private void initList() {

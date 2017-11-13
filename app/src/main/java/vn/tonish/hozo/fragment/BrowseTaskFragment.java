@@ -374,7 +374,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
             if (intent.hasExtra(Constants.COUNT_NEW_TASK_EXTRA)) {
                 int count = intent.getIntExtra(Constants.COUNT_NEW_TASK_EXTRA, 0);
                 updateCountNewTask(count);

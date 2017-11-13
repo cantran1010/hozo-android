@@ -100,9 +100,6 @@ public interface ApiInterface {
     @PUT("v1/tasks/{taskId}/reviews")
     Call<RateResponse> rateTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
 
-    @GET("v1/notifications")
-    Call<List<Notification>> getMyNotifications(@Header("Authorization") String token, @QueryMap Map<String, String> option);
-
     @GET("v1/notifications/group")
     Call<List<Notification>> getMyNotificationsGroup(@Header("Authorization") String token, @QueryMap Map<String, String> option);
 

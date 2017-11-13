@@ -408,9 +408,6 @@ public class Utils {
                 matcher = context.getString(R.string.notification_task_reminder_matcher);
                 matcherColor = context.getString(R.string.notification_task_reminder_color);
                 break;
-            case Constants.PUSH_TYPE_NEW_TASK_ALERT:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert) + " " + notification.getTaskName() + " " + context.getString(R.string.push_alert);
-                break;
             case Constants.PUSH_TYPE_POSTER_CANCELED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.push_you_bidded);
                 matcher = context.getString(R.string.notification_poster_canceled_matcher);

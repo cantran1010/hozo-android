@@ -49,21 +49,18 @@ import static vn.tonish.hozo.common.Constants.PUSH_TYPE_POSTER_CANCELED;
 
 /**
  * Created by LongBui on 4/4/2017.
+ * Edit by Cantran
  */
 
 public class TaskAlertsFragment extends BaseFragment {
-
     private static final String TAG = TaskAlertsFragment.class.getSimpleName();
 
     private NotificationAdapter notificationAdapter;
     private RecyclerView lvList;
     private final List<Notification> notifications = new ArrayList<>();
     private String since;
-    //    private Date sinceDate;
     public static final int LIMIT = 20;
     private boolean isLoadingMoreFromServer = true;
-    //    private boolean isLoadingMoreFromDb = true;
-//    private boolean isLoadingFromServer = false;
     private Call<List<Notification>> call;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
@@ -72,7 +69,7 @@ public class TaskAlertsFragment extends BaseFragment {
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_notifacation;
+        return vn.tonish.hozo.R.layout.fragment_notifacation;
     }
 
     @Override
@@ -85,21 +82,21 @@ public class TaskAlertsFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-//        LogUtils.d(TAG, "TaskAlertsFragment life cycle , initData");
-//
-//        initList();
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                LogUtils.d(TAG, "TaskAlertsFragment life cycle , initData delay 5000s");
-//                PreferUtils.setNewPushCount(getActivity(), 0);
-//                PreferUtils.setNewPushChatCount(getActivity(), 0);
+        LogUtils.d(TAG, "SystemNotificationFragment life cycle , initData");
+        initList();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                LogUtils.d(TAG, "SystemNotificationFragment life cycle , initData delay 5000s");
+
+                PreferUtils.setPushNewTaskCount(getActivity(), 0);
+                PreferUtils.setNewPushChatCount(getActivity(), 0);
 //                Intent intentPushCount = new Intent();
 //                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
 //                getActivity().sendBroadcast(intentPushCount);
-//            }
-//        }, TIME_DELAY);
-//
+            }
+        }, TIME_DELAY);
 
     }
 
@@ -108,15 +105,11 @@ public class TaskAlertsFragment extends BaseFragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         lvList.setLayoutManager(linearLayoutManager);
         lvList.setAdapter(notificationAdapter);
-
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-
                 LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
-//                    if (isLoadingMoreFromDb) getCacheDataPage(sinceDate);
                 if (isLoadingMoreFromServer) getNotifications();
-
             }
         };
 
@@ -145,6 +138,7 @@ public class TaskAlertsFragment extends BaseFragment {
                         || notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ACTIVE_USER)
                         || notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ACTIVE_TASK)
                         || notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_ACTIVE_COMMENT)) {
+
                     BlockDialog blockDialog = new BlockDialog(getActivity());
                     blockDialog.showView();
                     blockDialog.updateContent(notifications.get(position).getContent());
@@ -228,7 +222,7 @@ public class TaskAlertsFragment extends BaseFragment {
     private void getNotifications() {
         LogUtils.d(TAG, "getNotifications start");
         Map<String, String> params = new HashMap<>();
-
+        params.put("type", Constants.NOTIFICATION_NEW_TASK);
         if (since != null)
             params.put("since", since);
         params.put("limit", LIMIT + "");
@@ -242,7 +236,6 @@ public class TaskAlertsFragment extends BaseFragment {
                 LogUtils.d(TAG, "getNotifications body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-
                     List<Notification> notificationResponse = response.body();
                     if (since == null) {
                         notifications.clear();
@@ -250,10 +243,12 @@ public class TaskAlertsFragment extends BaseFragment {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                PreferUtils.setNewPushCount(getActivity(), 0);
+                                PreferUtils.setPushNewTaskCount(getActivity(), 0);
                                 PreferUtils.setNewPushChatCount(getActivity(), 0);
+
                                 if (getActivity() != null && getActivity() instanceof MainActivity)
                                     ((MainActivity) getActivity()).updateCountMsg();
+
                                 Intent intentPushCount = new Intent();
                                 intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
                                 if (getActivity() != null)
@@ -262,7 +257,6 @@ public class TaskAlertsFragment extends BaseFragment {
                         }, TIME_DELAY);
 
                     }
-
                     notifications.addAll(notificationResponse != null ? notificationResponse : null);
                     if ((notificationResponse != null ? notificationResponse.size() : 0) > 0)
                         since = notificationResponse.get(notificationResponse.size() - 1).getCreatedAt();
@@ -271,10 +265,7 @@ public class TaskAlertsFragment extends BaseFragment {
                         isLoadingMoreFromServer = false;
                         notificationAdapter.stopLoadMore();
                     }
-
                     refreshList();
-                    LogUtils.d(TAG, "getNotifications notificationResponse size : " + notificationResponse.size());
-                    LogUtils.d(TAG, "getNotifications notifications size : " + notifications.size());
                     for (Notification notification : notifications)
                         if (getActivity() != null)
                             Utils.cancelNotification(getActivity(), notification.getId());
@@ -301,11 +292,8 @@ public class TaskAlertsFragment extends BaseFragment {
                         }
                     });
                 }
-
-//                isLoadingFromServer = false;
                 onStopRefresh();
                 refreshList();
-//                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -326,10 +314,8 @@ public class TaskAlertsFragment extends BaseFragment {
                     });
 
                     notificationAdapter.stopLoadMore();
-//                isLoadingFromServer = false;
                     onStopRefresh();
                     refreshList();
-//                ProgressDialogUtils.dismissProgressDialog();
                 }
             }
         });
@@ -383,6 +369,7 @@ public class TaskAlertsFragment extends BaseFragment {
     private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            LogUtils.d(TAG, "broadcastReceiverSmoothToTop onReceive");
             lvList.smoothScrollToPosition(0);
             if (linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
         }

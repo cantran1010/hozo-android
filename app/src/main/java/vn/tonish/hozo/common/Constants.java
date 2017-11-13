@@ -14,7 +14,7 @@ public class Constants {
     public static final int HTTP_CODE_BLOCK_USER = 423;
     public static final String EXTRA_MY_TASK = "extra_status_mytask";
     public static final int REQUEST_CODE_FILTER_MY_TASK = 474;
-    public static final int FILTER_MY_TASK_RESPONSE_CODE =476 ;
+    public static final int FILTER_MY_TASK_RESPONSE_CODE = 476;
     public static final int REQUEST_CODE_CAMERA_AVATA = 987;
     public static final int REQUEST_CODE_PICK_IMAGE_AVATA = 654;
     public static final int REQUEST_CODE_SKILL = 741;
@@ -284,6 +284,9 @@ public class Constants {
     public static final String INVALID_DATA = "invalid_data";
     public static final String NO_REFERRER = "no_referrer";
     public static final String REFERRER_USED = "referrer_used";
+
+    public static final String NOTIFICATION_NEW_TASK = "new_task";
+    public static final String NOTIFICATION_SYS = "system";
 
 
 }
