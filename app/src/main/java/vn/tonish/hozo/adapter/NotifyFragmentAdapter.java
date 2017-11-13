@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import vn.tonish.hozo.fragment.ChatFragment;
-import vn.tonish.hozo.fragment.InboxFragment;
+import vn.tonish.hozo.fragment.SystemNotificationFragment;
 import vn.tonish.hozo.fragment.TaskAlertsFragment;
 
 /**
@@ -25,7 +25,7 @@ public class NotifyFragmentAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                InboxFragment tab1 = new InboxFragment();
+                SystemNotificationFragment tab1 = new SystemNotificationFragment();
                 return tab1;
             case 1:
                 ChatFragment tab2 = new ChatFragment();

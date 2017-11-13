@@ -111,7 +111,9 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
 
 
             } else if (notification.getEvent().equals(Constants.PUSH_TYPE_NEW_TASK_ALERT)) {
-                notificationHolder.tvContent.setText(notification.getFullName() + context.getString(R.string.all_space_type) + notification.getContent());
+                Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());
+                String strContent = notification.getFullName() + " "+ context.getString(R.string.notification_new_task_alert) + " " + notification.getTaskName() + " " + context.getString(R.string.push_alert);
+                notificationHolder.tvContent.setText(strContent);
             } else {
                 Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());
                 Utils.setContentMessage(context, notificationHolder.tvContent, notification);
