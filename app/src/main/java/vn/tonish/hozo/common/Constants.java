@@ -25,6 +25,7 @@ public class Constants {
     public static final int PERMISSION_REQUEST_CODE_BACKGROUND = 238;
     public static final int REQUEST_CODE_CAMERA_BACKGROUND = 369;
     public static final int REQUEST_CODE_PICK_IMAGE_BACKGROUND = 147;
+    public static final String ASSIGNER_CONTACT_EXTRA = "assigner_contact_extra";
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

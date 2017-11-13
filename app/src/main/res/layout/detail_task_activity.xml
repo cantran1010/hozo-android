@@ -567,6 +567,155 @@
                     android:layout_marginTop="10dp"
                     android:text="@string/work_detail_view_bit" />
 
+                <vn.tonish.hozo.view.ButtonHozo
+                    android:id="@+id/btn_contact"
+                    style="@style/btn_style_normal_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/detail_view_contact" />
+
+                <vn.tonish.hozo.view.ButtonHozo
+                    android:id="@+id/btn_rate"
+                    style="@style/btn_style_green"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/detail_view_rate" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_see_more_detail_footer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@drawable/arrow_down_blue"
+                    android:text="@string/see_more_detail_footer"
+                    android:textColor="@color/hozo_bg" />
+
+                <LinearLayout
+                    android:id="@+id/more_footer_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <vn.tonish.hozo.view.TextViewHozo
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/list_bidder_title"
+                                android:textColor="@color/tv_gray_new"
+                                android:textStyle="bold" />
+
+                            <vn.tonish.hozo.view.TextViewHozo
+                                android:id="@+id/tv_bidder_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/bg_count_bidder"
+                                android:paddingBottom="2dp"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:paddingTop="2dp"
+                                android:text="12 ung vien"
+                                android:textColor="#d23176"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rcv_bidders"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp" />
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_see_more_bidders"
+                            android:layout_width="200dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/bg_gray_corners"
+                            android:gravity="center"
+                            android:text="@string/see_all"
+                            android:textColor="@color/tv_gray_new"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <vn.tonish.hozo.view.TextViewHozo
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/list_assign_title"
+                                android:textColor="@color/tv_gray_new"
+                                android:textStyle="bold" />
+
+                            <vn.tonish.hozo.view.TextViewHozo
+                                android:id="@+id/tv_assign_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/bg_count_bidder"
+                                android:paddingBottom="2dp"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:paddingTop="2dp"
+                                android:text="10 ung vien"
+                                android:textColor="#d23176"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rcv_assign"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp" />
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_see_more_assigns"
+                            android:layout_width="200dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/bg_gray_corners"
+                            android:gravity="center"
+                            android:text="@string/see_all"
+                            android:textColor="@color/tv_gray_new"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <include layout="@layout/comment_layout"/>
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>

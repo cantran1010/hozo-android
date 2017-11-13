@@ -123,7 +123,7 @@
     <string name="work_detail_view_date">Ngày :</string>
     <string name="work_detail_view_time">Thời gian :</string>
     <string name="work_detail_view_address">Địa điểm :</string>
-    <string name="type_your_text">Nhập nội dung bình luận</string>
+    <string name="type_your_text">Bình luận</string>
     <string name="assign_people">Danh sách được giao (%1$d)</string>
     <string name="assign">Giao</string>
     <string name="cancel_task">Hủy việc</string>
@@ -649,4 +649,20 @@
     <string name="view_map">Xem bản đồ</string>
     <string name="detail_vnd">VND</string>
     <string name="see_more_detail">Chi tiết công việc</string>
+    <string name="detail_view_contact">Liên lạc người đăng</string>
+    <string name="detail_view_rate">Đánh giá người đăng</string>
+    <string name="see_more_detail_footer">Xem thêm</string>
+    <string name="list_bidder_title">DANH SÁCH ỨNG TUYỂN</string>
+    <string name="see_all">Xem tất cả</string>
+    <string name="list_assign_title">DANH SÁCH ĐƯỢC GIAO</string>
+    <string name="comment">BÌNH LUẬN</string>
+    <string name="comment_des">Thảo luận để biết thêm thông tin chi tiết về công việc. Lưu ý không chia sẻ thông tin riêng và số điện thoại  vì sự an toàn của bạn.</string>
+    <string name="attach_image_des">Gửi ảnh đính kèm</string>
+    <string name="send">Gửi</string>
+    <string name="see_all_comment">%1$d bình luận khác</string>
+    <string name="wait_accept">Đang chờ giao việc</string>
+    <string name="done_rate">%1$d hoàn thành</string>
+    <string name="bidder_count_lbl">%1$d ứng viên</string>
+    <string name="contact">Liên lạc</string>
+    <string name="cancel_assigner">Hủy giao</string>
 </resources>
