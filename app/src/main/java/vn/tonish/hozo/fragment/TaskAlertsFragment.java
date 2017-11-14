@@ -236,6 +236,7 @@ public class TaskAlertsFragment extends BaseFragment {
                 LogUtils.d(TAG, "getNotifications body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    PreferUtils.setPushNewTaskCount(getActivity(), 0);
                     List<Notification> notificationResponse = response.body();
                     if (since == null) {
                         notifications.clear();
@@ -338,8 +339,8 @@ public class TaskAlertsFragment extends BaseFragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
         try {
             getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
         } catch (Exception e) {

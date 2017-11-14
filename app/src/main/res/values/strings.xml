@@ -638,6 +638,8 @@
     <string name="verify_facebook_title">Tài khoản Facebook</string>
     <string name="ben_verify_email">Gửi</string>
     <string name="notification_tab_3">Việc mới</string>
+    <string name="smooth_top">smooth_top</string>
+    <string name="group_chat">Nhóm:</string>
     <string name="detail_task_header">Chi tiết</string>
     <string name="view_map">Xem bản đồ</string>
     <string name="detail_vnd">VND</string>

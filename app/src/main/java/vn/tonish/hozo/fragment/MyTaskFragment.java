@@ -222,10 +222,10 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
                 break;
             case R.id.img_back:
-                mQuery = null;
-                edtSearch.setText("");
                 showSearch(getContext(), layoutHeader, true);
                 showSearch(getContext(), layoutSearch, false);
+                mQuery = null;
+                edtSearch.setText("");
                 myTaskFragmentAdapter.resetState(position);
                 myTaskFragmentAdapter.onRefreshTab(position);
                 break;
