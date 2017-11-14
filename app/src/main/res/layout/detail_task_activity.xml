@@ -59,13 +59,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_left_screen"
-                android:layout_marginRight="@dimen/margin_right_screen"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_left_screen"
+                    android:layout_marginRight="@dimen/margin_right_screen"
                     android:layout_marginTop="10dp">
 
                     <LinearLayout
@@ -166,6 +166,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_left_screen"
+                    android:layout_marginRight="@dimen/margin_right_screen"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_white_border"
                     android:orientation="vertical">
@@ -363,6 +365,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="@dimen/margin_left_screen"
+                    android:layout_marginRight="@dimen/margin_right_screen"
                     android:background="@drawable/bg_white_border"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
@@ -564,6 +568,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/margin_left_screen"
+                    android:layout_marginRight="@dimen/margin_right_screen"
                     android:layout_marginTop="10dp"
                     android:text="@string/work_detail_view_bit" />
 
@@ -573,6 +579,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/margin_left_screen"
+                    android:layout_marginRight="@dimen/margin_right_screen"
                     android:layout_marginTop="10dp"
                     android:text="@string/detail_view_contact" />
 
@@ -582,6 +590,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/margin_left_screen"
+                    android:layout_marginRight="@dimen/margin_right_screen"
                     android:layout_marginTop="10dp"
                     android:text="@string/detail_view_rate" />
 
@@ -596,15 +606,24 @@
                     android:text="@string/see_more_detail_footer"
                     android:textColor="@color/hozo_bg" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="15dp"
+                    android:background="#e8f0f0" />
+
                 <LinearLayout
                     android:id="@+id/more_footer_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_left_screen"
+                        android:layout_marginRight="@dimen/margin_right_screen"
                         android:layout_marginTop="10dp"
                         android:orientation="vertical">
 
@@ -628,8 +647,8 @@
                                 android:layout_marginStart="10dp"
                                 android:background="@drawable/bg_count_bidder"
                                 android:paddingBottom="2dp"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
                                 android:paddingTop="2dp"
                                 android:text="12 ung vien"
                                 android:textColor="#d23176"
@@ -660,6 +679,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_left_screen"
+                        android:layout_marginRight="@dimen/margin_right_screen"
                         android:layout_marginTop="10dp"
                         android:orientation="vertical">
 
@@ -712,7 +733,7 @@
 
                     </LinearLayout>
 
-                    <include layout="@layout/comment_layout"/>
+                    <include layout="@layout/comment_layout" />
 
                 </LinearLayout>
 

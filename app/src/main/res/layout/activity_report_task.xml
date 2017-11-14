@@ -7,14 +7,15 @@
     <RelativeLayout
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize">
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/hozo_bg">
 
         <ImageView
             android:id="@+id/img_close"
             style="@style/tv_title_cancel"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
-            android:background="@drawable/btn_back_selector"
+            android:background="@drawable/btn_back_selector_new"
             android:contentDescription="@string/content_description_back"
             android:scaleType="centerInside"
             android:src="@drawable/img_close_red" />

@@ -1,11 +1,18 @@
 package vn.tonish.hozo.activity.task_detail;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,14 +23,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,9 +42,11 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.BlockTaskActivity;
 import vn.tonish.hozo.activity.ChatActivity;
-import vn.tonish.hozo.activity.CommentsNewActivity;
+import vn.tonish.hozo.activity.CommentAllActivity;
+import vn.tonish.hozo.activity.CommentsAnswerActivity;
 import vn.tonish.hozo.activity.CreateTaskActivity;
 import vn.tonish.hozo.activity.RateActivity;
+import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.PreviewImageListActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.adapter.AssignerAdapter;
@@ -45,22 +57,27 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
+import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.Bidder;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
+import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
+import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.CircleImageView;
+import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.MyGridView;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -74,9 +91,9 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private TaskResponse taskResponse;
     private CircleImageView imgAvatar;
     private RatingBar rbRate;
-    private TextViewHozo tvStatus, tvTimeAgo, tvMap, tvSeeMoreDetail, tvSeeMoreFooter;
+    private TextViewHozo tvStatus, tvTimeAgo, tvMap, tvSeeMoreDetail, tvSeeMoreFooter, tvAttach;
     private TextViewHozo tvName, tvTitle, tvAddress, tvDate, tvTime, tvHour, tvDes, tvAge, tvSex, tvBudget, tvWorkerCount, tvAssignerCount, tvEmptyCount, tvAgeLbl, tvSexLbl;
-    private ButtonHozo btnOffer, btnContact, btnRatePoster;
+    private ButtonHozo btnOffer, btnContact, btnRatePoster, btnComment;
     private Call<TaskResponse> call;
     private MyGridView myGridView;
     private int taskId = 0;
@@ -91,7 +108,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private ArrayList<Assigner> assigners = new ArrayList<>();
 
     private TextViewHozo tvSeeMoreBidders, tvSeeMoreAssigners;
-    private TextViewHozo tvBidderCount, tvAssignCount, tvNoBidder;
+    private TextViewHozo tvBidderCount, tvAssignCount, tvCommentCount, tvSeeMoreComment;
 
     private String bidderType = "";
     private String assigerType = "";
@@ -101,6 +118,15 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private RecyclerView rcvComment;
     private ArrayList<Comment> mComments = new ArrayList<>();
     private CommentTaskAdapter commentsAdapter;
+    private CircleImageView imgAvatarComment;
+
+    private EdittextHozo edtComment;
+    private String imgPath;
+    private int tempId = 0;
+    private RelativeLayout imgLayout;
+    private ImageView imgAttached;
+    private File fileAttach;
+    private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @Override
     protected int getLayout() {
@@ -180,16 +206,37 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         tvSeeMoreFooter.setOnClickListener(this);
 
         moreFooterLayout = (LinearLayout) findViewById(R.id.more_footer_layout);
+
+        imgAvatarComment = (CircleImageView) findViewById(R.id.img_avatar_cm);
+        imgAvatarComment.setOnClickListener(this);
+
+        btnComment = (ButtonHozo) findViewById(R.id.btn_comment);
+        btnComment.setOnClickListener(this);
+
+        edtComment = (EdittextHozo) findViewById(R.id.edt_comment);
+        imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
+        imgAttached = (ImageView) findViewById(R.id.img_attached);
+
+        tvAttach = (TextViewHozo) findViewById(R.id.tv_attach);
+        tvAttach.setOnClickListener(this);
+
+        ImageView imgDelete = (ImageView) findViewById(R.id.img_delete);
+        imgDelete.setOnClickListener(this);
+
+        tvCommentCount = (TextViewHozo) findViewById(R.id.tv_comment_count);
+
+        tvSeeMoreComment = (TextViewHozo) findViewById(R.id.tv_see_more_comment);
+        tvSeeMoreComment.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
         taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
-        getData();
     }
 
     @Override
     protected void resumeData() {
+        getData();
         registerReceiver(broadcastReceiver, new IntentFilter("MyBroadcast"));
     }
 
@@ -384,7 +431,18 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
         refreshAssignerList(assigerType);
 
+        // comment
+        Utils.displayImageAvatar(this, imgAvatarComment, taskResponse.getPoster().getAvatar());
         refreshComment();
+
+        tvCommentCount.setText(String.valueOf(taskResponse.getCommentsCount()));
+
+        if (taskResponse.getCommentsCount() > 2) {
+            tvSeeMoreComment.setText(getString(R.string.see_all_comment, taskResponse.getCommentsCount() - 2));
+            tvSeeMoreComment.setVisibility(View.VISIBLE);
+        } else {
+            tvSeeMoreComment.setVisibility(View.GONE);
+        }
 
     }
 
@@ -441,7 +499,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         commentsAdapter.setAnswerListener(new CommentTaskAdapter.AnswerListener() {
             @Override
             public void onAnswer(int position) {
-                Intent intentAnswer = new Intent(DetailTaskActivity.this, CommentsNewActivity.class);
+                Intent intentAnswer = new Intent(DetailTaskActivity.this, CommentsAnswerActivity.class);
                 String commentType = getString(R.string.comment_setting_visible);
 //                intentAnswer.putExtra(Constants.TASK_ID_EXTRA, mComments.get(position).getTaskId());
 //                intentAnswer.putExtra(Constants.COMMENT_STATUS_EXTRA, commentType);
@@ -1293,6 +1351,255 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         });
     }
 
+    private void doSend() {
+        if (edtComment.getText().toString().trim().equals("")) {
+            Utils.showLongToast(this, getString(R.string.empty_content_comment_error), true, false);
+            return;
+        } else if (!Utils.validateInput(this, edtComment.getText().toString().trim())) {
+            Utils.showLongToast(this, getString(R.string.post_a_task_input_error), true, false);
+            return;
+        }
+
+        if (imgPath == null) {
+            doComment();
+        } else {
+            doAttachImage();
+        }
+    }
+
+    private void doComment() {
+        ProgressDialogUtils.showProgressDialog(this);
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("body", edtComment.getText().toString().trim());
+            if (imgPath != null)
+                jsonRequest.put("image_id", tempId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LogUtils.d(TAG, "commentTask data request : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().commentTask(UserManager.getUserToken(), taskResponse.getId(), body).enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                LogUtils.d(TAG, "commentTask , code : " + response.code());
+                LogUtils.d(TAG, "commentTask , body : " + response.body());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    imgPath = null;
+                    edtComment.setText(getString(R.string.empty));
+                    imgLayout.setVisibility(View.GONE);
+
+                    getData();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(DetailTaskActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doComment();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(DetailTaskActivity.this);
+                } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
+                    APIError error = ErrorUtils.parseError(response);
+                    if (error.status().equals(Constants.DUPLICATE_COMMENT)) {
+                        DialogUtils.showOkDialog(DetailTaskActivity.this, getString(R.string.error), getString(R.string.comment_duplicate_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    } else {
+                        DialogUtils.showOkDialog(DetailTaskActivity.this, getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                } else {
+                    DialogUtils.showRetryDialog(DetailTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doComment();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                DialogUtils.showRetryDialog(DetailTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doComment();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
+    }
+
+    private void doAttachImage() {
+        ProgressDialogUtils.showProgressDialog(this);
+        File fileUp = Utils.compressFile(fileAttach);
+        LogUtils.d(TAG, "doAttachImage , file Name : " + fileUp.getName());
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
+        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
+
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(), itemPart).enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+                LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
+                LogUtils.d(TAG, "uploadImage code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_CREATED) {
+                    ImageResponse imageResponse = response.body();
+                    tempId = imageResponse.getIdTemp();
+                    doComment();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(DetailTaskActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doAttachImage();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(DetailTaskActivity.this);
+                } else {
+                    ProgressDialogUtils.dismissProgressDialog();
+                    DialogUtils.showRetryDialog(DetailTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doAttachImage();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
+                DialogUtils.showRetryDialog(DetailTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doAttachImage();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+            }
+        });
+    }
+
+    private void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+        } else {
+            permissionGranted();
+        }
+    }
+
+    private void permissionGranted() {
+        PickImageDialog pickImageDialog = new PickImageDialog(this);
+        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+            @Override
+            public void onCamera() {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+            }
+
+            @Override
+            public void onGallery() {
+                Intent intent = new Intent(DetailTaskActivity.this, AlbumActivity.class);
+                intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
+                startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
+        pickImageDialog.showView();
+    }
+
+    private Uri setImageUri() {
+        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+        Uri imgUri = Uri.fromFile(file);
+        this.imgPath = file.getAbsolutePath();
+        return imgUri;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0) {
+            boolean cameraPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+            boolean readExternalFile = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+            if (cameraPermission && readExternalFile) {
+                permissionGranted();
+            } else {
+                permissionDenied();
+            }
+        }
+    }
+
+    private void permissionDenied() {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQUEST_CODE_PICK_IMAGE
+                && resultCode == Constants.RESPONSE_CODE_PICK_IMAGE
+                && data != null) {
+            ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+            imgPath = imagesSelected.get(0).getPath();
+            Utils.displayImage(DetailTaskActivity.this, imgAttached, imgPath);
+            imgLayout.setVisibility(View.VISIBLE);
+            fileAttach = new File(imgPath);
+        } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+            Utils.displayImage(DetailTaskActivity.this, imgAttached, imgPath);
+            imgLayout.setVisibility(View.VISIBLE);
+            fileAttach = new File(imgPath);
+        } else if (requestCode == Constants.COMMENT_REQUEST_CODE && resultCode == Constants.COMMENT_RESPONSE_CODE) {
+            Comment comment = (Comment) data.getSerializableExtra(Constants.COMMENT_EXTRA);
+            for (int i = 0; i < mComments.size(); i++)
+                if (comment.getId() == mComments.get(i).getId()) {
+                    mComments.set(i, comment);
+                    commentsAdapter.notifyDataSetChanged();
+                }
+        }
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -1316,6 +1623,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             case R.id.img_avatar:
             case R.id.rb_rate:
             case R.id.tv_name:
+            case R.id.img_avatar_cm:
                 Intent intent = new Intent(this, ProfileActivity.class);
                 intent.putExtra(Constants.USER_ID, taskResponse.getPoster().getId());
                 startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
@@ -1337,6 +1645,24 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 doMoreFooter();
                 break;
 
+            case R.id.btn_comment:
+                doSend();
+                break;
+
+            case R.id.tv_attach:
+                checkPermission();
+                break;
+
+            case R.id.img_delete:
+                imgLayout.setVisibility(View.GONE);
+                imgPath = null;
+                break;
+
+            case R.id.tv_see_more_comment:
+                Intent intentCommentAll = new Intent(DetailTaskActivity.this, CommentAllActivity.class);
+                intentCommentAll.putExtra(Constants.TASK_ID_EXTRA, taskId);
+                startActivity(intentCommentAll, TransitionScreen.RIGHT_TO_LEFT);
+                break;
 
         }
     }

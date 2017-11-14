@@ -11,6 +11,7 @@ import java.util.List;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.view.CommentBigView;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 4/19/2017.
@@ -63,7 +64,7 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof WorkHolder) {
             ((WorkHolder) holder).commentBigView.setCommentType(getCommentType());
             ((WorkHolder) holder).commentBigView.updateData(comments.get(position));
@@ -80,17 +81,34 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
             ((WorkHolder) holder).recyclerView.setLayoutManager(layoutManager);
 //        commentAdapter.setCommentType(getCommentType());
             ((WorkHolder) holder).recyclerView.setAdapter(commentAdapter);
+
+            if (comments.get(position).getRepliesCount() > 1) {
+                ((WorkHolder) holder).tvCommentCount.setText(context.getString(R.string.see_all_comment, comments.get(position).getRepliesCount() - 1));
+                ((WorkHolder) holder).tvCommentCount.setVisibility(View.VISIBLE);
+            } else
+                ((WorkHolder) holder).tvCommentCount.setVisibility(View.GONE);
+
+            ((WorkHolder) holder).tvCommentCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (answerListener != null) answerListener.onAnswer(position);
+                }
+            });
+
         }
+
     }
 
     class WorkHolder extends BaseHolder {
-        public final CommentBigView commentBigView;
-        public final RecyclerView recyclerView;
+        public CommentBigView commentBigView;
+        public RecyclerView recyclerView;
+        public TextViewHozo tvCommentCount;
 
         public WorkHolder(View itemView) {
             super(itemView);
             commentBigView = itemView.findViewById(R.id.comment_big_view);
             recyclerView = itemView.findViewById(R.id.rcv_comment);
+            tvCommentCount = itemView.findViewById(R.id.tv_comment_count);
         }
 
     }

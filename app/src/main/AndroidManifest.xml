@@ -131,7 +131,7 @@
             android:name=".activity.CommentsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.CommentsNewActivity"
+            android:name=".activity.CommentsAnswerActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CostActivity"
@@ -189,6 +189,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.profile.TagActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CommentAllActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.facebook.accountkit.ui.AccountKitActivity"

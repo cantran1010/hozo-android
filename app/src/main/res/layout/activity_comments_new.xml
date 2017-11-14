@@ -6,28 +6,29 @@
     <RelativeLayout
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize">
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/hozo_bg">
 
         <ImageView
             android:id="@+id/img_back"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
             android:layout_centerVertical="true"
-            android:background="@drawable/btn_back_selector"
+            android:background="@drawable/btn_back_selector_new"
             android:contentDescription="@string/content_description_back"
             android:padding="5dp"
             android:scaleType="centerInside"
-            android:src="@drawable/img_back" />
+            android:src="@drawable/back_arrow" />
 
         <vn.tonish.hozo.view.TextViewHozo
             style="@style/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/img_back"
-            android:layout_toRightOf="@id/img_back"
             android:layout_marginLeft="@dimen/margin_left_screen"
             android:layout_marginStart="@dimen/margin_left_screen"
+            android:layout_toEndOf="@id/img_back"
+            android:layout_toRightOf="@id/img_back"
             android:text="@string/answer_comment_title" />
 
         <View

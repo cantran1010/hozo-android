@@ -13,7 +13,23 @@
         android:id="@+id/rcv_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginStart="40dp" />
+        android:layout_marginLeft="45dp"
+        android:layout_marginStart="45dp" />
+
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_comment_count"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_gray_corners"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/see_all_comment"
+        android:textColor="@color/tv_gray_new"
+        android:textSize="10sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

@@ -665,4 +665,5 @@
     <string name="bidder_count_lbl">%1$d ứng viên</string>
     <string name="contact">Liên lạc</string>
     <string name="cancel_assigner">Hủy giao</string>
+    <string name="all_comment">Tất cả bình luận</string>
 </resources>
