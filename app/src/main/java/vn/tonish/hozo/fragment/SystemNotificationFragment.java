@@ -54,7 +54,7 @@ import static vn.tonish.hozo.common.Constants.PUSH_TYPE_POSTER_CANCELED;
 
 public class SystemNotificationFragment extends BaseFragment {
     private static final String TAG = SystemNotificationFragment.class.getSimpleName();
-
+    private static final int TIME_DELAY = 500;
     private NotificationAdapter notificationAdapter;
     private RecyclerView lvList;
     private final List<Notification> notifications = new ArrayList<>();
@@ -65,7 +65,6 @@ public class SystemNotificationFragment extends BaseFragment {
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
     private TextViewHozo tvNoData;
-    private static final int TIME_DELAY = 2000;
 
     @Override
     protected int getLayout() {
@@ -81,6 +80,7 @@ public class SystemNotificationFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+
         initList();
     }
 
@@ -218,24 +218,11 @@ public class SystemNotificationFragment extends BaseFragment {
             public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {
                 LogUtils.d(TAG, "getNotifications code : " + response.code());
                 LogUtils.d(TAG, "getNotifications body : " + response.body());
-
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     List<Notification> notificationResponse = response.body();
                     if (since == null) {
                         notifications.clear();
                         endlessRecyclerViewScrollListener.resetState();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                PreferUtils.setNewPushCount(getActivity(), 0);
-                                if (getActivity() != null && getActivity() instanceof MainActivity)
-                                    ((MainActivity) getActivity()).updateCountMsg();
-                                Intent intentPushCount = new Intent();
-                                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-                                if (getActivity() != null)
-                                    getActivity().sendBroadcast(intentPushCount);
-                            }
-                        }, TIME_DELAY);
 
                     }
                     notifications.addAll(notificationResponse != null ? notificationResponse : null);
@@ -316,6 +303,7 @@ public class SystemNotificationFragment extends BaseFragment {
     @Override
     protected void resumeData() {
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_SYS_TEM));
+
     }
 
     @Override
@@ -331,6 +319,19 @@ public class SystemNotificationFragment extends BaseFragment {
     @Override
     public void onRefresh() {
         super.onRefresh();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                PreferUtils.setNewPushCount(getActivity(), 0);
+                PreferUtils.setNewPushChatCount(getActivity(), 0);
+                if (getActivity() != null && getActivity() instanceof MainActivity)
+                    ((MainActivity) getActivity()).updateCountMsg();
+                Intent intentPushCount = new Intent();
+                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                if (getActivity() != null)
+                    getActivity().sendBroadcast(intentPushCount);
+            }
+        }, TIME_DELAY);
         if (call != null) call.cancel();
         isLoadingMoreFromServer = true;
         since = null;

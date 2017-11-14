@@ -422,7 +422,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     if (tabIndex == 4) {
                         Intent intentAnswer = new Intent();
                         intentAnswer.putExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION, getString(R.string.smooth_top));
-                        intentAnswer.setAction(Constants.BROAD_CAST_PUSH_HOZO);
+                        intentAnswer.setAction(Constants.BROAD_CAST_PUSH_COUNT);
                         sendBroadcast(intentAnswer);
                         break;
                     }
@@ -508,7 +508,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void updateCountMsg() {
-        int pushCount = PreferUtils.getNewPushCount(this) + PreferUtils.getNewPushChatCount(this);
+        int pushCount = PreferUtils.getNewPushCount(this) + PreferUtils.getNewPushChatCount(this) + PreferUtils.getPushNewTaskCount(this);
         if (pushCount > 99) pushCount = 99;
 
         if (pushCount == 0) {
