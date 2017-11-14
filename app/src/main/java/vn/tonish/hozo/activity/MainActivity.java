@@ -420,7 +420,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 } else {
                     if (tabIndex == 4) {
                         Intent intentAnswer = new Intent();
-                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_INBOX);
+                        intentAnswer.putExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION, getString(R.string.smooth_top));
+                        intentAnswer.setAction(Constants.BROAD_CAST_PUSH_HOZO);
                         sendBroadcast(intentAnswer);
                         break;
                     }

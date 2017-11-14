@@ -90,7 +90,7 @@ public class NotificationFragment extends BaseFragment {
                     tvTab2.setTypeface(TypefaceContainer.TYPEFACE_REGULAR);
                     tvTab3.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
 
-                } else if (tab.getPosition() == 3) {
+                } else if (tab.getPosition() == 2) {
                     tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
                     tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
                     tvTab3.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
@@ -121,12 +121,12 @@ public class NotificationFragment extends BaseFragment {
 
     @Override
     protected void resumeData() {
-        getActivity().registerReceiver(broadcastCountNewMsg, new IntentFilter(Constants.BROAD_CAST_PUSH_COUNT));
+        getActivity().registerReceiver(broadcastCountNewMsg, new IntentFilter(Constants.BROAD_CAST_PUSH_HOZO));
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
         try {
             getActivity().unregisterReceiver(broadcastCountNewMsg);
         } catch (Exception e) {
@@ -147,9 +147,9 @@ public class NotificationFragment extends BaseFragment {
                 } else
                     tvCountTab2.setVisibility(View.GONE);
             } else updateCountMsg();
-            if (intent.hasExtra(Constants.REFRESH_EXTRA)) {
 
-                if (intent.getStringExtra(Constants.REFRESH_EXTRA).equalsIgnoreCase(Constants.REFRESH_EXTRA)) {
+            if (intent.hasExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION)) {
+                if (intent.getStringExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION).equalsIgnoreCase(getActivity().getString(R.string.smooth_top))) {
                     if (position == 0) {
                         Intent intentAnswer = new Intent();
                         intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_SYS_TEM);
@@ -171,12 +171,18 @@ public class NotificationFragment extends BaseFragment {
 
     public void updateCountMsg() {
         int pushCount = PreferUtils.getNewPushCount(getActivity());
-
+        int pushNewTaskCount = PreferUtils.getPushNewTaskCount(getActivity());
         if (pushCount == 0) {
             tvCountTab1.setVisibility(View.GONE);
         } else {
             tvCountTab1.setVisibility(View.VISIBLE);
             tvCountTab1.setText(String.valueOf(pushCount));
+        }
+        if (pushNewTaskCount == 0) {
+            tvCountTab3.setVisibility(View.GONE);
+        } else {
+            tvCountTab3.setVisibility(View.VISIBLE);
+            tvCountTab3.setText(String.valueOf(pushNewTaskCount));
         }
     }
 

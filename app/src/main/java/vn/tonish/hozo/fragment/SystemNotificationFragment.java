@@ -76,28 +76,12 @@ public class SystemNotificationFragment extends BaseFragment {
     protected void initView() {
         lvList = (RecyclerView) findViewById(R.id.lvList);
         tvNoData = (TextViewHozo) findViewById(R.id.tv_no_data);
-
         createSwipeToRefresh();
     }
 
     @Override
     protected void initData() {
-        LogUtils.d(TAG, "SystemNotificationFragment life cycle , initData");
         initList();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                LogUtils.d(TAG, "SystemNotificationFragment life cycle , initData delay 5000s");
-
-                PreferUtils.setNewPushCount(getActivity(), 0);
-                PreferUtils.setNewPushChatCount(getActivity(), 0);
-                Intent intentPushCount = new Intent();
-                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-                getActivity().sendBroadcast(intentPushCount);
-            }
-        }, TIME_DELAY);
-
     }
 
     private void initList() {
@@ -244,7 +228,6 @@ public class SystemNotificationFragment extends BaseFragment {
                             @Override
                             public void run() {
                                 PreferUtils.setNewPushCount(getActivity(), 0);
-                                PreferUtils.setNewPushChatCount(getActivity(), 0);
                                 if (getActivity() != null && getActivity() instanceof MainActivity)
                                     ((MainActivity) getActivity()).updateCountMsg();
                                 Intent intentPushCount = new Intent();

@@ -28,13 +28,15 @@ public class MyTaskFragmentAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                myTaskPosterFragment = new MyTaskPosterFragment();
+                if (myTaskPosterFragment == null)
+                    myTaskPosterFragment = new MyTaskPosterFragment();
                 return myTaskPosterFragment;
             case 1:
-                myTaskWorkerFragment = new MyTaskWorkerFragment();
+                if (myTaskWorkerFragment == null)
+                    myTaskWorkerFragment = new MyTaskWorkerFragment();
                 return myTaskWorkerFragment;
             default:
-                return null;
+                return new MyTaskPosterFragment();
         }
     }
 

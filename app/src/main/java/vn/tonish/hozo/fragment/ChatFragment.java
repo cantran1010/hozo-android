@@ -3,6 +3,7 @@ package vn.tonish.hozo.fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -24,6 +25,7 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -61,14 +63,22 @@ public class ChatFragment extends BaseFragment {
 
     @Override
     protected void resumeData() {
+        getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_CHAT));
         LogUtils.d(TAG, "ChatFragment resumeData start");
         getChatRooms();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {
+            getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void getChatRooms() {
-//        ProgressDialogUtils.showProgressDialog(getActivity());
-
         call = ApiClient.getApiService().getChatRooms(UserManager.getUserToken());
         call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
@@ -77,6 +87,7 @@ public class ChatFragment extends BaseFragment {
                 LogUtils.d(TAG, "getChatRooms body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    PreferUtils.setNewPushChatCount(getActivity(), 0);
                     taskResponses = response.body();
                     LogUtils.d(TAG, "getChatRooms taskResponsesBody size : " + taskResponses.size());
                     refreshChatRooms();
@@ -102,7 +113,6 @@ public class ChatFragment extends BaseFragment {
                         }
                     });
                 }
-//                ProgressDialogUtils.dismissProgressDialog();
                 onStopRefresh();
             }
 
@@ -119,7 +129,6 @@ public class ChatFragment extends BaseFragment {
 
                     }
                 });
-//                ProgressDialogUtils.dismissProgressDialog();
                 onStopRefresh();
             }
         });

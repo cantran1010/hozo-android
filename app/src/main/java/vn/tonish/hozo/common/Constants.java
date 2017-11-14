@@ -25,9 +25,11 @@ public class Constants {
     public static final int PERMISSION_REQUEST_CODE_BACKGROUND = 238;
     public static final int REQUEST_CODE_CAMERA_BACKGROUND = 369;
     public static final int REQUEST_CODE_PICK_IMAGE_BACKGROUND = 147;
-    public static final String BROAD_CAST_SMOOTH_TOP_SYS_TEM ="broad_cast_smooth_top_notification_system" ;
-    public static final String BROAD_CAST_SMOOTH_TOP_NEW_TASK ="broad_cast_smooth_top_notification_new_task" ;
-    public static final String BROAD_CAST_SMOOTH_TOP_CHAT ="broad_cast_smooth_top_notification_chat" ;
+    public static final String BROAD_CAST_SMOOTH_TOP_SYS_TEM = "broad_cast_smooth_top_notification_system";
+    public static final String BROAD_CAST_SMOOTH_TOP_NEW_TASK = "broad_cast_smooth_top_notification_new_task";
+    public static final String BROAD_CAST_SMOOTH_TOP_CHAT = "broad_cast_smooth_top_notification_chat";
+    public static final String BROAD_CAST_PUSH_HOZO = "broad_cast_push_hozo";
+    public static final String BROAD_CAST_SMOOTH_TOP_NOTIFICATION = "broad_cast_smooth_top_notification";
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

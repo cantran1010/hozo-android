@@ -19,6 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@string/notification_tab_1"
             android:textColor="@color/hozo_bg"
             android:textSize="@dimen/tv_size_medium"
@@ -60,6 +62,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@string/notification_tab_2"
             android:textColor="@color/setting_text"
             android:textSize="@dimen/tv_size_medium"
@@ -85,7 +89,7 @@
             android:minWidth="20dp"
             android:textColor="@color/white"
             android:textSize="@dimen/tv_size_tiny"
-            android:visibility="visible"
+            android:visibility="gone"
             tools:ignore="SmallSp" />
 
     </RelativeLayout>
@@ -121,8 +125,10 @@
             android:layout_alignParentRight="true"
             android:layout_margin="2dp"
             android:background="@drawable/bg_circle_count_new_msg"
+            android:ellipsize="end"
             android:gravity="center"
             android:maxLength="3"
+            android:maxLines="1"
             android:minHeight="20dp"
             android:minWidth="20dp"
             android:textColor="@color/white"
