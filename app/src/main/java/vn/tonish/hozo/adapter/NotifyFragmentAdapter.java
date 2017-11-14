@@ -14,6 +14,9 @@ import vn.tonish.hozo.fragment.TaskAlertsFragment;
 
 public class NotifyFragmentAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
+    private SystemNotificationFragment tab1;
+    private ChatFragment tab2;
+    private TaskAlertsFragment tab3;
 
     public NotifyFragmentAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
@@ -25,13 +28,16 @@ public class NotifyFragmentAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                SystemNotificationFragment tab1 = new SystemNotificationFragment();
+                if (tab1 == null)
+                    tab1 = new SystemNotificationFragment();
                 return tab1;
             case 1:
-                ChatFragment tab2 = new ChatFragment();
+                if (tab2 == null)
+                    tab2 = new ChatFragment();
                 return tab2;
             case 2:
-                TaskAlertsFragment tab3 = new TaskAlertsFragment();
+                if (tab3 == null)
+                    tab3 = new TaskAlertsFragment();
                 return tab3;
             default:
                 return null;

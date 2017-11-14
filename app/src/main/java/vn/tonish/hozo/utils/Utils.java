@@ -622,7 +622,6 @@ public class Utils {
     }
 
 
-
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -796,13 +795,13 @@ public class Utils {
             view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_right));
         } else {
             view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_out_right));
-            new Handler().postDelayed(new Runnable() {
+            new Handler().post(new Runnable() {
 
                 @Override
                 public void run() {
                     view.setVisibility(View.GONE);
                 }
-            }, Constants.DURATION);
+            });
         }
     }
 

@@ -151,7 +151,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
                     LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint map : " + map.toString());
 
                 if (map != null && map.containsKey(String.valueOf(UserManager.getMyUser().getId()))) {
-                    holder.tvLastMsg.setTextColor(ContextCompat.getColor(context, R.color.tv_black));
+                    holder.tvLastMsg.setTextColor(ContextCompat.getColor(context, R.color.setting_text));
 //                    holder.tvTitle.setTextColor(ContextCompat.getColor(context, R.color.tv_black));
 
                     holder.tvLastMsg.setTypeface(holder.tvLastMsg.getTypeface(), Typeface.NORMAL);
