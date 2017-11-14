@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.NotifyFragmentAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TypefaceContainer;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -26,6 +27,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class NotificationFragment extends BaseFragment {
 
     private static final String TAG = NotificationFragment.class.getSimpleName();
+    private static final int TIME_DELAY = 500;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private NotifyFragmentAdapter notifyFragmentAdapter;
@@ -81,7 +83,6 @@ public class NotificationFragment extends BaseFragment {
                     tvTab1.setTypeface(TypefaceContainer.TYPEFACE_REGULAR);
                     tvTab2.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
                     tvTab3.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
-
                 } else if (tab.getPosition() == 1) {
                     tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
                     tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
@@ -121,7 +122,7 @@ public class NotificationFragment extends BaseFragment {
 
     @Override
     protected void resumeData() {
-        getActivity().registerReceiver(broadcastCountNewMsg, new IntentFilter(Constants.BROAD_CAST_PUSH_HOZO));
+        getActivity().registerReceiver(broadcastCountNewMsg, new IntentFilter(Constants.BROAD_CAST_PUSH_COUNT));
     }
 
     @Override
@@ -137,6 +138,7 @@ public class NotificationFragment extends BaseFragment {
     private final BroadcastReceiver broadcastCountNewMsg = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            LogUtils.d(TAG,"push: ");
 
             if (intent.hasExtra(Constants.COUNT_NEW_MSG_EXTRA)) {
                 int countTab2 = intent.getIntExtra(Constants.COUNT_NEW_MSG_EXTRA, 0);
@@ -147,7 +149,6 @@ public class NotificationFragment extends BaseFragment {
                 } else
                     tvCountTab2.setVisibility(View.GONE);
             } else updateCountMsg();
-
             if (intent.hasExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION)) {
                 if (intent.getStringExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION).equalsIgnoreCase(getActivity().getString(R.string.smooth_top))) {
                     if (position == 0) {
@@ -170,6 +171,7 @@ public class NotificationFragment extends BaseFragment {
     };
 
     public void updateCountMsg() {
+
         int pushCount = PreferUtils.getNewPushCount(getActivity());
         int pushNewTaskCount = PreferUtils.getPushNewTaskCount(getActivity());
         if (pushCount == 0) {
