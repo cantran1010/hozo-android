@@ -58,7 +58,7 @@ public class PlaceAutocompleteAdapter
         extends ArrayAdapter<AutocompletePrediction> implements Filterable {
 
     public interface OnCountListener {
-        public void onCount(int count);
+        void onCount(int count);
     }
 
     private OnCountListener onCountListener;

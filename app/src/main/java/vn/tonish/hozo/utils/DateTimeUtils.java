@@ -64,7 +64,7 @@ public class DateTimeUtils {
 
     public static int getAgeFromIso(String birthday) {
         Calendar calendar = GregorianCalendar.getInstance();
-        Date date = null;
+        Date date;
         try {
             date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(birthday);
 

@@ -30,7 +30,7 @@ public class ButtonHozo extends AppCompatButton {
     private void init() {
 
         if (!isInEditMode()) {
-            Typeface tf = null;
+            Typeface tf;
             try {
                 int styleTxt = getTypeface().getStyle();
 

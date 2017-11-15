@@ -28,9 +28,7 @@ public class NotificationFragment extends BaseFragment {
 
     private static final String TAG = NotificationFragment.class.getSimpleName();
     private static final int TIME_DELAY = 500;
-    private TabLayout tabLayout;
     private ViewPager viewPager;
-    private NotifyFragmentAdapter notifyFragmentAdapter;
     private TextViewHozo tvTab1, tvTab2, tvTab3, tvCountTab1, tvCountTab2, tvCountTab3;
     private int position = 0;
 
@@ -41,7 +39,7 @@ public class NotificationFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        tabLayout = (TabLayout) findViewById(R.id.tab);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.notification_tab_1)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.notification_tab_2)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.notification_tab_3)));
@@ -66,7 +64,7 @@ public class NotificationFragment extends BaseFragment {
         tvCountTab2 = (TextViewHozo) findViewById(R.id.tv_count_tab2);
         tvCountTab3 = (TextViewHozo) findViewById(R.id.tv_count_tab3);
         viewPager = (ViewPager) findViewById(R.id.pagerView);
-        notifyFragmentAdapter = new NotifyFragmentAdapter
+        NotifyFragmentAdapter notifyFragmentAdapter = new NotifyFragmentAdapter
                 (getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(notifyFragmentAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -170,7 +168,7 @@ public class NotificationFragment extends BaseFragment {
         }
     };
 
-    public void updateCountMsg() {
+    private void updateCountMsg() {
 
         int pushCount = PreferUtils.getNewPushCount(getActivity());
         int pushNewTaskCount = PreferUtils.getPushNewTaskCount(getActivity());

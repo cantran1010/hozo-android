@@ -22,7 +22,7 @@ import static vn.tonish.hozo.database.manager.StatusManager.insertIsSelectedStat
  */
 
 public class FilterMyTaskAdapter extends RecyclerView.Adapter<FilterMyTaskAdapter.ViewHolder> {
-    private Context context;
+    private final Context context;
     private final static String TAG = TaskTypeAdapter.class.getSimpleName();
     private final List<StatusEntity> statuses;
 

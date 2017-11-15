@@ -81,7 +81,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     private RelativeLayout layoutOptionDistance;
     private ImageView imgFollowArrow, imgCategoryArrow, imgTimeArrow, imgDistance, imgKeyword, imgPrice;
     private TextViewHozo tvFolowed, tvCategory, tvDateTime, tvDistance, tvPrice;
-    private RadioButtonHozo radAllTime, radDate, radAllDistance, radDistanceOption, radAllPrice, rad10, rad100, rad500, radNotiYes, radNotiNo, rdFolowedYes, rdFollowedNo, radTimeAll, radTimeDate;
+    private RadioButtonHozo radAllTime, radDate, radAllDistance, radDistanceOption, radAllPrice, rad10, rad100, rad500, radNotiYes, radNotiNo, rdFolowedYes, rdFollowedNo;
     private RecyclerView rcvCategory, rcvKeyword;
     private SeekBar seebarDistance;
     private Animation anim_down, anim_up;
@@ -175,8 +175,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         radNotiNo = (RadioButtonHozo) findViewById(R.id.rd_notification_no);
         rdFolowedYes = (RadioButtonHozo) findViewById(R.id.rd_folowed_yes);
         rdFollowedNo = (RadioButtonHozo) findViewById(R.id.rd_followed_no);
-        radTimeAll = (RadioButtonHozo) findViewById(R.id.radio_all_time);
-        radTimeDate = (RadioButtonHozo) findViewById(R.id.radio_date);
+
 
         rcvCategory = (RecyclerView) findViewById(R.id.rcv_category);
         rcvKeyword = (RecyclerView) findViewById(R.id.rcv_keyword);
@@ -587,7 +586,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
 
     private void clearChooseDay() {
         dayOfWeek = new ArrayList<>();
-        radTimeAll.setChecked(true);
+        radAllTime.setChecked(true);
         count = 0;
         tvSunday.setBackgroundResource(R.drawable.bg_circle_default);
         tvMonday.setBackgroundResource(R.drawable.bg_circle_default);
@@ -787,6 +786,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onResponse(Call<SettingAdvance> call, Response<SettingAdvance> response) {
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    //noinspection ConstantConditions
                     LogUtils.d(TAG, "SettingAdvance activity data response : " + response.body().toString());
                     SettingAdvanceManager.insertSettingAdvance(response.body());
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -963,7 +963,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
 
     private void clickDay(TextViewHozo tv) {
 
-        radTimeDate.setChecked(true);
+        radDate.setChecked(true);
         if (tv.getBackground().getConstantState().equals(ContextCompat.getDrawable(this, R.drawable.bg_circle_default).getConstantState())) {
             LogUtils.d(TAG, "count 1 :" + count);
             if (count == 6) {

@@ -5,7 +5,6 @@
 
 
     <!--notification Screen-->
-    <string name="notification_notify">Thông báo chưa đọc</string>
 
     <!--profile Screen-->
     <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
@@ -33,7 +32,6 @@
 
     <!--Edit profile Screen-->
     <string name="edit_profile_tv_header">Sửa đổi thông tin</string>
-    <string name="edit_profile_btn_save">Lưu lại</string>
     <string name="select_task_title">Đăng việc</string>
     <string name="browse_task_title">Tìm việc</string>
     <string name="my_task_title">Việc của tôi</string>
@@ -249,7 +247,6 @@
     <string name="notification_bid_received_matcher">ứng tuyển</string>
     <string name="notification_bid_accepted_matcher">đồng ý</string>
     <string name="notification_task_reminder_matcher">sắp đến giờ</string>
-    <string name="notification_new_task_alert_matcher">phù hợp</string>
     <string name="notification_poster_canceled_matcher">hủy việc</string>
     <string name="notification_task_completed_matcher">hoàn thành</string>
     <string name="notification_task_overdue_matcher">hết hạn</string>
@@ -265,7 +262,6 @@
     <string name="notification_bid_received_color">#00A2E5</string>
     <string name="notification_bid_accepted_color">#00A2E5</string>
     <string name="notification_task_reminder_color">#00A2E5</string>
-    <string name="notification_new_task_alert_color">#00A2E5</string>
     <string name="notification_poster_canceled_color">#FF3100</string>
     <string name="notification_task_completed_color">#00A2E5</string>
     <string name="notification_task_overdue_color">#FF3100</string>
@@ -461,13 +457,11 @@
     <string name="date_work">Ngày làm:</string>
     <string name="chat">Chat nhóm</string>
     <string name="menu_detail_task">Xem chi tiết việc</string>
-    <string name="chat_notification_des">Chế độ thông báo chat nhóm</string>
     <string name="permission_chat_error">Bạn không thể tiếp tục chat tại phòng này!</string>
     <string name="no_data">Chưa có dữ liệu</string>
     <string name="kick_out_chat_content">Rất tiếc bạn đã bị đẩy ra khỏi phòng chat!</string>
     <string name="nofification_enouth_bidder_title">Việc</string>
     <string name="nofification_enouth_bidder_footer">của bạn đã đủ người ứng tuyển, hãy giao việc</string>
-    <string name="notification_on_off_des">Chế độ thông báo hệ thống</string>
     <string name="register_address">Địa chỉ</string>
     <string name="btn_done">HOÀN TẤT</string>
     <string name="other_payment">Ví HoZo</string>
@@ -639,7 +633,6 @@
     <string name="ben_verify_email">Gửi</string>
     <string name="notification_tab_3">Việc mới</string>
     <string name="smooth_top">smooth_top</string>
-    <string name="group_chat">Nhóm:</string>
     <string name="task_alert_setting">Cài đặt việc mới</string>
     <string name="task_alert_top">Bạn có muốn nhận thông báo việc mới?</string>
     <string name="yes_all">Có</string>

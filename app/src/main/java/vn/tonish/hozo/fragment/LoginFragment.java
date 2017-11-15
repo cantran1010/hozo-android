@@ -295,7 +295,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
         PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
         String isoCode = phoneNumberUtil.getRegionCodeForCountryCode(Integer.parseInt(countryCode));
-        Phonenumber.PhoneNumber phoneNumber = null;
+        Phonenumber.PhoneNumber phoneNumber;
         try {
             phoneNumber = phoneNumberUtil.parse(phNumber, isoCode);
         } catch (Exception e) {

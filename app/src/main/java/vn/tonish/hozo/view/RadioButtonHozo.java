@@ -31,7 +31,7 @@ public class RadioButtonHozo extends AppCompatRadioButton {
     private void init() {
 
         if (!isInEditMode()) {
-            Typeface tf = null;
+            Typeface tf;
             try {
                 int styleTxt = getTypeface().getStyle();
 

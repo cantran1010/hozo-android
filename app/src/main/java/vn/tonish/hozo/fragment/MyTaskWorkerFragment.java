@@ -206,7 +206,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
                         endlessRecyclerViewScrollListener.resetState();
                     }
 
-                    for (TaskResponse taskReponse : taskResponsesBody != null ? taskResponsesBody : null)
+                    for (TaskResponse taskReponse : taskResponsesBody)
                         taskReponse.setRole(Constants.ROLE_TASKER);
                     taskResponses.addAll(taskResponsesBody);
 

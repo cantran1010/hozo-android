@@ -45,7 +45,7 @@ public class HozoAutoCompleteTextView extends android.support.v7.widget.AppCompa
 
     private void init() {
         if (!isInEditMode()) {
-            Typeface tf = null;
+            Typeface tf;
             try {
                 int style = getTypeface().getStyle();
                 switch (style) {
