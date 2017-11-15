@@ -16,7 +16,7 @@ public class ErrorUtils {
     public static APIError parseError(Response<?> response) {
         Converter<ResponseBody, APIError> errorConverter = retrofit.responseBodyConverter(APIError.class, new Annotation[0]);
 
-        APIError error = new APIError();
+        @SuppressWarnings("UnusedAssignment") APIError error = new APIError();
 
         try {
             error = errorConverter.convert(response.errorBody());

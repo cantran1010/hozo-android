@@ -6,7 +6,7 @@ import java.util.Map;
  * Created by LongBui on 9/13/17.
  */
 
-public class Task {
+class Task {
 
     private int id;
     private String title;

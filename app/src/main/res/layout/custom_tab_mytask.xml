@@ -11,18 +11,25 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center"
         android:orientation="horizontal">
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_tab1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@string/my_task_poster"
-            android:textStyle="bold"
             android:textColor="@color/hozo_bg"
-            android:textSize="@dimen/tv_size_medium" />
+            android:textSize="@dimen/tv_size_medium"
+            android:textStyle="bold" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_edt_border" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -30,17 +37,25 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center"
         android:orientation="vertical">
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_tab2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@string/my_task_worker"
-            android:textStyle="normal"
             android:textColor="@color/setting_text"
-            android:textSize="@dimen/tv_size_medium" />
+            android:textSize="@dimen/tv_size_medium"
+            android:textStyle="normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_edt_border" />
 
     </RelativeLayout>
 

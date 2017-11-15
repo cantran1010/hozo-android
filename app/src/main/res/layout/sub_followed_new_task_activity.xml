@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vn.tonish.hozo.view.ExpandableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/follow_expandable_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:el_expanded="false">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_tab_mytask"
+        android:padding="16dp">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/task_alert_followed"
+            android:textColor="@color/setting_text"
+            android:textSize="@dimen/tv_size_xxtiny" />
+
+        <RadioGroup
+            android:id="@+id/radio_follow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_header"
+            android:layout_gravity="center_horizontal"
+            android:animateLayoutChanges="true"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <vn.tonish.hozo.view.RadioButtonHozo
+                android:id="@+id/rd_folowed_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="50dp"
+                android:layout_marginRight="50dp"
+                android:button="@drawable/radio_button_background"
+                android:checked="true"
+                android:padding="5dp"
+                android:text="@string/yes_all"
+                android:textColor="@color/tv_gray_new"
+                android:textSize="@dimen/tv_size_medium"
+                android:textStyle="normal" />
+
+
+            <vn.tonish.hozo.view.RadioButtonHozo
+                android:id="@+id/rd_followed_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/radio_button_background"
+                android:checked="false"
+                android:padding="5dp"
+                android:text="@string/no_all"
+                android:textColor="@color/tv_gray_new"
+                android:textSize="@dimen/tv_size_medium"
+                android:textStyle="normal" />
+
+        </RadioGroup>
+
+    </RelativeLayout>
+
+
+</vn.tonish.hozo.view.ExpandableLayout>

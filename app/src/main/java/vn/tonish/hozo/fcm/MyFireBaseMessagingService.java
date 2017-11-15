@@ -151,19 +151,31 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             intentBlock.setAction(Constants.BROAD_CAST_BLOCK_USER);
             sendBroadcast(intentBlock);
         }
+        switch (notification.getEvent()) {
+            case Constants.PUSH_TYPE_NEW_TASK_ALERT: {
+                PreferUtils.setPushNewTaskCount(getApplicationContext(), PreferUtils.getPushNewTaskCount(getApplicationContext()) + 1);
+                Intent intentPushCount = new Intent();
+                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                sendBroadcast(intentPushCount);
 
-        if (!notification.getEvent().equals(Constants.PUSH_TYPE_CHAT)) {
-            PreferUtils.setNewPushCount(getApplicationContext(), PreferUtils.getNewPushCount(getApplicationContext()) + 1);
+                break;
+            }
+            case Constants.PUSH_TYPE_CHAT: {
+                PreferUtils.setNewPushChatCount(getApplicationContext(), PreferUtils.getNewPushChatCount(getApplicationContext()) + 1);
+                Intent intentPushCount = new Intent();
+                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                sendBroadcast(intentPushCount);
+                break;
+            }
+            default: {
+                PreferUtils.setNewPushCount(getApplicationContext(), PreferUtils.getNewPushCount(getApplicationContext()) + 1);
+                Intent intentPushCount = new Intent();
+                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                sendBroadcast(intentPushCount);
 
-            Intent intentPushCount = new Intent();
-            intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-            sendBroadcast(intentPushCount);
-        }else{
-            PreferUtils.setNewPushChatCount(getApplicationContext(), PreferUtils.getNewPushChatCount(getApplicationContext()) + 1);
 
-            Intent intentPushCount = new Intent();
-            intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-            sendBroadcast(intentPushCount);
+                break;
+            }
         }
 
         if ((notification.getEvent().equals(Constants.PUSH_TYPE_COMMENT_RECEIVED) || notification.getEvent().equals(Constants.PUSH_TYPE_COMMENT_REPLIED)) && notification.getTaskId() != 0) {

@@ -48,7 +48,7 @@ public class RealmDbHelper {
         return realmConfiguration;
     }
 
-    public static RealmMigration migration = new RealmMigration() {
+    private static final RealmMigration migration = new RealmMigration() {
         @Override
         public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
             LogUtils.d(TAG, "RealmMigration , oldVersion : " + oldVersion + " , newVersion : " + newVersion);
@@ -136,7 +136,6 @@ public class RealmDbHelper {
                         .addField("role", String.class)
                         .addField("followed", boolean.class)
                         .addField("background", String.class);
-
                 schema.create("TagResponse")
                         .addField("id", int.class)
                         .addField("value", String.class);
@@ -146,10 +145,19 @@ public class RealmDbHelper {
                         .addField("name", String.class)
                         .addField("status", String.class)
                         .addField("selected", boolean.class);
+                schema.get("SettingAdvanceEntity")
+                        .addField("ntaNotification", boolean.class)
+                        .addField("ntaFollowed", boolean.class)
+                        .addRealmListField("ntaCategory", schema.get("RealmInt"))
+                        .addRealmListField("ntaDays", schema.get("RealmInt"))
+                        .addField("ntaDistance", int.class)
+                        .addRealmListField("ntaLatlon", schema.get("RealmDouble"))
+                        .addField("nta_worker_rate_min", int.class)
+                        .addField("ntaMaxWorkerRate", int.class)
+                        .addField("ntaAddress", String.class)
+                        .addRealmListField("ntaKeywords", schema.get("RealmString"));
+                //noinspection UnusedAssignment
                 oldVersion++;
-
-                oldVersion++;
-
             }
         }
     };

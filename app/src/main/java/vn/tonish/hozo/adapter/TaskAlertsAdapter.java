@@ -21,7 +21,7 @@ import vn.tonish.hozo.utils.LogUtils;
 public class TaskAlertsAdapter extends RecyclerView.Adapter<TaskAlertsAdapter.ViewHolder> {
     private final static String TAG = TaskTypeAdapter.class.getSimpleName();
 
-    private List<TaskAlert> taskAlerts;
+    private final List<TaskAlert> taskAlerts;
 
     public TaskAlertsAdapter(List<TaskAlert> taskAlerts) {
         this.taskAlerts = taskAlerts;

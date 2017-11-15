@@ -32,7 +32,6 @@ import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
-import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.AlertDialogOkFullScreen;
 import vn.tonish.hozo.dialog.BlockDialog;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
@@ -369,7 +368,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 sendBroadcast(intentRefresh);
 
                 if (tabIndex == 1) break;
-
                 showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 tabIndex = 1;
                 updateMenuUi(1);
@@ -423,7 +421,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 } else {
                     if (tabIndex == 4) {
                         Intent intentAnswer = new Intent();
-                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_INBOX);
+                        intentAnswer.putExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION, getString(R.string.smooth_top));
+                        intentAnswer.setAction(Constants.BROAD_CAST_PUSH_COUNT);
                         sendBroadcast(intentAnswer);
                         break;
                     }
@@ -436,37 +435,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 tabIndex = 4;
                 updateMenuUi(4);
-
-//                if (PreferUtils.getNewPushCount(MainActivity.this) > 0) {
-//                    if (tabIndex == 4) {
-//                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.FADE_IN);
-//                    } else if (tabIndex > 4) {
-//                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.LEFT_TO_RIGHT);
-//                    } else {
-//                        openFragment(R.id.layout_container, InboxFragment.class, new Bundle(), false, TransitionScreen.RIGHT_TO_LEFT);
-//                    }
-//                } else {
-//                    if (tabIndex == 4) {
-//                        Intent intentAnswer = new Intent();
-//                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_INBOX);
-//                        sendBroadcast(intentAnswer);
-//                        break;
-//                    }
-//
-//                    if (tabIndex > 4) {
-//                        showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
-//                    } else {
-//                        showFragment(R.id.layout_container, InboxFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-//                    }
-//                }
-//
-//                tabIndex = 4;
-//                updateMenuUi(4);
                 break;
 
             case R.id.layout_other:
                 if (tabIndex == 5) break;
-
                 showFragment(R.id.layout_container, SettingFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 tabIndex = 5;
                 updateMenuUi(5);
@@ -536,8 +508,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void updateCountMsg() {
-        int pushCount = PreferUtils.getNewPushCount(this) + PreferUtils.getNewPushChatCount(this);
-
+        int pushCount = PreferUtils.getNewPushCount(this) + PreferUtils.getNewPushChatCount(this) + PreferUtils.getPushNewTaskCount(this);
         if (pushCount > 99) pushCount = 99;
 
         if (pushCount == 0) {
@@ -589,9 +560,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             }
                         });
                     }
-//                    else if (updateResponse.getRecommendUpdate().equalsIgnoreCase("true")) {
-//                        showUpdateDialog();
-//                    }
+
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(MainActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -602,52 +571,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(MainActivity.this);
                 }
-//                else {
-//                    DialogUtils.showRetryDialog(MainActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-//                        @Override
-//                        public void onSubmit() {
-//                            checkUpdate();
-//                        }
-//
-//                        @Override
-//                        public void onCancel() {
-//
-//                        }
-//                    });
-//                }
+
             }
 
             @Override
             public void onFailure(Call<UpdateResponse> call, Throwable throwable) {
                 LogUtils.d(TAG, "checkUpdate error : " + throwable.getMessage());
-//                DialogUtils.showRetryDialog(MainActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-//                    @Override
-//                    public void onSubmit() {
-//                        checkUpdate();
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//
-//                    }
-//                });
+
             }
         });
     }
 
-    private void showUpdateDialog() {
-        DialogUtils.showReCommendUpdateDialog(MainActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-            @Override
-            public void onSubmit() {
-                updateVerSion();
-            }
-
-            @Override
-            public void onCancel() {
-                finish();
-            }
-        });
-    }
 
     private void updateVerSion() {
         try {

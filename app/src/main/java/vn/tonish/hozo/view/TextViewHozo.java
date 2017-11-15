@@ -31,7 +31,7 @@ public class TextViewHozo extends AppCompatTextView {
     private void init() {
 
         if (!isInEditMode()) {
-            Typeface tf = null;
+            Typeface tf;
             try {
                 int styleTxt = getTypeface().getStyle();
 

@@ -44,7 +44,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.Iterator;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -358,7 +357,6 @@ public class Utils {
     private static final int MAX_LENGTH_TASK_NAME = 80;
 
     public static void setContentMessage(Context context, TextViewHozo tvContent, Notification notification) {
-
         String content = "";
         String matcher = "";
         String matcherColor = "#00A2E5";
@@ -409,11 +407,6 @@ public class Utils {
                 content = context.getString(R.string.work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_reminder);
                 matcher = context.getString(R.string.notification_task_reminder_matcher);
                 matcherColor = context.getString(R.string.notification_task_reminder_color);
-                break;
-            case Constants.PUSH_TYPE_NEW_TASK_ALERT:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert) + " " + notification.getTaskName() + " " + context.getString(R.string.push_alert);
-                matcher = context.getString(R.string.notification_new_task_alert_matcher);
-                matcherColor = context.getString(R.string.notification_new_task_alert_color);
                 break;
             case Constants.PUSH_TYPE_POSTER_CANCELED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.push_you_bidded);
@@ -573,9 +566,9 @@ public class Utils {
             case Constants.PUSH_TYPE_TASK_REMINDER:
                 content = context.getString(R.string.work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_reminder);
                 break;
-            case Constants.PUSH_TYPE_NEW_TASK_ALERT:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert) + " " + notification.getTaskName() + " " + context.getString(R.string.push_alert);
-                break;
+//            case Constants.PUSH_TYPE_NEW_TASK_ALERT:
+//                content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert) + " " + notification.getTaskName() + " " + context.getString(R.string.push_alert);
+//                break;
             case Constants.PUSH_TYPE_POSTER_CANCELED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.push_you_bidded);
                 break;
@@ -616,22 +609,6 @@ public class Utils {
         return content;
     }
 
-    public static void checkContainsTaskResponse(List<TaskResponse> taskResponses, TaskResponse taskResponse) {
-        boolean isUpdate = false;
-        int index = 0;
-
-        for (int i = 0; i < taskResponses.size(); i++) {
-            if (taskResponses.get(i).getId() == taskResponse.getId()) {
-                isUpdate = true;
-                index = i;
-                break;
-            }
-        }
-
-        if (isUpdate) taskResponses.set(index, taskResponse);
-        else taskResponses.add(taskResponse);
-    }
-
     public static String converGenderVn(Context context, String gender) {
         String sex;
         if (gender.equals(context.getString(R.string.gender_male)))
@@ -643,7 +620,6 @@ public class Utils {
         }
         return sex;
     }
-
 
 
     public static boolean isNetworkAvailable(Context context) {
@@ -819,13 +795,13 @@ public class Utils {
             view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_right));
         } else {
             view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_out_right));
-            new Handler().postDelayed(new Runnable() {
+            new Handler().post(new Runnable() {
 
                 @Override
                 public void run() {
                     view.setVisibility(View.GONE);
                 }
-            }, Constants.DURATION);
+            });
         }
     }
 

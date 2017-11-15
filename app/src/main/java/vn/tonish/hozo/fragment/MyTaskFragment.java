@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -39,10 +40,10 @@ import static vn.tonish.hozo.utils.Utils.showSearch;
 public class MyTaskFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = MyTaskFragment.class.getSimpleName();
     private String role = Constants.ROLE_POSTER;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private TabLayout myTaskTabLayout;
+    private ViewPager myTaskViewPager;
     private MyTaskFragmentAdapter myTaskFragmentAdapter;
-    private TextViewHozo tvTab1, tvTab2;
+    private TextViewHozo tvTabPoster, tvTabTasker;
     private ImageView imgClear;
     private String mQuery = "";
     private int position = 0;
@@ -59,7 +60,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     protected void initView() {
         layoutHeader = (RelativeLayout) findViewById(R.id.layout_header_my_task);
         layoutSearch = (RelativeLayout) findViewById(R.id.layout_hedaer_search);
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        myTaskTabLayout = (TabLayout) findViewById(R.id.tabLayout);
         ImageView imgFilter = (ImageView) findViewById(R.id.img_filter);
         ImageView imgSearch = (ImageView) findViewById(R.id.img_search);
         edtSearch = (EdittextHozo) findViewById(R.id.edt_search);
@@ -69,52 +70,48 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         imgSearch.setOnClickListener(this);
         imgClear.setOnClickListener(this);
         imgBack.setOnClickListener(this);
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        tabLayout.addTab(tabLayout.newTab().setText(getContext().getString(R.string.my_task_poster)));
-        tabLayout.addTab(tabLayout.newTab().setText(getContext().getString(R.string.my_task_worker)));
+        myTaskViewPager = (ViewPager) findViewById(R.id.pager);
+        myTaskTabLayout.addTab(myTaskTabLayout.newTab().setText(getContext().getString(R.string.my_task_poster)));
+        myTaskTabLayout.addTab(myTaskTabLayout.newTab().setText(getContext().getString(R.string.my_task_worker)));
         @SuppressLint("InflateParams") View headerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.custom_tab_mytask, null, false) : null : null;
-        tabLayout.getTabAt(0).setCustomView(headerView.findViewById(R.id.ll1));
-        tabLayout.getTabAt(1).setCustomView(headerView.findViewById(R.id.ll2));
-        tvTab1 = (TextViewHozo) findViewById(R.id.tv_tab1);
-        tvTab2 = (TextViewHozo) findViewById(R.id.tv_tab2);
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        final ViewGroup test = (ViewGroup) (myTaskTabLayout.getChildAt(0));
+        int tabLen = test.getChildCount();
+        for (int i = 0; i < tabLen; i++) {
+            View v = test.getChildAt(i);
+            v.setPadding(0, 0, 0, 0);
+        }
+        myTaskTabLayout.getTabAt(0).setCustomView(headerView.findViewById(R.id.ll1));
+        myTaskTabLayout.getTabAt(1).setCustomView(headerView.findViewById(R.id.ll2));
+        tvTabPoster = (TextViewHozo) findViewById(R.id.tv_tab1);
+        tvTabTasker = (TextViewHozo) findViewById(R.id.tv_tab2);
+        myTaskViewPager = (ViewPager) findViewById(R.id.pager);
         myTaskFragmentAdapter = new MyTaskFragmentAdapter
-                (getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(myTaskFragmentAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                (getActivity().getSupportFragmentManager(), myTaskTabLayout.getTabCount());
+        myTaskViewPager.setAdapter(myTaskFragmentAdapter);
+        myTaskViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(myTaskTabLayout));
+        myTaskTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 position = tab.getPosition();
-                if (viewPager != null)
-                    viewPager.setCurrentItem(tab.getPosition());
+                if (myTaskViewPager != null)
+                    myTaskViewPager.setCurrentItem(tab.getPosition());
                 if (tab.getPosition() == 0) {
-                    tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
-                    tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
-                    tvTab1.setTypeface(TypefaceContainer.TYPEFACE_REGULAR);
-                    tvTab2.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
-//                    if (role.equals(Constants.ROLE_TASKER)) {
-//                        Intent intentAnswer = new Intent();
-//                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER);
-//                        getActivity().sendBroadcast(intentAnswer);
-//                    }
+                    tvTabPoster.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
+                    tvTabTasker.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
+                    tvTabPoster.setTypeface(TypefaceContainer.TYPEFACE_REGULAR);
+                    tvTabTasker.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
                     role = Constants.ROLE_POSTER;
 
 
                 } else if (tab.getPosition() == 1) {
-//                    if (role.equals(Constants.ROLE_POSTER)) {
-//                        Intent intentAnswer = new Intent();
-//                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER);
-//                        getActivity().sendBroadcast(intentAnswer);
-//                    }
                     role = Constants.ROLE_TASKER;
-                    tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
-                    tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
-                    tvTab1.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
-                    tvTab2.setTypeface(TypefaceContainer.TYPEFACE_REGULAR);
+                    tvTabPoster.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
+                    tvTabTasker.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
+                    tvTabPoster.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
+                    tvTabTasker.setTypeface(TypefaceContainer.TYPEFACE_REGULAR);
                 }
-                LogUtils.d(TAG, "my role: " + role);
+                LogUtils.d(TAG, "my role: " + role + "position" + position);
             }
 
             @Override
@@ -127,6 +124,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
             }
         });
+
     }
 
     @Override
@@ -134,9 +132,9 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         Bundle bundle = getArguments();
         if (bundle.containsKey(Constants.ROLE_EXTRA)) role = bundle.getString(Constants.ROLE_EXTRA);
         if (role.equalsIgnoreCase(Constants.ROLE_POSTER)) {
-            tabLayout.getTabAt(0).select();
+            myTaskTabLayout.getTabAt(0).select();
         } else {
-            tabLayout.getTabAt(1).select();
+            myTaskTabLayout.getTabAt(1).select();
         }
         edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -182,6 +180,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     protected void resumeData() {
+        LogUtils.d(TAG, "my role 1: " + role + "position" + position);
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK));
     }
 
@@ -198,19 +197,14 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.hasExtra(Constants.REFRESH_EXTRA)) {
-                openFragment(R.id.layout_container, MyTaskFragment.class, new Bundle(), false, TransitionScreen.FADE_IN);
-                updateMenuUi(3);
-            } else {
-                if (role.equals(Constants.ROLE_TASKER)) {
-                    Intent intentAnswer = new Intent();
-                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER);
-                    getActivity().sendBroadcast(intentAnswer);
-                } else if (role.equals(Constants.ROLE_POSTER)) {
-                    Intent intentAnswer = new Intent();
-                    intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER);
-                    getActivity().sendBroadcast(intentAnswer);
-                }
+            if (role.equals(Constants.ROLE_TASKER)) {
+                Intent intentAnswer = new Intent();
+                intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER);
+                getActivity().sendBroadcast(intentAnswer);
+            } else if (role.equals(Constants.ROLE_POSTER)) {
+                Intent intentAnswer = new Intent();
+                intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER);
+                getActivity().sendBroadcast(intentAnswer);
             }
         }
     };
@@ -228,10 +222,10 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
                 break;
             case R.id.img_back:
-                mQuery = null;
-                edtSearch.setText("");
                 showSearch(getContext(), layoutHeader, true);
                 showSearch(getContext(), layoutSearch, false);
+                mQuery = null;
+                edtSearch.setText("");
                 myTaskFragmentAdapter.resetState(position);
                 myTaskFragmentAdapter.onRefreshTab(position);
                 break;

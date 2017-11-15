@@ -1,19 +1,16 @@
 package vn.tonish.hozo.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ToggleButton;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,11 +22,10 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
-import vn.tonish.hozo.rest.responseRes.NotifyChatRoomResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
-import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -45,8 +41,8 @@ public class ChatFragment extends BaseFragment {
     private ChatRoomAdapter chatRoomAdapter;
     private List<TaskResponse> taskResponses = new ArrayList<>();
     private Call<List<TaskResponse>> call;
-    private ToggleButton tgOnOffNotify;
     private TextViewHozo tvNoData;
+    private LinearLayoutManager lvManager;
 
     @Override
     protected int getLayout() {
@@ -56,7 +52,6 @@ public class ChatFragment extends BaseFragment {
     @Override
     protected void initView() {
         rcvChatRooms = (RecyclerView) findViewById(R.id.rcv_chat_rooms);
-        tgOnOffNotify = (ToggleButton) findViewById(R.id.tg_on_off);
         tvNoData = (TextViewHozo) findViewById(R.id.tv_no_data);
 
         createSwipeToRefresh();
@@ -64,143 +59,26 @@ public class ChatFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        tgOnOffNotify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LogUtils.d(TAG, "tgOnOffNotify : " + tgOnOffNotify.isChecked());
-                updateNofityOnOff(tgOnOffNotify.isChecked());
-            }
-        });
-
-        getNotifyOnOff();
     }
 
     @Override
     protected void resumeData() {
+        getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_CHAT));
         LogUtils.d(TAG, "ChatFragment resumeData start");
-        getNotifyOnOff();
         getChatRooms();
     }
 
-    private void getNotifyOnOff() {
-        Call<NotifyChatRoomResponse> callNotify = ApiClient.getApiService().getChatRoomsNotify(UserManager.getUserToken());
-        callNotify.enqueue(new Callback<NotifyChatRoomResponse>() {
-            @Override
-            public void onResponse(Call<NotifyChatRoomResponse> call, Response<NotifyChatRoomResponse> response) {
-                LogUtils.d(TAG, "getNotifyOnOff code : " + response.code());
-                LogUtils.d(TAG, "getNotifyOnOff body : " + response.body());
-
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    NotifyChatRoomResponse notifyChatRoomResponse = response.body();
-                    tgOnOffNotify.setChecked(notifyChatRoomResponse.isNotificationChatGroup());
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            getNotifyOnOff();
-                        }
-                    });
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(getActivity());
-                } else {
-                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            getNotifyOnOff();
-                        }
-
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onFailure(Call<NotifyChatRoomResponse> call, Throwable t) {
-                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        getNotifyOnOff();
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
-            }
-        });
-    }
-
-    private void updateNofityOnOff(final boolean isOnOff) {
-        ProgressDialogUtils.showProgressDialog(getActivity());
-        final JSONObject jsonRequest = new JSONObject();
+    @Override
+    public void onStop() {
+        super.onStop();
         try {
-            jsonRequest.put("notification_chat_group", isOnOff);
-        } catch (JSONException e) {
+            getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        LogUtils.d(TAG, "updateNofityOnOff data request : " + jsonRequest.toString());
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-
-        ApiClient.getApiService().updateChatRoomsNotify(UserManager.getUserToken(), body).enqueue(new Callback<NotifyChatRoomResponse>() {
-            @Override
-            public void onResponse(Call<NotifyChatRoomResponse> call, Response<NotifyChatRoomResponse> response) {
-
-                LogUtils.d(TAG, "updateNofityOnOff onResponse : " + response.body());
-                LogUtils.d(TAG, "updateNofityOnOff code : " + response.code());
-
-                if (response.code() == Constants.HTTP_CODE_OK) {
-
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            updateNofityOnOff(isOnOff);
-                        }
-                    });
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(getActivity());
-                } else {
-                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            updateNofityOnOff(isOnOff);
-                        }
-
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
-                }
-                ProgressDialogUtils.dismissProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<NotifyChatRoomResponse> call, Throwable t) {
-                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        updateNofityOnOff(isOnOff);
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
-                ProgressDialogUtils.dismissProgressDialog();
-            }
-        });
     }
 
     private void getChatRooms() {
-//        ProgressDialogUtils.showProgressDialog(getActivity());
-
         call = ApiClient.getApiService().getChatRooms(UserManager.getUserToken());
         call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
@@ -209,6 +87,7 @@ public class ChatFragment extends BaseFragment {
                 LogUtils.d(TAG, "getChatRooms body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    PreferUtils.setNewPushChatCount(getActivity(), 0);
                     taskResponses = response.body();
                     LogUtils.d(TAG, "getChatRooms taskResponsesBody size : " + taskResponses.size());
                     refreshChatRooms();
@@ -234,7 +113,6 @@ public class ChatFragment extends BaseFragment {
                         }
                     });
                 }
-//                ProgressDialogUtils.dismissProgressDialog();
                 onStopRefresh();
             }
 
@@ -251,16 +129,14 @@ public class ChatFragment extends BaseFragment {
 
                     }
                 });
-//                ProgressDialogUtils.dismissProgressDialog();
                 onStopRefresh();
             }
         });
     }
 
     private void refreshChatRooms() {
-
         chatRoomAdapter = new ChatRoomAdapter(getActivity(), taskResponses);
-        LinearLayoutManager lvManager = new LinearLayoutManager(getActivity());
+        lvManager = new LinearLayoutManager(getActivity());
         rcvChatRooms.setLayoutManager(lvManager);
         rcvChatRooms.setAdapter(chatRoomAdapter);
 
@@ -292,5 +168,14 @@ public class ChatFragment extends BaseFragment {
         taskResponses.clear();
         getChatRooms();
     }
+
+    private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            LogUtils.d(TAG, "broadcastReceiverSmoothToTop onReceive");
+            rcvChatRooms.smoothScrollToPosition(0);
+            if (lvManager.findFirstVisibleItemPosition() == 0) onRefresh();
+        }
+    };
 
 }

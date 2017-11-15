@@ -30,7 +30,7 @@ public class EdittextHozo extends AppCompatEditText {
     private void init() {
 
         if (!isInEditMode()) {
-            Typeface tf = null;
+            Typeface tf;
             try {
                 int styleTxt = getTypeface().getStyle();
 

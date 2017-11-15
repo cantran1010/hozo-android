@@ -276,8 +276,7 @@ public class SupportMailFragment extends BaseFragment implements View.OnClickLis
 
             if (imagesArr != null && imagesArr.length > 0) {
                 JSONArray jsonArray = new JSONArray();
-                for (int i = 0; i < imagesArr.length; i++)
-                    jsonArray.put(imagesArr[i]);
+                for (int anImagesArr : imagesArr) jsonArray.put(anImagesArr);
                 jsonRequest.put("image_ids", jsonArray);
             }
 

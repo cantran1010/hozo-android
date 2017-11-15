@@ -38,14 +38,14 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
 
     private static final String TAG = MessageAdapter.class.getSimpleName();
     private final List<Message> messages;
-    private Context context;
+    private final Context context;
     @SuppressLint("UseSparseArrays")
-    private HashMap<Integer, Member> memberHashMap = new HashMap<Integer, Member>();
+    private final HashMap<Integer, Member> memberHashMap = new HashMap<Integer, Member>();
 
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef;
-    private DatabaseReference memberCloudEndPoint;
-    private int posterId;
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference myRef;
+    private final DatabaseReference memberCloudEndPoint;
+    private final int posterId;
 
     public MessageAdapter(Context context, List<Message> messages, int posterId) {
         super(context, messages);
@@ -193,10 +193,18 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
 
 
     public class WorkHolder extends BaseHolder {
-        CircleImageView imgLeftAvatar, imgRightAvatar;
-        LinearLayout leftLayout, rightLayout;
-        ImageView imgLeftBoss, imgRightBoss;
-        TextViewHozo tvLeftName, tvRightName, tvLeftMsg, tvRightMsg, tvLeftTime, tvRightTime;
+        final CircleImageView imgLeftAvatar;
+        final CircleImageView imgRightAvatar;
+        final LinearLayout leftLayout;
+        final LinearLayout rightLayout;
+        final ImageView imgLeftBoss;
+        final ImageView imgRightBoss;
+        final TextViewHozo tvLeftName;
+        final TextViewHozo tvRightName;
+        final TextViewHozo tvLeftMsg;
+        final TextViewHozo tvRightMsg;
+        final TextViewHozo tvLeftTime;
+        final TextViewHozo tvRightTime;
 
 
         public WorkHolder(View itemView) {

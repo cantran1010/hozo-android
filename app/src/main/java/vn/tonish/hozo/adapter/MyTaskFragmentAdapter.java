@@ -12,9 +12,10 @@ import vn.tonish.hozo.fragment.MyTaskWorkerFragment;
  */
 
 public class MyTaskFragmentAdapter extends FragmentStatePagerAdapter {
-    private int tabCount;
-    private MyTaskPosterFragment tab1;
-    private MyTaskWorkerFragment tab2;
+    private static final String TAG = MyTaskFragmentAdapter.class.getSimpleName();
+    private final int tabCount;
+    private MyTaskPosterFragment myTaskPosterFragment;
+    private MyTaskWorkerFragment myTaskWorkerFragment;
 
 
     public MyTaskFragmentAdapter(FragmentManager fm, int NumOfTabs) {
@@ -27,13 +28,15 @@ public class MyTaskFragmentAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                tab1 = new MyTaskPosterFragment();
-                return tab1;
+                if (myTaskPosterFragment == null)
+                    myTaskPosterFragment = new MyTaskPosterFragment();
+                return myTaskPosterFragment;
             case 1:
-                tab2 = new MyTaskWorkerFragment();
-                return tab2;
+                if (myTaskWorkerFragment == null)
+                    myTaskWorkerFragment = new MyTaskWorkerFragment();
+                return myTaskWorkerFragment;
             default:
-                return null;
+                return new MyTaskPosterFragment();
         }
     }
 
@@ -43,24 +46,24 @@ public class MyTaskFragmentAdapter extends FragmentStatePagerAdapter {
     }
 
     public void onRefreshTab(int pos) {
-        if (pos == 0)
-            if (tab1 != null)
-                tab1.onRefresh();
-            else if (tab2 != null) tab2.onRefresh();
+        if (pos == 0) {
+            if (myTaskPosterFragment == null)
+                myTaskPosterFragment.onRefresh();
+        } else if (myTaskWorkerFragment != null) myTaskWorkerFragment.onRefresh();
     }
 
 
     public void search(String query, int pos) {
         if (pos == 0)
-            tab1.search(query);
-        else tab2.search(query);
+            myTaskPosterFragment.search(query);
+        else myTaskWorkerFragment.search(query);
 
     }
 
     public void resetState(int pos) {
         if (pos == 0)
-            tab1.endlessRecyclerViewScrollListener.resetState();
-        else tab2.endlessRecyclerViewScrollListener.resetState();
+            myTaskPosterFragment.endlessRecyclerViewScrollListener.resetState();
+        else myTaskWorkerFragment.endlessRecyclerViewScrollListener.resetState();
 
     }
 

@@ -17,8 +17,8 @@ import vn.tonish.hozo.R;
  */
 
 public class HozoSpinnerAdapter extends BaseAdapter {
-    private Context context;
-    private List<String> list;
+    private final Context context;
+    private final List<String> list;
 
     public HozoSpinnerAdapter(Context context, List<String> list) {
         this.context = context;

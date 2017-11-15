@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.CreateTaskActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.MyTaskAdapter;
+import vn.tonish.hozo.adapter.ScaleInAnimationAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.entity.StatusEntity;
@@ -32,6 +34,7 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
+import vn.tonish.hozo.utils.FadeInAnimator;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
@@ -54,7 +57,6 @@ public class MyTaskPosterFragment extends BaseFragment {
     public EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
     private String filter = "";
-    private boolean isReloadMyTask = false;
     private TextViewHozo tvNoData;
     private String mQuery = "";
     private ArrayList<String> listStatus;
@@ -74,7 +76,6 @@ public class MyTaskPosterFragment extends BaseFragment {
     @Override
     protected void initData() {
         getStatus();
-        isReloadMyTask = false;
         initList();
     }
 
@@ -93,21 +94,19 @@ public class MyTaskPosterFragment extends BaseFragment {
     protected void resumeData() {
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK_POSTER));
         LogUtils.d(TAG, "MyTaskPosterFragment resumeData");
-        //refresh my task fragment after copy task
-        if (isReloadMyTask) {
-            Intent intent = new Intent();
-            intent.putExtra(Constants.REFRESH_EXTRA, "refresh");
-            intent.setAction(Constants.BROAD_CAST_SMOOTH_TOP_MY_TASK);
-            getActivity().sendBroadcast(intent);
-        }
-
     }
 
     private void initList() {
+        rcvTask.setItemAnimator(new FadeInAnimator());
         myTaskAdapter = new MyTaskAdapter(getActivity(), taskResponses);
+        ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(myTaskAdapter);
+        scaleInAnimationAdapter.setFirstOnly(false);
+        scaleInAnimationAdapter.setDuration(500);
+        scaleInAnimationAdapter.setInterpolator(new OvershootInterpolator(.5f));
         linearLayoutManager = new LinearLayoutManager(getActivity());
         rcvTask.setLayoutManager(linearLayoutManager);
-        rcvTask.setAdapter(myTaskAdapter);
+//        rcvTask.setAdapter(myTaskAdapter);
+        rcvTask.setAdapter(scaleInAnimationAdapter);
 
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
@@ -145,8 +144,8 @@ public class MyTaskPosterFragment extends BaseFragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
         try {
             getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
         } catch (Exception e) {
@@ -200,7 +199,7 @@ public class MyTaskPosterFragment extends BaseFragment {
                         endlessRecyclerViewScrollListener.resetState();
                     }
 
-                    for (TaskResponse taskReponse : taskResponsesBody != null ? taskResponsesBody : null)
+                    for (TaskResponse taskReponse : taskResponsesBody)
                         taskReponse.setRole(Constants.ROLE_POSTER);
                     taskResponses.addAll(taskResponsesBody);
 
@@ -302,7 +301,8 @@ public class MyTaskPosterFragment extends BaseFragment {
                 }
             }
         } else if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
-            isReloadMyTask = true;
+            onRefresh();
+//            isReloadMyTask = true;
         } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             onRefresh();
         } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.RESULT_CODE_TASK_DELETE) {

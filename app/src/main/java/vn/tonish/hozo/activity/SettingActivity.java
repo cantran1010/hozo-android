@@ -67,7 +67,6 @@ import vn.tonish.hozo.view.ExpandableLayout;
 import vn.tonish.hozo.view.RadioButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
-import static vn.tonish.hozo.R.id.tv_monday;
 import static vn.tonish.hozo.common.Constants.RESULT_CODE_SETTING;
 import static vn.tonish.hozo.database.manager.SettingAdvanceManager.getSettingAdvace;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
@@ -178,7 +177,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         rcvKeyword = (RecyclerView) findViewById(R.id.rcv_keyword);
 
 
-        tvMonday = (TextViewHozo) findViewById(tv_monday);
+        tvMonday = (TextViewHozo) findViewById(R.id.tv_monday);
         tvTuesday = (TextViewHozo) findViewById(R.id.tv_tuesday);
         tvWednesday = (TextViewHozo) findViewById(R.id.tv_wednesday);
         tvThursday = (TextViewHozo) findViewById(R.id.tv_thursday);
@@ -855,7 +854,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.layout_keyword:
                 expandableLayout(keywordExpandableLayout, imgKeyword);
                 break;
-            case tv_monday:
+            case R.id.tv_monday:
                 clickDay(tvMonday);
                 break;
             case R.id.tv_tuesday:

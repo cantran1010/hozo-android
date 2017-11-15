@@ -14,7 +14,7 @@ public class Constants {
     public static final int HTTP_CODE_BLOCK_USER = 423;
     public static final String EXTRA_MY_TASK = "extra_status_mytask";
     public static final int REQUEST_CODE_FILTER_MY_TASK = 474;
-    public static final int FILTER_MY_TASK_RESPONSE_CODE =476 ;
+    public static final int FILTER_MY_TASK_RESPONSE_CODE = 476;
     public static final int REQUEST_CODE_CAMERA_AVATA = 987;
     public static final int REQUEST_CODE_PICK_IMAGE_AVATA = 654;
     public static final int REQUEST_CODE_SKILL = 741;
@@ -26,6 +26,13 @@ public class Constants {
     public static final int REQUEST_CODE_CAMERA_BACKGROUND = 369;
     public static final int REQUEST_CODE_PICK_IMAGE_BACKGROUND = 147;
     public static final String ASSIGNER_CONTACT_EXTRA = "assigner_contact_extra";
+    public static final String BROAD_CAST_SMOOTH_TOP_SYS_TEM = "broad_cast_smooth_top_notification_system";
+    public static final String BROAD_CAST_SMOOTH_TOP_NEW_TASK = "broad_cast_smooth_top_notification_new_task";
+    public static final String BROAD_CAST_SMOOTH_TOP_CHAT = "broad_cast_smooth_top_notification_chat";
+    public static final String BROAD_CAST_PUSH_HOZO = "broad_cast_push_hozo";
+    public static final String BROAD_CAST_SMOOTH_TOP_NOTIFICATION = "broad_cast_smooth_top_notification";
+    public static final int REQUEST_CODE_ALERT_SETTING = 330;
+    public static final int RESULT_CODE_NEW_TASK_ALERT = 331;
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
@@ -222,13 +229,13 @@ public class Constants {
     public static final int REQUEST_CODE_CHAT = 246;
     public static final int RESULT_CODE_CHAT = 147;
     public static final String TAB_EXTRA = "tab_extra";
-    public static String BID_ERROR_SAME_TIME = "no_permission_offer";
-    public static String BID_ERROR_INVALID_DATA = "invalid_data";
-    public static String BID_LIMIT_OFFER = "limit_offer";
-    public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";
-    public static String TASK_DETAIL_NO_EXIT = "no_exist";
+    public static final String BID_ERROR_SAME_TIME = "no_permission_offer";
+    public static final String BID_ERROR_INVALID_DATA = "invalid_data";
+    public static final String BID_LIMIT_OFFER = "limit_offer";
+    public static final String TASK_DETAIL_INPUT_REQUIRE = "input_required";
+    public static final String TASK_DETAIL_NO_EXIT = "no_exist";
     public static final String TASK_DETAIL_BLOCK = "block";
-    public static String LON_EXTRA = "lon_extra";
+    public static final String LON_EXTRA = "lon_extra";
 
     public static final String OFFER_ACTIVE = "OFFER_ACTIVE";
     public static final String OFFER_PENDING = "OFFER_PENDING";
@@ -259,12 +266,12 @@ public class Constants {
     public static final String STATUS_SETTING_ASSIGED = "assigned";
     public static int RESULT_ADVANCE_SETTING_OK = 1203;
 
-    public static String PROMOTION_ERROR_EMPTY = "empty_parameters";
-    public static String PROMOTION_ERROR_NO = "no_promotion";
-    public static String PROMOTION_ERROR_NOT_STARTED = "promotion_not_started";
-    public static String PROMOTION_ERROR_EXPRIED = "promotion_expired";
-    public static String PROMOTION_ERROR_LIMITED = "promotion_limited";
-    public static String PROMOTION_ERROR_USED = "promotion_used";
+    public static final String PROMOTION_ERROR_EMPTY = "empty_parameters";
+    public static final String PROMOTION_ERROR_NO = "no_promotion";
+    public static final String PROMOTION_ERROR_NOT_STARTED = "promotion_not_started";
+    public static final String PROMOTION_ERROR_EXPRIED = "promotion_expired";
+    public static final String PROMOTION_ERROR_LIMITED = "promotion_limited";
+    public static final String PROMOTION_ERROR_USED = "promotion_used";
 
 
     public static final String INVALID_CATEGORY = "invalid_category";
@@ -285,6 +292,9 @@ public class Constants {
     public static final String INVALID_DATA = "invalid_data";
     public static final String NO_REFERRER = "no_referrer";
     public static final String REFERRER_USED = "referrer_used";
+
+    public static final String NOTIFICATION_NEW_TASK = "new_task";
+    public static final String NOTIFICATION_SYS = "system";
 
 
 }

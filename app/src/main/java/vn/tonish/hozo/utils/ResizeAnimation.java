@@ -12,7 +12,7 @@ public class ResizeAnimation extends Animation {
 
     private int startHeight;
     private int deltaHeight; // distance between start and end height
-    private View view;
+    private final View view;
 
     /**
      * constructor, do not forget to use the setParams(int, int) method before
