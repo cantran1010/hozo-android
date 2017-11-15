@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.task_detail.TaskDetailNewActivity;
+import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.MessageAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -432,7 +432,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 switch (item.getItemId()) {
 
                     case R.id.menu_detail_task:
-                        Intent intent = new Intent(ChatActivity.this, TaskDetailNewActivity.class);
+                        Intent intent = new Intent(ChatActivity.this, DetailTaskActivity.class);
                         intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
                         startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                         break;

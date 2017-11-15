@@ -100,7 +100,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private MyGridView myGridView;
     private int taskId = 0;
     private ImageView imgMenu;
-    private LinearLayout moreDetailLayout, moreFooterLayout;
+    private LinearLayout moreDetailLayout, moreFooterLayout, layoutInputComment;
     private PopupMenu popup;
 
     private RecyclerView rcvBidder;
@@ -129,6 +129,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private ImageView imgAttached;
     private File fileAttach;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private View vLineCommentList;
 
     @Override
     protected int getLayout() {
@@ -229,6 +230,10 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         tvSeeMoreComment = (TextViewHozo) findViewById(R.id.tv_see_more_comment);
         tvSeeMoreComment.setOnClickListener(this);
+
+        layoutInputComment = (LinearLayout) findViewById(R.id.comment_input_layout);
+
+        vLineCommentList = findViewById(R.id.v_line_comment_list);
     }
 
     @Override
@@ -497,22 +502,27 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         lvManager.setReverseLayout(true);
         lvManager.setStackFromEnd(true);
         rcvComment.setLayoutManager(lvManager);
-//        commentsAdapter.setCommentType(layoutFooter.getVisibility());
+        commentsAdapter.setCommentType(layoutInputComment.getVisibility());
         rcvComment.setAdapter(commentsAdapter);
 
         commentsAdapter.setAnswerListener(new CommentTaskAdapter.AnswerListener() {
             @Override
             public void onAnswer(int position) {
                 Intent intentAnswer = new Intent(DetailTaskActivity.this, CommentsAnswerActivity.class);
-                String commentType = getString(R.string.comment_setting_visible);
+//                String commentType = getString(R.string.comment_setting_visible);
 //                intentAnswer.putExtra(Constants.TASK_ID_EXTRA, mComments.get(position).getTaskId());
 //                intentAnswer.putExtra(Constants.COMMENT_STATUS_EXTRA, commentType);
 //                intentAnswer.putExtra(Constants.COMMENT_VISIBILITY, View.VISIBLE);
                 intentAnswer.putExtra(Constants.COMMENT_EXTRA, mComments.get(position));
-//                intentAnswer.putExtra(Constants.COMMENT_INPUT_EXTRA, layoutFooter.getVisibility());
+                intentAnswer.putExtra(Constants.COMMENT_INPUT_EXTRA, layoutInputComment.getVisibility());
                 startActivityForResult(intentAnswer, Constants.COMMENT_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
+
+        if (mComments.size() > 0)
+            vLineCommentList.setVisibility(View.VISIBLE);
+        else
+            vLineCommentList.setVisibility(View.GONE);
 
     }
 
@@ -550,6 +560,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             bidderType = getString(R.string.assign);
             assigerType = getString(R.string.call);
 
+            layoutInputComment.setVisibility(View.VISIBLE);
+
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatusTask(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received_poster));
 
@@ -565,6 +577,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             assigerType = getString(R.string.call);
 
+            layoutInputComment.setVisibility(View.VISIBLE);
+
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatusTask(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
 
@@ -579,6 +593,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isReportTask = false;
             isFollow = false;
 
+            layoutInputComment.setVisibility(View.GONE);
+
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatusTask(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
@@ -592,6 +608,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isReportTask = false;
             isFollow = false;
 
+            layoutInputComment.setVisibility(View.GONE);
+
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatusTask(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
@@ -604,6 +622,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isShowCancel = false;
             isReportTask = false;
             isFollow = false;
+
+            layoutInputComment.setVisibility(View.GONE);
 
         }
 
@@ -621,6 +641,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isReportTask = true;
             isFollow = false;
 
+            layoutInputComment.setVisibility(View.VISIBLE);
+
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN)) {
             updateStatusTask(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
@@ -633,6 +655,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isShowCancel = false;
             isReportTask = true;
             isFollow = false;
+
+            layoutInputComment.setVisibility(View.VISIBLE);
 
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
             updateStatusTask(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
@@ -647,6 +671,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isReportTask = true;
             isFollow = false;
 
+            layoutInputComment.setVisibility(View.GONE);
+
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
             updateStatusTask(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
@@ -660,6 +686,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isReportTask = false;
             isFollow = false;
 
+            layoutInputComment.setVisibility(View.GONE);
+
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
             updateStatusTask(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
@@ -672,6 +700,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isShowCancel = false;
             isReportTask = true;
             isFollow = false;
+
+            layoutInputComment.setVisibility(View.GONE);
 
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
             updateStatusTask(true, getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
@@ -690,6 +720,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isReportTask = true;
             isFollow = false;
 
+            layoutInputComment.setVisibility(View.VISIBLE);
+
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
             updateStatusTask(true, getString(R.string.received), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
 
@@ -702,6 +734,9 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isDelete = false;
             isReportTask = true;
             isFollow = false;
+
+            layoutInputComment.setVisibility(View.VISIBLE);
+
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
             updateStatusTask(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
 
@@ -715,6 +750,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isReportTask = false;
             isShowCancel = false;
             isFollow = false;
+
+            layoutInputComment.setVisibility(View.GONE);
         }
         // make an offer
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
@@ -730,6 +767,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isReportTask = true;
             isShowCancel = false;
 
+            layoutInputComment.setVisibility(View.VISIBLE);
+
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() != UserManager.getMyUser().getId()) {
             updateStatusTask(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
 
@@ -743,6 +782,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isReportTask = true;
             isShowCancel = false;
             isFollow = false;
+
+            layoutInputComment.setVisibility(View.VISIBLE);
         }
 
         //Creating the instance of PopupMenu
@@ -1622,6 +1663,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             case R.id.tv_see_more_comment:
                 Intent intentCommentAll = new Intent(DetailTaskActivity.this, CommentAllActivity.class);
                 intentCommentAll.putExtra(Constants.TASK_ID_EXTRA, taskId);
+                intentCommentAll.putExtra(Constants.COMMENT_VISIBILITY, layoutInputComment.getVisibility());
                 startActivity(intentCommentAll, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
