@@ -79,7 +79,7 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
             commentAdapter.setCommentType(getCommentType());
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
             ((WorkHolder) holder).recyclerView.setLayoutManager(layoutManager);
-//        commentAdapter.setCommentType(getCommentType());
+             commentAdapter.setCommentType(getCommentType());
             ((WorkHolder) holder).recyclerView.setAdapter(commentAdapter);
 
             if (comments.get(position).getRepliesCount() > 1) {

@@ -116,6 +116,13 @@ public class CommentAllActivity extends BaseActivity implements View.OnClickList
 
         taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
 
+        int visibility = getIntent().getIntExtra(Constants.COMMENT_VISIBILITY, 0);
+
+        if (visibility == View.VISIBLE)
+            layoutFooter.setVisibility(View.VISIBLE);
+        else
+            layoutFooter.setVisibility(View.GONE);
+
 //        updateInputComment();
         setUpRecyclerView();
     }
@@ -184,7 +191,6 @@ public class CommentAllActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onAnswer(int position) {
                 Intent intentAnswer = new Intent(CommentAllActivity.this, CommentsAnswerActivity.class);
-                String commentType = getString(R.string.comment_setting_visible);
                 intentAnswer.putExtra(Constants.COMMENT_EXTRA, mComments.get(position));
                 intentAnswer.putExtra(Constants.COMMENT_INPUT_EXTRA, layoutFooter.getVisibility());
                 startActivityForResult(intentAnswer, Constants.COMMENT_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);

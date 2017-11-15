@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.task_detail.TaskDetailNewActivity;
+import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
@@ -166,13 +166,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     break;
                 case Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT:
                     int taskIdAdmin = notification.getTaskId();
-                    Intent intentTaskAdmin = new Intent(this, TaskDetailNewActivity.class);
+                    Intent intentTaskAdmin = new Intent(this, DetailTaskActivity.class);
                     intentTaskAdmin.putExtra(Constants.TASK_ID_EXTRA, taskIdAdmin);
                     startActivityForResult(intentTaskAdmin, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                     break;
                 default:
                     int taskId = notification.getTaskId();
-                    Intent intent = new Intent(this, TaskDetailNewActivity.class);
+                    Intent intent = new Intent(this, DetailTaskActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
                     startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                     break;
@@ -180,7 +180,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         } else if (intentPush.hasExtra(Constants.TASK_ID_EXTRA)) {
             int taskId = intentPush.getIntExtra(Constants.TASK_ID_EXTRA, 0);
-            Intent intent = new Intent(this, TaskDetailNewActivity.class);
+            Intent intent = new Intent(this, DetailTaskActivity.class);
             intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
             startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
         }
@@ -313,13 +313,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     break;
                 case Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT:
                     int taskIdAdmin = notification.getTaskId();
-                    Intent intentTaskAdmin = new Intent(this, TaskDetailNewActivity.class);
+                    Intent intentTaskAdmin = new Intent(this, DetailTaskActivity.class);
                     intentTaskAdmin.putExtra(Constants.TASK_ID_EXTRA, taskIdAdmin);
                     startActivityForResult(intentTaskAdmin, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                     break;
                 default:
                     int taskId = notification.getTaskId();
-                    Intent intentDetail = new Intent(this, TaskDetailNewActivity.class);
+                    Intent intentDetail = new Intent(this, DetailTaskActivity.class);
                     intentDetail.putExtra(Constants.TASK_ID_EXTRA, taskId);
                     startActivityForResult(intentDetail, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                     break;
@@ -327,7 +327,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         } else if (intent.hasExtra(Constants.TASK_ID_EXTRA)) {
             int taskId = intent.getIntExtra(Constants.TASK_ID_EXTRA, 0);
-            Intent intentDetail = new Intent(this, TaskDetailNewActivity.class);
+            Intent intentDetail = new Intent(this, DetailTaskActivity.class);
             intentDetail.putExtra(Constants.TASK_ID_EXTRA, taskId);
             startActivityForResult(intentDetail, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
         }

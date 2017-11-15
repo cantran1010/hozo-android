@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.task_detail.TaskDetailNewActivity;
+import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.MiniTask;
 import vn.tonish.hozo.utils.TransitionScreen;
@@ -114,7 +114,7 @@ public class BrowserTaskMapActivity extends BaseActivity implements View.OnClick
             public void onInfoWindowClick(Marker marker) {
                 int position = (int) marker.getTag();
 
-                Intent intent = new Intent(BrowserTaskMapActivity.this, TaskDetailNewActivity.class);
+                Intent intent = new Intent(BrowserTaskMapActivity.this, DetailTaskActivity.class);
                 intent.putExtra(Constants.TASK_ID_EXTRA, miniTasks.get(position).getId());
                 startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
             }

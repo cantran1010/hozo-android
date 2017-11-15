@@ -47,7 +47,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
     public class MyViewHolder extends BaseHolder {
         public final CommentView commentView;
 
-
         public MyViewHolder(View itemView) {
             super(itemView);
             commentView = (CommentView) itemView.findViewById(R.id.comment_view);
