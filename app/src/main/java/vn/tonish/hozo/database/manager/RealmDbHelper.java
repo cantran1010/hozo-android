@@ -145,6 +145,17 @@ public class RealmDbHelper {
                         .addField("name", String.class)
                         .addField("status", String.class)
                         .addField("selected", boolean.class);
+                schema.get("SettingAdvanceEntity")
+                        .addField("ntaNotification", boolean.class)
+                        .addField("ntaFollowed", boolean.class)
+                        .addRealmListField("ntaCategory", schema.get("RealmInt"))
+                        .addRealmListField("ntaDays", schema.get("RealmInt"))
+                        .addField("ntaDistance", int.class)
+                        .addRealmListField("ntaLatlon", schema.get("RealmDouble"))
+                        .addField("nta_worker_rate_min", int.class)
+                        .addField("ntaMaxWorkerRate", int.class)
+                        .addField("ntaAddress", String.class)
+                        .addRealmListField("ntaKeywords", schema.get("RealmString"));
                 oldVersion++;
             }
         }
