@@ -30,7 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeRef
     private static final String TAG = BaseActivity.class.getName();
     private FragmentManager fragmentManager;
     private TransitionScreen transitionScreen;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    public SwipeRefreshLayout swipeRefreshLayout;
     private final Stack<StackEntry> fragmentsStack = new Stack<>();
     private FragmentTransaction transaction;
     private BlockBroadCastReceiver blockBroadCastReceiver = new BlockBroadCastReceiver();

@@ -20,7 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.adapter.AssignerCallAdapter;
+import vn.tonish.hozo.adapter.AssignerAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
@@ -45,12 +45,11 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
     private TaskResponse taskResponse;
     private ArrayList<Assigner> assigners;
     private String assignType = "";
-    private AssignerCallAdapter assignerAdapter;
+    private AssignerAdapter assignerAdapter;
     private TextViewHozo tvTitle;
     private boolean isAssigner = false;
     private int assignersIdRate;
     private boolean isRatting = false;
-
 
     @Override
     protected int getLayout() {
@@ -79,7 +78,7 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
 
     private void updateList() {
         assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
-        assignerAdapter = new AssignerCallAdapter(assigners, assignType);
+        assignerAdapter = new AssignerAdapter(assigners, assignType);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvAssign.setLayoutManager(linearLayoutManager);
         assignerAdapter.setTaskId(taskResponse.getId());

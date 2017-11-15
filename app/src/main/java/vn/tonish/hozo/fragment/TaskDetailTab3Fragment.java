@@ -31,10 +31,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.CommentsAnswerActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
-import vn.tonish.hozo.activity.CommentsNewActivity;
 import vn.tonish.hozo.activity.image.PreviewImageActivity;
-import vn.tonish.hozo.activity.TaskDetailNewActivity;
+import vn.tonish.hozo.activity.task_detail.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.CommentTaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -208,7 +208,7 @@ public class TaskDetailTab3Fragment extends BaseFragment implements View.OnClick
         commentsAdapter.setAnswerListener(new CommentTaskAdapter.AnswerListener() {
             @Override
             public void onAnswer(int position) {
-                Intent intentAnswer = new Intent(getContext(), CommentsNewActivity.class);
+                Intent intentAnswer = new Intent(getContext(), CommentsAnswerActivity.class);
                 String commentType = getContext().getString(R.string.comment_setting_visible);
 //                intentAnswer.putExtra(Constants.TASK_ID_EXTRA, mComments.get(position).getTaskId());
 //                intentAnswer.putExtra(Constants.COMMENT_STATUS_EXTRA, commentType);

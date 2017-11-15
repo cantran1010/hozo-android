@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.task_detail.TaskDetailNewActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.model.MiniTask;
 import vn.tonish.hozo.utils.TransitionScreen;

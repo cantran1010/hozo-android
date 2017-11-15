@@ -144,6 +144,30 @@
         <item name="android:background">@drawable/btn_selector</item>
     </style>
 
+    <style name="btn_style_normal_new">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/btn_new_selector</item>
+    </style>
+
+    <style name="btn_style_green">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/tv_black_new</item>
+        <item name="android:background">@drawable/btn_green_selector</item>
+    </style>
+
+    <style name="btn_style_gray">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/tv_black_new</item>
+        <item name="android:background">@drawable/btn_gray_selector</item>
+    </style>
+
     <style name="btn_style_corners">
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/white</item>
@@ -151,72 +175,73 @@
         <item name="android:background">@drawable/btn_corners_selector</item>
     </style>
 
-    <style name="tv_title_cancel">
-        <item name="android:textSize">16sp</item>
+    <style name="btn_style_corners_new">
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/hozo_red</item>
-    </style>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/btn_new_selector</item></style>
 
-    <!-- style advance setting -->
-    <style name="tv_advance_setting">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:padding">16dp</item>
-    </style>
-    <!-- style verify_style-->
+<style name="tv_title_cancel">
+<item name="android:textSize">16sp</item>
+<item name="android:textStyle">normal</item>
+<item name="android:textColor">@color/hozo_red</item>
+</style>
+
+    <!-- style advance setting --><style name="tv_advance_setting">
+<item name="android:textSize">14sp</item>
+<item name="android:textStyle">normal</item>
+<item name="android:padding">16dp</item>
+</style><!-- style verify_style-->
 
     // style my swicth
 
     // check box
 
-    <style name="HozoAccountKit" parent="Theme.AccountKit">
-        <item name="com_accountkit_input_background_color">@color/green_hozo</item>
-        <item name="com_accountkit_button_background_color">@color/hozo_bg</item>
-        <item name="com_accountkit_status_bar_color">@color/hozo_bg</item>
-        <item name="com_accountkit_primary_color">@color/hozo_bg</item>
+<style name="HozoAccountKit" parent="Theme.AccountKit">
+<item name="com_accountkit_input_background_color">@color/green_hozo</item>
+<item name="com_accountkit_button_background_color">@color/hozo_bg</item>
+<item name="com_accountkit_status_bar_color">@color/hozo_bg</item>
+<item name="com_accountkit_primary_color">@color/hozo_bg</item>
 
-    </style>
+</style>
 
-    <color name="edt_hint">#AEAEAE</color>
-    <!-- style setting advance -->
-    <style name="week_day_style">
-        <item name="android:textSize">@dimen/tv_size_xtiny</item>
-        <item name="android:layout_width">30dp</item>
-        <item name="android:layout_height">30dp</item>
-        <item name="android:background">@drawable/bg_circle_default</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_margin">5dp</item>
-        <item name="android:textColor">@color/hozo_bg</item>
-    </style>
+<color name="edt_hint">#AEAEAE</color><!-- style setting advance --><style name="week_day_style">
+<item name="android:textSize">@dimen/tv_size_xtiny</item>
+<item name="android:layout_width">30dp</item>
+<item name="android:layout_height">30dp</item>
+<item name="android:background">@drawable/bg_circle_default</item>
+<item name="android:gravity">center</item>
+<item name="android:layout_margin">5dp</item>
+<item name="android:textColor">@color/hozo_bg</item>
+</style>
 
-    <style name="edt_create_task">
-        <item name="android:textSize">@dimen/tv_size_xxtiny</item>
-        <item name="android:padding">10dp</item>
-        <item name="android:textColor">@color/color_edt_create_task_lable</item>
-        <item name="android:textColorHint">@color/color_hint_create_task_lable</item>
-        <item name="android:background">@drawable/selector_edittext</item>
-    </style>
+<style name="edt_create_task">
+<item name="android:textSize">@dimen/tv_size_xxtiny</item>
+<item name="android:padding">10dp</item>
+<item name="android:textColor">@color/color_edt_create_task_lable</item>
+<item name="android:textColorHint">@color/color_hint_create_task_lable</item>
+<item name="android:background">@drawable/selector_edittext</item>
+</style>
 
-    <style name="btn_style_hozo">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:clickable">true</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:foreground">?android:attr/selectableItemBackground</item>
-        <item name="android:background">@drawable/btn_hozo_selector</item>
-    </style>
+<style name="btn_style_hozo">
+<item name="android:textSize">16sp</item>
+<item name="android:textStyle">bold</item>
+<item name="android:textColor">@color/white</item>
+<item name="android:clickable">true</item>
+<item name="android:textAllCaps">false</item>
+<item name="android:foreground">?android:attr/selectableItemBackground</item>
+<item name="android:background">@drawable/btn_hozo_selector</item>
+</style>
 
-    <style name="tv_setting_advance_show">
-        <item name="android:textSize">@dimen/tv_size_tiny</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/hozo_bg</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:gravity">end</item>
-        <item name="android:padding">8dp</item>
+<style name="tv_setting_advance_show">
+<item name="android:textSize">@dimen/tv_size_tiny</item>
+<item name="android:textStyle">normal</item>
+<item name="android:textColor">@color/hozo_bg</item>
+<item name="android:ellipsize">end</item>
+<item name="android:maxLines">1</item>
+<item name="android:layout_centerVertical">true</item>
+<item name="android:gravity">end</item>
+<item name="android:padding">8dp</item>
 
 
-    </style>
-</resources>
+</style></resources>

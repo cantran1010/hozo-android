@@ -30,7 +30,7 @@ import vn.tonish.hozo.utils.Utils;
 public class CommentBigView extends LinearLayout implements View.OnClickListener {
     private static final String TAG = CommentBigView.class.getSimpleName();
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName, tvComment, tvTimeAgo, tvAnswer, tvCommentCount;
+    private TextViewHozo tvName, tvComment, tvTimeAgo, tvAnswer;
     private ImageView imgAttach;
     private ImageView imgSetting;
     private Comment comment;
@@ -88,9 +88,6 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
         tvAnswer = findViewById(R.id.tv_answer);
         tvAnswer.setOnClickListener(this);
 
-        tvCommentCount = findViewById(R.id.tv_comment_count);
-        tvCommentCount.setOnClickListener(this);
-
         imgSetting.setOnClickListener(this);
     }
 
@@ -124,16 +121,16 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
             tvAnswer.setVisibility(View.GONE);
         }
 
-        if (getCommentCountVisibility() == View.GONE) {
-            tvCommentCount.setVisibility(View.GONE);
-        } else {
-
-            if (comment.getRepliesCount() > 2) {
-                tvCommentCount.setText(getContext().getString(R.string.comment_count, comment.getRepliesCount() - 2));
-                tvCommentCount.setVisibility(View.VISIBLE);
-            } else
-                tvCommentCount.setVisibility(View.GONE);
-        }
+//        if (getCommentCountVisibility() == View.GONE) {
+//            tvCommentCount.setVisibility(View.GONE);
+//        } else {
+//
+//            if (comment.getRepliesCount() > 2) {
+//                tvCommentCount.setText(getContext().getString(R.string.comment_count, comment.getRepliesCount() - 2));
+//                tvCommentCount.setVisibility(View.VISIBLE);
+//            } else
+//                tvCommentCount.setVisibility(View.GONE);
+//        }
 
     }
 
@@ -159,10 +156,10 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
                 break;
 
             case R.id.tv_answer:
-            case R.id.tv_comment_count:
+//            case R.id.tv_comment_count:
                 if (answerListener != null) answerListener.onAnswer();
 
-//                Intent intentAnswer = new Intent(getContext(), CommentsNewActivity.class);
+//                Intent intentAnswer = new Intent(getContext(), CommentsAnswerActivity.class);
 //                commentType = getContext().getString(R.string.comment_setting_visible);
 //                intentAnswer.putExtra(Constants.TASK_ID_EXTRA, comment.getTaskId());
 //                intentAnswer.putExtra(Constants.COMMENT_STATUS_EXTRA, commentType);

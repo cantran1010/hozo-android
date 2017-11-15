@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_left_screen"
+        android:layout_marginRight="@dimen/margin_right_screen"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/margin_left_screen"
+        android:layout_marginEnd="@dimen/margin_right_screen">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/comment"
+                android:textColor="@color/tv_gray_new"
+                android:textStyle="bold" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/tv_comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_count_bidder"
+                android:paddingBottom="2dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="2dp"
+                android:textColor="#d23176"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <include layout="@layout/input_comment_layout" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="15dp"
+        android:background="#e8f0f0" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_comment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/margin_left_screen"
+        android:layout_marginRight="@dimen/margin_right_screen"
+        android:layout_marginTop="15dp"
+        android:scrollbars="vertical"
+        android:layout_marginStart="@dimen/margin_left_screen"
+        android:layout_marginEnd="@dimen/margin_right_screen" />
+
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_see_more_comment"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_gray_corners"
+        android:gravity="center"
+        android:text="@string/see_all_comment"
+        android:textColor="@color/tv_gray_new"
+        android:textStyle="bold" />
+
+</LinearLayout>

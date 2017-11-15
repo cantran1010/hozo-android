@@ -7,8 +7,8 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,7 +30,6 @@ import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.Bidder;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
-import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
@@ -42,10 +41,10 @@ import static android.content.ContentValues.TAG;
  * Created by LongBui on 4/21/2017.
  */
 
-public class BidderOpenView extends LinearLayout implements View.OnClickListener {
+public class BidderOpenView extends RelativeLayout implements View.OnClickListener {
 
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName, tvTimeAgo;
+    private TextViewHozo tvName, tvDoneRate;
     private RatingBar rbRate;
     private ButtonHozo btnAssign;
     private Bidder bidder;
@@ -78,7 +77,7 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
         imgAvatar = findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
         tvName = findViewById(R.id.tv_name);
-        tvTimeAgo = findViewById(R.id.tv_time_ago);
+        tvDoneRate = findViewById(R.id.tv_poster_done_rate);
         rbRate = findViewById(R.id.rb_rate);
         btnAssign = findViewById(R.id.btn_assign);
     }
@@ -90,8 +89,8 @@ public class BidderOpenView extends LinearLayout implements View.OnClickListener
         tvName.setText(bidder.getFullName());
         rbRate.setRating(bidder.getTaskerAverageRating());
 
-        if (bidder.getBidedAt() != null)
-            tvTimeAgo.setText(DateTimeUtils.getTimeAgo(bidder.getBidedAt(), getContext()));
+        String percentDone = (int) (bidder.getPosterDoneRate() * 100) + "% " + getContext().getString(R.string.completion_rate);
+        tvDoneRate.setText(percentDone);
 
         if (type.equals(getContext().getString(R.string.assign))) {
             btnAssign.setVisibility(View.VISIBLE);

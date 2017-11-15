@@ -8,18 +8,18 @@
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/white">
+        android:background="@color/hozo_bg">
 
         <ImageView
             android:id="@+id/img_back"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
             android:layout_centerVertical="true"
-            android:background="@drawable/btn_back_selector"
+            android:background="@drawable/btn_back_selector_new"
             android:contentDescription="@string/content_description_back"
             android:padding="5dp"
             android:scaleType="centerInside"
-            android:src="@drawable/img_back" />
+            android:src="@drawable/back_arrow" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_title"

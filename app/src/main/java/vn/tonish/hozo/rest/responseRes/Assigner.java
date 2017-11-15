@@ -26,6 +26,17 @@ public class Assigner implements Serializable{
     @SerializedName("email_active")
     private boolean emailActive;
 
+    @SerializedName("tasker_done_rate")
+    private float posterDoneRate;
+
+    public float getPosterDoneRate() {
+        return posterDoneRate;
+    }
+
+    public void setPosterDoneRate(float posterDoneRate) {
+        this.posterDoneRate = posterDoneRate;
+    }
+
     public boolean isEmailActive() {
         return emailActive;
     }
@@ -128,6 +139,7 @@ public class Assigner implements Serializable{
                 ", email='" + email + '\'' +
                 ", facebookId='" + facebookId + '\'' +
                 ", emailActive=" + emailActive +
+                ", posterDoneRate=" + posterDoneRate +
                 '}';
     }
 }

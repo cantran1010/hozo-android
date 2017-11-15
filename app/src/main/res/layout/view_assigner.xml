@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal">
+
+    <vn.tonish.hozo.view.CircleImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="@dimen/avatar_width_height"
+        android:layout_height="@dimen/avatar_width_height"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/avatar_default" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/img_avatar"
+        android:layout_toLeftOf="@+id/right_layout"
+        android:layout_toRightOf="@id/img_avatar"
+        android:layout_toStartOf="@+id/right_layout"
+        android:orientation="vertical">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tv_black_new"
+            android:textSize="14sp" />
+
+        <RatingBar
+            android:id="@+id/rb_rate"
+            style="@style/StarRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:numStars="5" />
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_poster_done_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tv_gray_new"
+            android:textSize="11sp"
+            tools:ignore="SmallSp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/right_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="2dp"
+        android:orientation="vertical">
+
+        <vn.tonish.hozo.view.ButtonHozo
+            android:id="@+id/btn_contact"
+            style="@style/btn_style_green"
+            android:layout_width="75dp"
+            android:layout_height="22dp"
+            android:layout_gravity="end"
+            android:layout_margin="1dp"
+            android:text="@string/contact"
+            android:textSize="12sp" />
+
+        <vn.tonish.hozo.view.ButtonHozo
+            android:id="@+id/btn_cancel"
+            style="@style/btn_style_gray"
+            android:layout_width="75dp"
+            android:layout_height="22dp"
+            android:layout_gravity="end"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/cancel_assigner"
+            android:textSize="12sp" />
+
+        <vn.tonish.hozo.view.ButtonHozo
+            android:id="@+id/btn_rate"
+            style="@style/btn_style_normal_new"
+            android:layout_width="75dp"
+            android:layout_height="22dp"
+            android:layout_gravity="end"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/rate"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+</RelativeLayout>

@@ -24,7 +24,7 @@ import vn.tonish.hozo.activity.BiddersActivity;
 import vn.tonish.hozo.activity.BlockTaskActivity;
 import vn.tonish.hozo.activity.ChatActivity;
 import vn.tonish.hozo.activity.RateActivity;
-import vn.tonish.hozo.activity.TaskDetailNewActivity;
+import vn.tonish.hozo.activity.task_detail.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.AssignerCallAdapter;
 import vn.tonish.hozo.adapter.PosterOpenAdapter;
 import vn.tonish.hozo.common.Constants;
