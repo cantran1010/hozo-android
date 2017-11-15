@@ -194,6 +194,9 @@
             android:name=".activity.CommentAllActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.task_detail.ConfirmBidActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.facebook.accountkit.ui.AccountKitActivity"
             android:theme="@style/HozoAccountKit"
             tools:replace="android:theme" />

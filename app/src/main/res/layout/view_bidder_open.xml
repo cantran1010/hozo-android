@@ -1,72 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal">
 
-    <RelativeLayout
+    <vn.tonish.hozo.view.CircleImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="@dimen/avatar_width_height"
+        android:layout_height="@dimen/avatar_width_height"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/avatar_default" />
+
+    <vn.tonish.hozo.view.ButtonHozo
+        android:id="@+id/btn_assign"
+        style="@style/btn_style_green"
+        android:layout_width="75dp"
+        android:layout_height="22dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="end"
+        android:text="@string/assign"
+        android:textSize="12sp" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/img_avatar"
+        android:layout_toLeftOf="@id/btn_assign"
+        android:layout_toRightOf="@id/img_avatar"
+        android:layout_toStartOf="@id/btn_assign"
+        android:orientation="vertical">
 
-        <vn.tonish.hozo.view.CircleImageView
-            android:id="@+id/img_avatar"
-            android:layout_width="@dimen/avatar_width_height"
-            android:layout_height="@dimen/avatar_width_height"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/avatar_default" />
-
-        <vn.tonish.hozo.view.ButtonHozo
-            android:id="@+id/btn_assign"
-            style="@style/btn_style_green"
-            android:layout_width="75dp"
-            android:layout_height="22dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="end"
-            android:text="@string/assign"
-            android:textSize="12sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/img_avatar"
-            android:layout_toLeftOf="@id/btn_assign"
-            android:layout_toRightOf="@id/img_avatar"
-            android:layout_toStartOf="@id/btn_assign"
-            android:orientation="vertical">
+            android:textColor="@color/tv_black_new"
+            android:textSize="14sp" />
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bui duc long"
-                android:textColor="@color/tv_black_new"
-                android:textSize="14sp" />
+        <RatingBar
+            android:id="@+id/rb_rate"
+            style="@style/StarRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:isIndicator="true"
+            android:numStars="5" />
 
-            <RatingBar
-                android:id="@+id/rb_rate"
-                style="@style/StarRatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="0dp"
-                android:isIndicator="true"
-                android:numStars="5" />
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_poster_done_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tv_gray_new"
+            android:textSize="11sp"
+            tools:ignore="SmallSp" />
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_poster_done_rate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="80% hoan thanh"
-                android:textColor="@color/tv_gray_new"
-                android:textSize="11sp" />
-
-        </LinearLayout>
-    </RelativeLayout>
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

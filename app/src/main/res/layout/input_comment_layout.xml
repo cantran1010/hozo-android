@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -33,7 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,9 +75,6 @@
                     android:id="@+id/edt_comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/img_send"
-                    android:layout_toStartOf="@id/img_send"
                     android:background="@null"
                     android:hint="@string/type_your_text"
                     android:inputType="textCapSentences"
@@ -105,7 +104,8 @@
                     android:drawableLeft="@drawable/ic_photo_camera"
                     android:drawablePadding="5dp"
                     android:text="@string/attach_image_des"
-                    android:textColor="@color/tv_gray_new" />
+                    android:textColor="@color/tv_gray_new"
+                    android:drawableStart="@drawable/ic_photo_camera" />
 
                 <vn.tonish.hozo.view.ButtonHozo
                     android:id="@+id/btn_comment"
@@ -117,7 +117,8 @@
                     android:layout_centerVertical="true"
                     android:text="@string/send"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>
 

@@ -7,8 +7,8 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +41,7 @@ import static android.content.ContentValues.TAG;
  * Created by LongBui on 4/21/2017.
  */
 
-public class BidderOpenView extends LinearLayout implements View.OnClickListener {
+public class BidderOpenView extends RelativeLayout implements View.OnClickListener {
 
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvDoneRate;

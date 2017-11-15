@@ -28,6 +28,7 @@
         <ignore path="src/main/res/drawable-xxxhdpi/ic_menu_map_on.png" />
     </issue>
     <issue id="IconDipSize">
+        <ignore path="src/main/res/drawable-hdpi/arrow_down_blue.png" />
         <ignore path="src/main/res/drawable-hdpi/back_arrow.png" />
         <ignore path="src/main/res/drawable-hdpi/ic_down_arrow.png" />
         <ignore path="src/main/res/drawable-hdpi/ic_up_arrow.png" />
@@ -36,6 +37,7 @@
         <ignore path="src/main/res/drawable-hdpi/support_star_off.png" />
         <ignore path="src/main/res/drawable-hdpi/support_star_on.png" />
         <ignore path="src/main/res/drawable-hdpi/timer_gray.png" />
+        <ignore path="src/main/res/drawable-mdpi/arrow_down_blue.png" />
         <ignore path="src/main/res/drawable-mdpi/back_arrow.png" />
         <ignore path="src/main/res/drawable-mdpi/ic_down_arrow.png" />
         <ignore path="src/main/res/drawable-mdpi/ic_up_arrow.png" />
@@ -44,6 +46,7 @@
         <ignore path="src/main/res/drawable-mdpi/support_star_off.png" />
         <ignore path="src/main/res/drawable-mdpi/support_star_on.png" />
         <ignore path="src/main/res/drawable-mdpi/timer_gray.png" />
+        <ignore path="src/main/res/drawable-xhdpi/arrow_down_blue.png" />
         <ignore path="src/main/res/drawable-xhdpi/back_arrow.png" />
         <ignore path="src/main/res/drawable-xhdpi/ic_down_arrow.png" />
         <ignore path="src/main/res/drawable-xhdpi/ic_up_arrow.png" />
@@ -52,6 +55,7 @@
         <ignore path="src/main/res/drawable-xhdpi/support_star_off.png" />
         <ignore path="src/main/res/drawable-xhdpi/support_star_on.png" />
         <ignore path="src/main/res/drawable-xhdpi/timer_gray.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/arrow_down_blue.png" />
         <ignore path="src/main/res/drawable-xxhdpi/back_arrow.png" />
         <ignore path="src/main/res/drawable-xxhdpi/ic_down_arrow.png" />
         <ignore path="src/main/res/drawable-xxhdpi/ic_up_arrow.png" />
@@ -60,6 +64,7 @@
         <ignore path="src/main/res/drawable-xxhdpi/support_star_off.png" />
         <ignore path="src/main/res/drawable-xxhdpi/support_star_on.png" />
         <ignore path="src/main/res/drawable-xxhdpi/timer_gray.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/arrow_down_blue.png" />
         <ignore path="src/main/res/drawable-xxxhdpi/back_arrow.png" />
         <ignore path="src/main/res/drawable-xxxhdpi/ic_down_arrow.png" />
         <ignore path="src/main/res/drawable-xxxhdpi/ic_up_arrow.png" />

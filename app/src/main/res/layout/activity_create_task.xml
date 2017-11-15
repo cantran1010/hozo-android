@@ -105,7 +105,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:gravity="end"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
 
             </RelativeLayout>
 
@@ -401,7 +402,8 @@
                     android:layout_alignParentRight="true"
                     android:gravity="end"
                     android:textColor="@color/color_create_task_lable"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
 
             </RelativeLayout>
 

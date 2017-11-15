@@ -29,9 +29,7 @@
             android:layout_marginLeft="@dimen/title_margin_left"
             android:layout_marginStart="@dimen/title_margin_left"
             android:layout_toEndOf="@id/img_back"
-            android:layout_toLeftOf="@+id/img_edit"
             android:layout_toRightOf="@id/img_back"
-            android:layout_toStartOf="@+id/img_edit"
             android:text="@string/all_comment" />
 
     </RelativeLayout>
@@ -57,7 +55,9 @@
                     android:layout_height="match_parent"
                     android:paddingLeft="@dimen/margin_left_screen"
                     android:paddingRight="@dimen/margin_right_screen"
-                    android:scrollbars="vertical" />
+                    android:scrollbars="none"
+                    android:paddingStart="@dimen/margin_left_screen"
+                    android:paddingEnd="@dimen/margin_right_screen" />
 
             </RelativeLayout>
 

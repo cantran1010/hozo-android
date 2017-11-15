@@ -64,7 +64,7 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof WorkHolder) {
             ((WorkHolder) holder).commentBigView.setCommentType(getCommentType());
             ((WorkHolder) holder).commentBigView.updateData(comments.get(position));
@@ -91,7 +91,7 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
             ((WorkHolder) holder).tvCommentCount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (answerListener != null) answerListener.onAnswer(position);
+                    if (answerListener != null) answerListener.onAnswer(holder.getAdapterPosition());
                 }
             });
 

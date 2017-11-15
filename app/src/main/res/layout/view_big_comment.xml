@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
@@ -26,7 +27,6 @@
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bui Duc long"
                 android:textColor="@color/tv_black_new"
                 android:textSize="15sp" />
 
@@ -36,7 +36,6 @@
             android:id="@+id/tv_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lam trong bao lau"
             android:textColor="@color/tv_gray_new"
             android:textSize="14sp" />
 
@@ -56,7 +55,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:ignore="RelativeOverlap">
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_time_ago"
@@ -66,8 +66,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
                     android:drawablePadding="5dp"
-                    android:text="10 phut truoc"
-                    android:textSize="11sp" />
+                    android:textSize="11sp"
+                    tools:ignore="SmallSp" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_answer"
@@ -81,7 +81,8 @@
                     android:drawableStart="@drawable/img_dot_gray"
                     android:text="@string/answer"
                     android:textColor="@color/tv_gray_new"
-                    android:textSize="11sp" />
+                    android:textSize="11sp"
+                    tools:ignore="SmallSp" />
 
             </LinearLayout>
 

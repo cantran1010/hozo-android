@@ -33,7 +33,6 @@
 
     <!--Edit profile Screen-->
     <string name="edit_profile_tv_header">Sửa đổi thông tin</string>
-    <string name="edit_profile_btn_save">Lưu lại</string>
     <string name="select_task_title">Đăng việc</string>
     <string name="browse_task_title">Tìm việc</string>
     <string name="my_task_title">Việc của tôi</string>
@@ -138,7 +137,6 @@
     <string name="btn_reset">Mặc định</string>
     <string name="profile_worker">Người làm việc</string>
     <string name="profile_hire">Người đăng việc</string>
-    <string name="profile_verify">Đã xác thực</string>
     <string name="profile_address">ĐỊA CHỈ</string>
     <string name="profile_phone">ĐIỆN THOẠI</string>
     <string name="content_description_send">Gửi</string>
@@ -159,10 +157,8 @@
     <string name="post_a_task_time_working_error">Vui lòng nhập số giờ làm việc</string>
     <string name="post_a_task_complete">Chúc mừng bạn đã đăng tuyển thành công!</string>
     <string name="draft_a_task_complete">Lưu việc thành công!</string>
-    <string name="show_all">Xem thêm</string>
     <string name="my_account">Tài khoản của tôi</string>
     <string name="user_account">Tài khoản</string>
-    <string name="profile_rate">Đánh giá</string>
     <string name="retry_title">Lỗi kết nối.</string>
     <string name="retry_content">Không thể kết nối tới máy chủ. Vui lòng kiểm tra kết nối của bạn và thử lại.</string>
     <string name="retry">THỬ LẠI</string>
@@ -181,7 +177,7 @@
     <string name="task_detail_attach_image_hint">Hình ảnh minh họa</string>
     <string name="comment_report">Thông báo tin nhắn xấu</string>
     <string name="see_more">Xem thêm</string>
-    <string name="bid_success">Ứng tuyển thành công</string>
+    <string name="bid_success">Chúc mừng ứng tuyển của bạn đã thành công. Vui lòng để ý thông báo cho trạng thái công việc.</string>
     <string name="report_title">Lý do báo cáo</string>
     <string name="report_spam_much">Spam quá nhiều</string>
     <string name="report_language_bad">Ngôn ngữ không phù hợp</string>
@@ -205,7 +201,6 @@
     <string name="edt_max">Chi phí cao nhất</string>
     <string name="erro_emply_price">Chi phí không được thấp hơn 10.000 VND</string>
     <string name="erro_price">Lỗi! Giá trị xung đột, đề nghị nhập lại. </string>
-    <string name="gender_any">any</string>
     <string name="gender_male">male</string>
     <string name="gender_female">female</string>
     <string name="gender_male_vn">Nam</string>
@@ -347,7 +342,6 @@
     <string name="support_mail_body">Nội dung : </string>
     <string name="open_brower_error">Rất tiếc điện thoại bạn không hỗ trợ trình duyệt web</string>
     <string name="device_type">android</string>
-    <string name="update_version">Cập nhật </string>
     <string name="update_version_hozo">Cập nhật Hozo</string>
     <string name="update_oke">CẬP NHẬT </string>
     <string name="update_content">Bạn có muốn cập nhật phiên bản mới nhất?</string>
@@ -394,7 +388,6 @@
     <string name="brower_new_task" tools:ignore="PluralsCandidate">%1$d việc mới</string>
     <string name="address_hint">Nhập địa chỉ …</string>
     <string name="no_address">Rất tiếc,không tìm thấy địa chỉ!</string>
-    <string name="waiting_active">Đang chờ xác thực.</string>
     <string name="email_verify_done">Vui lòng kiểm tra email để hoàn thành bước xác thưc!</string>
     <string name="work_detail_view_bit_pending">Đang chờ giao việc</string>
     <string name="cancel_task_by_poster">Công việc đã bị hủy bời người tạo!</string>
@@ -403,7 +396,6 @@
     <string name="alert_dialog_close">Đóng</string>
     <string name="re_create_task">Sao chép việc</string>
     <string name="rate_content_hint">Nhập nội dung đánh giá …</string>
-    <string name="comment_task">Chi tiết hỏi đáp</string>
     <string name="bidders">Danh sách ứng tuyển(%1$d)</string>
     <string name="assigners">Danh sách người làm(%1$d)</string>
     <string name="report_task">Báo xấu việc</string>
@@ -446,7 +438,6 @@
     <string name="edit_task">Chỉnh sửa việc</string>
     <string name="tv_save">Lưu nháp</string>
     <string name="answer">Trả lời</string>
-    <string name="comment_count">%1$d phản hồi khác</string>
     <string name="answer_comment_title">Trả lời</string>
     <string name="non_value">-</string>
     <string name="follow_task">Theo dõi việc</string>
@@ -661,9 +652,17 @@
     <string name="send">Gửi</string>
     <string name="see_all_comment">%1$d bình luận khác</string>
     <string name="wait_accept">Đang chờ giao việc</string>
-    <string name="done_rate">%1$d hoàn thành</string>
     <string name="bidder_count_lbl">%1$d ứng viên</string>
     <string name="contact">Liên lạc</string>
     <string name="cancel_assigner">Hủy giao</string>
     <string name="all_comment">Tất cả bình luận</string>
+    <string name="confirm_bid_title">Xác nhận ứng tuyển</string>
+    <string name="bid_lbl">Bạn đã ứng tuyển việc</string>
+    <string name="bid_des1">Để đảm bảo uy tín ứng tuyển.\nHoZo sẽ tạm thu 1000đ từ ví HoZo của bạn.\nSố tiền sẽ được hoàn trả nếu:</string>
+    <string name="bid_des2">Bạn hoàn thành công việc có\nxác nhận từ người thuê.</string>
+    <string name="bid_des3">Bạn huỷ ứng tuyển trước khi được giao việc hoặc sau khi được giao việc sau 30 phút.</string>
+    <string name="bid_confirm_policy">Xem thêm ở Điều khoản sử dụng</string>
+    <string name="bid_confirm_policy_link">Điều khoản sử dụng</string>
+    <string name="input_msg_hint">Nhập tin nhắn đến người đăng</string>
+    <string name="confirm">Đồng ý</string>
 </resources>

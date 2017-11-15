@@ -39,7 +39,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.AssignersActivity;
 import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.BiddersActivity;
 import vn.tonish.hozo.activity.BlockTaskActivity;
 import vn.tonish.hozo.activity.ChatActivity;
 import vn.tonish.hozo.activity.CommentAllActivity;
@@ -383,7 +385,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             tvDes.setText(taskResponse.getDescription());
         }
 
-        tvBudget.setText(getString(R.string.my_task_price, Utils.formatNumber(taskResponse.getWorkerRate())));
+        tvBudget.setText(Utils.formatNumber(taskResponse.getWorkerRate()));
 
         tvWorkerCount.setText(String.valueOf(taskResponse.getWorkerCount()));
         tvAssignerCount.setText(String.valueOf(taskResponse.getAssigneeCount()));
@@ -454,6 +456,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             biddersNew.addAll(bidders.subList(0, MAX_WORKER));
 
             posterOpenAdapter = new PosterOpenAdapter(biddersNew, bidderType);
+            tvSeeMoreBidders.setVisibility(View.VISIBLE);
         } else {
             tvSeeMoreBidders.setVisibility(View.GONE);
             posterOpenAdapter = new PosterOpenAdapter(bidders, bidderType);
@@ -473,6 +476,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             assignersNew.addAll(assigners.subList(0, MAX_WORKER));
 
             assignerAdapter = new AssignerAdapter(assignersNew, assignType);
+            tvSeeMoreAssigners.setVisibility(View.VISIBLE);
         } else {
             tvSeeMoreAssigners.setVisibility(View.GONE);
             assignerAdapter = new AssignerAdapter(assigners, assignType);
@@ -530,13 +534,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatusTask(true, getString(R.string.my_task_status_poster_open), ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.GONE);
-            moreDetailLayout.setVisibility(View.VISIBLE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.GONE);
-            moreFooterLayout.setVisibility(View.VISIBLE);
+            showExpand(true);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -555,13 +553,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatusTask(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received_poster));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.GONE);
-            moreDetailLayout.setVisibility(View.VISIBLE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.GONE);
-            moreFooterLayout.setVisibility(View.VISIBLE);
+            showExpand(true);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -576,13 +568,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatusTask(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.GONE);
-            moreDetailLayout.setVisibility(View.VISIBLE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.GONE);
-            moreFooterLayout.setVisibility(View.VISIBLE);
+            showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -596,13 +582,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatusTask(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.GONE);
-            moreDetailLayout.setVisibility(View.VISIBLE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.GONE);
-            moreFooterLayout.setVisibility(View.VISIBLE);
+            showExpand(true);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -615,13 +595,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatusTask(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.GONE);
-            moreDetailLayout.setVisibility(View.VISIBLE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.GONE);
-            moreFooterLayout.setVisibility(View.VISIBLE);
+            showExpand(true);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -637,13 +611,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
             updateStatusTask(true, getString(R.string.my_task_status_worker_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.GONE);
-            moreDetailLayout.setVisibility(View.VISIBLE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.GONE);
-            moreFooterLayout.setVisibility(View.VISIBLE);
+            showExpand(true);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -656,13 +624,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN)) {
             updateStatusTask(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.GONE);
-            moreDetailLayout.setVisibility(View.VISIBLE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.GONE);
-            moreFooterLayout.setVisibility(View.VISIBLE);
+            showExpand(true);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -675,13 +637,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
             updateStatusTask(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.GONE);
-            moreDetailLayout.setVisibility(View.VISIBLE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.GONE);
-            moreFooterLayout.setVisibility(View.VISIBLE);
+            showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -694,13 +650,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
             updateStatusTask(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.GONE);
-            moreDetailLayout.setVisibility(View.VISIBLE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.GONE);
-            moreFooterLayout.setVisibility(View.VISIBLE);
+            showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -713,13 +663,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
             updateStatusTask(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.GONE);
-            moreDetailLayout.setVisibility(View.VISIBLE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.GONE);
-            moreFooterLayout.setVisibility(View.VISIBLE);
+            showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -730,19 +674,15 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isFollow = false;
 
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
-            updateStatusTask(false, getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
+            updateStatusTask(true, getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.VISIBLE);
-            moreDetailLayout.setVisibility(View.GONE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.GONE);
-            moreFooterLayout.setVisibility(View.VISIBLE);
+            showExpand(false);
 
             btnOffer.setVisibility(View.VISIBLE);
             btnOffer.setText(getString(R.string.wait_accept));
             Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(this, R.drawable.btn_wait_accept));
+            btnOffer.setEnabled(false);
+
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
 
@@ -753,13 +693,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
             updateStatusTask(true, getString(R.string.received), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.GONE);
-            moreDetailLayout.setVisibility(View.VISIBLE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.GONE);
-            moreFooterLayout.setVisibility(View.VISIBLE);
+            showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.VISIBLE);
@@ -771,13 +705,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
             updateStatusTask(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.VISIBLE);
-            moreDetailLayout.setVisibility(View.GONE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.VISIBLE);
-            moreFooterLayout.setVisibility(View.GONE);
+            showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -792,13 +720,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
             updateStatusTask(true, getString(R.string.make_an_offer_status), ContextCompat.getDrawable(this, R.drawable.bg_border_offer));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.GONE);
-            moreDetailLayout.setVisibility(View.VISIBLE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.GONE);
-            moreFooterLayout.setVisibility(View.VISIBLE);
+            showExpand(true);
 
             btnOffer.setVisibility(View.VISIBLE);
             btnContact.setVisibility(View.GONE);
@@ -811,13 +733,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() != UserManager.getMyUser().getId()) {
             updateStatusTask(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
 
-            //see more detail
-            tvSeeMoreDetail.setVisibility(View.GONE);
-            moreDetailLayout.setVisibility(View.VISIBLE);
-
-            // see more footer
-            tvSeeMoreFooter.setVisibility(View.GONE);
-            moreFooterLayout.setVisibility(View.VISIBLE);
+            showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -931,6 +847,26 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 return true;
             }
         });
+    }
+
+    private void showExpand(boolean isShow) {
+        if (isShow) {
+            //see more detail
+            tvSeeMoreDetail.setVisibility(View.GONE);
+            moreDetailLayout.setVisibility(View.VISIBLE);
+
+            // see more footer
+            tvSeeMoreFooter.setVisibility(View.GONE);
+            moreFooterLayout.setVisibility(View.VISIBLE);
+        } else {
+            //see more detail
+            tvSeeMoreDetail.setVisibility(View.VISIBLE);
+            moreDetailLayout.setVisibility(View.GONE);
+
+            // see more footer
+            tvSeeMoreFooter.setVisibility(View.VISIBLE);
+            moreFooterLayout.setVisibility(View.GONE);
+        }
     }
 
     private void doCacelTask() {
@@ -1600,6 +1536,20 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    private void doSeeMoreBidders() {
+        Intent intent = new Intent(this, BiddersActivity.class);
+        intent.putExtra(Constants.TASK_RESPONSE_EXTRA, taskResponse);
+        intent.putExtra(Constants.BIDDER_TYPE_EXTRA, bidderType);
+        startActivityForResult(intent, Constants.REQUEST_CODE_SEND_BINDDER, TransitionScreen.DOWN_TO_UP);
+    }
+
+    private void doSeeMoreAssigns() {
+        Intent intent = new Intent(this, AssignersActivity.class);
+        intent.putExtra(Constants.TASK_RESPONSE_EXTRA, taskResponse);
+        intent.putExtra(Constants.ASSIGNER_TYPE_EXTRA, assigerType);
+        startActivityForResult(intent, Constants.REQUEST_CODE_SEND_ASSIGNER, TransitionScreen.DOWN_TO_UP);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -1630,15 +1580,26 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.btn_bid:
-
+                Intent intentBid = new Intent(this, ConfirmBidActivity.class);
+                intentBid.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
+                startActivity(intentBid, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.btn_contact:
-
+                Intent intentContact = new Intent(DetailTaskActivity.this, ChatActivity.class);
+                intentContact.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+                intentContact.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
+                intentContact.putExtra(Constants.TITLE_INFO_EXTRA, taskResponse.getTitle());
+                startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
                 break;
 
             case R.id.btn_rate:
-
+                Intent intentRate = new Intent(DetailTaskActivity.this, RateActivity.class);
+                intentRate.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
+                intentRate.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
+                intentRate.putExtra(Constants.AVATAR_EXTRA, taskResponse.getPoster().getAvatar());
+                intentRate.putExtra(Constants.NAME_EXTRA, taskResponse.getPoster().getFullName());
+                startActivityForResult(intentRate, Constants.REQUEST_CODE_RATE, TransitionScreen.UP_TO_DOWN);
                 break;
 
             case R.id.tv_see_more_detail_footer:
@@ -1662,6 +1623,14 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 Intent intentCommentAll = new Intent(DetailTaskActivity.this, CommentAllActivity.class);
                 intentCommentAll.putExtra(Constants.TASK_ID_EXTRA, taskId);
                 startActivity(intentCommentAll, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+
+            case R.id.tv_see_more_bidders:
+                doSeeMoreBidders();
+                break;
+
+            case R.id.tv_see_more_assigns:
+                doSeeMoreAssigns();
                 break;
 
         }

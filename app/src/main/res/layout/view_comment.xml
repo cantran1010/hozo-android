@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
@@ -26,7 +27,6 @@
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bui Du long"
                 android:textColor="@color/tv_gray_new"
                 android:textSize="15sp" />
 
@@ -36,7 +36,6 @@
             android:id="@+id/tv_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dang lam gi day"
             android:textColor="@color/tv_gray_new"
             android:textSize="14sp" />
 
@@ -59,9 +58,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 android:drawablePadding="5dp"
-                android:text="10 phut truoc"
                 android:textColor="@color/tv_gray_new"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                tools:ignore="RelativeOverlap,SmallSp" />
 
             <ImageView
                 android:id="@+id/img_setting"
