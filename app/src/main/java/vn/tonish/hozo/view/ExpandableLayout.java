@@ -33,11 +33,11 @@ public class ExpandableLayout extends FrameLayout {
         int EXPANDED = 3;
     }
 
-    public static final String KEY_SUPER_STATE = "super_state";
-    public static final String KEY_EXPANSION = "expansion";
+    private static final String KEY_SUPER_STATE = "super_state";
+    private static final String KEY_EXPANSION = "expansion";
 
-    public static final int HORIZONTAL = 0;
-    public static final int VERTICAL = 1;
+    private static final int HORIZONTAL = 0;
+    private static final int VERTICAL = 1;
 
     private static final int DEFAULT_DURATION = 300;
 
@@ -155,7 +155,7 @@ public class ExpandableLayout extends FrameLayout {
         toggle(true);
     }
 
-    public void toggle(boolean animate) {
+    private void toggle(boolean animate) {
         if (isExpanded()) {
             collapse(animate);
         } else {
@@ -167,7 +167,7 @@ public class ExpandableLayout extends FrameLayout {
         expand(true);
     }
 
-    public void expand(boolean animate) {
+    private void expand(boolean animate) {
         setExpanded(true, animate);
     }
 
@@ -175,7 +175,7 @@ public class ExpandableLayout extends FrameLayout {
         collapse(true);
     }
 
-    public void collapse(boolean animate) {
+    private void collapse(boolean animate) {
         setExpanded(false, animate);
     }
 
@@ -186,7 +186,7 @@ public class ExpandableLayout extends FrameLayout {
         setExpanded(expand, true);
     }
 
-    public void setExpanded(boolean expand, boolean animate) {
+    private void setExpanded(boolean expand, boolean animate) {
         if (expand == isExpanded()) {
             return;
         }
@@ -215,7 +215,7 @@ public class ExpandableLayout extends FrameLayout {
         return expansion;
     }
 
-    public void setExpansion(float expansion) {
+    private void setExpansion(float expansion) {
         if (this.expansion == expansion) {
             return;
         }
@@ -245,7 +245,7 @@ public class ExpandableLayout extends FrameLayout {
         return parallax;
     }
 
-    public void setParallax(float parallax) {
+    private void setParallax(float parallax) {
         // Make sure parallax is between 0 and 1
         parallax = Math.min(1, Math.max(0, parallax));
         this.parallax = parallax;
@@ -299,7 +299,7 @@ public class ExpandableLayout extends FrameLayout {
     }
 
     private class ExpansionListener implements Animator.AnimatorListener {
-        private int targetExpansion;
+        private final int targetExpansion;
         private boolean canceled;
 
         public ExpansionListener(int targetExpansion) {

@@ -59,7 +59,7 @@ public class SystemNotificationFragment extends BaseFragment {
     private RecyclerView lvList;
     private final List<Notification> notifications = new ArrayList<>();
     private String since;
-    public static final int LIMIT = 20;
+    private static final int LIMIT = 20;
     private boolean isLoadingMoreFromServer = true;
     private Call<List<Notification>> call;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
@@ -225,7 +225,7 @@ public class SystemNotificationFragment extends BaseFragment {
                         endlessRecyclerViewScrollListener.resetState();
 
                     }
-                    notifications.addAll(notificationResponse != null ? notificationResponse : null);
+                    notifications.addAll(notificationResponse);
                     if ((notificationResponse != null ? notificationResponse.size() : 0) > 0)
                         since = notificationResponse.get(notificationResponse.size() - 1).getCreatedAt();
 

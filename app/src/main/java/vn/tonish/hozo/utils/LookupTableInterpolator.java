@@ -19,11 +19,6 @@ package vn.tonish.hozo.utils;
 import android.view.animation.Interpolator;
 
 /**
- * An {@link Interpolator} that uses a lookup table to compute an interpolation based on a
- * given input.
- */
-
-/**
  * Created by CanTran on 9/15/17.
  */
 

@@ -214,7 +214,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     }
                     if ((taskResponses != null ? taskResponses.size() : 0) > 0)
                         sinceStr = taskResponses.get((taskResponses != null ? taskResponses.size() : 0) - 1).getCreatedAt();
-                    taskList.addAll(taskResponses != null ? taskResponses : null);
+                    taskList.addAll(taskResponses);
                     taskAdapter.notifyDataSetChanged();
                     LogUtils.d(TAG, "getTaskResponse size : " + taskList.size());
                     TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));

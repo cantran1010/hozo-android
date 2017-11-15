@@ -30,7 +30,7 @@ public class CheckBoxHozo extends AppCompatCheckBox {
     private void init() {
 
         if (!isInEditMode()) {
-            Typeface tf = null;
+            Typeface tf;
             try {
                 int styleTxt = getTypeface().getStyle();
 

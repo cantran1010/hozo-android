@@ -138,7 +138,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private static final int MIN_HOUR = 1;
     private static final int MAX_HOUR = 12;
     private CustomArrayAdapter adapter;
-    private ArrayList<String> vnds = new ArrayList<>();
+    private final ArrayList<String> vnds = new ArrayList<>();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private final ArrayList<Image> images = new ArrayList<>();

@@ -48,7 +48,7 @@ public class RealmDbHelper {
         return realmConfiguration;
     }
 
-    public static RealmMigration migration = new RealmMigration() {
+    private static final RealmMigration migration = new RealmMigration() {
         @Override
         public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
             LogUtils.d(TAG, "RealmMigration , oldVersion : " + oldVersion + " , newVersion : " + newVersion);
@@ -156,6 +156,7 @@ public class RealmDbHelper {
                         .addField("ntaMaxWorkerRate", int.class)
                         .addField("ntaAddress", String.class)
                         .addRealmListField("ntaKeywords", schema.get("RealmString"));
+                //noinspection UnusedAssignment
                 oldVersion++;
             }
         }

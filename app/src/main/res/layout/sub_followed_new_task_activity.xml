@@ -13,7 +13,7 @@
         android:padding="16dp">
 
         <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_top"
+            android:id="@+id/tv_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -25,7 +25,7 @@
             android:id="@+id/radio_follow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_top"
+            android:layout_below="@+id/tv_header"
             android:layout_gravity="center_horizontal"
             android:animateLayoutChanges="true"
             android:gravity="center_horizontal"

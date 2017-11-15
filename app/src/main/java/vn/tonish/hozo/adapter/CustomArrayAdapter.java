@@ -21,8 +21,8 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 public class CustomArrayAdapter extends ArrayAdapter<String> implements
         Filterable {
-    private List<String> list;
-    private List<Integer> listInt = new ArrayList<>();
+    private final List<String> list;
+    private final List<Integer> listInt = new ArrayList<>();
     private CustomFilter customFilter;
 
     public CustomArrayAdapter(Context context, List<String> list) {

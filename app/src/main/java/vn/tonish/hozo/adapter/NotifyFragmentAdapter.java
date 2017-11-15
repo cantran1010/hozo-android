@@ -13,7 +13,7 @@ import vn.tonish.hozo.fragment.NewTaskAlertNotificationFragment;
  */
 
 public class NotifyFragmentAdapter extends FragmentStatePagerAdapter {
-    int mNumOfTabs;
+    private final int mNumOfTabs;
     private SystemNotificationFragment tab1;
     private ChatFragment tab2;
     private NewTaskAlertNotificationFragment tab3;

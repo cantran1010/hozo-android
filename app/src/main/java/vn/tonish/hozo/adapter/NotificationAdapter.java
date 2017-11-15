@@ -86,37 +86,41 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
 
             final Notification notification = notifications.get(position);
 
-            if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_USER)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_TASK)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_COMMENT)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_TASK)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_COMMENT)
-                    || notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT)) {
-                notificationHolder.imgAvata.setImageResource(R.mipmap.app_icon);
-                notificationHolder.tvContent.setText(notification.getContent());
-                String matcher = context.getString(R.string.term_and_policy);
-                SpannableString spannable = new SpannableString(notificationHolder.tvContent.getText().toString());
+            switch (notification.getEvent()) {
+                case Constants.PUSH_TYPE_ADMIN_PUSH:
+                case Constants.PUSH_TYPE_BLOCK_USER:
+                case Constants.PUSH_TYPE_ACTIVE_USER:
+                case Constants.PUSH_TYPE_ACTIVE_TASK:
+                case Constants.PUSH_TYPE_ACTIVE_COMMENT:
+                case Constants.PUSH_TYPE_BLOCK_TASK:
+                case Constants.PUSH_TYPE_BLOCK_COMMENT:
+                case Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT:
+                    notificationHolder.imgAvata.setImageResource(R.mipmap.app_icon);
+                    notificationHolder.tvContent.setText(notification.getContent());
+                    String matcher = context.getString(R.string.term_and_policy);
+                    SpannableString spannable = new SpannableString(notificationHolder.tvContent.getText().toString());
 
-                Pattern patternId = Pattern.compile(matcher);
-                Matcher matcherId = patternId.matcher(notificationHolder.tvContent.getText().toString());
-                while (matcherId.find()) {
-                    spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#00A2E5")), matcherId.start(), matcherId.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
+                    Pattern patternId = Pattern.compile(matcher);
+                    Matcher matcherId = patternId.matcher(notificationHolder.tvContent.getText().toString());
+                    while (matcherId.find()) {
+                        spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#00A2E5")), matcherId.start(), matcherId.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
 
-                notificationHolder.tvContent.setMovementMethod(LinkMovementMethod.getInstance());
-                notificationHolder.tvContent.setText(spannable);
-                notificationHolder.tvContent.setContentDescription(spannable);
+                    notificationHolder.tvContent.setMovementMethod(LinkMovementMethod.getInstance());
+                    notificationHolder.tvContent.setText(spannable);
+                    notificationHolder.tvContent.setContentDescription(spannable);
 
 
-            } else if (notification.getEvent().equals(Constants.PUSH_TYPE_NEW_TASK_ALERT)) {
-                Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());
-                String strContent = notification.getFullName() + " "+ context.getString(R.string.notification_new_task_alert) + " " + notification.getTaskName() + " " + context.getString(R.string.push_alert);
-                notificationHolder.tvContent.setText(strContent);
-            } else {
-                Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());
-                Utils.setContentMessage(context, notificationHolder.tvContent, notification);
+                    break;
+                case Constants.PUSH_TYPE_NEW_TASK_ALERT:
+                    Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());
+                    String strContent = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert) + " " + notification.getTaskName() + " " + context.getString(R.string.push_alert);
+                    notificationHolder.tvContent.setText(strContent);
+                    break;
+                default:
+                    Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());
+                    Utils.setContentMessage(context, notificationHolder.tvContent, notification);
+                    break;
             }
 
             notificationHolder.tvContent.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +166,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
         private final CircleImageView imgAvata;
         private final TextViewHozo tvContent;
         private final TextViewHozo tvTimeAgo;
-        private LinearLayout mainLayout;
+        private final LinearLayout mainLayout;
 
         public NotificationHolder(View itemView, Context context) {
             super(itemView, context);

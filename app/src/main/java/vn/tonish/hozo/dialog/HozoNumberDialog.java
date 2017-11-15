@@ -33,8 +33,8 @@ public class HozoNumberDialog extends BaseDialog implements View.OnClickListener
 
     private int value;
     private String title;
-    private int min;
-    private int max;
+    private final int min;
+    private final int max;
 
     public HozoNumberDialog(@NonNull Context context, String title, int min, int max) {
         super(context);

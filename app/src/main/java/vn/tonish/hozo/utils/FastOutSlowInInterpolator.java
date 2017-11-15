@@ -18,15 +18,6 @@
 package vn.tonish.hozo.utils;
 
 /**
- * Interpolator corresponding to {@link android.R.interpolator#fast_out_slow_in}.
- *
- * Uses a lookup table for the Bezier curve from (0,0) to (1,1) with control points:
- * P0 (0, 0)
- * P1 (0.4, 0)
- * P2 (0.2, 1.0)
- * P3 (1.0, 1.0)
- */
-/**
  * Created by CanTran on 9/15/17.
  */
 

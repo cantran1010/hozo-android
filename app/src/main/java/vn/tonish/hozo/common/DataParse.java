@@ -245,7 +245,7 @@ public class DataParse {
         return bidder;
     }
 
-    public static BidderEntity convertBidderToBidderEntity(Bidder bidder) {
+    private static BidderEntity convertBidderToBidderEntity(Bidder bidder) {
         BidderEntity bidderEntity = new BidderEntity();
         bidderEntity.setId(bidder.getId());
         bidderEntity.setVerify(bidder.getVerify());
@@ -273,7 +273,7 @@ public class DataParse {
         return bidderEntities;
     }
 
-    public static Assigner convertAssignerEntityToAssign(AssignerEntity assignerEntity) {
+    private static Assigner convertAssignerEntityToAssign(AssignerEntity assignerEntity) {
         Assigner assigner = new Assigner();
         assigner.setId(assignerEntity.getId());
         assigner.setTaskerAverageRating(assignerEntity.getTaskerAverageRating());
@@ -287,7 +287,7 @@ public class DataParse {
         return assigner;
     }
 
-    public static AssignerEntity convertAssignerToAssignEntity(Assigner assigner) {
+    private static AssignerEntity convertAssignerToAssignEntity(Assigner assigner) {
         AssignerEntity assignerEntity = new AssignerEntity();
         assignerEntity.setId(assigner.getId());
         assignerEntity.setTaskerAverageRating(assigner.getTaskerAverageRating());
@@ -301,21 +301,21 @@ public class DataParse {
         return assignerEntity;
     }
 
-    public static List<Assigner> convertListAssignerEntityToListAssigner(List<AssignerEntity> assignerEntities) {
+    private static List<Assigner> convertListAssignerEntityToListAssigner(List<AssignerEntity> assignerEntities) {
         List<Assigner> assigners = new ArrayList<>();
         for (AssignerEntity assignerEntity : assignerEntities)
             assigners.add(convertAssignerEntityToAssign(assignerEntity));
         return assigners;
     }
 
-    public static RealmList<AssignerEntity> convertListAssigerToListAssignerEntity(List<Assigner> assigners) {
+    private static RealmList<AssignerEntity> convertListAssigerToListAssignerEntity(List<Assigner> assigners) {
         RealmList<AssignerEntity> assignerEntities = new RealmList<>();
         for (Assigner assigner : assigners)
             assignerEntities.add(convertAssignerToAssignEntity(assigner));
         return assignerEntities;
     }
 
-    public static CommentEntity convertCommentToCommentEntity(Comment comment) {
+    private static CommentEntity convertCommentToCommentEntity(Comment comment) {
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setId(comment.getId());
         commentEntity.setFullName(comment.getFullName());
@@ -329,7 +329,7 @@ public class DataParse {
         return commentEntity;
     }
 
-    public static Comment convertCommentEntityToComment(CommentEntity commentEntity) {
+    private static Comment convertCommentEntityToComment(CommentEntity commentEntity) {
         Comment comment = new Comment();
         comment.setId(commentEntity.getId());
         comment.setFullName(commentEntity.getFullName());
@@ -343,14 +343,14 @@ public class DataParse {
         return comment;
     }
 
-    public static List<Comment> convertListCommentEntityToListComment(List<CommentEntity> commentEntities) {
+    private static List<Comment> convertListCommentEntityToListComment(List<CommentEntity> commentEntities) {
         List<Comment> comments = new ArrayList<>();
         for (CommentEntity commentEntity : commentEntities)
             comments.add(convertCommentEntityToComment(commentEntity));
         return comments;
     }
 
-    public static RealmList<CommentEntity> convertListCommentToListCommentEntity(List<Comment> comments) {
+    private static RealmList<CommentEntity> convertListCommentToListCommentEntity(List<Comment> comments) {
         RealmList<CommentEntity> commentEntities = new RealmList<>();
         for (Comment comment : comments)
             commentEntities.add(convertCommentToCommentEntity(comment));

@@ -229,13 +229,13 @@ public class Constants {
     public static final int REQUEST_CODE_CHAT = 246;
     public static final int RESULT_CODE_CHAT = 147;
     public static final String TAB_EXTRA = "tab_extra";
-    public static String BID_ERROR_SAME_TIME = "no_permission_offer";
-    public static String BID_ERROR_INVALID_DATA = "invalid_data";
-    public static String BID_LIMIT_OFFER = "limit_offer";
-    public static String TASK_DETAIL_INPUT_REQUIRE = "input_required";
-    public static String TASK_DETAIL_NO_EXIT = "no_exist";
+    public static final String BID_ERROR_SAME_TIME = "no_permission_offer";
+    public static final String BID_ERROR_INVALID_DATA = "invalid_data";
+    public static final String BID_LIMIT_OFFER = "limit_offer";
+    public static final String TASK_DETAIL_INPUT_REQUIRE = "input_required";
+    public static final String TASK_DETAIL_NO_EXIT = "no_exist";
     public static final String TASK_DETAIL_BLOCK = "block";
-    public static String LON_EXTRA = "lon_extra";
+    public static final String LON_EXTRA = "lon_extra";
 
     public static final String OFFER_ACTIVE = "OFFER_ACTIVE";
     public static final String OFFER_PENDING = "OFFER_PENDING";
@@ -266,12 +266,12 @@ public class Constants {
     public static final String STATUS_SETTING_ASSIGED = "assigned";
     public static int RESULT_ADVANCE_SETTING_OK = 1203;
 
-    public static String PROMOTION_ERROR_EMPTY = "empty_parameters";
-    public static String PROMOTION_ERROR_NO = "no_promotion";
-    public static String PROMOTION_ERROR_NOT_STARTED = "promotion_not_started";
-    public static String PROMOTION_ERROR_EXPRIED = "promotion_expired";
-    public static String PROMOTION_ERROR_LIMITED = "promotion_limited";
-    public static String PROMOTION_ERROR_USED = "promotion_used";
+    public static final String PROMOTION_ERROR_EMPTY = "empty_parameters";
+    public static final String PROMOTION_ERROR_NO = "no_promotion";
+    public static final String PROMOTION_ERROR_NOT_STARTED = "promotion_not_started";
+    public static final String PROMOTION_ERROR_EXPRIED = "promotion_expired";
+    public static final String PROMOTION_ERROR_LIMITED = "promotion_limited";
+    public static final String PROMOTION_ERROR_USED = "promotion_used";
 
 
     public static final String INVALID_CATEGORY = "invalid_category";

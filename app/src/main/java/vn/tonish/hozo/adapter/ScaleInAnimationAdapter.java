@@ -30,7 +30,7 @@ public class ScaleInAnimationAdapter extends AnimationAdapter {
     this(adapter, DEFAULT_SCALE_FROM);
   }
 
-  public ScaleInAnimationAdapter(RecyclerView.Adapter adapter, float from) {
+  private ScaleInAnimationAdapter(RecyclerView.Adapter adapter, float from) {
     super(adapter);
     mFrom = from;
   }

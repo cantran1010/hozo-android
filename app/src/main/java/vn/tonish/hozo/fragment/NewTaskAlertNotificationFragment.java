@@ -60,14 +60,13 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
     private RecyclerView lvList;
     private final List<Notification> notifications = new ArrayList<>();
     private String since;
-    public static final int LIMIT = 20;
+    private static final int LIMIT = 20;
     private boolean isLoadingMoreFromServer = true;
     private Call<List<Notification>> call;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
     private TextViewHozo tvNoData;
     private static final int TIME_DELAY = 2000;
-    private TextViewHozo tvSetting;
 
     @Override
     protected int getLayout() {
@@ -78,7 +77,7 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
     protected void initView() {
         lvList = (RecyclerView) findViewById(R.id.lvList);
         tvNoData = (TextViewHozo) findViewById(R.id.tv_no_data);
-        tvSetting = (TextViewHozo) findViewById(R.id.tv_setting);
+        TextViewHozo tvSetting = (TextViewHozo) findViewById(R.id.tv_setting);
         tvSetting.setOnClickListener(this);
 
         createSwipeToRefresh();
@@ -262,7 +261,7 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
                         }, TIME_DELAY);
 
                     }
-                    notifications.addAll(notificationResponse != null ? notificationResponse : null);
+                    notifications.addAll(notificationResponse);
                     if ((notificationResponse != null ? notificationResponse.size() : 0) > 0)
                         since = notificationResponse.get(notificationResponse.size() - 1).getCreatedAt();
 

@@ -41,7 +41,6 @@ import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_RATE;
 public class AssignersActivity extends BaseActivity implements View.OnClickListener {
     private final static String TAG = AssignersActivity.class.getSimpleName();
     private RecyclerView rcvAssign;
-    private ImageView imgBack;
     private TaskResponse taskResponse;
     private ArrayList<Assigner> assigners;
     private String assignType = "";
@@ -59,7 +58,7 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initView() {
         rcvAssign = (RecyclerView) findViewById(lvList);
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         assigners = new ArrayList<>();
         taskResponse = new TaskResponse();
