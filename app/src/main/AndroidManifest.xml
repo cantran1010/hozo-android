@@ -74,6 +74,9 @@
             android:name=".activity.AdvanceSettingsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.AlertNewTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.FilterMyTaskActivity"
             android:screenOrientation="portrait" />
         <activity

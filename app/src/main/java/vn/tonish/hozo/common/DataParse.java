@@ -9,6 +9,9 @@ import vn.tonish.hozo.database.entity.BidderEntity;
 import vn.tonish.hozo.database.entity.CategoryEntity;
 import vn.tonish.hozo.database.entity.CommentEntity;
 import vn.tonish.hozo.database.entity.PosterEntity;
+import vn.tonish.hozo.database.entity.RealmDouble;
+import vn.tonish.hozo.database.entity.RealmInt;
+import vn.tonish.hozo.database.entity.RealmString;
 import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
@@ -68,6 +71,40 @@ public class DataParse {
         return categories1;
     }
 
+    public static List<Integer> convertRealmToListInt(RealmList<RealmInt> realmInts) {
+        List<Integer> integers = new ArrayList<>();
+
+        for (RealmInt realmInt : realmInts
+                ) {
+            integers.add(realmInt.getVal());
+
+        }
+        return integers;
+    }
+
+
+    public static List<Double> convertRealmToListDouble(RealmList<RealmDouble> realmInts) {
+        List<Double> doubles = new ArrayList<>();
+
+        for (RealmDouble realmDouble : realmInts
+                ) {
+            doubles.add(realmDouble.getVal());
+
+        }
+        return doubles;
+    }
+
+
+    public static List<String> convertRealmToListString(RealmList<RealmString> realmInts) {
+        List<String> strings = new ArrayList<>();
+
+        for (RealmString realmDouble : realmInts
+                ) {
+            strings.add(realmDouble.getValue());
+
+        }
+        return strings;
+    }
 
     public static TaskResponse converTaskEntityToTaskReponse(TaskEntity taskEntity) {
         TaskResponse taskResponse = new TaskResponse();

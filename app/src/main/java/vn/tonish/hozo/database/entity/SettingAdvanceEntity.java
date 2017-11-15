@@ -15,24 +15,64 @@ public class SettingAdvanceEntity extends RealmObject {
     private int userId;
     @SerializedName("notification_chat_group")
     private boolean notification;
+
+    @SerializedName("notification_nta")
+    private boolean ntaNotification;
+
     @SerializedName("filter_task_status")
     private String status;
+
+    @SerializedName("nta_followed")
+    private boolean ntaFollowed;
+
     @SerializedName("filter_categories")
     private RealmList<RealmInt> categories;
+
+    @SerializedName("nta_categories")
+    private RealmList<RealmInt> ntaCategory;
+
     @SerializedName("filter_worker_days")
     private RealmList<RealmInt> days;
+
+    @SerializedName("nta_worker_days")
+    private RealmList<RealmInt> ntaDays;
+
     @SerializedName("filter_distance")
     private int distance;
+
+    @SerializedName("nta_distance")
+    private int ntaDistance;
+
     @SerializedName("filter_original_location")
     private RealmList<RealmDouble> latlon;
+
+    @SerializedName("nta_origin_location")
+    private RealmList<RealmDouble> ntaLatlon;
+
+
     @SerializedName("filter_worker_rate_min")
     private long minWorkerRate;
+
+    @SerializedName("nta_worker_rate_min")
+    private long ntaMinWorkerRate;
+
     @SerializedName("filter_worker_rate_max")
     private long maxWorkerRate;
-    @SerializedName("filter_keywords")
-    private RealmList<RealmString> keywords;
+
+    @SerializedName("nta_worker_rate_max")
+    private long ntaMaxWorkerRate;
+
     @SerializedName("filter_original_address")
     private String address;
+
+    @SerializedName("nta_origin_address")
+    private String ntaAddress;
+
+    @SerializedName("filter_keywords")
+    private RealmList<RealmString> keywords;
+
+    @SerializedName("nta_keywords")
+    private RealmList<RealmString> ntaKeywords;
 
     public int getUserId() {
         return userId;
@@ -50,12 +90,28 @@ public class SettingAdvanceEntity extends RealmObject {
         this.notification = notification;
     }
 
+    public boolean isNtaNotification() {
+        return ntaNotification;
+    }
+
+    public void setNtaNotification(boolean ntaNotification) {
+        this.ntaNotification = ntaNotification;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public boolean isNtaFollowed() {
+        return ntaFollowed;
+    }
+
+    public void setNtaFollowed(boolean ntaFollowed) {
+        this.ntaFollowed = ntaFollowed;
     }
 
     public RealmList<RealmInt> getCategories() {
@@ -66,6 +122,14 @@ public class SettingAdvanceEntity extends RealmObject {
         this.categories = categories;
     }
 
+    public RealmList<RealmInt> getNtaCategory() {
+        return ntaCategory;
+    }
+
+    public void setNtaCategory(RealmList<RealmInt> ntaCategory) {
+        this.ntaCategory = ntaCategory;
+    }
+
     public RealmList<RealmInt> getDays() {
         return days;
     }
@@ -74,6 +138,13 @@ public class SettingAdvanceEntity extends RealmObject {
         this.days = days;
     }
 
+    public RealmList<RealmInt> getNtaDays() {
+        return ntaDays;
+    }
+
+    public void setNtaDays(RealmList<RealmInt> ntaDays) {
+        this.ntaDays = ntaDays;
+    }
 
     public int getDistance() {
         return distance;
@@ -81,6 +152,14 @@ public class SettingAdvanceEntity extends RealmObject {
 
     public void setDistance(int distance) {
         this.distance = distance;
+    }
+
+    public int getNtaDistance() {
+        return ntaDistance;
+    }
+
+    public void setNtaDistance(int ntaDistance) {
+        this.ntaDistance = ntaDistance;
     }
 
     public RealmList<RealmDouble> getLatlon() {
@@ -91,12 +170,28 @@ public class SettingAdvanceEntity extends RealmObject {
         this.latlon = latlon;
     }
 
+    public RealmList<RealmDouble> getNtaLatlon() {
+        return ntaLatlon;
+    }
+
+    public void setNtaLatlon(RealmList<RealmDouble> ntaLatlon) {
+        this.ntaLatlon = ntaLatlon;
+    }
+
     public long getMinWorkerRate() {
         return minWorkerRate;
     }
 
     public void setMinWorkerRate(long minWorkerRate) {
         this.minWorkerRate = minWorkerRate;
+    }
+
+    public long getNtaMinWorkerRate() {
+        return ntaMinWorkerRate;
+    }
+
+    public void setNtaMinWorkerRate(long ntaMinWorkerRate) {
+        this.ntaMinWorkerRate = ntaMinWorkerRate;
     }
 
     public long getMaxWorkerRate() {
@@ -107,12 +202,12 @@ public class SettingAdvanceEntity extends RealmObject {
         this.maxWorkerRate = maxWorkerRate;
     }
 
-    public RealmList<RealmString> getKeywords() {
-        return keywords;
+    public long getNtaMaxWorkerRate() {
+        return ntaMaxWorkerRate;
     }
 
-    public void setKeywords(RealmList<RealmString> keywords) {
-        this.keywords = keywords;
+    public void setNtaMaxWorkerRate(long ntaMaxWorkerRate) {
+        this.ntaMaxWorkerRate = ntaMaxWorkerRate;
     }
 
     public String getAddress() {
@@ -123,20 +218,54 @@ public class SettingAdvanceEntity extends RealmObject {
         this.address = address;
     }
 
+    public String getNtaAddress() {
+        return ntaAddress;
+    }
+
+    public void setNtaAddress(String ntaAddress) {
+        this.ntaAddress = ntaAddress;
+    }
+
+    public RealmList<RealmString> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(RealmList<RealmString> keywords) {
+        this.keywords = keywords;
+    }
+
+    public RealmList<RealmString> getNtaKeywords() {
+        return ntaKeywords;
+    }
+
+    public void setNtaKeywords(RealmList<RealmString> ntaKeywords) {
+        this.ntaKeywords = ntaKeywords;
+    }
+
     @Override
     public String toString() {
         return "SettingAdvanceEntity{" +
                 "userId=" + userId +
                 ", notification=" + notification +
+                ", ntaNotification=" + ntaNotification +
                 ", status='" + status + '\'' +
+                ", ntaFollowed=" + ntaFollowed +
                 ", categories=" + categories +
+                ", ntaCategory=" + ntaCategory +
                 ", days=" + days +
+                ", ntaDays=" + ntaDays +
                 ", distance=" + distance +
+                ", ntaDistance=" + ntaDistance +
                 ", latlon=" + latlon +
+                ", ntaLatlon=" + ntaLatlon +
                 ", minWorkerRate=" + minWorkerRate +
+                ", ntaMinWorkerRate=" + ntaMinWorkerRate +
                 ", maxWorkerRate=" + maxWorkerRate +
-                ", keywords=" + keywords +
+                ", ntaMaxWorkerRate=" + ntaMaxWorkerRate +
                 ", address='" + address + '\'' +
+                ", ntaAddress='" + ntaAddress + '\'' +
+                ", keywords=" + keywords +
+                ", ntaKeywords=" + ntaKeywords +
                 '}';
     }
 }
