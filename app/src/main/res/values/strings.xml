@@ -648,4 +648,13 @@
     <string name="notification_tab_3">Việc mới</string>
     <string name="smooth_top">smooth_top</string>
     <string name="group_chat">Nhóm:</string>
+    <string name="task_alert_setting">Cài đặt việc mới</string>
+    <string name="task_alert_top">Bạn có muốn nhận thông báo việc mới?</string>
+    <string name="yes_all">Có</string>
+    <string name="no_all">Không</string>
+    <string name="task_alert_followed">Nhận thông báo từ User theo dõi trên Hozo.</string>
+    <string name="tv_content_alert_new_task">Tuỳ chọn thông báo</string>
+    <string name="setting_follow">Kết nối trên Hozo</string>
+    <string name="setting_alert_new_task">Cài đặt để nhận việc mới</string>
+    <string name="system_error">system_error</string>
 </resources>

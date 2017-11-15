@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import vn.tonish.hozo.fragment.ChatFragment;
 import vn.tonish.hozo.fragment.SystemNotificationFragment;
-import vn.tonish.hozo.fragment.TaskAlertsFragment;
+import vn.tonish.hozo.fragment.NewTaskAlertNotificationFragment;
 
 /**
  * Created by LongBui on 8/22/17.
@@ -16,7 +16,7 @@ public class NotifyFragmentAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     private SystemNotificationFragment tab1;
     private ChatFragment tab2;
-    private TaskAlertsFragment tab3;
+    private NewTaskAlertNotificationFragment tab3;
 
     public NotifyFragmentAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
@@ -37,7 +37,7 @@ public class NotifyFragmentAdapter extends FragmentStatePagerAdapter {
                 return tab2;
             case 2:
                 if (tab3 == null)
-                    tab3 = new TaskAlertsFragment();
+                    tab3 = new NewTaskAlertNotificationFragment();
                 return tab3;
             default:
                 return null;

@@ -25,6 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.AlertNewTaskActivity;
 import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.activity.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.NotificationAdapter;
@@ -52,8 +53,8 @@ import static vn.tonish.hozo.common.Constants.PUSH_TYPE_POSTER_CANCELED;
  * Edit by Cantran
  */
 
-public class TaskAlertsFragment extends BaseFragment {
-    private static final String TAG = TaskAlertsFragment.class.getSimpleName();
+public class NewTaskAlertNotificationFragment extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = NewTaskAlertNotificationFragment.class.getSimpleName();
 
     private NotificationAdapter notificationAdapter;
     private RecyclerView lvList;
@@ -66,16 +67,19 @@ public class TaskAlertsFragment extends BaseFragment {
     private LinearLayoutManager linearLayoutManager;
     private TextViewHozo tvNoData;
     private static final int TIME_DELAY = 2000;
+    private TextViewHozo tvSetting;
 
     @Override
     protected int getLayout() {
-        return vn.tonish.hozo.R.layout.fragment_notifacation;
+        return vn.tonish.hozo.R.layout.fragment_sys_notifacation;
     }
 
     @Override
     protected void initView() {
         lvList = (RecyclerView) findViewById(R.id.lvList);
         tvNoData = (TextViewHozo) findViewById(R.id.tv_no_data);
+        tvSetting = (TextViewHozo) findViewById(R.id.tv_setting);
+        tvSetting.setOnClickListener(this);
 
         createSwipeToRefresh();
     }
@@ -375,4 +379,14 @@ public class TaskAlertsFragment extends BaseFragment {
             if (linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
         }
     };
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_setting:
+                startActivity(new Intent(getActivity(), AlertNewTaskActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+                break;
+        }
+
+    }
 }

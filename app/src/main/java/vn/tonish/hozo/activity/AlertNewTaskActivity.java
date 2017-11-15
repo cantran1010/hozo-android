@@ -1,6 +1,5 @@
 package vn.tonish.hozo.activity;
 
-import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -67,32 +67,28 @@ import vn.tonish.hozo.view.ExpandableLayout;
 import vn.tonish.hozo.view.RadioButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
-import static vn.tonish.hozo.common.Constants.RESULT_CODE_SETTING;
 import static vn.tonish.hozo.database.manager.SettingAdvanceManager.getSettingAdvace;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 /**
- * Created by CanTran on 9/15/17.
+ * Created by CanTran on 11/15/17.
  */
 
-@SuppressWarnings("ALL")
-public class SettingActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, GoogleApiClient.OnConnectionFailedListener {
+public class AlertNewTaskActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = SettingActivity.class.getSimpleName();
     private TextViewHozo tvDistanceValue;
     private RelativeLayout layoutOptionDistance;
-    private ImageView imgStatusArrow, imgCategoryArrow, imgTimeArrow, imgDistance, imgKeyword, imgPrice;
-    private TextViewHozo tvStatus, tvCategory, tvDateTime, tvDistance, tvPrice;
-    private RadioGroup radioStatus;
-    private RadioGroup radioTime;
-    private RadioButtonHozo radAllTime, radDate, radAllDistance, radDistanceOption, radAllPrice, rad10, rad100, rad500;
+    private ImageView imgFollowArrow, imgCategoryArrow, imgTimeArrow, imgDistance, imgKeyword, imgPrice;
+    private TextViewHozo tvFolowed, tvCategory, tvDateTime, tvDistance, tvPrice;
+    private RadioButtonHozo radAllTime, radDate, radAllDistance, radDistanceOption, radAllPrice, rad10, rad100, rad500, radNotiYes, radNotiNo, rdFolowedYes, rdFollowedNo, radTimeAll, radTimeDate;
     private RecyclerView rcvCategory, rcvKeyword;
     private SeekBar seebarDistance;
     private Animation anim_down, anim_up;
-    private ExpandableLayout statusExpandableLayout, categoryExpandableLayout, timeExpandableLayout, distanceExpandableLayout, priceExpandableLayout, keywordExpandableLayout;
+    private ExpandableLayout followExpandableLayout, categoryExpandableLayout, timeExpandableLayout, distanceExpandableLayout, priceExpandableLayout, keywordExpandableLayout;
     private TaskTypeAdapter mAdapter;
     private ArrayList<Category> categories;
-    private SettingAdvanceEntity advanceEntity;
+    private SettingAdvanceEntity newTaskAlertEntity;
     private TextViewHozo tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday, tvKeyword;
     private int count = 0;
     private String address = "";
@@ -111,21 +107,23 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private ArrayList<Integer> catIds = new ArrayList<>();
     private ArrayList<Integer> dayOfWeek = new ArrayList<>();
     private ArrayList<Double> locations = new ArrayList<>();
-    private String mStatus = "";
+    private boolean isFollowed = true;
+    private boolean isNotification = true;
+    private LinearLayout layoutContext;
 
     @Override
     protected int getLayout() {
-        return R.layout.activity_setting;
+        return R.layout.activity_alert_new_task;
     }
 
     @Override
     protected void initView() {
         ImageView btnBack = (ImageView) findViewById(R.id.img_back);
-        TextViewHozo  tvDefault = (TextViewHozo) findViewById(R.id.tv_default);
         seebarDistance = (SeekBar) findViewById(R.id.seebar_distance);
         rcvCategory = (RecyclerView) findViewById(R.id.rcv_category);
 
-        statusExpandableLayout = (ExpandableLayout) findViewById(R.id.status_expandable_layout);
+        layoutContext = (LinearLayout) findViewById(R.id.layout_content);
+        followExpandableLayout = (ExpandableLayout) findViewById(R.id.follow_expandable_layout);
         categoryExpandableLayout = (ExpandableLayout) findViewById(R.id.category_expandable_layout);
         timeExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_time);
         distanceExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_distance);
@@ -133,26 +131,26 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         keywordExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_keyword);
 
 
-        RelativeLayout     layoutStatus = (RelativeLayout) findViewById(R.id.layout_status);
-        RelativeLayout     layoutCategory = (RelativeLayout) findViewById(R.id.layout_category);
-        RelativeLayout  layoutDateTime = (RelativeLayout) findViewById(R.id.layout_date_time);
-        RelativeLayout  layoutDistance = (RelativeLayout) findViewById(R.id.layout_distance);
-        RelativeLayout  layoutPrice = (RelativeLayout) findViewById(R.id.layout_price);
+        RelativeLayout layoutFollow = (RelativeLayout) findViewById(R.id.layout_follow);
+        RelativeLayout layoutCategory = (RelativeLayout) findViewById(R.id.layout_category);
+        RelativeLayout layoutDateTime = (RelativeLayout) findViewById(R.id.layout_date_time);
+        RelativeLayout layoutDistance = (RelativeLayout) findViewById(R.id.layout_distance);
+        RelativeLayout layoutPrice = (RelativeLayout) findViewById(R.id.layout_price);
         RelativeLayout layoutKeyword = (RelativeLayout) findViewById(R.id.layout_keyword);
         layoutOptionDistance = (RelativeLayout) findViewById(R.id.layout_option_distance);
 
-        tvStatus = (TextViewHozo) findViewById(R.id.tv_status);
+        tvFolowed = (TextViewHozo) findViewById(R.id.tv_follow);
         tvCategory = (TextViewHozo) findViewById(R.id.tv_category);
         tvDateTime = (TextViewHozo) findViewById(R.id.tv_time);
         tvDistance = (TextViewHozo) findViewById(R.id.tv_distance);
         tvDistanceValue = (TextViewHozo) findViewById(R.id.tv_distance_value);
         tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
-        ImageView   btnSend = (ImageView) findViewById(R.id.btn_send);
+        ImageView btnSend = (ImageView) findViewById(R.id.btn_send);
         tvKeyword = (TextViewHozo) findViewById(R.id.tv_keyword);
 
         edtKeyword = (EdittextHozo) findViewById(R.id.edt_keyword);
 
-        imgStatusArrow = (ImageView) findViewById(R.id.img_status_arrow);
+        imgFollowArrow = (ImageView) findViewById(R.id.img_follow_arrow);
         imgCategoryArrow = (ImageView) findViewById(R.id.img_category_arrow);
         imgTimeArrow = (ImageView) findViewById(R.id.img_time_arrow);
         imgDistance = (ImageView) findViewById(R.id.img_distance);
@@ -160,10 +158,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         imgKeyword = (ImageView) findViewById(R.id.img_keyword);
 
 
-        radioStatus = (RadioGroup) findViewById(R.id.radio_status);
-        radioTime = (RadioGroup) findViewById(R.id.radio_time);
+        RadioGroup radioFollowed = (RadioGroup) findViewById(R.id.radio_follow);
+        RadioGroup radioTime = (RadioGroup) findViewById(R.id.radio_time);
         RadioGroup radioDistance = (RadioGroup) findViewById(R.id.radio_distance);
-        RadioGroup  radioPrice = (RadioGroup) findViewById(R.id.radio_price);
+        RadioGroup radioPrice = (RadioGroup) findViewById(R.id.radio_price);
+        RadioGroup radioNotification = (RadioGroup) findViewById(R.id.radio_notification);
         radAllTime = (RadioButtonHozo) findViewById(R.id.radio_all_time);
         radDate = (RadioButtonHozo) findViewById(R.id.radio_date);
         radAllDistance = (RadioButtonHozo) findViewById(R.id.rad_all_distance);
@@ -172,6 +171,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         rad10 = (RadioButtonHozo) findViewById(R.id.rad_10_100);
         rad100 = (RadioButtonHozo) findViewById(R.id.rad_100_500);
         rad500 = (RadioButtonHozo) findViewById(R.id.rad_500);
+        radNotiYes = (RadioButtonHozo) findViewById(R.id.rd_notification_yes);
+        radNotiNo = (RadioButtonHozo) findViewById(R.id.rd_notification_no);
+        rdFolowedYes = (RadioButtonHozo) findViewById(R.id.rd_folowed_yes);
+        rdFollowedNo = (RadioButtonHozo) findViewById(R.id.rd_followed_no);
+        radTimeAll = (RadioButtonHozo) findViewById(R.id.radio_all_time);
+        radTimeDate = (RadioButtonHozo) findViewById(R.id.radio_date);
 
         rcvCategory = (RecyclerView) findViewById(R.id.rcv_category);
         rcvKeyword = (RecyclerView) findViewById(R.id.rcv_keyword);
@@ -193,18 +198,18 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         tvSaturday.setOnClickListener(this);
         tvSunday.setOnClickListener(this);
         btnBack.setOnClickListener(this);
-        tvDefault.setOnClickListener(this);
-        layoutStatus.setOnClickListener(this);
+        layoutFollow.setOnClickListener(this);
         layoutCategory.setOnClickListener(this);
         layoutDateTime.setOnClickListener(this);
         layoutDistance.setOnClickListener(this);
         layoutPrice.setOnClickListener(this);
         layoutKeyword.setOnClickListener(this);
         btnSend.setOnClickListener(this);
-        radioStatus.setOnCheckedChangeListener(this);
+        radioFollowed.setOnCheckedChangeListener(this);
         radioTime.setOnCheckedChangeListener(this);
         radioDistance.setOnCheckedChangeListener(this);
         radioPrice.setOnCheckedChangeListener(this);
+        radioNotification.setOnCheckedChangeListener(this);
 
     }
 
@@ -315,10 +320,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 address = autocompleteView.getText().toString();
                 autocompleteView.setError(null);
                 places.release();
-                hideKeyBoard(SettingActivity.this);
+                hideKeyBoard(AlertNewTaskActivity.this);
 
             } catch (Exception e) {
-                Utils.showLongToast(SettingActivity.this, getString(R.string.post_task_map_get_location_error_next), true, false);
+                Utils.showLongToast(AlertNewTaskActivity.this, getString(R.string.post_task_map_get_location_error_next), true, false);
             }
         }
     };
@@ -326,16 +331,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onPause() {
         super.onPause();
-        googleApiClient.stopAutoManage(SettingActivity.this);
+        googleApiClient.stopAutoManage(AlertNewTaskActivity.this);
         googleApiClient.disconnect();
     }
 
 
     private void getDataforView() {
-        if (SettingAdvanceManager.getSettingAdvace() == null) {
+        if (getSettingAdvace() == null) {
             getSettingAdvanceFromeServer();
         } else {
-            advanceEntity = SettingAdvanceManager.getSettingAdvace();
+            newTaskAlertEntity = getSettingAdvace();
             setDataForView();
         }
     }
@@ -385,30 +390,41 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setDataForView() {
-
-        if (advanceEntity != null) {
-            // set status
-            setStatusForView();
-            // set category
-            setCategoryForView();
-            // set data for  date time
-            setDateTime();
-            // set distance
-            setDistanceForView();
-            // set price
-            setPriceForView();
-            // set key word
-            setKeyWordForView();
+        if (newTaskAlertEntity != null) {
+            isNotification = newTaskAlertEntity.isNtaNotification();
+            if (isNotification) {
+                radNotiYes.setChecked(true);
+                layoutContext.setVisibility(View.VISIBLE);
+                setNotification();
+            } else {
+                layoutContext.setVisibility(View.GONE);
+                radNotiNo.setChecked(true);
+            }
 
         }
+    }
+
+    private void setNotification() {
+        // set follow
+        setFollowForView();
+        // set category
+        setCategoryForView();
+        // set data for  date time
+        setDateTime();
+        // set distance
+        setDistanceForView();
+        // set price
+        setPriceForView();
+        // set key word
+        setKeyWordForView();
     }
 
 
     private void setKeyWordForView() {
         keywords = new ArrayList<>();
-        if (advanceEntity.getKeywords() != null && advanceEntity.getKeywords().size() > 0) {
-            LogUtils.d(TAG, "keyword" + advanceEntity.getKeywords().size());
-            for (RealmString realmString : advanceEntity.getKeywords()
+        if (newTaskAlertEntity.getKeywords() != null && newTaskAlertEntity.getKeywords().size() > 0) {
+            LogUtils.d(TAG, "keyword" + newTaskAlertEntity.getKeywords().size());
+            for (RealmString realmString : newTaskAlertEntity.getKeywords()
                     ) {
                 keywords.add(realmString.getValue());
             }
@@ -430,17 +446,17 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
 
     private void setPriceForView() {
-        if (advanceEntity.getMinWorkerRate() == 10000 && advanceEntity.getMaxWorkerRate() == 100000) {
+        if (newTaskAlertEntity.getNtaMinWorkerRate() == 10000 && newTaskAlertEntity.getNtaMaxWorkerRate() == 100000) {
             minPrice = 10000;
             maxPrice = 100000;
             rad10.setChecked(true);
             tvPrice.setText(rad10.getText());
-        } else if (advanceEntity.getMinWorkerRate() == 100000 && advanceEntity.getMaxWorkerRate() == 500000) {
+        } else if (newTaskAlertEntity.getNtaMinWorkerRate() == 100000 && newTaskAlertEntity.getNtaMaxWorkerRate() == 500000) {
             minPrice = 100000;
             maxPrice = 500000;
             rad100.setChecked(true);
             tvPrice.setText(rad100.getText());
-        } else if (advanceEntity.getMinWorkerRate() == 500000) {
+        } else if (newTaskAlertEntity.getNtaMinWorkerRate() == 500000) {
             maxPrice = 0;
             minPrice = 500000;
             rad500.setChecked(true);
@@ -455,18 +471,18 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setDistanceForView() {
-        Utils.hideKeyBoard(this);
-        if (advanceEntity.getLatlon() != null && advanceEntity.getLatlon().size() > 0) {
+        hideKeyBoard(this);
+        if (newTaskAlertEntity.getNtaLatlon() != null && newTaskAlertEntity.getNtaLatlon().size() > 0) {
             layoutOptionDistance.setVisibility(View.VISIBLE);
             radDistanceOption.setChecked(true);
-            distance = advanceEntity.getDistance();
+            distance = newTaskAlertEntity.getNtaDistance();
             locations = new ArrayList<>();
-            locations.add(0, advanceEntity.getLatlon().get(0).getVal());
-            locations.add(1, advanceEntity.getLatlon().get(1).getVal());
-            address = advanceEntity.getAddress();
-            seebarDistance.setProgress(advanceEntity.getDistance());
-            tvDistanceValue.setText(getString(R.string.distance, advanceEntity.getDistance()));
-            tvDistance.setText(getString(R.string.distance, advanceEntity.getDistance()));
+            locations.add(0, newTaskAlertEntity.getNtaLatlon().get(0).getVal());
+            locations.add(1, newTaskAlertEntity.getNtaLatlon().get(1).getVal());
+            address = newTaskAlertEntity.getNtaAddress();
+            seebarDistance.setProgress(newTaskAlertEntity.getNtaDistance());
+            tvDistanceValue.setText(getString(R.string.distance, newTaskAlertEntity.getNtaDistance()));
+            tvDistance.setText(getString(R.string.distance, newTaskAlertEntity.getNtaDistance()));
         } else {
             layoutOptionDistance.setVisibility(View.GONE);
             locations = new ArrayList<>();
@@ -485,28 +501,24 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-    private void setStatusForView() {
-        if (advanceEntity.getStatus().equalsIgnoreCase(Constants.STATUS_SETTING_OPEN)) {
-            radioStatus.check(R.id.rd_status_open);
-            tvStatus.setText(getString(R.string.make_an_offer_status));
-            mStatus = getString(R.string.setting_status_open);
-        } else if (advanceEntity.getStatus().equalsIgnoreCase(Constants.STATUS_SETTING_ASSIGED)) {
-            radioStatus.check(R.id.rd_status_assign);
-            tvStatus.setText(getString(R.string.delivered));
-            mStatus = getString(R.string.setting_status_assigned);
+    private void setFollowForView() {
+        if (newTaskAlertEntity.isNtaFollowed()) {
+            rdFolowedYes.setChecked(true);
+            tvFolowed.setText(getString(R.string.yes_all));
+            isFollowed = true;
         } else {
-            radioStatus.check(R.id.rd_status_all);
-            tvStatus.setText(getString(R.string.hozo_all));
-            mStatus = "";
+            rdFollowedNo.setChecked(true);
+            tvFolowed.setText(getString(R.string.no_all));
+            isFollowed = false;
         }
 
     }
 
     private void setDateTime() {
         strTime = "";
-        if (advanceEntity.getDays() != null && advanceEntity.getDays().size() > 0) {
+        if (newTaskAlertEntity.getNtaDays() != null && newTaskAlertEntity.getNtaDays().size() > 0) {
             radDate.setChecked(true);
-            for (RealmInt anInt : advanceEntity.getDays()
+            for (RealmInt anInt : newTaskAlertEntity.getNtaDays()
                     ) {
                 switch (anInt.getVal()) {
 
@@ -575,7 +587,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private void clearChooseDay() {
         dayOfWeek = new ArrayList<>();
-        radioTime.check(R.id.radio_all_time);
+        radTimeAll.setChecked(true);
         count = 0;
         tvSunday.setBackgroundResource(R.drawable.bg_circle_default);
         tvMonday.setBackgroundResource(R.drawable.bg_circle_default);
@@ -595,10 +607,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setCategoryForView() {
-        if (advanceEntity.getCategories() != null && advanceEntity.getCategories().size() > 0) {
-            LogUtils.d(TAG, "categories size" + advanceEntity.getCategories().size());
+        if (newTaskAlertEntity.getNtaCategory() != null && newTaskAlertEntity.getNtaCategory().size() > 0) {
+            LogUtils.d(TAG, "categories size" + newTaskAlertEntity.getNtaCategory().size());
             LogUtils.d(TAG, "categorys get 2:" + categories.toString());
-            for (RealmInt realmInt : advanceEntity.getCategories()
+            for (RealmInt realmInt : newTaskAlertEntity.getNtaCategory()
                     ) {
                 for (Category category : categories
                         ) {
@@ -650,10 +662,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void closeExpandale(ExpandableLayout expan) {
-        Utils.hideKeyBoard(this);
-        if (statusExpandableLayout.isExpanded() && expan != statusExpandableLayout) {
-            statusExpandableLayout.toggle();
-            imgStatusArrow.startAnimation(anim_down);
+        hideKeyBoard(this);
+        if (followExpandableLayout.isExpanded() && expan != followExpandableLayout) {
+            followExpandableLayout.toggle();
+            imgFollowArrow.startAnimation(anim_down);
         }
         if (categoryExpandableLayout.isExpanded() && expan != categoryExpandableLayout) {
             categoryExpandableLayout.toggle();
@@ -684,27 +696,26 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 LogUtils.d(TAG, "getSettingAdvaceFromeServer code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     //noinspection ConstantConditions
-                    LogUtils.d(TAG, "SettingAdvance activity onResponse : " + response.body().toString());
+                    LogUtils.d(TAG, "newTaskAlert activity onResponse : " + response.body().toString());
                     SettingAdvanceManager.insertSettingAdvance(response.body());
-                    advanceEntity = SettingAdvanceManager.getSettingAdvace();
+                    newTaskAlertEntity = getSettingAdvace();
                     setDataForView();
-                    LogUtils.d(TAG, "data setting: " + advanceEntity.toString());
+                    LogUtils.d(TAG, "data setting: " + newTaskAlertEntity.toString());
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(SettingActivity.this);
+                    Utils.blockUser(AlertNewTaskActivity.this);
                 } else {
                     APIError error = ErrorUtils.parseError(response);
-                    LogUtils.d(TAG, "getSettingAdvance errorBody" + error.toString());
-                    if (error.status().equalsIgnoreCase(getString(R.string.login_status_block)))
-                        Utils.showLongToast(SettingActivity.this, getString(R.string.login_block_phone), true, false);
+                    if (error.status().equalsIgnoreCase(getString(R.string.system_error)))
+                        Utils.showLongToast(AlertNewTaskActivity.this, getString(R.string.invalid_error), true, false);
                     else
-                        Utils.showLongToast(SettingActivity.this, error.message(), true, false);
+                        Utils.showLongToast(AlertNewTaskActivity.this, error.message(), true, false);
                 }
             }
 
             @Override
             public void onFailure(Call<SettingAdvance> call, Throwable t) {
                 LogUtils.e(TAG, "getSettingAdvaceFromeServer onFailure status code : " + t.getMessage());
-                DialogUtils.showRetryDialog(SettingActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showRetryDialog(AlertNewTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         getSettingAdvanceFromeServer();
@@ -721,49 +732,49 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private void postSettingAdvance() {
 
-
         final JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put("filter_task_status", mStatus);
+            jsonRequest.put("notification_nta", isNotification);
+            if (isNotification) {
+                jsonRequest.put("nta_followed", isFollowed);
+                if (catIds != null && catIds.size() > 0) {
+                    JSONArray jsonArray = new JSONArray();
+                    for (int i = 0; i < catIds.size(); i++)
+                        jsonArray.put(catIds.get(i));
+                    jsonRequest.put("nta_categories", jsonArray);
+                } else jsonRequest.put("nta_categories", new JSONArray());
+                jsonRequest.put("nta_worker_rate_min", minPrice);
+                jsonRequest.put("nta_worker_rate_max", maxPrice);
+                if (keywords != null && keywords.size() > 0) {
+                    JSONArray jsonArray = new JSONArray();
+                    for (int i = 0; i < keywords.size(); i++)
+                        jsonArray.put(keywords.get(i));
+                    jsonRequest.put("nta_keywords", jsonArray);
+                } else jsonRequest.put("nta_keywords", new JSONArray());
 
-            if (catIds != null && catIds.size() > 0) {
+                if (dayOfWeek != null && dayOfWeek.size() > 0) {
+                    JSONArray jsonArray = new JSONArray();
+                    for (int i = 0; i < dayOfWeek.size(); i++)
+                        jsonArray.put(dayOfWeek.get(i));
+                    jsonRequest.put("nta_worker_days", jsonArray);
+                } else jsonRequest.put("nta_worker_days", new JSONArray());
+
                 JSONArray jsonArray = new JSONArray();
-                for (int i = 0; i < catIds.size(); i++)
-                    jsonArray.put(catIds.get(i));
-                jsonRequest.put("filter_categories", jsonArray);
-            } else jsonRequest.put("filter_categories", new JSONArray());
+                if (locations.size() > 0) {
+                    for (int i = 0; i < locations.size(); i++)
+                        jsonArray.put(locations.get(i));
+                }
+                LogUtils.d(TAG, "kt distance" + radDistanceOption.isChecked() + "--" + locations.size() + "--" + distance);
+                if (radDistanceOption.isChecked() && locations != null && locations.size() > 0 && distance > 0) {
+                    jsonRequest.put("nta_distance", distance);
+                    jsonRequest.put("nta_origin_location", jsonArray);
 
-            jsonRequest.put("filter_worker_rate_min", minPrice);
-            jsonRequest.put("filter_worker_rate_max", maxPrice);
-            if (keywords != null && keywords.size() > 0) {
-                JSONArray jsonArray = new JSONArray();
-                for (int i = 0; i < keywords.size(); i++)
-                    jsonArray.put(keywords.get(i));
-                jsonRequest.put("filter_keywords", jsonArray);
-            } else jsonRequest.put("filter_keywords", new JSONArray());
-
-            if (dayOfWeek != null && dayOfWeek.size() > 0) {
-                JSONArray jsonArray = new JSONArray();
-                for (int i = 0; i < dayOfWeek.size(); i++)
-                    jsonArray.put(dayOfWeek.get(i));
-                jsonRequest.put("filter_worker_days", jsonArray);
-            } else jsonRequest.put("filter_worker_days", new JSONArray());
-
-            JSONArray jsonArray = new JSONArray();
-            if (locations.size() > 0) {
-                for (int i = 0; i < locations.size(); i++)
-                    jsonArray.put(locations.get(i));
+                } else {
+                    jsonRequest.put("nta_distance", 0);
+                    jsonRequest.put("nta_origin_location", new JSONArray());
+                }
+                jsonRequest.put("nta_origin_address", address);
             }
-            LogUtils.d(TAG, "kt distance" + radDistanceOption.isChecked() + "--" + locations.size() + "--" + distance);
-            if (radDistanceOption.isChecked() && locations != null && locations.size() > 0 && distance > 0) {
-                jsonRequest.put("filter_distance", distance);
-                jsonRequest.put("filter_original_location", jsonArray);
-
-            } else {
-                jsonRequest.put("filter_distance", 0);
-                jsonRequest.put("filter_original_location", new JSONArray());
-            }
-            jsonRequest.put("filter_original_address", address);
 
 
         } catch (JSONException e) {
@@ -779,16 +790,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     LogUtils.d(TAG, "SettingAdvance activity data response : " + response.body().toString());
                     SettingAdvanceManager.insertSettingAdvance(response.body());
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(SettingActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(AlertNewTaskActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             postSettingAdvance();
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(SettingActivity.this);
+                    Utils.blockUser(AlertNewTaskActivity.this);
                 } else {
-                    DialogUtils.showRetryDialog(SettingActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    DialogUtils.showRetryDialog(AlertNewTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             postSettingAdvance();
@@ -806,7 +817,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             public void onFailure(Call<SettingAdvance> call, Throwable t) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.e(TAG, "postSettingAdvance onFailure status code : " + t.getMessage());
-                DialogUtils.showRetryDialog(SettingActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showRetryDialog(AlertNewTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         postSettingAdvance();
@@ -832,12 +843,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         switch (view.getId()) {
             case R.id.img_back:
                 postSettingAdvance();
-                Utils.hideKeyBoard(this);
-                setResult(RESULT_CODE_SETTING, new Intent());
+                hideKeyBoard(this);
                 finish();
                 break;
-            case R.id.layout_status:
-                expandableLayout(statusExpandableLayout, imgStatusArrow);
+            case R.id.layout_follow:
+                expandableLayout(followExpandableLayout, imgFollowArrow);
                 break;
             case R.id.layout_category:
                 expandableLayout(categoryExpandableLayout, imgCategoryArrow);
@@ -887,9 +897,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private void defaultSetting() {
         closeExpandale(null);
-        radioStatus.check(R.id.rd_status_all);
-        tvStatus.setText(getString(R.string.hozo_all));
-        mStatus = "";
+        rdFolowedYes.setChecked(true);
+        tvFolowed.setText(getString(R.string.hozo_all));
+        isFollowed = true;
 
         catIds = new ArrayList<>();
         categories.get(0).setSelected(true);
@@ -953,7 +963,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private void clickDay(TextViewHozo tv) {
 
-        radioTime.check(R.id.radio_date);
+        radTimeDate.setChecked(true);
         if (tv.getBackground().getConstantState().equals(ContextCompat.getDrawable(this, R.drawable.bg_circle_default).getConstantState())) {
             LogUtils.d(TAG, "count 1 :" + count);
             if (count == 6) {
@@ -1004,18 +1014,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
         switch (i) {
-            case R.id.rd_status_all:
-                tvStatus.setText(getString(R.string.hozo_all));
-                mStatus = "";
+            case R.id.rd_folowed_yes:
+                tvFolowed.setText(getString(R.string.yes_all));
+                isFollowed = true;
                 break;
-            case R.id.rd_status_open:
-                mStatus = getString(R.string.setting_status_open);
-                tvStatus.setText(getString(R.string.make_an_offer_status));
-
-                break;
-            case R.id.rd_status_assign:
-                mStatus = getString(R.string.setting_status_assigned);
-                tvStatus.setText(getString(R.string.delivered));
+            case R.id.rd_followed_no:
+                isFollowed = false;
+                tvFolowed.setText(getString(R.string.no_all));
                 break;
             case R.id.radio_all_time:
                 clearChooseDay();
@@ -1051,6 +1056,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 maxPrice = 0;
                 tvPrice.setText(rad500.getText());
                 break;
+            case R.id.rd_notification_yes:
+                isNotification = true;
+                setNotification();
+                layoutContext.setVisibility(View.VISIBLE);
+
+                break;
+            case R.id.rd_notification_no:
+                layoutContext.setVisibility(View.GONE);
+                isNotification = false;
+                break;
 
         }
 
@@ -1063,7 +1078,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     ) {
                 strKeyWord.append(", ").append(realmString);
             }
-        if (strKeyWord.toString().startsWith(", ")) mKeyWord = strKeyWord.substring(2, strKeyWord.length());
+        if (strKeyWord.toString().startsWith(", "))
+            mKeyWord = strKeyWord.substring(2, strKeyWord.length());
         if (keywords == null || keywords.size() == 0) mKeyWord = "";
         tvKeyword.setText(mKeyWord);
 
