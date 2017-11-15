@@ -31,7 +31,6 @@ import vn.tonish.hozo.activity.BrowserTaskMapActivity;
 import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.activity.SettingActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
-import vn.tonish.hozo.activity.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.ScaleInAnimationAdapter;
 import vn.tonish.hozo.adapter.TaskAdapter;
 import vn.tonish.hozo.common.Constants;
