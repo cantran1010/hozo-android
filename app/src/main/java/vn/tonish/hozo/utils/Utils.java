@@ -809,6 +809,8 @@ public class Utils {
     public static String getContentTransaction(Context context, TransactionResponse transactionResponse) {
         if (transactionResponse.getMethod().equals("promotion"))
             return context.getString(R.string.transaction_promotion);
+        else if (transactionResponse.getProvider().equals("1pay"))
+            return context.getString(R.string.transaction_1pay);
         else return "Waitting";
     }
 
