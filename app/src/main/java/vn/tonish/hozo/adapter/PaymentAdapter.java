@@ -1,48 +1,78 @@
 package vn.tonish.hozo.adapter;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.rest.responseRes.TransactionResponse;
+import vn.tonish.hozo.utils.DateTimeUtils;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 4/12/17.
  */
 
-public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHolder> {
+public class PaymentAdapter extends BaseAdapter<TransactionResponse, PaymentAdapter.MyViewHolder, LoadingHolder> {
 
     private final List<TransactionResponse> payments;
+    private Context context;
 
-    public PaymentAdapter(List<TransactionResponse> payments) {
+    public PaymentAdapter(Context context, List<TransactionResponse> payments) {
+        super(context, payments);
         this.payments = payments;
+        this.context = context;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_payment, parent, false);
-        return new MyViewHolder(itemView);
+    protected int getItemLayout() {
+        return R.layout.item_payment;
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.tvPrice.setText(String.valueOf(payments.get(position).getBalance()));
-        holder.tvDate.setText(payments.get(position).getCreatedAt());
-        holder.tvContent.setText(payments.get(position).getMethod());
+    protected int getLoadingLayout() {
+        return R.layout.bottom_loading;
     }
 
     @Override
-    public int getItemCount() {
-        return payments.size();
+    protected MyViewHolder returnItemHolder(View view) {
+        return new MyViewHolder(view);
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    protected LoadingHolder returnLoadingHolder(View view) {
+        return new LoadingHolder(view, context);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof MyViewHolder) {
+
+            MyViewHolder myViewHolder = (MyViewHolder) holder;
+            String myPrice = "";
+
+            TransactionResponse payment = payments.get(position);
+
+            if (payment.getType().equals("in")) {
+                myPrice = "+ " + Utils.formatNumber(payment.getAmount()) + " " + context.getString(R.string.unit);
+                myViewHolder.tvPrice.setTextColor(ContextCompat.getColor(context, R.color.hozo_bg));
+            } else {
+                myPrice = "- " + Utils.formatNumber(payment.getAmount()) + " " + context.getString(R.string.unit);
+                myViewHolder.tvPrice.setTextColor(ContextCompat.getColor(context, R.color.hozo_red));
+            }
+
+            myViewHolder.tvPrice.setText(myPrice);
+            myViewHolder.tvDate.setText(DateTimeUtils.getPaymentTime(payment.getCreatedAt()));
+            myViewHolder.tvContent.setText(Utils.getContentTransaction(context, payment));
+        }
+    }
+
+
+    public class MyViewHolder extends BaseHolder {
 
         private TextViewHozo tvPrice, tvDate, tvContent;
 

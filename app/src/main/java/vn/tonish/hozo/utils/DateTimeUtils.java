@@ -49,6 +49,19 @@ public class DateTimeUtils {
         return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(date);
     }
 
+    public static String getPaymentTime(String input) {
+        Date date = null;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        try {
+            date = sdf.parse(input);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault()).format(date);
+    }
+
     public static String getDateBirthDayFromIso(String input) {
         Date date = null;
 

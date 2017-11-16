@@ -7,7 +7,7 @@ import android.view.View;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.GeneralInfoActivity;
-import vn.tonish.hozo.activity.payment.PaymentHistoryActivity;
+import vn.tonish.hozo.activity.payment.MyWalletActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.activity.SupportActivity;
 import vn.tonish.hozo.activity.TaskAlertsActivity;
@@ -82,7 +82,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 //               break;
 //
             case R.id.layout_payment:
-                startActivity(PaymentHistoryActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+                startActivity(MyWalletActivity.class, TransitionScreen.RIGHT_TO_LEFT);
 //                Toast.makeText(getActivity(), "Hiện tại chức năng này đang trong quá trình xây dựng!!!", Toast.LENGTH_SHORT).show();
                 break;
 

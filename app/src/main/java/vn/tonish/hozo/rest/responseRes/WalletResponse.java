@@ -14,6 +14,16 @@ public class WalletResponse {
     private String fullName;
     private String avatar;
     private int balance;
+    @SerializedName("total_transactions")
+    private  int totalTransactions;
+
+    public int getTotalTransactions() {
+        return totalTransactions;
+    }
+
+    public void setTotalTransactions(int totalTransactions) {
+        this.totalTransactions = totalTransactions;
+    }
 
     public int getId() {
         return id;
@@ -63,6 +73,7 @@ public class WalletResponse {
                 ", fullName='" + fullName + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", balance=" + balance +
+                ", totalTransactions=" + totalTransactions +
                 '}';
     }
 

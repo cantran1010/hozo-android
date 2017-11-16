@@ -10,7 +10,7 @@
     <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
     <string name="btn_save">LƯU LẠI</string>
     <string name="tv_type_of_work">Loại công việc</string>
-    <string name="tv_fee">Chi phí (VND)</string>
+    <string name="tv_fee">Chi phí (VNĐ)</string>
 
     <!--advance setting screen -->
     <string name="advance_setting_title">Bộ lọc nâng cao</string>
@@ -198,7 +198,7 @@
     <string name="task_type">Loại công việc</string>
     <string name="hint_min">Chi phí thấp nhất </string>
     <string name="edt_max">Chi phí cao nhất</string>
-    <string name="erro_emply_price">Chi phí không được thấp hơn 10.000 VND</string>
+    <string name="erro_emply_price">Chi phí không được thấp hơn 10.000 VNĐ</string>
     <string name="erro_price">Lỗi! Giá trị xung đột, đề nghị nhập lại. </string>
     <string name="gender_male">male</string>
     <string name="gender_female">female</string>
@@ -314,7 +314,7 @@
     <string name="edit_profile_birthday">%1$d/%2$d/%3$d</string>
     <string name="task_detail_time">%1$s - %2$s</string>
     <string name="max_number_worker_error" tools:ignore="PluralsCandidate">Số người \n tối đa là %1$d người</string>
-    <string name="max_budget_error">Giá tiền \n tối đa %1$s VND</string>
+    <string name="max_budget_error">Giá tiền \n tối đa %1$s VNĐ</string>
     <string name="your_task">của bạn</string>
     <string name="work">Việc</string>
     <string name="push_alert">phù hợp với bạn</string>
@@ -491,25 +491,21 @@
     <string name="base_location_hint">Vị trí mốc</string>
     <string name="km_1">1 km</string>
     <string name="max_km">50 km</string>
-    <string name="setting_price_10">10.000 VND – 100.000 VND</string>
-    <string name="setting_price_100">100.000 VND – 500.000 VND</string>
-    <string name="setting_price_500">Trên 500.000 VND</string>
+    <string name="setting_price_10">10.000 VNĐ – 100.000 VNĐ</string>
+    <string name="setting_price_100">100.000 VNĐ – 500.000 VNĐ</string>
+    <string name="setting_price_500">Trên 500.000 VNĐ</string>
     <string name="keyword_empty">Bạn chưa nhập từ khoá.</string>
     <string name="keyword_duplicate">Từ khoá này đã tồn tại!</string>
     <string name="setting_status_open">open</string>
     <string name="setting_status_assigned">assigned</string>
     <string name="keyword_hint">Nhập từ khoá</string>
     <string name="payment_history_title">Tài khoản thanh toán</string>
-    <string name="wallet_title">Tài khoản Hozo của bạn có</string>
-    <string name="my_wallet">%1$s VND</string>
+    <string name="wallet_title">Ví HoZo của bạn có</string>
     <string name="btn_payment">Nạp tiền</string>
-    <string name="history_title">Lịch sử giao dịch (%1$s)</string>
-    <string name="more_payment_history">Xem thêm</string>
+    <string name="history_title">LỊCH SỬ GIAO DỊCH</string>
     <string name="recharge_title">Nạp tiền</string>
-    <string name="recharge_des">Nhập số tiền bạn muốn nạp.</string>
-    <string name="unit">VND</string>
-    <string name="btn_recharge">NẠP TIỀN</string>
-    <string name="type_recharge">Chọn hình thức nạp</string>
+    <string name="recharge_des">HÌNH THỨC NẠP TIỀN</string>
+    <string name="unit">VNĐ</string>
     <string name="admin_link_title">Thông báo</string>
     <string name="admin_link_submit">Xem chi tiết</string>
     <string name="web_site_hozo">www.hozo.vn</string>
@@ -520,12 +516,6 @@
     <string name="fri_day">T6</string>
     <string name="sat_day">T7</string>
     <string name="sun_day">CN</string>
-
-    <string-array name="recharge">
-        <item>Mã khuyễn mại</item>
-        <item>ATM</item>
-        <item>Momo</item>
-    </string-array>
 
     <string name="distance">%1$d km</string>
     <string name="setting_location">Vị trí</string>
@@ -552,13 +542,13 @@
     <string name="other_support">Hỗ trợ</string>
     <string name="other_connect">Liên kết trên HoZo</string>
 
-    <string name="promotion_success">Thành công !</string>
-    <string name="promotion_error_empty">Mã không hợp lệ</string>
+    <string name="promotion_success">Mã khuyến mãi hợp lệ,chúc mừng bạn đã được cộng tiền vào tài khoản !</string>
+    <string name="promotion_error_empty">Mã trống</string>
     <string name="promotion_error_no">Mã không hợp lệ</string>
-    <string name="promotion_error_not_started">Mã không hợp lệ</string>
-    <string name="promotion_error_expried">Mã không hợp lệ</string>
-    <string name="promotion_error_limmited">Mã không hợp lệ</string>
-    <string name="promotion_error_used">Mã không hợp lệ</string>
+    <string name="promotion_error_not_started">Mã chưa kích hoạt</string>
+    <string name="promotion_error_expried">Mã đã hết hạn</string>
+    <string name="promotion_error_limmited">Mã đã bị giới hạn</string>
+    <string name="promotion_error_used">Mã đã được sử dụng</string>
     <string name="code_coupon">Mã giới thiệu</string>
     <string name="code_coupon_error">Mã giới Thiệu không hợp lệ!</string>
     <string name="hint_coupon_edt">Mã giới thiệu gồm 6 ký tự. Ví dụ: AbDf23</string>
@@ -644,7 +634,7 @@
     <string name="system_error">system_error</string>
     <string name="detail_task_header">Chi tiết</string>
     <string name="view_map">Xem bản đồ</string>
-    <string name="detail_vnd">VND</string>
+    <string name="detail_vnd">VNĐ</string>
     <string name="see_more_detail">Chi tiết công việc</string>
     <string name="detail_view_contact">Liên lạc người đăng</string>
     <string name="detail_view_rate">Đánh giá người đăng</string>
@@ -671,4 +661,11 @@
     <string name="bid_confirm_policy_link">Điều khoản sử dụng</string>
     <string name="input_msg_hint">Nhập tin nhắn đến người đăng</string>
     <string name="confirm">Đồng ý</string>
+    <string name="history_payment_count">%1$d lượt</string>
+    <string name="see_all_payment">Xem tất cả giao dịch</string>
+    <string name="transaction_promotion">Tặng tiền từ mã khuyến mại</string>
+    <string name="payment_history_title_all">Tất cả giao dịch</string>
+    <string name="promotion_code">Mã khuyễn mại</string>
+    <string name="atm">Thẻ ATM nội địa</string>
+    <string name="visa">Thẻ Visa / Master Card</string>
 </resources>
