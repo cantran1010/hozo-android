@@ -135,7 +135,8 @@ public class RealmDbHelper {
                         .addField("followersCount", int.class)
                         .addField("role", String.class)
                         .addField("followed", boolean.class)
-                        .addField("background", String.class);
+                        .addField("background", String.class)
+                        .addField("referrerPhone", String.class);
                 schema.create("TagResponse")
                         .addField("id", int.class)
                         .addField("value", String.class);

@@ -24,7 +24,7 @@
     <string name="login_zone">+84</string>
     <string name="login_enter_otp">Nhập 4 mã số được gửi tới điện thoại</string>
     <string name="login_resend_otp">Gửi lại mã code</string>
-    <string name="tv_login_policy">Nhấn \'HOÀN TẤT\' đồng nghĩa với việc bạn đồng ý điều khoản sử dụng và chính sách bảo mật của chúng tôi.</string>
+    <string name="tv_login_policy">Nhấn \" Tiếp tục \" đồng nghĩa với bạn đồng ý với điều khoản sử dụng và chính sách bảo mật của chúng tôi.</string>
     <string name="login_policy_condition">điều khoản sử dụng</string>
     <string name="login_policy_nad">chính sách bảo mật</string>
     <string name="login_block_phone">Lỗi vượt quá số lần đăng nhập trong 1 ngày. Vui lòng trở lại sau 24h tiếp theo.</string>
@@ -550,7 +550,8 @@
     <string name="promotion_error_used">Mã đã được sử dụng</string>
     <string name="code_coupon">Mã giới thiệu</string>
     <string name="code_coupon_error">Mã giới Thiệu không hợp lệ!</string>
-    <string name="hint_coupon_edt">Mã giới thiệu gồm 6 ký tự. Ví dụ: AbDf23</string>
+    <string name="code_coupon_empty">Chưa nhập mã giới thiệu!</string>
+    <string name="coupon_checkbox">Mã giới thiệu</string>
     <string name="invalid_category">Danh mục không hợp lệ</string>
     <string name="invalid_title">Tiêu đề không hợp lệ</string>
     <string name="invalid_description">Mô tả không hợp lệ</string>
@@ -680,4 +681,6 @@
     <string name="title_register">Đăng ký</string>
     <string name="hint_full_name">Họ tên</string>
     <string name="err_msg_name">Chưa nhập họ tên.</string>
+    <string name="btn_continue">Tiếp tục</string>
+    <string name="hint_coupon">Nhập mã giới thiệu</string>
 </resources>

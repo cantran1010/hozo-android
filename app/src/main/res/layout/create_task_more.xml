@@ -184,7 +184,7 @@
                 android:layout_marginTop="5dp"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:hint="@string/hint_coupon_edt"
+                android:hint="@string/coupon_checkbox"
                 android:inputType="textEmailAddress"
                 android:maxLines="1" />
 

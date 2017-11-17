@@ -55,7 +55,7 @@ public class UserEntity extends RealmObject implements Serializable {
     private double latitude;
     private double longitude;
 
-//    // version 1.8.0
+    //    // version 1.8.0
     private RealmList<TagResponse> skills;
     private RealmList<TagResponse> languages;
     private RealmList<ImageProfileResponse> images;
@@ -71,6 +71,8 @@ public class UserEntity extends RealmObject implements Serializable {
     private String role;
     private boolean followed;
     private String background;
+    @SerializedName("referrer_phone")
+    private String referrerPhone;
 
     public String getBackground() {
         return background;
@@ -372,6 +374,15 @@ public class UserEntity extends RealmObject implements Serializable {
         this.languages = languages;
     }
 
+
+    public String getReferrerPhone() {
+        return referrerPhone;
+    }
+
+    public void setReferrerPhone(String referrerPhone) {
+        this.referrerPhone = referrerPhone;
+    }
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -412,6 +423,7 @@ public class UserEntity extends RealmObject implements Serializable {
                 ", role='" + role + '\'' +
                 ", followed=" + followed +
                 ", background='" + background + '\'' +
+                ", referrerPhone='" + referrerPhone + '\'' +
                 '}';
     }
 }
