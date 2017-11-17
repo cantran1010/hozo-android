@@ -19,6 +19,7 @@ import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -26,6 +27,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.accountkit.AccountKit;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -35,6 +37,8 @@ import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,12 +71,13 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.img_avatar;
-import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
+import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE_AVATA;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
@@ -82,7 +87,7 @@ import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private final static String TAG = RegisterActivity.class.getName();
-    private EdittextHozo edtName;
+    private EdittextHozo edtName, edtCoupon;
     private CircleImageView imgAvatar;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
@@ -95,7 +100,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
     private AutoCompleteTextView autocompleteView;
     private TextViewHozo tvPolicy;
-    private TextInputLayout inputLayoutName, inputLayoutAddress, inputLayoutPassword;
+    private TextInputLayout inputLayoutName, inputLayoutAddress, inputLayoutCoupon;
 
     @Override
     protected int getLayout() {
@@ -106,7 +111,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     protected void initView() {
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
         inputLayoutAddress = (TextInputLayout) findViewById(R.id.input_layout_address);
+        inputLayoutCoupon = (TextInputLayout) findViewById(R.id.input_layout_coupon);
         edtName = (EdittextHozo) findViewById(R.id.edt_name);
+        edtCoupon = (EdittextHozo) findViewById(R.id.edt_coupon);
         tvPolicy = (TextViewHozo) findViewById(R.id.tv_policy);
         autocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete_places);
         ImageView imgCamera = (ImageView) findViewById(R.id.img_camera);
@@ -114,9 +121,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         imgAvatar = (CircleImageView) findViewById(img_avatar);
 
-        TextViewHozo btnSave = (TextViewHozo) findViewById(R.id.btn_save);
+        ButtonHozo btnSave = (ButtonHozo) findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
         edtName.addTextChangedListener(new MyTextWatcher(edtName));
+        autocompleteView.addTextChangedListener(new MyTextWatcher(autocompleteView));
+        edtCoupon.addTextChangedListener(new MyTextWatcher(edtCoupon));
 
     }
 
@@ -200,7 +209,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 LogUtils.e(TAG, "Place address : " + place.getAddress());
                 lat = place.getLatLng().latitude;
                 lon = place.getLatLng().longitude;
-                address = autocompleteView.getText().toString();
+                address = autocompleteView.getText().toString().trim();
                 autocompleteView.setError(null);
                 places.release();
                 Utils.hideKeyBoard(RegisterActivity.this);
@@ -277,31 +286,33 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void doPickImage() {
-        checkPermission();
+        checkPermissionAvata();
     }
 
-    private void checkPermission() {
+    private void checkPermissionAvata() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) + ContextCompat
                 .checkSelfPermission(this,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE_AVATA);
         } else {
-            permissionGranted();
+            permissionGrantedAvata();
         }
     }
 
 
-    private void permissionGranted() {
 
-        PickImageDialog pickImageDialog = new PickImageDialog(this);
+    private void permissionGrantedAvata() {
+
+        PickImageDialog pickImageDialog = new PickImageDialog(RegisterActivity.this);
         pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
             @Override
             public void onCamera() {
+                LogUtils.d(TAG, "permissionGrantedAvata onCamera start");
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA_AVATA);
             }
 
             @Override
@@ -309,11 +320,48 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 Intent intent = new Intent(RegisterActivity.this, AlbumActivity.class);
                 intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
                 intent.putExtra(Constants.EXTRA_IS_CROP_PROFILE, true);
-                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+                startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE_AVATA, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
         pickImageDialog.showView();
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //avata
+        if (requestCode == REQUEST_CODE_PICK_IMAGE_AVATA
+                && resultCode == RESPONSE_CODE_PICK_IMAGE
+                && data != null) {
+            String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
+            Utils.displayImage(RegisterActivity.this, imgAvatar, imgPath);
+            file = new File(imgPath);
+            isUpdateAvata = true;
+        } else if (requestCode == Constants.REQUEST_CODE_CAMERA_AVATA && resultCode == Activity.RESULT_OK) {
+            Intent intent = new Intent(RegisterActivity.this, CropImageActivity.class);
+            intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
+            startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (
+                grantResults.length == 0
+                        || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            permissionDenied();
+        } else if (requestCode == Constants.PERMISSION_REQUEST_CODE_AVATA) {
+            permissionGrantedAvata();
+        }
+    }
+    private void permissionDenied() {
+        LogUtils.d(TAG, "permissionDenied camera");
+    }
+
+    private String getImagePath() {
+        return imgPath;
     }
 
     private Uri setImageUri() {
@@ -323,49 +371,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         return imgUri;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_PICK_IMAGE
-                && resultCode == RESPONSE_CODE_PICK_IMAGE
-                && data != null) {
-            String imgPath = data.getStringExtra(Constants.EXTRA_IMAGE_PATH);
-            Utils.displayImage(RegisterActivity.this, imgAvatar, imgPath);
-            file = new File(imgPath);
-            isUpdateAvata = true;
-        } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
-            Intent intent = new Intent(this, CropImageActivity.class);
-            intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
-            startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
-        } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
-            String imgPath = data != null ? data.getStringExtra(Constants.EXTRA_IMAGE_PATH) : null;
-            Utils.displayImage(this, imgAvatar, null);
-            file = new File(imgPath);
-            isUpdateAvata = true;
-        }
-
-    }
-
-    private String getImagePath() {
-        return imgPath;
-    }
-
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.img_back:
-//                AccountKit.logOut();
-//                Realm realm = Realm.getDefaultInstance();
-//                realm.beginTransaction();
-//                realm.deleteAll();
-//                realm.commitTransaction();
-//                Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
-//                intent.putExtra(Constants.LOGOUT_EXTRA, true);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(intent, TransitionScreen.FADE_IN);
-//
-//                break;
             case R.id.img_camera:
                 doPickImage();
                 break;
@@ -373,6 +382,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 doSave();
                 break;
         }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        AccountKit.logOut();
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.deleteAll();
+        realm.commitTransaction();
+        Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+        intent.putExtra(Constants.LOGOUT_EXTRA, true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent, TransitionScreen.FADE_IN);
 
     }
 
@@ -568,6 +592,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 case R.id.autocomplete_places:
                     validateAdress();
                     break;
+                case R.id.edt_coupon:
+                    validatePhone();
+                    break;
             }
         }
     }
@@ -599,9 +626,50 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         return true;
     }
 
+    private boolean validatePhone() {
+        String mb = edtCoupon.getText().toString().trim();
+        if (mb.isEmpty()) {
+            inputLayoutCoupon.setError(getString(R.string.code_coupon_empty));
+            requestFocus(edtCoupon);
+            return false;
+        } else if (isNumberValid("84", mb)) {
+            inputLayoutCoupon.setError(getString(R.string.code_coupon_error));
+            requestFocus(edtCoupon);
+        } else {
+            inputLayoutCoupon.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+
     private void requestFocus(View view) {
         if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
+    }
+
+    private boolean isNumberValid(String countryCode, String phNumber) {
+        if (TextUtils.isEmpty(countryCode)) {// Country code could not be empty
+            return false;
+        }
+        if (phNumber.length() < 6) {        // Phone number should be at least 6 digits
+            return false;
+        }
+        boolean resultPattern = Patterns.PHONE.matcher(phNumber).matches();
+        if (!resultPattern) {
+            return false;
+        }
+
+        PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
+        String isoCode = phoneNumberUtil.getRegionCodeForCountryCode(Integer.parseInt(countryCode));
+        Phonenumber.PhoneNumber phoneNumber;
+        try {
+            phoneNumber = phoneNumberUtil.parse(phNumber, isoCode);
+        } catch (Exception e) {
+            return false;
+        }
+
+        return phoneNumberUtil.isValidNumber(phoneNumber);
     }
 }

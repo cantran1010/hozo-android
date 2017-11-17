@@ -683,7 +683,4 @@
     <string name="err_msg_name">Chưa nhập họ tên.</string>
     <string name="btn_continue">Tiếp tục</string>
     <string name="hint_coupon">Nhập mã giới thiệu</string>
-    <string name="title_register">Đăng ký</string>
-    <string name="hint_full_name">Họ tên</string>
-    <string name="err_msg_name">Chưa nhập họ tên.</string>
 </resources>

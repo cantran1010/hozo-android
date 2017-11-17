@@ -35,10 +35,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingEnd="40dp"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp"
-            android:paddingStart="40dp">
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingStart="16dp">
 
 
             <RelativeLayout
@@ -70,7 +70,9 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/color_edt_border"
+                app:hintAnimationEnabled="true">
 
                 <vn.tonish.hozo.view.EdittextHozo
                     android:id="@+id/edt_name"
@@ -89,17 +91,45 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_address"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/color_edt_border">
 
                 <vn.tonish.hozo.view.HozoAutoCompleteTextView
                     android:id="@+id/autocomplete_places"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/color_edt_border"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/register_address"
+                    android:textColor="@color/setting_text"
+                    android:textSize="@dimen/tv_size_medium" />
+            </android.support.design.widget.TextInputLayout>
+
+            <vn.tonish.hozo.view.CheckBoxHozo
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:checked="false"
+                android:text="@string/coupon_checkbox"
+                android:textColor="@color/setting_text" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_coupon"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColorHint="@color/color_edt_border"
+                android:visibility="visible">
+
+                <vn.tonish.hozo.view.EdittextHozo
+                    android:id="@+id/edt_coupon"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:backgroundTint="@color/color_edt_border"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
-                    android:hint="@string/register_address"
-                    android:minHeight="@dimen/edt_min_height"
+                    android:hint="@string/hint_coupon"
                     android:textColor="@color/setting_text"
                     android:textSize="@dimen/tv_size_medium" />
             </android.support.design.widget.TextInputLayout>
@@ -109,29 +139,23 @@
                 android:id="@+id/tv_policy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="3"
                 android:text="@string/tv_login_policy"
                 android:textColor="@color/setting_text"
-                android:textSize="@dimen/tv_size_xtiny" />
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/btn_save"
-                style="@style/btn_style_hozo"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_gravity="bottom"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/btn_selector"
-                android:gravity="center"
-                android:text="@string/btn_done"
-                android:textColor="@color/white"
-                android:textSize="@dimen/tv_size_nomal"
-                android:textStyle="bold" />
+                android:textSize="@dimen/tv_size_xxtiny" />
 
         </LinearLayout>
     </ScrollView>
 
+    <vn.tonish.hozo.view.ButtonHozo
+        android:id="@+id/btn_save"
+        style="@style/btn_style_hozo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:text="@string/btn_continue"
+        android:textAllCaps="false" />
 </FrameLayout>
