@@ -372,7 +372,6 @@
     <string name="facebook_app_id">956632744473365</string>
     <!--<string name="facebook_app_id_test">330769947332955</string>-->
     <string name="hozo_tonish">\n © 2017 Tonish. Giữ mọi quyền.</string>
-    <string name="cancel_bid">Hủy</string>
     <string name="cancel_bid_title">Hủy chọn</string>
     <string name="cancel_bid_content">Lưu ý khi hủy chọn sẽ ảnh hưởng đến tỷ lệ hoàn thành việc của bạn</string>
     <string name="cancel_task_content">Lưu ý khi hủy việc sẽ ảnh hưởng đến tỷ lệ hoàn thành việc của bạn</string>
@@ -671,4 +670,9 @@
     <string name="visa">Thẻ Visa / Master Card</string>
     <string name="recharge_success">Nạp tiền thành công!</string>
     <string name="transaction_1pay">Nạp tiền vào tài khoản HoZo</string>
+    <string name="group">Nhóm : </string>
+    <string name="count_assigner" tools:ignore="PluralsCandidate">và %1$d người khác</string>
+    <string name="recharge">Nạp tiền</string>
+    <string name="input_money_hint">Nhập số tiền bạn muốn nạp</string>
+    <string name="min_recharge_error">Vui lòng nhập số tiền tối thiểu là %1$s</string>
 </resources>

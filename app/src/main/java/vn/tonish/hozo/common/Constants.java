@@ -33,6 +33,7 @@ public class Constants {
     public static final String BROAD_CAST_SMOOTH_TOP_NOTIFICATION = "broad_cast_smooth_top_notification";
     public static final int REQUEST_CODE_ALERT_SETTING = 330;
     public static final int RESULT_CODE_NEW_TASK_ALERT = 331;
+    public static final String LOCAL_BANK = "localbank";
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

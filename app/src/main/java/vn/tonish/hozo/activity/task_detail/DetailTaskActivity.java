@@ -568,7 +568,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             showExpand(true);
 
             btnOffer.setVisibility(View.GONE);
-            btnContact.setVisibility(View.GONE);
+            btnContact.setVisibility(View.VISIBLE);
             btnRatePoster.setVisibility(View.GONE);
 
             isDelete = false;
@@ -1267,6 +1267,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 intentContact.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                 intentContact.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
                 intentContact.putExtra(Constants.TITLE_INFO_EXTRA, taskResponse.getTitle());
+                intentContact.putExtra(Constants.TASK_DETAIL_EXTRA,taskResponse);
                 startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
             }
 
@@ -1631,6 +1632,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 intentContact.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                 intentContact.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
                 intentContact.putExtra(Constants.TITLE_INFO_EXTRA, taskResponse.getTitle());
+                intentContact.putExtra(Constants.TASK_DETAIL_EXTRA,taskResponse);
                 startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
                 break;
 
