@@ -814,4 +814,11 @@ public class Utils {
         else return "Waitting";
     }
 
+    public static String getMemberChat(Context context, TaskResponse taskResponse) {
+        String result = "";
+        result = result + taskResponse.getPoster().getFullName() + " ";
+        result = result + context.getString(R.string.count_assigner, taskResponse.getAssigneeCount());
+        return result;
+    }
+
 }

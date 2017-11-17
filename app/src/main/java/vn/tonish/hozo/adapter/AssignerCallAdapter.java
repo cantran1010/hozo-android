@@ -50,7 +50,7 @@ public class AssignerCallAdapter extends RecyclerView.Adapter<AssignerCallAdapte
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            assignerCallView = (AssignerCallView) itemView.findViewById(R.id.assign_call_view);
+            assignerCallView = itemView.findViewById(R.id.assign_call_view);
         }
 
     }

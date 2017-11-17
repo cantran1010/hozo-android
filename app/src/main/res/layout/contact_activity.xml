@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -36,16 +35,43 @@
             android:paddingLeft="@dimen/margin_left_screen"
             android:paddingRight="0dp"
             android:paddingStart="@dimen/margin_left_screen"
-            app:paddingEnd="0dp" />
+            android:text="@string/contact" />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_left_screen"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="@dimen/margin_left_screen">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/group"
+            android:textColor="@color/tv_black_new"
+            android:textStyle="bold" />
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_task_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:textColor="@color/tv_black_new"
+            android:layout_marginStart="2dp" />
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lvList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_gray"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp" />
+        android:layout_marginTop="5dp"
+        android:paddingLeft="@dimen/margin_left_screen"
+        android:paddingRight="@dimen/margin_right_screen"
+        android:paddingStart="@dimen/margin_left_screen"
+        android:paddingEnd="@dimen/margin_right_screen" />
 
 </LinearLayout>

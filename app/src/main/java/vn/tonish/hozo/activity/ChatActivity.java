@@ -30,6 +30,7 @@ import vn.tonish.hozo.adapter.MessageAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Message;
+import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
@@ -58,7 +59,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private int posterId;
     private DatabaseReference messageCloudEndPoint;
-    private TextViewHozo tvTitle;
+    private TextViewHozo tvTitle, tvMember;
     private boolean isLoading = false;
     private RelativeLayout mainLayout;
 
@@ -69,6 +70,8 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     private Query recentPostsQuery = null;
     private ImageView imgMenu;
     private DatabaseReference memberCloudEndPoint;
+    private ImageView imgCall, imgSms;
+    private TaskResponse taskResponse;
 
     @Override
     protected int getLayout() {
@@ -78,8 +81,8 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     @Override
     protected void initView() {
         rcvMessage = (RecyclerView) findViewById(R.id.rcv_msg);
-        btnSend = (ImageView) findViewById(R.id.btn_send);
-        edtMsg = (EdittextHozo) findViewById(R.id.edt_msg);
+        btnSend = (ImageView) findViewById(R.id.img_send);
+        edtMsg = (EdittextHozo) findViewById(R.id.edt_comment);
         imgBack = (ImageView) findViewById(R.id.img_back);
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
 
@@ -90,6 +93,21 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
         imgMenu = (ImageView) findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
+
+        edtMsg.setHint(getString(R.string.chat_hint));
+
+        ImageView imgAttach = (ImageView) findViewById(R.id.img_attach);
+        imgAttach.setOnClickListener(this);
+        imgAttach.setVisibility(View.GONE);
+
+        tvMember = (TextViewHozo) findViewById(R.id.tv_member);
+
+        imgCall = (ImageView) findViewById(R.id.img_call);
+        imgSms = (ImageView) findViewById(R.id.img_sms);
+
+        imgCall.setOnClickListener(this);
+        imgSms.setOnClickListener(this);
+
     }
 
     @Override
@@ -97,6 +115,8 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
         posterId = getIntent().getIntExtra(Constants.USER_ID_EXTRA, 0);
         tvTitle.setText(getIntent().getStringExtra(Constants.TITLE_INFO_EXTRA));
+        taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.TASK_DETAIL_EXTRA);
+        tvMember.setText(Utils.getMemberChat(this, taskResponse));
 
         LogUtils.d(TAG, "initData , taskId : " + taskId);
 
@@ -445,12 +465,31 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         popup.show();
     }
 
+    private void doCall() {
+        if (posterId == UserManager.getMyUser().getId()) {
+            Intent intent = new Intent(this, ContactActivity.class);
+            intent.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
+            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+        } else {
+            Utils.call(this, taskResponse.getPoster().getPhone());
+        }
+    }
+
+    private void doSms() {
+        if (posterId == UserManager.getMyUser().getId()) {
+            Intent intent = new Intent(this, ContactActivity.class);
+            intent.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
+            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+        } else {
+            Utils.sendSms(this, taskResponse.getPoster().getPhone(), "");
+        }
+    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.btn_send:
+            case R.id.img_send:
                 doSend();
                 break;
 
@@ -462,6 +501,15 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 showMenu();
                 break;
 
+            case R.id.img_call:
+                doCall();
+                break;
+
+            case R.id.img_sms:
+                doSms();
+                break;
+
         }
     }
+
 }

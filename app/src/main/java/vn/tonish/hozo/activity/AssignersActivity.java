@@ -35,7 +35,6 @@ import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
-import static vn.tonish.hozo.R.id.lvList;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_RATE;
 
 public class AssignersActivity extends BaseActivity implements View.OnClickListener {
@@ -57,7 +56,7 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initView() {
-        rcvAssign = (RecyclerView) findViewById(lvList);
+        rcvAssign = (RecyclerView) findViewById(R.id.lvList);
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         assigners = new ArrayList<>();
