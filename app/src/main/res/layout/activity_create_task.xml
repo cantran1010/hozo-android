@@ -229,7 +229,7 @@
                 android:text="@string/location" />
 
             <AutoCompleteTextView
-                android:id="@+id/autocomplete_places"
+                android:id="@+id/edt_address"
                 style="@style/edt_create_task"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

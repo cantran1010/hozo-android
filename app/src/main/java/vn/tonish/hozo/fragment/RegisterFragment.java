@@ -108,7 +108,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     protected void initView() {
         edtName = (EdittextHozo) findViewById(R.id.edt_name);
         tvPolicy = (TextViewHozo) findViewById(R.id.tv_policy);
-        autocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete_places);
+        autocompleteView = (AutoCompleteTextView) findViewById(R.id.edt_address);
         ImageView imgCamera = (ImageView) findViewById(R.id.img_camera);
         imgCamera.setOnClickListener(this);
 
@@ -180,7 +180,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
                 .build();
         // Retrieve the AutoCompleteTextView that will display Place suggestions.
         autocompleteView = (AutoCompleteTextView)
-                findViewById(R.id.autocomplete_places);
+                findViewById(R.id.edt_address);
 
         autocompleteView.setThreshold(1);
 

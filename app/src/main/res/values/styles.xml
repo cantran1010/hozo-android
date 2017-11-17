@@ -2,8 +2,8 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimaryDark">@color/hozo_bg</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/hozo_bg</item>
+        <item name="colorAccent">@color/hozo_bg</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:textColorPrimaryInverse">@color/hozo_bg</item>
     </style>

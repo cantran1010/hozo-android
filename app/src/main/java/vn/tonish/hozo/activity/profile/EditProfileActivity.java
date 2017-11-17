@@ -151,7 +151,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
 
         edtDes = (EdittextHozo) findViewById(R.id.edt_description);
-        autocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete_places);
+        autocompleteView = (AutoCompleteTextView) findViewById(R.id.edt_address);
 
         rbMale = (RadioButton) findViewById(R.id.rd_male);
         rbFemale = (RadioButton) findViewById(R.id.rd_female);
@@ -238,7 +238,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 .build();
         // Retrieve the AutoCompleteTextView that will display Place suggestions.
         autocompleteView = (AutoCompleteTextView)
-                findViewById(R.id.autocomplete_places);
+                findViewById(R.id.edt_address);
 
         autocompleteView.setThreshold(1);
 

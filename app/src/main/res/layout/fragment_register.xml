@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    android:id="@+id/autocomplete_places"
+                    android:id="@+id/edt_address"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:focusable="true"
