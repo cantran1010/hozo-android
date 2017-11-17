@@ -677,4 +677,7 @@
     <string name="min_recharge_error">Vui lòng nhập số tiền tối thiểu là %1$s</string>
     <string name="skill">Kỹ năng</string>
     <string name="language">Ngoại ngữ</string>
+    <string name="title_register">Đăng ký</string>
+    <string name="hint_full_name">Họ tên</string>
+    <string name="err_msg_name">Chưa nhập họ tên.</string>
 </resources>

@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -19,12 +20,12 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.facebook.accountkit.AccountKit;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -71,7 +72,6 @@ import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.img_avatar;
-import static vn.tonish.hozo.R.string.post_task_map_get_location_error_next;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
@@ -84,8 +84,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private final static String TAG = RegisterActivity.class.getName();
     private EdittextHozo edtName;
     private CircleImageView imgAvatar;
-    private ImageView imgClear;
-    private ImageView imgClearGoogle;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private File file;
@@ -97,6 +95,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
     private AutoCompleteTextView autocompleteView;
     private TextViewHozo tvPolicy;
+    private TextInputLayout inputLayoutName, inputLayoutAddress, inputLayoutPassword;
 
     @Override
     protected int getLayout() {
@@ -105,6 +104,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initView() {
+        inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
+        inputLayoutAddress = (TextInputLayout) findViewById(R.id.input_layout_address);
         edtName = (EdittextHozo) findViewById(R.id.edt_name);
         tvPolicy = (TextViewHozo) findViewById(R.id.tv_policy);
         autocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete_places);
@@ -115,12 +116,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         TextViewHozo btnSave = (TextViewHozo) findViewById(R.id.btn_save);
         btnSave.setOnClickListener(this);
-        imgClear = (ImageView) findViewById(R.id.img_clear);
-        ImageView btnBack = (ImageView) findViewById(R.id.img_back);
-        imgClearGoogle = (ImageView) findViewById(R.id.img_clear_google);
-        imgClear.setOnClickListener(this);
-        imgClearGoogle.setOnClickListener(this);
-        btnBack.setOnClickListener(this);
+        edtName.addTextChangedListener(new MyTextWatcher(edtName));
 
     }
 
@@ -128,51 +124,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initData() {
         setUnderLinePolicy(tvPolicy);
-        edtName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (edtName.length() > 0) {
-                    imgClear.setVisibility(View.VISIBLE);
-
-                } else {
-                    imgClear.setVisibility(View.GONE);
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-        autocompleteView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (autocompleteView.length() > 0) {
-                    imgClearGoogle.setVisibility(View.VISIBLE);
-
-                } else {
-                    imgClearGoogle.setVisibility(View.GONE);
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, (GoogleApiClient.OnConnectionFailedListener) this)
                 .addApi(Places.GEO_DATA_API)
@@ -255,7 +206,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 Utils.hideKeyBoard(RegisterActivity.this);
 
             } catch (Exception e) {
-                Utils.showLongToast(RegisterActivity.this, getString(post_task_map_get_location_error_next), true, false);
+                inputLayoutAddress.setError(getString(R.string.post_task_map_get_location_error_next));
             }
         }
     };
@@ -403,29 +354,23 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.img_back:
-                AccountKit.logOut();
-                Realm realm = Realm.getDefaultInstance();
-                realm.beginTransaction();
-                realm.deleteAll();
-                realm.commitTransaction();
-                Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
-                intent.putExtra(Constants.LOGOUT_EXTRA, true);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent, TransitionScreen.FADE_IN);
-
-                break;
+//            case R.id.img_back:
+//                AccountKit.logOut();
+//                Realm realm = Realm.getDefaultInstance();
+//                realm.beginTransaction();
+//                realm.deleteAll();
+//                realm.commitTransaction();
+//                Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+//                intent.putExtra(Constants.LOGOUT_EXTRA, true);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent, TransitionScreen.FADE_IN);
+//
+//                break;
             case R.id.img_camera:
                 doPickImage();
                 break;
             case R.id.btn_save:
                 doSave();
-                break;
-            case R.id.img_clear:
-                edtName.setText("");
-                break;
-            case R.id.img_clear_google:
-                autocompleteView.setText("");
                 break;
         }
 
@@ -433,27 +378,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private void doSave() {
 
-        String name = edtName.getText().toString().trim();
-        if (name.isEmpty()) {
-            edtName.requestFocus();
-            edtName.setError(getString(R.string.erro_empty_name));
-            return;
-        } else if (lat == 0 && lon == 0) {
-            autocompleteView.requestFocus();
-            autocompleteView.setError(getString(R.string.post_task_address_error_google));
-
-//            address = "";
-//            lat = 0;
-//            lon = 0;
-////            autocompleteView.setText("");
-
-            return;
-        } else if (TextUtils.isEmpty(address)) {
-            autocompleteView.requestFocus();
-            autocompleteView.setError(getString(R.string.post_task_address_error));
+        if (!validateName()) {
             return;
         }
-
+        if (!validateAdress()) {
+            return;
+        }
         if (isUpdateAvata) {
             updateAvata();
         } else {
@@ -462,9 +392,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void updateAvata() {
-
         ProgressDialogUtils.showProgressDialog(this);
-
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
 
@@ -616,5 +544,64 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 getString(R.string.gg_api_error),
                 Toast.LENGTH_SHORT).show();
 
+    }
+
+    private class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void afterTextChanged(Editable editable) {
+            switch (view.getId()) {
+                case R.id.edt_name:
+                    validateName();
+                    break;
+                case R.id.autocomplete_places:
+                    validateAdress();
+                    break;
+            }
+        }
+    }
+
+    private boolean validateAdress() {
+        if (lat == 0 && lon == 0) {
+            inputLayoutAddress.setError(getString(R.string.post_task_address_error_google));
+            requestFocus(autocompleteView);
+            return false;
+        } else if (TextUtils.isEmpty(address)) {
+            inputLayoutAddress.setError(getString(R.string.post_task_address_error));
+            requestFocus(autocompleteView);
+            return false;
+        } else {
+            inputLayoutAddress.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validateName() {
+        if (edtName.getText().toString().trim().isEmpty()) {
+            inputLayoutName.setError(getString(R.string.err_msg_name));
+            requestFocus(edtName);
+            return false;
+        } else {
+            inputLayoutName.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
     }
 }
