@@ -6,11 +6,19 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="150dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:contentDescription="@string/just_image"
-        android:src="@drawable/hozo_logo" />
+        android:src="@drawable/logo" />
 
+    <vn.tonish.hozo.view.TextViewHozo
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/hozo_sologan"
+        android:textColor="@color/hozo_bg"
+        android:textSize="@dimen/tv_size_xxtiny" />
 </LinearLayout>

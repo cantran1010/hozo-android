@@ -512,7 +512,7 @@
     <string name="type_recharge">Chọn hình thức nạp</string>
     <string name="admin_link_title">Thông báo</string>
     <string name="admin_link_submit">Xem chi tiết</string>
-    <string name="web_site_hozo">www.hozo.vn</string>
+    <string name="web_site_hozo">hozo.vn</string>
     <string name="t2">T2</string>
     <string name="tues_day">T3</string>
     <string name="wed_day">T4</string>
@@ -671,4 +671,5 @@
     <string name="bid_confirm_policy_link">Điều khoản sử dụng</string>
     <string name="input_msg_hint">Nhập tin nhắn đến người đăng</string>
     <string name="confirm">Đồng ý</string>
+    <string name="hozo_sologan">Việc trong ngày - Nhận tiền ngay</string>
 </resources>

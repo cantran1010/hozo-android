@@ -2,23 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="vn.tonish.hozo.activity.SplashActivity"
-    tools:ignore="Overdraw">
+    android:background="@color/hozo_bg">
 
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="150dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:contentDescription="@string/just_image"
-        android:src="@drawable/hozo_logo" />
+        android:src="@drawable/img_splash" />
 
     <vn.tonish.hozo.view.TextViewHozo
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:text="@string/web_site_hozo"
-        android:textColor="@color/hozo_bg"
-        android:textSize="@dimen/tv_size_lager" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/tv_size_xxtiny" />
 </FrameLayout>

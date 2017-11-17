@@ -94,7 +94,6 @@ public class HomeActivity extends BaseActivity {
             loginHozo();
         }
 
-//        openFragment(R.id.layout_container, LoginFragment.class, false, TransitionScreen.FADE_IN);
     }
 
     @Override
@@ -265,11 +264,10 @@ public class HomeActivity extends BaseActivity {
 
         final String toastMessage;
         final AccountKitLoginResult loginResult = AccountKit.loginResultWithIntent(data);
-        LogUtils.d(TAG, "loginResult 1" + loginResult.getAuthorizationCode());
         if (loginResult == null || loginResult.wasCancelled()) {
             finish();
         } else if (loginResult.getError() != null) {
-            LogUtils.d(TAG, "loginResult 3" + loginResult.getAccessToken().toString());
+            AccountKit.logOut();
             toastMessage = loginResult.getError().getErrorType().getMessage();
             Toast.makeText(
                     this,
@@ -281,10 +279,7 @@ public class HomeActivity extends BaseActivity {
             final AccessToken accessToken = loginResult.getAccessToken();
             if (accessToken != null) {
                 sendCodeAccountKit(accessToken.getToken());
-//                LogUtils.d(TAG, "loginResult" + loginResult.getAuthorizationCode());
-//                LogUtils.d(TAG, "loginResult 4" + loginResult.getAccessToken().toString());
             } else {
-//                LogUtils.d(TAG, "loginResult 5" + loginResult.getAccessToken().toString());
                 toastMessage = "Unknown response type";
                 Toast.makeText(
                         this,
