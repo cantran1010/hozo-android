@@ -21,29 +21,25 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.TransactionResponse;
-import vn.tonish.hozo.rest.responseRes.WalletResponse;
 import vn.tonish.hozo.utils.DialogUtils;
+import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
-import vn.tonish.hozo.utils.TransitionScreen;
-import vn.tonish.hozo.utils.Utils;
-import vn.tonish.hozo.view.ButtonHozo;
-import vn.tonish.hozo.view.TextViewHozo;
 
 /**
- * Created by LongBui on 10/10/17.
+ * Created by LongBui on 11/16/17.
  */
 
 public class PaymentHistoryActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = PaymentHistoryActivity.class.getSimpleName();
     private ImageView imgBack;
-    private TextViewHozo tvMore;
-    private ButtonHozo btnPayment;
     private RecyclerView rcvPayment;
-    private TextViewHozo tvMyWallet, tvCountHistory;
     private PaymentAdapter paymentAdapter;
     private ArrayList<TransactionResponse> payments = new ArrayList<>();
+    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+    private boolean isLoadingMoreFromServer = true;
     private String since;
+    private static final int LIMIT = 20;
 
     @Override
     protected int getLayout() {
@@ -55,46 +51,43 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        tvMore = (TextViewHozo) findViewById(R.id.tv_more);
-        tvMore.setOnClickListener(this);
-
-        btnPayment = (ButtonHozo) findViewById(R.id.btn_payment);
-        btnPayment.setOnClickListener(this);
-
-        tvMyWallet = (TextViewHozo) findViewById(R.id.tv_my_wallet);
-        tvCountHistory = (TextViewHozo) findViewById(R.id.tv_count_history);
-
         rcvPayment = (RecyclerView) findViewById(R.id.rcv_payment_history);
     }
 
     @Override
     protected void initData() {
-        tvMyWallet.setText(getString(R.string.my_wallet, "0"));
-        tvCountHistory.setText(getString(R.string.history_title, "0"));
 
-        setUpList();
-
-        getWalletInfo();
-        getTransactions();
     }
 
     @Override
     protected void resumeData() {
-
+        setUpList();
     }
 
     private void setUpList() {
-        paymentAdapter = new PaymentAdapter(payments);
+        paymentAdapter = new PaymentAdapter(this,payments);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvPayment.setLayoutManager(linearLayoutManager);
         rcvPayment.setAdapter(paymentAdapter);
+
+        endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
+                if (isLoadingMoreFromServer) getTransactions();
+            }
+        };
+        rcvPayment.addOnScrollListener(endlessRecyclerViewScrollListener);
+
     }
 
     private void getTransactions() {
         final Map<String, String> params = new HashMap<>();
 
-        params.put("limit", "20");
+        params.put("limit", LIMIT + "");
         if (since != null) params.put("since", since);
+
+        LogUtils.d(TAG, "getTransactions params : " + params);
 
         ApiClient.getApiService().getTransactionsHistory(UserManager.getUserToken(), params).enqueue(new Callback<List<TransactionResponse>>() {
             @Override
@@ -105,6 +98,14 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     payments.addAll(response.body());
                     paymentAdapter.notifyDataSetChanged();
+
+                    if (response.body().size() < LIMIT) {
+                        isLoadingMoreFromServer = false;
+                        paymentAdapter.stopLoadMore();
+                    }
+
+                    since = response.body().get(response.body().size() - 1).getCreatedAt();
+
                 } else {
                     DialogUtils.showRetryDialog(PaymentHistoryActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
@@ -138,65 +139,12 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
 
     }
 
-    private void getWalletInfo() {
-        ApiClient.getApiService().getWalletInfo(UserManager.getUserToken()).enqueue(new Callback<WalletResponse>() {
-            @Override
-            public void onResponse(Call<WalletResponse> call, Response<WalletResponse> response) {
-                LogUtils.d(TAG, "getWalletInfo code : " + response.code());
-                LogUtils.d(TAG, "getWalletInfo response : " + response.body());
-
-
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    WalletResponse walletResponse = response.body();
-                    tvMyWallet.setText(getString(R.string.my_wallet, Utils.formatNumber(walletResponse.getBalance())));
-                } else {
-                    DialogUtils.showRetryDialog(PaymentHistoryActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            getWalletInfo();
-                        }
-
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<WalletResponse> call, Throwable t) {
-                LogUtils.e(TAG, "getWalletInfo onFailure status code : " + t.getMessage());
-                DialogUtils.showRetryDialog(PaymentHistoryActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        getWalletInfo();
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
-            }
-        });
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
 
             case R.id.img_back:
                 finish();
-                break;
-
-            case R.id.tv_more:
-
-                break;
-
-            case R.id.btn_payment:
-                startActivity(RechargeActivity.class, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }

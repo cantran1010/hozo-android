@@ -27,13 +27,11 @@ import static android.content.ContentValues.TAG;
 public class AssignerCallView extends LinearLayout implements View.OnClickListener {
 
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName;
+    private TextViewHozo tvName, tvDoneRate;
     private RatingBar ratingBar;
-    private ButtonHozo btnCall, btnSms, btnRate;
-    private ButtonHozo btnCancelBid;
+    private ButtonHozo btnCall, btnSms;
     private Assigner assigner;
     private int taskId;
-    private LinearLayout btnLayout;
 
     public AssignerCallView(Context context) {
         super(context);
@@ -59,16 +57,18 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
     private void initView() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.view_assigner_call, this, true);
-        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
+        imgAvatar = findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
 
-        tvName = (TextViewHozo) findViewById(R.id.tv_name);
-        ratingBar = (RatingBar) findViewById(R.id.rb_rate);
-        btnCall = (ButtonHozo) findViewById(R.id.btn_call);
-        btnCancelBid = findViewById(R.id.btn_cancel_bid);
+        tvName = findViewById(R.id.tv_name);
+        ratingBar = findViewById(R.id.rb_rate);
+        btnCall = findViewById(R.id.btn_call);
+//        btnCancelBid = findViewById(R.id.btn_cancel_bid);
         btnSms = findViewById(R.id.btn_sms);
-        btnLayout = findViewById(R.id.btn_layout);
-        btnRate = findViewById(R.id.btn_rate);
+//        btnLayout = findViewById(R.id.btn_layout);
+//        btnRate = findViewById(R.id.btn_rate);
+
+        tvDoneRate = findViewById(R.id.tv_poster_done_rate);
     }
 
     public void updateData(final Assigner assigner, String assignType) {
@@ -79,59 +79,62 @@ public class AssignerCallView extends LinearLayout implements View.OnClickListen
         tvName.setText(assigner.getFullName());
         ratingBar.setRating(assigner.getTaskerAverageRating());
 
-        if (assignType.equals(getContext().getString(R.string.call))) {
+        String percentDone = (int) (assigner.getPosterDoneRate() * 100) + "% " + getContext().getString(R.string.completion_rate);
+        tvDoneRate.setText(percentDone);
 
-            btnLayout.setVisibility(View.VISIBLE);
-            btnRate.setVisibility(View.GONE);
+//        if (assignType.equals(getContext().getString(R.string.call))) {
+//
+//            btnLayout.setVisibility(View.VISIBLE);
+//            btnRate.setVisibility(View.GONE);
+//
+//            btnCancelBid.setOnClickListener(new OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intentAnswer = new Intent();
+//                    intentAnswer.setAction("MyBroadcast");
+//                    intentAnswer.putExtra(Constants.ASSIGNER_CANCEL_BID_EXTRA, assigner);
+//                    getContext().sendBroadcast(intentAnswer);
+//                }
+//            });
 
-            btnCancelBid.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intentAnswer = new Intent();
-                    intentAnswer.setAction("MyBroadcast");
-                    intentAnswer.putExtra(Constants.ASSIGNER_CANCEL_BID_EXTRA, assigner);
-                    getContext().sendBroadcast(intentAnswer);
-                }
-            });
 
-
-            btnCall.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Utils.call(getContext(), assigner.getPhone());
-                }
-            });
-
-            btnSms.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Utils.sendSms(getContext(), assigner.getPhone(), "");
-                }
-            });
-
-        } else if (assignType.equals(getContext().getString(R.string.rate))) {
-
-            btnLayout.setVisibility(View.GONE);
-
-            if (assigner.getRating() == 0) {
-                btnRate.setVisibility(View.VISIBLE);
-                btnRate.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intentAnswer = new Intent();
-                        intentAnswer.setAction("MyBroadcast");
-                        intentAnswer.putExtra(Constants.ASSIGNER_RATE_EXTRA, assigner);
-                        getContext().sendBroadcast(intentAnswer);
-                    }
-                });
-            } else {
-                btnRate.setVisibility(View.GONE);
+        btnCall.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.call(getContext(), assigner.getPhone());
             }
+        });
 
-        } else {
-            btnLayout.setVisibility(View.GONE);
-            btnRate.setVisibility(View.GONE);
-        }
+        btnSms.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utils.sendSms(getContext(), assigner.getPhone(), "");
+            }
+        });
+
+//        } else if (assignType.equals(getContext().getString(R.string.rate))) {
+//
+//            btnLayout.setVisibility(View.GONE);
+//
+//            if (assigner.getRating() == 0) {
+//                btnRate.setVisibility(View.VISIBLE);
+//                btnRate.setOnClickListener(new OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent intentAnswer = new Intent();
+//                        intentAnswer.setAction("MyBroadcast");
+//                        intentAnswer.putExtra(Constants.ASSIGNER_RATE_EXTRA, assigner);
+//                        getContext().sendBroadcast(intentAnswer);
+//                    }
+//                });
+//            } else {
+//                btnRate.setVisibility(View.GONE);
+//            }
+//
+//        } else {
+//            btnLayout.setVisibility(View.GONE);
+//            btnRate.setVisibility(View.GONE);
+//        }
 
     }
 

@@ -56,6 +56,7 @@ import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.rest.responseRes.TransactionResponse;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -803,6 +804,21 @@ public class Utils {
                 }
             });
         }
+    }
+
+    public static String getContentTransaction(Context context, TransactionResponse transactionResponse) {
+        if (transactionResponse.getMethod().equals("promotion"))
+            return context.getString(R.string.transaction_promotion);
+        else if (transactionResponse.getProvider().equals("1pay"))
+            return context.getString(R.string.transaction_1pay);
+        else return "Waitting";
+    }
+
+    public static String getMemberChat(Context context, TaskResponse taskResponse) {
+        String result = "";
+        result = result + taskResponse.getPoster().getFullName() + " ";
+        result = result + context.getString(R.string.count_assigner, taskResponse.getAssigneeCount());
+        return result;
     }
 
 }

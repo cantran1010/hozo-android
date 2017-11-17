@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -25,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textColor="@color/hozo_red"
-                android:textSize="20sp"
+                android:textSize="19sp"
                 android:textStyle="bold" />
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -35,10 +36,9 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/tv_price"
-                android:layout_toRightOf="@id/tv_price"
-                android:textColor="#999999"
-                android:textSize="13sp" />
+                android:textColor="@color/tv_gray_new"
+                android:textSize="11sp"
+                tools:ignore="RelativeOverlap,SmallSp" />
 
         </RelativeLayout>
 
@@ -47,14 +47,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:textColor="@color/tv_black"
-            android:textSize="15sp" />
+            android:textColor="@color/tv_black_new"
+            android:textSize="13sp" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="#f4f4f4" />
+        android:layout_height="1px"
+        android:background="#bcccd2" />
 
 </LinearLayout>

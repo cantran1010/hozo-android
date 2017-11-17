@@ -74,10 +74,19 @@
             android:name=".activity.AdvanceSettingsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.ContactActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.payment.DepositActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.AlertNewTaskActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.FilterMyTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.payment.PaymentHistoryActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SettingActivity"
@@ -153,7 +162,7 @@
             android:name=".activity.BlockTaskActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.payment.PaymentHistoryActivity"
+            android:name=".activity.payment.MyWalletActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.payment.RechargeActivity"

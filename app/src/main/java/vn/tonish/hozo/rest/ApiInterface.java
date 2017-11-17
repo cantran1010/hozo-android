@@ -24,6 +24,7 @@ import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.model.SettingAdvance;
 import vn.tonish.hozo.rest.responseRes.BlockResponse;
+import vn.tonish.hozo.rest.responseRes.DepositResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.NewTaskResponse;
 import vn.tonish.hozo.rest.responseRes.NofifySystemResponse;
@@ -190,5 +191,7 @@ public interface ApiInterface {
     @POST("v1/users/{userId}/follow")
     Call<Void> follow(@Header("Authorization") String token, @Path("userId") int userId, @Body RequestBody body);
 
+    @POST("v1/wallet/deposit")
+    Call<DepositResponse> deposit(@Header("Authorization") String token, @Body RequestBody body);
 
 }
