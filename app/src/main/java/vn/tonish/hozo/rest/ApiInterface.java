@@ -72,7 +72,7 @@ public interface ApiInterface {
     Call<NewTaskResponse> getCountNewTasks(@Header("Authorization") String token, @QueryMap Map<String, String> params);
 
     @GET("v1/tasks/{taskId}")
-    Call<TaskResponse> getDetailTask(@Header("Authorization") String token, @Path("taskId") int taskId);
+    Call<TaskResponse> getDetailTask(@Header("Authorization") String token, @Path("taskId") int taskId, @QueryMap Map<String, Boolean> option);
 
     @GET("v1/users/{user_id}")
     Call<UserEntity> getUser(@Header("Authorization") String token, @Path("user_id") int id);

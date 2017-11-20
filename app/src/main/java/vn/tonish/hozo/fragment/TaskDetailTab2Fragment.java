@@ -12,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -426,7 +428,10 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
     }
 
     private void getData() {
-        Call<TaskResponse> call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskResponse.getId());
+        Map<String, Boolean> option = new HashMap<>();
+        option.put("viewer", true);
+
+        Call<TaskResponse> call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskResponse.getId(), option);
         call.enqueue(new Callback<TaskResponse>() {
             @Override
             public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {

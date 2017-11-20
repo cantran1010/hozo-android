@@ -31,6 +31,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -262,7 +264,10 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         LogUtils.d(TAG, "getDetailTask , taskId : " + taskId);
         LogUtils.d(TAG, "getDetailTask , UserManager.getUserToken() : " + UserManager.getUserToken());
 
-        call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId);
+        Map<String, Boolean> option = new HashMap<>();
+        option.put("viewer",true);
+
+        call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId,option);
         call.enqueue(new Callback<TaskResponse>() {
             @Override
             public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {

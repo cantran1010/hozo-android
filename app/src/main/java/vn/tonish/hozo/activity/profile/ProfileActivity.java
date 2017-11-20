@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -137,6 +138,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         ratingPoster = 0f;
         ratingTasker = 0f;
         imgBackground = (ImageView) findViewById(R.id.img_background);
+        imgBackground.setOnClickListener(this);
 
         tvMobileLbl = (TextViewHozo) findViewById(R.id.tv_phone_lbl);
 
@@ -688,6 +690,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.btn_follow:
                 doFollow();
+                break;
+            case R.id.img_background:
+
+                if (TextUtils.isEmpty(mUserEntity.getBackground())) return;
+
+                Intent intentView = new Intent(ProfileActivity.this, PreviewImageActivity.class);
+                intentView.putExtra(Constants.EXTRA_IMAGE_PATH, mUserEntity.getBackground());
+                startActivity(intentView, TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
     }

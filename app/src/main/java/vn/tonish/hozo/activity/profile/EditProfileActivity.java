@@ -178,6 +178,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         imgEditBackground.setOnClickListener(this);
 
         imgBackground = (ImageView) findViewById(R.id.img_background);
+        imgBackground.setOnClickListener(this);
     }
 
     @Override
@@ -829,7 +830,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     }
 
-    private void doPickImage() {
+    private void doPickImageAvata() {
         checkPermissionAvata();
     }
 
@@ -884,6 +885,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             permissionDenied();
         } else if (requestCode == Constants.PERMISSION_REQUEST_CODE_AVATA) {
             permissionGrantedAvata();
+        } else if (requestCode == Constants.PERMISSION_REQUEST_CODE_BACKGROUND) {
+            permissionGrantedBackground();
         } else if (requestCode == Constants.PERMISSION_REQUEST_CODE) {
             permissionGrantedImageAttach();
         }
@@ -994,7 +997,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_camera:
-                doPickImage();
+                doPickImageAvata();
                 break;
 
             case R.id.img_cancel:
@@ -1037,6 +1040,15 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.img_edit_background:
                 doPickImageBackground();
+                break;
+
+            case R.id.img_background:
+
+                if (TextUtils.isEmpty(userEntity.getBackground())) return;
+
+                Intent intentView = new Intent(EditProfileActivity.this, PreviewImageActivity.class);
+                intentView.putExtra(Constants.EXTRA_IMAGE_PATH, userEntity.getBackground());
+                startActivity(intentView, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }

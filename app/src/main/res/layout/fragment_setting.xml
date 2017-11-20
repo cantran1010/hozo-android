@@ -151,10 +151,12 @@
 
             </RelativeLayout>
 
+            <!-- Se lam o version sau-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/btn_back_selector">
+                android:background="@drawable/btn_back_selector"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="25dp"
