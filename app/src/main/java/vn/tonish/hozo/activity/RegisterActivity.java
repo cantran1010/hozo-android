@@ -311,10 +311,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 Status status = PlaceAutocomplete.getStatus(this, data);
                 LogUtils.d(TAG, status.getStatusMessage());
                 inputLayoutAddress.setError(getString(R.string.post_task_map_get_location_error_next));
-
-
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
             }
         }
     }

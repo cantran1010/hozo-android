@@ -666,7 +666,7 @@ public class Utils {
 
     public static String getCurrentVersion(Context context) {
         PackageManager pm = context.getPackageManager();
-        PackageInfo pInfo = null;
+        PackageInfo pInfo;
 
         try {
             pInfo = pm.getPackageInfo(context.getPackageName(), 0);
@@ -695,7 +695,7 @@ public class Utils {
     }
 
     public static String base64(String input) {
-        String outPut = "";
+        String outPut;
         byte[] data = new byte[0];
         try {
             data = input.getBytes("UTF-8");

@@ -295,7 +295,7 @@ public class CommentsAnswerActivity extends BaseActivity implements View.OnClick
                     comment.setRepliesCount(comment.getRepliesCount() + 1);
 
 
-                    ArrayList<Comment> newList = new ArrayList<Comment>();
+                    ArrayList<Comment> newList = new ArrayList<>();
 
                     if (comment.getComments().size() > 0)
                         newList.add(comment.getComments().get(comment.getComments().size() - 1));

@@ -57,20 +57,6 @@
         <item name="android:windowExitAnimation">@anim/from_up_to_down</item>
     </style>
 
-    <style name="pin_edit_text_style">
-        <item name="android:gravity">center</item>
-        <item name="android:cursorVisible">false</item>
-        <item name="android:textColor">@color/hozo_bg</item>
-        <item name="android:background">@drawable/rectangle</item>
-        <item name="android:maxLength">1</item>
-        <item name="android:minEms">2</item>
-        <item name="android:layout_height">40dp</item>
-        <item name="android:layout_width">40dp</item>
-        <item name="android:layout_marginLeft">15dp</item>
-        <item name="android:layout_marginRight">15dp</item>
-        <item name="android:inputType">number</item>
-    </style>
-
     <style name="StarRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/ratingbar_selector_images</item>
         <item name="android:minHeight">16dip</item>

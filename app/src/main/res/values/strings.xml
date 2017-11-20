@@ -20,10 +20,6 @@
     <string name="other_nad">Chính sách bảo mật</string>
     <string name="other_share">Chia sẻ với bạn bè</string>
     <string name="other_about">Về HOZO</string>
-    <string name="ed_login_phone">Nhập số điện thoại của bạn vào</string>
-    <string name="login_zone">+84</string>
-    <string name="login_enter_otp">Nhập 4 mã số được gửi tới điện thoại</string>
-    <string name="login_resend_otp">Gửi lại mã code</string>
     <string name="tv_login_policy">Nhấn \" Tiếp tục \" đồng nghĩa với bạn đồng ý với điều khoản sử dụng và chính sách bảo mật của chúng tôi.</string>
     <string name="login_policy_condition">điều khoản sử dụng</string>
     <string name="login_policy_nad">chính sách bảo mật</string>
@@ -85,7 +81,6 @@
 
     <!-- make an offer-->
     <string name="adjust_image">adjust_image</string>
-    <string name="login_hotline">Hotline 02473004886</string>
 
     <!-- post a task -->
     <string name="tv_time_task">Giờ làm</string>
@@ -131,7 +126,6 @@
     <string name="delivered">Đã giao</string>
     <string name="gallery">Gallery</string>
     <string name="share_task">Tìm Việc</string>
-    <string name="img_content_des">Quay trở lại</string>
     <string name="search">Tìm kiếm</string>
     <string name="btn_reset">Mặc định</string>
     <string name="profile_worker">Người làm việc</string>
@@ -462,7 +456,6 @@
     <string name="nofification_enouth_bidder_title">Việc</string>
     <string name="nofification_enouth_bidder_footer">của bạn đã đủ người ứng tuyển, hãy giao việc</string>
     <string name="register_address">Địa chỉ</string>
-    <string name="btn_done">HOÀN TẤT</string>
     <string name="other_payment">Ví HoZo</string>
     <string name="ACCOUNT_KIT_CLIENT_TOKEN">d9278fc58b4d68801c0a5a682dfcaad2</string>
     <!--<string name="ACCOUNT_KIT_CLIENT_TOKEN_TEST">462ec5de77bb446a2a1baca7903111af</string>-->
@@ -548,7 +541,6 @@
     <string name="promotion_error_expried">Mã đã hết hạn</string>
     <string name="promotion_error_limmited">Mã đã bị giới hạn</string>
     <string name="promotion_error_used">Mã đã được sử dụng</string>
-    <string name="code_coupon">Mã giới thiệu</string>
     <string name="code_coupon_error">Mã giới Thiệu không hợp lệ!</string>
     <string name="code_coupon_empty">Chưa nhập mã giới thiệu!</string>
     <string name="coupon_checkbox">Mã giới thiệu</string>
@@ -570,7 +562,6 @@
     <string name="post_task_failed">Bài đăng thất bại</string>
     <string name="invalid_data">Tỷ lệ hoặc số lượng người lao động không hợp lệ</string>
     <string name="no_referrer">Mã giới thiệu không tồn tại</string>
-    <string name="referrer_used">Bạn chỉ được dùng mã này 1 lần.</string>
     <string name="advance_more_star">* Tùy chọn nâng cao</string>
     <string name="number_title">Số người làm</string>
     <string name="lable_wage">Tiền công</string>
@@ -661,7 +652,6 @@
     <string name="bid_confirm_policy_link">Điều khoản sử dụng</string>
     <string name="input_msg_hint">Nhập tin nhắn đến người đăng</string>
     <string name="confirm">Đồng ý</string>
-    <string name="hozo_sologan">Việc trong ngày - Nhận tiền ngay</string>
     <string name="history_payment_count">%1$d lượt</string>
     <string name="see_all_payment">Xem tất cả giao dịch</string>
     <string name="transaction_promotion">Tặng tiền từ mã khuyến mại</string>

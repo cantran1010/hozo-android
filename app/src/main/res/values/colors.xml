@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorAccent">#009688</color>
-
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#979797</color>
@@ -18,13 +15,11 @@
     <color name="tv_gray_new">#73888e</color>
     <color name="tv_black">#444444</color>
     <color name="menu_non_selected">#999999</color>
-    <color name="text_hint">#FFA6E5FF</color>
     <color name="text_item_address">#8B8B8B</color>
     <color name="bg">#F8F8F8</color>
     <color name="text_advance">#363636</color>
     <color name="text_line">#E0E0E0</color>
     <color name="text_advance_label">#212121</color>
-    <color name="line_gray">#D8D8D8</color>
     <color name="border_gray">#CFCFCF</color>
     <color name="hozo_red">#cf1463</color>
     <color name="transparent">#00000000</color>

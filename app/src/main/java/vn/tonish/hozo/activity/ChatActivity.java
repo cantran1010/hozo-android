@@ -263,7 +263,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , messages size : " + messages.size());
 
                 Map<String, Boolean> map = new HashMap<>();
-                map.put(String.valueOf(UserManager.getMyUser().getId()), Boolean.valueOf(true));
+                map.put(String.valueOf(UserManager.getMyUser().getId()), Boolean.TRUE);
 
                 messageCloudEndPoint.child(dataSnapshot.getKey()).child("reads").child(String.valueOf(UserManager.getMyUser().getId())).setValue(true);
 
@@ -321,7 +321,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                ArrayList<Message> messagesAdded = new ArrayList<Message>();
+                ArrayList<Message> messagesAdded = new ArrayList<>();
                 int i = 0;
 
                 LogUtils.d(TAG, "addValueEventListener dataSnapshot.getChildrenCount() : " + dataSnapshot.getChildrenCount());
