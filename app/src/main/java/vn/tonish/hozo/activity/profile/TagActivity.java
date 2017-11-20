@@ -20,6 +20,7 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.rest.responseRes.TagResponse;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 11/7/17.
@@ -36,6 +37,7 @@ public class TagActivity extends BaseActivity implements View.OnClickListener {
     private ImageView imgBack;
     private UserEntity userEntity = new UserEntity();
     private int requestCode;
+    private TextViewHozo tvTitle;
 
     @Override
     protected int getLayout() {
@@ -52,6 +54,8 @@ public class TagActivity extends BaseActivity implements View.OnClickListener {
 
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
+
+        tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
     }
 
     @Override
@@ -59,10 +63,13 @@ public class TagActivity extends BaseActivity implements View.OnClickListener {
         userEntity = UserManager.getMyUser();
         requestCode = getIntent().getIntExtra(Constants.REQUEST_CODE_EXTRA, 0);
 
-        if (requestCode == Constants.REQUEST_CODE_SKILL)
+        if (requestCode == Constants.REQUEST_CODE_SKILL) {
             tagResponses.addAll(userEntity.getSkills());
-        else
+            tvTitle.setText(getString(R.string.skill));
+        } else {
             tagResponses.addAll(userEntity.getLanguages());
+            tvTitle.setText(getString(R.string.language));
+        }
 
         setUpList();
     }

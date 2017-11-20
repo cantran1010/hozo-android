@@ -21,15 +21,16 @@
             android:src="@drawable/back_arrow" />
 
         <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_title"
             style="@style/tv_title"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/img_back"
             android:layout_toRightOf="@id/img_back"
-            android:text="@string/edit_profile_tv_header"
-            android:layout_toEndOf="@id/img_back" />
+            android:text="@string/edit_profile_tv_header" />
 
     </RelativeLayout>
 
@@ -52,24 +53,25 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/btn_send"
+                android:layout_toStartOf="@+id/btn_send"
                 android:background="@null"
                 android:inputType="text"
+                android:maxLength="50"
                 android:maxLines="1"
-                android:padding="5dp"
-                android:layout_toStartOf="@+id/btn_send" />
+                android:padding="5dp" />
 
             <vn.tonish.hozo.view.ButtonHozo
                 android:id="@+id/btn_send"
                 android:layout_width="60dp"
                 android:layout_height="25dp"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="5dp"
                 android:background="@drawable/btn_rectange_selector"
                 android:text="@string/send_tag"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:layout_alignParentEnd="true" />
+                android:textColor="@color/white" />
 
         </RelativeLayout>
 

@@ -11,15 +11,17 @@ import android.widget.RatingBar;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BlockTaskActivity;
+import vn.tonish.hozo.activity.RateActivity;
 import vn.tonish.hozo.activity.image.PreviewImageListActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
-import vn.tonish.hozo.activity.RateActivity;
 import vn.tonish.hozo.activity.task_detail.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
 import vn.tonish.hozo.common.Constants;
@@ -383,7 +385,10 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
     }
 
     private void getData() {
-        call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskResponse.getId());
+        Map<String, Boolean> option = new HashMap<>();
+        option.put("viewer",true);
+
+        call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskResponse.getId(),option);
         call.enqueue(new Callback<TaskResponse>() {
             @Override
             public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {

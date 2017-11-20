@@ -675,4 +675,6 @@
     <string name="recharge">Nạp tiền</string>
     <string name="input_money_hint">Nhập số tiền bạn muốn nạp</string>
     <string name="min_recharge_error">Vui lòng nhập số tiền tối thiểu là %1$s</string>
+    <string name="skill">Kỹ năng</string>
+    <string name="language">Ngoại ngữ</string>
 </resources>

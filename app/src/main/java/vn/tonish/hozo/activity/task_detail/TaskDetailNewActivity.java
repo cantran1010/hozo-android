@@ -18,6 +18,9 @@ import android.widget.PopupMenu;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -203,7 +206,10 @@ public class TaskDetailNewActivity extends BaseActivity implements View.OnClickL
         LogUtils.d(TAG, "getDetailTask , taskId : " + taskId);
         LogUtils.d(TAG, "getDetailTask , UserManager.getUserToken() : " + UserManager.getUserToken());
 
-        call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId);
+        Map<String, Boolean> option = new HashMap<>();
+        option.put("viewer", true);
+
+        call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId, option);
         call.enqueue(new Callback<TaskResponse>() {
             @Override
             public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
