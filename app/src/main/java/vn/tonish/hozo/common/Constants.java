@@ -34,6 +34,8 @@ public class Constants {
     public static final int REQUEST_CODE_ALERT_SETTING = 330;
     public static final int RESULT_CODE_NEW_TASK_ALERT = 331;
     public static final String LOCAL_BANK = "localbank";
+    public static final String REFERRER_PHONE_YOURSELF = "referrer_phone_yourself";
+    public static final String INVALID_REFERRER_PHONE ="invalid_referrer_phone" ;
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

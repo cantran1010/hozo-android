@@ -25,7 +25,8 @@
         android:id="@+id/advance_expandable_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:el_duration="1000">
+        app:el_duration="1000"
+        app:el_expanded="false">
 
 
         <LinearLayout
@@ -62,8 +63,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -81,7 +82,7 @@
                         android:drawableLeft="@drawable/ic_age"
                         android:drawablePadding="8dp"
                         android:drawableStart="@drawable/ic_age"
-                        android:text="@string/age" />
+                        android:text="@string/create_task_age" />
 
 
                     <vn.tonish.hozo.view.TextViewHozo
@@ -116,7 +117,7 @@
                         android:drawableLeft="@drawable/ic_gender"
                         android:drawablePadding="10dp"
                         android:drawableStart="@drawable/ic_gender"
-                        android:text="@string/sex" />
+                        android:text="@string/create_task_sex" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -165,28 +166,6 @@
                 android:button="@drawable/checkbox_selector"
                 android:padding="10dp"
                 android:text="@string/auto_pick" />
-
-            <vn.tonish.hozo.view.TextViewHozo
-                style="@style/tv_style_normal_gray"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:drawableLeft="@drawable/ic_coupon"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/ic_coupon"
-                android:text="@string/code_coupon" />
-
-            <vn.tonish.hozo.view.EdittextHozo
-                android:id="@+id/edt_coupon"
-                style="@style/edt_create_task"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:hint="@string/coupon_checkbox"
-                android:inputType="textEmailAddress"
-                android:maxLines="1" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_more_hide"

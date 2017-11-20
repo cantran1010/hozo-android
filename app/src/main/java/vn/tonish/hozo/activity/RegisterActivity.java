@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -21,7 +20,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Patterns;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -68,6 +67,7 @@ import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.CheckBoxHozo;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -77,6 +77,8 @@ import static vn.tonish.hozo.common.Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE_AVATA;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
+import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
+import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 /**
  * Created by CanTran on 10/23/17.
@@ -95,7 +97,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private String address = "";
     private EdittextHozo edtAddress;
     private TextViewHozo tvPolicy;
-    private TextInputLayout inputLayoutName, inputLayoutAddress, inputLayoutCoupon;
+    private android.support.design.widget.TextInputLayout inputLayoutName, inputLayoutAddress, inputLayoutCoupon;
+    private CheckBoxHozo checkBoxCoupon;
 
     @Override
     protected int getLayout() {
@@ -104,19 +107,20 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initView() {
-        inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
-        inputLayoutAddress = (TextInputLayout) findViewById(R.id.input_layout_address);
-        inputLayoutCoupon = (TextInputLayout) findViewById(R.id.input_layout_coupon);
+        inputLayoutName = (android.support.design.widget.TextInputLayout) findViewById(R.id.input_layout_name);
+        inputLayoutAddress = (android.support.design.widget.TextInputLayout) findViewById(R.id.input_layout_address);
+        inputLayoutCoupon = (android.support.design.widget.TextInputLayout) findViewById(R.id.input_layout_coupon);
         edtName = (EdittextHozo) findViewById(R.id.edt_name);
         edtCoupon = (EdittextHozo) findViewById(R.id.edt_coupon);
         tvPolicy = (TextViewHozo) findViewById(R.id.tv_policy);
         edtAddress = (EdittextHozo) findViewById(R.id.edt_address);
         ImageView imgCamera = (ImageView) findViewById(R.id.img_camera);
         imgCamera.setOnClickListener(this);
-
         imgAvatar = (CircleImageView) findViewById(img_avatar);
-
         ButtonHozo btnSave = (ButtonHozo) findViewById(R.id.btn_save);
+        checkBoxCoupon = (CheckBoxHozo) findViewById(R.id.ckBox_coupon);
+        if (checkBoxCoupon.isChecked()) inputLayoutCoupon.setVisibility(View.VISIBLE);
+        else inputLayoutCoupon.setVisibility(View.GONE);
         btnSave.setOnClickListener(this);
         edtAddress.setOnClickListener(this);
         edtName.addTextChangedListener(new MyTextWatcher(edtName));
@@ -128,7 +132,17 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initData() {
+        hideKeyBoard(this);
         setUnderLinePolicy(tvPolicy);
+        checkBoxCoupon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                if (b) inputLayoutCoupon.setVisibility(View.VISIBLE);
+                else inputLayoutCoupon.setVisibility(View.GONE);
+
+            }
+        });
     }
 
 
@@ -179,7 +193,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         );
         ssBuilder.setSpan(
-                new ForegroundColorSpan(Color.parseColor("#000000")), // Span to add
+                new ForegroundColorSpan(Color.parseColor("#73888e")), // Span to add
                 text.indexOf(getString(R.string.login_policy_condition)), // Start of the span (inclusive)
                 text.indexOf(getString(R.string.login_policy_condition)) + String.valueOf(getString(R.string.login_policy_condition)).length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -191,7 +205,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         );
         ssBuilder.setSpan(
-                new ForegroundColorSpan(Color.parseColor("#000000")),
+                new ForegroundColorSpan(Color.parseColor("#73888e")),
                 text.indexOf(getString(R.string.login_policy_nad)),
                 text.indexOf(getString(R.string.login_policy_nad)) + String.valueOf(getString(R.string.login_policy_nad)).length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -291,7 +305,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 lon = place.getLatLng().longitude;
                 edtAddress.setText(place.getAddress());
                 address = place.getAddress().toString();
-                Utils.hideKeyBoard(RegisterActivity.this);
+                hideKeyBoard(RegisterActivity.this);
                 inputLayoutAddress.setErrorEnabled(false);
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
@@ -372,6 +386,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         if (!validateAdress()) {
             return;
         }
+        if (checkBoxCoupon.isChecked()) {
+            if (!validatePhone()) {
+                return;
+            }
+        }
         if (isUpdateAvata) {
             updateAvata();
         } else {
@@ -447,9 +466,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         ProgressDialogUtils.showProgressDialog(RegisterActivity.this);
         JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put(Constants.PARAMETER_FULL_NAME, edtName.getText().toString());
+            jsonRequest.put(Constants.PARAMETER_FULL_NAME, edtName.getText().toString().trim());
             jsonRequest.put("latitude", lat);
             jsonRequest.put("longitude", lon);
+            if (checkBoxCoupon.isChecked() && validatePhone())
+                jsonRequest.put("referrer_phone", edtCoupon.getText().toString().trim());
 
             if (address != null && lat != 0 && lon != 0) {
                 jsonRequest.put(Constants.PARAMETER_ADDRESS, address);
@@ -469,7 +490,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
                 LogUtils.d(TAG, "onResponse updateInfor code : " + response.code());
-
+                APIError error = ErrorUtils.parseError(response);
                 if (response.isSuccessful()) {
                     LogUtils.d(TAG, "onResponse updateInfor body : " + response.body());
                     if (response.code() == Constants.HTTP_CODE_OK) {
@@ -481,8 +502,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                             myUser.setLongitude(lat);
                             myUser.setLongitude(lon);
                             realm.commitTransaction();
+
                         }
-                        Utils.settingDefault(RegisterActivity.this);
+                        Utils.showLongToast(RegisterActivity.this, getString(R.string.register_done), false, false);
                         startActivityAndClearAllTask(new Intent(RegisterActivity.this, MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                     }
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -496,8 +518,25 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(RegisterActivity.this);
+                } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
+                    if (error.status().equals(Constants.NO_REFERRER)) {
+                        Utils.showLongToast(RegisterActivity.this, getString(R.string.no_referrer), true, false);
+                        edtCoupon.requestFocus();
+                        inputLayoutCoupon.setError(getString(R.string.no_referrer));
+                    } else if (error.status().equals(Constants.REFERRER_PHONE_YOURSELF)) {
+                        Utils.showLongToast(RegisterActivity.this, getString(R.string.referrer_phone_yourself), true, false);
+                        edtCoupon.requestFocus();
+                        inputLayoutCoupon.setError(getString(R.string.referrer_phone_yourself));
+                    } else if (error.status().equals(Constants.INVALID_REFERRER_PHONE)) {
+                        Utils.showLongToast(RegisterActivity.this, getString(R.string.invalid_referrer_phone), true, false);
+                        edtCoupon.requestFocus();
+                        inputLayoutCoupon.setError(getString(R.string.invalid_referrer_phone));
+                    } else if (error.status().equals(Constants.EMPTY_PARAMETERS)) {
+                        Utils.showLongToast(RegisterActivity.this, getString(R.string.empty_parameters_register), true, false);
+                        edtCoupon.requestFocus();
+                        inputLayoutCoupon.setError(getString(R.string.empty_parameters_register));
+                    }
                 } else {
-                    APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
                     Utils.showLongToast(RegisterActivity.this, error.message(), true, false);
                 }
@@ -534,6 +573,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+
     private class MyTextWatcher implements TextWatcher {
 
         private View view;
@@ -546,6 +586,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
 
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
         }
 
         public void afterTextChanged(Editable editable) {
@@ -557,22 +598,25 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     validateAdress();
                     break;
                 case R.id.edt_coupon:
-                    validatePhone();
+                    String mb = edtCoupon.getText().toString().trim();
+                    if (isNumberValid("84", mb)) {
+                        hideSoftKeyboard(RegisterActivity.this, edtCoupon);
+                        inputLayoutCoupon.setErrorEnabled(false);
+                    }
                     break;
             }
+
         }
     }
 
     private boolean validateAdress() {
         if (lat == 0 && lon == 0) {
-            inputLayoutAddress.setErrorEnabled(true);
             inputLayoutAddress.setError(getString(R.string.post_task_address_error_google));
-            requestFocus(edtAddress);
+            edtAddress.requestFocus();
             return false;
         } else if (TextUtils.isEmpty(address)) {
-            inputLayoutAddress.setErrorEnabled(true);
-            inputLayoutAddress.setError(getString(R.string.post_task_address_error));
-            requestFocus(edtAddress);
+            inputLayoutAddress.setError(getString(R.string.empty_adress));
+            edtAddress.requestFocus();
             return false;
         } else {
             inputLayoutAddress.setErrorEnabled(false);
@@ -583,7 +627,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private boolean validateName() {
         if (edtName.getText().toString().trim().isEmpty()) {
             inputLayoutName.setError(getString(R.string.err_msg_name));
-            requestFocus(edtName);
+            edtName.requestFocus();
             return false;
         } else {
             inputLayoutName.setErrorEnabled(false);
@@ -595,27 +639,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private boolean validatePhone() {
         String mb = edtCoupon.getText().toString().trim();
         if (mb.isEmpty()) {
-            inputLayoutAddress.setErrorEnabled(true);
             inputLayoutCoupon.setError(getString(R.string.code_coupon_empty));
-            requestFocus(edtCoupon);
+            edtCoupon.requestFocus();
             return false;
-        } else if (isNumberValid("84", mb)) {
-            inputLayoutAddress.setErrorEnabled(true);
+        } else if (!isNumberValid("84", mb)) {
             inputLayoutCoupon.setError(getString(R.string.code_coupon_error));
-            requestFocus(edtCoupon);
+            edtCoupon.requestFocus();
+            return false;
         } else {
+            hideSoftKeyboard(this, edtCoupon);
             inputLayoutCoupon.setErrorEnabled(false);
         }
 
         return true;
     }
 
-
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
-    }
 
     private boolean isNumberValid(String countryCode, String phNumber) {
         if (TextUtils.isEmpty(countryCode)) {// Country code could not be empty
@@ -640,4 +678,5 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         return phoneNumberUtil.isValidNumber(phoneNumber);
     }
+
 }

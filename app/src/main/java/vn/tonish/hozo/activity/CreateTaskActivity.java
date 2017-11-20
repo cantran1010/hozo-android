@@ -116,7 +116,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     private static final String TAG = CreateTaskActivity.class.getSimpleName();
     private ScrollView scrollView;
-    private EdittextHozo edtTitle, edtDescription, edtCoupon;
+    private EdittextHozo edtTitle, edtDescription;
     private TextViewHozo tvTitleMsg, tvDesMsg, tvWorkingHour, tvNumberWorker;
     private static final int MAX_LENGTH_TITLE = 50;
     private static final int MAX_LENGTH_DES = 500;
@@ -161,6 +161,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private Spinner spGender;
     private String strGender = "";
     private ExpandableLayout advanceExpandableLayout;
+    private TextViewHozo tvMoreHide;
 
 
     // copy or edit
@@ -197,7 +198,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         tvDesMsg = (TextViewHozo) findViewById(R.id.tv_des_msg);
 
         edtBudget = (AutoCompleteTextView) findViewById(R.id.edt_budget);
-        edtCoupon = (EdittextHozo) findViewById(R.id.edt_coupon);
         tvNumberWorker = (TextViewHozo) findViewById(R.id.tv_number_worker);
         tvTotalPrice = (TextViewHozo) findViewById(R.id.tv_total_price);
         imgSaveDraf = (ImageView) findViewById(R.id.tv_save);
@@ -220,7 +220,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         tvMoreShow = (TextViewHozo) findViewById(R.id.tv_more_show);
         tvMoreShow.setOnClickListener(this);
 
-        TextViewHozo tvMoreHide = (TextViewHozo) findViewById(R.id.tv_more_hide);
+        tvMoreHide = (TextViewHozo) findViewById(R.id.tv_more_hide);
         tvMoreHide.setOnClickListener(this);
 
         imgMenu = (ImageView) findViewById(R.id.img_menu);
@@ -236,10 +236,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     protected void initData() {
 
         Constants.MAX_IMAGE_ATTACH = 6;
-
-        edtCoupon.setFocusable(true);
-        edtCoupon.setText("");
-        edtCoupon.setFocusable(true);
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, this)
                 .addApi(Places.GEO_DATA_API)
@@ -284,11 +280,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             taskId = taskResponse.getId();
 
             if (intent.hasExtra(Constants.TASK_EDIT_EXTRA)) {
-                edtCoupon.setFocusable(false);
                 taskType = intent.getStringExtra(Constants.TASK_EDIT_EXTRA);
                 switch (taskType) {
                     case Constants.TASK_EDIT:
-                        edtCoupon.setFocusable(false);
                         imgSaveDraf.setVisibility(View.GONE);
                         imgMenu.setVisibility(View.GONE);
                         btnNext.setText(getString(R.string.btn_edit_task));
@@ -437,29 +431,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
                 } else
                     tvDesMsg.setText(getString(R.string.post_a_task_msg_length, editable.toString().length(), MAX_LENGTH_DES));
-            }
-        });
-        edtCoupon.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String s = edtCoupon.getText().toString().trim();
-                if (charSequence.length() != 0) {
-                    if (s.length() == 6 && !s.contains(" ") && !s.contains(".") && !s.contains(",") && !s.contains("-") && !s.contains("_")) {
-                        hideSoftKeyboard(CreateTaskActivity.this, edtCoupon);
-                    } else if (s.length() >= 6) {
-                        edtCoupon.setError(getString(R.string.code_coupon_error));
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
             }
         });
 
@@ -810,20 +781,10 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             Utils.showLongToast(this, getString(R.string.select_age_error), true, false);
             return;
         }
-//        } else if (!edtCoupon.getText().toString().trim().isEmpty() && !isCoupon(edtCoupon.getText().toString().trim())) {
-//            if (!advanceExpandableLayout.isExpanded()) showAdvance();
-//            edtCoupon.requestFocus();
-//            edtCoupon.setError(getString(R.string.code_coupon_error));
-//            return;
-//        }
 
         if (images.size() > 1) doAttachFiles();
         else createTaskOnServer();
 
-    }
-
-    private boolean isCoupon(String s) {
-        return s.replace(" ", "").replace(".", "").replace(",", "").length() == 6;
     }
 
     private void doAttachFiles() {
@@ -917,8 +878,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             jsonRequest.put("gender", strGender);
             jsonRequest.put("online", cbOnline.isChecked());
             jsonRequest.put("auto_assign", cbAuto.isChecked());
-            if (!edtCoupon.getText().toString().trim().isEmpty())
-                jsonRequest.put("referrer", edtCoupon.getText().toString().trim());
 
 
         } catch (JSONException e) {
@@ -1054,21 +1013,10 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                             Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_address), true, false);
                         } else if (error.status().equals(Constants.INVALID_DATA)) {
                             Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_data), true, false);
-                        } else if (error.status().equals(Constants.NO_REFERRER)) {
-                            edtCoupon.requestFocus();
-                            if (!advanceExpandableLayout.isExpanded()) showAdvance();
-                            edtCoupon.setError(getString(R.string.code_coupon_error));
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.no_referrer), true, false);
-                        } else if (error.status().equals(Constants.REFERRER_USED)) {
-                            edtCoupon.requestFocus();
-                            if (!advanceExpandableLayout.isExpanded()) showAdvance();
-                            edtCoupon.setError(getString(R.string.code_coupon_error));
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.referrer_used), true, false);
                         } else if (error.status().equals(Constants.INVALID_AGE)) {
                             Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_age_between), true, false);
                         } else if (error.status().equals(Constants.INVALID_UPDATE_TASK_FAILED)) {
                             Utils.showLongToast(CreateTaskActivity.this, getString(R.string.update_task_failed), true, false);
-
                         } else if (error.status().equals(Constants.INVALID_UPDATE_TASK_FAILED))
                             Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_task_failed), true, false);
                         else {
@@ -1435,12 +1383,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 status = Constants.CREATE_TASK_STATUS_PUBLISH;
                 doNext();
                 break;
-
-//            case R.id.tv_save:
-//                status = Constants.CREATE_TASK_STATUS_DRAFT;
-//                doSave();
-//                break;
-
             case R.id.img_menu:
                 popup.show();//showing popup menu
                 break;
@@ -1451,7 +1393,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private void showAdvance() {
         tvMoreShow.setVisibility(View.GONE);
         advanceExpandableLayout.toggle();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", scrollView.getBottom(), edtDescription.getBottom()).setDuration(1000);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", scrollView.getMaxScrollAmount()).setDuration(1000);
         objectAnimator.start();
     }
 

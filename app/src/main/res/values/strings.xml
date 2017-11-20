@@ -683,4 +683,11 @@
     <string name="err_msg_name">Chưa nhập họ tên.</string>
     <string name="btn_continue">Tiếp tục</string>
     <string name="hint_coupon">Nhập mã giới thiệu</string>
+    <string name="empty_adress">Chưa nhập địa chỉ</string>
+    <string name="referrer_phone_yourself">Không nhập số điện thoại của bạn</string>
+    <string name="invalid_referrer_phone">Số điện thoại giới thiệu không hợp lệ</string>
+    <string name="empty_parameters_register">Thiếu thông số</string>
+    <string name="register_done">Đăng ký thành công!</string>
+    <string name="create_task_age">Tuổi</string>
+    <string name="create_task_sex">Giới tính</string>
 </resources>

@@ -23,7 +23,6 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
     private final static String TAG = TaskAdapter.class.getSimpleName();
     private final List<TaskResponse> taskResponses;
     private final Context context;
-    private int lastPosition = -1;
 
     public TaskAdapter(Context context, List<TaskResponse> taskResponses) {
         super(context, taskResponses);

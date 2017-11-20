@@ -51,8 +51,6 @@ import vn.tonish.hozo.BuildConfig;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.SplashActivity;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.database.entity.SettingEntiny;
-import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
@@ -708,23 +706,6 @@ public class Utils {
         return outPut;
     }
 
-    public static void settingDefault(Context context) {
-        if (SettingManager.getSettingEntiny() != null) return;
-
-        LogUtils.d(TAG, "settingDefault start");
-        SettingEntiny settingEntiny = new SettingEntiny();
-        settingEntiny.setUserId(UserManager.getMyUser().getId());
-        settingEntiny.setLatitude(21.028511);
-        settingEntiny.setLongitude(105.804817);
-        settingEntiny.setLocation("");
-        settingEntiny.setCity("");
-        settingEntiny.setRadius(0);
-        settingEntiny.setGender(context.getString(R.string.gender_vn_any));
-        settingEntiny.setMinWorkerRate(0);
-        settingEntiny.setMaxWorkerRate(0);
-        SettingManager.insertSetting(settingEntiny);
-    }
-
     public static boolean validateInput(Context context, String input) {
 //        if (input.contains(context.getString(R.string.email_input_error1))) return false;
 //        if (input.toLowerCase(Locale.getDefault()).contains(context.getString(R.string.email_input_error2)))
@@ -820,5 +801,7 @@ public class Utils {
         result = result + context.getString(R.string.count_assigner, taskResponse.getAssigneeCount());
         return result;
     }
+
+
 
 }
