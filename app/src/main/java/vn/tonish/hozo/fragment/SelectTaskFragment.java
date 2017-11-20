@@ -20,9 +20,7 @@ import vn.tonish.hozo.adapter.CategoryAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.entity.CategoryEntity;
-import vn.tonish.hozo.database.entity.SettingEntiny;
 import vn.tonish.hozo.database.manager.CategoryManager;
-import vn.tonish.hozo.database.manager.SettingManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.Category;
@@ -60,8 +58,6 @@ public class SelectTaskFragment extends BaseFragment {
     protected void initData() {
         getCacheData();
         getCategory();
-        if (SettingManager.getSettingEntiny() == null)
-            settingDefault();
     }
 
     private void getCacheData() {
@@ -194,20 +190,7 @@ public class SelectTaskFragment extends BaseFragment {
         }
     }
 
-    private void settingDefault() {
-        LogUtils.d(TAG, "settingDefault start");
-        SettingEntiny settingEntiny = new SettingEntiny();
-        settingEntiny.setUserId(UserManager.getMyUser().getId());
-        settingEntiny.setLatitude(21.028511);
-        settingEntiny.setLongitude(105.804817);
-        settingEntiny.setLocation("");
-        settingEntiny.setCity("");
-        settingEntiny.setRadius(0);
-        settingEntiny.setGender(getString(R.string.gender_vn_any));
-        settingEntiny.setMinWorkerRate(0);
-        settingEntiny.setMaxWorkerRate(0);
-        SettingManager.insertSetting(settingEntiny);
-    }
+
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override

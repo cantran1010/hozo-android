@@ -40,7 +40,7 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
     private final List<Message> messages;
     private final Context context;
     @SuppressLint("UseSparseArrays")
-    private final HashMap<Integer, Member> memberHashMap = new HashMap<Integer, Member>();
+    private final HashMap<Integer, Member> memberHashMap = new HashMap<>();
 
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference myRef;

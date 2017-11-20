@@ -73,8 +73,8 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         myTaskViewPager = (ViewPager) findViewById(R.id.pager);
         myTaskTabLayout.addTab(myTaskTabLayout.newTab().setText(getContext().getString(R.string.my_task_poster)));
         myTaskTabLayout.addTab(myTaskTabLayout.newTab().setText(getContext().getString(R.string.my_task_worker)));
-        @SuppressLint("InflateParams") View headerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                .inflate(R.layout.custom_tab_mytask, null, false) : null : null;
+        @SuppressLint("InflateParams") View headerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                .inflate(R.layout.custom_tab_mytask, null, false) : null : null : null;
         final ViewGroup test = (ViewGroup) (myTaskTabLayout.getChildAt(0));
         int tabLen = test.getChildCount();
         for (int i = 0; i < tabLen; i++) {
@@ -131,7 +131,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     protected void initData() {
         Bundle bundle = getArguments();
         if (bundle.containsKey(Constants.ROLE_EXTRA)) role = bundle.getString(Constants.ROLE_EXTRA);
-        if (role.equalsIgnoreCase(Constants.ROLE_POSTER)) {
+        if (role != null ? role.equalsIgnoreCase(Constants.ROLE_POSTER) : false) {
             myTaskTabLayout.getTabAt(0).select();
         } else {
             myTaskTabLayout.getTabAt(1).select();

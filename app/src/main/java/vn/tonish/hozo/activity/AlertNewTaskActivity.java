@@ -225,7 +225,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 .build();
         // Retrieve the AutoCompleteTextView that will display Place suggestions.
         autocompleteView = (AutoCompleteTextView)
-                findViewById(R.id.autocomplete_places);
+                findViewById(R.id.edt_address);
 
         autocompleteView.setThreshold(1);
 

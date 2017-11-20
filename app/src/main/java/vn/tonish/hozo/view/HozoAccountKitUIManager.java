@@ -1,5 +1,6 @@
 package vn.tonish.hozo.view;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Parcel;
 import android.support.annotation.Nullable;
@@ -19,9 +20,9 @@ import vn.tonish.hozo.fragment.HozoPlaceholderFragment;
  */
 
 @SuppressWarnings("ALL")
+@SuppressLint("ParcelCreator")
 public class HozoAccountKitUIManager extends BaseUIManager {
-
-    private static final int HEADER_HEIGHT = 120;
+    private static final int HEADER_HEIGHT = 110;
     private final ButtonType confirmButton;
     private final ButtonType entryButton;
     private AccountKitError error;
@@ -116,7 +117,7 @@ public class HozoAccountKitUIManager extends BaseUIManager {
         final String prefix;
         switch (state) {
             case PHONE_NUMBER_INPUT:
-                prefix = "Nhập số điện thoại của bạn";
+                prefix = "Việc trong ngày - Nhận tiền ngay";
                 break;
             case EMAIL_INPUT:
                 prefix = "Custom Email ";
@@ -177,6 +178,7 @@ public class HozoAccountKitUIManager extends BaseUIManager {
         }
         return HozoPlaceholderFragment.create(HozoAccountKitUIManager.HEADER_HEIGHT, prefix.concat(""));
     }
+
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
         super.writeToParcel(dest, flags);

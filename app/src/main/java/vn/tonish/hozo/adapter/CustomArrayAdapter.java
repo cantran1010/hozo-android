@@ -53,6 +53,7 @@ public class CustomArrayAdapter extends ArrayAdapter<String> implements
         return list.get(position);
     }
 
+    @NonNull
     @Override
     public CustomFilter getFilter() {
         if (customFilter == null) {

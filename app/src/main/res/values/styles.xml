@@ -2,8 +2,8 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimaryDark">@color/hozo_bg</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/hozo_bg</item>
+        <item name="colorAccent">@color/hozo_bg</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:textColorPrimaryInverse">@color/hozo_bg</item>
     </style>
@@ -55,20 +55,6 @@
     <style name="DialogAnimationDownUp">
         <item name="android:windowEnterAnimation">@anim/from_down_to_up</item>
         <item name="android:windowExitAnimation">@anim/from_up_to_down</item>
-    </style>
-
-    <style name="pin_edit_text_style">
-        <item name="android:gravity">center</item>
-        <item name="android:cursorVisible">false</item>
-        <item name="android:textColor">@color/hozo_bg</item>
-        <item name="android:background">@drawable/rectangle</item>
-        <item name="android:maxLength">1</item>
-        <item name="android:minEms">2</item>
-        <item name="android:layout_height">40dp</item>
-        <item name="android:layout_width">40dp</item>
-        <item name="android:layout_marginLeft">15dp</item>
-        <item name="android:layout_marginRight">15dp</item>
-        <item name="android:inputType">number</item>
     </style>
 
     <style name="StarRatingBar" parent="@android:style/Widget.RatingBar">

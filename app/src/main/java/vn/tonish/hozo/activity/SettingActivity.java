@@ -221,7 +221,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 .build();
         // Retrieve the AutoCompleteTextView that will display Place suggestions.
         autocompleteView = (AutoCompleteTextView)
-                findViewById(R.id.autocomplete_places);
+                findViewById(R.id.edt_address);
 
         autocompleteView.setThreshold(1);
 

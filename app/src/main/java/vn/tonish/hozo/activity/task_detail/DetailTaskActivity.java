@@ -479,7 +479,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         PosterOpenAdapter posterOpenAdapter;
         if (bidders.size() > MAX_WORKER) {
 
-            ArrayList<Bidder> biddersNew = new ArrayList<Bidder>();
+            ArrayList<Bidder> biddersNew = new ArrayList<>();
             biddersNew.addAll(bidders.subList(0, MAX_WORKER));
 
             posterOpenAdapter = new PosterOpenAdapter(biddersNew, bidderType);
