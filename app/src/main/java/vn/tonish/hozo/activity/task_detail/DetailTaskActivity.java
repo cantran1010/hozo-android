@@ -132,6 +132,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private File fileAttach;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private View vLineCommentList;
+    private int moreDetailVisibility = -1;
+    private int moreDFooterVisibility = -1;
 
     @Override
     protected int getLayout() {
@@ -259,15 +261,30 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (moreDetailLayout.getVisibility() == View.VISIBLE) {
+            moreDetailVisibility = View.VISIBLE;
+        } else
+            moreDetailVisibility = View.GONE;
+
+        if (moreFooterLayout.getVisibility() == View.VISIBLE) {
+            moreDFooterVisibility = View.VISIBLE;
+        } else
+            moreDFooterVisibility = View.GONE;
+    }
+
     private void getData() {
         ProgressDialogUtils.showProgressDialog(this);
         LogUtils.d(TAG, "getDetailTask , taskId : " + taskId);
         LogUtils.d(TAG, "getDetailTask , UserManager.getUserToken() : " + UserManager.getUserToken());
 
         Map<String, Boolean> option = new HashMap<>();
-        option.put("viewer",true);
+        option.put("viewer", true);
 
-        call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId,option);
+        call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId, option);
         call.enqueue(new Callback<TaskResponse>() {
             @Override
             public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
@@ -603,7 +620,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatusTask(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
-            showExpand(true);
+            showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -618,7 +635,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatusTask(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
-            showExpand(true);
+            showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -636,7 +653,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
             updateStatusTask(true, getString(R.string.my_task_status_worker_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
-            showExpand(true);
+            showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -651,7 +668,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN)) {
             updateStatusTask(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
-            showExpand(true);
+            showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -893,6 +910,21 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 return true;
             }
         });
+
+        if (moreDetailVisibility != -1) {
+            if (moreDetailVisibility == View.VISIBLE)
+                moreDetailLayout.setVisibility(View.VISIBLE);
+            else
+                moreDetailLayout.setVisibility(View.GONE);
+        }
+
+        if (moreDFooterVisibility != -1) {
+            if (moreDFooterVisibility == View.VISIBLE)
+                moreFooterLayout.setVisibility(View.VISIBLE);
+            else
+                moreFooterLayout.setVisibility(View.GONE);
+        }
+
     }
 
     private void showExpand(boolean isShow) {
@@ -1272,7 +1304,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 intentContact.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                 intentContact.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
                 intentContact.putExtra(Constants.TITLE_INFO_EXTRA, taskResponse.getTitle());
-                intentContact.putExtra(Constants.TASK_DETAIL_EXTRA,taskResponse);
+                intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
                 startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
             }
 
@@ -1637,7 +1669,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 intentContact.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                 intentContact.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
                 intentContact.putExtra(Constants.TITLE_INFO_EXTRA, taskResponse.getTitle());
-                intentContact.putExtra(Constants.TASK_DETAIL_EXTRA,taskResponse);
+                intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
                 startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
                 break;
 
