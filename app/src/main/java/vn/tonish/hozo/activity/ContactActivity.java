@@ -11,6 +11,7 @@ import vn.tonish.hozo.adapter.AssignerCallAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 11/17/17.
@@ -23,6 +24,7 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
     private AssignerCallAdapter assignerAdapter;
     private ArrayList<Assigner> assigners;
     private TaskResponse taskResponse;
+    private TextViewHozo tvTaskName;
 
     @Override
     protected int getLayout() {
@@ -32,12 +34,15 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initView() {
         rcvAssign = (RecyclerView) findViewById(R.id.lvList);
+        tvTaskName = (TextViewHozo) findViewById(R.id.tv_task_name);
+
         findViewById(R.id.img_back).setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
         taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.TASK_DETAIL_EXTRA);
+        tvTaskName.setText(taskResponse.getTitle());
         setupList();
     }
 
