@@ -50,6 +50,7 @@ import vn.tonish.hozo.activity.CommentAllActivity;
 import vn.tonish.hozo.activity.CommentsAnswerActivity;
 import vn.tonish.hozo.activity.CreateTaskActivity;
 import vn.tonish.hozo.activity.RateActivity;
+import vn.tonish.hozo.activity.RatingActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.PreviewImageListActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
@@ -1674,11 +1675,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.btn_rate:
-                Intent intentRate = new Intent(DetailTaskActivity.this, RateActivity.class);
-                intentRate.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                intentRate.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
-                intentRate.putExtra(Constants.AVATAR_EXTRA, taskResponse.getPoster().getAvatar());
-                intentRate.putExtra(Constants.NAME_EXTRA, taskResponse.getPoster().getFullName());
+                Intent intentRate = new Intent(DetailTaskActivity.this, RatingActivity.class);
+                intentRate.putExtra(Constants.TASK_RESPONSE_RATING, taskResponse);
                 startActivityForResult(intentRate, Constants.REQUEST_CODE_RATE, TransitionScreen.UP_TO_DOWN);
                 break;
 
