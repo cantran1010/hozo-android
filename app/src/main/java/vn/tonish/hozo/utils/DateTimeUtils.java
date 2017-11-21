@@ -1,6 +1,7 @@
 package vn.tonish.hozo.utils;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 
 import java.sql.Time;
 import java.text.DateFormat;
@@ -298,9 +299,15 @@ public class DateTimeUtils {
     }
 
     public static String getTimeChat(long time, Context context) {
-        Date date = new Date(time);
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm\ndd/MM/yyyy", Locale.getDefault());
-        return sdf.format(date);
+        if(DateUtils.isToday(time)){
+            Date date1 = new Date(time);
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+            return sdf.format(date1);
+        }else {
+            Date date = new Date(time);
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a dd/MM/yyyy", Locale.getDefault());
+            return sdf.format(date);
+        }
     }
 
     public static long hoursBetween(Calendar startDate, Calendar endDate) {

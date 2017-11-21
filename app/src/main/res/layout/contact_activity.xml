@@ -43,9 +43,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_left_screen"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        android:layout_marginStart="@dimen/margin_left_screen">
+        android:layout_marginStart="@dimen/margin_left_screen"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="wrap_content"
@@ -59,8 +59,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
-            android:textColor="@color/tv_black_new"
-            android:layout_marginStart="2dp" />
+            android:layout_marginStart="2dp"
+            android:textColor="@color/tv_black_new" />
 
     </LinearLayout>
 
@@ -68,10 +68,10 @@
         android:id="@+id/lvList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
+        android:paddingEnd="@dimen/margin_right_screen"
         android:paddingLeft="@dimen/margin_left_screen"
         android:paddingRight="@dimen/margin_right_screen"
-        android:paddingStart="@dimen/margin_left_screen"
-        android:paddingEnd="@dimen/margin_right_screen" />
+        android:paddingStart="@dimen/margin_left_screen" />
 
 </LinearLayout>

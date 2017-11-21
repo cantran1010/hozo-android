@@ -50,7 +50,6 @@
             android:src="@drawable/img_sms_contact" />
 
         <View
-            android:id="@+id/v"
             android:layout_width="1px"
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
