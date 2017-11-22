@@ -273,6 +273,7 @@
     <string name="my_task_status_poster_completed">Hoàn thành</string>
     <string name="my_task_status_poster_overdue">Quá hạn</string>
     <string name="my_task_status_poster_canceled">Hủy bỏ</string>
+    <string name="my_task_status_poster_await_approval">Chờ duyệt</string>
     <string name="hozo_all">Tất cả</string>
     <!-- share app -->
     <string name="share_app_title">Chọn ứng dụng bạn muốn chia sẻ</string>

@@ -605,7 +605,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
-            btnRatePoster.setVisibility(View.GONE);
+            btnRatePoster.setVisibility(View.VISIBLE);
 
             isShowCancel = false;
             isDelete = false;
@@ -643,6 +643,21 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isFollow = false;
 
             layoutInputComment.setVisibility(View.GONE);
+
+        } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_AWAIT_APPROVAL) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            updateStatusTask(true, getString(R.string.my_task_status_poster_await_approval), ContextCompat.getDrawable(this, R.drawable.bg_border_await_approval));
+
+            showExpand(false);
+
+            btnOffer.setVisibility(View.GONE);
+            btnContact.setVisibility(View.GONE);
+            btnRatePoster.setVisibility(View.VISIBLE);
+
+            isShowCancel = false;
+            isReportTask = false;
+            isFollow = false;
+
+            layoutInputComment.setVisibility(View.VISIBLE);
 
         }
 
@@ -741,7 +756,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             layoutInputComment.setVisibility(View.VISIBLE);
 
-        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)
+                && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_AWAIT_APPROVAL)) {
             updateStatusTask(true, getString(R.string.received), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
 
             showExpand(false);
@@ -771,7 +787,38 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isFollow = false;
 
             layoutInputComment.setVisibility(View.GONE);
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_AWAIT_APPROVAL)) {
+            updateStatusTask(true, getString(R.string.my_task_status_poster_await_approval), ContextCompat.getDrawable(this, R.drawable.bg_border_await_approval));
+
+            showExpand(false);
+
+            btnOffer.setVisibility(View.GONE);
+            btnContact.setVisibility(View.VISIBLE);
+            btnRatePoster.setVisibility(View.VISIBLE);
+
+            isDelete = false;
+            isReportTask = false;
+            isShowCancel = false;
+            isFollow = false;
+
+            layoutInputComment.setVisibility(View.VISIBLE);
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_COMPLETED)) {
+            updateStatusTask(true, getString(R.string.my_task_status_poster_await_approval), ContextCompat.getDrawable(this, R.drawable.bg_border_await_approval));
+
+            showExpand(false);
+
+            btnOffer.setVisibility(View.GONE);
+            btnContact.setVisibility(View.GONE);
+            btnRatePoster.setVisibility(View.VISIBLE);
+
+            isDelete = false;
+            isReportTask = false;
+            isShowCancel = false;
+            isFollow = false;
+
+            layoutInputComment.setVisibility(View.GONE);
         }
+
         // make an offer
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
             updateStatusTask(true, getString(R.string.make_an_offer_status), ContextCompat.getDrawable(this, R.drawable.bg_border_offer));
