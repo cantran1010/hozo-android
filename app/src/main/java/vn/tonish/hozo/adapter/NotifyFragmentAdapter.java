@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import vn.tonish.hozo.fragment.ChatFragment;
-import vn.tonish.hozo.fragment.SystemNotificationFragment;
-import vn.tonish.hozo.fragment.NewTaskAlertNotificationFragment;
+import vn.tonish.hozo.fragment.inbox.ChatFragment;
+import vn.tonish.hozo.fragment.inbox.SystemNotificationFragment;
+import vn.tonish.hozo.fragment.inbox.NewTaskAlertNotificationFragment;
 
 /**
  * Created by LongBui on 8/22/17.

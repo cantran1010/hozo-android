@@ -1,4 +1,4 @@
-package vn.tonish.hozo.fragment;
+package vn.tonish.hozo.fragment.inbox;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,15 +25,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.AlertNewTaskActivity;
 import vn.tonish.hozo.activity.MainActivity;
-import vn.tonish.hozo.activity.task_detail.TaskDetailNewActivity;
+import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.NotificationAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.BlockDialog;
+import vn.tonish.hozo.fragment.BaseFragment;
+import vn.tonish.hozo.fragment.mytask.MyTaskFragment;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
@@ -53,9 +54,9 @@ import static vn.tonish.hozo.common.Constants.PUSH_TYPE_POSTER_CANCELED;
  * Edit by Cantran
  */
 
-public class NewTaskAlertNotificationFragment extends BaseFragment implements View.OnClickListener {
-    private static final String TAG = NewTaskAlertNotificationFragment.class.getSimpleName();
-
+public class SystemNotificationFragment extends BaseFragment {
+    private static final String TAG = SystemNotificationFragment.class.getSimpleName();
+    private static final int TIME_DELAY = 500;
     private NotificationAdapter notificationAdapter;
     private RecyclerView lvList;
     private final List<Notification> notifications = new ArrayList<>();
@@ -66,41 +67,23 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
     private TextViewHozo tvNoData;
-    private static final int TIME_DELAY = 2000;
 
     @Override
     protected int getLayout() {
-        return vn.tonish.hozo.R.layout.fragment_sys_notifacation;
+        return vn.tonish.hozo.R.layout.fragment_notifacation;
     }
 
     @Override
     protected void initView() {
         lvList = (RecyclerView) findViewById(R.id.lvList);
         tvNoData = (TextViewHozo) findViewById(R.id.tv_no_data);
-        TextViewHozo tvSetting = (TextViewHozo) findViewById(R.id.tv_setting);
-        tvSetting.setOnClickListener(this);
-
         createSwipeToRefresh();
     }
 
     @Override
     protected void initData() {
-        LogUtils.d(TAG, "SystemNotificationFragment life cycle , initData");
+
         initList();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                LogUtils.d(TAG, "SystemNotificationFragment life cycle , initData delay 5000s");
-
-                PreferUtils.setPushNewTaskCount(getActivity(), 0);
-                PreferUtils.setNewPushChatCount(getActivity(), 0);
-//                Intent intentPushCount = new Intent();
-//                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-//                getActivity().sendBroadcast(intentPushCount);
-            }
-        }, TIME_DELAY);
-
     }
 
     private void initList() {
@@ -158,11 +141,11 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
                         }
                     });
                 } else if (notifications.get(position).getEvent().equals(PUSH_TYPE_ADMIN_NEW_TASK_ALERT)) {
-                    Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
+                    Intent intent = new Intent(getActivity(), DetailTaskActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
                     startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 } else if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_TASK_COMPLETE)) {
-                    Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
+                    Intent intent = new Intent(getActivity(), DetailTaskActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
 
                     if (notifications.get(position).getUserId() == UserManager.getMyUser().getId())
@@ -172,7 +155,7 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
 
                     startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
-                    Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
+                    Intent intent = new Intent(getActivity(), DetailTaskActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
                     startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 }
@@ -225,7 +208,7 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
     private void getNotifications() {
         LogUtils.d(TAG, "getNotifications start");
         Map<String, String> params = new HashMap<>();
-        params.put("type", Constants.NOTIFICATION_NEW_TASK);
+        params.put("type", Constants.NOTIFICATION_SYS);
         if (since != null)
             params.put("since", since);
         params.put("limit", LIMIT + "");
@@ -237,28 +220,11 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
             public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {
                 LogUtils.d(TAG, "getNotifications code : " + response.code());
                 LogUtils.d(TAG, "getNotifications body : " + response.body());
-
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    PreferUtils.setPushNewTaskCount(getActivity(), 0);
                     List<Notification> notificationResponse = response.body();
                     if (since == null) {
                         notifications.clear();
                         endlessRecyclerViewScrollListener.resetState();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                PreferUtils.setPushNewTaskCount(getActivity(), 0);
-                                PreferUtils.setNewPushChatCount(getActivity(), 0);
-
-                                if (getActivity() != null && getActivity() instanceof MainActivity)
-                                    ((MainActivity) getActivity()).updateCountMsg();
-
-                                Intent intentPushCount = new Intent();
-                                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-                                if (getActivity() != null)
-                                    getActivity().sendBroadcast(intentPushCount);
-                            }
-                        }, TIME_DELAY);
 
                     }
                     notifications.addAll(notificationResponse != null ? notificationResponse : null);
@@ -338,12 +304,13 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
 
     @Override
     protected void resumeData() {
-        getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_NEW_TASK));
+        getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_SYS_TEM));
+
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         try {
             getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
         } catch (Exception e) {
@@ -354,6 +321,19 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
     @Override
     public void onRefresh() {
         super.onRefresh();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                PreferUtils.setNewPushCount(getActivity(), 0);
+                PreferUtils.setNewPushChatCount(getActivity(), 0);
+                if (getActivity() != null && getActivity() instanceof MainActivity)
+                    ((MainActivity) getActivity()).updateCountMsg();
+                Intent intentPushCount = new Intent();
+                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                if (getActivity() != null)
+                    getActivity().sendBroadcast(intentPushCount);
+            }
+        }, TIME_DELAY);
         if (call != null) call.cancel();
         isLoadingMoreFromServer = true;
         since = null;
@@ -378,14 +358,4 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
             if (linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
         }
     };
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_setting:
-                startActivity(new Intent(getActivity(), AlertNewTaskActivity.class), TransitionScreen.RIGHT_TO_LEFT);
-                break;
-        }
-
-    }
 }

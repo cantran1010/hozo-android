@@ -172,6 +172,9 @@ public class Constants {
     public static final String PUSH_TYPE_ADMIN_NEW_TASK_ALERT = "admin_new_task_alert";
     public static final String PUSH_TYPE_CHAT = "message_received";
     public static final String PUSH_TYPE_ENOUGH_BIDDER = "enough_bidder";
+    public static final String PUSH_TYPE_REVIEW_POSTER = "review_received_ra";
+    public static final String PUSH_TYPE_REVIEW_WORKER = "review_received_ca";
+    public static final String PUSH_TYPE_AWAIT_APPROVAL = "task_await_approval";
 
     public static final String ROLE_EXTRA = "role_extra";
     public static final String REFRESH_EXTRA = "refresh_extra";

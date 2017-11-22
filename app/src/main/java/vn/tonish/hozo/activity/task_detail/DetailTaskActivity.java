@@ -606,6 +606,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.VISIBLE);
+            btnRatePoster.setText(getString(R.string.poster_ratting));
 
             isShowCancel = false;
             isDelete = false;
@@ -652,6 +653,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.VISIBLE);
+            btnRatePoster.setText(getString(R.string.poster_ratting));
 
             isShowCancel = false;
             isReportTask = false;
@@ -756,8 +758,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             layoutInputComment.setVisibility(View.VISIBLE);
 
-        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)
-                && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_AWAIT_APPROVAL)) {
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED)
+                && (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) || taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED))) {
             updateStatusTask(true, getString(R.string.received), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
 
             showExpand(false);
@@ -772,22 +774,25 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             layoutInputComment.setVisibility(View.VISIBLE);
 
-        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
-            updateStatusTask(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
-
-            showExpand(false);
-
-            btnOffer.setVisibility(View.GONE);
-            btnContact.setVisibility(View.GONE);
-            btnRatePoster.setVisibility(View.VISIBLE);
-
-            isDelete = false;
-            isReportTask = false;
-            isShowCancel = false;
-            isFollow = false;
-
-            layoutInputComment.setVisibility(View.GONE);
-        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_AWAIT_APPROVAL)) {
+        }
+//        else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+//            updateStatusTask(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
+//
+//            showExpand(false);
+//
+//            btnOffer.setVisibility(View.GONE);
+//            btnContact.setVisibility(View.GONE);
+//            btnRatePoster.setVisibility(View.VISIBLE);
+//            btnRatePoster.setText(getString(R.string.worker_ratting));
+//
+//            isDelete = false;
+//            isReportTask = false;
+//            isShowCancel = false;
+//            isFollow = false;
+//
+//            layoutInputComment.setVisibility(View.GONE);
+//        }
+        else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_AWAIT_APPROVAL)) {
             updateStatusTask(true, getString(R.string.my_task_status_poster_await_approval), ContextCompat.getDrawable(this, R.drawable.bg_border_await_approval));
 
             showExpand(false);
@@ -795,6 +800,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.VISIBLE);
             btnRatePoster.setVisibility(View.VISIBLE);
+            btnRatePoster.setText(getString(R.string.worker_ratting));
 
             isDelete = false;
             isReportTask = false;
@@ -803,13 +809,14 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             layoutInputComment.setVisibility(View.VISIBLE);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_COMPLETED)) {
-            updateStatusTask(true, getString(R.string.my_task_status_poster_await_approval), ContextCompat.getDrawable(this, R.drawable.bg_border_await_approval));
+            updateStatusTask(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
 
             showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
-            btnRatePoster.setVisibility(View.VISIBLE);
+            btnRatePoster.setVisibility(View.GONE);
+//            btnRatePoster.setText(getString(R.string.worker_ratting));
 
             isDelete = false;
             isReportTask = false;
@@ -1283,7 +1290,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
     }
 
-
     public void updateStatusTask(boolean isShow, String status, Drawable drawable) {
         if (isShow) {
             tvStatus.setVisibility(View.VISIBLE);
@@ -1298,21 +1304,28 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private void doSeeMoreDetail() {
-
-        if (moreDetailLayout.getVisibility() == View.VISIBLE)
+        if (moreDetailLayout.getVisibility() == View.VISIBLE) {
             moreDetailLayout.setVisibility(View.GONE);
-        else
+            tvSeeMoreDetail.setText(getString(R.string.see_more_detail));
+            tvSeeMoreDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down_blue, 0);
+        } else {
             moreDetailLayout.setVisibility(View.VISIBLE);
+            tvSeeMoreDetail.setText(getString(R.string.advance_more_hide));
+            tvSeeMoreDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_up_blue, 0);
 
+        }
     }
 
     private void doMoreFooter() {
-
-        if (moreFooterLayout.getVisibility() == View.VISIBLE)
+        if (moreFooterLayout.getVisibility() == View.VISIBLE) {
             moreFooterLayout.setVisibility(View.GONE);
-        else
+            tvSeeMoreFooter.setText(getString(R.string.see_more_detail_footer));
+            tvSeeMoreFooter.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down_blue, 0);
+        } else {
             moreFooterLayout.setVisibility(View.VISIBLE);
-
+            tvSeeMoreFooter.setText(getString(R.string.advance_more_hide));
+            tvSeeMoreFooter.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_up_blue, 0);
+        }
     }
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {

@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import vn.tonish.hozo.fragment.TaskDetailTab1Fragment;
-import vn.tonish.hozo.fragment.TaskDetailTab2Fragment;
-import vn.tonish.hozo.fragment.TaskDetailTab3Fragment;
+import vn.tonish.hozo.fragment.task_detail.TaskDetailTab1Fragment;
+import vn.tonish.hozo.fragment.task_detail.TaskDetailTab2Fragment;
+import vn.tonish.hozo.fragment.task_detail.TaskDetailTab3Fragment;
 
 /**
  * Created by LongBui on 8/22/17.

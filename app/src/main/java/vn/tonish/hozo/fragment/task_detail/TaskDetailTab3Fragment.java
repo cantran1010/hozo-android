@@ -1,4 +1,4 @@
-package vn.tonish.hozo.fragment;
+package vn.tonish.hozo.fragment.task_detail;
 
 import android.Manifest;
 import android.app.Activity;
@@ -41,6 +41,7 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
+import vn.tonish.hozo.fragment.BaseFragment;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.network.NetworkUtils;

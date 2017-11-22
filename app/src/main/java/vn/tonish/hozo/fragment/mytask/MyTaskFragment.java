@@ -1,4 +1,4 @@
-package vn.tonish.hozo.fragment;
+package vn.tonish.hozo.fragment.mytask;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -24,6 +24,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.FilterMyTaskActivity;
 import vn.tonish.hozo.adapter.MyTaskFragmentAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.fragment.BaseFragment;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.TypefaceContainer;

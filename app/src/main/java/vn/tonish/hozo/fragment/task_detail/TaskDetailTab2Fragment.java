@@ -1,4 +1,4 @@
-package vn.tonish.hozo.fragment;
+package vn.tonish.hozo.fragment.task_detail;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,6 +33,7 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.fragment.BaseFragment;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;

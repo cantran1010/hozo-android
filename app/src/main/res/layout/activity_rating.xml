@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,7 +19,8 @@
         android:paddingEnd="10dp"
         android:paddingRight="10dp"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_rating_back" />
+        android:src="@drawable/ic_rating_back"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/img_rating_next"
@@ -32,7 +34,8 @@
         android:paddingLeft="10dp"
         android:paddingStart="10dp"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_rating_next" />
+        android:src="@drawable/ic_rating_next"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/img_close"

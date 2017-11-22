@@ -457,6 +457,22 @@ public class Utils {
                 matcher = context.getString(R.string.notification_enough_bidder_matcher);
                 matcherColor = context.getString(R.string.notification_enough_bidder_color);
                 break;
+            case Constants.PUSH_TYPE_REVIEW_POSTER:
+                content = context.getString(R.string.notification_review_poster) + " " + notification.getTaskName();
+                matcher = context.getString(R.string.notification_review_poster_matcher);
+                matcherColor = context.getString(R.string.notification_review_poster_color);
+                break;
+            case Constants.PUSH_TYPE_REVIEW_WORKER:
+                content = context.getString(R.string.notification_review_worker) + " " + notification.getTaskName();
+                matcher = context.getString(R.string.notification_review_worker_matcher);
+                matcherColor = context.getString(R.string.notification_review_worker_color);
+                break;
+            case Constants.PUSH_TYPE_AWAIT_APPROVAL:
+                content = context.getString(R.string.nofification_enouth_bidder_title) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task)
+                        + " " + context.getString(R.string.notification_await_approval);
+                matcher = context.getString(R.string.notification_await_approval_matcher);
+                matcherColor = context.getString(R.string.notification_await_approval_color);
+                break;
         }
 
         tvContent.setText(content);
@@ -602,6 +618,16 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_ENOUGH_BIDDER:
                 content = context.getString(R.string.nofification_enouth_bidder_title) + " " + notification.getTaskName() + " " + context.getString(R.string.nofification_enouth_bidder_footer);
+                break;
+            case Constants.PUSH_TYPE_REVIEW_POSTER:
+                content = context.getString(R.string.notification_review_poster) + " " + notification.getTaskName();
+                break;
+            case Constants.PUSH_TYPE_REVIEW_WORKER:
+                content = context.getString(R.string.notification_review_worker) + " " + notification.getTaskName();
+                break;
+            case Constants.PUSH_TYPE_AWAIT_APPROVAL:
+                content = context.getString(R.string.nofification_enouth_bidder_title) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task)
+                        + " " + context.getString(R.string.notification_await_approval);
                 break;
         }
 
@@ -801,7 +827,6 @@ public class Utils {
         result = result + context.getString(R.string.count_assigner, taskResponse.getAssigneeCount());
         return result;
     }
-
 
 
 }

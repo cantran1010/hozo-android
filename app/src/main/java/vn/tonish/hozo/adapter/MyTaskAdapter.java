@@ -126,19 +126,34 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
 
                     workHolder.progressBar.setVisibility(View.GONE);
 
-                } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && !taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+                } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED)
+                        && (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) || taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED))) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_assigned));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_received));
 
                     workHolder.progressBar.setVisibility(View.GONE);
 
-                } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+                }
+//                else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
+//                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_completed));
+//                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
+//
+//                    workHolder.progressBar.setVisibility(View.GONE);
+//
+//                }
+
+                else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_AWAIT_APPROVAL)) {
+                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_await_approval));
+                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_await_approval));
+
+                    workHolder.progressBar.setVisibility(View.GONE);
+                } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_COMPLETED)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_completed));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
 
                     workHolder.progressBar.setVisibility(View.GONE);
-
                 }
+
             } else if (taskResponse.getRole().equals(Constants.ROLE_POSTER)) {
                 switch (taskResponse.getStatus()) {
                     case Constants.TASK_TYPE_POSTER_DRAFT:
@@ -176,6 +191,12 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
                     case Constants.TASK_TYPE_POSTER_CANCELED:
                         workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_canceled));
                         Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_missed));
+
+                        workHolder.progressBar.setVisibility(View.GONE);
+                        break;
+                    case Constants.TASK_TYPE_POSTER_AWAIT_APPROVAL:
+                        workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_await_approval));
+                        Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_await_approval));
 
                         workHolder.progressBar.setVisibility(View.GONE);
                         break;
