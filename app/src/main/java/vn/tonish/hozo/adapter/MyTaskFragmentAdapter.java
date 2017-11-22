@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import vn.tonish.hozo.fragment.MyTaskPosterFragment;
-import vn.tonish.hozo.fragment.MyTaskWorkerFragment;
+import vn.tonish.hozo.fragment.mytask.MyTaskPosterFragment;
+import vn.tonish.hozo.fragment.mytask.MyTaskWorkerFragment;
 
 /**
  * Created by CanTran on 07/11/2017.

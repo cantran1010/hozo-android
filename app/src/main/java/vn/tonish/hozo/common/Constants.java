@@ -131,11 +131,13 @@ public class Constants {
     public static final String TASK_TYPE_BIDDER_ACCEPTED = "accepted";
     public static final String TASK_TYPE_BIDDER_MISSED = "missed";
     public static final String TASK_TYPE_BIDDER_CANCELED = "canceled";
+    public static final String TASK_TYPE_BIDDER_COMPLETED = "completed";
 
     public static final String TASK_TYPE_POSTER_OPEN = "open";
     public static final String TASK_TYPE_POSTER_ASSIGNED = "assigned";
     public static final String TASK_TYPE_POSTER_COMPLETED = "completed";
     public static final String TASK_TYPE_POSTER_OVERDUE = "overdue";
+    public static final String TASK_TYPE_POSTER_AWAIT_APPROVAL = "await_approval";
     public static final String TASK_TYPE_POSTER_CANCELED = "canceled";
     public static final String TASK_TYPE_POSTER_DRAFT = "draft";
     public static final String TASK_TYPE_BLOCK = "block";
@@ -170,6 +172,9 @@ public class Constants {
     public static final String PUSH_TYPE_ADMIN_NEW_TASK_ALERT = "admin_new_task_alert";
     public static final String PUSH_TYPE_CHAT = "message_received";
     public static final String PUSH_TYPE_ENOUGH_BIDDER = "enough_bidder";
+    public static final String PUSH_TYPE_REVIEW_POSTER = "review_received_ra";
+    public static final String PUSH_TYPE_REVIEW_WORKER = "review_received_ca";
+    public static final String PUSH_TYPE_AWAIT_APPROVAL = "task_await_approval";
 
     public static final String ROLE_EXTRA = "role_extra";
     public static final String REFRESH_EXTRA = "refresh_extra";

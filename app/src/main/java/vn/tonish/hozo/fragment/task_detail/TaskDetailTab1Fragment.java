@@ -1,4 +1,4 @@
-package vn.tonish.hozo.fragment;
+package vn.tonish.hozo.fragment.task_detail;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -30,6 +30,7 @@ import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.AlertDialogSubmit;
 import vn.tonish.hozo.dialog.AlertDialogSubmitAndCancel;
+import vn.tonish.hozo.fragment.BaseFragment;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
