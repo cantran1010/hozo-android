@@ -369,9 +369,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private void updateUi() {
-
         updateByStatus();
-
         Utils.displayImageAvatar(this, imgAvatar, taskResponse.getPoster().getAvatar());
         tvName.setText(taskResponse.getPoster().getFullName());
         rbRate.setRating(taskResponse.getPoster().getPosterAverageRating());
@@ -553,10 +551,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         //fix bug fabric
         if (taskResponse.getStatus() == null) return;
-
         bidderType = "";
         assigerType = "";
-
         boolean isShowCancel = true;
         boolean isDelete = true;
         boolean isReportTask = true;

@@ -119,7 +119,6 @@ public class ViewPageRatingAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        // Remove viewpager_item.xml from ViewPager
         container.removeView((View) object);
 
     }
