@@ -10,6 +10,7 @@ import vn.tonish.hozo.adapter.ViewPageRatingAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.utils.LogUtils;
 
 /**
  * Created by CanTran on 11/21/17.
@@ -49,16 +50,42 @@ public class RatingActivity extends BaseActivity implements View.OnClickListener
 
         if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             type = Constants.ROLE_POSTER;
-            imgNext.setVisibility(View.GONE);
-            imgBack.setVisibility(View.GONE);
-        } else {
-            type = Constants.ROLE_TASKER;
             imgNext.setVisibility(View.VISIBLE);
             imgBack.setVisibility(View.VISIBLE);
+            if (taskResponse.getAssigneeCount() == 1) {
+                imgNext.setVisibility(View.GONE);
+                imgBack.setVisibility(View.GONE);
+            }
+        } else {
+            type = Constants.ROLE_TASKER;
+            imgNext.setVisibility(View.GONE);
+            imgBack.setVisibility(View.GONE);
         }
-
         adapter = new ViewPageRatingAdapter(this, taskResponse, type);
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                LogUtils.d("TAG", "position: " + position);
+                if (position == 0)
+                    imgBack.setVisibility(View.GONE);
+                else imgBack.setVisibility(View.VISIBLE);
+                if (position == taskResponse.getAssigneeCount() - 1)
+                    imgNext.setVisibility(View.GONE);
+                else imgNext.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
     }
 
@@ -76,10 +103,7 @@ public class RatingActivity extends BaseActivity implements View.OnClickListener
                 viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                 break;
             case R.id.img_rating_back:
-                if (viewPager.getCurrentItem() > 0) {
-                    imgBack.setAlpha(1f);
-                    viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-                } else imgBack.setAlpha(0.2f);
+                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
                 break;
 
         }

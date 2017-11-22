@@ -27,6 +27,7 @@ import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.RateResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
@@ -68,7 +69,7 @@ public class ViewPageRatingAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
 
         // Declare Variables
 
@@ -78,6 +79,7 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         final CheckBoxHozo ckDone;
         final EdittextHozo edtReviews;
         TextViewHozo btnSend;
+        final int userID;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.viewpager_rating_item, container,
@@ -90,28 +92,30 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         ckDone = (CheckBoxHozo) itemView.findViewById(R.id.ckeckbox_confirm);
         edtReviews = (EdittextHozo) itemView.findViewById(R.id.edt_reviews);
         btnSend = (TextViewHozo) itemView.findViewById(R.id.btn_Send);
+        String genderAge = "";
+        ratingBar.setStepSize(1.0f);
+        // Capture position and set to the TextViews
+        if (type.equals(Constants.ROLE_POSTER)) {
+            tvTitle.setText(formatTitle(position + 1) + "/" + formatTitle(taskResponse.getAssigneeCount()));
+            Utils.displayImageAvatar(context, imgAvatar, taskResponse.getAssignees().get(position).getAvatar());
+            tvName.setText(taskResponse.getAssignees().get(position).getFullName());
+            genderAge = Utils.converGenderVn(context, taskResponse.getAssignees().get(position).getGender()) + " - " + DateTimeUtils.getAgeFromIso(taskResponse.getAssignees().get(position).getDateOfBrirth()) + " " + context.getString(R.string.profile_age);
+            ratingBar.setRating(taskResponse.getAssignees().get(position).getRating());
+            userID = taskResponse.getAssignees().get(position).getId();
+        } else {
+            tvTitle.setText("");
+            Utils.displayImageAvatar(context, imgAvatar, taskResponse.getPoster().getAvatar());
+            tvName.setText(taskResponse.getPoster().getFullName());
+            genderAge = Utils.converGenderVn(context, taskResponse.getPoster().getGender()) + " - " + DateTimeUtils.getAgeFromIso(taskResponse.getPoster().getDateOfBirth()) + " " + context.getString(R.string.profile_age);
+            userID = taskResponse.getPoster().getId();
+        }
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doRate(taskResponse.getPoster().getId(), ratingBar.getRating(), edtReviews.getText().toString().trim(), ckDone.isChecked());
+                doRate(userID, ratingBar.getRating(), edtReviews.getText().toString().trim(), ckDone.isChecked());
             }
         });
-
-        // Capture position and set to the TextViews
-        if (type.equals(Constants.ROLE_POSTER)) {
-            tvTitle.setVisibility(View.VISIBLE);
-            tvTitle.setText(position + "/" + taskResponse.getAssigneeCount());
-            Utils.displayImageAvatar(context, imgAvatar, taskResponse.getAssignees().get(position).getAvatar());
-            tvName.setText(taskResponse.getAssignees().get(position).getFullName());
-            tvAge.setText(taskResponse.getAssignees().get(position).getAge() + " - " + taskResponse.getAssignees().get(position).getGender() + context.getString(R.string.create_task_age));
-            ratingBar.setRating(taskResponse.getAssignees().get(position).getRating());
-        } else {
-            tvTitle.setVisibility(View.GONE);
-            Utils.displayImageAvatar(context, imgAvatar, taskResponse.getPoster().getAvatar());
-            tvName.setText(taskResponse.getPoster().getFullName());
-            tvAge.setText(taskResponse.getPoster().getAge() + " - " + taskResponse.getPoster().getGender() + context.getString(R.string.create_task_age));
-        }
-
+        tvAge.setText(genderAge);
         ((ViewPager) container).addView(itemView);
 
         return itemView;
@@ -123,9 +127,12 @@ public class ViewPageRatingAdapter extends PagerAdapter {
 
     }
 
+    private String formatTitle(int pos) {
+        if (pos < 10) return "0" + pos;
+        else return String.valueOf(pos);
+    }
 
     private void doRate(final int userId, final float rb, final String reviews, final boolean confirm) {
-
         if (rb == 0f) {
             Utils.showLongToast(context, context.getString(R.string.rate_msg_no_content_error), true, false);
             return;
