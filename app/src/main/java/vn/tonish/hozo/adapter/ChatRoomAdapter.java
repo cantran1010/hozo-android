@@ -43,7 +43,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
     private List<Message> messages = new ArrayList<>();
 
     public interface ChatRoomListener {
-        public void onClick(int position);
+         void onClick(int position);
     }
 
     private ChatRoomListener chatRoomListener;

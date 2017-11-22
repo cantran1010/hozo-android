@@ -112,7 +112,6 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
                 } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_overdue));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_overdue));
-
                     workHolder.progressBar.setVisibility(View.GONE);
 
                 } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
@@ -145,7 +144,6 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
                     case Constants.TASK_TYPE_POSTER_DRAFT:
                         workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_draft));
                         Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_drag));
-
                         workHolder.progressBar.setVisibility(View.GONE);
                         break;
                     case Constants.TASK_TYPE_POSTER_OPEN:
@@ -181,6 +179,7 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
 
                         workHolder.progressBar.setVisibility(View.GONE);
                         break;
+
                 }
             }
 

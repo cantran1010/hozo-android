@@ -680,4 +680,12 @@
     <string name="register_done">Đăng ký thành công!</string>
     <string name="create_task_age">Tuổi</string>
     <string name="create_task_sex">Giới tính</string>
+    <string name="checkbox_complex">Đã hoàn thành công việc</string>
+    <string name="respond_to_reviews">phản hồi đánh giá</string>
+    <string name="enter_respond_to_reviews">Nhập phản hồi đánh giá</string>
+    <string name="btn_send_rating">Gửi đánh giá</string>
+    <string name="rating_invalid_data">Thiếu tham số</string>
+    <string name="task_no_exist">Việc này không tồn tại</string>
+    <string name="rating_no_permission">Không thể đánh giá</string>
+    <string name="rating_system_error">Đánh giá không thành công</string>
 </resources>

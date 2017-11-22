@@ -121,7 +121,7 @@
             android:name=".activity.ReportTaskActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.RateActivity"
+            android:name=".activity.RatingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity

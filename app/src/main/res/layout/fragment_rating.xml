@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/hozo_bg">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:contentDescription="@string/content_description_back"
+            android:focusable="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/img_close" />
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_title"
+            style="@style/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_marginStart="@dimen/title_margin_left"
+            android:layout_toEndOf="@id/img_back"
+            android:layout_toRightOf="@id/img_back" />
+
+
+    </RelativeLayout>
+
+</FrameLayout>

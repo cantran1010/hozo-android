@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by LongBui on 5/15/17.
  */
 
-public class Assigner implements Serializable{
+public class Assigner implements Serializable {
     private int id;
     @SerializedName("full_name")
     private String fullName;
@@ -25,6 +25,8 @@ public class Assigner implements Serializable{
     private String facebookId;
     @SerializedName("email_active")
     private boolean emailActive;
+    private int age;
+    private String gender;
 
     @SerializedName("tasker_done_rate")
     private float posterDoneRate;
@@ -125,6 +127,22 @@ public class Assigner implements Serializable{
         this.phone = phone;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
         return "Assigner{" +
@@ -139,6 +157,8 @@ public class Assigner implements Serializable{
                 ", email='" + email + '\'' +
                 ", facebookId='" + facebookId + '\'' +
                 ", emailActive=" + emailActive +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
                 ", posterDoneRate=" + posterDoneRate +
                 '}';
     }
