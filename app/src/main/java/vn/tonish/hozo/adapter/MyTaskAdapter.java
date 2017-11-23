@@ -147,6 +147,11 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_await_approval));
 
                     workHolder.progressBar.setVisibility(View.GONE);
+                } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_NOT_APPROVED)) {
+                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_not_approved));
+                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_not_approved));
+
+                    workHolder.progressBar.setVisibility(View.GONE);
                 } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_COMPLETED)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_completed));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_done));

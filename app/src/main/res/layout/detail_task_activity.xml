@@ -592,6 +592,18 @@
                 android:text="@string/detail_view_contact" />
 
             <vn.tonish.hozo.view.ButtonHozo
+                android:id="@+id/btn_contact_hozo"
+                style="@style/btn_style_normal_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_right_screen"
+                android:layout_marginLeft="@dimen/margin_left_screen"
+                android:layout_marginRight="@dimen/margin_right_screen"
+                android:layout_marginStart="@dimen/margin_left_screen"
+                android:layout_marginTop="10dp"
+                android:text="@string/detail_view_contact_hozo" />
+
+            <vn.tonish.hozo.view.ButtonHozo
                 android:id="@+id/btn_rate"
                 style="@style/btn_style_green"
                 android:layout_width="match_parent"
