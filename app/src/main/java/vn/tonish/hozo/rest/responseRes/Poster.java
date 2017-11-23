@@ -25,12 +25,15 @@ public class Poster implements Serializable {
     @SerializedName("email_active")
     private boolean emailActive;
     @SerializedName("date_of_birth")
-    private String  dateOfBirth;
+    private String dateOfBirth;
     private String gender;
     @SerializedName("privacy_hide_date_of_birth")
     private boolean isHideAge;
     @SerializedName("privacy_hide_gender")
     private boolean isHideGender;
+//    @SerializedName("tasker_done_rate")
+//    private String ratingBody;
+
 
     public boolean isEmailActive() {
         return emailActive;
@@ -144,6 +147,14 @@ public class Poster implements Serializable {
         isHideGender = hideGender;
     }
 
+//    public String getRatingBody() {
+//        return ratingBody;
+//    }
+//
+//    public void setRatingBody(String ratingBody) {
+//        this.ratingBody = ratingBody;
+//    }
+
     @Override
     public String toString() {
         return "Poster{" +
@@ -161,6 +172,7 @@ public class Poster implements Serializable {
                 ", gender='" + gender + '\'' +
                 ", isHideAge=" + isHideAge +
                 ", isHideGender=" + isHideGender +
+//                ", ratingBody='" + ratingBody + '\'' +
                 '}';
     }
 }

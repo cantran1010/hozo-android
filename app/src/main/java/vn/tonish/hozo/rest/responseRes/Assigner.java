@@ -34,6 +34,8 @@ public class Assigner implements Serializable {
     private boolean isHideGender;
     @SerializedName("tasker_done_rate")
     private float posterDoneRate;
+//    @SerializedName("tasker_done_rate")
+//    private String ratingBody;
 
     public float getPosterDoneRate() {
         return posterDoneRate;
@@ -163,6 +165,14 @@ public class Assigner implements Serializable {
         isHideGender = hideGender;
     }
 
+//    public String getRatingBody() {
+//        return ratingBody;
+//    }
+//
+//    public void setRatingBody(String ratingBody) {
+//        this.ratingBody = ratingBody;
+//    }
+
     @Override
     public String toString() {
         return "Assigner{" +
@@ -182,6 +192,7 @@ public class Assigner implements Serializable {
                 ", isHideAge=" + isHideAge +
                 ", isHideGender=" + isHideGender +
                 ", posterDoneRate=" + posterDoneRate +
+//                ", ratingBody='" + ratingBody + '\'' +
                 '}';
     }
 }

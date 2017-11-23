@@ -34,7 +34,7 @@ public class Constants {
     public static final String NO_EXIST = "no_exist";
     public static final String SYSTEM_ERROR = "system_error";
     public static final String TASK_RESPONSE_RATING = "task_respone_rating";
-    public static final int MAX_IMAGE_ATTACH = 6;
+    public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
     public static final int RESPONSE_CODE_PICK_IMAGE = 753;

@@ -17,6 +17,7 @@ import vn.tonish.hozo.utils.LogUtils;
  */
 
 public class RatingActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = RatingActivity.class.getSimpleName();
     private ViewPager viewPager;
     private ViewPageRatingAdapter adapter;
     private TaskResponse taskResponse;
@@ -45,6 +46,7 @@ public class RatingActivity extends BaseActivity implements View.OnClickListener
         Intent intent = getIntent();
         if (intent.hasExtra(Constants.TASK_RESPONSE_RATING)) {
             taskResponse = (TaskResponse) intent.getExtras().get(Constants.TASK_RESPONSE_RATING);
+            LogUtils.d(TAG, "check task reponse :" + taskResponse.toString());
         }
         if (taskResponse == null) taskResponse = new TaskResponse();
 
@@ -66,7 +68,6 @@ public class RatingActivity extends BaseActivity implements View.OnClickListener
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
