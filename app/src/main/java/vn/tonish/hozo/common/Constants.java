@@ -132,6 +132,7 @@ public class Constants {
     public static final String TASK_TYPE_BIDDER_MISSED = "missed";
     public static final String TASK_TYPE_BIDDER_CANCELED = "canceled";
     public static final String TASK_TYPE_BIDDER_COMPLETED = "completed";
+    public static final String TASK_TYPE_BIDDER_NOT_APPROVED = "not_approved";
 
     public static final String TASK_TYPE_POSTER_OPEN = "open";
     public static final String TASK_TYPE_POSTER_ASSIGNED = "assigned";

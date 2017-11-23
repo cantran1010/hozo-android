@@ -283,6 +283,7 @@
     <string name="my_task_status_poster_overdue">Quá hạn</string>
     <string name="my_task_status_poster_canceled">Hủy bỏ</string>
     <string name="my_task_status_poster_await_approval">Chờ duyệt</string>
+    <string name="my_task_status_poster_not_approved">Không duyệt</string>
     <string name="hozo_all">Tất cả</string>
     <!-- share app -->
     <string name="share_app_title">Chọn ứng dụng bạn muốn chia sẻ</string>
@@ -701,4 +702,7 @@
     <string name="poster_ratting">Duyệt công việc</string>
     <string name="worker_ratting">Yêu cầu duyệt</string>
     <string name="worker_rate_poster">Đánh giá</string>
+    <string name="detail_view_contact_hozo">Liên lạc Hozo</string>
+    <string name="worker_ratting_done">Đã gửi yêu cầu duyệt</string>
+    <string name="poster_ratting_complete">Duyệt việc hoàn thành</string>
 </resources>
