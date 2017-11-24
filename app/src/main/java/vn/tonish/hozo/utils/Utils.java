@@ -636,9 +636,9 @@ public class Utils {
 
     public static String converGenderVn(Context context, String gender) {
         String sex;
-        if (gender.equals(context.getString(R.string.gender_male)))
+        if (gender!=null&&gender.equals(context.getString(R.string.gender_male)))
             sex = context.getString(R.string.gender_vn_male);
-        else if (gender.equals(context.getString(R.string.gender_female))) {
+        else if (gender!=null&&gender.equals(context.getString(R.string.gender_female))) {
             sex = context.getString(R.string.gender_vn_mafele);
         } else {
             sex = context.getString(R.string.gender_vn_any);

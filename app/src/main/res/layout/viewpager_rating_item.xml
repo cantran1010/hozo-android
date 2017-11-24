@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,19 +9,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/layout_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/hozo_bg">
+            android:background="@color/hozo_bg"
+            android:orientation="vertical">
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_title"
                 style="@style/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                android:layout_toEndOf="@id/img_close"
-                android:layout_toRightOf="@id/img_close"
                 android:gravity="center"
                 android:text="@string/web_site_hozo" />
 
@@ -29,8 +29,8 @@
                 android:id="@+id/img_avatar"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="65dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/avatar_default" />
 
@@ -38,56 +38,81 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/img_avatar"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/web_site_hozo"
                 android:textColor="@color/white"
                 android:textSize="@dimen/tv_size_lager"
                 android:textStyle="bold" />
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_age"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_name"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:text="@string/web_site_hozo"
-                android:textColor="@color/white"
-                android:textSize="@dimen/tv_size_xxtiny" />
-
-            <RatingBar
-                android:id="@+id/rating"
-                style="@style/StarRatingBarBig"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_age"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="30dp" />
-        </RelativeLayout>
-
-        <vn.tonish.hozo.view.CheckBoxHozo
-            android:id="@+id/ckeckbox_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:padding="10dp"
-            android:text="@string/checkbox_complex"
-            android:textColor="@color/setting_text"
-            android:textColorHighlight="@color/setting_text" />
+        </LinearLayout>
 
         <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/confirm_rating"
+            android:textAllCaps="true"
+            android:textColor="@color/color_hint_create_task_lable"
+            android:textSize="@dimen/tv_size_xtiny" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp">
+
+            <vn.tonish.hozo.view.RadioButtonHozo
+                android:id="@+id/ckeckbox_confirm_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:checked="true"
+                android:padding="5dp"
+                android:text="@string/checkbox_complex"
+                android:textColor="@color/setting_text"
+                android:textColorHighlight="@color/setting_text"
+                android:textSize="@dimen/tv_size_medium" />
+
+            <vn.tonish.hozo.view.RadioButtonHozo
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:checked="false"
+                android:padding="5dp"
+                android:text="@string/checkbox_complex_not"
+                android:textColor="@color/setting_text"
+                android:textColorHighlight="@color/setting_text"
+                android:textSize="@dimen/tv_size_medium" />
+        </RadioGroup>
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
             android:text="@string/respond_to_reviews"
             android:textAllCaps="true"
             android:textColor="@color/color_hint_create_task_lable"
             android:textSize="@dimen/tv_size_xtiny" />
+
+        <RatingBar
+            android:id="@+id/rating"
+            style="@style/StarRatingBarBig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:numStars="5" />
 
         <vn.tonish.hozo.view.EdittextHozo
             android:id="@+id/edt_reviews"
@@ -99,29 +124,29 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/color_hint_create_task_lable"
+            android:drawableEnd="@drawable/edit"
             android:drawableRight="@drawable/edit"
             android:hint="@string/enter_respond_to_reviews"
             android:inputType="textImeMultiLine"
             android:textAllCaps="false"
             android:textColor="@color/setting_text"
             android:textColorHint="@color/color_hint_create_task_lable"
-            android:textSize="@dimen/tv_size_medium" />
+            android:textSize="@dimen/tv_size_medium"
+            tools:targetApi="lollipop" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/btn_Send"
             style="@style/btn_style_corners_new"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:minHeight="@dimen/edt_min_height"
-            android:paddingEnd="35dp"
-            android:paddingLeft="35dp"
-            android:paddingRight="35dp"
-            android:paddingStart="35dp"
-            android:text="@string/btn_send_rating"
-            android:textSize="@dimen/tv_size_nomal" />
+            android:text="@string/send"
+            android:textSize="@dimen/tv_size_nomal"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

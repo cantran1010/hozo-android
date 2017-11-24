@@ -53,7 +53,7 @@ public class PaymentAdapter extends BaseAdapter<TransactionResponse, PaymentAdap
         if (holder instanceof MyViewHolder) {
 
             MyViewHolder myViewHolder = (MyViewHolder) holder;
-            String myPrice = "";
+            String myPrice;
 
             TransactionResponse payment = payments.get(position);
 

@@ -25,7 +25,7 @@ import vn.tonish.hozo.activity.AssignersActivity;
 import vn.tonish.hozo.activity.BiddersActivity;
 import vn.tonish.hozo.activity.BlockTaskActivity;
 import vn.tonish.hozo.activity.ChatActivity;
-import vn.tonish.hozo.activity.RateActivity;
+import vn.tonish.hozo.activity.RatingActivity;
 import vn.tonish.hozo.activity.task_detail.TaskDetailNewActivity;
 import vn.tonish.hozo.adapter.AssignerCallAdapter;
 import vn.tonish.hozo.adapter.PosterOpenAdapter;
@@ -321,7 +321,7 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
                 ((TaskDetailNewActivity) getActivity()).setTaskResponse(taskResponse);
             } else if (intent.hasExtra(Constants.ASSIGNER_RATE_EXTRA)) {
                 Assigner assigner = (Assigner) intent.getSerializableExtra(Constants.ASSIGNER_RATE_EXTRA);
-                Intent intentRate = new Intent(getActivity(), RateActivity.class);
+                Intent intentRate = new Intent(getActivity(), RatingActivity.class);
                 intentRate.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                 intentRate.putExtra(Constants.USER_ID_EXTRA, assigner.getId());
                 intentRate.putExtra(Constants.AVATAR_EXTRA, assigner.getAvatar());

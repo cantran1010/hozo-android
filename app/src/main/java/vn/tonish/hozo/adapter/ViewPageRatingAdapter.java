@@ -1,7 +1,7 @@
 package vn.tonish.hozo.adapter;
 
-import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -24,16 +24,18 @@ import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
+import vn.tonish.hozo.rest.responseRes.Poster;
 import vn.tonish.hozo.rest.responseRes.RateResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
-import vn.tonish.hozo.view.CheckBoxHozo;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.RadioButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -43,10 +45,18 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class ViewPageRatingAdapter extends PagerAdapter {
     private static final String TAG = ViewPageRatingAdapter.class.getSimpleName();
     // Declare Variables
-    private Context context;
-    private TaskResponse taskResponse;
-    private String type;
-    private LayoutInflater inflater;
+    private final Context context;
+    private final TaskResponse taskResponse;
+    private final String type;
+    private RatingListener ratingListener;
+
+    public interface RatingListener {
+        void success();
+    }
+
+    public void setRatingListener(RatingListener ratingListener) {
+        this.ratingListener = ratingListener;
+    }
 
     public ViewPageRatingAdapter(Context context, TaskResponse taskResponse, String type) {
         this.context = context;
@@ -68,50 +78,65 @@ public class ViewPageRatingAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
 
         // Declare Variables
 
         CircleImageView imgAvatar;
-        TextViewHozo tvName, tvAge, tvTitle;
+        TextViewHozo tvName, tvTitle;
         final RatingBar ratingBar;
-        final CheckBoxHozo ckDone;
+        final RadioButtonHozo ckDone;
         final EdittextHozo edtReviews;
-        TextViewHozo btnSend;
-        inflater = (LayoutInflater) context
+        final TextViewHozo btnSend;
+        final int userID;
+
+        LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.viewpager_rating_item, container,
                 false);
         imgAvatar = (CircleImageView) itemView.findViewById(R.id.img_avatar);
         tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
-        tvAge = (TextViewHozo) itemView.findViewById(R.id.tv_age);
         tvTitle = (TextViewHozo) itemView.findViewById(R.id.tv_title);
         ratingBar = (RatingBar) itemView.findViewById(R.id.rating);
-        ckDone = (CheckBoxHozo) itemView.findViewById(R.id.ckeckbox_confirm);
+        ckDone = (RadioButtonHozo) itemView.findViewById(R.id.ckeckbox_confirm_yes);
         edtReviews = (EdittextHozo) itemView.findViewById(R.id.edt_reviews);
         btnSend = (TextViewHozo) itemView.findViewById(R.id.btn_Send);
+        ratingBar.setStepSize(1.0f);
+        // Capture position and set to the TextViews
+        if (type.equals(Constants.ROLE_POSTER)) {
+            Assigner assigner = taskResponse.getAssignees().get(position);
+            String title=formatTitle(position + 1) + context.getString(R.string.slash) + formatTitle(taskResponse.getAssigneeCount());
+            tvTitle.setText(title);
+            Utils.displayImageAvatar(context, imgAvatar, assigner.getAvatar());
+            tvName.setText(assigner.getFullName());
+            userID = assigner.getId();
+
+            if (assigner.getRating() != 0) {
+                updateUI(true, btnSend, edtReviews, ratingBar, assigner.getRatingBody(), (int) assigner.getRating());
+            } else {
+                updateUI(false, btnSend, edtReviews, ratingBar, "", (int) assigner.getRating());
+            }
+        } else {
+            Poster poster = taskResponse.getPoster();
+            tvTitle.setText("");
+            Utils.displayImageAvatar(context, imgAvatar, poster.getAvatar());
+            tvName.setText(poster.getFullName());
+            userID = poster.getId();
+
+            if (taskResponse.isRatePoster()) {
+                updateUI(true, btnSend, edtReviews, ratingBar, poster.getRatingBody(), (int) taskResponse.getPoster().getPosterAverageRating());
+            } else {
+                updateUI(false, btnSend, edtReviews, ratingBar, "", (int) taskResponse.getPoster().getPosterAverageRating());
+            }
+
+        }
+
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doRate(taskResponse.getPoster().getId(), ratingBar.getRating(), edtReviews.getText().toString().trim(), ckDone.isChecked());
+                doRate(position, userID, ratingBar.getRating(), edtReviews.getText().toString().trim(), ckDone.isChecked(), btnSend, edtReviews, ratingBar);
             }
         });
-
-        // Capture position and set to the TextViews
-        if (type.equals(Constants.ROLE_POSTER)) {
-            tvTitle.setVisibility(View.VISIBLE);
-            tvTitle.setText(position + "/" + taskResponse.getAssigneeCount());
-            Utils.displayImageAvatar(context, imgAvatar, taskResponse.getAssignees().get(position).getAvatar());
-            tvName.setText(taskResponse.getAssignees().get(position).getFullName());
-            tvAge.setText(taskResponse.getAssignees().get(position).getAge() + " - " + taskResponse.getAssignees().get(position).getGender() + context.getString(R.string.create_task_age));
-            ratingBar.setRating(taskResponse.getAssignees().get(position).getRating());
-        } else {
-            tvTitle.setVisibility(View.GONE);
-            Utils.displayImageAvatar(context, imgAvatar, taskResponse.getPoster().getAvatar());
-            tvName.setText(taskResponse.getPoster().getFullName());
-            tvAge.setText(taskResponse.getPoster().getAge() + " - " + taskResponse.getPoster().getGender() + context.getString(R.string.create_task_age));
-        }
-
         ((ViewPager) container).addView(itemView);
 
         return itemView;
@@ -123,8 +148,12 @@ public class ViewPageRatingAdapter extends PagerAdapter {
 
     }
 
+    private String formatTitle(int pos) {
+        if (pos < 10) return "0" + pos;
+        else return String.valueOf(pos);
+    }
 
-    private void doRate(final int userId, final float rb, final String reviews, final boolean confirm) {
+    private void doRate(final int position, final int userId, final float rb, final String reviews, final boolean confirm, final TextViewHozo tvHozo, final EdittextHozo edHozo, final RatingBar rbBar) {
 
         if (rb == 0f) {
             Utils.showLongToast(context, context.getString(R.string.rate_msg_no_content_error), true, false);
@@ -145,15 +174,14 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         ApiClient.getApiService().rateTask(UserManager.getUserToken(), taskResponse.getId(), body).enqueue(new Callback<RateResponse>() {
             @Override
             public void onResponse(Call<RateResponse> call, Response<RateResponse> response) {
+                APIError error = ErrorUtils.parseError(response);
                 LogUtils.d(TAG, "doRate code : " + response.code());
-                LogUtils.d(TAG, "doRate : " + response.body());
-
+                LogUtils.d(TAG, "doRate : " + error.status() + "sms" + error.message() + "task iD" + taskResponse.getId());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    if (context instanceof Activity) {
-                        ((Activity) context).finish();
-                    }
+                    taskResponse.getAssignees().get(position).setRating(response.body().getRating());
+                    updateUI(true, tvHozo, edHozo, rbBar, response.body().getBody(), response.body().getRating());
+                    ratingListener.success();
                 } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
-                    APIError error = ErrorUtils.parseError(response);
                     if (error.status().equals(Constants.INVALID_DATA)) {
                         Utils.showLongToast(context, context.getString(R.string.rating_invalid_data), true, false);
                     } else if (error.status().equals(Constants.NO_EXIST)) {
@@ -167,7 +195,7 @@ public class ViewPageRatingAdapter extends PagerAdapter {
                     NetworkUtils.refreshToken(context, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            doRate(userId, rb, reviews, confirm);
+                            doRate(position, userId, rb, reviews, confirm, tvHozo, edHozo, rbBar);
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
@@ -176,7 +204,7 @@ public class ViewPageRatingAdapter extends PagerAdapter {
                     DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            doRate(userId, rb, reviews, confirm);
+                            doRate(position, userId, rb, reviews, confirm, tvHozo, edHozo, rbBar);
                         }
 
                         @Override
@@ -193,7 +221,7 @@ public class ViewPageRatingAdapter extends PagerAdapter {
                 DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        doRate(userId, rb, reviews, confirm);
+                        doRate(position, userId, rb, reviews, confirm, tvHozo, edHozo, rbBar);
                     }
 
                     @Override
@@ -206,5 +234,19 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         });
     }
 
+    private void updateUI(boolean isOk, TextViewHozo tv, EdittextHozo ed, RatingBar rb, String reviews, int value) {
+        if (isOk) {
+            tv.setEnabled(false);
+            tv.setText(context.getString(R.string.send_done));
+            Utils.setViewBackground(tv, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
+            ed.setText(reviews);
+            rb.setRating(value);
+        } else {
+            tv.setEnabled(true);
+            tv.setText(context.getString(R.string.send));
+            Utils.setViewBackground(tv, ContextCompat.getDrawable(context, R.drawable.btn_new_selector));
+        }
+
+    }
 
 }

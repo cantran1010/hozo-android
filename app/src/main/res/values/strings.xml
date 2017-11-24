@@ -70,7 +70,6 @@
 
     <!-- rate screen -->
     <string name="rate">Đánh giá</string>
-    <string name="rate_title">Bạn có hài lòng với công việc và \n khách hàng này không?</string>
     <string name="just_image">just_image</string>
 
     <string-array name="gender">
@@ -210,7 +209,6 @@
     <string name="empty_content_comment_error">Vui lòng nhập nội dung bình luận</string>
 
     <!-- rate -->
-    <string name="rate_submit">GỬI ĐÁNH GIÁ</string>
     <string name="rate_msg_no_content_error">Vui lòng xếp hạng</string>
 
     <string name="brower_task_map_activity">Tìm việc gần đây</string>
@@ -396,7 +394,6 @@
     <string name="email_hint">Nhập Email của bạn</string>
     <string name="alert_dialog_close">Đóng</string>
     <string name="re_create_task">Sao chép việc</string>
-    <string name="rate_content_hint">Nhập nội dung đánh giá …</string>
     <string name="bidders">Danh sách ứng tuyển(%1$d)</string>
     <string name="assigners">Danh sách người làm(%1$d)</string>
     <string name="report_task">Báo xấu việc</string>
@@ -691,14 +688,17 @@
     <string name="register_done">Đăng ký thành công!</string>
     <string name="create_task_age">Tuổi</string>
     <string name="create_task_sex">Giới tính</string>
-    <string name="checkbox_complex">Đã hoàn thành công việc</string>
+    <string name="checkbox_complex">Đã hoàn thành công việc được giao</string>
     <string name="respond_to_reviews">phản hồi đánh giá</string>
     <string name="enter_respond_to_reviews">Nhập phản hồi đánh giá</string>
-    <string name="btn_send_rating">Gửi đánh giá</string>
     <string name="rating_invalid_data">Thiếu tham số</string>
     <string name="task_no_exist">Việc này không tồn tại</string>
     <string name="rating_no_permission">Không thể đánh giá</string>
     <string name="rating_system_error">Đánh giá không thành công</string>
+    <string name="confirm_rating">Xác nhận công việc</string>
+    <string name="checkbox_complex_not">Không hoàn thành việc được giao</string>
+    <string name="send_done">Đã gửi</string>
+    <string name="slash">/</string>
     <string name="poster_ratting">Duyệt công việc</string>
     <string name="worker_ratting">Yêu cầu duyệt</string>
     <string name="worker_rate_poster">Đánh giá</string>

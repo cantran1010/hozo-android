@@ -25,11 +25,19 @@ public class Assigner implements Serializable {
     private String facebookId;
     @SerializedName("email_active")
     private boolean emailActive;
-    private int age;
+    @SerializedName("date_of_birth")
+    private String dateOfBrirth;
     private String gender;
-
+    @SerializedName("privacy_hide_date_of_birth")
+    private boolean isHideAge;
+    @SerializedName("privacy_hide_gender")
+    private boolean isHideGender;
     @SerializedName("tasker_done_rate")
     private float posterDoneRate;
+    @SerializedName("rating_body")
+    private String ratingBody;
+
+
 
     public float getPosterDoneRate() {
         return posterDoneRate;
@@ -127,12 +135,12 @@ public class Assigner implements Serializable {
         this.phone = phone;
     }
 
-    public int getAge() {
-        return age;
+    public String getDateOfBrirth() {
+        return dateOfBrirth;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setDateOfBrirth(String dateOfBrirth) {
+        this.dateOfBrirth = dateOfBrirth;
     }
 
     public String getGender() {
@@ -141,6 +149,30 @@ public class Assigner implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public boolean isHideAge() {
+        return isHideAge;
+    }
+
+    public void setHideAge(boolean hideAge) {
+        isHideAge = hideAge;
+    }
+
+    public boolean isHideGender() {
+        return isHideGender;
+    }
+
+    public void setHideGender(boolean hideGender) {
+        isHideGender = hideGender;
+    }
+
+    public String getRatingBody() {
+        return ratingBody;
+    }
+
+    public void setRatingBody(String ratingBody) {
+        this.ratingBody = ratingBody;
     }
 
     @Override
@@ -157,9 +189,12 @@ public class Assigner implements Serializable {
                 ", email='" + email + '\'' +
                 ", facebookId='" + facebookId + '\'' +
                 ", emailActive=" + emailActive +
-                ", age=" + age +
+                ", dateOfBrirth='" + dateOfBrirth + '\'' +
                 ", gender='" + gender + '\'' +
+                ", isHideAge=" + isHideAge +
+                ", isHideGender=" + isHideGender +
                 ", posterDoneRate=" + posterDoneRate +
+                ", ratingBody='" + ratingBody + '\'' +
                 '}';
     }
 }

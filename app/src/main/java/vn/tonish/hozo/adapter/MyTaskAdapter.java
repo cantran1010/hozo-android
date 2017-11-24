@@ -25,7 +25,6 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
 
     private final List<TaskResponse> taskResponses;
     private final Context context;
-    private int lastPosition = -1;
 
     public MyTaskAdapter(Context context, List<TaskResponse> taskResponses) {
         super(context, taskResponses);

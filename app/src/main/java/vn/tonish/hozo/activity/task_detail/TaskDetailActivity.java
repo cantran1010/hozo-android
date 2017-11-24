@@ -53,7 +53,7 @@ import vn.tonish.hozo.activity.BiddersActivity;
 import vn.tonish.hozo.activity.BlockTaskActivity;
 import vn.tonish.hozo.activity.CommentsActivity;
 import vn.tonish.hozo.activity.PostATaskActivity;
-import vn.tonish.hozo.activity.RateActivity;
+import vn.tonish.hozo.activity.RatingActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.PreviewImageActivity;
 import vn.tonish.hozo.adapter.AssignerCallAdapter;
@@ -600,7 +600,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
         workDetailView.setWorkDetailViewRateListener(new WorkDetailView.WorkDetailViewRateListener() {
             @Override
             public void onRate() {
-                Intent intent = new Intent(TaskDetailActivity.this, RateActivity.class);
+                Intent intent = new Intent(TaskDetailActivity.this, RatingActivity.class);
                 intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                 intent.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
                 intent.putExtra(Constants.AVATAR_EXTRA, taskResponse.getPoster().getAvatar());
@@ -1349,7 +1349,7 @@ public class TaskDetailActivity extends BaseActivity implements OnMapReadyCallba
                 storeTaskToDatabase();
             } else if (intent.hasExtra(Constants.ASSIGNER_RATE_EXTRA)) {
                 Assigner assigner = (Assigner) intent.getSerializableExtra(Constants.ASSIGNER_RATE_EXTRA);
-                Intent intentRate = new Intent(TaskDetailActivity.this, RateActivity.class);
+                Intent intentRate = new Intent(TaskDetailActivity.this, RatingActivity.class);
                 intentRate.putExtra(Constants.TASK_ID_EXTRA, taskId);
                 intentRate.putExtra(Constants.USER_ID_EXTRA, assigner.getId());
                 intentRate.putExtra(Constants.AVATAR_EXTRA, assigner.getAvatar());

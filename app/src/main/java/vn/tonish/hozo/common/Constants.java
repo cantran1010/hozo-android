@@ -19,7 +19,6 @@ public class Constants {
     public static final int REQUEST_CODE_PICK_IMAGE_AVATA = 654;
     public static final int REQUEST_CODE_SKILL = 741;
     public static final int RESULT_CODE_TAG = 136;
-    public static final String USER_EXTRA = "user_extra";
     public static final String REQUEST_CODE_EXTRA = "request_code_extra";
     public static final int REQUEST_CODE_LANGUAGE = 456;
     public static final int PERMISSION_REQUEST_CODE_BACKGROUND = 238;
@@ -29,11 +28,7 @@ public class Constants {
     public static final String BROAD_CAST_SMOOTH_TOP_SYS_TEM = "broad_cast_smooth_top_notification_system";
     public static final String BROAD_CAST_SMOOTH_TOP_NEW_TASK = "broad_cast_smooth_top_notification_new_task";
     public static final String BROAD_CAST_SMOOTH_TOP_CHAT = "broad_cast_smooth_top_notification_chat";
-    public static final String BROAD_CAST_PUSH_HOZO = "broad_cast_push_hozo";
     public static final String BROAD_CAST_SMOOTH_TOP_NOTIFICATION = "broad_cast_smooth_top_notification";
-    public static final int REQUEST_CODE_ALERT_SETTING = 330;
-    public static final int RESULT_CODE_NEW_TASK_ALERT = 331;
-    public static final String LOCAL_BANK = "localbank";
     public static final String REFERRER_PHONE_YOURSELF = "referrer_phone_yourself";
     public static final String INVALID_REFERRER_PHONE = "invalid_referrer_phone";
     public static final String NO_EXIST = "no_exist";
@@ -65,9 +60,6 @@ public class Constants {
     public static final String KEY_ENCRYPTION_DEFAULT = "abcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefgh";
 
     public static final String USER_ID = "id";
-    public static final String USER_FULL_NAME = "full_name";
-    public static final String USER_MOBILE = "phone";
-    public static final String USER_OTP = "otp_code";
 
     public static final int PERMISSION_REQUEST_CODE = 987;
     public static final int PERMISSION_REQUEST_CODE_AVATA = 852;
@@ -87,7 +79,6 @@ public class Constants {
     public static final String LIST_TASK_EXTRA = "list_task_extra";
     public static final String IS_MY_USER = "is_my_user";
     public static final String PARAMETER_GENDER = "gender";
-    public static final int DURATION = 300;
     public static final String ROLE_FIND_TASK = "find_task";
     public static final int RESULT_CODE_COST = 1999;
     public static final int RESULT_CODE_TASK_TYPE = 2020;
@@ -96,8 +87,6 @@ public class Constants {
     public static final int REQUEST_CODE_TASK_EDIT = 432;
     public static final String NOTIFICATION_EXTRA = "notification_extra";
     public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 876;
-
-    public static final String BROAD_CAST_SMOOTH_TOP_INBOX = "broad_cast_smooth_top_inbox";
     public static final String BROAD_CAST_SMOOTH_TOP_SEARCH = "broad_cast_smooth_top_search";
     public static final String BROAD_CAST_SMOOTH_TOP_MY_TASK = "broad_cast_smooth_top_my_task";
     public static final String BROAD_CAST_SMOOTH_TOP_MY_TASK_WORKER = "broad_cast_smooth_top_mytask_worker";
@@ -178,8 +167,6 @@ public class Constants {
     public static final String PUSH_TYPE_AWAIT_APPROVAL = "task_await_approval";
 
     public static final String ROLE_EXTRA = "role_extra";
-    public static final String REFRESH_EXTRA = "refresh_extra";
-
 
     public static final int RESULT_RADIUS = 1015;
     public static final String EXTRA_RADIUS = "radius";
@@ -260,23 +247,11 @@ public class Constants {
     public static final String TASK_COPY = "task_copy";
     public static final String TASK_EDIT = "task_edit";
     public static final String TASK_DRAFT = "task_draft";
-    public static final String HEIGHT_KEY = "height";
     public static final String ACCOUNT_CODE = "token";
     public static final int ACCOUNT_KIT_REQUEST_CODE = 1101;
-    public static final int ACCELERATE_DECELERATE_INTERPOLATOR = 0;
-    public static final int ACCELERATE_INTERPOLATOR = 1;
-    public static final int ANTICIPATE_INTERPOLATOR = 2;
-    public static final int ANTICIPATE_OVERSHOOT_INTERPOLATOR = 3;
-    public static final int BOUNCE_INTERPOLATOR = 4;
-    public static final int DECELERATE_INTERPOLATOR = 5;
-    public static final int FAST_OUT_LINEAR_IN_INTERPOLATOR = 6;
-    public static final int FAST_OUT_SLOW_IN_INTERPOLATOR = 7;
-    public static final int LINEAR_INTERPOLATOR = 8;
-    public static final int LINEAR_OUT_SLOW_IN_INTERPOLATOR = 9;
-    public static final int OVERSHOOT_INTERPOLATOR = 10;
+
     public static final String STATUS_SETTING_OPEN = "open";
     public static final String STATUS_SETTING_ASSIGED = "assigned";
-    public static int RESULT_ADVANCE_SETTING_OK = 1203;
 
     public static final String PROMOTION_ERROR_EMPTY = "empty_parameters";
     public static final String PROMOTION_ERROR_NO = "no_promotion";
@@ -303,7 +278,6 @@ public class Constants {
     public static final String UPDATE_NOT_ALLOWED = "update_not_allowed";
     public static final String INVALID_DATA = "invalid_data";
     public static final String NO_REFERRER = "no_referrer";
-    public static final String REFERRER_USED = "referrer_used";
 
     public static final String NOTIFICATION_NEW_TASK = "new_task";
     public static final String NOTIFICATION_SYS = "system";

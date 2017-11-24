@@ -227,7 +227,7 @@ public class SystemNotificationFragment extends BaseFragment {
                         endlessRecyclerViewScrollListener.resetState();
 
                     }
-                    notifications.addAll(notificationResponse != null ? notificationResponse : null);
+                    notifications.addAll(notificationResponse);
                     if (notificationResponse.size() > 0)
                         since = notificationResponse.get(notificationResponse.size() - 1).getCreatedAt();
 

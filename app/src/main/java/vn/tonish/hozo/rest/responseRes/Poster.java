@@ -24,8 +24,16 @@ public class Poster implements Serializable {
     private String facebookId;
     @SerializedName("email_active")
     private boolean emailActive;
-    private int age;
+    @SerializedName("date_of_birth")
+    private String dateOfBirth;
     private String gender;
+    @SerializedName("privacy_hide_date_of_birth")
+    private boolean isHideAge;
+    @SerializedName("privacy_hide_gender")
+    private boolean isHideGender;
+    @SerializedName("rating_body")
+    private String ratingBody;
+
 
     public boolean isEmailActive() {
         return emailActive;
@@ -107,12 +115,12 @@ public class Poster implements Serializable {
         this.id = id;
     }
 
-    public int getAge() {
-        return age;
+    public String getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getGender() {
@@ -121,6 +129,30 @@ public class Poster implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public boolean isHideAge() {
+        return isHideAge;
+    }
+
+    public void setHideAge(boolean hideAge) {
+        isHideAge = hideAge;
+    }
+
+    public boolean isHideGender() {
+        return isHideGender;
+    }
+
+    public void setHideGender(boolean hideGender) {
+        isHideGender = hideGender;
+    }
+
+    public String getRatingBody() {
+        return ratingBody;
+    }
+
+    public void setRatingBody(String ratingBody) {
+        this.ratingBody = ratingBody;
     }
 
     @Override
@@ -136,8 +168,11 @@ public class Poster implements Serializable {
                 ", email='" + email + '\'' +
                 ", facebookId='" + facebookId + '\'' +
                 ", emailActive=" + emailActive +
-                ", age=" + age +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
                 ", gender='" + gender + '\'' +
+                ", isHideAge=" + isHideAge +
+                ", isHideGender=" + isHideGender +
+//                ", ratingBody='" + ratingBody + '\'' +
                 '}';
     }
 }
