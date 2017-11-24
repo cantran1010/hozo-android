@@ -30,12 +30,13 @@ import vn.tonish.hozo.utils.Utils;
 public class CommentBigView extends LinearLayout implements View.OnClickListener {
     private static final String TAG = CommentBigView.class.getSimpleName();
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName, tvComment, tvTimeAgo, tvAnswer;
+    private TextViewHozo tvName, tvComment, tvTimeAgo, tvAnswer, tvPoster;
     private ImageView imgAttach;
     private ImageView imgSetting;
     private Comment comment;
     private int commentType;
     private int commentCountVisibility;
+    private int posterId;
 
     public interface AnswerListener {
         public void onAnswer();
@@ -89,6 +90,7 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
         tvAnswer.setOnClickListener(this);
 
         imgSetting.setOnClickListener(this);
+        tvPoster = findViewById(R.id.tv_poster);
     }
 
     public void updateData(final Comment comment) {
@@ -120,6 +122,11 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
             imgSetting.setVisibility(View.GONE);
             tvAnswer.setVisibility(View.GONE);
         }
+
+        if (comment.getAuthorId() == getPosterId())
+            tvPoster.setVisibility(VISIBLE);
+        else
+            tvPoster.setVisibility(GONE);
 
 //        if (getCommentCountVisibility() == View.GONE) {
 //            tvCommentCount.setVisibility(View.GONE);
@@ -223,4 +230,13 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
     public void setCommentCountVisibility(int commentCountVisibility) {
         this.commentCountVisibility = commentCountVisibility;
     }
+
+    public int getPosterId() {
+        return posterId;
+    }
+
+    public void setPosterId(int posterId) {
+        this.posterId = posterId;
+    }
+
 }

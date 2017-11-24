@@ -64,6 +64,16 @@ public class TaskResponse implements Serializable {
     private boolean autoAssign;
     private boolean advance;
     private boolean followed;
+    @SerializedName("bid_deposit_amount")
+    private int bidDepositAmount;
+
+    public int getBidDepositAmount() {
+        return bidDepositAmount;
+    }
+
+    public void setBidDepositAmount(int bidDepositAmount) {
+        this.bidDepositAmount = bidDepositAmount;
+    }
 
     public boolean isFollowed() {
         return followed;
@@ -383,7 +393,7 @@ public class TaskResponse implements Serializable {
                 ", autoAssign=" + autoAssign +
                 ", advance=" + advance +
                 ", followed=" + followed +
+                ", bidDepositAmount=" + bidDepositAmount +
                 '}';
     }
-
 }

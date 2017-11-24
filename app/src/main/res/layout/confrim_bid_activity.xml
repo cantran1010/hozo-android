@@ -202,6 +202,7 @@
             </RelativeLayout>
 
             <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/tv_des"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
