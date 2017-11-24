@@ -1,5 +1,4 @@
 <resources>
-
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimaryDark">@color/hozo_bg</item>
         <item name="colorPrimary">@color/hozo_bg</item>

@@ -18,8 +18,9 @@
         android:paddingEnd="10dp"
         android:paddingRight="10dp"
         android:scaleType="centerInside"
+        android:contentDescription="@string/next"
         android:src="@drawable/ic_rating_back"
-        tools:ignore="ContentDescription" />
+        tools:ignore="RtlSymmetry" />
 
     <ImageView
         android:id="@+id/img_rating_next"
@@ -38,7 +39,7 @@
         android:paddingStart="10dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_rating_next"
-        tools:ignore="ContentDescription" />
+        tools:ignore="RtlSymmetry" />
 
     <ImageView
         android:id="@+id/img_close"

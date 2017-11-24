@@ -112,7 +112,7 @@ public class SplashActivity extends BaseActivity {
                 LogUtils.d(TAG, "checkUpdate data body : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     UpdateResponse updateResponse = response.body();
-                    if (updateResponse != null ? updateResponse.isForceUpdate() : false) {
+                    if (updateResponse != null && updateResponse.isForceUpdate()) {
                         DialogUtils.showForceUpdateDialog(SplashActivity.this, new AlertDialogOkFullScreen.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
@@ -217,7 +217,7 @@ public class SplashActivity extends BaseActivity {
 
                     BlockResponse blockResponse = response.body();
 
-                    if (blockResponse != null ? blockResponse.getIsBlock() : false) {
+                    if (blockResponse != null && blockResponse.getIsBlock()) {
                         Intent intent = new Intent(SplashActivity.this, BlockActivity.class);
                         intent.putExtra(Constants.BLOCK_EXTRA, blockResponse);
                         startActivity(intent, TransitionScreen.FADE_IN);

@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
 import android.widget.RatingBar;
 
 import org.json.JSONException;
@@ -46,18 +45,13 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class ViewPageRatingAdapter extends PagerAdapter {
     private static final String TAG = ViewPageRatingAdapter.class.getSimpleName();
     // Declare Variables
-    private Context context;
-    private TaskResponse taskResponse;
-    private String type;
-    private LayoutInflater inflater;
+    private final Context context;
+    private final TaskResponse taskResponse;
+    private final String type;
     private RatingListener ratingListener;
 
     public interface RatingListener {
-        void onClick(int position);
-    }
-
-    public RatingListener getRatingListener() {
-        return ratingListener;
+        void success();
     }
 
     public void setRatingListener(RatingListener ratingListener) {
@@ -83,12 +77,6 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         return view == object;
     }
 
-//
-//    @Override
-//    public int getItemPosition(Object object) {
-//        return POSITION_NONE;
-//    }
-
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
 
@@ -97,13 +85,12 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         CircleImageView imgAvatar;
         TextViewHozo tvName, tvTitle;
         final RatingBar ratingBar;
-        final RadioButtonHozo ckDone, ckNot;
-        final RadioGroup radioGroup;
+        final RadioButtonHozo ckDone;
         final EdittextHozo edtReviews;
         final TextViewHozo btnSend;
         final int userID;
 
-        inflater = (LayoutInflater) context
+        LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.viewpager_rating_item, container,
                 false);
@@ -118,13 +105,14 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         // Capture position and set to the TextViews
         if (type.equals(Constants.ROLE_POSTER)) {
             Assigner assigner = taskResponse.getAssignees().get(position);
-            tvTitle.setText(formatTitle(position + 1) + "/" + formatTitle(taskResponse.getAssigneeCount()));
+            String title=formatTitle(position + 1) + context.getString(R.string.slash) + formatTitle(taskResponse.getAssigneeCount());
+            tvTitle.setText(title);
             Utils.displayImageAvatar(context, imgAvatar, assigner.getAvatar());
             tvName.setText(assigner.getFullName());
             userID = assigner.getId();
 
             if (assigner.getRating() != 0) {
-                updateUI(true, btnSend, edtReviews, ratingBar, "", (int) assigner.getRating());
+                updateUI(true, btnSend, edtReviews, ratingBar, assigner.getRatingBody(), (int) assigner.getRating());
             } else {
                 updateUI(false, btnSend, edtReviews, ratingBar, "", (int) assigner.getRating());
             }
@@ -136,7 +124,7 @@ public class ViewPageRatingAdapter extends PagerAdapter {
             userID = poster.getId();
 
             if (taskResponse.isRatePoster()) {
-                updateUI(true, btnSend, edtReviews, ratingBar, "", (int) taskResponse.getPoster().getPosterAverageRating());
+                updateUI(true, btnSend, edtReviews, ratingBar, poster.getRatingBody(), (int) taskResponse.getPoster().getPosterAverageRating());
             } else {
                 updateUI(false, btnSend, edtReviews, ratingBar, "", (int) taskResponse.getPoster().getPosterAverageRating());
             }
@@ -186,19 +174,13 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         ApiClient.getApiService().rateTask(UserManager.getUserToken(), taskResponse.getId(), body).enqueue(new Callback<RateResponse>() {
             @Override
             public void onResponse(Call<RateResponse> call, Response<RateResponse> response) {
-                notifyDataSetChanged();
-
                 APIError error = ErrorUtils.parseError(response);
                 LogUtils.d(TAG, "doRate code : " + response.code());
                 LogUtils.d(TAG, "doRate : " + error.status() + "sms" + error.message() + "task iD" + taskResponse.getId());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taskResponse.getAssignees().get(position).setRating(response.body().getRating());
                     updateUI(true, tvHozo, edHozo, rbBar, response.body().getBody(), response.body().getRating());
-
-//                    if (context instanceof Activity) {
-//                        ((Activity) context).finish();
-//                    }
-
+                    ratingListener.success();
                 } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
                     if (error.status().equals(Constants.INVALID_DATA)) {
                         Utils.showLongToast(context, context.getString(R.string.rating_invalid_data), true, false);
@@ -264,7 +246,7 @@ public class ViewPageRatingAdapter extends PagerAdapter {
             tv.setText(context.getString(R.string.send));
             Utils.setViewBackground(tv, ContextCompat.getDrawable(context, R.drawable.btn_new_selector));
         }
-    }
 
+    }
 
 }

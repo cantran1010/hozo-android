@@ -9,6 +9,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.ViewPageRatingAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.LogUtils;
 
@@ -19,10 +20,10 @@ import vn.tonish.hozo.utils.LogUtils;
 public class RatingActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = RatingActivity.class.getSimpleName();
     private ViewPager viewPager;
-    private ViewPageRatingAdapter adapter;
     private TaskResponse taskResponse;
     private String type;
-    private ImageView imgClose, imgNext, imgBack;
+    private ImageView imgNext;
+    private ImageView imgBack;
 
     @Override
     protected int getLayout() {
@@ -32,7 +33,7 @@ public class RatingActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initView() {
         viewPager = (ViewPager) findViewById(R.id.container);
-        imgClose = (ImageView) findViewById(R.id.img_close);
+        ImageView imgClose = (ImageView) findViewById(R.id.img_close);
         imgNext = (ImageView) findViewById(R.id.img_rating_next);
         imgBack = (ImageView) findViewById(R.id.img_rating_back);
         imgClose.setOnClickListener(this);
@@ -63,7 +64,7 @@ public class RatingActivity extends BaseActivity implements View.OnClickListener
             imgNext.setVisibility(View.GONE);
             imgBack.setVisibility(View.GONE);
         }
-        adapter = new ViewPageRatingAdapter(this, taskResponse, type);
+        ViewPageRatingAdapter adapter = new ViewPageRatingAdapter(this, taskResponse, type);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -88,6 +89,38 @@ public class RatingActivity extends BaseActivity implements View.OnClickListener
             }
         });
 
+        adapter.setRatingListener(new ViewPageRatingAdapter.RatingListener() {
+            @Override
+            public void success() {
+                if (isFinishRating()) {
+                    finish();
+                } else {
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                }
+            }
+        });
+    }
+
+    private boolean isFinishRating() {
+        boolean isFinish = false;
+        if (type.equalsIgnoreCase(Constants.ROLE_TASKER) || taskResponse.getAssigneeCount() < 2)
+            isFinish = true;
+        if (type.equalsIgnoreCase(Constants.ROLE_POSTER) && (taskResponse.getAssigneeCount() > 1)) {
+            if (isCheckRating()) {
+                isFinish = true;
+            }
+        }
+        return isFinish;
+    }
+
+    private boolean isCheckRating() {
+        for (Assigner assigner : taskResponse.getAssignees()
+                ) {
+            if (assigner.getRating() < 1) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

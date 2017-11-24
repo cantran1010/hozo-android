@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,8 +21,6 @@
                 style="@style/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                android:layout_toEndOf="@id/img_close"
-                android:layout_toRightOf="@id/img_close"
                 android:gravity="center"
                 android:text="@string/web_site_hozo" />
 
@@ -41,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/web_site_hozo"
                 android:textColor="@color/white"
                 android:textSize="@dimen/tv_size_lager"
@@ -61,7 +60,6 @@
             android:textSize="@dimen/tv_size_xtiny" />
 
         <RadioGroup
-            android:id="@+id/Radio_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -82,7 +80,6 @@
                 android:textSize="@dimen/tv_size_medium" />
 
             <vn.tonish.hozo.view.RadioButtonHozo
-                android:id="@+id/ckeckbox_confirm_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -113,7 +110,6 @@
             style="@style/StarRatingBarBig"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_age"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
             android:numStars="5" />
@@ -128,13 +124,15 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/color_hint_create_task_lable"
+            android:drawableEnd="@drawable/edit"
             android:drawableRight="@drawable/edit"
             android:hint="@string/enter_respond_to_reviews"
             android:inputType="textImeMultiLine"
             android:textAllCaps="false"
             android:textColor="@color/setting_text"
             android:textColorHint="@color/color_hint_create_task_lable"
-            android:textSize="@dimen/tv_size_medium" />
+            android:textSize="@dimen/tv_size_medium"
+            tools:targetApi="lollipop" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/btn_Send"

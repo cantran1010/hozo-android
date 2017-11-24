@@ -31,8 +31,8 @@ public class Poster implements Serializable {
     private boolean isHideAge;
     @SerializedName("privacy_hide_gender")
     private boolean isHideGender;
-//    @SerializedName("tasker_done_rate")
-//    private String ratingBody;
+    @SerializedName("rating_body")
+    private String ratingBody;
 
 
     public boolean isEmailActive() {
@@ -147,13 +147,13 @@ public class Poster implements Serializable {
         isHideGender = hideGender;
     }
 
-//    public String getRatingBody() {
-//        return ratingBody;
-//    }
-//
-//    public void setRatingBody(String ratingBody) {
-//        this.ratingBody = ratingBody;
-//    }
+    public String getRatingBody() {
+        return ratingBody;
+    }
+
+    public void setRatingBody(String ratingBody) {
+        this.ratingBody = ratingBody;
+    }
 
     @Override
     public String toString() {

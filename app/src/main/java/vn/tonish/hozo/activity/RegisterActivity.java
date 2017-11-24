@@ -146,7 +146,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
 
-    public void findPlace() {
+    private void findPlace() {
 
         final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
                 .setTypeFilter(Place.TYPE_COUNTRY)
@@ -291,7 +291,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         } else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
             String imgPath = data != null ? data.getStringExtra(Constants.EXTRA_IMAGE_PATH) : null;
             Utils.displayImage(RegisterActivity.this, imgAvatar, imgPath);
-            file = new File(imgPath != null ? imgPath : null);
+            file = new File(imgPath);
             isUpdateAvata = true;
         }
 
@@ -572,7 +572,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private class MyTextWatcher implements TextWatcher {
 
-        private View view;
+        private final View view;
 
         private MyTextWatcher(View view) {
             this.view = view;

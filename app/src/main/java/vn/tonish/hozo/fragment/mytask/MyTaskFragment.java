@@ -132,7 +132,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     protected void initData() {
         Bundle bundle = getArguments();
         if (bundle.containsKey(Constants.ROLE_EXTRA)) role = bundle.getString(Constants.ROLE_EXTRA);
-        if (role != null ? role.equalsIgnoreCase(Constants.ROLE_POSTER) : false) {
+        if (role != null && role.equalsIgnoreCase(Constants.ROLE_POSTER)) {
             myTaskTabLayout.getTabAt(0).select();
         } else {
             myTaskTabLayout.getTabAt(1).select();
