@@ -705,4 +705,12 @@
     <string name="detail_view_contact_hozo">Liên lạc Hozo</string>
     <string name="worker_ratting_done">Đã gửi yêu cầu duyệt</string>
     <string name="poster_ratting_complete">Duyệt việc hoàn thành</string>
+    <string name="setting_sort_by">Sắp xếp theo</string>
+    <string name="order_by">Hiển thị danh sách công việc theo</string>
+    <string name="interest">Mức độ quan tâm</string>
+    <string name="create_at_post">Thời gian đăng việc </string>
+    <string name="date_start">Thời gian làm việc</string>
+    <string name="order">Chiều hiển thị</string>
+    <string name="reduction">Chiều giảm</string>
+    <string name="augment">Chiều tăng</string>
 </resources>

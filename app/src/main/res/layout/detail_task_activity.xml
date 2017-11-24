@@ -17,12 +17,13 @@
             android:layout_height="?android:attr/actionBarSize"
             android:layout_centerVertical="true"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:contentDescription="@string/content_description_back"
             android:focusable="true"
-            android:focusableInTouchMode="true"
             android:padding="5dp"
             android:scaleType="centerInside"
             android:src="@drawable/ic_back" />
+
 
         <vn.tonish.hozo.view.TextViewHozo
             style="@style/tv_title"
@@ -38,14 +39,15 @@
 
         <ImageView
             android:id="@+id/img_menu"
+            android:contentDescription="@string/adjust_image"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/adjust_image"
+            android:clickable="true"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:padding="5dp"
             android:scaleType="centerInside"
             android:src="@drawable/ic_more" />
 

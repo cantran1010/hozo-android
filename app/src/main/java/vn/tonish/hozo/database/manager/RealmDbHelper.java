@@ -156,7 +156,10 @@ public class RealmDbHelper {
                         .addField("nta_worker_rate_min", int.class)
                         .addField("ntaMaxWorkerRate", int.class)
                         .addField("ntaAddress", String.class)
-                        .addRealmListField("ntaKeywords", schema.get("RealmString"));
+                        .addRealmListField("ntaKeywords", schema.get("RealmString"))
+                        .addField("orderBy", String.class)
+                        .addField("order", String.class);
+
                 //noinspection UnusedAssignment
                 oldVersion++;
             }

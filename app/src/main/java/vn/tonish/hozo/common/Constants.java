@@ -34,6 +34,10 @@ public class Constants {
     public static final String NO_EXIST = "no_exist";
     public static final String SYSTEM_ERROR = "system_error";
     public static final String TASK_RESPONSE_RATING = "task_respone_rating";
+    public static final String ORDER_BY_DISTANCE = "distance";
+    public static final String ORDER_BY_INTTEREST = "interest";
+    public static final String ORDER_ASC = "asc";
+    public static final String ORDER_DESC = "desc";
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
@@ -282,5 +286,5 @@ public class Constants {
     public static final String NOTIFICATION_NEW_TASK = "new_task";
     public static final String NOTIFICATION_SYS = "system";
 
-
+    public static final String ORDER_BY_START_TIME = "start_time";
 }
