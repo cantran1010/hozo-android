@@ -18,7 +18,7 @@ public class CommentsAdapter extends BaseAdapter<Comment, CommentsAdapter.WorkHo
 
     private final List<Comment> comments;
     private final Context context;
-    private int commentType;
+    private int commentType, posterId;
 
     public CommentsAdapter(Context context, List<Comment> comments) {
         super(context, comments);
@@ -50,6 +50,7 @@ public class CommentsAdapter extends BaseAdapter<Comment, CommentsAdapter.WorkHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof WorkHolder) {
             ((WorkHolder) holder).commentView.setCommentType(commentType);
+            ((WorkHolder) holder).commentView.setPosterId(getPosterId());
             ((WorkHolder) holder).commentView.updateData(comments.get(position));
         }
     }
@@ -64,6 +65,14 @@ public class CommentsAdapter extends BaseAdapter<Comment, CommentsAdapter.WorkHo
         }
 
 
+    }
+
+    public int getPosterId() {
+        return posterId;
+    }
+
+    public void setPosterId(int posterId) {
+        this.posterId = posterId;
     }
 
     public int getCommentType() {

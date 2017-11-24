@@ -82,7 +82,7 @@ public class CommentsAnswerActivity extends BaseActivity implements View.OnClick
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private Comment comment;
     private CommentBigView commentBigView;
-    private int vilibisity;
+    private int vilibisity, posterId;
 
     @Override
     protected int getLayout() {
@@ -113,9 +113,11 @@ public class CommentsAnswerActivity extends BaseActivity implements View.OnClick
     @Override
     protected void initData() {
         comment = (Comment) getIntent().getSerializableExtra(Constants.COMMENT_EXTRA);
+        posterId = getIntent().getIntExtra(Constants.POSTER_ID_EXTRA, 0);
 
         commentBigView.setCommentType(View.GONE);
         commentBigView.setCommentCountVisibility(View.GONE);
+        commentBigView.setPosterId(posterId);
         commentBigView.updateData(comment);
 
         vilibisity = getIntent().getIntExtra(Constants.COMMENT_INPUT_EXTRA, 0);
@@ -131,7 +133,7 @@ public class CommentsAnswerActivity extends BaseActivity implements View.OnClick
     private void setUpRecyclerView() {
         mComments = new ArrayList<>();
         commentsAdapter = new CommentsAdapter(this, mComments);
-
+        commentsAdapter.setPosterId(posterId);
         if (View.VISIBLE == vilibisity) {
             commentsAdapter.setCommentType(View.VISIBLE);
         } else {

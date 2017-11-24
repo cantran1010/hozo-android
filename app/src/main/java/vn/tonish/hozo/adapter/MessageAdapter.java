@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.google.firebase.database.DataSnapshot;
@@ -130,9 +129,9 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
                     }
                 });
 
-                if (message.getUser_id() == posterId)
-                    workHolder.imgRightBoss.setVisibility(View.VISIBLE);
-                else workHolder.imgRightBoss.setVisibility(View.GONE);
+//                if (message.getUser_id() == posterId)
+//                    workHolder.imgRightBoss.setVisibility(View.VISIBLE);
+//                else workHolder.imgRightBoss.setVisibility(View.GONE);
 
                 workHolder.tvRightTime.setText(DateTimeUtils.getTimeChat(message.getCreated_atLong(true), context));
 
@@ -181,9 +180,9 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
                     }
                 });
 
-                if (message.getUser_id() == posterId)
-                    workHolder.imgLeftBoss.setVisibility(View.VISIBLE);
-                else workHolder.imgLeftBoss.setVisibility(View.GONE);
+//                if (message.getUser_id() == posterId)
+//                    workHolder.imgLeftBoss.setVisibility(View.VISIBLE);
+//                else workHolder.imgLeftBoss.setVisibility(View.GONE);
 
                 workHolder.tvLeftTime.setText(DateTimeUtils.getTimeChat(message.getCreated_atLong(true), context));
 
@@ -197,8 +196,8 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
         final CircleImageView imgRightAvatar;
         final LinearLayout leftLayout;
         final LinearLayout rightLayout;
-        final ImageView imgLeftBoss;
-        final ImageView imgRightBoss;
+//        final ImageView imgLeftBoss;
+//        final ImageView imgRightBoss;
         final TextViewHozo tvLeftName;
         final TextViewHozo tvRightName;
         final TextViewHozo tvLeftMsg;
@@ -216,8 +215,8 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
             leftLayout = itemView.findViewById(R.id.left_layout);
             rightLayout = itemView.findViewById(R.id.right_layout);
 
-            imgLeftBoss = itemView.findViewById(R.id.img_left_boss);
-            imgRightBoss = itemView.findViewById(R.id.img_right_boss);
+//            imgLeftBoss = itemView.findViewById(R.id.img_left_boss);
+//            imgRightBoss = itemView.findViewById(R.id.img_right_boss);
 
             tvLeftName = itemView.findViewById(R.id.tv_left_name);
             tvRightName = itemView.findViewById(R.id.tv_right_name);
