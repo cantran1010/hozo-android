@@ -80,6 +80,7 @@ public class CommentAllActivity extends BaseActivity implements View.OnClickList
     private LinearLayout layoutFooter;
     private Call<List<Comment>> call;
     private int taskId = 0;
+    private int posterId = 0;
     private ImageView imgBack;
 
     @Override
@@ -115,6 +116,7 @@ public class CommentAllActivity extends BaseActivity implements View.OnClickList
     protected void initData() {
 
         taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
+        posterId = getIntent().getIntExtra(Constants.POSTER_ID_EXTRA, 0);
 
         int visibility = getIntent().getIntExtra(Constants.COMMENT_VISIBILITY, 0);
 
@@ -164,6 +166,7 @@ public class CommentAllActivity extends BaseActivity implements View.OnClickList
         lvManager.setStackFromEnd(true);
         rcvComment.setLayoutManager(lvManager);
         commentsAdapter.setCommentType(layoutFooter.getVisibility());
+        commentsAdapter.setPosterId(posterId);
         rcvComment.setAdapter(commentsAdapter);
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(lvManager) {
             @Override
@@ -193,6 +196,7 @@ public class CommentAllActivity extends BaseActivity implements View.OnClickList
                 Intent intentAnswer = new Intent(CommentAllActivity.this, CommentsAnswerActivity.class);
                 intentAnswer.putExtra(Constants.COMMENT_EXTRA, mComments.get(position));
                 intentAnswer.putExtra(Constants.COMMENT_INPUT_EXTRA, layoutFooter.getVisibility());
+                intentAnswer.putExtra(Constants.POSTER_ID_EXTRA, posterId);
                 startActivityForResult(intentAnswer, Constants.COMMENT_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
             }
         });

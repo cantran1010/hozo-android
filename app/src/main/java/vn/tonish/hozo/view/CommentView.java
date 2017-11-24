@@ -30,11 +30,11 @@ import vn.tonish.hozo.utils.Utils;
 public class CommentView extends LinearLayout implements View.OnClickListener {
     private static final String TAG = CommentView.class.getSimpleName();
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName, tvComment, tvTimeAgo;
+    private TextViewHozo tvName, tvComment, tvTimeAgo, tvPoster;
     private ImageView imgAttach;
     private ImageView imgSetting;
     private Comment comment;
-    private int commentType;
+    private int commentType, posterId;
 
     public CommentView(Context context) {
         super(context);
@@ -71,6 +71,7 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
         imgAttach.setOnClickListener(this);
 
         imgSetting.setOnClickListener(this);
+        tvPoster = findViewById(R.id.tv_poster);
     }
 
     public void updateData(final Comment comment) {
@@ -94,6 +95,11 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
             imgSetting.setVisibility(View.VISIBLE);
         else
             imgSetting.setVisibility(View.GONE);
+
+        if (getPosterId() == comment.getAuthorId())
+            tvPoster.setVisibility(VISIBLE);
+        else
+            tvPoster.setVisibility(GONE);
 
     }
 
@@ -156,6 +162,14 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
             }
         });
         popup.show();//showing popup menu
+    }
+
+    public int getPosterId() {
+        return posterId;
+    }
+
+    public void setPosterId(int posterId) {
+        this.posterId = posterId;
     }
 
     public int getCommentType() {

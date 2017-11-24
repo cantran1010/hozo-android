@@ -19,18 +19,36 @@
         android:layout_marginStart="10dp"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/tv_gray_new"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/tv_black_new"
                 android:textSize="15sp" />
 
-        </RelativeLayout>
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/tv_poster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/bg_poster_comment"
+                android:paddingBottom="0dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="0dp"
+                android:text="@string/poster"
+                android:textColor="@color/tv_gray_new"
+                android:textSize="10sp" />
+
+        </LinearLayout>
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_comment"
