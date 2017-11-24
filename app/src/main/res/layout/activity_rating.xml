@@ -46,7 +46,7 @@
         android:layout_width="?android:attr/actionBarSize"
         android:layout_height="?android:attr/actionBarSize"
         android:clickable="true"
-        android:background="?android:selectableItemBackground"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/content_description_back"
         android:focusable="true"
         android:scaleType="centerInside"

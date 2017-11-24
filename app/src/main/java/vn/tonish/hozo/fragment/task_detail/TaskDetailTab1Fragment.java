@@ -19,7 +19,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BlockTaskActivity;
-import vn.tonish.hozo.activity.RateActivity;
+import vn.tonish.hozo.activity.RatingActivity;
 import vn.tonish.hozo.activity.image.PreviewImageListActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.activity.task_detail.TaskDetailNewActivity;
@@ -368,7 +368,7 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
     }
 
     private void doRate() {
-        Intent intent = new Intent(getActivity(), RateActivity.class);
+        Intent intent = new Intent(getActivity(), RatingActivity.class);
         intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
         intent.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
         intent.putExtra(Constants.AVATAR_EXTRA, taskResponse.getPoster().getAvatar());

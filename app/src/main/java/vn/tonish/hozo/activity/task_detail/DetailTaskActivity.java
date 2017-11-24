@@ -49,7 +49,6 @@ import vn.tonish.hozo.activity.ChatActivity;
 import vn.tonish.hozo.activity.CommentAllActivity;
 import vn.tonish.hozo.activity.CommentsAnswerActivity;
 import vn.tonish.hozo.activity.CreateTaskActivity;
-import vn.tonish.hozo.activity.RateActivity;
 import vn.tonish.hozo.activity.RatingActivity;
 import vn.tonish.hozo.activity.SupportActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
@@ -1391,7 +1390,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 updateUi();
             } else if (intent.hasExtra(Constants.ASSIGNER_RATE_EXTRA)) {
                 Assigner assigner = (Assigner) intent.getSerializableExtra(Constants.ASSIGNER_RATE_EXTRA);
-                Intent intentRate = new Intent(DetailTaskActivity.this, RateActivity.class);
+                Intent intentRate = new Intent(DetailTaskActivity.this, RatingActivity.class);
                 intentRate.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                 intentRate.putExtra(Constants.USER_ID_EXTRA, assigner.getId());
                 intentRate.putExtra(Constants.AVATAR_EXTRA, assigner.getAvatar());

@@ -154,7 +154,7 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
                 });
             } else if (intent.hasExtra(Constants.ASSIGNER_RATE_EXTRA)) {
                 Assigner assigner = (Assigner) intent.getSerializableExtra(Constants.ASSIGNER_RATE_EXTRA);
-                Intent intentRate = new Intent(AssignersActivity.this, RateActivity.class);
+                Intent intentRate = new Intent(AssignersActivity.this, RatingActivity.class);
                 intentRate.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                 intentRate.putExtra(Constants.USER_ID_EXTRA, assigner.getId());
                 intentRate.putExtra(Constants.AVATAR_EXTRA, assigner.getAvatar());
