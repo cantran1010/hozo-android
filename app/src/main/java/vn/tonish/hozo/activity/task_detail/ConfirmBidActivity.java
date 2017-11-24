@@ -43,7 +43,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class ConfirmBidActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = ConfirmBidActivity.class.getSimpleName();
-    private TextViewHozo tvTitle, tvDate, tvTime, tvHour, tvBudget, tvPolicy;
+    private TextViewHozo tvTitle, tvDate, tvTime, tvHour, tvBudget, tvPolicy, tvDes;
     private TaskResponse taskResponse;
     private ButtonHozo btnBid;
     private ImageView imgBack;
@@ -67,6 +67,8 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
 
         imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
+
+        tvDes = (TextViewHozo) findViewById(R.id.tv_des);
     }
 
     @Override
@@ -89,6 +91,7 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
         }
 
         tvBudget.setText(Utils.formatNumber(taskResponse.getWorkerRate()));
+        tvDes.setText(getString(R.string.bid_des1, Utils.formatNumber(taskResponse.getBidDepositAmount())));
 
         String text = getString(R.string.bid_confirm_policy);
         SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
@@ -117,7 +120,6 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
         tvPolicy.setText(ssBuilder);
         tvPolicy.setMovementMethod(LinkMovementMethod.getInstance());
         tvPolicy.setHighlightColor(Color.TRANSPARENT);
-
     }
 
     private void openGeneralInfoActivity(String title, String url) {
@@ -141,8 +143,12 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
                 LogUtils.d(TAG, "bidsTask body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    Utils.showLongToast(ConfirmBidActivity.this, getString(R.string.bid_success), false, false);
-                    finish();
+                    DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.create_task_title), getString(R.string.bid_success), getString(R.string.create_task_ok), new AlertDialogOk.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            finish();
+                        }
+                    });
                 } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.e(TAG, "bidsTask errorBody : " + error.toString());
@@ -161,7 +167,7 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
                             }
                         });
                     } else if (error.status().equals(Constants.BID_ERROR_INVALID_DATA)) {
-                        DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.error), getString(R.string.offer_invalid_data), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.app_name), getString(R.string.offer_invalid_data), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 

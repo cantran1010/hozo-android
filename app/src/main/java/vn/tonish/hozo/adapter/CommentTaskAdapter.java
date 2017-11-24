@@ -21,7 +21,7 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
 
     private final List<Comment> comments;
     private final Context context;
-    private int commentType;
+    private int commentType, posterId;
 
     public CommentTaskAdapter(Context context, List<Comment> comments) {
         super(context, comments);
@@ -67,6 +67,7 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof WorkHolder) {
             ((WorkHolder) holder).commentBigView.setCommentType(getCommentType());
+            ((WorkHolder) holder).commentBigView.setPosterId(getPosterId());
             ((WorkHolder) holder).commentBigView.updateData(comments.get(position));
             ((WorkHolder) holder).commentBigView.setAnswerListener(new CommentBigView.AnswerListener() {
                 @Override
@@ -76,10 +77,11 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
                 }
             });
             CommentAdapter commentAdapter = new CommentAdapter((ArrayList<Comment>) comments.get(position).getComments());
+            commentAdapter.setPosterId(getPosterId());
             commentAdapter.setCommentType(getCommentType());
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
             ((WorkHolder) holder).recyclerView.setLayoutManager(layoutManager);
-             commentAdapter.setCommentType(getCommentType());
+            commentAdapter.setCommentType(getCommentType());
             ((WorkHolder) holder).recyclerView.setAdapter(commentAdapter);
 
             if (comments.get(position).getRepliesCount() > 1) {
@@ -91,7 +93,8 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
             ((WorkHolder) holder).tvCommentCount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (answerListener != null) answerListener.onAnswer(holder.getAdapterPosition());
+                    if (answerListener != null)
+                        answerListener.onAnswer(holder.getAdapterPosition());
                 }
             });
 
@@ -119,5 +122,13 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
 
     public void setCommentType(int commentType) {
         this.commentType = commentType;
+    }
+
+    public int getPosterId() {
+        return posterId;
+    }
+
+    public void setPosterId(int posterId) {
+        this.posterId = posterId;
     }
 }
