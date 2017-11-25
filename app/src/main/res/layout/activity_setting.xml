@@ -276,7 +276,8 @@
                     android:layout_toEndOf="@+id/distance"
                     android:layout_toLeftOf="@+id/img_distance"
                     android:layout_toRightOf="@+id/distance"
-                    android:layout_toStartOf="@+id/img_distance" />
+                    android:layout_toStartOf="@+id/img_distance"
+                    android:ellipsize="middle" />
 
                 <ImageView
                     android:id="@+id/img_distance"
@@ -350,6 +351,56 @@
             <include layout="@layout/sub_setting_advance_price" />
 
             <RelativeLayout
+                android:id="@+id/layout_sort_by"
+                android:layout_width="wrap_content"
+                android:layout_height="?android:attr/actionBarSize"
+                android:background="@drawable/btn_back_selector"
+                android:paddingEnd="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingStart="16dp">
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/sort_by"
+                    style="@style/tv_style_normal_gray"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/setting_sort_by" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_sort_by"
+                    style="@style/tv_setting_advance_show"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/sort_by"
+                    android:layout_toLeftOf="@+id/img_sort_by"
+                    android:layout_toRightOf="@+id/sort_by"
+                    android:layout_toStartOf="@+id/img_sort_by"
+                    android:ellipsize="middle" />
+
+                <ImageView
+                    android:id="@+id/img_sort_by"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/just_image"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/right_arrow" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray" />
+
+            <include layout="@layout/sub_setting_advance_sort_by" />
+
+            <RelativeLayout
                 android:id="@+id/layout_keyword"
                 android:layout_width="wrap_content"
                 android:layout_height="?android:attr/actionBarSize"
@@ -398,6 +449,8 @@
                 android:background="@color/gray" />
 
             <include layout="@layout/sub_setting_advance_keyword" />
+
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

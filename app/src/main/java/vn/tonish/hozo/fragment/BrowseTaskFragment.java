@@ -11,7 +11,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -31,10 +30,11 @@ import vn.tonish.hozo.activity.BrowserTaskMapActivity;
 import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.activity.SettingActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
-import vn.tonish.hozo.adapter.ScaleInAnimationAdapter;
 import vn.tonish.hozo.adapter.TaskAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
+import vn.tonish.hozo.database.entity.SettingAdvanceEntity;
+import vn.tonish.hozo.database.manager.SettingAdvanceManager;
 import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
@@ -48,7 +48,6 @@ import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
-import vn.tonish.hozo.utils.FadeInAnimator;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
@@ -74,14 +73,15 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private TaskAdapter taskAdapter;
     private ImageView imgFilter;
     private final List<TaskResponse> taskList = new ArrayList<>();
-    private String sinceStr = null;
     private String query = null;
-    private final String strSortBy = null;
     private boolean isLoadingMoreFromServer = true;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private Call<List<TaskResponse>> call;
     private LinearLayoutManager linearLayoutManager;
     private TextViewHozo tvCountNewTask;
+    private int currentPage = 1;
+    private String orderBy = "";
+    private String order = Constants.ORDER_ASC;
 
     @Override
     protected int getLayout() {
@@ -148,19 +148,14 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
 
     private void setUpRecyclerView() {
-        rcvTask.setItemAnimator(new FadeInAnimator());
         taskAdapter = new TaskAdapter(getActivity(), taskList);
-        ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(taskAdapter);
-        scaleInAnimationAdapter.setFirstOnly(false);
-        scaleInAnimationAdapter.setDuration(500);
-        scaleInAnimationAdapter.setInterpolator(new OvershootInterpolator(.5f));
         linearLayoutManager = new LinearLayoutManager(getActivity());
         rcvTask.setLayoutManager(linearLayoutManager);
-        rcvTask.setAdapter(scaleInAnimationAdapter);
+        rcvTask.setAdapter(taskAdapter);
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                if (isLoadingMoreFromServer) getTaskResponse(sinceStr, strSortBy, query);
+                if (isLoadingMoreFromServer) getTaskResponse(query);
             }
         };
 
@@ -195,11 +190,19 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         }
     }
 
-    private void getTaskResponse(final String since, final String sortBytask, final String query) {
+    private void getTaskResponse(final String query) {
+        SettingAdvanceEntity settingAdvanceEntity = SettingAdvanceManager.getSettingAdvace();
+        if (settingAdvanceEntity != null) {
+            orderBy = settingAdvanceEntity.getOrderBy();
+            order = settingAdvanceEntity.getOrder();
+        }
         Map<String, String> option = new HashMap<>();
         option.put("limit", String.valueOf(limit));
-        if (since != null) option.put("since", since);
+        option.put("page", String.valueOf(currentPage));
+        if (orderBy != null) option.put("order_by", orderBy);
+        if (order != null) option.put("order", order);
         if (query != null) option.put("query", query);
+        LogUtils.d(TAG, "option String : " + option.toString());
         call = ApiClient.getApiService().getTasks(UserManager.getUserToken(), option);
         call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
@@ -208,13 +211,13 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 LogUtils.d(TAG, "getTaskResponse body : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     List<TaskResponse> taskResponses = response.body();
+                    LogUtils.d(TAG, "option String : " + taskResponses.toString());
                     LogUtils.d(TAG, "getTaskFromServer taskResponses size : " + (taskResponses != null ? taskResponses.size() : 0));
-                    if (since == null) {
+                    if (currentPage == 1) {
                         taskList.clear();
                         endlessRecyclerViewScrollListener.resetState();
                     }
-                    if ((taskResponses != null ? taskResponses.size() : 0) > 0)
-                        sinceStr = taskResponses.get((taskResponses != null ? taskResponses.size() : 0) - 1).getCreatedAt();
+                    currentPage++;
                     taskList.addAll(taskResponses);
                     taskAdapter.notifyDataSetChanged();
                     LogUtils.d(TAG, "getTaskResponse size : " + taskList.size());
@@ -229,7 +232,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            getTaskResponse(since, sortBytask, query);
+                            getTaskResponse(query);
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
@@ -262,7 +265,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                         @Override
                         public void onSubmit() {
                             taskAdapter.onLoadMore();
-                            getTaskResponse(since, sortBytask, query);
+                            getTaskResponse(query);
                         }
 
                         @Override
@@ -312,9 +315,9 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     private void search() {
-        sinceStr = null;
+        currentPage = 1;
         query = edtSearch.getText().toString();
-        getTaskResponse(sinceStr, strSortBy, query);
+        getTaskResponse(query);
     }
 
     private void goToMapScren() {
@@ -367,9 +370,9 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         super.onRefresh();
         if (call != null) call.cancel();
         isLoadingMoreFromServer = true;
-        sinceStr = null;
+        currentPage = 1;
         taskAdapter.onLoadMore();
-        getTaskResponse(null, strSortBy, query);
+        getTaskResponse(query);
 
         // update lastTime
         // set new task = 0

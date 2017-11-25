@@ -16,4 +16,5 @@ public class RealmInt extends RealmObject {
     public void setVal(int val) {
         this.val = val;
     }
+
 }

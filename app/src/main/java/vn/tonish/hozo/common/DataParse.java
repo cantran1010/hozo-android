@@ -363,5 +363,82 @@ public class DataParse {
             taskEntities.add(converTaskReponseToTaskEntity(taskResponses.get(i)));
         return taskEntities;
     }
+// convert integer
+
+    public static List<Integer> realmListToListInt(RealmList<RealmInt> realmInts) {
+        List<Integer> integers = new ArrayList<>();
+        if (realmInts != null && realmInts.size() > 0)
+            for (RealmInt realmInt : realmInts
+                    ) {
+                integers.add(realmInt.getVal());
+            }
+
+        return integers;
+    }
+
+    public static RealmList<RealmInt> listIntToRealmList(List<Integer> integers) {
+        RealmList<RealmInt> realmInts = new RealmList<>();
+        if (integers != null && integers.size() > 0)
+            for (Integer integer : integers
+                    ) {
+                RealmInt realmInt = new RealmInt();
+                realmInt.setVal(integer);
+                realmInts.add(realmInt);
+            }
+        return realmInts;
+    }
+
+    // convert double
+
+    public static RealmList<RealmDouble> listDoubleToRealmList(List<Double> doubles) {
+        RealmList<RealmDouble> realmDoubles = new RealmList<>();
+        if (doubles != null && doubles.size() > 0)
+            for (Double aDouble : doubles
+                    ) {
+                RealmDouble realmDouble = new RealmDouble();
+                realmDouble.setVal(aDouble);
+                realmDoubles.add(realmDouble);
+            }
+        return realmDoubles;
+    }
+
+
+    public static List<Double> realmListToListDouble(RealmList<RealmDouble> realmDoubles) {
+        List<Double> doubles = new ArrayList<>();
+        if (realmDoubles != null && realmDoubles.size() > 0)
+            for (RealmDouble realmDouble : realmDoubles
+                    ) {
+                doubles.add(realmDouble.getVal());
+            }
+
+        return doubles;
+    }
+
+
+
+    // convert String
+
+    public static List<String> realmListToListString(RealmList<RealmString> realmStrings) {
+        List<String> strings = new ArrayList<>();
+        if (realmStrings != null && realmStrings.size() > 0)
+            for (RealmString realmInt : realmStrings
+                    ) {
+                strings.add(realmInt.getValue());
+            }
+
+        return strings;
+    }
+
+    public static RealmList<RealmString> listStringToRealmList(List<String> strings) {
+        RealmList<RealmString> realmStrings = new RealmList<>();
+        if (strings != null && strings.size() > 0)
+            for (String s : strings
+                    ) {
+                RealmString realmString = new RealmString();
+                realmString.setValue(s);
+                realmStrings.add(realmString);
+            }
+        return realmStrings;
+    }
 
 }

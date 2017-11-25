@@ -67,6 +67,7 @@ import vn.tonish.hozo.view.ExpandableLayout;
 import vn.tonish.hozo.view.RadioButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
+import static vn.tonish.hozo.database.manager.SettingAdvanceManager.converToSettingAdvanceEntity;
 import static vn.tonish.hozo.database.manager.SettingAdvanceManager.getSettingAdvace;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
@@ -696,7 +697,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     //noinspection ConstantConditions
                     LogUtils.d(TAG, "newTaskAlert activity onResponse : " + response.body().toString());
-                    SettingAdvanceManager.insertSettingAdvance(response.body());
+                    SettingAdvanceManager.insertSettingAdvanceEntity(converToSettingAdvanceEntity(response.body()));
                     newTaskAlertEntity = getSettingAdvace();
                     setDataForView();
                     LogUtils.d(TAG, "data setting: " + newTaskAlertEntity.toString());
@@ -788,7 +789,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     //noinspection ConstantConditions
                     LogUtils.d(TAG, "SettingAdvance activity data response : " + response.body().toString());
-                    SettingAdvanceManager.insertSettingAdvance(response.body());
+                    SettingAdvanceManager.insertSettingAdvanceEntity(converToSettingAdvanceEntity(response.body()));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(AlertNewTaskActivity.this, new NetworkUtils.RefreshListener() {
                         @Override

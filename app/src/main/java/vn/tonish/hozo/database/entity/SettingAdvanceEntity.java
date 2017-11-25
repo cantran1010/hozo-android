@@ -73,6 +73,26 @@ public class SettingAdvanceEntity extends RealmObject {
 
     @SerializedName("nta_keywords")
     private RealmList<RealmString> ntaKeywords;
+    @SerializedName("order_by")
+    private String orderBy;
+
+    private String order;
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
 
     public int getUserId() {
         return userId;
@@ -266,6 +286,8 @@ public class SettingAdvanceEntity extends RealmObject {
                 ", ntaAddress='" + ntaAddress + '\'' +
                 ", keywords=" + keywords +
                 ", ntaKeywords=" + ntaKeywords +
+                ", orderBy='" + orderBy + '\'' +
+                ", order='" + order + '\'' +
                 '}';
     }
 }
