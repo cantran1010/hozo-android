@@ -27,7 +27,7 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AlertNewTaskActivity;
 import vn.tonish.hozo.activity.MainActivity;
-import vn.tonish.hozo.activity.task_detail.TaskDetailNewActivity;
+import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.NotificationAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -160,11 +160,11 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
                         }
                     });
                 } else if (notifications.get(position).getEvent().equals(PUSH_TYPE_ADMIN_NEW_TASK_ALERT)) {
-                    Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
+                    Intent intent = new Intent(getActivity(), DetailTaskActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
                     startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 } else if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_TASK_COMPLETE)) {
-                    Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
+                    Intent intent = new Intent(getActivity(), DetailTaskActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
 
                     if (notifications.get(position).getUserId() == UserManager.getMyUser().getId())
@@ -174,7 +174,7 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
 
                     startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
-                    Intent intent = new Intent(getActivity(), TaskDetailNewActivity.class);
+                    Intent intent = new Intent(getActivity(), DetailTaskActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
                     startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 }
