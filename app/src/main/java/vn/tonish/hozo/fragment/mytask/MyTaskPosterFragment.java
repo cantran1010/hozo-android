@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.OvershootInterpolator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +20,6 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.CreateTaskActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.MyTaskAdapter;
-import vn.tonish.hozo.adapter.ScaleInAnimationAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.entity.StatusEntity;
@@ -35,7 +33,6 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
-import vn.tonish.hozo.utils.FadeInAnimator;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
@@ -98,17 +95,10 @@ public class MyTaskPosterFragment extends BaseFragment {
     }
 
     private void initList() {
-        rcvTask.setItemAnimator(new FadeInAnimator());
         myTaskAdapter = new MyTaskAdapter(getActivity(), taskResponses);
-        ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(myTaskAdapter);
-        scaleInAnimationAdapter.setFirstOnly(false);
-        scaleInAnimationAdapter.setDuration(500);
-        scaleInAnimationAdapter.setInterpolator(new OvershootInterpolator(.5f));
         linearLayoutManager = new LinearLayoutManager(getActivity());
         rcvTask.setLayoutManager(linearLayoutManager);
-//        rcvTask.setAdapter(myTaskAdapter);
-        rcvTask.setAdapter(scaleInAnimationAdapter);
-
+        rcvTask.setAdapter(myTaskAdapter);
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {

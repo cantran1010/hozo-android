@@ -71,26 +71,6 @@ public class SettingAdvance {
     @SerializedName("nta_keywords")
     private List<String> ntaKeywords;
 
-    private String orderBy;
-
-    private String order;
-
-    public String getOrderBy() {
-        return orderBy;
-    }
-
-    public void setOrderBy(String orderBy) {
-        this.orderBy = orderBy;
-    }
-
-    public String getOrder() {
-        return order;
-    }
-
-    public void setOrder(String order) {
-        this.order = order;
-    }
-
     public int getUserId() {
         return userId;
     }
@@ -283,8 +263,6 @@ public class SettingAdvance {
                 ", ntaAddress='" + ntaAddress + '\'' +
                 ", keywords=" + keywords +
                 ", ntaKeywords=" + ntaKeywords +
-                ", orderBy='" + orderBy + '\'' +
-                ", order='" + order + '\'' +
                 '}';
     }
 }

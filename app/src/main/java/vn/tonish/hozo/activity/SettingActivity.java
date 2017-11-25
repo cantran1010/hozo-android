@@ -91,7 +91,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private RecyclerView rcvCategory, rcvKeyword;
     private SeekBar seebarDistance;
     private Animation anim_down, anim_up;
-    private ExpandableLayout statusExpandableLayout, categoryExpandableLayout, timeExpandableLayout, distanceExpandableLayout, priceExpandableLayout, keywordExpandableLayout;
+    private ExpandableLayout statusExpandableLayout, categoryExpandableLayout, timeExpandableLayout, distanceExpandableLayout, priceExpandableLayout, keywordExpandableLayout, orderByExpandableLayout;
     private TaskTypeAdapter mAdapter;
     private ArrayList<Category> categories;
     private SettingAdvanceEntity advanceEntity;
@@ -116,6 +116,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private String mStatus = "";
     private String mOrderBy = "";
     private String mOrder = "asc";
+    private String strOrderBy = "";
+    private String strOrder = "";
 
     @Override
     protected int getLayout() {
@@ -135,6 +137,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         distanceExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_distance);
         priceExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_price);
         keywordExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_keyword);
+        orderByExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_orderBy);
 
 
         RelativeLayout layoutStatus = (RelativeLayout) findViewById(R.id.layout_status);
@@ -265,7 +268,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 if (i < 1)
                     seekBar.setProgress(1);
                 tvDistanceValue.setText(getString(R.string.distance, seekBar.getProgress()));
-                tvDistance.setText(getString(R.string.distance, seekBar.getProgress()));
+                String mDis = address + getString(R.string.setting_space) + " " + getString(R.string.distance, seekBar.getProgress());
+                tvDistance.setText(mDis);
                 distance = seekBar.getProgress();
 
             }
@@ -414,30 +418,37 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setOrderByView() {
+
         if (!(advanceEntity.getOrderBy() == null || advanceEntity.getOrderBy().isEmpty())) {
             mOrderBy = advanceEntity.getOrderBy();
             switch (mOrderBy) {
                 case Constants.ORDER_BY_START_TIME:
                     radOrderStartTime.setChecked(true);
+                    strOrderBy = radOrderStartTime.getText().toString();
                     break;
                 case Constants.ORDER_BY_DISTANCE:
                     radOrderDistance.setChecked(true);
+                    strOrderBy = radOrderDistance.getText().toString();
                     break;
                 case Constants.ORDER_BY_INTTEREST:
                     radOrdeInterest.setChecked(true);
+                    strOrderBy = radOrdeInterest.getText().toString();
                     break;
             }
         } else {
             radOrderCreateAt.setChecked(true);
+            strOrderBy = radOrderCreateAt.getText().toString();
         }
 
         mOrder = advanceEntity.getOrder();
         if (mOrder != null && mOrder.equalsIgnoreCase(Constants.ORDER_DESC)) {
             radReduction.setChecked(true);
+            strOrder = radReduction.getText().toString();
         } else {
             radAugment.setChecked(true);
+            strOrder = radAugment.getText().toString();
         }
-
+        tvOrderBy.setText(strOrderBy + "-" + strOrder);
     }
 
 
@@ -503,7 +514,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             address = advanceEntity.getAddress();
             seebarDistance.setProgress(advanceEntity.getDistance());
             tvDistanceValue.setText(getString(R.string.distance, advanceEntity.getDistance()));
-            tvDistance.setText(getString(R.string.distance, advanceEntity.getDistance()));
+            String mDis = address + getString(R.string.setting_space) + " " + getString(R.string.distance, advanceEntity.getDistance());
+            tvDistance.setText(mDis);
         } else {
             layoutOptionDistance.setVisibility(View.GONE);
             locations = new ArrayList<>();
@@ -717,6 +729,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             keywordExpandableLayout.toggle();
             imgKeyword.startAnimation(anim_down);
         }
+        if (orderByExpandableLayout.isExpanded() && expan != orderByExpandableLayout) {
+            orderByExpandableLayout.toggle();
+            imgOrderBy.startAnimation(anim_down);
+        }
     }
 
     private void getSettingAdvanceFromeServer() {
@@ -729,7 +745,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     LogUtils.d(TAG, "SettingAdvance activity onResponse : " + response.body().toString());
                     SettingAdvanceManager.insertSettingAdvanceEntity(converToSettingAdvanceEntity(response.body()));
                     advanceEntity = SettingAdvanceManager.getSettingAdvace();
-                    SettingAdvanceManager.insertOrderBy(advanceEntity, mOrderBy, mOrder);
                     setDataForView();
                     LogUtils.d(TAG, "data setting: " + advanceEntity.toString());
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
@@ -763,8 +778,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void postSettingAdvance() {
-
-
+        ProgressDialogUtils.showProgressDialog(this);
         final JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put("filter_task_status", mStatus);
@@ -815,11 +829,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         LogUtils.d(TAG, "SettingAdvance activity json: " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         ApiClient.getApiService().postSettingAdvance(UserManager.getUserToken(), body).enqueue(new Callback<SettingAdvance>() {
+
             @Override
             public void onResponse(Call<SettingAdvance> call, Response<SettingAdvance> response) {
+                ProgressDialogUtils.dismissProgressDialog();
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "SettingAdvance activity data response : " + response.body().toString());
                     SettingAdvanceManager.insertSettingAdvanceEntity(converToSettingAdvanceEntity(response.body()));
+                    finish();
+                    SettingAdvanceManager.insertOrderBy(advanceEntity, mOrderBy, mOrder);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(SettingActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -873,10 +891,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
+                setResult(RESULT_CODE_SETTING, new Intent());
                 postSettingAdvance();
                 Utils.hideKeyBoard(this);
-                setResult(RESULT_CODE_SETTING, new Intent());
-                finish();
                 break;
             case R.id.layout_status:
                 expandableLayout(statusExpandableLayout, imgStatusArrow);
@@ -895,6 +912,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.layout_keyword:
                 expandableLayout(keywordExpandableLayout, imgKeyword);
+                break;
+            case R.id.layout_sort_by:
+                expandableLayout(orderByExpandableLayout, imgOrderBy);
                 break;
             case R.id.tv_monday:
                 clickDay(tvMonday);
@@ -964,6 +984,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         keyWordAdapter.notifyDataSetChanged();
         setTextForKeyWord();
         edtKeyword.setText("");
+        mOrderBy = Constants.ORDER_BY_START_TIME;
+        strOrderBy = radOrderStartTime.getText().toString();
+        mOrder = Constants.ORDER_ASC;
+        strOrder = getString(R.string.augment);
+        tvOrderBy.setText(strOrderBy + "-" + strOrder);
 
     }
 
@@ -1071,7 +1096,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.rad_distance_option:
                 distance = seebarDistance.getProgress();
                 layoutOptionDistance.setVisibility(View.VISIBLE);
-                tvDistance.setText(getString(R.string.distance, seebarDistance.getProgress()));
+                String mDis = address + getString(R.string.setting_space) + " " + getString(R.string.distance, seebarDistance.getProgress());
+                tvDistance.setText(mDis);
                 break;
             case R.id.rad_all_price:
                 minPrice = 0;
@@ -1095,21 +1121,33 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.rad_create_at:
                 mOrderBy = "";
+                strOrderBy = radOrderCreateAt.getText().toString();
+                tvOrderBy.setText(strOrderBy + "-" + strOrder);
                 break;
             case R.id.rad_start_time:
                 mOrderBy = Constants.ORDER_BY_START_TIME;
+                strOrderBy = radOrderStartTime.getText().toString();
+                tvOrderBy.setText(strOrderBy + "-" + strOrder);
                 break;
             case R.id.rad_distance:
                 mOrderBy = Constants.ORDER_BY_DISTANCE;
+                strOrderBy = radOrderDistance.getText().toString();
+                tvOrderBy.setText(strOrderBy + "-" + strOrder);
                 break;
             case R.id.rad_interest:
                 mOrderBy = Constants.ORDER_BY_INTTEREST;
+                strOrderBy = radOrdeInterest.getText().toString();
+                tvOrderBy.setText(strOrderBy + "-" + strOrder);
                 break;
             case R.id.rad_augment:
                 mOrder = Constants.ORDER_ASC;
+                strOrder = getString(R.string.augment);
+                tvOrderBy.setText(strOrderBy + "-" + strOrder);
                 break;
             case R.id.rad_reduction:
                 mOrder = Constants.ORDER_DESC;
+                strOrder = getString(R.string.reduction);
+                tvOrderBy.setText(strOrderBy + "-" + strOrder);
                 break;
 
         }

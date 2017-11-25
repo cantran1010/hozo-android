@@ -42,6 +42,7 @@ public class SettingAdvanceManager {
         settingAdvanceEntity.setOrderBy(orderBy);
         settingAdvanceEntity.setOrder(order);
         realm.commitTransaction();
+        LogUtils.d(TAG, "insertOrderBy start " + settingAdvanceEntity.toString());
     }
 
     public static SettingAdvance converToSettingAdvance(SettingAdvanceEntity settingAdvanceEntity) {
@@ -73,34 +74,34 @@ public class SettingAdvanceManager {
         return settingAdvance;
     }
 
+
     public static SettingAdvanceEntity converToSettingAdvanceEntity(SettingAdvance settingAdvance) {
         SettingAdvanceEntity settingAdvanceEntity = new SettingAdvanceEntity();
-        SettingAdvanceEntity SettingAdvanceEntity = new SettingAdvanceEntity();
-        SettingAdvanceEntity.setUserId(settingAdvance.getUserId());
-        SettingAdvanceEntity.setNotification(settingAdvance.isNotification());
-        SettingAdvanceEntity.setNtaNotification(settingAdvance.isNtaNotification());
-        SettingAdvanceEntity.setStatus(settingAdvance.getStatus());
-        SettingAdvanceEntity.setNtaFollowed(settingAdvance.isNtaFollowed());
-        SettingAdvanceEntity.setCategories(DataParse.listIntToRealmList(settingAdvance.getCategories()));
-        SettingAdvanceEntity.setNtaCategory(DataParse.listIntToRealmList(settingAdvance.getNtaCategory()));
-        SettingAdvanceEntity.setDays(DataParse.listIntToRealmList(settingAdvance.getDays()));
-        SettingAdvanceEntity.setNtaDays(DataParse.listIntToRealmList(settingAdvance.getNtaDays()));
-        SettingAdvanceEntity.setDistance(settingAdvance.getDistance());
-        SettingAdvanceEntity.setNtaDistance(settingAdvance.getNtaDistance());
-        SettingAdvanceEntity.setLatlon(DataParse.listDoubleToRealmList(settingAdvance.getLatlon()));
-        SettingAdvanceEntity.setNtaLatlon(DataParse.listDoubleToRealmList(settingAdvance.getNtaLatlon()));
+        settingAdvanceEntity.setUserId(settingAdvance.getUserId());
+        settingAdvanceEntity.setNotification(settingAdvance.isNotification());
+        settingAdvanceEntity.setNtaNotification(settingAdvance.isNtaNotification());
+        settingAdvanceEntity.setStatus(settingAdvance.getStatus());
+        settingAdvanceEntity.setNtaFollowed(settingAdvance.isNtaFollowed());
+        settingAdvanceEntity.setCategories(DataParse.listIntToRealmList(settingAdvance.getCategories()));
+        settingAdvanceEntity.setNtaCategory(DataParse.listIntToRealmList(settingAdvance.getNtaCategory()));
+        settingAdvanceEntity.setDays(DataParse.listIntToRealmList(settingAdvance.getDays()));
+        settingAdvanceEntity.setNtaDays(DataParse.listIntToRealmList(settingAdvance.getNtaDays()));
+        settingAdvanceEntity.setDistance(settingAdvance.getDistance());
+        settingAdvanceEntity.setNtaDistance(settingAdvance.getNtaDistance());
+        settingAdvanceEntity.setLatlon(DataParse.listDoubleToRealmList(settingAdvance.getLatlon()));
+        settingAdvanceEntity.setNtaLatlon(DataParse.listDoubleToRealmList(settingAdvance.getNtaLatlon()));
         // set max min
-        SettingAdvanceEntity.setMinWorkerRate(settingAdvance.getMinWorkerRate());
-        SettingAdvanceEntity.setMaxWorkerRate(settingAdvance.getMaxWorkerRate());
+        settingAdvanceEntity.setMinWorkerRate(settingAdvance.getMinWorkerRate());
+        settingAdvanceEntity.setMaxWorkerRate(settingAdvance.getMaxWorkerRate());
         // set nta max min
-        SettingAdvanceEntity.setNtaMinWorkerRate(settingAdvance.getNtaMinWorkerRate());
-        SettingAdvanceEntity.setNtaMaxWorkerRate(settingAdvance.getNtaMaxWorkerRate());
+        settingAdvanceEntity.setNtaMinWorkerRate(settingAdvance.getNtaMinWorkerRate());
+        settingAdvanceEntity.setNtaMaxWorkerRate(settingAdvance.getNtaMaxWorkerRate());
         // set address
-        SettingAdvanceEntity.setAddress(settingAdvance.getAddress());
+        settingAdvanceEntity.setAddress(settingAdvance.getAddress());
         // set nta_address
-        SettingAdvanceEntity.setNtaAddress(settingAdvance.getNtaAddress());
-        SettingAdvanceEntity.setKeywords(DataParse.listStringToRealmList(settingAdvance.getKeywords()));
-        SettingAdvanceEntity.setNtaKeywords(DataParse.listStringToRealmList(settingAdvance.getNtaKeywords()));
+        settingAdvanceEntity.setNtaAddress(settingAdvance.getNtaAddress());
+        settingAdvanceEntity.setKeywords(DataParse.listStringToRealmList(settingAdvance.getKeywords()));
+        settingAdvanceEntity.setNtaKeywords(DataParse.listStringToRealmList(settingAdvance.getNtaKeywords()));
         return settingAdvanceEntity;
     }
 

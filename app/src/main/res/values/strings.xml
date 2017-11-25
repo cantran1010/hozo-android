@@ -713,4 +713,5 @@
     <string name="order">Chiều hiển thị</string>
     <string name="reduction">Chiều giảm</string>
     <string name="augment">Chiều tăng</string>
+    <string name="setting_space">, cách</string>
 </resources>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vn.tonish.hozo.view.ExpandableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout_detail_price"
+    android:id="@+id/layout_detail_orderBy"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="20dp"
-    app:el_expanded="true">
+    app:el_expanded="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,12 +15,11 @@
         <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:gravity="center_vertical"
             android:minHeight="@dimen/edt_min_height"
             android:padding="5dp"
             android:text="@string/order_by"
-            android:textColor="@color/color_count_word"
+            android:textColor="@color/hozo_bg"
             android:textSize="@dimen/tv_size_xxtiny" />
 
 
@@ -91,12 +90,11 @@
         <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:gravity="center_vertical"
             android:minHeight="@dimen/edt_min_height"
             android:padding="5dp"
             android:text="@string/order"
-            android:textColor="@color/color_count_word"
+            android:textColor="@color/hozo_bg"
             android:textSize="@dimen/tv_size_xxtiny" />
 
         <RadioGroup
