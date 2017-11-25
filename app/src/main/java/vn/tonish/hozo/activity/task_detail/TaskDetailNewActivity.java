@@ -29,7 +29,7 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.BlockTaskActivity;
-import vn.tonish.hozo.activity.CreateTaskActivity;
+import vn.tonish.hozo.activity.task.CreateTaskActivity;
 import vn.tonish.hozo.adapter.TaskDetailAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;

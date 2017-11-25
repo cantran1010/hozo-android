@@ -1,4 +1,4 @@
-package vn.tonish.hozo.activity;
+package vn.tonish.hozo.activity.task;
 
 import android.Manifest;
 import android.content.Intent;
@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.PlaceActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.dialog.AlertDialogOkFullScreen;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;

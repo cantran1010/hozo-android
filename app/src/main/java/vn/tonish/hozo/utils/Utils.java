@@ -69,7 +69,7 @@ public class Utils {
 
     public static void displayImage(Context context, ImageView img, String url) {
 
-        if (url == null) return;
+//        if (url == null) return;
         if (context == null) return;
         if (context instanceof Activity) {
             if (((Activity) context).isFinishing()) {
@@ -85,7 +85,7 @@ public class Utils {
 
     public static void displayImageCenterCrop(Context context, ImageView img, String url) {
 
-        if (url == null) return;
+//        if (url == null) return;
         if (context == null) return;
         if (context instanceof Activity) {
             if (((Activity) context).isFinishing()) {
@@ -103,7 +103,7 @@ public class Utils {
 
     public static void displayImageAvatar(Context context, ImageView img, String url) {
 
-        if (url == null) return;
+//        if (url == null) return;
         if (context == null) return;
         if (context instanceof Activity) {
             if (((Activity) context).isFinishing()) {
@@ -360,7 +360,7 @@ public class Utils {
         String matcher = "";
         String matcherColor = "#00A2E5";
 
-        if (notification.getTaskName().length() > MAX_LENGTH_TASK_NAME)
+        if (notification.getTaskName() != null && notification.getTaskName().length() > MAX_LENGTH_TASK_NAME)
             notification.setTaskName(notification.getTaskName().substring(0, MAX_LENGTH_TASK_NAME) + "...");
 
         switch (notification.getEvent()) {
@@ -473,49 +473,41 @@ public class Utils {
                 matcher = context.getString(R.string.notification_await_approval_matcher);
                 matcherColor = context.getString(R.string.notification_await_approval_color);
                 break;
+            case Constants.PUSH_TYPE_MONEY_RECEIVED:
+                content = context.getString(R.string.nofification_money_received) + " " + notification.getContent();
+                matcher = context.getString(R.string.nofification_money_received_matcher);
+                matcherColor = context.getString(R.string.notification_await_approval_color);
+                break;
         }
 
         tvContent.setText(content);
 
         SpannableStringBuilder spannable = new SpannableStringBuilder(tvContent.getText().toString());
 
-//        Pattern patternId = Pattern.compile(matcher);
-//        Matcher matcherId = patternId.matcher(tvContent.getText().toString());
-
         int fromMatcher = tvContent.getText().toString().indexOf(matcher);
         int toMatcher = fromMatcher + matcher.length();
         if (fromMatcher >= 0) {
-//            while (matcherId.find()) {
             spannable.setSpan(new android.text.style.StyleSpan(Typeface.NORMAL), fromMatcher, toMatcher, 0);
             spannable.setSpan(new ForegroundColorSpan(Color.parseColor(matcherColor)), fromMatcher, toMatcher, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//            }
         }
 
-//        String authorName = replacePattern(notification.getFullName());
-//        Pattern patternIdName = Pattern.compile(authorName);
-//        Matcher matcherIdName = patternIdName.matcher(tvContent.getText().toString());
+        if (notification.getFullName() != null) {
+            int fromAuthorName = tvContent.getText().toString().indexOf(notification.getFullName());
+            int toAuthorName = fromAuthorName + notification.getFullName().length();
 
-        int fromAuthorName = tvContent.getText().toString().indexOf(notification.getFullName());
-        int toAuthorName = fromAuthorName + notification.getFullName().length();
-
-        if (fromAuthorName >= 0) {
-//            while (matcherIdName.find()) {
-            spannable.setSpan(new android.text.style.StyleSpan(Typeface.NORMAL), fromAuthorName, toAuthorName, 0);
-            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), fromAuthorName, toAuthorName, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//            }
+            if (fromAuthorName >= 0) {
+                spannable.setSpan(new android.text.style.StyleSpan(Typeface.NORMAL), fromAuthorName, toAuthorName, 0);
+                spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), fromAuthorName, toAuthorName, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
         }
 
-//        String matcherTaskName = replacePattern(notification.getTaskName());
-//        Pattern patternIdTaskName = Pattern.compile(matcherTaskName);
-//        Matcher matcherIdTaskName = patternIdTaskName.matcher(tvContent.getText().toString());
-
-        int fromTaskName = tvContent.getText().toString().indexOf(notification.getTaskName());
-        int toTaskName = fromTaskName + notification.getTaskName().length();
-        if (fromTaskName >= 0) {
-//        while (matcherIdTaskName.find()) {
-            spannable.setSpan(new android.text.style.StyleSpan(Typeface.NORMAL), fromTaskName, toTaskName, 0);
-            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), fromTaskName, toTaskName, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        }
+        if (notification.getTaskName() != null) {
+            int fromTaskName = tvContent.getText().toString().indexOf(notification.getTaskName());
+            int toTaskName = fromTaskName + notification.getTaskName().length();
+            if (fromTaskName >= 0) {
+                spannable.setSpan(new android.text.style.StyleSpan(Typeface.NORMAL), fromTaskName, toTaskName, 0);
+                spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), fromTaskName, toTaskName, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
         }
 
         tvContent.setText(spannable);
@@ -636,9 +628,9 @@ public class Utils {
 
     public static String converGenderVn(Context context, String gender) {
         String sex;
-        if (gender!=null&&gender.equals(context.getString(R.string.gender_male)))
+        if (gender != null && gender.equals(context.getString(R.string.gender_male)))
             sex = context.getString(R.string.gender_vn_male);
-        else if (gender!=null&&gender.equals(context.getString(R.string.gender_female))) {
+        else if (gender != null && gender.equals(context.getString(R.string.gender_female))) {
             sex = context.getString(R.string.gender_vn_mafele);
         } else {
             sex = context.getString(R.string.gender_vn_any);
@@ -818,6 +810,15 @@ public class Utils {
             return context.getString(R.string.transaction_promotion);
         else if (transactionResponse.getProvider().equals("1pay"))
             return context.getString(R.string.transaction_1pay);
+        else if (transactionResponse.getMethod().equals("bid_deposit")) {
+            if (transactionResponse.getType().equals("in"))
+                return context.getString(R.string.transaction_bid_deposit_in);
+            else
+                return context.getString(R.string.transaction_bid_deposit_out);
+        } else if (transactionResponse.getMethod().equals("reg_awarded"))
+            return context.getString(R.string.transaction_reg_awarded);
+        else if (transactionResponse.getMethod().equals("sys_donated"))
+            return context.getString(R.string.transaction_sys_donated);
         else return "Waitting";
     }
 
