@@ -1,4 +1,4 @@
-package vn.tonish.hozo.activity;
+package vn.tonish.hozo.activity.task;
 
 import android.content.Context;
 import android.text.Editable;
@@ -22,6 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.adapter.CustomArrayAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;

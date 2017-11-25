@@ -708,4 +708,11 @@
     <string name="create_task_ok">Đồng ý</string>
     <string name="create_task_title">Ứng tuyển thành công</string>
     <string name="poster">Người đăng</string>
+    <string name="transaction_bid_deposit_in">Hệ thống hoàn trả tiền đặt cọc</string>
+    <string name="transaction_bid_deposit_out">Hệ thống tạm dữ tiền đặt cọc</string>
+    <string name="transaction_reg_awarded">Hệ thống tặng tiền đăng kí tài khoản thành công</string>
+    <string name="transaction_sys_donated">Hệ thống tặng tiền cho bạn</string>
+    <string name="no_history_payment">Chưa có giao dịch nào</string>
+    <string name="nofification_money_received">Hệ thống đã tặng tiền cho bạn nhân dịp</string>
+    <string name="nofification_money_received_matcher">tặng tiền</string>
 </resources>

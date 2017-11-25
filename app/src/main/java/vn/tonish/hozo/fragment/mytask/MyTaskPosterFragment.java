@@ -18,7 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.CreateTaskActivity;
+import vn.tonish.hozo.activity.task.CreateTaskActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.MyTaskAdapter;
 import vn.tonish.hozo.adapter.ScaleInAnimationAdapter;

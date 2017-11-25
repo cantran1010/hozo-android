@@ -31,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.CommentsAnswerActivity;
+import vn.tonish.hozo.activity.comment.CommentsAnswerActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.PreviewImageActivity;
 import vn.tonish.hozo.activity.task_detail.TaskDetailNewActivity;

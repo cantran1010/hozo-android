@@ -16,11 +16,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -50,8 +48,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.CropImageActivity;
 import vn.tonish.hozo.activity.image.PreviewImageActivity;
 import vn.tonish.hozo.adapter.ImageAdapter;
@@ -72,9 +70,11 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.CheckBoxHozo;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.MyGridView;
+import vn.tonish.hozo.view.RadioButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.img_avatar;
@@ -112,15 +112,15 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private GoogleApiClient googleApiClient;
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
     private AutoCompleteTextView autocompleteView;
-    private RadioButton rbMale, rbFemale, rbAny;
-    private CheckBox cbHideGender, cbHideBirth;
+    private RadioButtonHozo rbMale, rbFemale, rbAny;
+    private CheckBoxHozo cbHideGender, cbHideBirth;
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private final ArrayList<Image> images = new ArrayList<>();
     private RelativeLayout skillsLayout, languagesLayout;
     private UserEntity userEntity;
     private int imageAttachCount = 0;
-    private RadioButton rbPoster, rbWorker, rbBoth;
+    private RadioButtonHozo rbPoster, rbWorker, rbBoth;
     private ImageView imgEditBackground, imgBackground;
 
     @Override
@@ -153,12 +153,12 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         edtDes = (EdittextHozo) findViewById(R.id.edt_description);
         autocompleteView = (AutoCompleteTextView) findViewById(R.id.edt_address);
 
-        rbMale = (RadioButton) findViewById(R.id.rd_male);
-        rbFemale = (RadioButton) findViewById(R.id.rd_female);
-        rbAny = (RadioButton) findViewById(R.id.rd_any);
+        rbMale = (RadioButtonHozo) findViewById(R.id.rd_male);
+        rbFemale = (RadioButtonHozo) findViewById(R.id.rd_female);
+        rbAny = (RadioButtonHozo) findViewById(R.id.rd_any);
 
-        cbHideGender = (CheckBox) findViewById(R.id.cb_hide_gender);
-        cbHideBirth = (CheckBox) findViewById(R.id.cb_hide_birth);
+        cbHideGender = (CheckBoxHozo) findViewById(R.id.cb_hide_gender);
+        cbHideBirth = (CheckBoxHozo) findViewById(R.id.cb_hide_birth);
 
         grImage = (MyGridView) findViewById(R.id.gr_image);
 
@@ -170,9 +170,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         edtExperience = (EdittextHozo) findViewById(R.id.edt_experience);
 
-        rbPoster = (RadioButton) findViewById(R.id.rd_poster);
-        rbWorker = (RadioButton) findViewById(R.id.rd_worker);
-        rbBoth = (RadioButton) findViewById(R.id.rd_both);
+        rbPoster = (RadioButtonHozo) findViewById(R.id.rd_poster);
+        rbWorker = (RadioButtonHozo) findViewById(R.id.rd_worker);
+        rbBoth = (RadioButtonHozo) findViewById(R.id.rd_both);
 
         imgEditBackground = (ImageView) findViewById(R.id.img_edit_background);
         imgEditBackground.setOnClickListener(this);

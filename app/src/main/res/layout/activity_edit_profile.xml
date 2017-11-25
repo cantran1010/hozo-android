@@ -158,7 +158,7 @@
                             android:textColor="@color/tv_gray_new"
                             android:textStyle="bold" />
 
-                        <android.support.v7.widget.AppCompatCheckBox
+                        <vn.tonish.hozo.view.CheckBoxHozo
                             android:id="@+id/cb_hide_gender"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -181,7 +181,7 @@
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal">
 
-                        <RadioButton
+                        <vn.tonish.hozo.view.RadioButtonHozo
                             android:id="@+id/rd_male"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -193,7 +193,7 @@
                             android:textColor="@color/tv_gray_new"
                             tools:ignore="RtlSymmetry" />
 
-                        <RadioButton
+                        <vn.tonish.hozo.view.RadioButtonHozo
                             android:id="@+id/rd_female"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -205,7 +205,7 @@
                             android:textColor="@color/tv_gray_new"
                             tools:ignore="RtlSymmetry" />
 
-                        <RadioButton
+                        <vn.tonish.hozo.view.RadioButtonHozo
                             android:id="@+id/rd_any"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -238,7 +238,7 @@
                             android:textColor="@color/tv_gray_new"
                             android:textStyle="bold" />
 
-                        <android.support.v7.widget.AppCompatCheckBox
+                        <vn.tonish.hozo.view.CheckBoxHozo
                             android:id="@+id/cb_hide_birth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -480,7 +480,7 @@
                         android:layout_marginBottom="20dp"
                         android:orientation="vertical">
 
-                        <RadioButton
+                        <vn.tonish.hozo.view.RadioButtonHozo
                             android:id="@+id/rd_poster"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -492,7 +492,7 @@
                             android:textColor="@color/tv_gray_new"
                             tools:ignore="RtlSymmetry" />
 
-                        <RadioButton
+                        <vn.tonish.hozo.view.RadioButtonHozo
                             android:id="@+id/rd_worker"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -504,7 +504,7 @@
                             android:textColor="@color/tv_gray_new"
                             tools:ignore="RtlSymmetry" />
 
-                        <RadioButton
+                        <vn.tonish.hozo.view.RadioButtonHozo
                             android:id="@+id/rd_both"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

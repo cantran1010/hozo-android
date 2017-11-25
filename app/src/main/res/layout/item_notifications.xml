@@ -22,7 +22,9 @@
         <vn.tonish.hozo.view.CircleImageView
             android:id="@+id/img_avatar"
             android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_height="48dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar_default" />
 
         <LinearLayout
             android:layout_width="match_parent"

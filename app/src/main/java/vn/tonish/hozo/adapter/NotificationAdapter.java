@@ -110,12 +110,15 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
                     notificationHolder.tvContent.setText(spannable);
                     notificationHolder.tvContent.setContentDescription(spannable);
 
-
                     break;
                 case Constants.PUSH_TYPE_NEW_TASK_ALERT:
                     Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());
                     String strContent = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert) + " " + notification.getTaskName() + " " + context.getString(R.string.push_alert);
                     notificationHolder.tvContent.setText(strContent);
+                    break;
+                case Constants.PUSH_TYPE_MONEY_RECEIVED:
+                    notificationHolder.imgAvata.setImageResource(R.mipmap.app_icon);
+                    Utils.setContentMessage(context, notificationHolder.tvContent, notification);
                     break;
                 default:
                     Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());

@@ -3,9 +3,9 @@
     android:shape="rectangle">
     <corners
         android:bottomLeftRadius="0dp"
-        android:bottomRightRadius="50dp"
+        android:bottomRightRadius="100dp"
         android:topLeftRadius="0dp"
-        android:topRightRadius="50dp" />
+        android:topRightRadius="100dp" />
     <solid android:color="@color/hozo_bg" />
     <size
         android:width="156dp"

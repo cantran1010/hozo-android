@@ -40,7 +40,7 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
     private TextViewHozo tvMore;
     private ButtonHozo btnPayment;
     private RecyclerView rcvPayment;
-    private TextViewHozo tvMyWallet, tvCountHistory;
+    private TextViewHozo tvMyWallet, tvCountHistory, tvNoHistory;
     private PaymentAdapter paymentAdapter;
     private ArrayList<TransactionResponse> payments = new ArrayList<>();
     private String since;
@@ -65,6 +65,7 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
         tvCountHistory = (TextViewHozo) findViewById(R.id.tv_count_history);
 
         rcvPayment = (RecyclerView) findViewById(R.id.rcv_payment_history);
+        tvNoHistory = (TextViewHozo) findViewById(R.id.tv_no_history);
     }
 
     @Override
@@ -89,7 +90,7 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
     private void getTransactions() {
         final Map<String, String> params = new HashMap<>();
 
-        params.put("limit", "20");
+        params.put("limit", "10");
         if (since != null) params.put("since", since);
 
         ApiClient.getApiService().getTransactionsHistory(UserManager.getUserToken(), params).enqueue(new Callback<List<TransactionResponse>>() {
@@ -102,6 +103,17 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
                     payments.addAll(response.body());
                     paymentAdapter.notifyDataSetChanged();
                     paymentAdapter.stopLoadMore();
+
+                    if (payments.size() == 0)
+                        tvNoHistory.setVisibility(View.VISIBLE);
+                    else
+                        tvNoHistory.setVisibility(View.GONE);
+
+                    if (payments.size() < 10)
+                        tvMore.setVisibility(View.GONE);
+                    else
+                        tvMore.setVisibility(View.VISIBLE);
+
                 } else {
                     DialogUtils.showRetryDialog(MyWalletActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override

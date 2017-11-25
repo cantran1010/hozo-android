@@ -26,6 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.MainActivity;
+import vn.tonish.hozo.activity.payment.MyWalletActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.NotificationAdapter;
 import vn.tonish.hozo.common.Constants;
@@ -154,6 +155,8 @@ public class SystemNotificationFragment extends BaseFragment {
                         intent.putExtra(Constants.TAB_EXTRA, 0);
 
                     startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+                } else if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_MONEY_RECEIVED)) {
+                    startActivity(MyWalletActivity.class, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     Intent intent = new Intent(getActivity(), DetailTaskActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
