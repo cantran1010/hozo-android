@@ -38,6 +38,7 @@ public class Constants {
     public static final String ORDER_BY_INTTEREST = "interest";
     public static final String ORDER_ASC = "asc";
     public static final String ORDER_DESC = "desc";
+    public static final String POSTER_ID_EXTRA = "poster_extra";
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

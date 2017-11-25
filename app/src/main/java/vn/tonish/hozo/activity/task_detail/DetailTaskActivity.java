@@ -529,6 +529,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         rcvComment.setLayoutManager(lvManager);
         commentsAdapter.setCommentType(layoutInputComment.getVisibility());
         rcvComment.setAdapter(commentsAdapter);
+        commentsAdapter.setPosterId(taskResponse.getPoster().getId());
 
         commentsAdapter.setAnswerListener(new CommentTaskAdapter.AnswerListener() {
             @Override
@@ -540,6 +541,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 //                intentAnswer.putExtra(Constants.COMMENT_VISIBILITY, View.VISIBLE);
                 intentAnswer.putExtra(Constants.COMMENT_EXTRA, mComments.get(position));
                 intentAnswer.putExtra(Constants.COMMENT_INPUT_EXTRA, layoutInputComment.getVisibility());
+                intentAnswer.putExtra(Constants.POSTER_ID_EXTRA, taskResponse.getPoster().getId());
                 startActivityForResult(intentAnswer, Constants.COMMENT_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
@@ -1809,6 +1811,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             case R.id.tv_see_more_comment:
                 Intent intentCommentAll = new Intent(DetailTaskActivity.this, CommentAllActivity.class);
                 intentCommentAll.putExtra(Constants.TASK_ID_EXTRA, taskId);
+                intentCommentAll.putExtra(Constants.POSTER_ID_EXTRA, taskResponse.getPoster().getId());
                 intentCommentAll.putExtra(Constants.COMMENT_VISIBILITY, layoutInputComment.getVisibility());
                 startActivity(intentCommentAll, TransitionScreen.RIGHT_TO_LEFT);
                 break;
