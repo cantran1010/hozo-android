@@ -106,6 +106,7 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
     }
 
     private void initList() {
+        isLoadingMoreFromServer = true;
         notificationAdapter = new NotificationAdapter(getActivity(), notifications);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         lvList.setLayoutManager(linearLayoutManager);

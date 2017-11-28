@@ -46,7 +46,8 @@
                 android:text="@string/poster"
                 android:textColor="@color/tv_gray_new"
                 android:textSize="10sp"
-                android:layout_marginStart="5dp" />
+                android:layout_marginStart="5dp"
+                tools:ignore="SmallSp" />
 
         </LinearLayout>
 

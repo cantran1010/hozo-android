@@ -17,9 +17,58 @@ public class TransactionResponse {
     private String status;
     @SerializedName("created_at")
     private String createdAt;
+    @SerializedName("task_id")
+    private int taskId;
+    @SerializedName("task_title")
+    private String taskName;
+    @SerializedName("user_id")
+    private int userId;
+    @SerializedName("user_full_name")
+    private String fullName;
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public int getId() {
         return id;
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public void setId(int id) {
@@ -102,7 +151,11 @@ public class TransactionResponse {
                 ", promotion='" + promotion + '\'' +
                 ", status='" + status + '\'' +
                 ", createdAt='" + createdAt + '\'' +
+                ", taskId=" + taskId +
+                ", taskName='" + taskName + '\'' +
+                ", userId=" + userId +
+                ", fullName='" + fullName + '\'' +
+                ", message='" + message + '\'' +
                 '}';
     }
-
 }

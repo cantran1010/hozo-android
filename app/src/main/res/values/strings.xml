@@ -9,12 +9,9 @@
     <!--profile Screen-->
     <string name="tv_guide_setting">Bạn có thể cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
     <string name="btn_save">LƯU LẠI</string>
-    <string name="tv_type_of_work">Loại công việc</string>
-    <string name="tv_fee">Chi phí (VNĐ)</string>
 
     <!--advance setting screen -->
     <string name="advance_setting_title">Bộ lọc nâng cao</string>
-    <string name="tv_location">Vị trí mốc</string>
     <string name="other_profile">Cá nhân</string>
     <string name="other_condition">Điều khoản sử dụng</string>
     <string name="other_nad">Chính sách bảo mật</string>
@@ -189,21 +186,10 @@
     <string name="cancel_task_ok">CÓ</string>
     <string name="cancel_task_cancel">KHÔNG</string>
     <string name="task_type">Loại công việc</string>
-    <string name="hint_min">Chi phí thấp nhất </string>
-    <string name="edt_max">Chi phí cao nhất</string>
-    <string name="erro_emply_price">Chi phí không được thấp hơn 10.000 VNĐ</string>
-    <string name="erro_price">Lỗi! Giá trị xung đột, đề nghị nhập lại. </string>
     <string name="gender_male">male</string>
     <string name="gender_female">female</string>
     <string name="gender_male_vn">Nam</string>
     <string name="gender_female_vn">Nữ</string>
-    <string name="tv_radius">Bán kính</string>
-    <string name="setting_radius">Chọn khoảng cách</string>
-
-    <string name="radius_5km">5 km</string>
-    <string name="radius_15km">15 km</string>
-    <string name="radius_25km">25 km</string>
-    <string name="radius_50km">50 km</string>
 
 
     <string name="empty_content_comment_error">Vui lòng nhập nội dung bình luận</string>
@@ -294,7 +280,6 @@
     <string name="post_task_time_start_error">Vui lòng chọn thời gian bắt đầu \n sớm nhất có thể sau 30 phút</string>
     <string name="post_task_date_picker_title">Chọn ngày làm việc</string>
     <string name="post_task_time_picker_title">Chọn thời gian bắt đầu</string>
-    <string name="radius_everywhere">mọi nơi</string>
     <string name="taks_type_empty">bạn chưa chọn loại công việc</string>
     <string name="comment_setting_visible">visible</string>
     <string name="comment_setting_invisible">invisible</string>
@@ -304,7 +289,6 @@
     <string name="contacting_api_autocomplete_error">Lỗi kết nối tới dịch vụ của google</string>
     <string name="post_a_task_map_get_location_error">Không thể lấy vị trí của bạn,vui lòng kiểm tra lại kết nối và thử lại!</string>
     <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
-    <string name="km">km</string>
     <string name="all_space_type"><b> </b></string>
     <string name="count_in_detail">(%1$d)</string>
     <string name="my_task_price">%s đ</string>
@@ -328,8 +312,6 @@
     <string name="post_task_map_get_location_error_next">Không thể lấy vị trí của bạn! Vui lòng thiết lập vị trí làm việc!</string>
     <string name="not_find_task">Không tìm thấy công việc nào</string>
     <string name="offer_error_time">Đề nghị làm việc của bạn không được chấp nhận vì bạn đã ứng tuyển một công việc khác vào thời gian này!</string>
-    <string name="less_than">dưới</string>
-    <string name="more_than">Trên</string>
     <string name="code_otp_is_invalid">Lỗi bất ngờ!!!.</string>
     <string name="hot_line">02473004886</string>
     <string name="block_title">Tài khoản của bạn đã bị khóa vì</string>
@@ -551,7 +533,7 @@
     <string name="promotion_error_used">Mã đã được sử dụng</string>
     <string name="code_coupon_error">Mã giới Thiệu không hợp lệ!</string>
     <string name="code_coupon_empty">Chưa nhập mã giới thiệu!</string>
-    <string name="coupon_checkbox">Mã giới thiệu</string>
+    <string name="coupon_checkbox">Số điện thoại giới thiệu</string>
     <string name="invalid_category">Danh mục không hợp lệ</string>
     <string name="invalid_title">Tiêu đề không hợp lệ</string>
     <string name="invalid_description">Mô tả không hợp lệ</string>
@@ -668,7 +650,7 @@
     <string name="atm">Thẻ ATM nội địa</string>
     <string name="visa">Thẻ Visa / Master Card</string>
     <string name="recharge_success">Nạp tiền thành công!</string>
-    <string name="transaction_1pay">Nạp tiền vào tài khoản HoZo</string>
+    <string name="transaction_1pay">Nạp tiền vào tài khoản Hozo</string>
     <string name="group">Nhóm : </string>
     <string name="count_assigner" tools:ignore="PluralsCandidate">và %1$d người khác</string>
     <string name="recharge">Nạp tiền</string>
@@ -680,7 +662,7 @@
     <string name="hint_full_name">Họ tên</string>
     <string name="err_msg_name">Chưa nhập họ tên.</string>
     <string name="btn_continue">Tiếp tục</string>
-    <string name="hint_coupon">Nhập mã giới thiệu</string>
+    <string name="hint_coupon">Nhập số điện thoại giới thiệu</string>
     <string name="empty_adress">Chưa nhập địa chỉ</string>
     <string name="referrer_phone_yourself">Không nhập số điện thoại của bạn</string>
     <string name="invalid_referrer_phone">Số điện thoại giới thiệu không hợp lệ</string>
@@ -701,7 +683,6 @@
     <string name="slash">/</string>
     <string name="poster_ratting">Duyệt công việc</string>
     <string name="worker_ratting">Yêu cầu duyệt</string>
-    <string name="worker_rate_poster">Đánh giá</string>
     <string name="detail_view_contact_hozo">Liên lạc Hozo</string>
     <string name="worker_ratting_done">Đã gửi yêu cầu duyệt</string>
     <string name="poster_ratting_complete">Duyệt việc hoàn thành</string>
@@ -717,11 +698,14 @@
     <string name="create_task_ok">Đồng ý</string>
     <string name="create_task_title">Ứng tuyển thành công</string>
     <string name="poster">Người đăng</string>
-    <string name="transaction_bid_deposit_in">Hệ thống hoàn trả tiền đặt cọc</string>
-    <string name="transaction_bid_deposit_out">Hệ thống tạm dữ tiền đặt cọc</string>
+    <string name="transaction_bid_deposit_in">Hệ thống hoàn trả tiền đặt cọc việc \"%1$s\"</string>
+    <string name="transaction_bid_deposit_out">Hệ thống đã thu tiền đặt cọc việc \"%1$s\"</string>
     <string name="transaction_reg_awarded">Hệ thống tặng tiền đăng kí tài khoản thành công</string>
-    <string name="transaction_sys_donated">Hệ thống tặng tiền cho bạn</string>
+    <string name="transaction_sys_donated">Hệ thống tặng tiền cho bạn nhân dịp \"%1$s\"</string>
     <string name="no_history_payment">Chưa có giao dịch nào</string>
     <string name="nofification_money_received">Hệ thống đã tặng tiền cho bạn nhân dịp</string>
     <string name="nofification_money_received_matcher">tặng tiền</string>
+    <string name="transaction_ref_bonus">Tặng tiền giới thiệu thành viên</string>
+    <string name="transaction_promo_posting">Tặng tiền giới thiệu việc đăng</string>
+    <string name="bid_not_enough_money">Để có thể ứng tuyển việc này ví Hozo của bạn cần có số dư ít nhất là %1$s đ. Bạn có muốn thiết lập ví Hozo?</string>
 </resources>
