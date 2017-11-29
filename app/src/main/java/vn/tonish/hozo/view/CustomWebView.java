@@ -63,6 +63,7 @@ public class CustomWebView extends WebView {
     @SuppressLint("SetJavaScriptEnabled")
     private void initView() {
         this.getSettings().setJavaScriptEnabled(true);
+        this.getSettings().setDefaultTextEncodingName("utf-8");
         this.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         this.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         this.getSettings().setAppCacheEnabled(true);

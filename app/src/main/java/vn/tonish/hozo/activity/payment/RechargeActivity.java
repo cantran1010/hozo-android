@@ -157,9 +157,9 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 LogUtils.d(TAG, "doAtm code : " + response.code());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    Intent intent = new Intent(RechargeActivity.this, DepositActivity.class);
+                    Intent intent = new Intent(RechargeActivity.this, BankRechargeActivity.class);
                     intent.putExtra(Constants.URL_EXTRA, response.body().getPaymentUrl());
-                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                    startActivityForResult(intent, Constants.PROMOTION_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
                     APIError error = ErrorUtils.parseError(response);
                     DialogUtils.showOkDialog(RechargeActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
@@ -229,9 +229,9 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 LogUtils.d(TAG, "doVisa code : " + response.code());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    Intent intent = new Intent(RechargeActivity.this, DepositActivity.class);
+                    Intent intent = new Intent(RechargeActivity.this, BankRechargeActivity.class);
                     intent.putExtra(Constants.URL_EXTRA, response.body().getPaymentUrl());
-                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                    startActivityForResult(intent, Constants.PROMOTION_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
                     APIError error = ErrorUtils.parseError(response);
                     DialogUtils.showOkDialog(RechargeActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {

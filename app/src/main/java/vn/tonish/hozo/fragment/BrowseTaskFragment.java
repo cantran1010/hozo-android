@@ -55,7 +55,6 @@ import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
-import static vn.tonish.hozo.R.id.edt_search;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 import static vn.tonish.hozo.utils.Utils.showSearch;
 
@@ -96,7 +95,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         imgClear = (ImageView) findViewById(R.id.img_clear);
         imgBack = (ImageView) findViewById(R.id.img_back);
         layoutHeader = (RelativeLayout) findViewById(R.id.browse_task_header);
-        edtSearch = (EdittextHozo) findViewById(edt_search);
+        edtSearch = (EdittextHozo) findViewById(R.id.edt_search);
         layoutSearch = (RelativeLayout) findViewById(R.id.fr_search);
         rcvTask = (RecyclerView) findViewById(R.id.lv_list);
         rcvTask.setHasFixedSize(true);
@@ -289,6 +288,8 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 goToMapScren();
                 break;
             case R.id.img_search:
+                edtSearch.requestFocus();
+                Utils.showSoftKeyboard(getActivity(),edtSearch);
                 showSearch(getActivity(), layoutSearch, true);
                 showSearch(getActivity(), layoutHeader, false);
 

@@ -28,6 +28,7 @@ import vn.tonish.hozo.fragment.BaseFragment;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.TypefaceContainer;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -50,7 +51,6 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     private int position = 0;
     private EdittextHozo edtSearch;
     private RelativeLayout layoutHeader, layoutSearch;
-
 
     @Override
     protected int getLayout() {
@@ -103,8 +103,6 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                     tvTabPoster.setTypeface(TypefaceContainer.TYPEFACE_REGULAR);
                     tvTabTasker.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
                     role = Constants.ROLE_POSTER;
-
-
                 } else if (tab.getPosition() == 1) {
                     role = Constants.ROLE_TASKER;
                     tvTabPoster.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
@@ -178,7 +176,6 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         else myTaskFragmentAdapter.search(mQuery, 1);
     }
 
-
     @Override
     protected void resumeData() {
         LogUtils.d(TAG, "my role 1: " + role + "position" + position);
@@ -210,7 +207,6 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         }
     };
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -218,9 +214,10 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                 actionFilter();
                 break;
             case R.id.img_search:
+                edtSearch.requestFocus();
+                Utils.showSoftKeyboard(getActivity(),edtSearch);
                 showSearch(getContext(), layoutSearch, true);
                 showSearch(getContext(), layoutHeader, false);
-
                 break;
             case R.id.img_back:
                 showSearch(getContext(), layoutHeader, true);
@@ -236,7 +233,6 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         }
 
     }
-
 
     private void actionFilter() {
         Intent intent = new Intent(getContext(), FilterMyTaskActivity.class);

@@ -6,16 +6,17 @@ import android.widget.ImageView;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.dialog.AlertDialogOk;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.view.CustomWebView;
 
 /**
  * Created by LongBui on 11/16/17.
  */
 
-public class DepositActivity extends BaseActivity implements View.OnClickListener {
+public class BankRechargeActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final String TAG = DepositActivity.class.getSimpleName();
+    private static final String TAG = BankRechargeActivity.class.getSimpleName();
     private CustomWebView customWebView;
     private ImageView imgBack;
 
@@ -31,8 +32,13 @@ public class DepositActivity extends BaseActivity implements View.OnClickListene
         customWebView.setWebviewListener(new CustomWebView.WebviewListener() {
             @Override
             public void onSuccess() {
-                Utils.showLongToast(DepositActivity.this, getString(R.string.recharge_success), false, false);
-                finish();
+                DialogUtils.showOkDialog(BankRechargeActivity.this, getString(R.string.app_name), getString(R.string.recharge_success), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        setResult(Constants.PROMOTION_RESULT_CODE);
+                        finish();
+                    }
+                });
             }
 
             @Override

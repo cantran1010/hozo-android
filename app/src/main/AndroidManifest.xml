@@ -75,7 +75,7 @@
             android:name=".activity.ContactActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.payment.DepositActivity"
+            android:name=".activity.payment.BankRechargeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AlertNewTaskActivity"
