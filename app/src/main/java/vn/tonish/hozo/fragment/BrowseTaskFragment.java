@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -53,6 +52,7 @@ import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.SpeedyLinearLayoutManager;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
@@ -76,7 +76,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private boolean isLoadingMoreFromServer = true;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private Call<List<TaskResponse>> call;
-    private LinearLayoutManager linearLayoutManager;
+    private SpeedyLinearLayoutManager linearLayoutManager;
     private TextViewHozo tvCountNewTask;
     private int currentPage = 1;
     private String orderBy = "";
@@ -145,16 +145,19 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         setUpRecyclerView();
     }
 
-
     private void setUpRecyclerView() {
         taskAdapter = new TaskAdapter(getActivity(), taskList);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager = new SpeedyLinearLayoutManager(getActivity());
         rcvTask.setLayoutManager(linearLayoutManager);
         rcvTask.setAdapter(taskAdapter);
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 if (isLoadingMoreFromServer) getTaskResponse(query);
+                else {
+                    taskList.addAll(taskList);
+                    taskAdapter.notifyDataSetChanged();
+                }
             }
         };
 
@@ -289,7 +292,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.img_search:
                 edtSearch.requestFocus();
-                Utils.showSoftKeyboard(getActivity(),edtSearch);
+                Utils.showSoftKeyboard(getActivity(), edtSearch);
                 showSearch(getActivity(), layoutSearch, true);
                 showSearch(getActivity(), layoutHeader, false);
 
