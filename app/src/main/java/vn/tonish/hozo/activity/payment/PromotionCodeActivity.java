@@ -24,7 +24,6 @@ import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.PromotionResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
-import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
 
@@ -95,54 +94,61 @@ public class PromotionCodeActivity extends BaseActivity implements View.OnClickL
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doPromotionCode success");
-                    Utils.showLongToast(PromotionCodeActivity.this, getString(R.string.promotion_success), false, false);
+                    DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.app_name), getString(R.string.promotion_success), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            setResult(Constants.PROMOTION_RESULT_CODE);
+                            finish();
+                        }
+                    });
+
                 } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.e(TAG, "doPromotionCode errorBody" + error.toString());
                     if (error.status().equals(Constants.PROMOTION_ERROR_EMPTY)) {
-                        DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.error), getString(R.string.promotion_error_empty), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.app_name), getString(R.string.promotion_error_empty), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 
                             }
                         });
                     } else if (error.status().equals(Constants.PROMOTION_ERROR_NO)) {
-                        DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.error), getString(R.string.promotion_error_no), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.app_name), getString(R.string.promotion_error_no), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 
                             }
                         });
                     } else if (error.status().equals(Constants.PROMOTION_ERROR_NOT_STARTED)) {
-                        DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.error), getString(R.string.promotion_error_not_started), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.app_name), getString(R.string.promotion_error_not_started), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 
                             }
                         });
                     } else if (error.status().equals(Constants.PROMOTION_ERROR_EXPRIED)) {
-                        DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.error), getString(R.string.promotion_error_expried), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.app_name), getString(R.string.promotion_error_expried), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 
                             }
                         });
                     } else if (error.status().equals(Constants.PROMOTION_ERROR_LIMITED)) {
-                        DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.error), getString(R.string.promotion_error_limmited), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.app_name), getString(R.string.promotion_error_limmited), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 
                             }
                         });
                     } else if (error.status().equals(Constants.PROMOTION_ERROR_USED)) {
-                        DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.error), getString(R.string.promotion_error_used), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.app_name), getString(R.string.promotion_error_used), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 
                             }
                         });
                     } else {
-                        DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.error), getString(R.string.promotion_error_no), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialog(PromotionCodeActivity.this, getString(R.string.app_name), getString(R.string.promotion_error_no), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 

@@ -174,11 +174,7 @@
     </style>
 
     <!-- style advance setting -->
-    <style name="tv_advance_setting">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:padding">16dp</item>
-    </style><!-- style verify_style-->
+    <!-- style verify_style-->
 
     // style my swicth
 

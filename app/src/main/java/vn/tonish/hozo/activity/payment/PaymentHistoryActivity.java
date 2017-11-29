@@ -97,12 +97,12 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     payments.addAll(response.body());
-                    paymentAdapter.notifyDataSetChanged();
 
                     if (response.body().size() < LIMIT) {
                         isLoadingMoreFromServer = false;
                         paymentAdapter.stopLoadMore();
                     }
+                    paymentAdapter.notifyDataSetChanged();
 
                     since = response.body().get(response.body().size() - 1).getCreatedAt();
 

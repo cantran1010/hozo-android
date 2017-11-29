@@ -573,9 +573,9 @@ public class Utils {
             case Constants.PUSH_TYPE_TASK_REMINDER:
                 content = context.getString(R.string.work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_reminder);
                 break;
-//            case Constants.PUSH_TYPE_NEW_TASK_ALERT:
-//                content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert) + " " + notification.getTaskName() + " " + context.getString(R.string.push_alert);
-//                break;
+            case Constants.PUSH_TYPE_NEW_TASK_ALERT:
+                content = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert) + " " + notification.getTaskName() + " " + context.getString(R.string.push_alert);
+                break;
             case Constants.PUSH_TYPE_POSTER_CANCELED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_poster_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.push_you_bidded);
                 break;
@@ -812,13 +812,17 @@ public class Utils {
             return context.getString(R.string.transaction_1pay);
         else if (transactionResponse.getMethod().equals("bid_deposit")) {
             if (transactionResponse.getType().equals("in"))
-                return context.getString(R.string.transaction_bid_deposit_in);
+                return context.getString(R.string.transaction_bid_deposit_in, transactionResponse.getTaskName());
             else
-                return context.getString(R.string.transaction_bid_deposit_out);
+                return context.getString(R.string.transaction_bid_deposit_out, transactionResponse.getTaskName());
         } else if (transactionResponse.getMethod().equals("reg_awarded"))
             return context.getString(R.string.transaction_reg_awarded);
         else if (transactionResponse.getMethod().equals("sys_donated"))
-            return context.getString(R.string.transaction_sys_donated);
+            return context.getString(R.string.transaction_sys_donated, transactionResponse.getMessage());
+        else if (transactionResponse.getMethod().equals("ref_bonus"))
+            return context.getString(R.string.transaction_ref_bonus);
+        else if (transactionResponse.getMethod().equals("promo_posting"))
+            return context.getString(R.string.transaction_promo_posting);
         else return "Waitting";
     }
 

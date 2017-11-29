@@ -83,11 +83,11 @@ public class SystemNotificationFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
         initList();
     }
 
     private void initList() {
+        isLoadingMoreFromServer = true;
         notificationAdapter = new NotificationAdapter(getActivity(), notifications);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         lvList.setLayoutManager(linearLayoutManager);
@@ -228,7 +228,6 @@ public class SystemNotificationFragment extends BaseFragment {
                     if (since == null) {
                         notifications.clear();
                         endlessRecyclerViewScrollListener.resetState();
-
                     }
                     notifications.addAll(notificationResponse);
                     if (notificationResponse.size() > 0)

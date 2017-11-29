@@ -1,5 +1,6 @@
 package vn.tonish.hozo.activity.payment;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -208,7 +209,8 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
                 break;
 
             case R.id.btn_payment:
-                startActivity(RechargeActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+                Intent intent = new Intent(MyWalletActivity.this, RechargeActivity.class);
+                startActivityForResult(intent, Constants.PROMOTION_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }

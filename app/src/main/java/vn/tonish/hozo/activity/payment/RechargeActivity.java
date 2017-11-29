@@ -289,6 +289,15 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.PROMOTION_REQUEST_CODE && resultCode == Constants.PROMOTION_RESULT_CODE) {
+            setResult(Constants.PROMOTION_RESULT_CODE);
+            finish();
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
 
@@ -297,7 +306,8 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 break;
 
             case R.id.promotion_layout:
-                startActivity(PromotionCodeActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+                Intent intent = new Intent(RechargeActivity.this, PromotionCodeActivity.class);
+                startActivityForResult(intent, Constants.PROMOTION_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.atm_layout:

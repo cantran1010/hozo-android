@@ -39,6 +39,8 @@ public class Constants {
     public static final String ORDER_ASC = "asc";
     public static final String ORDER_DESC = "desc";
     public static final String POSTER_ID_EXTRA = "poster_extra";
+    public static final int PROMOTION_REQUEST_CODE = 456;
+    public static final int PROMOTION_RESULT_CODE = 654;
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
@@ -237,6 +239,7 @@ public class Constants {
     public static final String BID_ERROR_SAME_TIME = "no_permission_offer";
     public static final String BID_ERROR_INVALID_DATA = "invalid_data";
     public static final String BID_LIMIT_OFFER = "limit_offer";
+    public static final String BID_NOT_ENOUGH_BALANCE = "not_enough_balance";
     public static final String TASK_DETAIL_INPUT_REQUIRE = "input_required";
     public static final String TASK_DETAIL_NO_EXIT = "no_exist";
     public static final String TASK_DETAIL_BLOCK = "block";

@@ -18,6 +18,7 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.GeneralInfoActivity;
+import vn.tonish.hozo.activity.payment.MyWalletActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
@@ -170,6 +171,18 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
                         DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.app_name), getString(R.string.offer_invalid_data), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
+
+                            }
+                        });
+                    } else if (error.status().equals(Constants.BID_NOT_ENOUGH_BALANCE)) {
+                        DialogUtils.showOkAndCancelDialog(ConfirmBidActivity.this, getString(R.string.app_name), getString(R.string.bid_not_enough_money, Utils.formatNumber(taskResponse.getBidDepositAmount())), getString(R.string.cancel_task_ok), getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                startActivity(MyWalletActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+                            }
+
+                            @Override
+                            public void onCancel() {
 
                             }
                         });
