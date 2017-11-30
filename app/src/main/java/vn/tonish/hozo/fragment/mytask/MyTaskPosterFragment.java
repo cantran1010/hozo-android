@@ -168,7 +168,7 @@ public class MyTaskPosterFragment extends BaseFragment {
         if (!query.isEmpty()) params.put("query", query);
         if (!filter.equals(""))
             params.put("status", filter);
-        LogUtils.d(TAG, "getTaskFromServer start , param : " + params);
+        LogUtils.d(TAG, "getTaskFromServer start , param : " + params + "status" + filter);
 
         call = ApiClient.getApiService().getMyTask(UserManager.getUserToken(), params, listStatus);
         call.enqueue(new Callback<List<TaskResponse>>() {

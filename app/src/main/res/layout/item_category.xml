@@ -1,61 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp"
+   >
+
+    <vn.tonish.hozo.view.CircleImageView
+        android:id="@+id/img_present"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/just_image"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar_default" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
 
-        <vn.tonish.hozo.view.CircleImageView
-            android:id="@+id/img_present"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:contentDescription="@string/just_image"
-            android:scaleType="centerCrop" />
-
-        <LinearLayout
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
-            android:orientation="vertical">
+            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/web_site_hozo"
+            android:textColor="@color/hozo_bg"
+            android:textSize="@dimen/tv_size_lager"
+            android:textStyle="bold" />
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/hozo_bg"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/tv_gray"
-                android:textSize="14sp" />
-        </LinearLayout>
-
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/tv_gray"
+            android:textSize="@dimen/tv_size_xtiny" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_gravity="bottom"
-        android:background="@color/color_edt_border" />
-</FrameLayout>
+</LinearLayout>
+
+
