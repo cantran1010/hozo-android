@@ -568,6 +568,8 @@
     <string name="status_poster_overdue">overdue</string>
     <string name="status_poster_canceled">canceled</string>
     <string name="status_poster_draft">draft</string>
+    <string name="status_poster_await_approval">await_approval</string>
+    <string name="status_poster_not_approved">not_approved</string>
     <string name="status_worker_open">pending</string>
     <string name="status_worker_assigned">accepted</string>
     <string name="status_worker_completed">completed</string>
