@@ -649,7 +649,7 @@
     <string name="promotion_code">Mã khuyễn mại</string>
     <string name="atm">Thẻ ATM nội địa</string>
     <string name="visa">Thẻ Visa / Master Card</string>
-    <string name="recharge_success">Nạp tiền thành công!</string>
+    <string name="recharge_success">Chúc mừng bạn đã nạp tiền thành công!</string>
     <string name="transaction_1pay">Nạp tiền vào tài khoản Hozo</string>
     <string name="group">Nhóm : </string>
     <string name="count_assigner" tools:ignore="PluralsCandidate">và %1$d người khác</string>
