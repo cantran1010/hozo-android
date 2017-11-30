@@ -43,10 +43,7 @@ public class FilterMyTaskActivity extends BaseActivity implements View.OnClickLi
             role = intent.getStringExtra(Constants.EXTRA_MY_TASK);
             LogUtils.d(TAG, "role" + role);
         }
-        if (StatusManager.getStatuswithRole(role) == null || !(StatusManager.getStatuswithRole(role).size() > 0)) {
-            LogUtils.d(TAG, "check role " + statuses.toString());
-            setData(role);
-        }
+        setData(role);
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rcv_task);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         statuses = StatusManager.getStatuswithRole(role);
@@ -65,18 +62,23 @@ public class FilterMyTaskActivity extends BaseActivity implements View.OnClickLi
             StatusManager.insertStatusEntity(new StatusEntity("P0", Constants.ROLE_POSTER, getString(R.string.hozo_all), "", true));
             StatusManager.insertStatusEntity(new StatusEntity("P1", Constants.ROLE_POSTER, getString(R.string.my_task_status_poster_open), getString(R.string.status_poster_open), false));
             StatusManager.insertStatusEntity(new StatusEntity("P2", Constants.ROLE_POSTER, getString(R.string.my_task_status_poster_assigned), getString(R.string.tatus_poster_assigned), false));
-            StatusManager.insertStatusEntity(new StatusEntity("P3", Constants.ROLE_POSTER, getString(R.string.my_task_status_poster_completed), getString(R.string.status_poster_completed), false));
-            StatusManager.insertStatusEntity(new StatusEntity("P4", Constants.ROLE_POSTER, getString(R.string.my_task_status_poster_overdue), getString(R.string.status_poster_overdue), false));
-            StatusManager.insertStatusEntity(new StatusEntity("P5", Constants.ROLE_POSTER, getString(R.string.my_task_status_poster_canceled), getString(R.string.status_poster_canceled), false));
-            StatusManager.insertStatusEntity(new StatusEntity("P6", Constants.ROLE_POSTER, getString(R.string.my_task_status_poster_draft), getString(R.string.status_poster_draft), false));
+            StatusManager.insertStatusEntity(new StatusEntity("P3", Constants.ROLE_POSTER, getString(R.string.my_task_status_poster_await_approval), getString(R.string.status_poster_await_approval), false));
+            StatusManager.insertStatusEntity(new StatusEntity("P4", Constants.ROLE_POSTER, getString(R.string.my_task_status_poster_completed), getString(R.string.status_poster_completed), false));
+            StatusManager.insertStatusEntity(new StatusEntity("P5", Constants.ROLE_POSTER, getString(R.string.my_task_status_poster_overdue), getString(R.string.status_poster_overdue), false));
+            StatusManager.insertStatusEntity(new StatusEntity("P6", Constants.ROLE_POSTER, getString(R.string.my_task_status_poster_canceled), getString(R.string.status_poster_canceled), false));
+            StatusManager.insertStatusEntity(new StatusEntity("P7", Constants.ROLE_POSTER, getString(R.string.my_task_status_poster_draft), getString(R.string.status_poster_draft), false));
+
         } else {
             StatusManager.insertStatusEntity(new StatusEntity("T0", Constants.ROLE_TASKER, getString(R.string.hozo_all), "", true));
             StatusManager.insertStatusEntity(new StatusEntity("T1", Constants.ROLE_TASKER, getString(R.string.my_task_status_worker_open), getString(R.string.status_worker_open), false));
             StatusManager.insertStatusEntity(new StatusEntity("T2", Constants.ROLE_TASKER, getString(R.string.my_task_status_worker_assigned), getString(R.string.status_worker_assigned), false));
-            StatusManager.insertStatusEntity(new StatusEntity("T3", Constants.ROLE_TASKER, getString(R.string.my_task_status_worker_completed), getString(R.string.status_worker_completed), false));
-            StatusManager.insertStatusEntity(new StatusEntity("T4", Constants.ROLE_TASKER, getString(R.string.my_task_status_worker_missed), getString(R.string.status_worker_missed), false));
-            StatusManager.insertStatusEntity(new StatusEntity("T5", Constants.ROLE_TASKER, getString(R.string.my_task_status_worker_canceled), getString(R.string.status_worker_canceled), false));
-            StatusManager.insertStatusEntity(new StatusEntity("T6", Constants.ROLE_TASKER, getString(R.string.my_task_status_poster_overdue), getString(R.string.status_poster_overdue), false));
+            StatusManager.insertStatusEntity(new StatusEntity("T3", Constants.ROLE_TASKER, getString(R.string.my_task_status_poster_await_approval), getString(R.string.status_poster_await_approval), false));
+            StatusManager.insertStatusEntity(new StatusEntity("T4", Constants.ROLE_TASKER, getString(R.string.my_task_status_poster_not_approved), getString(R.string.status_poster_not_approved), false));
+            StatusManager.insertStatusEntity(new StatusEntity("T5", Constants.ROLE_TASKER, getString(R.string.my_task_status_worker_completed), getString(R.string.status_worker_completed), false));
+            StatusManager.insertStatusEntity(new StatusEntity("T6", Constants.ROLE_TASKER, getString(R.string.my_task_status_worker_missed), getString(R.string.status_worker_missed), false));
+            StatusManager.insertStatusEntity(new StatusEntity("T7", Constants.ROLE_TASKER, getString(R.string.my_task_status_worker_canceled), getString(R.string.status_worker_canceled), false));
+            StatusManager.insertStatusEntity(new StatusEntity("T8", Constants.ROLE_TASKER, getString(R.string.my_task_status_poster_overdue), getString(R.string.status_poster_overdue), false));
+
         }
     }
 
