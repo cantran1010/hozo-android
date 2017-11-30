@@ -657,7 +657,8 @@
     <string name="count_assigner" tools:ignore="PluralsCandidate">và %1$d người khác</string>
     <string name="recharge">Nạp tiền</string>
     <string name="input_money_hint">Nhập số tiền bạn muốn nạp</string>
-    <string name="min_recharge_error">Vui lòng nhập số tiền tối thiểu là %1$s</string>
+    <string name="min_recharge_error">Số tiền tối thiểu %1$s VNĐ</string>
+    <string name="max_recharge_error">Số tiền tối đa %1$s VNĐ</string>
     <string name="skill">Kỹ năng</string>
     <string name="language">Ngoại ngữ</string>
     <string name="title_register">Đăng ký</string>
@@ -710,4 +711,5 @@
     <string name="transaction_ref_bonus">Tặng tiền giới thiệu thành viên</string>
     <string name="transaction_promo_posting">Tặng tiền giới thiệu việc đăng</string>
     <string name="bid_not_enough_money">Để có thể ứng tuyển việc này ví Hozo của bạn cần có số dư ít nhất là %1$s đ. Bạn có muốn thiết lập ví Hozo?</string>
+    <string name="null_recharge_error">Vui lòng nhập số tiền</string>
 </resources>
