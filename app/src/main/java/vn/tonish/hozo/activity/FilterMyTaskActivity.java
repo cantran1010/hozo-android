@@ -43,7 +43,7 @@ public class FilterMyTaskActivity extends BaseActivity implements View.OnClickLi
             role = intent.getStringExtra(Constants.EXTRA_MY_TASK);
             LogUtils.d(TAG, "role" + role);
         }
-        if (StatusManager.getStatuswithRole(role) == null)
+        if (StatusManager.getStatuswithRole(role) == null || StatusManager.getStatuswithRole(role).size() == 0)
             setData(role);
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rcv_task);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

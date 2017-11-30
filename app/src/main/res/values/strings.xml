@@ -135,7 +135,7 @@
     <string name="max_image_attach_err">Bạn chỉ được chọn tối đa %1$d ảnh</string>
     <string name="select_age_title">Chọn Tuổi</string>
     <string name="select_age_to">Đến</string>
-    <string name="ok">OK</string>
+    <string name="ok">Ok</string>
     <string name="oke">CÓ</string>
     <string name="select_age_error">Mức tuổi bạn chọn không chính xác,vui lòng sửa lại</string>
     <string name="alert_dialog_title">Hủy thao tác</string>
@@ -412,7 +412,7 @@
     <string name="empty_count">Vị trí trống</string>
     <string name="task_time">GIỜ LÀM</string>
     <string name="task_hour">SỐ GIỜ</string>
-    <string name="hour_title">Số giờ làm việc</string>
+    <string name="hour_title">Chọn số giờ làm việc</string>
     <string name="sms">SMS</string>
     <string name="duplicate_task_error">Bạn không thể đăng 2 tin giống nhau liên tiếp trong vòng 1 giờ.</string>
     <string name="edit_task">Chỉnh sửa việc</string>
@@ -553,7 +553,7 @@
     <string name="invalid_data">Tỷ lệ hoặc số lượng người lao động không hợp lệ</string>
     <string name="no_referrer">Mã giới thiệu không tồn tại</string>
     <string name="advance_more_star">* Tùy chọn nâng cao</string>
-    <string name="number_title">Số người làm</string>
+    <string name="number_title">Chọn số người làm</string>
     <string name="lable_wage">Tiền công</string>
     <string name="rate_success">Đánh giá thành công,cảm ơn bạn!</string>
     <string name="rate_miss_star">Vui lòng nhập thông tin đánh giá!</string>

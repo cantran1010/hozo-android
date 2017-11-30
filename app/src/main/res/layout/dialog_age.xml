@@ -11,16 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:padding="5dp"
         android:text="@string/select_age_title"
-        android:textColor="@color/tv_gray_new"
+        android:textColor="@color/hozo_bg"
         android:textSize="@dimen/tv_size_title" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/text_line" />
+        android:layout_height="2dp"
+        android:background="@color/hozo_bg" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,16 +56,21 @@
 
     </LinearLayout>
 
-    <vn.tonish.hozo.view.ButtonHozo
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/color_edt_border" />
+
+    <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/btn_ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:padding="10dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:padding="5dp"
         android:text="@string/ok"
-        android:textColor="@color/tv_gray_new"
         android:textSize="@dimen/tv_size_title"
         android:textStyle="normal" />
 </LinearLayout>

@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.NumberPicker;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -52,11 +51,11 @@ public class HozoNumberDialog extends BaseDialog implements View.OnClickListener
     @Override
     protected void initData() {
 
-        ButtonHozo btnOk = findViewById(R.id.btn_ok);
+        TextViewHozo btnOk = (TextViewHozo) findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(this);
 
         npHour = findViewById(R.id.np_hour);
-        TextViewHozo tvTitle = findViewById(R.id.tv_title_dialog);
+        TextViewHozo tvTitle = (TextViewHozo) findViewById(R.id.tv_title_dialog);
         tvTitle.setText(title);
         npHour.setMinValue(min);
         npHour.setMaxValue(max);

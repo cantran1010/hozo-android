@@ -902,7 +902,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                             Utils.showLongToast(CreateTaskActivity.this, getString(R.string.draft_a_task_complete), false, false);
                         else
                             Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_a_task_complete), false, false);
-
                         setResult(Constants.POST_A_TASK_RESPONSE_CODE);
                         finish();
                         FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
@@ -1392,9 +1391,12 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private void showAdvance() {
+        int[] coords = {0, 0};
+        scrollView.getLocationOnScreen(coords);
+        int absoluteBottom = coords[1] + scrollView.getHeight();
         tvMoreShow.setVisibility(View.GONE);
         advanceExpandableLayout.toggle();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", scrollView.getMaxScrollAmount()).setDuration(1000);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1000);
         objectAnimator.start();
     }
 

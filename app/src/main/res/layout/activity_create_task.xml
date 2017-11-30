@@ -414,9 +414,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="top"
-                android:inputType="text"
-                android:minHeight="60dp"
-                android:scrollbars="vertical" />
+                android:inputType="textMultiLine"
+                android:minHeight="60dp" />
 
             <include layout="@layout/create_task_more" />
 
