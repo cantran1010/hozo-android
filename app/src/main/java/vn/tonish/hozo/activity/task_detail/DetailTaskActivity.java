@@ -669,7 +669,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             try {
                 if (DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2
-                        && DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) > 0)
+                        && DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) >= 0)
                     btnContact.setVisibility(View.VISIBLE);
                 else
                     btnContact.setVisibility(View.GONE);
@@ -832,7 +832,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             try {
                 if (DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2
-                        && DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) > 0)
+                        && DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) >= 0)
                     btnContact.setVisibility(View.VISIBLE);
                 else
                     btnContact.setVisibility(View.GONE);
