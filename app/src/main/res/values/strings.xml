@@ -710,4 +710,7 @@
     <string name="transaction_ref_bonus">Tặng tiền giới thiệu thành viên</string>
     <string name="transaction_promo_posting">Tặng tiền giới thiệu việc đăng</string>
     <string name="bid_not_enough_money">Để có thể ứng tuyển việc này ví Hozo của bạn cần có số dư ít nhất là %1$s đ. Bạn có muốn thiết lập ví Hozo?</string>
+    <string name="report_null_content">Vui lòng nhập nội dung báo xấu!</string>
+    <string name="report_success">Báo xấu thành công.Cảm ơn bạn đã thông báo!</string>
+    <string name="promotion_error_nil">Vui lòng nhập mã khuyến mãi.</string>
 </resources>

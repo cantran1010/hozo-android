@@ -299,11 +299,11 @@ public class DateTimeUtils {
     }
 
     public static String getTimeChat(long time, Context context) {
-        if(DateUtils.isToday(time)){
+        if (DateUtils.isToday(time)) {
             Date date1 = new Date(time);
             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
             return sdf.format(date1);
-        }else {
+        } else {
             Date date = new Date(time);
             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a dd/MM/yyyy", Locale.getDefault());
             return sdf.format(date);
@@ -320,7 +320,7 @@ public class DateTimeUtils {
         long end = endDate.getTimeInMillis();
         long start = startDate.getTimeInMillis();
 
-        LogUtils.d(TAG, "daysBetween : " + TimeUnit.DAYS.toDays(Math.abs(end - start)));
+        LogUtils.d(TAG, "daysBetween : " + TimeUnit.DAYS.toDays(end - start));
         return TimeUnit.MILLISECONDS.toDays(Math.abs(end - start));
     }
 

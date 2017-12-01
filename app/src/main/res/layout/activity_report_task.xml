@@ -57,12 +57,12 @@
 
     <vn.tonish.hozo.view.ButtonHozo
         android:id="@+id/btn_report"
+        style="@style/btn_style_normal_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/btn_selector"
-        android:text="@string/btn_report_send"
-        android:textColor="@color/white" />
+        android:layout_margin="@dimen/margin_left_screen"
+        android:text="@string/btn_report_send" />
 
 
 </RelativeLayout>
