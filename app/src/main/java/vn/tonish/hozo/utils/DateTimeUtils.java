@@ -321,7 +321,7 @@ public class DateTimeUtils {
         long start = startDate.getTimeInMillis();
 
         LogUtils.d(TAG, "daysBetween : " + TimeUnit.DAYS.toDays(end - start));
-        return TimeUnit.MILLISECONDS.toDays(Math.abs(end - start));
+        return TimeUnit.MILLISECONDS.toDays(end - start);
     }
 
     public static long minutesBetween(Calendar startDate, Calendar endDate) {
