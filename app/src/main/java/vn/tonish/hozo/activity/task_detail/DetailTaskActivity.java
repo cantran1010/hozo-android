@@ -1744,6 +1744,10 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                     commentsAdapter.notifyDataSetChanged();
                 }
         }
+        if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+            finish();
+        }
     }
 
     private void doSeeMoreBidders() {

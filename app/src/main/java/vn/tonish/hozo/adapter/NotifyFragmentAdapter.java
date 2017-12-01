@@ -48,4 +48,29 @@ public class NotifyFragmentAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return mNumOfTabs;
     }
+
+    public void onRefreshTab(int pos) {
+        if (pos == 0) {
+            if (tab1 != null)
+                tab1.onRefresh();
+        } else if (pos == 1) {
+            if (tab2 != null) tab2.onRefresh();
+        } else {
+            if (tab3 != null) tab3.onRefresh();
+        }
+
+
+    }
+
+
+    public void resetState(int pos) {
+
+        if (pos == 0) {
+            tab1.endlessRecyclerViewScrollListener.resetState();
+        } else if (pos == 2) {
+            tab3.endlessRecyclerViewScrollListener.resetState();
+        }
+
+    }
+
 }

@@ -28,10 +28,10 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class NotificationFragment extends BaseFragment {
 
     private static final String TAG = NotificationFragment.class.getSimpleName();
-    private static final int TIME_DELAY = 500;
     private ViewPager viewPager;
     private TextViewHozo tvTab1, tvTab2, tvTab3, tvCountTab1, tvCountTab2, tvCountTab3;
     private int position = 0;
+    private NotifyFragmentAdapter notifyFragmentAdapter;
 
     @Override
     protected int getLayout() {
@@ -65,7 +65,7 @@ public class NotificationFragment extends BaseFragment {
         tvCountTab2 = (TextViewHozo) findViewById(R.id.tv_count_tab2);
         tvCountTab3 = (TextViewHozo) findViewById(R.id.tv_count_tab3);
         viewPager = (ViewPager) findViewById(R.id.pagerView);
-        NotifyFragmentAdapter notifyFragmentAdapter = new NotifyFragmentAdapter
+        notifyFragmentAdapter = new NotifyFragmentAdapter
                 (getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(notifyFragmentAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -76,6 +76,12 @@ public class NotificationFragment extends BaseFragment {
                 if (viewPager != null)
                     viewPager.setCurrentItem(tab.getPosition());
                 if (tab.getPosition() == 0) {
+                    LogUtils.d(TAG, "check");
+                    if (tvCountTab1.getVisibility() == View.VISIBLE) {
+                        PreferUtils.setNewPushCount(getContext(), 0);
+                        notifyFragmentAdapter.onRefreshTab(0);
+//                        updateCountMsg();
+                    }
                     tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
                     tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
                     tvTab3.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
@@ -83,6 +89,9 @@ public class NotificationFragment extends BaseFragment {
                     tvTab2.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
                     tvTab3.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
                 } else if (tab.getPosition() == 1) {
+                    if (tvCountTab2.getVisibility() == View.VISIBLE) {
+                        PreferUtils.setNewPushChatCount(getContext(), 0);
+                    }
                     tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
                     tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
                     tvTab3.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
@@ -91,6 +100,10 @@ public class NotificationFragment extends BaseFragment {
                     tvTab3.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
 
                 } else if (tab.getPosition() == 2) {
+                    if (tvCountTab3.getVisibility() == View.VISIBLE) {
+                        PreferUtils.setNewPushChatCount(getContext(), 0);
+                        notifyFragmentAdapter.onRefreshTab(2);
+                    }
                     tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
                     tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
                     tvTab3.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
@@ -108,7 +121,7 @@ public class NotificationFragment extends BaseFragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                notifyFragmentAdapter.onRefreshTab(position);
             }
         });
 
@@ -137,11 +150,9 @@ public class NotificationFragment extends BaseFragment {
     private final BroadcastReceiver broadcastCountNewMsg = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            LogUtils.d(TAG,"push: ");
-
+            LogUtils.d(TAG, "push: ");
             if (intent.hasExtra(Constants.COUNT_NEW_MSG_EXTRA)) {
                 int countTab2 = intent.getIntExtra(Constants.COUNT_NEW_MSG_EXTRA, 0);
-
                 if (countTab2 > 0) {
                     tvCountTab2.setVisibility(View.VISIBLE);
                     tvCountTab2.setText(String.valueOf(countTab2));
@@ -170,9 +181,9 @@ public class NotificationFragment extends BaseFragment {
     };
 
     private void updateCountMsg() {
-
         int pushCount = PreferUtils.getNewPushCount(getActivity());
         int pushNewTaskCount = PreferUtils.getPushNewTaskCount(getActivity());
+
         if (pushCount == 0) {
             tvCountTab1.setVisibility(View.GONE);
         } else {

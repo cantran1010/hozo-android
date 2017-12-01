@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,7 +9,8 @@
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/hozo_bg">
+        android:background="@color/hozo_bg"
+        app:layout_scrollFlags="scroll|enterAlways">
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_title"
@@ -67,12 +69,16 @@
 
     </RelativeLayout>
 
-    <ScrollView
+
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_next"
-        android:layout_below="@+id/layout_header">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:descendantFocusability="beforeDescendants"
+        android:fillViewport="true"
+        android:focusableInTouchMode="true">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -275,6 +281,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:background="@drawable/selector_edittext"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
                             android:gravity="center"
                             android:imeOptions="actionNext"
                             android:inputType="number"
@@ -419,17 +427,19 @@
 
             <include layout="@layout/create_task_more" />
 
+            <vn.tonish.hozo.view.ButtonHozo
+                android:id="@+id/btn_next"
+                style="@style/btn_style_hozo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                android:text="@string/btn_create_task" />
+
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
-    <vn.tonish.hozo.view.ButtonHozo
-        android:id="@+id/btn_next"
-        style="@style/btn_style_hozo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:text="@string/btn_create_task"
-        android:textAllCaps="false" />
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

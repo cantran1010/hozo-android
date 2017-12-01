@@ -87,7 +87,7 @@
     </style>
 
     <style name="tv_style_normal_gray">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/tv_gray_new</item>
     </style>
 

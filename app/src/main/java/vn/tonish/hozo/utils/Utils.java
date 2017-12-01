@@ -55,7 +55,6 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.rest.responseRes.TransactionResponse;
-import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -132,7 +131,7 @@ public class Utils {
         }
     }
 
-    public static void hideSoftKeyboard(Context context, EdittextHozo EdittextHozo) {
+    public static void hideSoftKeyboard(Context context, View EdittextHozo) {
         if (EdittextHozo == null)
             return;
 
@@ -141,7 +140,7 @@ public class Utils {
     }
 
 
-    public static void showSoftKeyboard(Context context, EdittextHozo EdittextHozo) {
+    public static void showSoftKeyboard(Context context, View EdittextHozo) {
         if (EdittextHozo == null)
             return;
 

@@ -65,7 +65,7 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
     private static final int LIMIT = 20;
     private boolean isLoadingMoreFromServer = true;
     private Call<List<Notification>> call;
-    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+    public EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
     private TextViewHozo tvNoData;
     private static final int TIME_DELAY = 2000;
@@ -81,7 +81,6 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
         tvNoData = (TextViewHozo) findViewById(R.id.tv_no_data);
         TextViewHozo tvSetting = (TextViewHozo) findViewById(R.id.tv_setting);
         tvSetting.setOnClickListener(this);
-
         createSwipeToRefresh();
     }
 
@@ -357,6 +356,13 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
     @Override
     public void onRefresh() {
         super.onRefresh();
+        PreferUtils.setPushNewTaskCount(getActivity(), 0);
+        if (getActivity() != null && getActivity() instanceof MainActivity)
+            ((MainActivity) getActivity()).updateCountMsg();
+        Intent intentPushCount = new Intent();
+        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+        if (getActivity() != null)
+            getActivity().sendBroadcast(intentPushCount);
         if (call != null) call.cancel();
         isLoadingMoreFromServer = true;
         since = null;

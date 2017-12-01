@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:padding="5dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
+        android:padding="10dp"
         android:text="@string/hour_title"
         android:textColor="@color/hozo_bg"
         android:textSize="@dimen/tv_size_title" />
@@ -48,7 +48,7 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:padding="5dp"
+        android:padding="10dp"
         android:text="@string/ok"
         android:textSize="@dimen/tv_size_title"
         android:textStyle="normal" />
