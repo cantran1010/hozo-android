@@ -31,6 +31,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -662,10 +663,19 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
-            btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.VISIBLE);
             btnRatePoster.setText(getString(R.string.poster_ratting));
             btnContactHozo.setVisibility(View.GONE);
+
+            try {
+                if (DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2
+                        && DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) > 0)
+                    btnContact.setVisibility(View.VISIBLE);
+                else
+                    btnContact.setVisibility(View.GONE);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             isShowCancel = false;
             isReportTask = false;
@@ -817,9 +827,18 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
-            btnContact.setVisibility(View.VISIBLE);
             btnRatePoster.setVisibility(View.VISIBLE);
             btnContactHozo.setVisibility(View.GONE);
+
+            try {
+                if (DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2
+                        && DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) > 0)
+                    btnContact.setVisibility(View.VISIBLE);
+                else
+                    btnContact.setVisibility(View.GONE);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             if (taskResponse.isRatePoster())
                 btnRatePoster.setText(getString(R.string.worker_ratting_done));
