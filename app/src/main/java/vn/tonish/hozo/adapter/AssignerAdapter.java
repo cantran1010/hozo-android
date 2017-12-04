@@ -46,7 +46,7 @@ public class AssignerAdapter extends RecyclerView.Adapter<AssignerAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private AssignerView assignerView;
+        private final AssignerView assignerView;
 
         public MyViewHolder(View itemView) {
             super(itemView);

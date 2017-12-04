@@ -8,7 +8,7 @@ import vn.tonish.hozo.utils.LogUtils;
  * Created by CanTran on 5/17/17.
  */
 
-public class SettingManager {
+class SettingManager {
     private static final String TAG = SettingManager.class.getName();
 
     public static void insertSetting(SettingEntiny settingEntiny) {

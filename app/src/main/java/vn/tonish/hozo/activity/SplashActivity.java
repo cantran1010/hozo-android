@@ -120,14 +120,17 @@ public class SplashActivity extends BaseActivity {
                             }
                         });
 
-                    } else if (updateResponse.isRecommendUpdate()) {
-                        showUpdateDialog();
                     } else {
-                        if (UserManager.checkLogin())
-                            checkBlockUser();
-                        else {
-                            startActivity(HomeActivity.class, TransitionScreen.FADE_IN);
-                            finish();
+                        assert updateResponse != null;
+                        if (updateResponse.isRecommendUpdate()) {
+                            showUpdateDialog();
+                        } else {
+                            if (UserManager.checkLogin())
+                                checkBlockUser();
+                            else {
+                                startActivity(HomeActivity.class, TransitionScreen.FADE_IN);
+                                finish();
+                            }
                         }
                     }
 

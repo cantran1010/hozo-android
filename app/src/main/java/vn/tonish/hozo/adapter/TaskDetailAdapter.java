@@ -25,14 +25,11 @@ public class TaskDetailAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                TaskDetailTab1Fragment tab1 = new TaskDetailTab1Fragment();
-                return tab1;
+                return new TaskDetailTab1Fragment();
             case 1:
-                TaskDetailTab2Fragment tab2 = new TaskDetailTab2Fragment();
-                return tab2;
+                return new TaskDetailTab2Fragment();
             case 2:
-                TaskDetailTab3Fragment tab3 = new TaskDetailTab3Fragment();
-                return tab3;
+                return new TaskDetailTab3Fragment();
             default:
                 return null;
         }

@@ -297,12 +297,16 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         edtExperience.setText(userEntity.getExperiences());
 
-        if (userEntity.getRole().equals("poster")) {
-            rbPoster.setChecked(true);
-        } else if (userEntity.getRole().equals("tasker")) {
-            rbWorker.setChecked(true);
-        } else {
-            rbBoth.setChecked(true);
+        switch (userEntity.getRole()) {
+            case "poster":
+                rbPoster.setChecked(true);
+                break;
+            case "tasker":
+                rbWorker.setChecked(true);
+                break;
+            default:
+                rbBoth.setChecked(true);
+                break;
         }
 
     }

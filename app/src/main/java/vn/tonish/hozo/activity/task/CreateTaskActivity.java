@@ -2,6 +2,7 @@ package vn.tonish.hozo.activity.task;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -163,7 +164,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private Spinner spGender;
     private String strGender = "";
     private ExpandableLayout advanceExpandableLayout;
-    private TextViewHozo tvMoreHide;
 
 
     // copy or edit
@@ -223,7 +223,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         tvMoreShow = (TextViewHozo) findViewById(R.id.tv_more_show);
         tvMoreShow.setOnClickListener(this);
 
-        tvMoreHide = (TextViewHozo) findViewById(R.id.tv_more_hide);
+        TextViewHozo tvMoreHide = (TextViewHozo) findViewById(R.id.tv_more_hide);
         tvMoreHide.setOnClickListener(this);
 
         imgMenu = (ImageView) findViewById(R.id.img_menu);
@@ -235,6 +235,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         imgSaveDraf.setOnClickListener(this);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initData() {
         Constants.MAX_IMAGE_ATTACH = 6;
@@ -502,6 +503,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         scrollView.setFocusable(true);
         scrollView.setFocusableInTouchMode(true);
         scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 v.requestFocusFromTouch();
@@ -611,7 +613,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                                 resource = resource.copy(resource.getConfig(), true); // safe copy
                                 Glide.clear(this); // added to release original bitmap
 
-                                File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+                                @SuppressWarnings("AccessStaticViaInstance") File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
                                 Utils.compressBitmapToFile(resource, fileSave.getPath());
                                 LogUtils.d(TAG, "onResourceReady complete , path : " + fileSave.getPath());
 
@@ -664,7 +666,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private Uri setImageUri() {
-        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+        @SuppressWarnings("AccessStaticViaInstance") File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
         return imgUri;
@@ -843,8 +845,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     private boolean validatepromotion() {
         String strPromotion = edtPromotion.getText().toString().trim().replace(" ", "").replace(",", "").replace(".", "");
-        if (edtPromotion.length() == 6 && strPromotion.length() == 6) return true;
-        return false;
+        return edtPromotion.length() == 6 && strPromotion.length() == 6;
     }
 
     private void doAttachFiles() {

@@ -28,18 +28,19 @@
                     style="@style/tv_title_cancel"
                     android:layout_width="?android:attr/actionBarSize"
                     android:layout_height="?android:attr/actionBarSize"
-                    android:background="@drawable/btn_back_selector_new"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/content_description_back"
+                    android:focusable="true"
                     android:scaleType="centerInside"
-                    android:src="@drawable/back_arrow" />
+                    android:src="@drawable/ic_back" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     style="@style/tv_title"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/img_cancel"
                     android:layout_toRightOf="@id/img_cancel"
                     android:text="@string/edit_profile_tv_header" />
@@ -91,7 +92,9 @@
                         android:layout_marginStart="-10dp"
                         android:layout_toEndOf="@id/img_avatar"
                         android:layout_toRightOf="@id/img_avatar"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@string/camera"
+                        android:focusable="true"
                         android:padding="5dp"
                         android:src="@drawable/edit_img_present" />
 

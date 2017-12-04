@@ -116,6 +116,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             // vibrator when receive push notification from server
             Vibrator v = (Vibrator) getApplicationContext()
                     .getSystemService(Context.VIBRATOR_SERVICE);
+            assert v != null;
             v.vibrate(500);
         }
 
@@ -144,6 +145,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
+        assert notificationManager != null;
         notificationManager.notify(notification.getId() /* ID of notification */, notificationBuilder.build());
 
         if (notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)) {

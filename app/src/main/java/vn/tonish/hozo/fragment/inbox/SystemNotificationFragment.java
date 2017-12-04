@@ -56,7 +56,6 @@ import static vn.tonish.hozo.common.Constants.PUSH_TYPE_POSTER_CANCELED;
 
 public class SystemNotificationFragment extends BaseFragment {
     private static final String TAG = SystemNotificationFragment.class.getSimpleName();
-    private static final int TIME_DELAY = 500;
     private NotificationAdapter notificationAdapter;
     private RecyclerView lvList;
     private final List<Notification> notifications = new ArrayList<>();
@@ -228,6 +227,7 @@ public class SystemNotificationFragment extends BaseFragment {
                         notifications.clear();
                         endlessRecyclerViewScrollListener.resetState();
                     }
+                    assert notificationResponse != null;
                     notifications.addAll(notificationResponse);
                     if (notificationResponse.size() > 0)
                         since = notificationResponse.get(notificationResponse.size() - 1).getCreatedAt();

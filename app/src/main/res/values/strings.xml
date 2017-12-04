@@ -135,7 +135,7 @@
     <string name="max_image_attach_err">Bạn chỉ được chọn tối đa %1$d ảnh</string>
     <string name="select_age_title">Chọn Tuổi</string>
     <string name="select_age_to">Đến</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="oke">CÓ</string>
     <string name="select_age_error">Mức tuổi bạn chọn không chính xác,vui lòng sửa lại</string>
     <string name="alert_dialog_title">Hủy thao tác</string>
@@ -549,8 +549,6 @@
     <string name="no_task">Việc không tồn tại</string>
     <string name="empty_parameters">Thiếu ID việc</string>
     <string name="update_not_allowed">Không cho phép cập nhật việc này</string>
-    <string name="post_task_failed">Bài đăng thất bại</string>
-    <string name="invalid_data">Tỷ lệ hoặc số lượng người lao động không hợp lệ</string>
     <string name="no_referrer">Mã giới thiệu không tồn tại</string>
     <string name="advance_more_star">* Tùy chọn nâng cao</string>
     <string name="number_title">Chọn số người làm</string>

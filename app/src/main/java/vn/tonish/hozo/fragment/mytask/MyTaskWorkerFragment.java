@@ -192,14 +192,14 @@ public class MyTaskWorkerFragment extends BaseFragment {
                     LogUtils.d(TAG, "getTaskFromServer taskResponsesBody size : " + (taskResponsesBody != null ? taskResponsesBody.size() : 0));
 
                     if ((taskResponsesBody != null ? taskResponsesBody.size() : 0) > 0)
-                        sinceStr = taskResponsesBody != null ? taskResponsesBody.get((taskResponsesBody != null ? taskResponsesBody.size() : 0) - 1).getCreatedAt() : null;
+                        sinceStr = taskResponsesBody != null ? taskResponsesBody.get(taskResponsesBody.size() - 1).getCreatedAt() : null;
 
                     if (since == null) {
                         taskResponses.clear();
                         endlessRecyclerViewScrollListener.resetState();
                     }
 
-                    for (TaskResponse taskReponse : taskResponsesBody != null ? taskResponsesBody : null)
+                    for (TaskResponse taskReponse : taskResponsesBody)
                         taskReponse.setRole(Constants.ROLE_TASKER);
                     taskResponses.addAll(taskResponsesBody);
 

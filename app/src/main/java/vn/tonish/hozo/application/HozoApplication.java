@@ -20,6 +20,7 @@ public class HozoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //noinspection deprecation
         AccountKit.initialize(getApplicationContext());
         Realm.init(this);
         Realm.setDefaultConfiguration(RealmDbHelper.getRealmConfig(getApplicationContext()));

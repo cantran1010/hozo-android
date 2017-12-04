@@ -263,7 +263,8 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
                         }, TIME_DELAY);
 
                     }
-                    notifications.addAll(notificationResponse != null ? notificationResponse : null);
+                    notifications.addAll(notificationResponse);
+                    assert notificationResponse != null;
                     if (notificationResponse.size() > 0)
                         since = notificationResponse.get(notificationResponse.size() - 1).getCreatedAt();
 

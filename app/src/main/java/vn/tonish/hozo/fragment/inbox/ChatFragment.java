@@ -39,7 +39,6 @@ public class ChatFragment extends BaseFragment {
 
     private static final String TAG = ChatFragment.class.getSimpleName();
     private RecyclerView rcvChatRooms;
-    private ChatRoomAdapter chatRoomAdapter;
     private List<TaskResponse> taskResponses = new ArrayList<>();
     private Call<List<TaskResponse>> call;
     private TextViewHozo tvNoData;
@@ -86,11 +85,11 @@ public class ChatFragment extends BaseFragment {
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
                 LogUtils.d(TAG, "getChatRooms code : " + response.code());
                 LogUtils.d(TAG, "getChatRooms body : " + response.body());
-
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     PreferUtils.setNewPushChatCount(getActivity(), 0);
-                    taskResponses = response.body();
-                    LogUtils.d(TAG, "getChatRooms taskResponsesBody size : " + taskResponses.size());
+                    if (response.body() == null) taskResponses = new ArrayList<>();
+                    else
+                        taskResponses = response.body();
                     refreshChatRooms();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
@@ -136,7 +135,7 @@ public class ChatFragment extends BaseFragment {
     }
 
     private void refreshChatRooms() {
-        chatRoomAdapter = new ChatRoomAdapter(getActivity(), taskResponses);
+        ChatRoomAdapter chatRoomAdapter = new ChatRoomAdapter(getActivity(), taskResponses);
         lvManager = new LinearLayoutManager(getActivity());
         rcvChatRooms.setLayoutManager(lvManager);
         rcvChatRooms.setAdapter(chatRoomAdapter);
