@@ -92,6 +92,7 @@ public class ViewPageRatingAdapter extends PagerAdapter {
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assert inflater != null;
         View itemView = inflater.inflate(R.layout.viewpager_rating_item, container,
                 false);
         imgAvatar = (CircleImageView) itemView.findViewById(R.id.img_avatar);

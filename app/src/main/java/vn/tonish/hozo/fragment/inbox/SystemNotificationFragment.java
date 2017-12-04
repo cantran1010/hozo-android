@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -57,7 +56,6 @@ import static vn.tonish.hozo.common.Constants.PUSH_TYPE_POSTER_CANCELED;
 
 public class SystemNotificationFragment extends BaseFragment {
     private static final String TAG = SystemNotificationFragment.class.getSimpleName();
-    private static final int TIME_DELAY = 500;
     private NotificationAdapter notificationAdapter;
     private RecyclerView lvList;
     private final List<Notification> notifications = new ArrayList<>();
@@ -65,7 +63,7 @@ public class SystemNotificationFragment extends BaseFragment {
     private static final int LIMIT = 20;
     private boolean isLoadingMoreFromServer = true;
     private Call<List<Notification>> call;
-    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+    public EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
     private TextViewHozo tvNoData;
 
@@ -229,6 +227,7 @@ public class SystemNotificationFragment extends BaseFragment {
                         notifications.clear();
                         endlessRecyclerViewScrollListener.resetState();
                     }
+                    assert notificationResponse != null;
                     notifications.addAll(notificationResponse);
                     if (notificationResponse.size() > 0)
                         since = notificationResponse.get(notificationResponse.size() - 1).getCreatedAt();
@@ -323,19 +322,13 @@ public class SystemNotificationFragment extends BaseFragment {
     @Override
     public void onRefresh() {
         super.onRefresh();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                PreferUtils.setNewPushCount(getActivity(), 0);
-                PreferUtils.setNewPushChatCount(getActivity(), 0);
-                if (getActivity() != null && getActivity() instanceof MainActivity)
-                    ((MainActivity) getActivity()).updateCountMsg();
-                Intent intentPushCount = new Intent();
-                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-                if (getActivity() != null)
-                    getActivity().sendBroadcast(intentPushCount);
-            }
-        }, TIME_DELAY);
+        PreferUtils.setNewPushCount(getActivity(), 0);
+        if (getActivity() != null && getActivity() instanceof MainActivity)
+            ((MainActivity) getActivity()).updateCountMsg();
+        Intent intentPushCount = new Intent();
+        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+        if (getActivity() != null)
+            getActivity().sendBroadcast(intentPushCount);
         if (call != null) call.cancel();
         isLoadingMoreFromServer = true;
         since = null;

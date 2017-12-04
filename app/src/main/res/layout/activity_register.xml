@@ -64,7 +64,6 @@
                     android:layout_toEndOf="@id/img_avatar"
                     android:layout_toRightOf="@id/img_avatar"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
                     android:contentDescription="@string/camera"
                     android:focusable="true"
                     android:padding="10dp"

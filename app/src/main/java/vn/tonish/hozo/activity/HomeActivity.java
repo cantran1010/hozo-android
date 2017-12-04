@@ -107,6 +107,7 @@ public class HomeActivity extends BaseActivity {
                 = new AccountKitConfiguration.AccountKitConfigurationBuilder(
                 LoginType.PHONE,
                 AccountKitActivity.ResponseType.TOKEN);
+        //noinspection deprecation
         uiManager = new HozoAccountKitUIManager(ButtonType.NEXT, ButtonType.NEXT, TextPosition.ABOVE_BODY, LoginType.PHONE);
         configurationBuilder.setUIManager(uiManager);
         configurationBuilder.setDefaultCountryCode("VN").setReadPhoneStateEnabled(true).setReceiveSMS(true);

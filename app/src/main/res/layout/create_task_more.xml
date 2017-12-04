@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/more_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -25,7 +26,7 @@
         android:id="@+id/advance_expandable_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:el_duration="1000"
+        app:el_duration="500"
         app:el_expanded="false">
 
 
@@ -162,10 +163,33 @@
                 style="@style/tv_style_normal_gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:button="@drawable/checkbox_selector"
                 android:padding="10dp"
                 android:text="@string/auto_pick" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                style="@style/tv_style_normal_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:drawableLeft="@drawable/ic_promotion"
+                android:drawablePadding="10dp"
+                android:drawableStart="@drawable/ic_promotion"
+                android:text="@string/promo_code" />
+
+            <vn.tonish.hozo.view.EdittextHozo
+                android:id="@+id/edt_promotion"
+                style="@style/edt_create_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="8dp"
+                android:hint="@string/hint_promotion"
+                android:inputType="text"
+                android:maxLength="6"
+                android:maxLines="1" />
+
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_more_hide"

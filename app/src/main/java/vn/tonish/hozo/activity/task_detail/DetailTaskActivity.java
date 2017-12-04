@@ -446,12 +446,16 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         tvAge.setText(getString(R.string.post_a_task_age, taskResponse.getMinAge(), taskResponse.getMaxAge()));
 
-        if (taskResponse.getGender().equals(Constants.GENDER_MALE)) {
-            tvSex.setText(getString(R.string.gender_male_vn));
-        } else if (taskResponse.getGender().equals(Constants.GENDER_FEMALE)) {
-            tvSex.setText(getString(R.string.gender_female_vn));
-        } else {
-            tvSex.setText(getString(R.string.gender_non_vn));
+        switch (taskResponse.getGender()) {
+            case Constants.GENDER_MALE:
+                tvSex.setText(getString(R.string.gender_male_vn));
+                break;
+            case Constants.GENDER_FEMALE:
+                tvSex.setText(getString(R.string.gender_female_vn));
+                break;
+            default:
+                tvSex.setText(getString(R.string.gender_non_vn));
+                break;
         }
 
         tvBidderCount.setText(getString(R.string.bidder_count_lbl, taskResponse.getBidderCount()));
@@ -1743,6 +1747,10 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                     mComments.set(i, comment);
                     commentsAdapter.notifyDataSetChanged();
                 }
+        }
+        if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+            finish();
         }
     }
 

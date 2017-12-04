@@ -102,9 +102,7 @@ public class MyTaskPosterFragment extends BaseFragment {
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-
                 LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
-
                 if (isLoadingMoreFromServer) {
                     getTaskFromServer(sinceStr, LIMIT, filter, mQuery);
                 }
@@ -168,7 +166,7 @@ public class MyTaskPosterFragment extends BaseFragment {
         if (!query.isEmpty()) params.put("query", query);
         if (!filter.equals(""))
             params.put("status", filter);
-        LogUtils.d(TAG, "getTaskFromServer start , param : " + params);
+        LogUtils.d(TAG, "getTaskFromServer start , param : " + params + "status" + filter);
 
         call = ApiClient.getApiService().getMyTask(UserManager.getUserToken(), params, listStatus);
         call.enqueue(new Callback<List<TaskResponse>>() {
@@ -179,23 +177,17 @@ public class MyTaskPosterFragment extends BaseFragment {
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     List<TaskResponse> taskResponsesBody = response.body();
-
                     LogUtils.d(TAG, "getTaskFromServer taskResponsesBody size : " + (taskResponsesBody != null ? taskResponsesBody.size() : 0));
-
                     if ((taskResponsesBody != null ? taskResponsesBody.size() : 0) > 0)
-                        sinceStr = taskResponsesBody != null ? taskResponsesBody.get((taskResponsesBody != null ? taskResponsesBody.size() : 0) - 1).getCreatedAt() : null;
-
+                        sinceStr = taskResponsesBody != null ? taskResponsesBody.get(taskResponsesBody.size() - 1).getCreatedAt() : null;
                     if (since == null) {
                         taskResponses.clear();
                         endlessRecyclerViewScrollListener.resetState();
                     }
-
-                    for (TaskResponse taskReponse : taskResponsesBody != null ? taskResponsesBody : null)
+                    for (TaskResponse taskReponse : taskResponsesBody)
                         taskReponse.setRole(Constants.ROLE_POSTER);
                     taskResponses.addAll(taskResponsesBody);
-
                     TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponsesBody));
-
                     if (taskResponsesBody.size() < LIMIT) {
                         myTaskAdapter.stopLoadMore();
                         isLoadingMoreFromServer = false;

@@ -357,4 +357,5 @@ public class PostATaskFinishActivity extends BaseActivity implements View.OnClic
             }
         });
     }
+
 }

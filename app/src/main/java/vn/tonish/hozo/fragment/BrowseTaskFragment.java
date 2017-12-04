@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -156,7 +157,13 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 if (isLoadingMoreFromServer) getTaskResponse(query);
                 else {
                     taskList.addAll(taskList);
-                    taskAdapter.notifyDataSetChanged();
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            taskAdapter.notifyDataSetChanged();
+                        }
+                    });
+
                 }
             }
         };

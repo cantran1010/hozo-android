@@ -212,18 +212,22 @@ public class TaskDetailTab1Fragment extends BaseFragment implements View.OnClick
             tvAgeLbl.setVisibility(View.GONE);
         }
 
-        if (taskResponse.getGender().equals(Constants.GENDER_MALE)) {
-            tvSex.setText(getString(R.string.gender_male_vn));
-            tvSex.setVisibility(View.VISIBLE);
-            tvSexLbl.setVisibility(View.VISIBLE);
-        } else if (taskResponse.getGender().equals(Constants.GENDER_FEMALE)) {
-            tvSex.setText(getString(R.string.gender_female_vn));
-            tvSex.setVisibility(View.VISIBLE);
-            tvSexLbl.setVisibility(View.VISIBLE);
-        } else {
-            tvSex.setText(getString(R.string.gender_non_vn));
-            tvSex.setVisibility(View.GONE);
-            tvSexLbl.setVisibility(View.GONE);
+        switch (taskResponse.getGender()) {
+            case Constants.GENDER_MALE:
+                tvSex.setText(getString(R.string.gender_male_vn));
+                tvSex.setVisibility(View.VISIBLE);
+                tvSexLbl.setVisibility(View.VISIBLE);
+                break;
+            case Constants.GENDER_FEMALE:
+                tvSex.setText(getString(R.string.gender_female_vn));
+                tvSex.setVisibility(View.VISIBLE);
+                tvSexLbl.setVisibility(View.VISIBLE);
+                break;
+            default:
+                tvSex.setText(getString(R.string.gender_non_vn));
+                tvSex.setVisibility(View.GONE);
+                tvSexLbl.setVisibility(View.GONE);
+                break;
         }
 
     }
