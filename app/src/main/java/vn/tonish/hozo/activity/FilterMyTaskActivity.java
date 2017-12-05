@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import vn.tonish.hozo.R;
@@ -22,7 +21,6 @@ import vn.tonish.hozo.utils.LogUtils;
 
 public class FilterMyTaskActivity extends BaseActivity implements View.OnClickListener {
     private final static String TAG = FilterMyTaskActivity.class.getSimpleName();
-    private List<StatusEntity> statuses = new ArrayList<>();
     private String role = Constants.ROLE_POSTER;
 
     @Override
@@ -43,10 +41,11 @@ public class FilterMyTaskActivity extends BaseActivity implements View.OnClickLi
             role = intent.getStringExtra(Constants.EXTRA_MY_TASK);
             LogUtils.d(TAG, "role" + role);
         }
-        setData(role);
+        if (StatusManager.getStatuswithRole(role) == null || StatusManager.getStatuswithRole(role).size() == 0)
+            setData(role);
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rcv_task);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        statuses = StatusManager.getStatuswithRole(role);
+        List<StatusEntity> statuses = StatusManager.getStatuswithRole(role);
         FilterMyTaskAdapter filterMyTaskAdapter = new FilterMyTaskAdapter(this, statuses);
         mRecyclerView.setAdapter(filterMyTaskAdapter);
 

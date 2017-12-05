@@ -15,7 +15,7 @@
         android:layout_marginLeft="@dimen/title_margin_left"
         android:layout_marginRight="@dimen/title_margin_left"
         android:layout_marginStart="@dimen/title_margin_left"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -62,7 +62,7 @@
         android:layout_marginLeft="@dimen/title_margin_left"
         android:layout_marginRight="@dimen/title_margin_left"
         android:layout_marginStart="@dimen/title_margin_left"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:background="@color/color_edt_border" />
 
 </LinearLayout>

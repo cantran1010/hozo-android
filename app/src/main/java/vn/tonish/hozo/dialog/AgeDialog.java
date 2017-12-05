@@ -7,7 +7,7 @@ import android.widget.NumberPicker;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.utils.Utils;
-import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 5/6/2017.
@@ -45,7 +45,7 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
     @Override
     protected void initData() {
 
-        ButtonHozo btnOk = (ButtonHozo) findViewById(R.id.btn_ok);
+        TextViewHozo btnOk = (TextViewHozo) findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(this);
 
         npAgeFrom = (NumberPicker) findViewById(R.id.np_age_from);
@@ -66,7 +66,6 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.btn_ok:
                 doDone();
                 break;

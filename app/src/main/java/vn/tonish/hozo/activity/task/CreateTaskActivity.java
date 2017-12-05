@@ -2,11 +2,11 @@ package vn.tonish.hozo.activity.task;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -15,18 +15,20 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
@@ -116,8 +118,8 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 public class CreateTaskActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = CreateTaskActivity.class.getSimpleName();
-    private ScrollView scrollView;
-    private EdittextHozo edtTitle, edtDescription;
+    private NestedScrollView scrollView;
+    private EdittextHozo edtTitle, edtDescription, edtPromotion;
     private TextViewHozo tvTitleMsg, tvDesMsg, tvWorkingHour, tvNumberWorker;
     private static final int MAX_LENGTH_TITLE = 50;
     private static final int MAX_LENGTH_DES = 500;
@@ -162,7 +164,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private Spinner spGender;
     private String strGender = "";
     private ExpandableLayout advanceExpandableLayout;
-    private TextViewHozo tvMoreHide;
 
 
     // copy or edit
@@ -183,7 +184,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initView() {
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
+        scrollView = (NestedScrollView) findViewById(R.id.scroll_view);
 
         ImageView imgClose = (ImageView) findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
@@ -191,6 +192,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
 
         edtTitle = (EdittextHozo) findViewById(R.id.edt_task_name);
+        edtPromotion = (EdittextHozo) findViewById(R.id.edt_promotion);
         edtDescription = (EdittextHozo) findViewById(R.id.edt_description);
         tvDate = (TextViewHozo) findViewById(R.id.tv_date);
         tvTime = (TextViewHozo) findViewById(R.id.tv_time);
@@ -221,7 +223,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         tvMoreShow = (TextViewHozo) findViewById(R.id.tv_more_show);
         tvMoreShow.setOnClickListener(this);
 
-        tvMoreHide = (TextViewHozo) findViewById(R.id.tv_more_hide);
+        TextViewHozo tvMoreHide = (TextViewHozo) findViewById(R.id.tv_more_hide);
         tvMoreHide.setOnClickListener(this);
 
         imgMenu = (ImageView) findViewById(R.id.img_menu);
@@ -233,9 +235,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         imgSaveDraf.setOnClickListener(this);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initData() {
-
         Constants.MAX_IMAGE_ATTACH = 6;
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, this)
@@ -463,16 +465,50 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     }
             }
         });
-        edtBudget.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+        edtPromotion.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                assert in != null;
-                in.hideSoftInputFromWindow(arg1.getWindowToken(), 0);
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 0) {
+                    String strPromotion = edtPromotion.getText().toString().trim().replace(" ", "").replace(",", "").replace(".", "");
+                    if (validatepromotion()) {
+                        hideSoftKeyboard(CreateTaskActivity.this, edtPromotion);
+                    }
+                    if (edtPromotion.length() == 6 && strPromotion.length() < 6) {
+                        edtPromotion.setError(getString(R.string.promotion_error_no));
+                    }
+                }
+            }
+        });
+        edtBudget.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                hideSoftKeyboard(CreateTaskActivity.this, edtBudget);
+                edtDescription.requestFocus();
+            }
+
+        });
+
+        scrollView.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+        scrollView.setFocusable(true);
+        scrollView.setFocusableInTouchMode(true);
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.requestFocusFromTouch();
+                return false;
+            }
         });
 
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -577,7 +613,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                                 resource = resource.copy(resource.getConfig(), true); // safe copy
                                 Glide.clear(this); // added to release original bitmap
 
-                                File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+                                @SuppressWarnings("AccessStaticViaInstance") File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
                                 Utils.compressBitmapToFile(resource, fileSave.getPath());
                                 LogUtils.d(TAG, "onResourceReady complete , path : " + fileSave.getPath());
 
@@ -630,7 +666,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private Uri setImageUri() {
-        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+        @SuppressWarnings("AccessStaticViaInstance") File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
         return imgUri;
@@ -781,11 +817,35 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         } else if (ageFrom >= ageTo) {
             Utils.showLongToast(this, getString(R.string.select_age_error), true, false);
             return;
+        } else if (edtPromotion.length() > 0 && !validatepromotion()) {
+            errorPromotion(getString(R.string.promotion_error_no));
+            return;
         }
 
         if (images.size() > 1) doAttachFiles();
         else createTaskOnServer();
 
+    }
+
+    private void errorPromotion(final String err) {
+        if (!advanceExpandableLayout.isExpanded()) {
+            showAdvance();
+        }
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                edtPromotion.setFocusableInTouchMode(true);
+                edtPromotion.setFocusable(true);
+                edtPromotion.requestFocus();
+                edtPromotion.setError(err);
+            }
+        }, 1000);
+
+    }
+
+    private boolean validatepromotion() {
+        String strPromotion = edtPromotion.getText().toString().trim().replace(" ", "").replace(",", "").replace(".", "");
+        return edtPromotion.length() == 6 && strPromotion.length() == 6;
     }
 
     private void doAttachFiles() {
@@ -865,7 +925,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 jsonRequest.put("worker_rate", Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
             jsonRequest.put("worker_count", Integer.valueOf(tvNumberWorker.getText().toString()));
             jsonRequest.put("status", status);
-//            jsonRequest.put("advance", layoutMore.getVisibility() == View.VISIBLE);
             jsonRequest.put("advance", getAdvanceSetting());
 
             if (imagesArr != null && imagesArr.length > 0) {
@@ -879,8 +938,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             jsonRequest.put("gender", strGender);
             jsonRequest.put("online", cbOnline.isChecked());
             jsonRequest.put("auto_assign", cbAuto.isChecked());
-
-
+            if (validatepromotion())
+                jsonRequest.put("promo_code", edtPromotion.getText().toString().trim());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -902,7 +961,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                             Utils.showLongToast(CreateTaskActivity.this, getString(R.string.draft_a_task_complete), false, false);
                         else
                             Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_a_task_complete), false, false);
-
                         setResult(Constants.POST_A_TASK_RESPONSE_CODE);
                         finish();
                         FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
@@ -917,35 +975,112 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                         Utils.blockUser(CreateTaskActivity.this);
                     } else {
                         if (error.status().equals(Constants.POST_TASK_DUPLICATE)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.duplicate_task_error), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.duplicate_task_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.INVALID_CATEGORY)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_category), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.invalid_category), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.INVALID_TITLE)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_title), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.invalid_title), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.INVALID_DESCRIPTION)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_description), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.invalid_description), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.INVALID_TIME)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_time), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.invalid_time), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.INVALID_ADRESS)) {
                             Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_address), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.no_task), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.INVALID_WORKER_RATE)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_worker_rate), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.invalid_worker_rate), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.INVALID_WORKER_COUNT)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_worker_count), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.invalid_worker_count), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.INVALID_GENDER)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_gender), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.invalid_gender), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.INVALID_AGE)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_age_between), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.invalid_age_between), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.INVALID_UPDATE_TASK_FAILED)) {
                             Utils.showLongToast(CreateTaskActivity.this, getString(R.string.update_task_failed), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.no_task), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.NO_PERMISSION)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.no_permission), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.no_permission), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.NO_TASK)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.no_task), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.no_task), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.EMPTY_PARAMETERS)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.empty_parameters), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.empty_parameters), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.UPDATE_NOT_ALLOWED)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.update_not_allowed), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.update_not_allowed), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else {
 
                             DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.invalid_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
@@ -1005,24 +1140,63 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                         Utils.blockUser(CreateTaskActivity.this);
                     } else {
                         if (error.status().equals(Constants.POST_TASK_DUPLICATE)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.duplicate_task_error), true, false);
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.duplicate_task_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.INVALID_TITLE)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_title), true, false);
+
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.invalid_title), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
                         } else if (error.status().equals(Constants.INVALID_TIME)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_time), true, false);
-                        } else if (error.status().equals(Constants.INVALID_ADRESS)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_address), true, false);
-                        } else if (error.status().equals(Constants.INVALID_DATA)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_data), true, false);
-                        } else if (error.status().equals(Constants.INVALID_AGE)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.invalid_age_between), true, false);
-                        } else if (error.status().equals(Constants.INVALID_UPDATE_TASK_FAILED)) {
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.update_task_failed), true, false);
-                        } else if (error.status().equals(Constants.INVALID_UPDATE_TASK_FAILED))
-                            Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_task_failed), true, false);
-                        else {
-                            LogUtils.e(TAG, "createNewTask errorBody : " + error.toString());
-                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.invalid_time), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                        } else if (error.status().equals(Constants.PROMOTION_ERROR_NO)) {
+                            errorPromotion(getString(R.string.promotion_error_no));
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.promotion_error_no), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                        } else if (error.status().equals(Constants.PROMOTION_ERROR_USED)) {
+                            errorPromotion(getString(R.string.promotion_error_used));
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.promotion_error_used), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                        } else if (error.status().equals(Constants.PROMOTION_ERROR_EXPRIED)) {
+                            errorPromotion(getString(R.string.promotion_error_expried));
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.promotion_error_expried), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+
+                        } else if (error.status().equals(Constants.PROMOTION_ERROR_LIMITED)) {
+                            errorPromotion(getString(R.string.promotion_error_limmited));
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.error), getString(R.string.promotion_error_limmited), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+
+                        } else {
+                            DialogUtils.showOkDialog(CreateTaskActivity.this, getString(R.string.invalid_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                                 @Override
                                 public void onSubmit() {
 
@@ -1212,11 +1386,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     /**
-     * Listener that handles selections from suggestions from the AutoCompleteTextView that
-     * displays Place suggestions.
-     * Gets the place id of the selected item and issues a request to the Places Geo Data API
-     * to retrieve more details about the place.
-     *
      * @see com.google.android.gms.location.places.GeoDataApi#getPlaceById(com.google.android.gms.common.api.GoogleApiClient,
      * String...)
      */
@@ -1224,21 +1393,12 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            /*
-             Retrieve the place ID of the selected item from the Adapter.
-             The adapter stores each Place suggestion in a AutocompletePrediction from which we
-             read the place ID and title.
-              */
             final AutocompletePrediction item = placeAutocompleteAdapter.getItem(position);
             final String placeId = item != null ? item.getPlaceId() : null;
             final CharSequence primaryText = item.getPrimaryText(null);
 
             LogUtils.i(TAG, "Autocomplete item selected: " + primaryText);
 
-            /*
-             Issue a request to the Places Geo Data API to retrieve a Place object with additional
-             details about the place.
-              */
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
                     .getPlaceById(googleApiClient, placeId);
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
@@ -1247,10 +1407,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         }
     };
 
-    /**
-     * Callback for results from a Places Geo Data API query that shows the first place result in
-     * the details view on screen.
-     */
     private final ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
             = new ResultCallback<PlaceBuffer>() {
         @Override
@@ -1287,10 +1443,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
 
     /**
-     * Called when the Activity could not connect to Google Play services and the auto manager
-     * could resolve the error automatically.
-     * In this case the API is not available and notify the user.
-     *
      * @param connectionResult can be inspected to determine the cause of the failure
      */
     @Override
@@ -1298,11 +1450,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
         LogUtils.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
                 + connectionResult.getErrorCode());
-
-//        // TODO(Developer): Check error code and notify the user of error state and resolution.
-//        Toast.makeText(this,
-//                "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
-//                Toast.LENGTH_SHORT).show();
 
         Utils.showLongToast(this, getString(R.string.gg_api_error), true, false);
     }
@@ -1392,9 +1539,14 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private void showAdvance() {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.more_layout);
+        int[] coords = {0, 0};
+        layout.getLocationOnScreen(coords);
+        int absoluteBottom = coords[1] + layout.getHeight() - tvMoreShow.getHeight();
+
         tvMoreShow.setVisibility(View.GONE);
         advanceExpandableLayout.toggle();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", scrollView.getMaxScrollAmount()).setDuration(1000);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1000);
         objectAnimator.start();
     }
 

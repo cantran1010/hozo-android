@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="@dimen/title_margin_left"
-            android:layout_marginStart="@dimen/title_margin_left"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/img_back"
             android:layout_toLeftOf="@+id/img_call"
             android:layout_toRightOf="@+id/img_back"
@@ -32,10 +32,11 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:background="@drawable/btn_back_selector_new"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/content_description_back"
+            android:focusable="true"
             android:scaleType="centerInside"
-            android:src="@drawable/back_arrow" />
+            android:src="@drawable/ic_back" />
 
         <ImageView
             android:id="@+id/img_sms"
@@ -43,8 +44,9 @@
             android:layout_height="?android:attr/actionBarSize"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:background="@drawable/btn_back_selector_new"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/adjust_image"
+            android:focusable="true"
             android:scaleType="centerInside"
             android:src="@drawable/img_sms_contact" />
 
@@ -64,8 +66,9 @@
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/img_sms"
             android:layout_toStartOf="@+id/img_sms"
-            android:background="@drawable/btn_back_selector_new"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/adjust_image"
+            android:focusable="true"
             android:scaleType="centerInside"
             android:src="@drawable/img_call_contact" />
 
@@ -75,8 +78,9 @@
             android:layout_height="?android:attr/actionBarSize"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:background="@drawable/btn_back_selector"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/adjust_image"
+            android:focusable="true"
             android:scaleType="centerInside"
             android:src="@drawable/more"
             android:visibility="gone" />

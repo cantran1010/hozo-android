@@ -1,5 +1,8 @@
 package vn.tonish.hozo.activity.payment;
 
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,6 +58,23 @@ public class PromotionCodeActivity extends BaseActivity implements View.OnClickL
         progressLayout = (LinearLayout) findViewById(R.id.progress_layout);
 
         edtCode = (EdittextHozo) findViewById(R.id.edt_code);
+
+        edtCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                edtCode.setError(null);
+            }
+        });
     }
 
     @Override
@@ -68,6 +88,12 @@ public class PromotionCodeActivity extends BaseActivity implements View.OnClickL
     }
 
     private void doPromotionCode() {
+
+        if (TextUtils.isEmpty(edtCode.getText().toString().trim())) {
+            edtCode.requestFocus();
+            edtCode.setError(getString(R.string.promotion_error_nil));
+            return;
+        }
 
         progressLayout.setVisibility(View.VISIBLE);
         btnPromotion.setEnabled(false);

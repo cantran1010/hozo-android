@@ -1,5 +1,6 @@
 package vn.tonish.hozo.activity;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -78,6 +79,11 @@ ReportTaskActivity extends BaseActivity implements View.OnClickListener {
 
     private void doReport() {
 
+        if (TextUtils.isEmpty(edtContent.getText().toString())) {
+            Utils.showLongToast(this, getString(R.string.report_null_content), false, false);
+            return;
+        }
+
         ProgressDialogUtils.showProgressDialog(this);
         final JSONObject jsonRequest = new JSONObject();
         try {
@@ -97,6 +103,7 @@ ReportTaskActivity extends BaseActivity implements View.OnClickListener {
                 LogUtils.d(TAG, "report , code : " + response.code());
 
                 if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                    Utils.showLongToast(ReportTaskActivity.this, getString(R.string.report_success), true, false);
                     finish();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(ReportTaskActivity.this, new NetworkUtils.RefreshListener() {
@@ -107,7 +114,7 @@ ReportTaskActivity extends BaseActivity implements View.OnClickListener {
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(ReportTaskActivity.this);
-                }else {
+                } else {
                     DialogUtils.showRetryDialog(ReportTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

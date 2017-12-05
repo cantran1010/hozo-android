@@ -35,10 +35,10 @@ import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkFullScreen;
 import vn.tonish.hozo.dialog.BlockDialog;
 import vn.tonish.hozo.fragment.BrowseTaskFragment;
-import vn.tonish.hozo.fragment.mytask.MyTaskFragment;
-import vn.tonish.hozo.fragment.inbox.NotificationFragment;
 import vn.tonish.hozo.fragment.SelectTaskFragment;
 import vn.tonish.hozo.fragment.SettingFragment;
+import vn.tonish.hozo.fragment.inbox.NotificationFragment;
+import vn.tonish.hozo.fragment.mytask.MyTaskFragment;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
@@ -134,14 +134,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case Constants.PUSH_TYPE_ACTIVE_USER:
                 case Constants.PUSH_TYPE_ACTIVE_TASK:
                 case Constants.PUSH_TYPE_ACTIVE_COMMENT: {
-//                DialogUtils.showOkDialog(this, getString(R.string.app_name), notification.getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-//                            @Override
-//                            public void onSubmit() {
-//
-//                            }
-//                        }
-//                );
-
                     BlockDialog blockDialog = new BlockDialog(MainActivity.this);
                     blockDialog.showView();
                     blockDialog.updateContent(notification.getContent());
@@ -281,14 +273,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case Constants.PUSH_TYPE_ACTIVE_USER:
                 case Constants.PUSH_TYPE_ACTIVE_TASK:
                 case Constants.PUSH_TYPE_ACTIVE_COMMENT: {
-//                DialogUtils.showOkDialog(this, getString(R.string.app_name), notification.getContent(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-//                            @Override
-//                            public void onSubmit() {
-//
-//                            }
-//                        }
-//                );
-
                     BlockDialog blockDialog = new BlockDialog(MainActivity.this);
                     blockDialog.showView();
                     blockDialog.updateContent(notification.getContent());
@@ -408,30 +392,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.layout_inbox:
-
-//                if (tabIndex == 4) break;
-                if (PreferUtils.getNewPushCount(MainActivity.this) > 0 || PreferUtils.getNewPushChatCount(MainActivity.this) > 0) {
-                    if (tabIndex == 4) {
-                        openFragment(R.id.layout_container, NotificationFragment.class, new Bundle(), false, TransitionScreen.FADE_IN);
-                    } else if (tabIndex > 4) {
-                        openFragment(R.id.layout_container, NotificationFragment.class, new Bundle(), false, TransitionScreen.LEFT_TO_RIGHT);
-                    } else {
-                        openFragment(R.id.layout_container, NotificationFragment.class, new Bundle(), false, TransitionScreen.RIGHT_TO_LEFT);
-                    }
+                if (tabIndex == 4) {
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.putExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION, getString(R.string.smooth_top));
+                    intentAnswer.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                    sendBroadcast(intentAnswer);
+                    break;
+                } else if (tabIndex > 4) {
+                    showFragment(R.id.layout_container, NotificationFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 } else {
-                    if (tabIndex == 4) {
-                        Intent intentAnswer = new Intent();
-                        intentAnswer.putExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION, getString(R.string.smooth_top));
-                        intentAnswer.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-                        sendBroadcast(intentAnswer);
-                        break;
-                    }
-
-                    if (tabIndex > 4) {
-                        showFragment(R.id.layout_container, NotificationFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
-                    } else {
-                        showFragment(R.id.layout_container, NotificationFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                    }
+                    showFragment(R.id.layout_container, NotificationFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 }
                 tabIndex = 4;
                 updateMenuUi(4);
@@ -510,7 +480,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void updateCountMsg() {
         int pushCount = PreferUtils.getNewPushCount(this) + PreferUtils.getNewPushChatCount(this) + PreferUtils.getPushNewTaskCount(this);
         if (pushCount > 99) pushCount = 99;
-
         if (pushCount == 0) {
             tvCountMsg.setVisibility(View.GONE);
         } else {

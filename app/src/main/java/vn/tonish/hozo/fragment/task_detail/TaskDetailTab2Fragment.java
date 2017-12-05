@@ -252,7 +252,7 @@ public class TaskDetailTab2Fragment extends BaseFragment implements View.OnClick
         PosterOpenAdapter posterOpenAdapter;
         if (bidders.size() > MAX_WORKER) {
 
-            ArrayList<Bidder> biddersNew = new ArrayList<Bidder>();
+            ArrayList<Bidder> biddersNew = new ArrayList<>();
             biddersNew.addAll(bidders.subList(0, MAX_WORKER));
 
             if (rcvBidder.getVisibility() == View.VISIBLE)

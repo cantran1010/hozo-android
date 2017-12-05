@@ -388,7 +388,7 @@
     <string name="location">Nơi làm</string>
     <string name="number_worker">Số người</string>
     <string name="all_price">Tổng tiền</string>
-    <string name="btn_create_task">ĐĂNG VIỆC</string>
+    <string name="btn_create_task">Đăng việc</string>
     <string name="attach_image">Ảnh</string>
     <string name="age">TUỔI</string>
     <string name="sex">GIỚI TÍNH</string>
@@ -412,7 +412,7 @@
     <string name="empty_count">Vị trí trống</string>
     <string name="task_time">GIỜ LÀM</string>
     <string name="task_hour">SỐ GIỜ</string>
-    <string name="hour_title">Số giờ làm việc</string>
+    <string name="hour_title">Chọn số giờ làm việc</string>
     <string name="sms">SMS</string>
     <string name="duplicate_task_error">Bạn không thể đăng 2 tin giống nhau liên tiếp trong vòng 1 giờ.</string>
     <string name="edit_task">Chỉnh sửa việc</string>
@@ -526,7 +526,7 @@
 
     <string name="promotion_success">Mã khuyến mãi hợp lệ,chúc mừng bạn đã được cộng tiền vào tài khoản !</string>
     <string name="promotion_error_empty">Mã trống</string>
-    <string name="promotion_error_no">Mã không hợp lệ</string>
+    <string name="promotion_error_no">Mã khuyến mãi không hợp lệ</string>
     <string name="promotion_error_not_started">Mã chưa kích hoạt</string>
     <string name="promotion_error_expried">Mã đã hết hạn</string>
     <string name="promotion_error_limmited">Mã đã bị giới hạn</string>
@@ -549,11 +549,9 @@
     <string name="no_task">Việc không tồn tại</string>
     <string name="empty_parameters">Thiếu ID việc</string>
     <string name="update_not_allowed">Không cho phép cập nhật việc này</string>
-    <string name="post_task_failed">Bài đăng thất bại</string>
-    <string name="invalid_data">Tỷ lệ hoặc số lượng người lao động không hợp lệ</string>
     <string name="no_referrer">Mã giới thiệu không tồn tại</string>
     <string name="advance_more_star">* Tùy chọn nâng cao</string>
-    <string name="number_title">Số người làm</string>
+    <string name="number_title">Chọn số người làm</string>
     <string name="lable_wage">Tiền công</string>
     <string name="rate_success">Đánh giá thành công,cảm ơn bạn!</string>
     <string name="rate_miss_star">Vui lòng nhập thông tin đánh giá!</string>
@@ -613,7 +611,7 @@
     <string name="task_alert_followed">Nhận thông báo từ User theo dõi trên Hozo.</string>
     <string name="tv_content_alert_new_task">Tuỳ chọn thông báo</string>
     <string name="setting_follow">Kết nối trên Hozo</string>
-    <string name="setting_alert_new_task">Cài đặt để nhận việc mới</string>
+    <string name="setting_alert_new_task">Cài đặt để nhận thông báo việc mới</string>
     <string name="system_error">system_error</string>
     <string name="detail_task_header">Chi tiết</string>
     <string name="view_map">Xem bản đồ</string>
@@ -712,4 +710,9 @@
     <string name="transaction_promo_posting">Tặng tiền giới thiệu việc đăng</string>
     <string name="bid_not_enough_money">Để có thể ứng tuyển việc này ví Hozo của bạn cần có số dư ít nhất là %1$s đ. Bạn có muốn thiết lập ví Hozo?</string>
     <string name="null_recharge_error">Vui lòng nhập số tiền</string>
+    <string name="report_null_content">Vui lòng nhập nội dung báo xấu!</string>
+    <string name="report_success">Báo xấu thành công.Cảm ơn bạn đã thông báo!</string>
+    <string name="promotion_error_nil">Vui lòng nhập mã khuyến mãi.</string>
+    <string name="promo_code">Mã khuyến mãi</string>
+    <string name="hint_promotion">6 ký tự liền nhau, ví dụ: Ab12cC</string>
 </resources>

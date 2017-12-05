@@ -68,7 +68,7 @@ public class NetworkUtils {
 
                     UserManager.getMyUser().setAccessToken(token != null ? token.getAccessToken() : null);
                     UserManager.getMyUser().setRefreshToken(token != null ? token.getRefreshToken() : null);
-                    UserManager.getMyUser().setTokenExp(token.getTokenExpires());
+                    UserManager.getMyUser().setTokenExp(token != null ? token.getTokenExpires() : null);
 
                     realm.commitTransaction();
 

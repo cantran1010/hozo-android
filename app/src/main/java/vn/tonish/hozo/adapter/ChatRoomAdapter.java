@@ -43,7 +43,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
     private List<Message> messages = new ArrayList<>();
 
     public interface ChatRoomListener {
-         void onClick(int position);
+        void onClick(int position);
     }
 
     private ChatRoomListener chatRoomListener;
@@ -62,9 +62,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
-
         for (int i = 0; i < tasks.size(); i++) messages.add(new Message());
-
         for (int i = 0; i < tasks.size(); i++) {
             final int finalI = i;
             ChildEventListener childEventListener = new ChildEventListener() {

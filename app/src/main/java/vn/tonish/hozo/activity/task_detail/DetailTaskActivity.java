@@ -31,6 +31,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -445,12 +446,16 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         tvAge.setText(getString(R.string.post_a_task_age, taskResponse.getMinAge(), taskResponse.getMaxAge()));
 
-        if (taskResponse.getGender().equals(Constants.GENDER_MALE)) {
-            tvSex.setText(getString(R.string.gender_male_vn));
-        } else if (taskResponse.getGender().equals(Constants.GENDER_FEMALE)) {
-            tvSex.setText(getString(R.string.gender_female_vn));
-        } else {
-            tvSex.setText(getString(R.string.gender_non_vn));
+        switch (taskResponse.getGender()) {
+            case Constants.GENDER_MALE:
+                tvSex.setText(getString(R.string.gender_male_vn));
+                break;
+            case Constants.GENDER_FEMALE:
+                tvSex.setText(getString(R.string.gender_female_vn));
+                break;
+            default:
+                tvSex.setText(getString(R.string.gender_non_vn));
+                break;
         }
 
         tvBidderCount.setText(getString(R.string.bidder_count_lbl, taskResponse.getBidderCount()));
@@ -662,10 +667,19 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
-            btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.VISIBLE);
             btnRatePoster.setText(getString(R.string.poster_ratting));
             btnContactHozo.setVisibility(View.GONE);
+
+            try {
+                if (DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2
+                        && DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) >= 0)
+                    btnContact.setVisibility(View.VISIBLE);
+                else
+                    btnContact.setVisibility(View.GONE);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             isShowCancel = false;
             isReportTask = false;
@@ -817,9 +831,18 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
-            btnContact.setVisibility(View.VISIBLE);
             btnRatePoster.setVisibility(View.VISIBLE);
             btnContactHozo.setVisibility(View.GONE);
+
+            try {
+                if (DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2
+                        && DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) >= 0)
+                    btnContact.setVisibility(View.VISIBLE);
+                else
+                    btnContact.setVisibility(View.GONE);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             if (taskResponse.isRatePoster())
                 btnRatePoster.setText(getString(R.string.worker_ratting_done));
@@ -1724,6 +1747,10 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                     mComments.set(i, comment);
                     commentsAdapter.notifyDataSetChanged();
                 }
+        }
+        if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            setResult(Constants.POST_A_TASK_RESPONSE_CODE);
+            finish();
         }
     }
 
