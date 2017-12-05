@@ -192,7 +192,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         edtName.setText(userEntity.getFullName());
 
-        Utils.displayImage(this, imgBackground, userEntity.getBackground());
+        if (!TextUtils.isEmpty(userEntity.getBackground()))
+            Utils.displayImage(this, imgBackground, userEntity.getBackground());
 
         if (userEntity.getGender() != null) {
             gender = userEntity.getGender();

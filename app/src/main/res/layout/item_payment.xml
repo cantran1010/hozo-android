@@ -30,6 +30,20 @@
                 android:textStyle="bold" />
 
             <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/tv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/tv_price"
+                android:layout_toRightOf="@id/tv_price"
+                android:text="@string/unit"
+                android:textColor="@color/hozo_red"
+                android:textSize="11sp"
+                tools:ignore="SmallSp" />
+
+            <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

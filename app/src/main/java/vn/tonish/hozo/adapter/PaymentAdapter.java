@@ -58,11 +58,13 @@ public class PaymentAdapter extends BaseAdapter<TransactionResponse, PaymentAdap
             TransactionResponse payment = payments.get(position);
 
             if (payment.getType().equals("in")) {
-                myPrice = "+ " + Utils.formatNumber(payment.getAmount()) + " " + context.getString(R.string.unit);
+                myPrice = "+ " + Utils.formatNumber(payment.getAmount());
                 myViewHolder.tvPrice.setTextColor(ContextCompat.getColor(context, R.color.hozo_bg));
+                myViewHolder.tvUnit.setTextColor(ContextCompat.getColor(context, R.color.hozo_bg));
             } else {
-                myPrice = "- " + Utils.formatNumber(payment.getAmount()) + " " + context.getString(R.string.unit);
+                myPrice = "- " + Utils.formatNumber(payment.getAmount());
                 myViewHolder.tvPrice.setTextColor(ContextCompat.getColor(context, R.color.hozo_red));
+                myViewHolder.tvUnit.setTextColor(ContextCompat.getColor(context, R.color.hozo_red));
             }
 
             myViewHolder.tvPrice.setText(myPrice);
@@ -74,13 +76,14 @@ public class PaymentAdapter extends BaseAdapter<TransactionResponse, PaymentAdap
 
     public class MyViewHolder extends BaseHolder {
 
-        private TextViewHozo tvPrice, tvDate, tvContent;
+        private TextViewHozo tvPrice, tvDate, tvContent, tvUnit;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             tvPrice = itemView.findViewById(R.id.tv_price);
             tvDate = itemView.findViewById(R.id.tv_date);
             tvContent = itemView.findViewById(R.id.tv_content);
+            tvUnit = itemView.findViewById(R.id.tv_unit);
         }
 
     }

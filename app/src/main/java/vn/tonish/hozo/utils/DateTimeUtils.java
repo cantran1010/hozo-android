@@ -60,7 +60,7 @@ public class DateTimeUtils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault()).format(date);
+        return new SimpleDateFormat("HH:mm  dd/MM/yyyy", Locale.getDefault()).format(date);
     }
 
     public static String getDateBirthDayFromIso(String input) {

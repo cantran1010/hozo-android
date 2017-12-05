@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/wallet_title"
-            android:textColor="@color/white"
+            android:textColor="#f4f4f4"
             android:textSize="15sp" />
 
         <RelativeLayout
@@ -73,7 +73,7 @@
             <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:layout_toEndOf="@id/tv_my_wallet"
                 android:layout_toRightOf="@id/tv_my_wallet"
                 android:text="@string/unit"
@@ -91,7 +91,8 @@
             android:background="@drawable/btn_white_corner_selector"
             android:text="@string/btn_payment"
             android:textAllCaps="false"
-            android:textColor="@color/hozo_bg" />
+            android:textColor="@color/hozo_bg"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -105,7 +106,7 @@
             android:layout_height="50dp"
             android:gravity="center"
             android:text="@string/history_title"
-            android:textColor="@color/tv_gray_new"
+            android:textColor="#bccad0"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -128,7 +129,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:background="#bcccd2" />
 
     <RelativeLayout
@@ -148,7 +149,8 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/bg_gray_corners"
             android:gravity="center"
             android:text="@string/see_all_payment"
