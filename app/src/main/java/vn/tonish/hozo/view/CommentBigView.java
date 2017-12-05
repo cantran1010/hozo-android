@@ -39,7 +39,7 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
     private int posterId;
 
     public interface AnswerListener {
-        public void onAnswer();
+        void onAnswer();
     }
 
     private AnswerListener answerListener;

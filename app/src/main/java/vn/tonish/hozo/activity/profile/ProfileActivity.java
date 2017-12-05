@@ -35,7 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
-import vn.tonish.hozo.activity.HomeActivity;
+import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.activity.ReviewsActivity;
 import vn.tonish.hozo.activity.image.PreviewImageActivity;
 import vn.tonish.hozo.activity.image.PreviewImageListActivity;
@@ -97,7 +97,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private ImageView imgFbVerify, imgEmailVerify;
 
     private RecyclerView rcvSkills, rcvLanguages;
-    private ProfileTagAdapter skillsAdapter, languagesAdapter;
     private ButtonHozo btnVerify;
     private MyGridView myGridView;
     private ButtonHozo btnFollow;
@@ -433,7 +432,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         rcvSkills.setNestedScrollingEnabled(false);
 
         rcvSkills.setLayoutManager(layoutManager);
-        skillsAdapter = new ProfileTagAdapter(mUserEntity.getSkills());
+        ProfileTagAdapter skillsAdapter = new ProfileTagAdapter(mUserEntity.getSkills());
         rcvSkills.setAdapter(skillsAdapter);
     }
 
@@ -443,7 +442,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         rcvLanguages.setNestedScrollingEnabled(false);
 
         rcvLanguages.setLayoutManager(layoutManager);
-        languagesAdapter = new ProfileTagAdapter(mUserEntity.getLanguages());
+        ProfileTagAdapter languagesAdapter = new ProfileTagAdapter(mUserEntity.getLanguages());
         rcvLanguages.setAdapter(languagesAdapter);
     }
 
@@ -517,7 +516,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                             realm.beginTransaction();
                             realm.deleteAll();
                             realm.commitTransaction();
-                            Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
+                            Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
                             intent.putExtra(Constants.LOGOUT_EXTRA, true);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);

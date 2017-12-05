@@ -109,13 +109,14 @@ import static vn.tonish.hozo.R.string.post_task_map_get_location_error_next;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.Utils.formatNumber;
+import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 /**
  * Created by LongBui on 8/18/17.
  */
 
-public class CreateTaskActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class CreateTaskActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, View.OnTouchListener {
 
     private static final String TAG = CreateTaskActivity.class.getSimpleName();
     private NestedScrollView scrollView;
@@ -502,14 +503,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         scrollView.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
         scrollView.setFocusable(true);
         scrollView.setFocusableInTouchMode(true);
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.requestFocusFromTouch();
-                return false;
-            }
-        });
+        scrollView.setOnTouchListener(this);
 
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -1264,6 +1258,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+
     private void doClose() {
         if (edtTitle.getText().toString().trim().equals("") && tvDate.getText().toString().trim().equals("")
                 && edtDescription.getText().toString().trim().equals("")) {
@@ -1433,7 +1428,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
                 edtBudget.requestFocus();
 
-                Utils.hideKeyBoard(CreateTaskActivity.this);
+                hideKeyBoard(CreateTaskActivity.this);
 
             } catch (Exception e) {
                 Utils.showLongToast(CreateTaskActivity.this, getString(post_task_map_get_location_error_next), true, false);
@@ -1550,4 +1545,21 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         objectAnimator.start();
     }
 
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                view.requestFocusFromTouch();
+                hideKeyBoard(CreateTaskActivity.this);
+                break;
+            case MotionEvent.ACTION_UP:
+                view.performClick();
+                break;
+            default:
+                break;
+        }
+        return true;
+
+
+    }
 }

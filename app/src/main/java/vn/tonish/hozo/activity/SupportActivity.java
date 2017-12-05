@@ -21,11 +21,9 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class SupportActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = SupportActivity.class.getSimpleName();
-    private LinearLayout phoneLayout, mailLayout, rateLayout;
     private TextViewHozo tvPhone, tvMail, tvRate;
     private ImageView imgPhone, imgMail, imgRate;
     private int tab = 1;
-    private ImageView imgBack;
 
     @Override
     protected int getLayout() {
@@ -34,9 +32,9 @@ public class SupportActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-        phoneLayout = (LinearLayout) findViewById(R.id.support_phone_layout);
-        mailLayout = (LinearLayout) findViewById(R.id.support_mail_layout);
-        rateLayout = (LinearLayout) findViewById(R.id.support_rate_layout);
+        LinearLayout phoneLayout = (LinearLayout) findViewById(R.id.support_phone_layout);
+        LinearLayout mailLayout = (LinearLayout) findViewById(R.id.support_mail_layout);
+        LinearLayout rateLayout = (LinearLayout) findViewById(R.id.support_rate_layout);
 
         phoneLayout.setOnClickListener(this);
         mailLayout.setOnClickListener(this);
@@ -50,7 +48,7 @@ public class SupportActivity extends BaseActivity implements View.OnClickListene
         imgMail = (ImageView) findViewById(R.id.img_support_mail);
         imgRate = (ImageView) findViewById(R.id.img_support_rate);
 
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
     }
 

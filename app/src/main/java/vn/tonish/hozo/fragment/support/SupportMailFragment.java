@@ -59,7 +59,6 @@ public class SupportMailFragment extends BaseFragment implements View.OnClickLis
     private final ArrayList<Image> images = new ArrayList<>();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private ButtonHozo btnSend;
     private int imageAttachCount;
     private int[] imagesArr;
     private EdittextHozo edtEmail, edtContent;
@@ -72,7 +71,7 @@ public class SupportMailFragment extends BaseFragment implements View.OnClickLis
     @Override
     protected void initView() {
         grImage = (MyGridView) findViewById(R.id.gr_image);
-        btnSend = (ButtonHozo) findViewById(R.id.btn_send);
+        ButtonHozo btnSend = (ButtonHozo) findViewById(R.id.btn_send);
         btnSend.setOnClickListener(this);
 
         edtEmail = (EdittextHozo) findViewById(R.id.edt_email);

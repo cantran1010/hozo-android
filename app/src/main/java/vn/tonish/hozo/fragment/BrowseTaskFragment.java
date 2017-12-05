@@ -156,6 +156,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             public void onLoadMore(int page, int totalItemsCount) {
                 if (isLoadingMoreFromServer) getTaskResponse(query);
                 else {
+                    //noinspection CollectionAddedToSelf
                     taskList.addAll(taskList);
                     new Handler().post(new Runnable() {
                         @Override

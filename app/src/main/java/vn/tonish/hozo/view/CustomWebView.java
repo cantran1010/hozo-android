@@ -30,9 +30,9 @@ public class CustomWebView extends WebView {
     private static final String RECHARGE_SUCCESS_LINK = "https://staging-api.hozo.vn/v1/web/wallet/callbacks/1pay?_success=1";
 
     public interface WebviewListener {
-        public void onSuccess();
+        void onSuccess();
 
-        public void onFail();
+        void onFail();
     }
 
     private WebviewListener webviewListener;

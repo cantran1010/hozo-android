@@ -13,7 +13,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.HomeActivity;
+import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
@@ -79,7 +79,7 @@ public class NetworkUtils {
                     realm.beginTransaction();
                     realm.deleteAll();
                     realm.commitTransaction();
-                    Intent intent = new Intent(context, HomeActivity.class);
+                    Intent intent = new Intent(context, LoginActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }

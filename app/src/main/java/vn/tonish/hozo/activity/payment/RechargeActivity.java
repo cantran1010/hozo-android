@@ -42,10 +42,9 @@ import vn.tonish.hozo.view.EdittextHozo;
 public class RechargeActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = RechargeActivity.class.getSimpleName();
-    private ImageView imgBack;
-    private LinearLayout promotionLayout, atmLayout, visaLayout, inputVisaLayout, inputAtmLayout;
+    private LinearLayout inputVisaLayout;
+    private LinearLayout inputAtmLayout;
     private EdittextHozo edtVisa, edtAtm;
-    private ButtonHozo btnVisa, btnAtm;
     private int MIN_MONEY = 10000;
     private int MAX_MONEY = 2000000;
 
@@ -56,16 +55,16 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initView() {
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        promotionLayout = (LinearLayout) findViewById(R.id.promotion_layout);
+        LinearLayout promotionLayout = (LinearLayout) findViewById(R.id.promotion_layout);
         promotionLayout.setOnClickListener(this);
 
-        atmLayout = (LinearLayout) findViewById(R.id.atm_layout);
+        LinearLayout atmLayout = (LinearLayout) findViewById(R.id.atm_layout);
         atmLayout.setOnClickListener(this);
 
-        visaLayout = (LinearLayout) findViewById(R.id.visa_layout);
+        LinearLayout visaLayout = (LinearLayout) findViewById(R.id.visa_layout);
         visaLayout.setOnClickListener(this);
 
         inputVisaLayout = (LinearLayout) findViewById(R.id.input_visa_layout);
@@ -74,10 +73,10 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         edtVisa = (EdittextHozo) findViewById(R.id.edt_visa);
         edtAtm = (EdittextHozo) findViewById(R.id.edt_atm);
 
-        btnVisa = (ButtonHozo) findViewById(R.id.btn_visa);
+        ButtonHozo btnVisa = (ButtonHozo) findViewById(R.id.btn_visa);
         btnVisa.setOnClickListener(this);
 
-        btnAtm = (ButtonHozo) findViewById(R.id.btn_atm);
+        ButtonHozo btnAtm = (ButtonHozo) findViewById(R.id.btn_atm);
         btnAtm.setOnClickListener(this);
     }
 
