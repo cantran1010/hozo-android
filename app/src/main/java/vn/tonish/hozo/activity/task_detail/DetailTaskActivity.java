@@ -693,12 +693,16 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
             updateStatusTask(true, getString(R.string.my_task_status_worker_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
-            showExpand(true);
+            showExpand(false);
 
-            btnOffer.setVisibility(View.GONE);
+            btnOffer.setVisibility(View.VISIBLE);
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+
+            btnOffer.setText(getString(R.string.btn_cancel_task));
+            Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            btnOffer.setEnabled(false);
 
             isShowCancel = false;
             isReportTask = true;

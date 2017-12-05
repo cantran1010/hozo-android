@@ -715,4 +715,5 @@
     <string name="promotion_error_nil">Vui lòng nhập mã khuyến mãi.</string>
     <string name="promo_code">Mã khuyến mãi</string>
     <string name="hint_promotion">6 ký tự liền nhau, ví dụ: Ab12cC</string>
+    <string name="btn_cancel_task">Bạn đã bỏ lỡ việc này</string>
 </resources>

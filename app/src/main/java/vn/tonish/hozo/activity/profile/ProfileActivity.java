@@ -291,7 +291,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
             tvName.setText(mUserEntity.getFullName());
 
-            Utils.displayImage(this, imgBackground, mUserEntity.getBackground());
+            if (!TextUtils.isEmpty(mUserEntity.getBackground()))
+                Utils.displayImage(this, imgBackground, mUserEntity.getBackground());
 
             String genderAge = "";
 
