@@ -1,7 +1,9 @@
 package vn.tonish.hozo.activity.payment;
 
 import android.content.Intent;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,6 +47,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     private EdittextHozo edtVisa, edtAtm;
     private ButtonHozo btnVisa, btnAtm;
     private int MIN_MONEY = 10000;
+    private int MAX_MONEY = 2000000;
 
     @Override
     protected int getLayout() {
@@ -84,39 +87,39 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         edtAtm.addTextChangedListener(new NumberTextWatcher(edtAtm));
         edtVisa.addTextChangedListener(new NumberTextWatcher(edtVisa));
 
-//        edtAtm.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                edtAtm.setText(Utils.formatNumber(Long.valueOf(getLongEdittext(edtAtm))));
-//            }
-//        });
-//
-//        edtVisa.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                edtVisa.setText(Utils.formatNumber(Long.valueOf(getLongEdittext(edtAtm))));
-//            }
-//        });
+        edtAtm.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                edtAtm.setError(null);
+            }
+        });
+
+        edtVisa.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                edtVisa.setError(null);
+            }
+        });
 
     }
 
@@ -131,8 +134,21 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
     private void doAtm() {
 
-        if (TextUtils.isEmpty(edtAtm.getText().toString()) || Integer.valueOf(getLongEdittext(edtAtm)) < MIN_MONEY) {
-            Utils.showLongToast(this, getString(R.string.min_recharge_error, Utils.formatNumber(MIN_MONEY)), true, false);
+        if (TextUtils.isEmpty(edtAtm.getText().toString())) {
+            edtAtm.requestFocus();
+            edtAtm.setError(getString(R.string.null_recharge_error));
+            return;
+        }
+
+        if (Integer.valueOf(getLongEdittext(edtAtm)) < MIN_MONEY) {
+            edtAtm.requestFocus();
+            edtAtm.setError(getString(R.string.min_recharge_error, Utils.formatNumber(MIN_MONEY)));
+            return;
+        }
+
+        if (Integer.valueOf(getLongEdittext(edtAtm)) > MAX_MONEY) {
+            edtAtm.requestFocus();
+            edtAtm.setError(getString(R.string.max_recharge_error, Utils.formatNumber(MAX_MONEY)));
             return;
         }
 
@@ -203,8 +219,22 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void doVisa() {
-        if (TextUtils.isEmpty(edtVisa.getText().toString()) || Integer.valueOf(getLongEdittext(edtVisa)) < MIN_MONEY) {
-            Utils.showLongToast(this, getString(R.string.min_recharge_error, Utils.formatNumber(MIN_MONEY)), true, false);
+
+        if (TextUtils.isEmpty(edtVisa.getText().toString())) {
+            edtVisa.requestFocus();
+            edtVisa.setError(getString(R.string.null_recharge_error));
+            return;
+        }
+
+        if (Integer.valueOf(getLongEdittext(edtVisa)) < MIN_MONEY) {
+            edtVisa.requestFocus();
+            edtVisa.setError(getString(R.string.min_recharge_error, Utils.formatNumber(MIN_MONEY)));
+            return;
+        }
+
+        if (Integer.valueOf(getLongEdittext(edtVisa)) > MAX_MONEY) {
+            edtVisa.requestFocus();
+            edtVisa.setError(getString(R.string.max_recharge_error, Utils.formatNumber(MAX_MONEY)));
             return;
         }
 
@@ -311,10 +341,16 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 break;
 
             case R.id.atm_layout:
+                inputVisaLayout.setVisibility(View.GONE);
+                edtVisa.setText("");
+                edtVisa.setError(null);
                 doExpandAtm();
                 break;
 
             case R.id.visa_layout:
+                inputAtmLayout.setVisibility(View.GONE);
+                edtAtm.setText("");
+                edtAtm.setError(null);
                 doExpandVisa();
                 break;
 
