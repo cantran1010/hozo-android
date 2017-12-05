@@ -34,10 +34,8 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class SupportRateFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = SupportRateFragment.class.getSimpleName();
-    private ButtonHozo btnSend;
     private RatingBar ratingBar;
     private EdittextHozo edtContent;
-    private TextViewHozo tvGoPlayStore;
 
     @Override
     protected int getLayout() {
@@ -46,13 +44,13 @@ public class SupportRateFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     protected void initView() {
-        btnSend = (ButtonHozo) findViewById(R.id.btn_send);
+        ButtonHozo btnSend = (ButtonHozo) findViewById(R.id.btn_send);
         btnSend.setOnClickListener(this);
 
         ratingBar = (RatingBar) findViewById(R.id.rb_rate);
         edtContent = (EdittextHozo) findViewById(R.id.edt_content);
 
-        tvGoPlayStore = (TextViewHozo) findViewById(R.id.tv_go_play_store);
+        TextViewHozo tvGoPlayStore = (TextViewHozo) findViewById(R.id.tv_go_play_store);
         tvGoPlayStore.setOnClickListener(this);
     }
 

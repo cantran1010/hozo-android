@@ -41,18 +41,16 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
     @SuppressLint("UseSparseArrays")
     private final HashMap<Integer, Member> memberHashMap = new HashMap<>();
 
-    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private final DatabaseReference myRef;
     private final DatabaseReference memberCloudEndPoint;
-    private final int posterId;
 
     public MessageAdapter(Context context, List<Message> messages, int posterId) {
         super(context, messages);
         this.messages = messages;
         this.context = context;
-        this.posterId = posterId;
+        int posterId1 = posterId;
 
-        myRef = database.getReference();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
         memberCloudEndPoint = myRef.child("members");
     }
 

@@ -367,7 +367,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         realm.beginTransaction();
         realm.deleteAll();
         realm.commitTransaction();
-        Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         intent.putExtra(Constants.LOGOUT_EXTRA, true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent, TransitionScreen.FADE_IN);

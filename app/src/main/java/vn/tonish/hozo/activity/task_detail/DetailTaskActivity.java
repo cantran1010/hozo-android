@@ -97,10 +97,27 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private TaskResponse taskResponse;
     private CircleImageView imgAvatar;
     private RatingBar rbRate;
-    private TextViewHozo tvStatus, tvTimeAgo, tvMap, tvSeeMoreDetail, tvSeeMoreFooter, tvAttach;
-    private TextViewHozo tvName, tvTitle, tvAddress, tvDate, tvTime, tvHour, tvDes, tvAge, tvSex, tvBudget, tvWorkerCount, tvAssignerCount, tvEmptyCount, tvAgeLbl, tvSexLbl;
-    private ButtonHozo btnOffer, btnContact, btnRatePoster, btnComment, btnContactHozo;
-    private Call<TaskResponse> call;
+    private TextViewHozo tvStatus;
+    private TextViewHozo tvTimeAgo;
+    private TextViewHozo tvSeeMoreDetail;
+    private TextViewHozo tvSeeMoreFooter;
+    private TextViewHozo tvName;
+    private TextViewHozo tvTitle;
+    private TextViewHozo tvAddress;
+    private TextViewHozo tvDate;
+    private TextViewHozo tvTime;
+    private TextViewHozo tvHour;
+    private TextViewHozo tvDes;
+    private TextViewHozo tvAge;
+    private TextViewHozo tvSex;
+    private TextViewHozo tvBudget;
+    private TextViewHozo tvWorkerCount;
+    private TextViewHozo tvAssignerCount;
+    private TextViewHozo tvEmptyCount;
+    private ButtonHozo btnOffer;
+    private ButtonHozo btnContact;
+    private ButtonHozo btnRatePoster;
+    private ButtonHozo btnContactHozo;
     private MyGridView myGridView;
     private int taskId = 0;
     private ImageView imgMenu;
@@ -187,10 +204,10 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         myGridView = (MyGridView) findViewById(R.id.gr_image);
 
-        tvAgeLbl = (TextViewHozo) findViewById(R.id.tv_age_lbl);
-        tvSexLbl = (TextViewHozo) findViewById(R.id.tv_sex_lbl);
+        TextViewHozo tvAgeLbl = (TextViewHozo) findViewById(R.id.tv_age_lbl);
+        TextViewHozo tvSexLbl = (TextViewHozo) findViewById(R.id.tv_sex_lbl);
 
-        tvMap = (TextViewHozo) findViewById(R.id.tv_map);
+        TextViewHozo tvMap = (TextViewHozo) findViewById(R.id.tv_map);
         tvMap.setOnClickListener(this);
 
         rcvBidder = (RecyclerView) findViewById(R.id.rcv_bidders);
@@ -219,14 +236,14 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         imgAvatarComment = (CircleImageView) findViewById(R.id.img_avatar_cm);
         imgAvatarComment.setOnClickListener(this);
 
-        btnComment = (ButtonHozo) findViewById(R.id.btn_comment);
+        ButtonHozo btnComment = (ButtonHozo) findViewById(R.id.btn_comment);
         btnComment.setOnClickListener(this);
 
         edtComment = (EdittextHozo) findViewById(R.id.edt_comment);
         imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
         imgAttached = (ImageView) findViewById(R.id.img_attached);
 
-        tvAttach = (TextViewHozo) findViewById(R.id.tv_attach);
+        TextViewHozo tvAttach = (TextViewHozo) findViewById(R.id.tv_attach);
         tvAttach.setOnClickListener(this);
 
         ImageView imgDelete = (ImageView) findViewById(R.id.img_delete);
@@ -290,7 +307,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         Map<String, Boolean> option = new HashMap<>();
         option.put("viewer", true);
 
-        call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId, option);
+        Call<TaskResponse> call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId, option);
         call.enqueue(new Callback<TaskResponse>() {
             @Override
             public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {

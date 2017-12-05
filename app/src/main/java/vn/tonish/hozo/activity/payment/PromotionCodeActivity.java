@@ -37,7 +37,6 @@ import vn.tonish.hozo.view.EdittextHozo;
 public class PromotionCodeActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = PromotionCodeActivity.class.getSimpleName();
-    private ImageView imgBack;
     private ButtonHozo btnPromotion;
     private LinearLayout progressLayout;
     private EdittextHozo edtCode;
@@ -49,7 +48,7 @@ public class PromotionCodeActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initView() {
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
         btnPromotion = (ButtonHozo) findViewById(R.id.btn_promotion);

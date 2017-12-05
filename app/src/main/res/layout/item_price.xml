@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground">
 
     <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tv_price"
@@ -10,7 +11,18 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:padding="5dp"
-        android:textColor="@color/black"
+        android:textColor="@color/setting_text"
         android:textSize="15sp" />
 
+    <vn.tonish.hozo.view.TextViewHozo
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@id/tv_price"
+        android:layout_toRightOf="@id/tv_price"
+        android:padding="5dp"
+        android:text="@string/hozo_d"
+        android:textColor="@color/setting_text"
+        android:textSize="15sp" />
 </RelativeLayout>

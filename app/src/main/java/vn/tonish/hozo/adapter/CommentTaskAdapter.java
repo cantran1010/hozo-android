@@ -30,7 +30,7 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
     }
 
     public interface AnswerListener {
-        public void onAnswer(int position);
+        void onAnswer(int position);
     }
 
     private AnswerListener answerListener;

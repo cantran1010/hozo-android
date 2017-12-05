@@ -1,7 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!--all screen-->
     <string name="app_name">Hozo</string>
-    <string name="continue_up_case">TIẾP TỤC</string>
 
 
     <!--notification Screen-->
@@ -16,7 +15,7 @@
     <string name="other_condition">Điều khoản sử dụng</string>
     <string name="other_nad">Chính sách bảo mật</string>
     <string name="other_share">Chia sẻ với bạn bè</string>
-    <string name="other_about">Về HOZO</string>
+    <string name="other_about">Về Hozo</string>
     <string name="tv_login_policy">Nhấn \" Tiếp tục \" đồng nghĩa với bạn đồng ý với điều khoản sử dụng và chính sách bảo mật của chúng tôi.</string>
     <string name="login_policy_condition">điều khoản sử dụng</string>
     <string name="login_policy_nad">chính sách bảo mật</string>
@@ -31,10 +30,8 @@
     <string name="other_title">Khác</string>
 
     <!--  post a task layout-->
-    <string name="tv_post_a_task_title">Chi tiết đăng việc</string>
     <string name="profile_log_out">Thoát tài khoản</string>
     <string name="tv_task_title">Tiêu đề công việc</string>
-    <string name="task_title_hint">Lau dọn nhà bếp</string>
 
     <string name="post_a_task_name_error">Tiêu đề công việc trên 10 kí tự</string>
     <string name="post_a_task_date_error">Vui lòng nhập \n thời gian bắt đầu làm việc</string>
@@ -48,7 +45,6 @@
     <string name="err_pick_image">Vui lòng chọn ít nhất 1 ảnh</string>
 
     <!-- post a task map-->
-    <string name="msg_err_gps">Ứng dụng cần bật dịch vụ định vị GPS</string>
     <string name="my_task_worker">Việc nhận</string>
     <string name="my_task_poster">Việc đăng</string>
 
@@ -69,35 +65,18 @@
     <string name="rate">Đánh giá</string>
     <string name="just_image">just_image</string>
 
-    <string-array name="gender">
-        <item>Bất kỳ</item>
-        <item>Nam</item>
-        <item>Nữ</item>
-    </string-array>
-
     <!-- make an offer-->
     <string name="adjust_image">adjust_image</string>
 
     <!-- post a task -->
     <string name="tv_time_task">Giờ làm</string>
     <string name="task_description_hint">Mô tả thêm</string>
-    <string name="attach_image_hint">Đăng hình ảnh</string>
-    <string name="more_detail">Tùy chọn thêm</string>
-    <string name="date_pick_hint">Chọn thời gian bắt đầu làm việc</string>
-    <string name="btn_next">TIẾP TỤC</string>
     <string name="age_from_hint">18 ~ 60</string>
-    <string name="post_a_task_finish_title">Chi phí</string>
-    <string name="post_task_finish_offer">Số tiền cho một người</string>
-    <string name="post_task_finish_number">Số người cần thuê</string>
-    <string name="post_task_finish_total">Tổng chi phí</string>
-    <string name="vn_dong">đ</string>
-    <string name="post_a_task_finish">ĐĂNG VIỆC</string>
 
     <!-- edit profile -->
     <string name="edit_profile_name">HỌ TÊN</string>
     <string name="edit_profile_address">ĐỊA CHỈ</string>
     <string name="edit_profile_birth">NGÀY SINH</string>
-    <string name="drop_down">Drop down</string>
     <string name="camera">take picture</string>
     <string name="content_description_back">Trở lại</string>
     <string name="crop_image_title">Chỉnh sửa</string>
@@ -105,7 +84,6 @@
     <string name="report_task_content_hint">Hãy cho chúng tôi biết lý do khác của bạn là gì</string>
     <string name="next">Tiếp tục</string>
     <string name="call">Gọi</string>
-    <string name="make_an_offer_question">Hỏi đáp</string>
     <string name="done">Hoàn thành</string>
     <string name="work_detail_view_bit">Ứng Tuyển</string>
     <string name="work_detail_view_price">Giá tiền :</string>
@@ -113,12 +91,10 @@
     <string name="work_detail_view_time">Thời gian :</string>
     <string name="work_detail_view_address">Địa điểm :</string>
     <string name="type_your_text">Bình luận</string>
-    <string name="assign_people">Danh sách được giao (%1$d)</string>
     <string name="assign">Giao</string>
     <string name="cancel_task">Hủy việc</string>
     <string name="recruitment">Ứng tuyển</string>
     <string name="received">Đã nhận</string>
-    <string name="update_task">Đã đăng</string>
     <string name="delivered">Đã giao</string>
     <string name="gallery">Gallery</string>
     <string name="share_task">Tìm Việc</string>
@@ -130,7 +106,6 @@
     <string name="profile_phone">ĐIỆN THOẠI</string>
     <string name="content_description_send">Gửi</string>
     <string name="post_a_task_budget_error">Vui lòng nhập \n giá tiền</string>
-    <string name="post_a_task_number_worker_error">Vui lòng nhập \n số người</string>
     <string name="post_a_task_max_attach_err">Bạn chỉ được chọn tối đa 6 ảnh</string>
     <string name="max_image_attach_err">Bạn chỉ được chọn tối đa %1$d ảnh</string>
     <string name="select_age_title">Chọn Tuổi</string>
@@ -142,8 +117,6 @@
     <string name="alert_dialog_content">Bạn có chắc chắn muốn dừng thao tác này</string>
     <string name="alert_dialog_yes">CÓ</string>
     <string name="alert_dialog_no">KHÔNG</string>
-    <string name="post_a_task_working_hour_hint">Số giờ làm việc</string>
-    <string name="post_a_task_time_working_error">Vui lòng nhập số giờ làm việc</string>
     <string name="post_a_task_complete">Chúc mừng bạn đã đăng tuyển thành công!</string>
     <string name="draft_a_task_complete">Lưu việc thành công!</string>
     <string name="my_account">Tài khoản của tôi</string>
@@ -151,7 +124,6 @@
     <string name="retry_title">Lỗi kết nối.</string>
     <string name="retry_content">Không thể kết nối tới máy chủ. Vui lòng kiểm tra kết nối của bạn và thử lại.</string>
     <string name="retry">THỬ LẠI</string>
-    <string name="bidder">Danh sách ứng tuyển (%1$d)</string>
     <string name="text_test">Text Test</string>
     <string name="just_now">Vừa xong</string>
     <string name="minute_ago">1 phút trước</string>
@@ -165,7 +137,6 @@
     <string name="empty" />
     <string name="task_detail_attach_image_hint">Hình ảnh minh họa</string>
     <string name="comment_report">Thông báo tin nhắn xấu</string>
-    <string name="see_more">Xem thêm</string>
     <string name="bid_success">Chúc mừng ứng tuyển của bạn đã thành công. Vui lòng để ý thông báo cho trạng thái công việc.</string>
     <string name="report_title">Lý do báo cáo</string>
     <string name="report_spam_much">Spam quá nhiều</string>
@@ -280,17 +251,12 @@
     <string name="post_task_time_start_error">Vui lòng chọn thời gian bắt đầu \n sớm nhất có thể sau 30 phút</string>
     <string name="post_task_date_picker_title">Chọn ngày làm việc</string>
     <string name="post_task_time_picker_title">Chọn thời gian bắt đầu</string>
-    <string name="taks_type_empty">bạn chưa chọn loại công việc</string>
-    <string name="comment_setting_visible">visible</string>
-    <string name="comment_setting_invisible">invisible</string>
     <string name="cancel_task_success_msg">Bạn đã hủy việc thành công</string>
     <string name="message_exit_app">Nhấn lần nữa để thoát ứng dụng!</string>
     <string name="gg_api_error">Không thể kết nối tới dịch vụ của Google</string>
     <string name="contacting_api_autocomplete_error">Lỗi kết nối tới dịch vụ của google</string>
-    <string name="post_a_task_map_get_location_error">Không thể lấy vị trí của bạn,vui lòng kiểm tra lại kết nối và thử lại!</string>
     <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
     <string name="all_space_type"><b> </b></string>
-    <string name="count_in_detail">(%1$d)</string>
     <string name="my_task_price">%s đ</string>
     <string name="vnd">%sđ</string>
     <string name="comments">| %s Bình luận</string>
@@ -300,7 +266,6 @@
     <string name="detail_task_time_ago">%1$s . Loại công việc : %2$s</string>
     <string name="edit_profile_birthday">%1$d/%2$d/%3$d</string>
     <string name="task_detail_time">%1$s - %2$s</string>
-    <string name="max_number_worker_error" tools:ignore="PluralsCandidate">Số người \n tối đa là %1$d người</string>
     <string name="max_budget_error">Giá tiền \n tối đa %1$s VNĐ</string>
     <string name="your_task">của bạn</string>
     <string name="work">Việc</string>
@@ -337,8 +302,6 @@
     <string name="profile_about">GIỚI THIỆU</string>
     <string name="error_des">Lỗi vượt quá 500 ký tự.</string>
     <string name="webview_error"><html><body style='background: white;'><p style='color: red;'>Không thể tải trang! Vui lòng kiểm tra kết nối và thử lại!</p></body></html></string>
-    <string name="title_max_length_error">Tiêu đề không được quá 80 kí tự</string>
-    <string name="working_hour_max_error" tools:ignore="PluralsCandidate">Số giờ làm việc tối đa là %1$d giờ</string>
     <string name="detete_task">Xóa việc</string>
     <string name="title_delete_task">Xóa việc</string>
     <string name="content_detete_task">Bạn có chắc chắn muốn xóa việc này?</string>
@@ -347,7 +310,7 @@
     <string name="give_info">Xác thực thêm</string>
     <string name="label_header_verify">Để có thể tìm được người làm việc hay nhận việc
        \nmột cách nhanh chóng và đảm bảo.
-        \nBạn cần xác thực thông tin với HoZo!</string>
+        \nBạn cần xác thực thông tin với Hozo!</string>
     <string name="email_verify">Email</string>
     <string name="verify">Xác thực</string>
     <string name="reviews_count">%1$d đánh giá</string>
@@ -397,9 +360,6 @@
     <string name="auto_pick">Tự động chọn ứng viên</string>
     <string name="post_task_address_error">Vui lòng nhập địa chỉ</string>
     <string name="post_a_task_input_error">Hozo không cho phép đăng email hay số điện thoại trong bài đăng. \nTrường hợp cố tình vi phạm sẽ có nguy cơ bị khóa tài khoản vĩnh viễn!</string>
-    <string name="detail_tab_1">Công việc</string>
-    <string name="detail_tab_2">Người làm</string>
-    <string name="detail_tab_3">Bình luận</string>
     <string name="address_title">NƠI LÀM</string>
     <string name="task_date">NGÀY LÀM</string>
     <string name="description">MÔ TẢ</string>
@@ -428,8 +388,6 @@
     <string name="comment_duplicate_error">Bình luận của bạn không hợp lệ vì có nội dung trùng lặp!</string>
     <string name="delete">Xóa</string>
     <string name="make_an_offer_status">Đang tuyển</string>
-    <string name="no_bidder">Chưa có người ứng tuyển.</string>
-    <string name="no_comment">Chưa có bình luận nào.</string>
     <string name="post_task_address_error_google">Địa chỉ không đúng</string>
     <string name="btn_edit_task">Cập nhật</string>
     <string name="bid_limmit_offer_error">Việc đã đủ người ứng tuyển.</string>
@@ -438,7 +396,6 @@
     <string name="notification_tab_2">Chat nhóm</string>
     <string name="chat_hint">Nhập tin nhắn …</string>
     <string name="date_work">Ngày làm:</string>
-    <string name="chat">Chat nhóm</string>
     <string name="menu_detail_task">Xem chi tiết việc</string>
     <string name="permission_chat_error">Bạn không thể tiếp tục chat tại phòng này!</string>
     <string name="no_data">Chưa có dữ liệu</string>
@@ -446,7 +403,7 @@
     <string name="nofification_enouth_bidder_title">Việc</string>
     <string name="nofification_enouth_bidder_footer">của bạn đã đủ người ứng tuyển, hãy giao việc</string>
     <string name="register_address">Địa chỉ</string>
-    <string name="other_payment">Ví HoZo</string>
+    <string name="other_payment">Ví Hozo</string>
     <string name="ACCOUNT_KIT_CLIENT_TOKEN">d9278fc58b4d68801c0a5a682dfcaad2</string>
     <!--<string name="ACCOUNT_KIT_CLIENT_TOKEN_TEST">462ec5de77bb446a2a1baca7903111af</string>-->
     <string name="permissions_read_phone_state_message">
@@ -457,12 +414,6 @@
       Cho phép đọc mã SMS của bạn từ thiết bị của bạn để điền vào trước.
     </string>
     <string name="permissions_receive_sms_title">Đọc Mã SMS</string>
-    <string name="poster_chat_msg">Bạn cần giao việc cho ứng viên để bắt đầu chat nhóm.</string>
-    <string name="bidder_chat_msg">Bạn cần được giao việc để bắt đầu chat nhóm.</string>
-    <string name="title_bid_task">Ứng tuyển</string>
-    <string name="content_bid_task">Bạn có chắc chắn nhận được việc không? Đừng để người đăng việc thất vọng nhé.</string>
-    <string name="bid_success_tittle">Ứng tuyển thành công</string>
-    <string name="big_success_content">Bạn sẽ được người đăng việc xem xét và giao việc. Hãy để ý trong phần Thông báo của mình nhé.</string>
     <string name="setting_status">Trạng thái</string>
     <string name="setting_category">Loại việc</string>
     <string name="setting_time">Thời gian</string>
@@ -482,7 +433,7 @@
     <string name="setting_status_assigned">assigned</string>
     <string name="keyword_hint">Nhập từ khoá</string>
     <string name="payment_history_title">Tài khoản thanh toán</string>
-    <string name="wallet_title">Ví HoZo của bạn có</string>
+    <string name="wallet_title">Ví Hozo của bạn có</string>
     <string name="btn_payment">Nạp tiền</string>
     <string name="history_title">LỊCH SỬ GIAO DỊCH</string>
     <string name="recharge_title">Nạp tiền</string>
@@ -509,10 +460,10 @@
     <string name="promotion_progress_des">Đang đợi xác thực</string>
     <string name="btn_promotion">Gửi mã</string>
     <string name="support_title">Hỗ trợ</string>
-    <string name="support_des">Cảm ơn bạn đã đồng hành cùng HoZo.\nChúng tôi luôn mong ước được lắng nghe từ bạn!</string>
-    <string name="support_call">Gọi \ncho HoZo</string>
-    <string name="support_msg">Gửi tin nhắn\ncho HoZo</string>
-    <string name="support_rate">Đánh giá\nHoZo</string>
+    <string name="support_des">Cảm ơn bạn đã đồng hành cùng Hozo.\nChúng tôi luôn mong ước được lắng nghe từ bạn!</string>
+    <string name="support_call">Gọi \ncho Hozo</string>
+    <string name="support_msg">Gửi tin nhắn\ncho Hozo</string>
+    <string name="support_rate">Đánh giá\nHozo</string>
     <string name="support_phone_title">Điện thoại</string>
     <string name="support_mail_content">Nội dung tin nhắn</string>
     <string name="support_image_attach">Gửi ảnh đính kèm</string>
@@ -522,7 +473,7 @@
     <string name="email_hint_support">Nhập Email của bạn</string>
     <string name="rate_on_play_store">Đánh giá Hozo trên Googleplay</string>
     <string name="other_support">Hỗ trợ</string>
-    <string name="other_connect">Liên kết trên HoZo</string>
+    <string name="other_connect">Liên kết trên Hozo</string>
 
     <string name="promotion_success">Mã khuyến mãi hợp lệ,chúc mừng bạn đã được cộng tiền vào tài khoản !</string>
     <string name="promotion_error_empty">Mã trống</string>
@@ -635,7 +586,7 @@
     <string name="all_comment">Tất cả bình luận</string>
     <string name="confirm_bid_title">Xác nhận ứng tuyển</string>
     <string name="bid_lbl">Bạn đã ứng tuyển việc</string>
-    <string name="bid_des1">Để đảm bảo uy tín ứng tuyển.\nHoZo sẽ tạm thu %1$s đ từ ví HoZo của bạn.\nSố tiền sẽ được hoàn trả nếu:</string>
+    <string name="bid_des1">Để đảm bảo uy tín ứng tuyển.\nHozo sẽ tạm thu %1$s đ từ ví Hozo của bạn.\nSố tiền sẽ được hoàn trả nếu:</string>
     <string name="bid_des2">Bạn hoàn thành công việc có\nxác nhận từ người thuê.</string>
     <string name="bid_des3">Bạn huỷ ứng tuyển trước khi được giao việc hoặc sau khi được giao việc sau 30 phút.</string>
     <string name="bid_confirm_policy">Xem thêm ở Điều khoản sử dụng</string>
@@ -715,4 +666,5 @@
     <string name="promotion_error_nil">Vui lòng nhập mã khuyến mãi.</string>
     <string name="promo_code">Mã khuyến mãi</string>
     <string name="hint_promotion">6 ký tự liền nhau, ví dụ: Ab12cC</string>
+    <string name="hozo_d">đ</string>
 </resources>

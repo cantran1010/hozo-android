@@ -37,9 +37,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class MyWalletActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = MyWalletActivity.class.getSimpleName();
-    private ImageView imgBack;
     private TextViewHozo tvMore;
-    private ButtonHozo btnPayment;
     private RecyclerView rcvPayment;
     private TextViewHozo tvMyWallet, tvCountHistory, tvNoHistory;
     private PaymentAdapter paymentAdapter;
@@ -53,13 +51,13 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initView() {
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
         tvMore = (TextViewHozo) findViewById(R.id.tv_more);
         tvMore.setOnClickListener(this);
 
-        btnPayment = (ButtonHozo) findViewById(R.id.btn_payment);
+        ButtonHozo btnPayment = (ButtonHozo) findViewById(R.id.btn_payment);
         btnPayment.setOnClickListener(this);
 
         tvMyWallet = (TextViewHozo) findViewById(R.id.tv_my_wallet);

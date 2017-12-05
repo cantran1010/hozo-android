@@ -30,11 +30,9 @@ public class TagActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = TagActivity.class.getSimpleName();
     private EdittextHozo edtTag;
-    private ButtonHozo btnSend;
     private RecyclerView rcvTag;
     private TagAdapter tagAdapter;
     private ArrayList<TagResponse> tagResponses = new ArrayList<>();
-    private ImageView imgBack;
     private UserEntity userEntity = new UserEntity();
     private int requestCode;
     private TextViewHozo tvTitle;
@@ -47,12 +45,12 @@ public class TagActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initView() {
         edtTag = (EdittextHozo) findViewById(R.id.edt_tag);
-        btnSend = (ButtonHozo) findViewById(R.id.btn_send);
+        ButtonHozo btnSend = (ButtonHozo) findViewById(R.id.btn_send);
         btnSend.setOnClickListener(this);
 
         rcvTag = (RecyclerView) findViewById(R.id.rcv_tag);
 
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);

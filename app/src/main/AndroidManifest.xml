@@ -60,15 +60,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".activity.task_detail.TaskDetailActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activity.task_detail.TaskDetailNewActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activity.HomeActivity"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -92,16 +84,6 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.profile.ProfileActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.task.PostATaskActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".activity.task.PostATaskMapActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.task.PostATaskFinishActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.image.AlbumActivity"
@@ -135,9 +117,6 @@
             android:name=".activity.ReviewsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.TaskTypeActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.comment.CommentsActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -165,7 +144,7 @@
         <activity
             android:name=".activity.task.CreateTaskActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.PlaceActivity"
             android:screenOrientation="portrait"
@@ -203,14 +182,6 @@
             android:name="com.facebook.accountkit.ui.AccountKitActivity"
             android:theme="@style/HozoAccountKit"
             tools:replace="android:theme" />
-
-        <!-- <receiver android:name=".broadcast.BlockBroadCastReceiver"> -->
-        <!-- <intent-filter> -->
-        <!-- <action -->
-        <!-- android:name="vn.tonish.hozo.block_user" -->
-        <!-- android:enabled="true" /> -->
-        <!-- </intent-filter> -->
-        <!-- </receiver> -->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

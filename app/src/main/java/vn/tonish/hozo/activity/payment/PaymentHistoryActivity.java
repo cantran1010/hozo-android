@@ -32,11 +32,9 @@ import vn.tonish.hozo.utils.LogUtils;
 public class PaymentHistoryActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = PaymentHistoryActivity.class.getSimpleName();
-    private ImageView imgBack;
     private RecyclerView rcvPayment;
     private PaymentAdapter paymentAdapter;
     private ArrayList<TransactionResponse> payments = new ArrayList<>();
-    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private boolean isLoadingMoreFromServer = true;
     private String since;
     private static final int LIMIT = 20;
@@ -48,7 +46,7 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initView() {
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
         rcvPayment = (RecyclerView) findViewById(R.id.rcv_payment_history);
@@ -70,7 +68,7 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
         rcvPayment.setLayoutManager(linearLayoutManager);
         rcvPayment.setAdapter(paymentAdapter);
 
-        endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);

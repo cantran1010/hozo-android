@@ -128,7 +128,7 @@ public class SplashActivity extends BaseActivity {
                             if (UserManager.checkLogin())
                                 checkBlockUser();
                             else {
-                                startActivity(HomeActivity.class, TransitionScreen.FADE_IN);
+                                startActivity(LoginActivity.class, TransitionScreen.FADE_IN);
                                 finish();
                             }
                         }
@@ -182,7 +182,7 @@ public class SplashActivity extends BaseActivity {
                 if (UserManager.checkLogin())
                     checkBlockUser();
                 else {
-                    startActivity(HomeActivity.class, TransitionScreen.FADE_IN);
+                    startActivity(LoginActivity.class, TransitionScreen.FADE_IN);
                     finish();
                 }
             }

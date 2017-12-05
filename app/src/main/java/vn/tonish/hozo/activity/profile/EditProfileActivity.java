@@ -117,11 +117,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private final ArrayList<Image> images = new ArrayList<>();
-    private RelativeLayout skillsLayout, languagesLayout;
     private UserEntity userEntity;
     private int imageAttachCount = 0;
     private RadioButtonHozo rbPoster, rbWorker, rbBoth;
-    private ImageView imgEditBackground, imgBackground;
+    private ImageView imgBackground;
 
     @Override
     protected int getLayout() {
@@ -162,8 +161,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         grImage = (MyGridView) findViewById(R.id.gr_image);
 
-        skillsLayout = (RelativeLayout) findViewById(R.id.skill_layout);
-        languagesLayout = (RelativeLayout) findViewById(R.id.languages_layout);
+        RelativeLayout skillsLayout = (RelativeLayout) findViewById(R.id.skill_layout);
+        RelativeLayout languagesLayout = (RelativeLayout) findViewById(R.id.languages_layout);
 
         skillsLayout.setOnClickListener(this);
         languagesLayout.setOnClickListener(this);
@@ -174,7 +173,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         rbWorker = (RadioButtonHozo) findViewById(R.id.rd_worker);
         rbBoth = (RadioButtonHozo) findViewById(R.id.rd_both);
 
-        imgEditBackground = (ImageView) findViewById(R.id.img_edit_background);
+        ImageView imgEditBackground = (ImageView) findViewById(R.id.img_edit_background);
         imgEditBackground.setOnClickListener(this);
 
         imgBackground = (ImageView) findViewById(R.id.img_background);

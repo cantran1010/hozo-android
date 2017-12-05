@@ -61,8 +61,8 @@ import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
  * Created by CanTran on 5/9/17.
  */
 
-public class HomeActivity extends BaseActivity {
-    private static final String TAG = HomeActivity.class.getSimpleName();
+public class LoginActivity extends BaseActivity {
+    private static final String TAG = LoginActivity.class.getSimpleName();
     private int nextPermissionsRequestCode = 4000;
     @SuppressLint("UseSparseArrays")
     private final Map<Integer, OnCompleteListener> permissionsListeners = new HashMap<>();
@@ -177,16 +177,16 @@ public class HomeActivity extends BaseActivity {
                     insertUser(user, true);
                     LogUtils.d(TAG, "sendCodeAccountKit onResponse body : " + token.toString());
                     if (user.getFullName().isEmpty()) {
-                        startActivity(new Intent(HomeActivity.this, RegisterActivity.class), TransitionScreen.FADE_IN);
+                        startActivity(new Intent(LoginActivity.this, RegisterActivity.class), TransitionScreen.FADE_IN);
                     } else {
-                        Intent i = new Intent(HomeActivity.this, MainActivity.class);
+                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         i.putExtra(Constants.TRANSITION_EXTRA, TransitionScreen.RIGHT_TO_LEFT);
                         startActivity(i, TransitionScreen.FADE_IN);
                     }
                     sendRegistrationToServer();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(HomeActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(LoginActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             sendCodeAccountKit(account_code);
@@ -194,13 +194,13 @@ public class HomeActivity extends BaseActivity {
                     });
 
                 } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
-                    Utils.showLongToast(HomeActivity.this, getString(R.string.code_otp_is_invalid), true, false);
+                    Utils.showLongToast(LoginActivity.this, getString(R.string.code_otp_is_invalid), true, false);
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(HomeActivity.this);
+                    Utils.blockUser(LoginActivity.this);
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-                    Utils.showLongToast(HomeActivity.this, error.message(), true, false);
+                    Utils.showLongToast(LoginActivity.this, error.message(), true, false);
                 }
 //                ProgressDialogUtils.dismissProgressDialog();
             }
@@ -209,7 +209,7 @@ public class HomeActivity extends BaseActivity {
             public void onFailure(Call<OtpReponse> call, Throwable t) {
                 LogUtils.e(TAG, "onFailure message : " + t.getMessage());
 //                ProgressDialogUtils.dismissProgressDialog();
-                showRetryDialog(HomeActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                showRetryDialog(LoginActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         sendCodeAccountKit(account_code);

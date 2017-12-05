@@ -46,11 +46,7 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
     private TextViewHozo tvVerifyFaceBook, tvVerifyEmail;
     private EdittextHozo edtEmail;
     private CallbackManager callbackmanager;
-    private UserEntity mUserEntity;
-    private String mEmail, mFacebookID;
-    private RelativeLayout layoutEmail;
     private LinearLayout layoutVerifyEmail;
-    private ButtonHozo btnSendEmail;
 
     @Override
     protected int getLayout() {
@@ -68,23 +64,23 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
         tvVerifyFaceBook.setOnClickListener(this);
         imgBack.setOnClickListener(this);
 
-        layoutEmail = (RelativeLayout) findViewById(R.id.email_layout);
+        RelativeLayout layoutEmail = (RelativeLayout) findViewById(R.id.email_layout);
         layoutEmail.setOnClickListener(this);
 
         layoutVerifyEmail = (LinearLayout) findViewById(R.id.email_verify_layout);
 
-        btnSendEmail = (ButtonHozo) findViewById(R.id.btn_send_email);
+        ButtonHozo btnSendEmail = (ButtonHozo) findViewById(R.id.btn_send_email);
         btnSendEmail.setOnClickListener(this);
 
     }
 
     @Override
     protected void initData() {
-        mUserEntity = UserManager.getMyUser();
+        UserEntity mUserEntity = UserManager.getMyUser();
         LogUtils.d(TAG, "user info: " + mUserEntity.toString());
 
-        mEmail = mUserEntity.getEmail();
-        mFacebookID = mUserEntity.getFacebookId();
+        String mEmail = mUserEntity.getEmail();
+        String mFacebookID = mUserEntity.getFacebookId();
 
         if (!(mFacebookID.equalsIgnoreCase("") || mFacebookID == null)) {
             tvVerifyFaceBook.setText(R.string.verified);

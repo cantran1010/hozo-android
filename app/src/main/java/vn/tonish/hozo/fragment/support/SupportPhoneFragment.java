@@ -13,8 +13,6 @@ import vn.tonish.hozo.view.ButtonHozo;
 
 public class SupportPhoneFragment extends BaseFragment implements View.OnClickListener {
 
-    private ButtonHozo btnCall;
-
     @Override
     protected int getLayout() {
         return R.layout.support_phone_fragment;
@@ -22,7 +20,7 @@ public class SupportPhoneFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initView() {
-        btnCall = (ButtonHozo) findViewById(R.id.btn_call);
+        ButtonHozo btnCall = (ButtonHozo) findViewById(R.id.btn_call);
         btnCall.setOnClickListener(this);
     }
 
