@@ -1011,19 +1011,58 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                         break;
 
                     case R.id.cancel_task:
-                        DialogUtils.showOkAndCancelDialog(
-                                DetailTaskActivity.this, getString(R.string.title_cancel_task), getString(R.string.cancel_task_content), getString(R.string.cancel_task_ok),
-                                getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
-                                    @Override
-                                    public void onSubmit() {
-                                        doCacelTask();
-                                    }
 
-                                    @Override
-                                    public void onCancel() {
+                        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+                            DialogUtils.showOkAndCancelDialog(
+                                    DetailTaskActivity.this, getString(R.string.title_cancel_task), getString(R.string.cancel_task_content), getString(R.string.cancel_task_ok),
+                                    getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                        @Override
+                                        public void onSubmit() {
+                                            doCacelTask();
+                                        }
 
-                                    }
-                                });
+                                        @Override
+                                        public void onCancel() {
+
+                                        }
+                                    });
+                        } else {
+                            try {
+                                if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && DateTimeUtils.minutesBetween(DateTimeUtils.toCalendar(taskResponse.getOfferAssignedAt()), Calendar.getInstance()) > 30) {
+                                    DialogUtils.showOkAndCancelDialog(
+                                            DetailTaskActivity.this, getString(R.string.title_cancel_task), getString(R.string.cancel_task_content_assign, Utils.formatNumber(taskResponse.getBidDepositAmount())), getString(R.string.cancel_task_ok),
+                                            getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                                @Override
+                                                public void onSubmit() {
+                                                    doCacelTask();
+                                                }
+
+                                                @Override
+                                                public void onCancel() {
+
+                                                }
+                                            });
+                                } else {
+                                    DialogUtils.showOkAndCancelDialog(
+                                            DetailTaskActivity.this, getString(R.string.title_cancel_task), getString(R.string.cancel_task_content), getString(R.string.cancel_task_ok),
+                                            getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                                @Override
+                                                public void onSubmit() {
+                                                    doCacelTask();
+                                                }
+
+                                                @Override
+                                                public void onCancel() {
+
+                                                }
+                                            });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+
                         break;
 
                     case R.id.delete_task:

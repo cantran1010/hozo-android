@@ -171,25 +171,19 @@
     <string name="brower_task_map_activity">Tìm việc gần đây</string>
 
     <!-- notification -->
-    <string name="notification_review_received">đã gửi đánh giá về bạn</string>
     <string name="notification_comment_received">đã bình luận công việc</string>//
     <string name="notification_related" tools:ignore="PluralsCandidate">và %1$d người khác</string>
     <string name="notification_comment_replied">đã trả lời bình luận công việc</string>//
     <string name="notification_bidder_canceled">đã hủy ứng tuyển ở việc</string>//
     <string name="notification_bid_received">đã ứng tuyển công việc</string>//
-    <string name="notification_bid_accepted">đã đồng ý ứng tuyển công việc</string>
     <string name="notification_task_reminder">bạn được giao sắp đến giờ đi làm</string>
-    <string name="notification_new_task_alert">đã tạo một việc mới</string>
-    <string name="notification_poster_canceled">đã hủy việc</string>
     <string name="notification_task_completed">đã hoàn thành.</string>
     <string name="notification_task_completed_bidder">đã hoàn thành.</string>
-    <string name="notification_task_overdue">đã hết hạn</string>
-    <string name="notification_bid_missed">mà bạn ứng tuyển vừa bị bỏ lỡ</string>
     <string name="notification_task_reopen">mà bạn ứng tuyển trước đó vừa được mở lại</string>
     <string name="notification_cancel_bid">đã hủy chọn bạn</string>
-    <string name="notification_chat">đã gửi tin nhắn đến nhóm</string>//
-    <string name="notification_review_poster">Bạn nhận được một yêu cầu duyệt công việc</string>//
-    <string name="notification_review_worker">Bạn đã được duyệt công việc</string>//
+    //
+    //
+    //
     <string name="notification_await_approval">đã đến lúc duyệt người làm</string>//
 
     <string name="notification_review_received_matcher">không hoàn thành</string>
@@ -269,8 +263,6 @@
     <string name="max_budget_error">Giá tiền \n tối đa %1$s VNĐ</string>
     <string name="your_task">của bạn</string>
     <string name="work">Việc</string>
-    <string name="push_alert">phù hợp với bạn</string>
-    <string name="push_you_bidded">bạn ứng tuyển</string>
     <string name="push_complete_work">Công việc</string>
     <string name="max_size_attach_error">Ảnh đính kèm không vượt quá %1$d Mb .\nVui lòng chọn ảnh khác!</string>
     <string name="min_size_attach_error">Ảnh đính kèm không hợp lệ .\nVui lòng chọn ảnh khác!</string>
@@ -690,4 +682,5 @@
     <string name="notification_assign_canceled_title">đã từ chối làm việc</string>
     <string name="notification_assign_canceled_footer">của bạn. Bạn có thể chọn người thay thế.</string>
     <string name="notification_assigner_canceled_matcher">từ chối</string>
+    <string name="cancel_task_content_assign">Công việc của bạn đã được giao. Nếu Hủy việc thì ví Hozo của bạn sẽ bị trừ %1$s đ. Bạn có chắc chắn muốn hủy việc?</string>
 </resources>
