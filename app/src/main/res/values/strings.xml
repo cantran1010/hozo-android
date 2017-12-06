@@ -322,7 +322,7 @@
     <string name="task_detail_block">Việc đã bị khóa !</string>
     <string name="task_detail_block_reasons">Lý do :</string>
     <string name="brower_new_task" tools:ignore="PluralsCandidate">%1$d việc mới</string>
-    <string name="address_hint">Nhập địa chỉ …</string>
+    <string name="address_hint">Nhập địa chỉ</string>
     <string name="no_address">Rất tiếc,không tìm thấy địa chỉ!</string>
     <string name="email_verify_done">Vui lòng kiểm tra email để hoàn thành bước xác thưc!</string>
     <string name="work_detail_view_bit_pending">Đang chờ giao việc</string>
@@ -660,6 +660,7 @@
     <string name="hint_promotion">6 ký tự liền nhau, ví dụ: Ab12cC</string>
     <string name="hozo_d">đ</string>
     <string name="btn_cancel_task">Bạn đã bỏ lỡ việc này</string>
+    <string name="post_a_task_description_error">Mô tả không được ít hơn 25 ký tự</string>
     <string name="notification_comment_received_footer">mà bạn tương tác</string>
     <string name="notification_bid_received_footer">.Hãy nhanh chóng giao việc</string>
     <string name="push_overdue_title">Rất tiếc việc</string>

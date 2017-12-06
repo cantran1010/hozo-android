@@ -87,7 +87,7 @@
     </style>
 
     <style name="tv_style_normal_gray">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/tv_gray_new</item>
     </style>
 
@@ -195,7 +195,7 @@
     </style>
 
     <style name="edt_create_task">
-        <item name="android:textSize">@dimen/tv_size_xxtiny</item>
+        <item name="android:textSize">@dimen/tv_size_medium</item>
         <item name="android:padding">10dp</item>
         <item name="android:textColor">@color/color_edt_create_task_lable</item>
         <item name="android:textColorHint">@color/color_hint_create_task_lable</item>
