@@ -30,6 +30,16 @@ public class Notification implements Serializable {
     private int relatedCount;
     @SerializedName("external_link")
     private String externalLink;
+    @SerializedName("task_start_time")
+    private String taskStartTime;
+
+    public String getTaskStartTime() {
+        return taskStartTime;
+    }
+
+    public void setTaskStartTime(String taskStartTime) {
+        this.taskStartTime = taskStartTime;
+    }
 
     public String getExternalLink() {
         return externalLink;
@@ -151,6 +161,7 @@ public class Notification implements Serializable {
                 ", content='" + content + '\'' +
                 ", relatedCount=" + relatedCount +
                 ", externalLink='" + externalLink + '\'' +
+                ", taskStartTime='" + taskStartTime + '\'' +
                 '}';
     }
 

@@ -158,6 +158,7 @@ public class SystemNotificationFragment extends BaseFragment {
                 } else {
                     Intent intent = new Intent(getActivity(), DetailTaskActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
+                    intent.putExtra(Constants.EVENT_NOTIFICATION_EXTRA, notifications.get(position).getEvent());
                     startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 }
             }

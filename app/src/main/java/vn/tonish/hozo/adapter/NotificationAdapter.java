@@ -85,7 +85,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
             NotificationHolder notificationHolder = (NotificationHolder) holder;
 
             final Notification notification = notifications.get(position);
-
+            LogUtils.d(TAG, "onBindViewHolder , notification : " + notification.toString());
             switch (notification.getEvent()) {
                 case Constants.PUSH_TYPE_ADMIN_PUSH:
                 case Constants.PUSH_TYPE_BLOCK_USER:
@@ -113,7 +113,7 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
                     break;
                 case Constants.PUSH_TYPE_NEW_TASK_ALERT:
                     Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());
-                    String strContent = notification.getFullName() + " " + context.getString(R.string.notification_new_task_alert) + " " + notification.getTaskName() + " " + context.getString(R.string.push_alert);
+                    String strContent = context.getString(R.string.notification_new_task_alert_title) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_new_task_alert_day) + " " + DateTimeUtils.getOnlyDateFromIso(notification.getTaskStartTime()) + " " + context.getString(R.string.notification_new_task_alert_footer);
                     notificationHolder.tvContent.setText(strContent);
                     break;
                 case Constants.PUSH_TYPE_MONEY_RECEIVED:

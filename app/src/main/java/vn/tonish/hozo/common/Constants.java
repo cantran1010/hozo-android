@@ -41,6 +41,8 @@ public class Constants {
     public static final String POSTER_ID_EXTRA = "poster_extra";
     public static final int PROMOTION_REQUEST_CODE = 456;
     public static final int PROMOTION_RESULT_CODE = 654;
+    public static final String PUSH_TYPE_ASSIGNER_CANCELED = "assigner_canceled";
+    public static final String EVENT_NOTIFICATION_EXTRA = "notification_extra";
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
@@ -170,7 +172,8 @@ public class Constants {
     public static final String PUSH_TYPE_CHAT = "message_received";
     public static final String PUSH_TYPE_ENOUGH_BIDDER = "enough_bidder";
     public static final String PUSH_TYPE_REVIEW_POSTER = "review_received_ra";
-    public static final String PUSH_TYPE_REVIEW_WORKER = "review_received_ca";
+    public static final String PUSH_TYPE_REVIEW_WORKER_DONE = "review_received_ca";
+    public static final String PUSH_TYPE_REVIEW_WORKER = "review_received";
     public static final String PUSH_TYPE_AWAIT_APPROVAL = "task_await_approval";
     public static final String PUSH_TYPE_MONEY_RECEIVED = "money_received";
 

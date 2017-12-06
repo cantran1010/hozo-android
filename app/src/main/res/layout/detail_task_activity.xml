@@ -24,7 +24,6 @@
             android:scaleType="centerInside"
             android:src="@drawable/ic_back" />
 
-
         <vn.tonish.hozo.view.TextViewHozo
             style="@style/tv_title"
             android:layout_width="wrap_content"
@@ -384,6 +383,7 @@
                 android:layout_marginStart="@dimen/margin_left_screen"
                 android:background="@drawable/bg_white_border"
                 android:gravity="center_horizontal"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <vn.tonish.hozo.view.MyGridView
@@ -581,6 +581,7 @@
                 android:layout_marginEnd="@dimen/margin_right_screen"
                 android:layout_marginLeft="@dimen/margin_left_screen"
                 android:layout_marginRight="@dimen/margin_right_screen"
+                android:visibility="gone"
                 android:layout_marginStart="@dimen/margin_left_screen"
                 android:layout_marginTop="10dp"
                 android:text="@string/work_detail_view_bit" />
@@ -591,7 +592,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_right_screen"
-                android:layout_marginLeft="@dimen/margin_left_screen"
+                android:layout_marginLeft="@dimen/margin_left_screen"   android:visibility="gone"
                 android:layout_marginRight="@dimen/margin_right_screen"
                 android:layout_marginStart="@dimen/margin_left_screen"
                 android:layout_marginTop="10dp"
@@ -602,7 +603,7 @@
                 style="@style/btn_style_normal_new"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_right_screen"
+                android:layout_marginEnd="@dimen/margin_right_screen"   android:visibility="gone"
                 android:layout_marginLeft="@dimen/margin_left_screen"
                 android:layout_marginRight="@dimen/margin_right_screen"
                 android:layout_marginStart="@dimen/margin_left_screen"
@@ -613,7 +614,7 @@
                 android:id="@+id/btn_rate"
                 style="@style/btn_style_green"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="wrap_content"   android:visibility="gone"
                 android:layout_marginEnd="@dimen/margin_right_screen"
                 android:layout_marginLeft="@dimen/margin_left_screen"
                 android:layout_marginRight="@dimen/margin_right_screen"

@@ -153,6 +153,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private View vLineCommentList;
     private int moreDetailVisibility = -1;
     private int moreDFooterVisibility = -1;
+    private String notificationEvent = "";
+    private boolean isScroll = true;
 
     @Override
     protected int getLayout() {
@@ -265,7 +267,10 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initData() {
-        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
+        Intent intent = getIntent();
+        taskId = intent.getIntExtra(Constants.TASK_ID_EXTRA, 0);
+        if (intent.hasExtra(Constants.EVENT_NOTIFICATION_EXTRA))
+            notificationEvent = intent.getStringExtra(Constants.EVENT_NOTIFICATION_EXTRA);
     }
 
     @Override
@@ -496,6 +501,21 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             tvSeeMoreComment.setVisibility(View.VISIBLE);
         } else {
             tvSeeMoreComment.setVisibility(View.GONE);
+        }
+
+        // scroll to event when open from notification
+        if (notificationEvent.equals(Constants.PUSH_TYPE_BID_RECEIVED) && isScroll) {
+            isScroll = false;
+            rcvBidder.getParent().requestChildFocus(rcvBidder, rcvBidder);
+        } else if (notificationEvent.equals(Constants.PUSH_TYPE_COMMENT_RECEIVED) && isScroll) {
+            isScroll = false;
+            rcvComment.getParent().requestChildFocus(rcvComment, rcvComment);
+        } else if (notificationEvent.equals(Constants.PUSH_TYPE_BIDDER_CANCELED) && isScroll) {
+            isScroll = false;
+            rcvBidder.getParent().requestChildFocus(rcvBidder, rcvBidder);
+        } else if (notificationEvent.equals(Constants.PUSH_TYPE_TASK_COMPLETE) && isScroll) {
+            isScroll = false;
+            rcvAssign.getParent().requestChildFocus(rcvAssign, rcvAssign);
         }
 
     }
@@ -991,19 +1011,58 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                         break;
 
                     case R.id.cancel_task:
-                        DialogUtils.showOkAndCancelDialog(
-                                DetailTaskActivity.this, getString(R.string.title_cancel_task), getString(R.string.cancel_task_content), getString(R.string.cancel_task_ok),
-                                getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
-                                    @Override
-                                    public void onSubmit() {
-                                        doCacelTask();
-                                    }
 
-                                    @Override
-                                    public void onCancel() {
+                        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+                            DialogUtils.showOkAndCancelDialog(
+                                    DetailTaskActivity.this, getString(R.string.title_cancel_task), getString(R.string.cancel_task_content), getString(R.string.cancel_task_ok),
+                                    getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                        @Override
+                                        public void onSubmit() {
+                                            doCacelTask();
+                                        }
 
-                                    }
-                                });
+                                        @Override
+                                        public void onCancel() {
+
+                                        }
+                                    });
+                        } else {
+                            try {
+                                if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && DateTimeUtils.minutesBetween(DateTimeUtils.toCalendar(taskResponse.getOfferAssignedAt()), Calendar.getInstance()) > 30) {
+                                    DialogUtils.showOkAndCancelDialog(
+                                            DetailTaskActivity.this, getString(R.string.title_cancel_task), getString(R.string.cancel_task_content_assign, Utils.formatNumber(taskResponse.getBidDepositAmount())), getString(R.string.cancel_task_ok),
+                                            getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                                @Override
+                                                public void onSubmit() {
+                                                    doCacelTask();
+                                                }
+
+                                                @Override
+                                                public void onCancel() {
+
+                                                }
+                                            });
+                                } else {
+                                    DialogUtils.showOkAndCancelDialog(
+                                            DetailTaskActivity.this, getString(R.string.title_cancel_task), getString(R.string.cancel_task_content), getString(R.string.cancel_task_ok),
+                                            getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                                @Override
+                                                public void onSubmit() {
+                                                    doCacelTask();
+                                                }
+
+                                                @Override
+                                                public void onCancel() {
+
+                                                }
+                                            });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+
                         break;
 
                     case R.id.delete_task:
