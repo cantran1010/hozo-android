@@ -116,7 +116,6 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
  */
 
 public class CreateTaskActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, View.OnTouchListener {
-
     private static final String TAG = CreateTaskActivity.class.getSimpleName();
     private NestedScrollView scrollView;
     private EdittextHozo edtTitle, edtDescription, edtPromotion;
@@ -211,18 +210,14 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         btnNext.setOnClickListener(this);
 
         grImage = (MyGridView) findViewById(R.id.gr_image);
-
         tvAge = (TextViewHozo) findViewById(R.id.tv_age);
         tvAge.setOnClickListener(this);
         cbOnline = (CheckBoxHozo) findViewById(R.id.cb_online_task);
         cbAuto = (CheckBoxHozo) findViewById(R.id.cb_auto_pick);
-
         tvMoreShow = (TextViewHozo) findViewById(R.id.tv_more_show);
         tvMoreShow.setOnClickListener(this);
-
         TextViewHozo tvMoreHide = (TextViewHozo) findViewById(R.id.tv_more_hide);
         tvMoreHide.setOnClickListener(this);
-
         imgMenu = (ImageView) findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
         tvDate.setOnClickListener(this);
@@ -260,9 +255,7 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         images.add(image);
         imageAdapter = new ImageAdapter(this, images);
         grImage.setAdapter(imageAdapter);
-
         getDefaultAddress();
-
         if (intent.hasExtra(Constants.EXTRA_TASK)) {
             imgSaveDraf.setVisibility(View.GONE);
             imgMenu.setVisibility(View.VISIBLE);
@@ -360,13 +353,11 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             tvTitleMsg.setTextColor(ContextCompat.getColor(CreateTaskActivity.this, R.color.color_create_task_lable));
             tvTitleMsg.setText(getString(R.string.post_a_task_msg_length, 0, MAX_LENGTH_TITLE));
             tvDesMsg.setText(getString(R.string.post_a_task_msg_length, 0, MAX_LENGTH_DES));
-
             category = (Category) intent.getSerializableExtra(Constants.EXTRA_CATEGORY);
             calendar.add(Calendar.MINUTE, 40);
         }
 
         tvTitle.setText(category.getName());
-
         tvDate.setText(DateTimeUtils.fromCalendarToDate(calendar));
         tvTime.setText(DateTimeUtils.fromCalendarToTime(calendar));
 
@@ -761,7 +752,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         } else if (!autocompleteView.getText().toString().trim().equals(address.trim()) || (address.equals("") && !autocompleteView.getText().toString().trim().equals(""))) {
             autocompleteView.requestFocus();
             autocompleteView.setError(getString(R.string.post_task_address_error_google));
-
             address = "";
             lat = 0;
             lon = 0;

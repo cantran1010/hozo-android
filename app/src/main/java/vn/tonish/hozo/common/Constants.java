@@ -43,6 +43,10 @@ public class Constants {
     public static final int PROMOTION_RESULT_CODE = 654;
     public static final String PUSH_TYPE_ASSIGNER_CANCELED = "assigner_canceled";
     public static final String EVENT_NOTIFICATION_EXTRA = "notification_extra";
+    public static final int MAX_LENGTH_TITLE = 50;
+    public static final int MAX_LENGTH_DES = 500;
+    public static final int MIN_LENGTH_TITLE = 10;
+    public static final int MIN_LENGTH_DES = 25;
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
