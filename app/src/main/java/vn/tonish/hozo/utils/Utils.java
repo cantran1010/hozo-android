@@ -406,11 +406,7 @@ public class Utils {
                 matcherColor = context.getString(R.string.notification_poster_canceled_color);
                 break;
             case Constants.PUSH_TYPE_TASK_COMPLETE:
-                if (notification.getUserId() == UserManager.getMyUser().getId())
-                    content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_completed);
-                else
-                    content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_completed_bidder);
-
+                content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_completed_bidder);
                 matcher = context.getString(R.string.notification_task_completed_matcher);
                 matcherColor = context.getString(R.string.notification_task_completed_color);
                 break;
@@ -519,11 +515,7 @@ public class Utils {
 
         switch (notification.getEvent()) {
             case Constants.PUSH_TYPE_COMMENT_RECEIVED:
-                if (notification.getRelatedCount() == 1) {
-                    content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_comment_received_footer);
-                } else {
-                    content = notification.getFullName() + " " + context.getString(R.string.notification_related, notification.getRelatedCount() - 1) + " " + context.getString(R.string.notification_comment_received) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_comment_received_footer);
-                }
+                content = notification.getFullName() + " " + context.getString(R.string.notification_comment_received) + " " + notification.getTaskName();
                 break;
             case Constants.PUSH_TYPE_BIDDER_CANCELED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
@@ -532,10 +524,7 @@ public class Utils {
                 content = notification.getFullName() + " " + context.getString(R.string.notification_assign_canceled_title) + " " + notification.getTaskName() + context.getString(R.string.notification_assign_canceled_footer);
                 break;
             case Constants.PUSH_TYPE_BID_RECEIVED:
-                if (notification.getRelatedCount() == 1)
-                    content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.notification_bid_received_footer);
-                else
-                    content = notification.getFullName() + " " + context.getString(R.string.notification_related, notification.getRelatedCount() - 1) + " " + context.getString(R.string.notification_bid_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.notification_bid_received_footer);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
                 break;
             case Constants.PUSH_TYPE_BID_ACCEPTED:
                 content = context.getString(R.string.notification_bid_accepted_title) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_bid_accepted_footer);
@@ -547,10 +536,7 @@ public class Utils {
                 content = context.getString(R.string.notification_poster_canceled_title) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_poster_canceled_footer);
                 break;
             case Constants.PUSH_TYPE_TASK_COMPLETE:
-                if (notification.getUserId() == UserManager.getMyUser().getId())
-                    content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_completed);
-                else
-                    content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_completed_bidder);
+                content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_completed);
                 break;
             case Constants.PUSH_TYPE_TASK_OVERDUE:
                 content = context.getString(R.string.push_overdue_title) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer);
@@ -588,6 +574,10 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_MONEY_RECEIVED:
                 content = context.getString(R.string.nofification_money_received) + " " + notification.getContent();
+                break;
+            case Constants.PUSH_TYPE_NEW_TASK_ALERT:
+//                content = context.getString(R.string.notification_new_task_alert_title) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_new_task_alert_day) + " " + DateTimeUtils.getOnlyDateFromIso(notification.getTaskStartTime()) + " " + context.getString(R.string.notification_new_task_alert_footer);
+                content = context.getString(R.string.notification_new_task_alert_title_2) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.notification_new_task_alert_footer);
                 break;
         }
 
