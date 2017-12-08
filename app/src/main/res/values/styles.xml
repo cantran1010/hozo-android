@@ -201,6 +201,13 @@
         <item name="android:textColorHint">@color/color_hint_create_task_lable</item>
         <item name="android:background">@drawable/selector_edittext</item>
     </style>
+    <style name="tv_bg_btn">
+        <item name="android:textSize">@dimen/tv_size_medium</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">@color/color_edt_create_task_lable</item>
+        <item name="android:textColorHint">@color/color_hint_create_task_lable</item>
+        <item name="android:background">@drawable/btn_selector_image</item>
+    </style>
 
     <style name="btn_style_hozo">
         <item name="android:textSize">16sp</item>
@@ -221,7 +228,14 @@
         <item name="android:layout_centerVertical">true</item>
         <item name="android:gravity">end</item>
         <item name="android:padding">8dp</item>
+    </style>
 
-
+    <style name="CustomErrorStyle">
+        <item name="android:textSize">@dimen/tv_size_tiny</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/color_count_word</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">end</item>
     </style>
 </resources>

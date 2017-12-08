@@ -163,8 +163,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private Spinner spGender;
     private String strGender = "";
     private ExpandableLayout advanceExpandableLayout;
-
-
     // copy or edit
     private String taskType = "";
 
@@ -237,7 +235,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 .build();
         autocompleteView = (AutoCompleteTextView)
                 findViewById(R.id.edt_address);
-
         autocompleteView.setThreshold(1);
         autocompleteView.setOnItemClickListener(mAutocompleteClickListener);
 
@@ -263,7 +260,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
             LogUtils.d(TAG, "PostATaskActivity , taskResponse : " + taskResponse.toString());
             taskId = taskResponse.getId();
-
             if (intent.hasExtra(Constants.TASK_EDIT_EXTRA)) {
                 taskType = intent.getStringExtra(Constants.TASK_EDIT_EXTRA);
                 switch (taskType) {

@@ -47,14 +47,14 @@ import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.BiddersActivity;
 import vn.tonish.hozo.activity.BlockTaskActivity;
 import vn.tonish.hozo.activity.ChatActivity;
-import vn.tonish.hozo.activity.comment.CommentAllActivity;
-import vn.tonish.hozo.activity.comment.CommentsAnswerActivity;
-import vn.tonish.hozo.activity.task.CreateTaskActivity;
 import vn.tonish.hozo.activity.RatingActivity;
 import vn.tonish.hozo.activity.SupportActivity;
+import vn.tonish.hozo.activity.comment.CommentAllActivity;
+import vn.tonish.hozo.activity.comment.CommentsAnswerActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.PreviewImageListActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
+import vn.tonish.hozo.activity.task.PostTaskActivity;
 import vn.tonish.hozo.adapter.AssignerAdapter;
 import vn.tonish.hozo.adapter.CommentTaskAdapter;
 import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
@@ -1082,14 +1082,14 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                         break;
 
                     case R.id.copy_task:
-                        Intent intent = new Intent(DetailTaskActivity.this, CreateTaskActivity.class);
+                        Intent intent = new Intent(DetailTaskActivity.this, PostTaskActivity.class);
                         intent.putExtra(Constants.EXTRA_TASK, taskResponse);
                         intent.putExtra(Constants.TASK_EDIT_EXTRA, Constants.TASK_COPY);
                         startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                         break;
 
                     case R.id.edit_task:
-                        Intent intentEdit = new Intent(DetailTaskActivity.this, CreateTaskActivity.class);
+                        Intent intentEdit = new Intent(DetailTaskActivity.this, PostTaskActivity.class);
                         intentEdit.putExtra(Constants.EXTRA_TASK, taskResponse);
                         intentEdit.putExtra(Constants.TASK_EDIT_EXTRA, Constants.TASK_EDIT);
                         startActivityForResult(intentEdit, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);

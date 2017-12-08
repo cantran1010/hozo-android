@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/hozo_bg">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_title"
+            style="@style/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/img_close"
+            android:layout_toLeftOf="@+id/tv_save"
+            android:layout_toRightOf="@+id/img_close"
+            android:layout_toStartOf="@+id/tv_save"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/select_task_title" />
+
+        <ImageView
+            android:id="@+id/img_close"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:contentDescription="@string/content_description_back"
+            android:focusable="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back" />
+
+        <ImageView
+            android:id="@+id/tv_save"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:contentDescription="@string/adjust_image"
+            android:focusable="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_save"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/img_menu"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:contentDescription="@string/adjust_image"
+            android:focusable="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_more"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_next"
+        android:layout_below="@+id/layout_header"
+        android:fillViewport="true"
+        android:focusableInTouchMode="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <vn.tonish.hozo.view.TextViewHozo
+                style="@style/tv_style_normal_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/timer"
+                android:drawablePadding="8dp"
+                android:drawableStart="@drawable/ic_calendar"
+                android:text="@string/tv_date_task" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/tv_date"
+                style="@style/tv_bg_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawableEnd="@drawable/ic_down_arrow"
+                android:drawableRight="@drawable/ic_down_arrow"
+                android:focusable="false"
+                android:gravity="center_vertical" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        style="@style/tv_style_normal_gray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/timer"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/ic_timer"
+                        android:text="@string/tv_time_task" />
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        android:id="@+id/tv_time"
+                        style="@style/tv_bg_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:drawableEnd="@drawable/ic_down_arrow"
+                        android:drawableRight="@drawable/ic_down_arrow"
+                        android:gravity="center_vertical" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        style="@style/tv_style_normal_gray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/history"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/ic_history"
+                        android:text="@string/tv_time_task_lbl" />
+
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        android:id="@+id/tv_working_hour"
+                        style="@style/tv_bg_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:drawableEnd="@drawable/ic_down_arrow"
+                        android:drawableRight="@drawable/ic_down_arrow"
+                        android:gravity="center_vertical"
+                        android:text="@string/int_4" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        style="@style/tv_style_normal_gray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/timer"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/ic_timer"
+                        android:text="@string/tv_cost" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <vn.tonish.hozo.view.HozoAutoCompleteTextView
+                            android:id="@+id/edt_budget"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:background="@drawable/selector_edittext"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:gravity="center_vertical"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:maxLength="11"
+                            android:padding="10dp"
+                            android:textColor="@color/color_edt_create_task_lable"
+                            android:textSize="@dimen/tv_size_medium"
+                            android:textStyle="normal" />
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:padding="10dp"
+                            android:text="@string/money_vnd"
+                            android:textColor="@color/color_edt_create_task_lable"
+                            android:textSize="@dimen/tv_size_medium"
+                            android:textStyle="normal"
+                            tools:ignore="RelativeOverlap" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        style="@style/tv_style_normal_gray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/history"
+                        android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/ic_history"
+                        android:text="@string/number_worker" />
+
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        android:id="@+id/tv_number_worker"
+                        style="@style/tv_bg_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:drawableEnd="@drawable/ic_down_arrow"
+                        android:drawableRight="@drawable/ic_down_arrow"
+                        android:gravity="center_vertical"
+                        android:text="@string/int_4" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <include layout="@layout/create_task_more" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <vn.tonish.hozo.view.ButtonHozo
+        android:id="@+id/btn_next"
+        style="@style/btn_style_hozo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:text="@string/btn_create_task" />
+
+</RelativeLayout>

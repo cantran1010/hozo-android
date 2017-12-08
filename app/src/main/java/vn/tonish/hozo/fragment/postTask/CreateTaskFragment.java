@@ -16,6 +16,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
@@ -47,6 +48,8 @@ import vn.tonish.hozo.activity.task.PostTaskActivity;
 import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.entity.PostTaskEntity;
+import vn.tonish.hozo.database.manager.PostTaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.fragment.BaseFragment;
@@ -91,16 +94,12 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
     private final ArrayList<Image> images = new ArrayList<>();
     private String imgPath;
     private int countImageCopy;
-    private boolean isCopy = false;
     private int imageAttachCount;
-    private int[] imagesArr;
     private GoogleApiClient googleApiClient;
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
     private HozoAutoCompleteTextView autocompleteView;
-    private ButtonHozo btnNext;
     private double lat, lon;
     private String address = "";
-
 
     protected int getLayout() {
         return R.layout.fragment_create_task;
@@ -120,6 +119,58 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
         autocompleteView = (HozoAutoCompleteTextView) findViewById(R.id.edt_address);
         tvTaskNameMsg = (TextViewHozo) findViewById(R.id.tv_title_msg);
         tvDesMsg = (TextViewHozo) findViewById(R.id.tv_des_msg);
+        ImageView imgClose = (ImageView) findViewById(R.id.img_close);
+        imgClose.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initData() {
+        taskResponse = ((PostTaskActivity) getActivity()).getTaskResponse();
+        imageAdapter = new ImageAdapter(getContext(), images);
+        grImage.setAdapter(imageAdapter);
+        toDoAddress();
+        getDefaultAddress();
+        edtWorkName.addTextChangedListener(new MyTextWatcher(edtWorkName));
+        edtDescription.addTextChangedListener(new MyTextWatcher(edtDescription));
+        checkBoxHozo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) addressLayout.setVisibility(View.GONE);
+                else addressLayout.setVisibility(View.VISIBLE);
+            }
+        });
+        grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (images.get(position).isAdd) {
+                    if (images.size() >= 7) {
+                        Utils.showLongToast(getContext(), getString(R.string.post_a_task_max_attach_err), true, false);
+                    }
+                } else {
+                    Intent intent = new Intent(getContext(), PreviewImageActivity.class);
+                    intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
+                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                }
+            }
+        });
+
+        if (((PostTaskActivity) getActivity()).isExtraTask) {
+            edtWorkName.setText(taskResponse.getTitle());
+            tvTaskNameMsg.setText(getString(R.string.post_a_task_msg_length, edtWorkName.getText().toString().length(), MAX_LENGTH_TITLE));
+            edtDescription.setText(taskResponse.getDescription());
+            tvDesMsg.setText(getString(R.string.post_a_task_msg_length, edtDescription.getText().toString().length(), MAX_LENGTH_DES));
+            checkBoxHozo.setChecked(taskResponse.isOnline());
+            lat = taskResponse.getLatitude();
+            lon = taskResponse.getLongitude();
+            address = taskResponse.getAddress();
+            autocompleteView.setText(address);
+            if (taskResponse.getAttachments() != null && taskResponse.getAttachments().size() > 0) {
+                ((PostTaskActivity) getActivity()).setCopy(true);
+                checkPermission();
+            }
+        }
+        edtWorkName.setHint(((PostTaskActivity) getActivity()).getCategory().getSuggestTitle());
+        edtDescription.setHint(((PostTaskActivity) getActivity()).getCategory().getDescription());
 
     }
 
@@ -136,8 +187,8 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     private void permissionGranted() {
-        if (isCopy) {
-            isCopy = false;
+        if (((PostTaskActivity) getActivity()).isCopy()) {
+            ((PostTaskActivity) getActivity()).setCopy(false);
             countImageCopy = taskResponse.getAttachments().size();
             ProgressDialogUtils.showProgressDialog(getContext());
             for (int i = 0; i < taskResponse.getAttachments().size(); i++) {
@@ -195,39 +246,6 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
 
 
     @Override
-    protected void initData() {
-        taskResponse = ((PostTaskActivity) getActivity()).taskResponse;
-        imageAdapter = new ImageAdapter(getContext(), images);
-        grImage.setAdapter(imageAdapter);
-        toDoAddress();
-        edtWorkName.addTextChangedListener(new MyTextWatcher(edtWorkName));
-        edtDescription.addTextChangedListener(new MyTextWatcher(edtDescription));
-        checkBoxHozo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) addressLayout.setVisibility(View.GONE);
-                else addressLayout.setVisibility(View.VISIBLE);
-            }
-        });
-        grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (images.get(position).isAdd) {
-                    if (images.size() >= 7) {
-                        Utils.showLongToast(getContext(), getString(R.string.post_a_task_max_attach_err), true, false);
-                    }
-                } else {
-                    Intent intent = new Intent(getContext(), PreviewImageActivity.class);
-                    intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
-                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                }
-            }
-        });
-        edtWorkName.setHint(((PostTaskActivity) getActivity()).category.getSuggestTitle());
-        edtDescription.setHint(((PostTaskActivity) getActivity()).category.getDescription());
-    }
-
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
@@ -248,6 +266,13 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void resumeData() {
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        googleApiClient.stopAutoManage(getActivity());
+        googleApiClient.disconnect();
     }
 
     private void toDoAddress() {
@@ -305,6 +330,17 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
         }
     };
 
+    private void getDefaultAddress() {
+        PostTaskEntity postTaskEntity = PostTaskManager.getPostTaskEntity();
+        if (postTaskEntity != null) {
+            lat = postTaskEntity.getLon();
+            lon = postTaskEntity.getLat();
+            address = postTaskEntity.getAddress();
+            LogUtils.d(TAG, "getDefaultAddress" + postTaskEntity.toString());
+            autocompleteView.setText(address);
+        }
+    }
+
 
     private void doNext() {
         if (edtWorkName.getText().toString().length() < 10) {
@@ -333,7 +369,7 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             }
             if (images.size() > 1) doAttachFiles();
             else
-                showFragment(R.id.layout_container, PostTaskFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                openFragment(R.id.layout_container, PostTaskFragment.class, new Bundle(), true, TransitionScreen.RIGHT_TO_LEFT);
         }
 
 
@@ -377,6 +413,9 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.img_close:
+                getActivity().finish();
+                break;
             case R.id.tv_img:
                 checkPermission();
                 break;
@@ -388,9 +427,9 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     private void doAttachFiles() {
+        ProgressDialogUtils.showProgressDialog(getContext());
         imageAttachCount = images.size() - 1;
-        imagesArr = new int[images.size() - 1];
-
+        ((PostTaskActivity) getActivity()).imagesArr = new int[images.size() - 1];
         for (int i = 0; i < images.size() - 1; i++) {
             LogUtils.d(TAG, " attachAllFile image " + i + " : " + images.get(i).getPath());
             File file = new File(images.get(i).getPath());
@@ -399,7 +438,6 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     private void attachFile(final File file, final int position) {
-        ProgressDialogUtils.showProgressDialog(getContext());
         File fileUp = Utils.compressFile(file);
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
         MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
@@ -413,9 +451,9 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
                     ImageResponse imageResponse = response.body();
                     imageAttachCount--;
                     if (imageResponse != null)
-                        imagesArr[position] = imageResponse.getIdTemp();
+                        ((PostTaskActivity) getActivity()).imagesArr[position] = imageResponse.getIdTemp();
                     if (imageAttachCount == 0)
-                        showFragment(R.id.layout_container, PostTaskFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                        openFragment(R.id.layout_container, PostTaskFragment.class, new Bundle(), true, TransitionScreen.RIGHT_TO_LEFT);
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(getContext());
                 }
@@ -428,8 +466,7 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
                 LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
                 imageAttachCount--;
                 if (imageAttachCount == 0)
-                    showFragment(R.id.layout_container, PostTaskFragment.class, false, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                ;
+                    openFragment(R.id.layout_container, PostTaskFragment.class, new Bundle(), true, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
     }
