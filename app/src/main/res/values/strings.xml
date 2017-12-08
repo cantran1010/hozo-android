@@ -671,6 +671,7 @@
     <string name="notification_poster_canceled_title">Rất tiếc việc</string>
     <string name="notification_poster_canceled_footer">mà bạn theo dõi đã bị hủy. Chúc bạn may mắn với những việc tiếp theo.</string>
     <string name="notification_new_task_alert_title">Việc</string>
+    <string name="notification_new_task_alert_title_2">Việc mới</string>
     <string name="notification_new_task_alert_day">vào ngày</string>
     <string name="notification_new_task_alert_footer">phù hợp với bạn</string>
     <string name="notification_review_received_title">đã xác nhận bạn không hoàn thành công việc</string>

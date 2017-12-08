@@ -283,8 +283,16 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     private void updateUi() {
         if (mUserEntity != null) {
-
             LogUtils.d(TAG, "updateUi , mUserEntity : " + mUserEntity.toString());
+
+            ratingPoster = mUserEntity.getPosterAverageRating();
+            rateCountPoster = mUserEntity.getPosterReviewCount();
+            retaCountWorker = mUserEntity.getTaskerReviewCount();
+            taskPostPoster = mUserEntity.getPosterDoneCount();
+            taskPostWorker = mUserEntity.getTaskerDoneCount();
+            percentDonePoster = mUserEntity.getPosterDoneRate();
+            percentDoneWorker = mUserEntity.getTaskerDoneRate();
+            ratingTasker = mUserEntity.getTaskerAverageRating();
 
             Utils.displayImageAvatar(getApplicationContext(), imgAvatar, mUserEntity.getAvatar());
 
@@ -358,12 +366,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
             tvExperience.setText(mUserEntity.getExperiences());
 
-            if (reviewEntities.size() > 5) {
-                btnMoreReview.setVisibility(View.VISIBLE);
-            } else {
-                btnMoreReview.setVisibility(View.GONE);
-            }
-
             setDataSelected(isTabPoster);
 
             posterReviewEntity.clear();
@@ -378,14 +380,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                 }
 
-            ratingPoster = mUserEntity.getPosterAverageRating();
-            rateCountPoster = mUserEntity.getPosterReviewCount();
-            retaCountWorker = mUserEntity.getTaskerReviewCount();
-            taskPostPoster = mUserEntity.getPosterDoneCount();
-            taskPostWorker = mUserEntity.getTaskerDoneCount();
-            percentDonePoster = mUserEntity.getPosterDoneRate();
-            percentDoneWorker = mUserEntity.getTaskerDoneRate();
-            ratingTasker = mUserEntity.getTaskerAverageRating();
         }
     }
 
@@ -479,6 +473,19 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         reviewsListView.updateData((ArrayList<ReviewEntity>) reviewEntities);
         LogUtils.d(TAG, "reviews " + isPoster + reviewEntities.toString());
 
+        if (isPoster) {
+            if (rateCountPoster > 5) {
+                btnMoreReview.setVisibility(View.VISIBLE);
+            } else {
+                btnMoreReview.setVisibility(View.GONE);
+            }
+        } else {
+            if (retaCountWorker > 5) {
+                btnMoreReview.setVisibility(View.VISIBLE);
+            } else {
+                btnMoreReview.setVisibility(View.GONE);
+            }
+        }
 
     }
 
