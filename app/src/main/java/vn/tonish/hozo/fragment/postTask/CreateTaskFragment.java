@@ -100,6 +100,7 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
     private HozoAutoCompleteTextView autocompleteView;
     private double lat, lon;
     private String address = "";
+    private int[] imagesArr;
 
     protected int getLayout() {
         return R.layout.fragment_create_task;
@@ -143,7 +144,7 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (images.get(position).isAdd) {
-                    if (images.size() >= 7) {
+                    if (images.size() >= 6) {
                         Utils.showLongToast(getContext(), getString(R.string.post_a_task_max_attach_err), true, false);
                     }
                 } else {
@@ -228,7 +229,7 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
                 @Override
                 public void onGallery() {
                     Intent intent = new Intent(getContext(), AlbumActivity.class);
-                    intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size() - 1);
+                    intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size());
                     startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
                 }
             });
@@ -367,7 +368,7 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
                 taskResponse.setLongitude(lon);
                 taskResponse.setAddress(address);
             }
-            if (images.size() > 1) doAttachFiles();
+            if (images.size() > 0) doAttachFiles();
             else
                 openFragment(R.id.layout_container, PostTaskFragment.class, new Bundle(), true, TransitionScreen.RIGHT_TO_LEFT);
         }
@@ -428,9 +429,9 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
 
     private void doAttachFiles() {
         ProgressDialogUtils.showProgressDialog(getContext());
-        imageAttachCount = images.size() - 1;
-        ((PostTaskActivity) getActivity()).imagesArr = new int[images.size() - 1];
-        for (int i = 0; i < images.size() - 1; i++) {
+        imageAttachCount = images.size();
+        imagesArr = new int[images.size()];
+        for (int i = 0; i < images.size(); i++) {
             LogUtils.d(TAG, " attachAllFile image " + i + " : " + images.get(i).getPath());
             File file = new File(images.get(i).getPath());
             attachFile(file, i);
@@ -451,7 +452,8 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
                     ImageResponse imageResponse = response.body();
                     imageAttachCount--;
                     if (imageResponse != null)
-                        ((PostTaskActivity) getActivity()).imagesArr[position] = imageResponse.getIdTemp();
+                        imagesArr[position] = imageResponse.getIdTemp();
+                    taskResponse.setAttachmentsId(imagesArr);
                     if (imageAttachCount == 0)
                         openFragment(R.id.layout_container, PostTaskFragment.class, new Bundle(), true, TransitionScreen.RIGHT_TO_LEFT);
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {

@@ -167,7 +167,7 @@
                         android:drawableEnd="@drawable/ic_down_arrow"
                         android:drawableRight="@drawable/ic_down_arrow"
                         android:gravity="center_vertical"
-                        android:text="@string/int_4" />
+                        android:text="@string/int_1" />
 
                 </LinearLayout>
 
@@ -262,7 +262,7 @@
                         android:drawableEnd="@drawable/ic_down_arrow"
                         android:drawableRight="@drawable/ic_down_arrow"
                         android:gravity="center_vertical"
-                        android:text="@string/int_4" />
+                        android:text="@string/int_1" />
 
                 </LinearLayout>
 

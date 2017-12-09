@@ -55,6 +55,7 @@ import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.NumberTextWatcher;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
@@ -123,7 +124,6 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         imgMenu.setOnClickListener(this);
         imgSaveDraf = (ImageView) findViewById(R.id.tv_save);
         cbAuto = (CheckBoxHozo) findViewById(R.id.cb_auto_pick);
-
         imgSaveDraf.setOnClickListener(this);
         tvAge.setOnClickListener(this);
         tvDate.setOnClickListener(this);
@@ -138,6 +138,8 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
     @Override
     protected void initData() {
         taskResponse = ((PostTaskActivity) getActivity()).getTaskResponse();
+        LogUtils.d(TAG, "inser task 2" + ((PostTaskActivity) getActivity()).getTaskResponse().toString());
+        edtBudget.addTextChangedListener(new NumberTextWatcher(edtBudget));
         edtBudget.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -160,7 +162,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 if (!edtBudget.getText().toString().equals(""))
                     if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) > MAX_BUGDET) {
                         edtBudget.setText(edtBudget.getText().toString().substring(0, edtBudget.length() - 1));
-                        edtBudget.setError(getString(R.string.max_budget_error, formatNumber(MAX_BUGDET)));
+                        edtBudget.setError(getString(R.string.max_budget_error, Utils.formatNumber(MAX_BUGDET)));
                         edtBudget.setSelection(edtBudget.getText().toString().length());
                     }
             }
@@ -172,10 +174,34 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             }
 
         });
+
+        try {
+            if (taskResponse.getStartTime() == null || DateTimeUtils.minutesBetween(Calendar.getInstance(), DateTimeUtils.toCalendar(taskResponse.getStartTime())) < 30)
+                calendar.add(Calendar.MINUTE, 40);
+            else {
+                calendar = DateTimeUtils.toCalendar(taskResponse.getStartTime());
+                tvWorkingHour.setText(String.valueOf(DateTimeUtils.hoursBetween(DateTimeUtils.toCalendar(taskResponse.getStartTime()), DateTimeUtils.toCalendar(taskResponse.getEndTime()))));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         tvDate.setText(DateTimeUtils.fromCalendarToDate(calendar));
         tvTime.setText(DateTimeUtils.fromCalendarToTime(calendar));
-        createGenderSpinner();
+        if (taskResponse.getWorkerRate() > 0)
+            edtBudget.setText(Utils.formatNumber(taskResponse.getWorkerRate()));
+        if (taskResponse.getWorkerCount() > 0)
+            tvNumberWorker.setText(String.valueOf(taskResponse.getWorkerCount()));
+        if (taskResponse.getMinAge() != 0)
+            ageFrom = taskResponse.getMinAge();
 
+        if (taskResponse.getMaxAge() != 0)
+            ageTo = taskResponse.getMaxAge();
+        tvAge.setText(getString(R.string.post_a_task_age, ageFrom, ageTo));
+        if (taskResponse.getGender() != null)
+            strGender = taskResponse.getGender();
+        cbAuto.setChecked(taskResponse.isAutoAssign());
+        createGenderSpinner();
+//       spGender.setSelected();
         if (((PostTaskActivity) getActivity()).isExtraTask) {
             imgSaveDraf.setVisibility(View.GONE);
             imgMenu.setVisibility(View.VISIBLE);
@@ -195,7 +221,6 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                         imgMenu.setVisibility(View.GONE);
                         break;
                     case Constants.TASK_DRAFT:
-                        LogUtils.d(TAG, "nhap");
                         imgSaveDraf.setVisibility(View.GONE);
                         imgMenu.setVisibility(View.VISIBLE);
                         popup.getMenu().findItem(R.id.delete_task).setVisible(true);
@@ -204,35 +229,11 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 }
 
             }
-
-            try {
-
-                if (DateTimeUtils.minutesBetween(Calendar.getInstance(), DateTimeUtils.toCalendar(taskResponse.getStartTime())) < 30)
-                    calendar.add(Calendar.MINUTE, 40);
-                else
-                    calendar = DateTimeUtils.toCalendar(taskResponse.getStartTime());
-                tvWorkingHour.setText(String.valueOf(DateTimeUtils.hoursBetween(DateTimeUtils.toCalendar(taskResponse.getStartTime()), DateTimeUtils.toCalendar(taskResponse.getEndTime()))));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if (taskResponse.getWorkerRate() > 0)
-                edtBudget.setText(Utils.formatNumber(taskResponse.getWorkerRate()));
-            tvNumberWorker.setText(String.valueOf(taskResponse.getWorkerCount()));
-            if (taskResponse.getMinAge() != 0)
-                ageFrom = taskResponse.getMinAge();
-
-            if (taskResponse.getMaxAge() != 0)
-                ageTo = taskResponse.getMaxAge();
-            tvAge.setText(getString(R.string.post_a_task_age, ageFrom, ageTo));
-            if (taskResponse.getGender() != null)
-                strGender = taskResponse.getGender();
-            cbAuto.setChecked(taskResponse.isAutoAssign());
-
-
         } else {
             imgSaveDraf.setVisibility(View.VISIBLE);
             imgMenu.setVisibility(View.GONE);
         }
+
     }
 
     @Override
@@ -247,11 +248,9 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-
                 switch (item.getItemId()) {
-
                     case R.id.save_task:
-                        ((PostTaskActivity) getActivity()).setStatus(Constants.CREATE_TASK_STATUS_DRAFT);
+                        taskResponse.setStatus(Constants.CREATE_TASK_STATUS_DRAFT);
                         doPostTask();
                         break;
 
@@ -283,7 +282,6 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             public void onResponse(Call<Void> call, Response<Void> response) {
                 LogUtils.d(TAG, "doDeleteTask , code : " + response.code());
                 LogUtils.d(TAG, "doDeleteTask , body : " + response.body());
-
                 if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
                     Utils.showLongToast(getContext(), getString(R.string.delete_task_success_msg), false, false);
                     Intent intent = new Intent();
@@ -336,7 +334,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             jsonRequest.put("latitude", taskResponse.getLatitude());
             jsonRequest.put("longitude", taskResponse.getLongitude());
             String address = taskResponse.getAddress();
-            if (address != null && taskResponse.getLatitude() != 0 && taskResponse.getLongitude() != 0) {
+            if (!taskResponse.isOnline() && address != null && taskResponse.getLatitude() != 0 && taskResponse.getLongitude() != 0) {
                 String[] arrAddress = address.split(",");
                 jsonRequest.put("city", arrAddress.length >= 2 ? arrAddress[arrAddress.length - 2].trim() : arrAddress[arrAddress.length - 1].trim());
                 jsonRequest.put("district", arrAddress.length >= 3 ? arrAddress[arrAddress.length - 3].trim() : arrAddress[arrAddress.length - 1].trim());
@@ -353,14 +351,12 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 jsonRequest.put("worker_rate", Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
             jsonRequest.put("worker_count", Integer.valueOf(tvNumberWorker.getText().toString()));
             jsonRequest.put("status", taskResponse.getStatus());
-            ((PostTaskActivity) getActivity()).getTaskResponse();
-            if (((PostTaskActivity) getActivity()).imagesArr != null && ((PostTaskActivity) getActivity()).imagesArr.length > 0) {
+            if (taskResponse.getAttachmentsId() != null && (taskResponse.getAttachmentsId().length > 0)) {
                 JSONArray jsonArray = new JSONArray();
-                for (int anImagesArr : ((PostTaskActivity) getActivity()).imagesArr)
+                for (int anImagesArr : (taskResponse.getAttachmentsId()))
                     jsonArray.put(anImagesArr);
                 jsonRequest.put("attachments", jsonArray);
             }
-
             jsonRequest.put("min_age", ageFrom);
             jsonRequest.put("max_age", ageTo);
             jsonRequest.put("gender", strGender);
@@ -383,13 +379,15 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         return edtPromotion.length() == 6 && strPromotion.length() == 6;
     }
 
+
     private void doPostTask() {
+        LogUtils.d(TAG, "createNewTask status : " + (taskResponse.getStatus()));
         ProgressDialogUtils.showProgressDialog(getContext());
         LogUtils.d(TAG, "createNewTask data request : " + validata().toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), validata().toString());
         LogUtils.d(TAG, "request body create task : " + body.toString());
         if (taskResponse.getId() != 0 && !((PostTaskActivity) getActivity()).getTaskType().equals(Constants.TASK_COPY)) {
-            LogUtils.d(TAG, "createNewTask edit task -------> : " + taskResponse.getId());
+            LogUtils.d(TAG, "createNewTask status task -------> : " + taskResponse.getId());
             ApiClient.getApiService().editTask(UserManager.getUserToken(), taskResponse.getId(), body).enqueue(new Callback<TaskResponse>() {
                 @Override
                 public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
@@ -408,7 +406,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                         NetworkUtils.refreshToken(getContext(), new NetworkUtils.RefreshListener() {
                             @Override
                             public void onRefreshFinish() {
-                                doNext();
+                                doPostTask();
                             }
                         });
                     } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
@@ -541,7 +539,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            doNext();
+                            doPostTask();
                         }
 
                         @Override
@@ -558,9 +556,10 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                     LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
                     LogUtils.d(TAG, "createNewTask code : " + response.code());
+                    LogUtils.d(TAG, "createNewTask task type : " + ((PostTaskActivity) getActivity()).getTaskType());
                     APIError error = ErrorUtils.parseError(response);
                     if (response.code() == Constants.HTTP_CODE_CREATED) {
-                        if (((PostTaskActivity) getActivity()).getTaskType().equals(Constants.CREATE_TASK_STATUS_DRAFT))
+                        if (taskResponse.getStatus().equals(Constants.CREATE_TASK_STATUS_DRAFT))
                             Utils.showLongToast(getContext(), getString(R.string.draft_a_task_complete), false, false);
                         else
                             Utils.showLongToast(getContext(), getString(R.string.post_a_task_complete), false, false);
@@ -572,7 +571,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                         NetworkUtils.refreshToken(getContext(), new NetworkUtils.RefreshListener() {
                             @Override
                             public void onRefreshFinish() {
-                                doNext();
+                                doPostTask();
                             }
                         });
                     } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
@@ -653,7 +652,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                     DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            doNext();
+                            doPostTask();
                         }
 
                         @Override
@@ -707,10 +706,13 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         return result;
     }
 
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_close:
+                inserTask(((PostTaskActivity) getActivity()).getTaskResponse());
+                LogUtils.d(TAG, "inser task" + ((PostTaskActivity) getActivity()).getTaskResponse().toString());
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;
             case R.id.tv_date:
@@ -768,10 +770,15 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 hozoNumberDialog.showView();
                 break;
             case R.id.btn_next:
+                taskResponse.setStatus(Constants.CREATE_TASK_STATUS_PUBLISH);
                 doNext();
                 break;
             case R.id.img_menu:
                 popup.show();//showing popup menu
+                break;
+            case R.id.tv_save:
+                taskResponse.setStatus(Constants.CREATE_TASK_STATUS_DRAFT);
+                doPostTask();
                 break;
 
         }
@@ -832,7 +839,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
     }
 
     private String getLongAutoCompleteTextView(AutoCompleteTextView autoCompleteTextView) {
-        return autoCompleteTextView.getText().toString().replace(",", "").replace(".", "");
+        return autoCompleteTextView.getText().toString().replace(",", "").replace(".", "").replace(" ₫", "");
     }
 
     private void openDatePicker() {
@@ -858,8 +865,6 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         datePickerDialog.getDatePicker().setMaxDate(calendarMax.getTimeInMillis());
         datePickerDialog.setTitle(getString(R.string.post_task_date_picker_title));
         datePickerDialog.show();
-
-
     }
 
     private void openTimeLayout() {
@@ -887,5 +892,18 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 }, calendar.get((Calendar.HOUR_OF_DAY)), calendar.get(Calendar.MINUTE), true);
         timeEndPickerDialog.setTitle(getString(R.string.post_task_time_picker_title));
         timeEndPickerDialog.show();
+    }
+
+    private void inserTask(TaskResponse response) {
+        response.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
+        response.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
+        if (!edtBudget.getText().toString().trim().isEmpty() && Integer.valueOf(getLongAutoCompleteTextView(edtBudget)) > 0)
+            response.setWorkerRate(Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
+        response.setWorkerCount(Integer.valueOf(tvNumberWorker.getText().toString()));
+        response.setMinAge(ageFrom);
+        response.setMaxAge(ageTo);
+        response.setGender(strGender);
+        response.setAutoAssign(cbAuto.isChecked());
+
     }
 }

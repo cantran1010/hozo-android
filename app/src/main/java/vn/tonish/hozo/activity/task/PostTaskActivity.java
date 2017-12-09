@@ -23,21 +23,10 @@ public class PostTaskActivity extends BaseActivity implements View.OnClickListen
     private static final String TAG = PostTaskActivity.class.getSimpleName();
     private Category category;
     private TaskResponse taskResponse = new TaskResponse();
-    private String status;
     private String taskType = "";
-    public int[] imagesArr;
     private boolean isCopy = false;
     public boolean isExtraTask = false;
     public boolean isEdit = false;
-
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public String getTaskType() {
         return taskType;
@@ -100,6 +89,7 @@ public class PostTaskActivity extends BaseActivity implements View.OnClickListen
         } else {
             category = (Category) intent.getSerializableExtra(Constants.EXTRA_CATEGORY);
         }
+        taskResponse.setCategoryId(category.getId());
     }
 
 

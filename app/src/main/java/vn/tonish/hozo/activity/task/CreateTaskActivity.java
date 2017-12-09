@@ -815,7 +815,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         ProgressDialogUtils.showProgressDialog(this);
         imageAttachCount = images.size() - 1;
         imagesArr = new int[images.size() - 1];
-
         for (int i = 0; i < images.size() - 1; i++) {
             LogUtils.d(TAG, " attachAllFile image " + i + " : " + images.get(i).getPath());
             File file = new File(images.get(i).getPath());
@@ -825,7 +824,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     private void attachFile(final File file, final int position) {
         File fileUp = Utils.compressFile(file);
-
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
         MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
 
