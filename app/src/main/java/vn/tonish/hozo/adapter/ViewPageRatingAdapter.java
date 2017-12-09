@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 
 import org.json.JSONException;
@@ -85,10 +86,11 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         CircleImageView imgAvatar;
         TextViewHozo tvName, tvTitle;
         final RatingBar ratingBar;
-        final RadioButtonHozo ckDone;
+        final RadioButtonHozo ckDone, ckNotDone;
         final EdittextHozo edtReviews;
         final TextViewHozo btnSend;
         final int userID;
+        final RadioGroup radioGroup;
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -100,23 +102,44 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         tvTitle = (TextViewHozo) itemView.findViewById(R.id.tv_title);
         ratingBar = (RatingBar) itemView.findViewById(R.id.rating);
         ckDone = (RadioButtonHozo) itemView.findViewById(R.id.ckeckbox_confirm_yes);
+        ckNotDone = (RadioButtonHozo) itemView.findViewById(R.id.ckeckbox_confirm_no);
         edtReviews = (EdittextHozo) itemView.findViewById(R.id.edt_reviews);
         btnSend = (TextViewHozo) itemView.findViewById(R.id.btn_Send);
+        radioGroup = itemView.findViewById(R.id.rd_group);
+
         ratingBar.setStepSize(1.0f);
         // Capture position and set to the TextViews
         if (type.equals(Constants.ROLE_POSTER)) {
             Assigner assigner = taskResponse.getAssignees().get(position);
-            String title=formatTitle(position + 1) + context.getString(R.string.slash) + formatTitle(taskResponse.getAssigneeCount());
+            String title = formatTitle(position + 1) + context.getString(R.string.slash) + formatTitle(taskResponse.getAssigneeCount());
             tvTitle.setText(title);
             Utils.displayImageAvatar(context, imgAvatar, assigner.getAvatar());
             tvName.setText(assigner.getFullName());
             userID = assigner.getId();
 
+            if (assigner.isRatingConfirm()) {
+                ckDone.setChecked(true);
+                ckNotDone.setChecked(false);
+            } else {
+                if (assigner.getRating() != 0) {
+                    ckDone.setChecked(false);
+                    ckNotDone.setChecked(true);
+                } else {
+                    ckDone.setChecked(true);
+                    ckNotDone.setChecked(false);
+                }
+            }
+
             if (assigner.getRating() != 0) {
+                ckDone.setEnabled(false);
+                ckNotDone.setEnabled(false);
                 updateUI(true, btnSend, edtReviews, ratingBar, assigner.getRatingBody(), (int) assigner.getRating());
             } else {
+                ckDone.setEnabled(true);
+                ckNotDone.setEnabled(true);
                 updateUI(false, btnSend, edtReviews, ratingBar, "", (int) assigner.getRating());
             }
+
         } else {
             Poster poster = taskResponse.getPoster();
             tvTitle.setText("");
@@ -125,8 +148,12 @@ public class ViewPageRatingAdapter extends PagerAdapter {
             userID = poster.getId();
 
             if (taskResponse.isRatePoster()) {
+                ckDone.setEnabled(false);
+                ckNotDone.setEnabled(false);
                 updateUI(true, btnSend, edtReviews, ratingBar, poster.getRatingBody(), (int) taskResponse.getPoster().getPosterAverageRating());
             } else {
+                ckDone.setEnabled(true);
+                ckNotDone.setEnabled(true);
                 updateUI(false, btnSend, edtReviews, ratingBar, "", (int) taskResponse.getPoster().getPosterAverageRating());
             }
 
@@ -242,10 +269,14 @@ public class ViewPageRatingAdapter extends PagerAdapter {
             Utils.setViewBackground(tv, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
             ed.setText(reviews);
             rb.setRating(value);
+            rb.setEnabled(false);
+            ed.setEnabled(false);
         } else {
             tv.setEnabled(true);
             tv.setText(context.getString(R.string.send));
             Utils.setViewBackground(tv, ContextCompat.getDrawable(context, R.drawable.btn_new_selector));
+            rb.setEnabled(true);
+            ed.setEnabled(true);
         }
 
     }

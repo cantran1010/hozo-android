@@ -60,6 +60,7 @@
             android:textSize="@dimen/tv_size_xtiny" />
 
         <RadioGroup
+            android:id="@+id/rd_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -80,6 +81,7 @@
                 android:textSize="@dimen/tv_size_medium" />
 
             <vn.tonish.hozo.view.RadioButtonHozo
+                android:id="@+id/ckeckbox_confirm_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"

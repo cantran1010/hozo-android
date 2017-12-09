@@ -305,7 +305,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private void getData() {
-        ProgressDialogUtils.showProgressDialog(this);
+//        ProgressDialogUtils.showProgressDialog(this);
         LogUtils.d(TAG, "getDetailTask , taskId : " + taskId);
         LogUtils.d(TAG, "getDetailTask , UserManager.getUserToken() : " + UserManager.getUserToken());
 
@@ -371,7 +371,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                     });
                 }
 //                onStopRefresh();
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -389,7 +389,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                     }
                 });
 //                onStopRefresh();
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
         });
 
