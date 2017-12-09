@@ -36,8 +36,16 @@ public class Assigner implements Serializable {
     private float posterDoneRate;
     @SerializedName("rating_body")
     private String ratingBody;
+    @SerializedName("rating_confirm")
+    private boolean ratingConfirm;
 
+    public boolean isRatingConfirm() {
+        return ratingConfirm;
+    }
 
+    public void setRatingConfirm(boolean ratingConfirm) {
+        this.ratingConfirm = ratingConfirm;
+    }
 
     public float getPosterDoneRate() {
         return posterDoneRate;
@@ -195,6 +203,8 @@ public class Assigner implements Serializable {
                 ", isHideGender=" + isHideGender +
                 ", posterDoneRate=" + posterDoneRate +
                 ", ratingBody='" + ratingBody + '\'' +
+                ", ratingConfirm=" + ratingConfirm +
                 '}';
     }
+
 }
