@@ -70,7 +70,7 @@ public class BrowserTaskMapActivity extends BaseActivity implements View.OnClick
             MiniTask miniTask = miniTasks.get(i);
 
             // create marker
-            MarkerOptions markerOption = new MarkerOptions().position(new LatLng(miniTask.getLat(), miniTask.getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.maker));
+            MarkerOptions markerOption = new MarkerOptions().position(new LatLng(miniTask.getLat(), miniTask.getLon())).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_new));
             Marker marker = mMap.addMarker(markerOption);
             marker.setTag(i);
 
