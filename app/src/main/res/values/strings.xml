@@ -662,7 +662,6 @@
     <string name="btn_cancel_task">Bạn đã bỏ lỡ việc này</string>
     <string name="post_a_task_description_error">Mô tả công việc phải lớn hơn 25 ký tự \n vui lòng nhập mô tả hợp lệ</string>
     <string name="tv_cost">Tiền công / người</string>
-    <string name="post_a_task_description_error">Mô tả không được ít hơn 25 ký tự</string>
     <string name="notification_comment_received_footer">mà bạn tương tác</string>
     <string name="notification_bid_received_footer">.Hãy nhanh chóng giao việc</string>
     <string name="push_overdue_title">Rất tiếc việc</string>
