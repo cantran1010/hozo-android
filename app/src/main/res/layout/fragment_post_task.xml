@@ -214,7 +214,7 @@
                             android:imeOptions="actionNext"
                             android:inputType="number"
                             android:maxLength="11"
-                            android:padding="10dp"
+                            android:padding="5dp"
                             android:textColor="@color/color_edt_create_task_lable"
                             android:textSize="@dimen/tv_size_medium"
                             android:textStyle="normal" />

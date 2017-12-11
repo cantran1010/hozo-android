@@ -130,7 +130,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         TextViewHozo tvDefault = (TextViewHozo) findViewById(R.id.tv_default);
         seebarDistance = (SeekBar) findViewById(R.id.seebar_distance);
         rcvCategory = (RecyclerView) findViewById(R.id.rcv_category);
-
         statusExpandableLayout = (ExpandableLayout) findViewById(R.id.status_expandable_layout);
         categoryExpandableLayout = (ExpandableLayout) findViewById(R.id.category_expandable_layout);
         timeExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_time);
@@ -138,7 +137,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         priceExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_price);
         keywordExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_keyword);
         orderByExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_orderBy);
-
 
         RelativeLayout layoutStatus = (RelativeLayout) findViewById(R.id.layout_status);
         RelativeLayout layoutCategory = (RelativeLayout) findViewById(R.id.layout_category);
@@ -984,11 +982,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         keyWordAdapter.notifyDataSetChanged();
         setTextForKeyWord();
         edtKeyword.setText("");
-        mOrderBy = Constants.ORDER_BY_START_TIME;
-        strOrderBy = radOrderStartTime.getText().toString();
+        mOrderBy = "";
+        strOrderBy = radOrderCreateAt.getText().toString();
         mOrder = Constants.ORDER_ASC;
         strOrder = getString(R.string.augment);
         tvOrderBy.setText(strOrderBy + "-" + strOrder);
+        radOrderCreateAt.setChecked(true);
+        radAugment.setChecked(true);
 
     }
 

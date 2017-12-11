@@ -44,7 +44,7 @@ abstract class BaseDialogFullScreenAnimFadeInOut extends Dialog {
     /**
      * Show view
      */
-    public void showView() {
+    void showView() {
 
         if (context instanceof Activity)
             if (((Activity) context).isFinishing()) return;
@@ -59,7 +59,7 @@ abstract class BaseDialogFullScreenAnimFadeInOut extends Dialog {
     /**
      * hide view
      */
-    public void hideView() {
+    void hideView() {
         if (this.isShowing()) {
             this.dismiss();
         }

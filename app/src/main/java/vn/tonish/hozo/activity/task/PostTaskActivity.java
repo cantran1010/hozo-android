@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.ArrayList;
+
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.common.Constants;
@@ -11,6 +13,7 @@ import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.manager.CategoryManager;
 import vn.tonish.hozo.fragment.postTask.CreateTaskFragment;
 import vn.tonish.hozo.model.Category;
+import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
@@ -27,6 +30,8 @@ public class PostTaskActivity extends BaseActivity implements View.OnClickListen
     private boolean isCopy = false;
     public boolean isExtraTask = false;
     public boolean isEdit = false;
+    public final ArrayList<Image> images = new ArrayList<>();
+    public boolean isExpanded=false;
 
     public String getTaskType() {
         return taskType;
@@ -74,7 +79,7 @@ public class PostTaskActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initData() {
-        openFragment(R.id.layout_container, CreateTaskFragment.class, new Bundle(), false, TransitionScreen.RIGHT_TO_LEFT);
+        openFragment(R.id.layout_container, CreateTaskFragment.class, new Bundle(), false, TransitionScreen.DOWN_TO_UP);
         Intent intent = getIntent();
         if (intent.hasExtra(Constants.EXTRA_TASK)) {
             isExtraTask = true;

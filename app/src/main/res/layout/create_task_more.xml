@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/more_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -27,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:el_duration="1000"
-        app:el_expanded="false">
+        app:el_expanded="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,14 +62,14 @@
                     <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/tv_age"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/btn_selector_image"
                         android:drawableEnd="@drawable/ic_down_arrow"
                         android:drawablePadding="8dp"
                         android:drawableRight="@drawable/ic_down_arrow"
                         android:gravity="center"
-                        android:padding="8dp"
+                        android:padding="5dp"
                         android:text="@string/age_from_hint"
                         android:textColor="@color/color_edt_create_task_lable"
                         android:textSize="@dimen/tv_size_xxtiny" />
@@ -100,21 +99,22 @@
                         android:layout_marginTop="5dp"
                         android:background="@drawable/btn_selector_image">
 
-                        <ImageView
-                            android:layout_width="wrap_content"
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginRight="8dp"
-                            android:contentDescription="@string/just_image"
-                            android:src="@drawable/ic_down_arrow" />
+                            android:background="@drawable/btn_selector_image"
+                            android:drawableEnd="@drawable/ic_down_arrow"
+                            android:drawablePadding="8dp"
+                            android:drawableRight="@drawable/ic_down_arrow"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:textSize="@dimen/tv_size_xxtiny" />
 
                         <Spinner
                             android:id="@+id/sp_gender"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:background="@null" />
 
                     </RelativeLayout>
@@ -128,6 +128,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:button="@drawable/checkbox_selector_2"
                 android:padding="10dp"
                 android:text="@string/auto_pick" />
 

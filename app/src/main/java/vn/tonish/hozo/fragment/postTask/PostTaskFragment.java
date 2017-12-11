@@ -29,6 +29,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,6 +51,7 @@ import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
+import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
@@ -79,7 +81,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
     private EdittextHozo edtPromotion;
     private int ageFrom = 18;
     private int ageTo = 60;
-    private static final int MAX_BUGDET = 500000;
+    private static final int MAX_BUGDET = 1000000;
     private static final int MIN_BUGDET = 10000;
     private static final int MAX_WORKER = 30;
     private static final int MIN_WORKER = 1;
@@ -95,6 +97,8 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
     private PopupMenu popup;
     private ButtonHozo btnNext;
     private CheckBoxHozo cbAuto;
+    private int imageAttachCount;
+    private int[] imagesArr;
 
 
     @Override
@@ -138,7 +142,6 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
     @Override
     protected void initData() {
         taskResponse = ((PostTaskActivity) getActivity()).getTaskResponse();
-        LogUtils.d(TAG, "inser task 2" + ((PostTaskActivity) getActivity()).getTaskResponse().toString());
         edtBudget.addTextChangedListener(new NumberTextWatcher(edtBudget));
         edtBudget.addTextChangedListener(new TextWatcher() {
             @Override
@@ -177,7 +180,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
 
         try {
             if (taskResponse.getStartTime() == null || DateTimeUtils.minutesBetween(Calendar.getInstance(), DateTimeUtils.toCalendar(taskResponse.getStartTime())) < 30)
-                calendar.add(Calendar.MINUTE, 40);
+                calendar.add(Calendar.MINUTE, 30);
             else {
                 calendar = DateTimeUtils.toCalendar(taskResponse.getStartTime());
                 tvWorkingHour.setText(String.valueOf(DateTimeUtils.hoursBetween(DateTimeUtils.toCalendar(taskResponse.getStartTime()), DateTimeUtils.toCalendar(taskResponse.getEndTime()))));
@@ -201,7 +204,11 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             strGender = taskResponse.getGender();
         cbAuto.setChecked(taskResponse.isAutoAssign());
         createGenderSpinner();
-//       spGender.setSelected();
+        if (strGender.equalsIgnoreCase(Constants.GENDER_MALE))
+            spGender.setSelection(1);
+        else if (strGender.equalsIgnoreCase(Constants.GENDER_FEMALE))
+            spGender.setSelection(2);
+        else spGender.setSelection(0);
         if (((PostTaskActivity) getActivity()).isExtraTask) {
             imgSaveDraf.setVisibility(View.GONE);
             imgMenu.setVisibility(View.VISIBLE);
@@ -233,8 +240,13 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             imgSaveDraf.setVisibility(View.VISIBLE);
             imgMenu.setVisibility(View.GONE);
         }
+        advanceExpandableLayout.setExpanded(((PostTaskActivity) getActivity()).isExpanded);
+        if (advanceExpandableLayout.isExpanded())
+            tvMoreShow.setVisibility(View.GONE);
+
 
     }
+
 
     @Override
     protected void resumeData() {
@@ -334,7 +346,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             jsonRequest.put("latitude", taskResponse.getLatitude());
             jsonRequest.put("longitude", taskResponse.getLongitude());
             String address = taskResponse.getAddress();
-            if (!taskResponse.isOnline() && address != null && taskResponse.getLatitude() != 0 && taskResponse.getLongitude() != 0) {
+            if (!taskResponse.isOnline()) {
                 String[] arrAddress = address.split(",");
                 jsonRequest.put("city", arrAddress.length >= 2 ? arrAddress[arrAddress.length - 2].trim() : arrAddress[arrAddress.length - 1].trim());
                 jsonRequest.put("district", arrAddress.length >= 3 ? arrAddress[arrAddress.length - 3].trim() : arrAddress[arrAddress.length - 1].trim());
@@ -346,14 +358,13 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 postTaskEntity.setAddress(address);
                 PostTaskManager.insertPostTask(postTaskEntity);
             }
-
             if (!getLongAutoCompleteTextView(edtBudget).trim().equals(""))
                 jsonRequest.put("worker_rate", Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
             jsonRequest.put("worker_count", Integer.valueOf(tvNumberWorker.getText().toString()));
             jsonRequest.put("status", taskResponse.getStatus());
             if (taskResponse.getAttachmentsId() != null && (taskResponse.getAttachmentsId().length > 0)) {
                 JSONArray jsonArray = new JSONArray();
-                for (int anImagesArr : (taskResponse.getAttachmentsId()))
+                for (int anImagesArr : (((PostTaskActivity) getActivity()).getTaskResponse().getAttachmentsId()))
                     jsonArray.put(anImagesArr);
                 jsonRequest.put("attachments", jsonArray);
             }
@@ -361,7 +372,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             jsonRequest.put("max_age", ageTo);
             jsonRequest.put("gender", strGender);
             jsonRequest.put("online", taskResponse.isOnline());
-            jsonRequest.put("auto_assign", taskResponse.isAutoAssign());
+            jsonRequest.put("auto_assign", cbAuto.isChecked());
             if (validatepromotion())
                 jsonRequest.put("promo_code", edtPromotion.getText().toString().trim());
         } catch (JSONException e) {
@@ -377,6 +388,51 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
     private boolean validatepromotion() {
         String strPromotion = edtPromotion.getText().toString().trim().replace(" ", "").replace(",", "").replace(".", "");
         return edtPromotion.length() == 6 && strPromotion.length() == 6;
+    }
+
+    private void doAttachFiles() {
+        ProgressDialogUtils.showProgressDialog(getContext());
+        imageAttachCount = ((PostTaskActivity) getActivity()).images.size();
+        imagesArr = new int[((PostTaskActivity) getActivity()).images.size()];
+        for (int i = 0; i < ((PostTaskActivity) getActivity()).images.size(); i++) {
+            LogUtils.d(TAG, " attachAllFile image " + i + " : " + ((PostTaskActivity) getActivity()).images.get(i).getPath());
+            File file = new File(((PostTaskActivity) getActivity()).images.get(i).getPath());
+            attachFile(file, i);
+        }
+    }
+
+    private void attachFile(final File file, final int position) {
+        File fileUp = Utils.compressFile(file);
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
+        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
+
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(), itemPart).enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+                LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
+                if (response.code() == Constants.HTTP_CODE_CREATED) {
+                    ImageResponse imageResponse = response.body();
+                    imageAttachCount--;
+                    if (imageResponse != null)
+                        imagesArr[position] = imageResponse.getIdTemp();
+                    ((PostTaskActivity) getActivity()).getTaskResponse().setAttachmentsId(imagesArr);
+                    if (imageAttachCount == 0)
+                        doPostTask();
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getContext());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
+                imageAttachCount--;
+                if (imageAttachCount == 0)
+                    doPostTask();
+            }
+        });
     }
 
 
@@ -679,22 +735,20 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         if (edtBudget.getText().toString().equals("0") || edtBudget.getText().toString().equals("")) {
             edtBudget.requestFocus();
             edtBudget.setError(getString(R.string.post_a_task_budget_error));
-            return;
         } else if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) > MAX_BUGDET) {
             edtBudget.requestFocus();
             edtBudget.setError(getString(R.string.max_budget_error, Utils.formatNumber(MAX_BUGDET)));
-            return;
         } else if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) < MIN_BUGDET) {
             edtBudget.requestFocus();
             edtBudget.setError(getString(R.string.min_budget_error, Utils.formatNumber(MIN_BUGDET)));
-            return;
         } else if (ageFrom >= ageTo) {
             Utils.showLongToast(getContext(), getString(R.string.select_age_error), true, false);
-            return;
         } else if (edtPromotion.length() > 0 && !validatepromotion()) {
             edtPromotion.setError(getActivity().getString(R.string.promotion_error_no));
-            return;
-        } else doPostTask();
+        } else {
+            if (((PostTaskActivity) getActivity()).images.size() > 1) doAttachFiles();
+            else doPostTask();
+        }
 
     }
 
@@ -712,7 +766,6 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         switch (view.getId()) {
             case R.id.img_close:
                 inserTask(((PostTaskActivity) getActivity()).getTaskResponse());
-                LogUtils.d(TAG, "inser task" + ((PostTaskActivity) getActivity()).getTaskResponse().toString());
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;
             case R.id.tv_date:
@@ -739,6 +792,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             case R.id.tv_more_hide:
                 advanceExpandableLayout.toggle();
                 tvMoreShow.setVisibility(View.VISIBLE);
+
                 break;
             case R.id.tv_more_show:
                 tvMoreShow.setVisibility(View.GONE);
@@ -778,7 +832,8 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.tv_save:
                 taskResponse.setStatus(Constants.CREATE_TASK_STATUS_DRAFT);
-                doPostTask();
+                if (((PostTaskActivity) getActivity()).images.size() > 1) doAttachFiles();
+                else doPostTask();
                 break;
 
         }
@@ -904,6 +959,6 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         response.setMaxAge(ageTo);
         response.setGender(strGender);
         response.setAutoAssign(cbAuto.isChecked());
-
+        ((PostTaskActivity) getActivity()).isExpanded = advanceExpandableLayout.isExpanded();
     }
 }
