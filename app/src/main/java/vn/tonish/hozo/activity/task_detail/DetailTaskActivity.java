@@ -644,7 +644,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             showExpand(true);
 
             btnOffer.setVisibility(View.GONE);
-            btnContact.setVisibility(View.VISIBLE);
+            btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
             btnContactHozoWorker.setVisibility(View.VISIBLE);
