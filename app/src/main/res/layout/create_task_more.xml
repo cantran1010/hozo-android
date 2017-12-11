@@ -62,7 +62,7 @@
                     <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/tv_age"
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="33.5dp"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/btn_selector_image"
                         android:drawableEnd="@drawable/ic_down_arrow"
@@ -95,7 +95,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="33.5dp"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/btn_selector_image">
 
