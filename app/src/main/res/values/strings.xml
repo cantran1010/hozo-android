@@ -33,7 +33,7 @@
     <string name="profile_log_out">Thoát tài khoản</string>
     <string name="tv_task_title">Tiêu đề công việc</string>
 
-    <string name="post_a_task_name_error">Tiêu đề công việc trên 10 kí tự</string>
+    <string name="post_a_task_name_error">Tiêu đề công việc phải lớn  10 kí tự \n Vui lòng nhập tiêu đề hợp lệ</string>
     <string name="post_a_task_date_error">Vui lòng nhập \n thời gian bắt đầu làm việc</string>
     <!--<string name="post_a_task_description_error">Mô tả công việc phải trên 25 kí tự</string>-->
 
@@ -69,7 +69,7 @@
     <string name="adjust_image">adjust_image</string>
 
     <!-- post a task -->
-    <string name="tv_time_task">Giờ làm</string>
+    <string name="tv_time_task">Giờ bắt đầu</string>
     <string name="task_description_hint">Mô tả thêm</string>
     <string name="age_from_hint">18 ~ 60</string>
 
@@ -322,7 +322,7 @@
     <string name="task_detail_block">Việc đã bị khóa !</string>
     <string name="task_detail_block_reasons">Lý do :</string>
     <string name="brower_new_task" tools:ignore="PluralsCandidate">%1$d việc mới</string>
-    <string name="address_hint">Nhập địa chỉ …</string>
+    <string name="address_hint">Nhập địa chỉ</string>
     <string name="no_address">Rất tiếc,không tìm thấy địa chỉ!</string>
     <string name="email_verify_done">Vui lòng kiểm tra email để hoàn thành bước xác thưc!</string>
     <string name="work_detail_view_bit_pending">Đang chờ giao việc</string>
@@ -339,9 +339,9 @@
     <string name="report_task_success">Bạn đã báo xấu việc này thành công!</string>
     <string name="refresh_token">Bạn đã bị đăng suất do đăng nhập ở một thiết bị khác!</string>
     <string name="post_a_task_msg_length">%1$d/%2$d kí tự</string>
-    <string name="tv_time_task_lbl">Số giờ</string>
+    <string name="tv_time_task_lbl">Số giờ làm</string>
     <string name="location">Nơi làm</string>
-    <string name="number_worker">Số người</string>
+    <string name="number_worker">Số người làm</string>
     <string name="all_price">Tổng tiền</string>
     <string name="btn_create_task">Đăng việc</string>
     <string name="attach_image">Ảnh</string>
@@ -380,7 +380,7 @@
     <string name="comment_duplicate_error">Bình luận của bạn không hợp lệ vì có nội dung trùng lặp!</string>
     <string name="delete">Xóa</string>
     <string name="make_an_offer_status">Đang tuyển</string>
-    <string name="post_task_address_error_google">Địa chỉ không đúng</string>
+    <string name="post_task_address_error_google">Vui lòng chọn một địa điểm hợp lệ</string>
     <string name="btn_edit_task">Cập nhật</string>
     <string name="bid_limmit_offer_error">Việc đã đủ người ứng tuyển.</string>
     <string name="bid_limmit_title">Thông báo</string>
@@ -660,6 +660,8 @@
     <string name="hint_promotion">6 ký tự liền nhau, ví dụ: Ab12cC</string>
     <string name="hozo_d">đ</string>
     <string name="btn_cancel_task">Bạn đã bỏ lỡ việc này</string>
+    <string name="post_a_task_description_error">Mô tả công việc phải lớn hơn 25 ký tự \n vui lòng nhập mô tả hợp lệ</string>
+    <string name="tv_cost">Tiền công / người</string>
     <string name="notification_comment_received_footer">mà bạn tương tác</string>
     <string name="notification_bid_received_footer">.Hãy nhanh chóng giao việc</string>
     <string name="push_overdue_title">Rất tiếc việc</string>

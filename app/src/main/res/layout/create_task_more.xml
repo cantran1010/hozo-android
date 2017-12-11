@@ -4,14 +4,14 @@
     android:id="@+id/more_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingBottom="10dp">
+    android:orientation="vertical">
 
     <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tv_more_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:background="@drawable/btn_back_selector"
         android:drawableEnd="@drawable/ic_down_arrow_hozo"
         android:drawablePadding="8dp"
@@ -26,40 +26,14 @@
         android:id="@+id/advance_expandable_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:el_duration="500"
+        app:el_duration="1000"
         app:el_expanded="false">
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="vertical">
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/advance_more_star"
-                android:textColor="@color/hozo_bg"
-                android:textSize="@dimen/tv_size_xmedium"
-                android:textStyle="normal" />
-
-            <vn.tonish.hozo.view.TextViewHozo
-                style="@style/tv_style_normal_gray"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:drawableLeft="@drawable/ic_photo_camera"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/ic_photo_camera"
-                android:text="@string/attach_image" />
-
-            <vn.tonish.hozo.view.MyGridView
-                android:id="@+id/gr_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:numColumns="3" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,7 +65,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/selector_edittext"
+                        android:background="@drawable/btn_selector_image"
                         android:drawableEnd="@drawable/ic_down_arrow"
                         android:drawablePadding="8dp"
                         android:drawableRight="@drawable/ic_down_arrow"
@@ -124,7 +98,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/bg_border_hozo_edt_press">
+                        android:background="@drawable/btn_selector_image">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -149,22 +123,11 @@
             </LinearLayout>
 
             <vn.tonish.hozo.view.CheckBoxHozo
-                android:id="@+id/cb_online_task"
-                style="@style/tv_style_normal_gray"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:button="@drawable/checkbox_selector"
-                android:padding="10dp"
-                android:text="@string/online_job" />
-
-            <vn.tonish.hozo.view.CheckBoxHozo
                 android:id="@+id/cb_auto_pick"
                 style="@style/tv_style_normal_gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:button="@drawable/checkbox_selector"
                 android:padding="10dp"
                 android:text="@string/auto_pick" />
 

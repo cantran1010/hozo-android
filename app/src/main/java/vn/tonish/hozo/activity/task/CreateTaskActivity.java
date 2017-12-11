@@ -105,7 +105,6 @@ import vn.tonish.hozo.view.ExpandableLayout;
 import vn.tonish.hozo.view.MyGridView;
 import vn.tonish.hozo.view.TextViewHozo;
 
-import static vn.tonish.hozo.R.string.post_task_map_get_location_error_next;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.Utils.formatNumber;
@@ -117,7 +116,6 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
  */
 
 public class CreateTaskActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, View.OnTouchListener {
-
     private static final String TAG = CreateTaskActivity.class.getSimpleName();
     private NestedScrollView scrollView;
     private EdittextHozo edtTitle, edtDescription, edtPromotion;
@@ -165,8 +163,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     private Spinner spGender;
     private String strGender = "";
     private ExpandableLayout advanceExpandableLayout;
-
-
     // copy or edit
     private String taskType = "";
 
@@ -186,12 +182,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initView() {
         scrollView = (NestedScrollView) findViewById(R.id.scroll_view);
-
         ImageView imgClose = (ImageView) findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
-
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
-
         edtTitle = (EdittextHozo) findViewById(R.id.edt_task_name);
         edtPromotion = (EdittextHozo) findViewById(R.id.edt_promotion);
         edtDescription = (EdittextHozo) findViewById(R.id.edt_description);
@@ -215,18 +208,14 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         btnNext.setOnClickListener(this);
 
         grImage = (MyGridView) findViewById(R.id.gr_image);
-
         tvAge = (TextViewHozo) findViewById(R.id.tv_age);
         tvAge.setOnClickListener(this);
         cbOnline = (CheckBoxHozo) findViewById(R.id.cb_online_task);
         cbAuto = (CheckBoxHozo) findViewById(R.id.cb_auto_pick);
-
         tvMoreShow = (TextViewHozo) findViewById(R.id.tv_more_show);
         tvMoreShow.setOnClickListener(this);
-
         TextViewHozo tvMoreHide = (TextViewHozo) findViewById(R.id.tv_more_hide);
         tvMoreHide.setOnClickListener(this);
-
         imgMenu = (ImageView) findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
         tvDate.setOnClickListener(this);
@@ -244,22 +233,14 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 .enableAutoManage(this, 0 /* clientId */, this)
                 .addApi(Places.GEO_DATA_API)
                 .build();
-        // Retrieve the AutoCompleteTextView that will display Place suggestions.
         autocompleteView = (AutoCompleteTextView)
                 findViewById(R.id.edt_address);
-
         autocompleteView.setThreshold(1);
-
-        // Register a listener that receives callbacks when a suggestion has been selected
         autocompleteView.setOnItemClickListener(mAutocompleteClickListener);
 
         final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
                 .setTypeFilter(Place.TYPE_COUNTRY)
-//                .setCountry("VN")
                 .build();
-
-        // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
-        // the entire world.
         placeAutocompleteAdapter = new PlaceAutocompleteAdapter(this, googleApiClient, null,
                 autocompleteFilter);
         autocompleteView.setAdapter(placeAutocompleteAdapter);
@@ -269,12 +250,9 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         final Image image = new Image();
         image.setAdd(true);
         images.add(image);
-
         imageAdapter = new ImageAdapter(this, images);
         grImage.setAdapter(imageAdapter);
-
         getDefaultAddress();
-
         if (intent.hasExtra(Constants.EXTRA_TASK)) {
             imgSaveDraf.setVisibility(View.GONE);
             imgMenu.setVisibility(View.VISIBLE);
@@ -282,7 +260,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
             LogUtils.d(TAG, "PostATaskActivity , taskResponse : " + taskResponse.toString());
             taskId = taskResponse.getId();
-
             if (intent.hasExtra(Constants.TASK_EDIT_EXTRA)) {
                 taskType = intent.getStringExtra(Constants.TASK_EDIT_EXTRA);
                 switch (taskType) {
@@ -318,8 +295,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                     calendar.add(Calendar.MINUTE, 40);
                 else
                     calendar = DateTimeUtils.toCalendar(taskResponse.getStartTime());
-
-//                tvDate.setText(DateTimeUtils.fromCalendarIsoCreateTask(calendar));
                 tvWorkingHour.setText(String.valueOf(DateTimeUtils.hoursBetween(DateTimeUtils.toCalendar(taskResponse.getStartTime()), DateTimeUtils.toCalendar(taskResponse.getEndTime()))));
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -374,13 +349,11 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
             tvTitleMsg.setTextColor(ContextCompat.getColor(CreateTaskActivity.this, R.color.color_create_task_lable));
             tvTitleMsg.setText(getString(R.string.post_a_task_msg_length, 0, MAX_LENGTH_TITLE));
             tvDesMsg.setText(getString(R.string.post_a_task_msg_length, 0, MAX_LENGTH_DES));
-
             category = (Category) intent.getSerializableExtra(Constants.EXTRA_CATEGORY);
             calendar.add(Calendar.MINUTE, 40);
         }
 
         tvTitle.setText(category.getName());
-
         tvDate.setText(DateTimeUtils.fromCalendarToDate(calendar));
         tvTime.setText(DateTimeUtils.fromCalendarToTime(calendar));
 
@@ -504,7 +477,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         scrollView.setFocusable(true);
         scrollView.setFocusableInTouchMode(true);
         scrollView.setOnTouchListener(this);
-
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -750,8 +722,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                             } else {
                                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                                 calendar.set(Calendar.MINUTE, minute);
-//                                String strTime = hourOfDay + ":" + minute;
-//                                tvTime.setText(strTime);
                                 tvTime.setText(DateTimeUtils.fromCalendarToTime(calendar));
                                 tvTime.setError(null);
                             }
@@ -778,7 +748,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
         } else if (!autocompleteView.getText().toString().trim().equals(address.trim()) || (address.equals("") && !autocompleteView.getText().toString().trim().equals(""))) {
             autocompleteView.requestFocus();
             autocompleteView.setError(getString(R.string.post_task_address_error_google));
-
             address = "";
             lat = 0;
             lon = 0;
@@ -844,10 +813,8 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     private void doAttachFiles() {
         ProgressDialogUtils.showProgressDialog(this);
-
         imageAttachCount = images.size() - 1;
         imagesArr = new int[images.size() - 1];
-
         for (int i = 0; i < images.size() - 1; i++) {
             LogUtils.d(TAG, " attachAllFile image " + i + " : " + images.get(i).getPath());
             File file = new File(images.get(i).getPath());
@@ -857,7 +824,6 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
 
     private void attachFile(final File file, final int position) {
         File fileUp = Utils.compressFile(file);
-
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
         MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
 
@@ -1423,15 +1389,12 @@ public class CreateTaskActivity extends BaseActivity implements View.OnClickList
                 lon = place.getLatLng().longitude;
                 address = autocompleteView.getText().toString();
                 autocompleteView.setError(null);
-
                 places.release();
-
                 edtBudget.requestFocus();
-
                 hideKeyBoard(CreateTaskActivity.this);
 
             } catch (Exception e) {
-                Utils.showLongToast(CreateTaskActivity.this, getString(post_task_map_get_location_error_next), true, false);
+                Utils.showLongToast(CreateTaskActivity.this, getString(R.string.post_task_map_get_location_error_next), true, false);
             }
         }
     };
