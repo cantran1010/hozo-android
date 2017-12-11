@@ -125,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/timer"
                         android:drawablePadding="5dp"
-                        android:drawableStart="@drawable/ic_timer"
+                        android:drawableStart="@drawable/ic_clock"
                         android:text="@string/tv_time_task" />
 
                     <vn.tonish.hozo.view.TextViewHozo
@@ -154,7 +154,7 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/history"
                         android:drawablePadding="5dp"
-                        android:drawableStart="@drawable/ic_history"
+                        android:drawableStart="@drawable/ic_timer"
                         android:text="@string/tv_time_task_lbl" />
 
 
@@ -192,7 +192,7 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/timer"
                         android:drawablePadding="5dp"
-                        android:drawableStart="@drawable/ic_timer"
+                        android:drawableStart="@drawable/ic_money"
                         android:text="@string/tv_cost" />
 
                     <RelativeLayout
@@ -214,7 +214,7 @@
                             android:imeOptions="actionNext"
                             android:inputType="number"
                             android:maxLength="11"
-                            android:padding="10dp"
+                            android:padding="5dp"
                             android:textColor="@color/color_edt_create_task_lable"
                             android:textSize="@dimen/tv_size_medium"
                             android:textStyle="normal" />
@@ -224,8 +224,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:padding="10dp"
+                            android:padding="5dp"
                             android:text="@string/money_vnd"
                             android:textColor="@color/color_edt_create_task_lable"
                             android:textSize="@dimen/tv_size_medium"
@@ -249,7 +248,7 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/history"
                         android:drawablePadding="5dp"
-                        android:drawableStart="@drawable/ic_history"
+                        android:drawableStart="@drawable/ic_person"
                         android:text="@string/number_worker" />
 
 

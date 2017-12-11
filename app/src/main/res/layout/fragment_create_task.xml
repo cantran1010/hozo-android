@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,9 +19,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/img_close"
-            android:layout_toLeftOf="@+id/tv_save"
             android:layout_toRightOf="@+id/img_close"
-            android:layout_toStartOf="@+id/tv_save"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/select_task_title" />
@@ -76,7 +75,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:gravity="end"
-                    android:textSize="9sp" />
+                    android:textSize="@dimen/tv_size_tiny" />
 
                 <vn.tonish.hozo.view.EdittextHozo
                     android:id="@+id/edt_task_name"
@@ -115,7 +114,8 @@
                     android:layout_alignParentRight="true"
                     android:gravity="end"
                     android:textColor="@color/color_create_task_lable"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    tools:ignore="SmallSp" />
 
                 <vn.tonish.hozo.view.EdittextHozo
                     android:id="@+id/edt_description"
@@ -162,6 +162,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:button="@drawable/checkbox_selector_2"
                 android:padding="5dp"
                 android:text="@string/online_job" />
 
@@ -189,8 +190,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:focusable="true"
-                    android:hint="@string/address_hint"
-                    android:minHeight="@dimen/edt_min_height" />
+                    android:hint="@string/address_hint" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

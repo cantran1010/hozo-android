@@ -86,10 +86,6 @@
     <string name="call">Gọi</string>
     <string name="done">Hoàn thành</string>
     <string name="work_detail_view_bit">Ứng Tuyển</string>
-    <string name="work_detail_view_price">Giá tiền :</string>
-    <string name="work_detail_view_date">Ngày :</string>
-    <string name="work_detail_view_time">Thời gian :</string>
-    <string name="work_detail_view_address">Địa điểm :</string>
     <string name="type_your_text">Bình luận</string>
     <string name="assign">Giao</string>
     <string name="cancel_task">Hủy việc</string>
@@ -135,7 +131,6 @@
     <string name="month_ago">tháng trước</string>
     <string name="msg_contten_logOut">Bạn có chắc chắn muốn đăng xuất?</string>
     <string name="empty" />
-    <string name="task_detail_attach_image_hint">Hình ảnh minh họa</string>
     <string name="comment_report">Thông báo tin nhắn xấu</string>
     <string name="bid_success">Chúc mừng ứng tuyển của bạn đã thành công. Vui lòng để ý thông báo cho trạng thái công việc.</string>
     <string name="report_title">Lý do báo cáo</string>
@@ -251,15 +246,12 @@
     <string name="contacting_api_autocomplete_error">Lỗi kết nối tới dịch vụ của google</string>
     <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
     <string name="all_space_type"><b> </b></string>
-    <string name="my_task_price">%s đ</string>
     <string name="vnd">%sđ</string>
     <string name="comments">| %s Bình luận</string>
     <string name="bidder_count">%s ứng tuyển<b> </b></string>
     <string name="task_detail_reply_member">\@%s \n</string>
     <string name="post_a_task_age">%1$d ~ %2$d</string>
-    <string name="detail_task_time_ago">%1$s . Loại công việc : %2$s</string>
     <string name="edit_profile_birthday">%1$d/%2$d/%3$d</string>
-    <string name="task_detail_time">%1$s - %2$s</string>
     <string name="max_budget_error">Giá tiền \n tối đa %1$s VNĐ</string>
     <string name="your_task">của bạn</string>
     <string name="work">Việc</string>
@@ -325,7 +317,6 @@
     <string name="address_hint">Nhập địa chỉ</string>
     <string name="no_address">Rất tiếc,không tìm thấy địa chỉ!</string>
     <string name="email_verify_done">Vui lòng kiểm tra email để hoàn thành bước xác thưc!</string>
-    <string name="work_detail_view_bit_pending">Đang chờ giao việc</string>
     <string name="cancel_task_by_poster">Công việc đã bị hủy bời người tạo!</string>
     <string name="cancel_task_by_poster_title">Việc đã hủy</string>
     <string name="email_hint">Nhập Email của bạn</string>
@@ -342,7 +333,6 @@
     <string name="tv_time_task_lbl">Số giờ làm</string>
     <string name="location">Nơi làm</string>
     <string name="number_worker">Số người làm</string>
-    <string name="all_price">Tổng tiền</string>
     <string name="btn_create_task">Đăng việc</string>
     <string name="attach_image">Ảnh</string>
     <string name="age">TUỔI</string>
@@ -493,9 +483,7 @@
     <string name="empty_parameters">Thiếu ID việc</string>
     <string name="update_not_allowed">Không cho phép cập nhật việc này</string>
     <string name="no_referrer">Mã giới thiệu không tồn tại</string>
-    <string name="advance_more_star">* Tùy chọn nâng cao</string>
     <string name="number_title">Chọn số người làm</string>
-    <string name="lable_wage">Tiền công</string>
     <string name="rate_success">Đánh giá thành công,cảm ơn bạn!</string>
     <string name="rate_miss_star">Vui lòng nhập thông tin đánh giá!</string>
     <string name="email_missing_error">Vui lòng nhập Email của bạn!</string>
@@ -516,10 +504,8 @@
     <string name="status_worker_completed">completed</string>
     <string name="status_worker_missed">missed</string>
     <string name="status_worker_canceled">canceled</string>
-    <string name="int_4">4</string>
     <string name="money_vnd">đ</string>
     <string name="int_1">1</string>
-    <string name="int_zero">0</string>
     <string name="count_activity">%1$d lượt\ntương tác</string>
     <string name="count_follow">%1$d lượt\ntheo dõi</string>
     <string name="follow">Theo dõi</string>

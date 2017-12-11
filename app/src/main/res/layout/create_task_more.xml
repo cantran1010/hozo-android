@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/more_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -63,17 +62,17 @@
                     <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/tv_age"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="33.5dp"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/btn_selector_image"
                         android:drawableEnd="@drawable/ic_down_arrow"
                         android:drawablePadding="8dp"
                         android:drawableRight="@drawable/ic_down_arrow"
-                        android:gravity="center"
-                        android:padding="8dp"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
                         android:text="@string/age_from_hint"
                         android:textColor="@color/color_edt_create_task_lable"
-                        android:textSize="@dimen/tv_size_xxtiny" />
+                        android:textSize="@dimen/tv_size_medium" />
 
 
                 </LinearLayout>
@@ -96,7 +95,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="33.5dp"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/btn_selector_image">
 
@@ -114,7 +113,7 @@
                         <Spinner
                             android:id="@+id/sp_gender"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="match_parent"
                             android:background="@null" />
 
                     </RelativeLayout>
@@ -128,6 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:button="@drawable/checkbox_selector_2"
                 android:padding="10dp"
                 android:text="@string/auto_pick" />
 

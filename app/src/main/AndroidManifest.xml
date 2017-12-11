@@ -146,10 +146,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.task.CreateTaskActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
             android:name=".activity.PlaceActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible" />
