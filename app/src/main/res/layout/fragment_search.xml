@@ -146,7 +146,6 @@
                 tools:ignore="RtlSymmetry" />
 
 
-
             <ImageView
                 android:id="@+id/img_clear"
                 android:layout_width="wrap_content"
@@ -200,8 +199,10 @@
             android:id="@+id/noitem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
             android:layout_marginTop="50dp"
+            android:gravity="center"
             android:text="@string/not_find_task"
             android:textSize="@dimen/tv_size_xlager"
             android:visibility="gone" />

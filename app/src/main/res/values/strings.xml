@@ -267,7 +267,7 @@
     <string name="max_size_attach_error">Ảnh đính kèm không vượt quá %1$d Mb .\nVui lòng chọn ảnh khác!</string>
     <string name="min_size_attach_error">Ảnh đính kèm không hợp lệ .\nVui lòng chọn ảnh khác!</string>
     <string name="post_task_map_get_location_error_next">Không thể lấy vị trí của bạn! Vui lòng thiết lập vị trí làm việc!</string>
-    <string name="not_find_task">Không tìm thấy công việc nào,vui lòng điều chỉnh lại bộ lọc nâng cao</string>
+    <string name="not_find_task">Không tìm thấy công việc nào.Vui lòng điều chỉnh lại bộ lọc nâng cao</string>
     <string name="offer_error_time">Đề nghị làm việc của bạn không được chấp nhận vì bạn đã ứng tuyển một công việc khác vào thời gian này!</string>
     <string name="code_otp_is_invalid">Lỗi bất ngờ!!!.</string>
     <string name="hot_line">02473004886</string>
