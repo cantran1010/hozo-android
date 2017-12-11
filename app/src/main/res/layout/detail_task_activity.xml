@@ -202,7 +202,8 @@
                         android:drawablePadding="10dp"
                         android:drawableStart="@drawable/detail_address"
                         android:text="@string/address_title"
-                        android:textColor="@color/tv_gray_title" />
+                        android:textColor="@color/tv_gray_title"
+                        android:textStyle="bold" />
 
                     <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/tv_address"
@@ -228,7 +229,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:background="#bcccd2" />
 
                 <LinearLayout
@@ -252,7 +253,7 @@
                             android:gravity="center"
                             android:text="@string/task_date"
                             android:textColor="@color/tv_gray_title"
-                            android:textSize="12sp" />
+                            android:textStyle="bold" />
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_date"
@@ -286,7 +287,7 @@
                             android:drawableStart="@drawable/detail_start_time"
                             android:text="@string/task_time"
                             android:textColor="@color/tv_gray_title"
-                            android:textSize="12sp" />
+                            android:textStyle="bold" />
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_time"
@@ -319,7 +320,7 @@
                             android:drawableStart="@drawable/detail_hours"
                             android:text="@string/task_hour"
                             android:textColor="@color/tv_gray_title"
-                            android:textSize="12sp" />
+                            android:textStyle="bold" />
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_hour"
@@ -341,9 +342,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/description"
-                    android:textColor="@color/tv_gray_title" />
+                    android:textColor="@color/tv_gray_title"
+                    android:textStyle="bold" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_des"
@@ -407,7 +409,8 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
                         android:text="@string/age"
-                        android:textColor="@color/tv_gray_title" />
+                        android:textColor="@color/tv_gray_title"
+                        android:textStyle="bold" />
 
                     <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/tv_age"
@@ -434,7 +437,8 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
                         android:text="@string/sex"
-                        android:textColor="@color/tv_gray_title" />
+                        android:textColor="@color/tv_gray_title"
+                        android:textStyle="bold" />
 
                     <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/tv_sex"
