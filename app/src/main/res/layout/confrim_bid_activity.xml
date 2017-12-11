@@ -93,7 +93,7 @@
                         android:gravity="center"
                         android:text="@string/task_date"
                         android:textColor="@color/tv_gray_title"
-                        android:textSize="12sp" />
+                        android:textStyle="bold" />
 
                     <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/tv_date"
@@ -127,7 +127,7 @@
                         android:drawableStart="@drawable/detail_start_time"
                         android:text="@string/task_time"
                         android:textColor="@color/tv_gray_title"
-                        android:textSize="12sp" />
+                        android:textStyle="bold" />
 
                     <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/tv_time"
@@ -160,7 +160,7 @@
                         android:drawableStart="@drawable/detail_hours"
                         android:text="@string/task_hour"
                         android:textColor="@color/tv_gray_title"
-                        android:textSize="12sp" />
+                        android:textStyle="bold" />
 
                     <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/tv_hour"

@@ -259,7 +259,7 @@
     <string name="max_size_attach_error">Ảnh đính kèm không vượt quá %1$d Mb .\nVui lòng chọn ảnh khác!</string>
     <string name="min_size_attach_error">Ảnh đính kèm không hợp lệ .\nVui lòng chọn ảnh khác!</string>
     <string name="post_task_map_get_location_error_next">Không thể lấy vị trí của bạn! Vui lòng thiết lập vị trí làm việc!</string>
-    <string name="not_find_task">Không tìm thấy công việc nào</string>
+    <string name="not_find_task">Không tìm thấy công việc nào.Vui lòng điều chỉnh lại bộ lọc nâng cao</string>
     <string name="offer_error_time">Đề nghị làm việc của bạn không được chấp nhận vì bạn đã ứng tuyển một công việc khác vào thời gian này!</string>
     <string name="code_otp_is_invalid">Lỗi bất ngờ!!!.</string>
     <string name="hot_line">02473004886</string>
@@ -563,7 +563,7 @@
     <string name="cancel_assigner">Hủy giao</string>
     <string name="all_comment">Tất cả bình luận</string>
     <string name="confirm_bid_title">Xác nhận ứng tuyển</string>
-    <string name="bid_lbl">Bạn đã ứng tuyển việc</string>
+    <string name="bid_lbl">Chi tiết công việc</string>
     <string name="bid_des1">Để đảm bảo uy tín ứng tuyển.\nHozo sẽ tạm thu %1$s đ từ ví Hozo của bạn.\nSố tiền sẽ được hoàn trả nếu:</string>
     <string name="bid_des2">Bạn hoàn thành công việc có\nxác nhận từ người thuê.</string>
     <string name="bid_des3">Bạn huỷ ứng tuyển trước khi được giao việc hoặc sau khi được giao việc sau 30 phút.</string>
@@ -672,4 +672,5 @@
     <string name="notification_assign_canceled_footer">của bạn. Bạn có thể chọn người thay thế.</string>
     <string name="notification_assigner_canceled_matcher">từ chối</string>
     <string name="cancel_task_content_assign">Công việc của bạn đã được giao. Nếu Hủy việc thì ví Hozo của bạn sẽ bị trừ %1$s đ. Bạn có chắc chắn muốn hủy việc?</string>
+    <string name="detail_view_contact_worker">Liên lạc người làm</string>
 </resources>

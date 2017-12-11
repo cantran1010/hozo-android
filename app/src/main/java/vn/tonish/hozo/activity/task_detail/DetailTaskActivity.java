@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
@@ -118,6 +119,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private ButtonHozo btnContact;
     private ButtonHozo btnRatePoster;
     private ButtonHozo btnContactHozo;
+    private ButtonHozo btnContactHozoWorker;
     private MyGridView myGridView;
     private int taskId = 0;
     private ImageView imgMenu;
@@ -155,6 +157,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private int moreDFooterVisibility = -1;
     private String notificationEvent = "";
     private boolean isScroll = true;
+    private ProgressBar progressBar;
 
     @Override
     protected int getLayout() {
@@ -181,6 +184,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         imgAvatar.setOnClickListener(this);
         rbRate.setOnClickListener(this);
         tvName.setOnClickListener(this);
+
+        progressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
 
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
@@ -229,6 +234,9 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         btnRatePoster = (ButtonHozo) findViewById(R.id.btn_rate);
         btnRatePoster.setOnClickListener(this);
+
+        btnContactHozoWorker = (ButtonHozo) findViewById(R.id.btn_contact_worker);
+        btnContactHozoWorker.setOnClickListener(this);
 
         tvSeeMoreFooter = (TextViewHozo) findViewById(R.id.tv_see_more_detail_footer);
         tvSeeMoreFooter.setOnClickListener(this);
@@ -415,7 +423,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             else
                 tvAddress.setText(taskResponse.getAddress());
         }
-
 
         if (taskResponse.getStartTime() != null)
             tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
@@ -609,7 +616,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         //poster
         if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
-            updateStatusTask(true, getString(R.string.my_task_status_poster_open), ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
+            updateStatusTask(true, true, getString(R.string.my_task_status_poster_open), ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
 
             showExpand(true);
 
@@ -617,6 +624,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.VISIBLE);
 
             //menu popup
             isDelete = false;
@@ -631,14 +639,15 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             layoutInputComment.setVisibility(View.VISIBLE);
 
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
-            updateStatusTask(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received_poster));
+            updateStatusTask(true, false, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received_poster));
 
             showExpand(true);
 
             btnOffer.setVisibility(View.GONE);
-            btnContact.setVisibility(View.VISIBLE);
+            btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.VISIBLE);
 
             isDelete = false;
             isReportTask = false;
@@ -649,7 +658,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             layoutInputComment.setVisibility(View.VISIBLE);
 
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
-            updateStatusTask(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
+            updateStatusTask(true, false, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
 
             showExpand(false);
 
@@ -658,6 +667,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnRatePoster.setVisibility(View.VISIBLE);
             btnRatePoster.setText(getString(R.string.poster_ratting_complete));
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isShowCancel = false;
             isDelete = false;
@@ -667,7 +677,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             layoutInputComment.setVisibility(View.GONE);
 
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
-            updateStatusTask(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            updateStatusTask(true, false, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
             showExpand(true);
 
@@ -675,6 +685,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isShowCancel = false;
             isReportTask = false;
@@ -683,7 +694,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             layoutInputComment.setVisibility(View.GONE);
 
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
-            updateStatusTask(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            updateStatusTask(true, false, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
             showExpand(true);
 
@@ -691,6 +702,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isShowCancel = false;
             isReportTask = false;
@@ -699,7 +711,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             layoutInputComment.setVisibility(View.GONE);
 
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_AWAIT_APPROVAL) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
-            updateStatusTask(true, getString(R.string.my_task_status_poster_await_approval), ContextCompat.getDrawable(this, R.drawable.bg_border_await_approval));
+            updateStatusTask(true, false, getString(R.string.my_task_status_poster_await_approval), ContextCompat.getDrawable(this, R.drawable.bg_border_await_approval));
 
             showExpand(false);
 
@@ -707,6 +719,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnRatePoster.setVisibility(View.VISIBLE);
             btnRatePoster.setText(getString(R.string.poster_ratting));
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.VISIBLE);
 
             try {
                 if (DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2
@@ -728,7 +741,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         //bidder
         else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_CANCELED)) {
-            updateStatusTask(true, getString(R.string.my_task_status_worker_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            updateStatusTask(true, false, getString(R.string.my_task_status_worker_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
             showExpand(false);
 
@@ -736,6 +749,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             btnOffer.setText(getString(R.string.btn_cancel_task));
             Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
@@ -748,7 +762,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             layoutInputComment.setVisibility(View.VISIBLE);
 
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN)) {
-            updateStatusTask(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            updateStatusTask(true, false, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
             showExpand(true);
 
@@ -756,6 +770,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isShowCancel = false;
             isReportTask = true;
@@ -764,7 +779,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             layoutInputComment.setVisibility(View.VISIBLE);
 
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_MISSED)) {
-            updateStatusTask(true, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            updateStatusTask(true, false, getString(R.string.my_task_status_worker_missed), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
             showExpand(true);
 
@@ -772,6 +787,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isShowCancel = false;
             isReportTask = true;
@@ -780,7 +796,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             layoutInputComment.setVisibility(View.GONE);
 
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OVERDUE)) {
-            updateStatusTask(true, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            updateStatusTask(true, false, getString(R.string.my_task_status_poster_overdue), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
             showExpand(true);
 
@@ -788,6 +804,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isShowCancel = false;
             isReportTask = false;
@@ -796,7 +813,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             layoutInputComment.setVisibility(View.GONE);
 
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_CANCELED)) {
-            updateStatusTask(true, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
+            updateStatusTask(true, false, getString(R.string.my_task_status_poster_canceled), ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
 
             showExpand(true);
 
@@ -804,6 +821,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isShowCancel = false;
             isReportTask = true;
@@ -812,7 +830,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             layoutInputComment.setVisibility(View.GONE);
 
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
-            updateStatusTask(true, getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
+            updateStatusTask(true, false, getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
 
             showExpand(false);
 
@@ -824,6 +842,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isDelete = false;
             isReportTask = true;
@@ -833,7 +852,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED)
                 && (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) || taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED))) {
-            updateStatusTask(true, getString(R.string.received), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
+            updateStatusTask(true, false, getString(R.string.received), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
 
             showExpand(false);
 
@@ -841,6 +860,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.VISIBLE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isDelete = false;
             isReportTask = true;
@@ -848,32 +868,15 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             layoutInputComment.setVisibility(View.VISIBLE);
 
-        }
-//        else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
-//            updateStatusTask(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
-//
-//            showExpand(false);
-//
-//            btnOffer.setVisibility(View.GONE);
-//            btnContact.setVisibility(View.GONE);
-//            btnRatePoster.setVisibility(View.VISIBLE);
-//            btnRatePoster.setText(getString(R.string.worker_ratting));
-//
-//            isDelete = false;
-//            isReportTask = false;
-//            isShowCancel = false;
-//            isFollow = false;
-//
-//            layoutInputComment.setVisibility(View.GONE);
-//        }
-        else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_AWAIT_APPROVAL)) {
-            updateStatusTask(true, getString(R.string.my_task_status_poster_await_approval), ContextCompat.getDrawable(this, R.drawable.bg_border_await_approval));
+        } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_AWAIT_APPROVAL)) {
+            updateStatusTask(true, false, getString(R.string.my_task_status_poster_await_approval), ContextCompat.getDrawable(this, R.drawable.bg_border_await_approval));
 
             showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.VISIBLE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             try {
                 if (DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2
@@ -897,7 +900,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             layoutInputComment.setVisibility(View.VISIBLE);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_NOT_APPROVED)) {
-            updateStatusTask(true, getString(R.string.my_task_status_poster_not_approved), ContextCompat.getDrawable(this, R.drawable.bg_border_not_approved));
+            updateStatusTask(true, false, getString(R.string.my_task_status_poster_not_approved), ContextCompat.getDrawable(this, R.drawable.bg_border_not_approved));
 
             showExpand(false);
 
@@ -905,6 +908,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.VISIBLE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isDelete = false;
             isReportTask = false;
@@ -913,15 +917,15 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             layoutInputComment.setVisibility(View.GONE);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_COMPLETED)) {
-            updateStatusTask(true, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
+            updateStatusTask(true, false, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
 
             showExpand(true);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
-//            btnRatePoster.setText(getString(R.string.worker_ratting));
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isDelete = false;
             isReportTask = false;
@@ -933,7 +937,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         // make an offer
         else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getOfferStatus().equals("")) {
-            updateStatusTask(true, getString(R.string.make_an_offer_status), ContextCompat.getDrawable(this, R.drawable.bg_border_offer));
+            updateStatusTask(true, true, getString(R.string.make_an_offer_status), ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
 
             showExpand(true);
 
@@ -941,6 +945,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isDelete = false;
             isReportTask = true;
@@ -949,7 +954,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             layoutInputComment.setVisibility(View.VISIBLE);
 
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() != UserManager.getMyUser().getId()) {
-            updateStatusTask(true, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
+            updateStatusTask(true, false, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
 
             showExpand(true);
 
@@ -957,6 +962,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isDelete = false;
             isReportTask = true;
@@ -1448,8 +1454,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
     }
 
-    public void updateStatusTask(boolean isShow, String status, Drawable drawable) {
-        if (isShow) {
+    private void updateStatusTask(boolean isShowStatus, boolean isShowProgress, String status, Drawable drawable) {
+        if (isShowStatus) {
             tvStatus.setVisibility(View.VISIBLE);
             tvStatus.setText(status);
             final int sdk = Build.VERSION.SDK_INT;
@@ -1459,6 +1465,14 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 tvStatus.setBackground(drawable);
             }
         } else tvStatus.setVisibility(View.GONE);
+
+        if (isShowProgress) {
+            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setMax(taskResponse.getWorkerCount());
+            progressBar.setProgress(taskResponse.getAssigneeCount());
+        } else
+            progressBar.setVisibility(View.GONE);
+
     }
 
     private void doSeeMoreDetail() {
@@ -1884,6 +1898,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.btn_contact:
+            case R.id.btn_contact_worker:
                 Intent intentContact = new Intent(DetailTaskActivity.this, ChatActivity.class);
                 intentContact.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                 intentContact.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
