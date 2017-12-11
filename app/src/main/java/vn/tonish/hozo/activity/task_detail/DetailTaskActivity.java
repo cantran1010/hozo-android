@@ -118,6 +118,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private ButtonHozo btnContact;
     private ButtonHozo btnRatePoster;
     private ButtonHozo btnContactHozo;
+    private ButtonHozo btnContactHozoWorker;
     private MyGridView myGridView;
     private int taskId = 0;
     private ImageView imgMenu;
@@ -229,6 +230,9 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         btnRatePoster = (ButtonHozo) findViewById(R.id.btn_rate);
         btnRatePoster.setOnClickListener(this);
+
+        btnContactHozoWorker = (ButtonHozo) findViewById(R.id.btn_contact_worker);
+        btnContactHozoWorker.setOnClickListener(this);
 
         tvSeeMoreFooter = (TextViewHozo) findViewById(R.id.tv_see_more_detail_footer);
         tvSeeMoreFooter.setOnClickListener(this);
@@ -609,7 +613,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         //poster
         if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_OPEN) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
-            updateStatusTask(true, getString(R.string.my_task_status_poster_open), ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
+            updateStatusTask(true, getString(R.string.my_task_status_poster_open), ContextCompat.getDrawable(this, R.drawable.bg_border_offer));
 
             showExpand(true);
 
@@ -617,6 +621,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.VISIBLE);
 
             //menu popup
             isDelete = false;
@@ -639,6 +644,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.VISIBLE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.VISIBLE);
 
             isDelete = false;
             isReportTask = false;
@@ -658,6 +664,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnRatePoster.setVisibility(View.VISIBLE);
             btnRatePoster.setText(getString(R.string.poster_ratting_complete));
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isShowCancel = false;
             isDelete = false;
@@ -675,6 +682,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isShowCancel = false;
             isReportTask = false;
@@ -691,6 +699,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isShowCancel = false;
             isReportTask = false;
@@ -707,6 +716,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnRatePoster.setVisibility(View.VISIBLE);
             btnRatePoster.setText(getString(R.string.poster_ratting));
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.VISIBLE);
 
             try {
                 if (DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2
@@ -736,6 +746,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             btnOffer.setText(getString(R.string.btn_cancel_task));
             Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(this, R.drawable.bg_border_missed));
@@ -756,6 +767,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isShowCancel = false;
             isReportTask = true;
@@ -772,6 +784,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isShowCancel = false;
             isReportTask = true;
@@ -788,6 +801,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isShowCancel = false;
             isReportTask = false;
@@ -804,6 +818,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isShowCancel = false;
             isReportTask = true;
@@ -824,6 +839,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isDelete = false;
             isReportTask = true;
@@ -841,6 +857,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.VISIBLE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isDelete = false;
             isReportTask = true;
@@ -874,6 +891,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnOffer.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.VISIBLE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             try {
                 if (DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2
@@ -905,6 +923,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.VISIBLE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isDelete = false;
             isReportTask = false;
@@ -920,8 +939,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
-//            btnRatePoster.setText(getString(R.string.worker_ratting));
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isDelete = false;
             isReportTask = false;
@@ -941,6 +960,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isDelete = false;
             isReportTask = true;
@@ -957,6 +977,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
+            btnContactHozoWorker.setVisibility(View.GONE);
 
             isDelete = false;
             isReportTask = true;
@@ -1884,6 +1905,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.btn_contact:
+            case R.id.btn_contact_worker:
                 Intent intentContact = new Intent(DetailTaskActivity.this, ChatActivity.class);
                 intentContact.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
                 intentContact.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());

@@ -38,13 +38,13 @@
 
         <ImageView
             android:id="@+id/img_menu"
-            android:contentDescription="@string/adjust_image"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
+            android:contentDescription="@string/adjust_image"
             android:focusable="true"
             android:padding="5dp"
             android:scaleType="centerInside"
@@ -383,8 +383,8 @@
                 android:layout_marginStart="@dimen/margin_left_screen"
                 android:background="@drawable/bg_white_border"
                 android:gravity="center_horizontal"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <vn.tonish.hozo.view.MyGridView
                     android:id="@+id/gr_image"
@@ -581,10 +581,10 @@
                 android:layout_marginEnd="@dimen/margin_right_screen"
                 android:layout_marginLeft="@dimen/margin_left_screen"
                 android:layout_marginRight="@dimen/margin_right_screen"
-                android:visibility="gone"
                 android:layout_marginStart="@dimen/margin_left_screen"
                 android:layout_marginTop="10dp"
-                android:text="@string/work_detail_view_bit" />
+                android:text="@string/work_detail_view_bit"
+                android:visibility="gone" />
 
             <vn.tonish.hozo.view.ButtonHozo
                 android:id="@+id/btn_contact"
@@ -592,35 +592,51 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_right_screen"
-                android:layout_marginLeft="@dimen/margin_left_screen"   android:visibility="gone"
+                android:layout_marginLeft="@dimen/margin_left_screen"
                 android:layout_marginRight="@dimen/margin_right_screen"
                 android:layout_marginStart="@dimen/margin_left_screen"
                 android:layout_marginTop="10dp"
-                android:text="@string/detail_view_contact" />
+                android:text="@string/detail_view_contact"
+                android:visibility="gone" />
+
+            <vn.tonish.hozo.view.ButtonHozo
+                android:id="@+id/btn_contact_worker"
+                style="@style/btn_style_normal_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_right_screen"
+                android:layout_marginLeft="@dimen/margin_left_screen"
+                android:layout_marginRight="@dimen/margin_right_screen"
+                android:layout_marginStart="@dimen/margin_left_screen"
+                android:layout_marginTop="10dp"
+                android:text="@string/detail_view_contact_worker"
+                android:visibility="gone" />
 
             <vn.tonish.hozo.view.ButtonHozo
                 android:id="@+id/btn_contact_hozo"
                 style="@style/btn_style_normal_new"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_right_screen"   android:visibility="gone"
-                android:layout_marginLeft="@dimen/margin_left_screen"
-                android:layout_marginRight="@dimen/margin_right_screen"
-                android:layout_marginStart="@dimen/margin_left_screen"
-                android:layout_marginTop="10dp"
-                android:text="@string/detail_view_contact_hozo" />
-
-            <vn.tonish.hozo.view.ButtonHozo
-                android:id="@+id/btn_rate"
-                style="@style/btn_style_green"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"   android:visibility="gone"
                 android:layout_marginEnd="@dimen/margin_right_screen"
                 android:layout_marginLeft="@dimen/margin_left_screen"
                 android:layout_marginRight="@dimen/margin_right_screen"
                 android:layout_marginStart="@dimen/margin_left_screen"
                 android:layout_marginTop="10dp"
-                android:text="@string/detail_view_rate" />
+                android:text="@string/detail_view_contact_hozo"
+                android:visibility="gone" />
+
+            <vn.tonish.hozo.view.ButtonHozo
+                android:id="@+id/btn_rate"
+                style="@style/btn_style_green"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_right_screen"
+                android:layout_marginLeft="@dimen/margin_left_screen"
+                android:layout_marginRight="@dimen/margin_right_screen"
+                android:layout_marginStart="@dimen/margin_left_screen"
+                android:layout_marginTop="10dp"
+                android:text="@string/detail_view_rate"
+                android:visibility="gone" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_see_more_detail_footer"
