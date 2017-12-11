@@ -7,8 +7,8 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:padding="10dp"
         android:textColor="@color/color_edt_create_task_lable"
-        android:textSize="@dimen/tv_size_xxtiny" />
+        android:textSize="@dimen/tv_size_medium" />
 </FrameLayout>
