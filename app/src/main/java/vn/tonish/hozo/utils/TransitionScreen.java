@@ -12,7 +12,7 @@ import vn.tonish.hozo.R;
  */
 
 public enum TransitionScreen implements Serializable {
-    LEFT_TO_RIGHT, RIGHT_TO_LEFT, UP_TO_DOWN, DOWN_TO_UP, FADE_IN;
+    LEFT_TO_RIGHT, RIGHT_TO_LEFT, UP_TO_DOWN, DOWN_TO_UP, FADE_IN, NON;
 
     public static void overridePendingTransition(Activity activity, TransitionScreen transitionScreen) {
         switch (transitionScreen) {
@@ -36,8 +36,12 @@ public enum TransitionScreen implements Serializable {
                 activity.overridePendingTransition(R.anim.fadein, R.anim.non_amimation);
                 break;
 
+            case NON:
+
+                break;
+
             default:
-                activity.overridePendingTransition(R.anim.fadein, R.anim.non_amimation);
+
                 break;
         }
     }
@@ -64,8 +68,12 @@ public enum TransitionScreen implements Serializable {
                 activity.overridePendingTransition(R.anim.non_amimation, R.anim.fadeout);
                 break;
 
+            case NON:
+
+                break;
+
             default:
-                activity.overridePendingTransition(R.anim.non_amimation, R.anim.fadeout);
+
                 break;
         }
     }
@@ -93,8 +101,12 @@ public enum TransitionScreen implements Serializable {
                 transaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout);
                 break;
 
+            case NON:
+
+                break;
+
             default:
-                transaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout);
+
                 break;
 
         }

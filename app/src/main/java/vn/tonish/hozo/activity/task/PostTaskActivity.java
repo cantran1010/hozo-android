@@ -31,7 +31,7 @@ public class PostTaskActivity extends BaseActivity implements View.OnClickListen
     public boolean isExtraTask = false;
     public boolean isEdit = false;
     public final ArrayList<Image> images = new ArrayList<>();
-    public boolean isExpanded=false;
+    public boolean isExpanded = false;
 
     public String getTaskType() {
         return taskType;
@@ -79,7 +79,7 @@ public class PostTaskActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initData() {
-        openFragment(R.id.layout_container, CreateTaskFragment.class, new Bundle(), false, TransitionScreen.DOWN_TO_UP);
+        openFragment(R.id.layout_container, CreateTaskFragment.class, new Bundle(), false, TransitionScreen.NON);
         Intent intent = getIntent();
         if (intent.hasExtra(Constants.EXTRA_TASK)) {
             isExtraTask = true;

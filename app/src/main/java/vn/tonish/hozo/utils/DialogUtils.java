@@ -7,6 +7,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.AlertDialogOkFullScreen;
+import vn.tonish.hozo.dialog.AlertDialogOkNonTouch;
 import vn.tonish.hozo.dialog.AlertDialogSubmit;
 import vn.tonish.hozo.dialog.AlertDialogSubmitAndCancel;
 
@@ -54,6 +55,17 @@ public class DialogUtils {
         }
         new AlertDialogOk(context, title, content, submit, alertDialogListener);
     }
+
+    public static void showOkDialogNonTouch(Context context, String title, String content, String submit, AlertDialogOkNonTouch.AlertDialogListener alertDialogListener) {
+        if (context == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing()) {
+                return;
+            }
+        }
+        new AlertDialogOkNonTouch(context, title, content, submit, alertDialogListener);
+    }
+
     public static void showSubmitDialog(Context context, String title, String content, String submit, AlertDialogSubmit.AlertDialogListener alertDialogListener) {
         if (context == null) return;
         if (context instanceof Activity) {

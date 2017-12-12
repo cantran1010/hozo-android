@@ -719,14 +719,14 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnRatePoster.setVisibility(View.VISIBLE);
             btnRatePoster.setText(getString(R.string.poster_ratting));
             btnContactHozo.setVisibility(View.GONE);
-            btnContactHozoWorker.setVisibility(View.VISIBLE);
+            btnContact.setVisibility(View.GONE);
 
             try {
                 if (DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2
                         && DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) >= 0)
-                    btnContact.setVisibility(View.VISIBLE);
+                    btnContactHozoWorker.setVisibility(View.VISIBLE);
                 else
-                    btnContact.setVisibility(View.GONE);
+                    btnContactHozoWorker.setVisibility(View.GONE);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
