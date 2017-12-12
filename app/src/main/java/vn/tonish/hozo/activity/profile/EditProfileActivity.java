@@ -646,6 +646,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 for (int i = 0; i < images.size() - 1; i++)
                     jsonArray.put(images.get(i).getId());
                 jsonRequest.put("images", jsonArray);
+            } else {
+                JSONArray jsonArray = new JSONArray();
+                jsonRequest.put("images", jsonArray);
             }
 
             JSONArray jsonArray = new JSONArray();

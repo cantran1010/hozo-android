@@ -10,7 +10,6 @@
         android:layout_height="match_parent"
         android:layout_marginTop="1dp"
         android:contentDescription="@string/just_image"
-        android:padding="1dp"
-        android:scaleType="centerCrop" />
+        android:padding="1dp" />
 
 </RelativeLayout>

@@ -109,7 +109,9 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="20dp"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/avatar_default" />
+                                android:src="@drawable/avatar_default"
+                                app:civ_border_color="@color/white"
+                                app:civ_border_width="1dp" />
 
                             <vn.tonish.hozo.view.TextViewHozo
                                 android:id="@+id/tv_name"

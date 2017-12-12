@@ -84,6 +84,7 @@ public class RealmDbHelper {
                 oldVersion++;
             }
 
+            // for version 1.7.0
             if (oldVersion == 2) {
                 schema.create("RealmInt")
                         .addField("val", int.class);
@@ -117,6 +118,7 @@ public class RealmDbHelper {
 
             }
 
+            // for version 1.8.0
             if (oldVersion == 3) {
                 schema.create("StatusEntity")
                         .addField("id", String.class, FieldAttribute.PRIMARY_KEY)
@@ -124,9 +126,18 @@ public class RealmDbHelper {
                         .addField("name", String.class)
                         .addField("status", String.class)
                         .addField("selected", boolean.class);
+
+                schema.create("ImageProfileResponse")
+                        .addField("id", int.class)
+                        .addField("url", String.class);
+
+                schema.create("TagResponse")
+                        .addField("id", int.class)
+                        .addField("value", String.class);
+
                 schema.get("UserEntity")
-                        .addRealmListField("skills", schema.get("RealmString"))
-                        .addRealmListField("languages", schema.get("RealmString"))
+                        .addRealmListField("skills", schema.get("TagResponse"))
+                        .addRealmListField("languages", schema.get("TagResponse"))
                         .addRealmListField("images", schema.get("ImageProfileResponse"))
                         .addField("experiences", String.class)
                         .addField("privacyGender", boolean.class)
@@ -137,15 +148,7 @@ public class RealmDbHelper {
                         .addField("followed", boolean.class)
                         .addField("background", String.class)
                         .addField("referrerPhone", String.class);
-                schema.create("TagResponse")
-                        .addField("id", int.class)
-                        .addField("value", String.class);
-                schema.create("StatusEntity")
-                        .addField("id", String.class, FieldAttribute.PRIMARY_KEY)
-                        .addField("role", String.class)
-                        .addField("name", String.class)
-                        .addField("status", String.class)
-                        .addField("selected", boolean.class);
+
                 schema.get("SettingAdvanceEntity")
                         .addField("ntaNotification", boolean.class)
                         .addField("ntaFollowed", boolean.class)
@@ -153,7 +156,7 @@ public class RealmDbHelper {
                         .addRealmListField("ntaDays", schema.get("RealmInt"))
                         .addField("ntaDistance", int.class)
                         .addRealmListField("ntaLatlon", schema.get("RealmDouble"))
-                        .addField("nta_worker_rate_min", int.class)
+                        .addField("ntaMinWorkerRate", int.class)
                         .addField("ntaMaxWorkerRate", int.class)
                         .addField("ntaAddress", String.class)
                         .addRealmListField("ntaKeywords", schema.get("RealmString"))

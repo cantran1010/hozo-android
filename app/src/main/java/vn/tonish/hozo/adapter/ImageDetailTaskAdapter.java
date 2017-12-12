@@ -10,6 +10,7 @@ import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PxUtils;
 import vn.tonish.hozo.utils.Utils;
 
 /**
@@ -59,7 +60,7 @@ public class ImageDetailTaskAdapter extends android.widget.BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Utils.displayImageCenterCrop(context,holder.img,item);
+        Utils.displayImageRounded(context, holder.img, item, (int) PxUtils.pxFromDp(context, 8), 0);
 
         return convertView;
     }

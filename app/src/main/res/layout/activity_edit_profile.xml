@@ -82,7 +82,9 @@
                         android:layout_height="100dp"
                         android:layout_centerInParent="true"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/avatar_default" />
+                        android:src="@drawable/avatar_default"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="1dp" />
 
                     <ImageView
                         android:id="@+id/img_camera"

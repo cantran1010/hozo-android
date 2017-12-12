@@ -352,7 +352,7 @@
     <string name="worker_need">Người cần tuyển</string>
     <string name="assiger_count">Được giao</string>
     <string name="empty_count">Vị trí trống</string>
-    <string name="task_time">GIỜ LÀM</string>
+    <string name="task_time">BẮT ĐẦU</string>
     <string name="task_hour">SỐ GIỜ</string>
     <string name="hour_title">Chọn số giờ làm việc</string>
     <string name="sms">SMS</string>
@@ -673,4 +673,5 @@
     <string name="notification_assigner_canceled_matcher">từ chối</string>
     <string name="cancel_task_content_assign">Công việc của bạn đã được giao. Nếu Hủy việc thì ví Hozo của bạn sẽ bị trừ %1$s đ. Bạn có chắc chắn muốn hủy việc?</string>
     <string name="detail_view_contact_worker">Liên lạc người làm</string>
+    <string name="push_title">Có 1 việc mới phù hợp với bạn</string>
 </resources>

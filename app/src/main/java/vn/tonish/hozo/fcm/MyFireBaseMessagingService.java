@@ -107,6 +107,9 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                 ) {
             title = getString(R.string.app_name);
             message = notification.getContent();
+        } else if (notification.getEvent().equals(Constants.PUSH_TYPE_NEW_TASK_ALERT)) {
+            title = getString(R.string.push_title);
+            message = notification.getTaskName();
         } else {
             title = notification.getTaskName();
             message = Utils.getContentFromNotification(getApplicationContext(), notification);
