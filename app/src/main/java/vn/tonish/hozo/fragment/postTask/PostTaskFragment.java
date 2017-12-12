@@ -180,7 +180,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
 
         try {
             if (taskResponse.getStartTime() == null || DateTimeUtils.minutesBetween(Calendar.getInstance(), DateTimeUtils.toCalendar(taskResponse.getStartTime())) < 30)
-                calendar.add(Calendar.MINUTE, 30);
+                calendar.add(Calendar.MINUTE, 40);
             else {
                 calendar = DateTimeUtils.toCalendar(taskResponse.getStartTime());
                 tvWorkingHour.setText(String.valueOf(DateTimeUtils.hoursBetween(DateTimeUtils.toCalendar(taskResponse.getStartTime()), DateTimeUtils.toCalendar(taskResponse.getEndTime()))));
@@ -726,13 +726,12 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         if (tvDate.getText().toString().equals("")) {
             tvDate.requestFocus();
             tvDate.setError(getString(R.string.post_a_task_date_error));
-            return;
+            Utils.showLongToast(getContext(), getString(R.string.post_a_task_date_error), true, false);
         } else if (DateTimeUtils.minutesBetween(Calendar.getInstance(), calendar) < 30) {
             tvTime.requestFocus();
             tvTime.setError(getString(R.string.post_task_time_start_error));
-            return;
-        }
-        if (edtBudget.getText().toString().equals("0") || edtBudget.getText().toString().equals("")) {
+            Utils.showLongToast(getContext(), getString(R.string.post_task_time_start_error), true, false);
+        } else if (edtBudget.getText().toString().equals("0") || edtBudget.getText().toString().equals("")) {
             edtBudget.requestFocus();
             edtBudget.setError(getString(R.string.post_a_task_budget_error));
         } else if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) > MAX_BUGDET) {

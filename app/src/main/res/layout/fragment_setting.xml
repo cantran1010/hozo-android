@@ -77,45 +77,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/layout_new_notification"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/btn_back_selector"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
-                    android:src="@drawable/setting_connect"
-                    tools:ignore="ContentDescription" />
-
-                <vn.tonish.hozo.view.TextViewHozo
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/setting_margin_left"
-                    android:layout_marginStart="@dimen/setting_margin_left"
-                    android:text="@string/other_new_notification"
-                    android:textColor="@color/setting_text"
-                    android:textSize="@dimen/tv_setting_title" />
-
-                <include layout="@layout/arrow" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="56dp"
-                    android:layout_marginStart="56dp"
-                    android:background="@color/text_line" />
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
                 android:id="@+id/layout_payment"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

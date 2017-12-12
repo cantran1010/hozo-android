@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vn.tonish.hozo.view.ExpandableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_detail_distance"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="20dp">
+    android:padding="20dp"
+    app:el_expanded="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +27,7 @@
                 android:button="@drawable/radio_button_background"
                 android:checked="true"
                 android:padding="5dp"
-                android:text="@string/hozo_all"
+                android:text="@string/every_where"
                 android:textColor="@color/tv_gray_new"
                 android:textSize="@dimen/tv_size_medium" />
 
@@ -98,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_distance_value"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:max="50"
                 android:maxHeight="10dp"
                 android:min="1"

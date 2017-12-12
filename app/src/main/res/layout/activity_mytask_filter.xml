@@ -46,7 +46,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingStart="16dp"
-        android:text="@string/filter_mytask"
+        android:text="@string/tv_guide_setting"
         android:textColor="@color/color_count_word"
         android:textSize="@dimen/tv_size_tiny" />
 
