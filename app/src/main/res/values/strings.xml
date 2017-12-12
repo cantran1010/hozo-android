@@ -673,4 +673,5 @@
     <string name="notification_assigner_canceled_matcher">từ chối</string>
     <string name="cancel_task_content_assign">Công việc của bạn đã được giao. Nếu Hủy việc thì ví Hozo của bạn sẽ bị trừ %1$s đ. Bạn có chắc chắn muốn hủy việc?</string>
     <string name="detail_view_contact_worker">Liên lạc người làm</string>
+    <string name="push_title">Có 1 việc mới phù hợp với bạn</string>
 </resources>

@@ -132,8 +132,8 @@ public class RealmDbHelper {
                         .addField("url", String.class);
 
                 schema.get("UserEntity")
-                        .addRealmListField("skills", schema.get("RealmString"))
-                        .addRealmListField("languages", schema.get("RealmString"))
+                        .addRealmListField("skills", schema.get("TagResponse"))
+                        .addRealmListField("languages", schema.get("TagResponse"))
                         .addRealmListField("images", schema.get("ImageProfileResponse"))
                         .addField("experiences", String.class)
                         .addField("privacyGender", boolean.class)
