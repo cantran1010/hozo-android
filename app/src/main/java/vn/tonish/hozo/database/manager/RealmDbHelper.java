@@ -131,6 +131,10 @@ public class RealmDbHelper {
                         .addField("id", String.class, FieldAttribute.PRIMARY_KEY)
                         .addField("url", String.class);
 
+                schema.create("TagResponse")
+                        .addField("id", int.class)
+                        .addField("value", String.class);
+
                 schema.get("UserEntity")
                         .addRealmListField("skills", schema.get("TagResponse"))
                         .addRealmListField("languages", schema.get("TagResponse"))
@@ -144,10 +148,6 @@ public class RealmDbHelper {
                         .addField("followed", boolean.class)
                         .addField("background", String.class)
                         .addField("referrerPhone", String.class);
-
-                schema.create("TagResponse")
-                        .addField("id", int.class)
-                        .addField("value", String.class);
 
                 schema.get("SettingAdvanceEntity")
                         .addField("ntaNotification", boolean.class)
