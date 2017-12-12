@@ -23,6 +23,7 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.dialog.AlertDialogOkNonTouch;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
@@ -144,7 +145,7 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
                 LogUtils.d(TAG, "bidsTask body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.create_task_title), getString(R.string.bid_success), getString(R.string.create_task_ok), new AlertDialogOk.AlertDialogListener() {
+                    DialogUtils.showOkDialogNonTouch(ConfirmBidActivity.this, getString(R.string.create_task_title), getString(R.string.bid_success), getString(R.string.create_task_ok), new AlertDialogOkNonTouch.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             finish();
