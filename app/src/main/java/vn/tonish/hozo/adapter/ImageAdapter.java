@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PxUtils;
 import vn.tonish.hozo.utils.Utils;
 
 /**
@@ -55,7 +56,9 @@ public class ImageAdapter extends ArrayAdapter<Image> {
             holder.imgRemove.setVisibility(View.GONE);
         } else {
             holder.imgImage.setVisibility(View.VISIBLE);
-            Utils.displayImageCenterCrop(getContext(), holder.imgImage, item != null ? item.getPath() : null);
+//            Utils.displayImageCenterCrop(getContext(), holder.imgImage, item != null ? item.getPath() : null);
+            Utils.displayImageRounded(getContext(), holder.imgImage, item.getPath(), (int) PxUtils.pxFromDp(getContext(), 8), 0);
+
             holder.imgAdd.setVisibility(View.GONE);
             holder.imgRemove.setVisibility(View.VISIBLE);
         }

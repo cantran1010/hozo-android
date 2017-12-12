@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.google.i18n.phonenumbers.PhoneNumberMatch;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
@@ -97,6 +98,24 @@ public class Utils {
                 .placeholder(R.drawable.image_placeholder)
                 .dontAnimate()
                 .centerCrop()
+                .into(img);
+    }
+
+    public static void displayImageRounded(Context context, ImageView img, String url, int radius, int margin) {
+
+//        if (url == null) return;
+        if (context == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing()) {
+                return;
+            }
+        }
+
+        Glide.with(context.getApplicationContext()).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.image_placeholder)
+                .dontAnimate()
+                .bitmapTransform(new CenterCrop(context), new RoundedCornersTransformation(context, radius, margin))
                 .into(img);
     }
 
