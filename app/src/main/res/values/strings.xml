@@ -352,7 +352,7 @@
     <string name="worker_need">Người cần tuyển</string>
     <string name="assiger_count">Được giao</string>
     <string name="empty_count">Vị trí trống</string>
-    <string name="task_time">GIỜ LÀM</string>
+    <string name="task_time">BẮT ĐẦU</string>
     <string name="task_hour">SỐ GIỜ</string>
     <string name="hour_title">Chọn số giờ làm việc</string>
     <string name="sms">SMS</string>
