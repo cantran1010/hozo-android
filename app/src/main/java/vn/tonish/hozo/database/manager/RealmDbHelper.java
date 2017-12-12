@@ -128,7 +128,7 @@ public class RealmDbHelper {
                         .addField("selected", boolean.class);
 
                 schema.create("ImageProfileResponse")
-                        .addField("id", String.class)
+                        .addField("id", int.class)
                         .addField("url", String.class);
 
                 schema.create("TagResponse")
