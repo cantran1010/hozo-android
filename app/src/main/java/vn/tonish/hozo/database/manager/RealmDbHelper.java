@@ -156,7 +156,7 @@ public class RealmDbHelper {
                         .addRealmListField("ntaDays", schema.get("RealmInt"))
                         .addField("ntaDistance", int.class)
                         .addRealmListField("ntaLatlon", schema.get("RealmDouble"))
-                        .addField("nta_worker_rate_min", int.class)
+                        .addField("ntaMinWorkerRate", int.class)
                         .addField("ntaMaxWorkerRate", int.class)
                         .addField("ntaAddress", String.class)
                         .addRealmListField("ntaKeywords", schema.get("RealmString"))
