@@ -130,9 +130,6 @@
             android:name=".activity.BlockActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.TaskAlertsActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.BlockTaskActivity"
             android:screenOrientation="portrait" />
         <activity

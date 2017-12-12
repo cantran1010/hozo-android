@@ -369,6 +369,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rcvCategory.setLayoutManager(layoutManager);
         rcvCategory.setAdapter(mAdapter);
+
         mAdapter.setListener(new TaskTypeAdapter.CategoryListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
