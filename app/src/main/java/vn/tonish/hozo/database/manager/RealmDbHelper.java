@@ -124,6 +124,11 @@ public class RealmDbHelper {
                         .addField("name", String.class)
                         .addField("status", String.class)
                         .addField("selected", boolean.class);
+
+                schema.create("ImageProfileResponse")
+                        .addField("id", String.class, FieldAttribute.PRIMARY_KEY)
+                        .addField("url", String.class);
+
                 schema.get("UserEntity")
                         .addRealmListField("skills", schema.get("RealmString"))
                         .addRealmListField("languages", schema.get("RealmString"))
