@@ -44,7 +44,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -55,7 +54,7 @@
             <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="40dp"
                 android:text="@string/recharge_des"
                 android:layout_gravity="center_horizontal"
                 android:textColor="#bccad0"
@@ -67,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/bg_rechange"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">

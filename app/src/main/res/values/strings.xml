@@ -671,4 +671,6 @@
     <string name="push_title">Có 1 việc mới phù hợp với bạn</string>
     <string name="every_where">Mọi nơi</string>
     <string name="code_promotion_hint">TN102A</string>
+    <string name="notification_review_content">đã đánh giá bạn ở việc</string>
+    <string name="notification_review_matcher">đánh giá</string>
 </resources>

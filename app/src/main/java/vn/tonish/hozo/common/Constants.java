@@ -177,6 +177,7 @@ public class Constants {
     public static final String PUSH_TYPE_ENOUGH_BIDDER = "enough_bidder";
     public static final String PUSH_TYPE_REVIEW_POSTER = "review_received_ra";
     public static final String PUSH_TYPE_REVIEW_WORKER_DONE = "review_received_ca";
+    public static final String PUSH_TYPE_REVIEW_WORKER_NA = "review_received_na";
     public static final String PUSH_TYPE_REVIEW_WORKER = "review_received";
     public static final String PUSH_TYPE_AWAIT_APPROVAL = "task_await_approval";
     public static final String PUSH_TYPE_MONEY_RECEIVED = "money_received";
