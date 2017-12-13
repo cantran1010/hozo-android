@@ -144,7 +144,6 @@
                     android:textSize="@dimen/tv_size_medium" />
             </android.support.design.widget.TextInputLayout>
 
-
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_policy"
                 android:layout_width="wrap_content"
@@ -162,7 +161,6 @@
                 style="@style/btn_style_hozo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_margin="16dp"
                 android:text="@string/btn_continue"
                 android:textAllCaps="false" />

@@ -1,6 +1,7 @@
 package vn.tonish.hozo.activity.payment;
 
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -47,6 +48,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     private EdittextHozo edtVisa, edtAtm;
     private int MIN_MONEY = 10000;
     private int MAX_MONEY = 2000000;
+    private LinearLayout atmLayout, visaLayout;
 
     @Override
     protected int getLayout() {
@@ -61,10 +63,10 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         LinearLayout promotionLayout = (LinearLayout) findViewById(R.id.promotion_layout);
         promotionLayout.setOnClickListener(this);
 
-        LinearLayout atmLayout = (LinearLayout) findViewById(R.id.atm_layout);
+        atmLayout = (LinearLayout) findViewById(R.id.atm_layout);
         atmLayout.setOnClickListener(this);
 
-        LinearLayout visaLayout = (LinearLayout) findViewById(R.id.visa_layout);
+        visaLayout = (LinearLayout) findViewById(R.id.visa_layout);
         visaLayout.setOnClickListener(this);
 
         inputVisaLayout = (LinearLayout) findViewById(R.id.input_visa_layout);
@@ -304,17 +306,23 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void doExpandVisa() {
-        if (inputVisaLayout.getVisibility() == View.VISIBLE)
+        if (inputVisaLayout.getVisibility() == View.VISIBLE) {
+            Utils.setViewBackground(visaLayout, ContextCompat.getDrawable(this, R.drawable.bg_rechange));
             inputVisaLayout.setVisibility(View.GONE);
-        else
+        } else {
+            Utils.setViewBackground(visaLayout, ContextCompat.getDrawable(this, R.drawable.bg_rechange_on));
             inputVisaLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     private void doExpandAtm() {
-        if (inputAtmLayout.getVisibility() == View.VISIBLE)
+        if (inputAtmLayout.getVisibility() == View.VISIBLE) {
             inputAtmLayout.setVisibility(View.GONE);
-        else
+            Utils.setViewBackground(atmLayout, ContextCompat.getDrawable(this, R.drawable.bg_rechange));
+        } else {
             inputAtmLayout.setVisibility(View.VISIBLE);
+            Utils.setViewBackground(atmLayout, ContextCompat.getDrawable(this, R.drawable.bg_rechange_on));
+        }
     }
 
     @Override
@@ -343,6 +351,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 inputVisaLayout.setVisibility(View.GONE);
                 edtVisa.setText("");
                 edtVisa.setError(null);
+                Utils.setViewBackground(visaLayout, ContextCompat.getDrawable(this, R.drawable.bg_rechange));
                 doExpandAtm();
                 break;
 
@@ -350,6 +359,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 inputAtmLayout.setVisibility(View.GONE);
                 edtAtm.setText("");
                 edtAtm.setError(null);
+                Utils.setViewBackground(atmLayout, ContextCompat.getDrawable(this, R.drawable.bg_rechange));
                 doExpandVisa();
                 break;
 

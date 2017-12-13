@@ -69,6 +69,28 @@
         <ignore path="src/main/res/drawable-xxxhdpi/support_star_on.png" />
         <ignore path="src/main/res/drawable-xxxhdpi/timer_gray.png" />
     </issue>
+    <issue id="IconDuplicates">
+        <ignore path="src/main/res/drawable-hdpi/detail_hours.png" />
+        <ignore path="src/main/res/drawable-hdpi/detail_start_time.png" />
+        <ignore path="src/main/res/drawable-hdpi/ic_clock.png" />
+        <ignore path="src/main/res/drawable-hdpi/ic_timer.png" />
+        <ignore path="src/main/res/drawable-mdpi/detail_hours.png" />
+        <ignore path="src/main/res/drawable-mdpi/detail_start_time.png" />
+        <ignore path="src/main/res/drawable-mdpi/ic_clock.png" />
+        <ignore path="src/main/res/drawable-mdpi/ic_timer.png" />
+        <ignore path="src/main/res/drawable-xhdpi/detail_hours.png" />
+        <ignore path="src/main/res/drawable-xhdpi/detail_start_time.png" />
+        <ignore path="src/main/res/drawable-xhdpi/ic_clock.png" />
+        <ignore path="src/main/res/drawable-xhdpi/ic_timer.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/detail_hours.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/detail_start_time.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/ic_clock.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/ic_timer.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/detail_hours.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/detail_start_time.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/ic_clock.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/ic_timer.png" />
+    </issue>
     <issue id="IconDuplicatesConfig">
         <ignore path="src/main/res/drawable-hdpi/popup_map_detail.9.png" />
         <ignore path="src/main/res/drawable-mdpi/popup_map_detail.9.png" />

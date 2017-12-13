@@ -60,7 +60,7 @@ public class ImageDetailTaskAdapter extends android.widget.BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Utils.displayImageRounded(context, holder.img, item, (int) PxUtils.pxFromDp(context, 8), 0);
+        Utils.displayImageRounded(context, holder.img, item, (int) PxUtils.pxFromDp(context, 5), 0);
 
         return convertView;
     }

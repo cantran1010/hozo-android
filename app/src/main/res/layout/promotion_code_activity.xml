@@ -61,6 +61,7 @@
         android:layout_marginTop="20dp"
         android:background="@null"
         android:gravity="center"
+        android:hint="@string/code_promotion_hint"
         android:inputType="text"
         android:maxLines="1"
         android:padding="5dp"
@@ -107,6 +108,7 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/btn_new_selector"
         android:text="@string/btn_promotion"
+        android:textAllCaps="false"
         android:textColor="@color/white" />
 
 </LinearLayout>
