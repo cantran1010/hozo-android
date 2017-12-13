@@ -127,6 +127,7 @@ public class Constants {
     // post task
     public static final String GENDER_MALE = "male";
     public static final String GENDER_FEMALE = "female";
+    public static final String GENDER_ANY = "any";
 
     //task type
     public static final String TASK_TYPE_BIDDER_PENDING = "pending";

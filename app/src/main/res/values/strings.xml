@@ -7,6 +7,7 @@
 
     <!--profile Screen-->
     <string name="tv_guide_setting">Cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
+    <string name="btn_save">LƯU LẠI</string>
 
     <!--advance setting screen -->
     <string name="advance_setting_title">Bộ lọc nâng cao</string>
@@ -160,7 +161,7 @@
     <string name="empty_content_comment_error">Vui lòng nhập nội dung bình luận</string>
 
     <!-- rate -->
-    <string name="rate_msg_no_content_error">Vui lòng xếp hạng</string>
+    <string name="rate_msg_no_content_error">Vui lòng chọn sao đánh giá</string>
 
     <string name="brower_task_map_activity">Tìm việc gần đây</string>
 
@@ -673,4 +674,5 @@
     <string name="code_promotion_hint">TN102A</string>
     <string name="notification_review_content">đã đánh giá bạn ở việc</string>
     <string name="notification_review_matcher">đánh giá</string>
+    <string name="checkbox_complex_confirm">Yêu cầu người đăng xác nhận việc đã hoàn thành</string>
 </resources>
