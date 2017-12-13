@@ -57,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:text="@string/recharge_des"
+                android:layout_gravity="center_horizontal"
                 android:textColor="#bccad0"
                 android:textSize="13sp"
                 android:textStyle="bold" />
