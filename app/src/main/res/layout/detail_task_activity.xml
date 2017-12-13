@@ -728,7 +728,8 @@
                         android:gravity="center"
                         android:text="@string/see_all"
                         android:textColor="@color/tv_gray_new"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="TooManyViews" />
 
                 </LinearLayout>
 

@@ -7,7 +7,6 @@
 
     <!--profile Screen-->
     <string name="tv_guide_setting">Cài đặt để chỉ hiện thị công việc bạn mong muốn</string>
-    <string name="btn_save">LƯU LẠI</string>
 
     <!--advance setting screen -->
     <string name="advance_setting_title">Bộ lọc nâng cao</string>
@@ -282,7 +281,6 @@
     <string name="min_budget_error">Số tiền tối thiểu \n là %1$s</string>
     <string name="notification_title">Thông báo</string>
     <string name="term_and_policy">vi phạm điều khoản sử dụng</string>
-    <string name="alert_task">Chọn danh mục bạn muốn nhận thông báo khi có công việc mới.</string>
     <string name="profile_about">GIỚI THIỆU</string>
     <string name="error_des">Lỗi vượt quá 500 ký tự.</string>
     <string name="webview_error"><html><body style='background: white;'><p style='color: red;'>Không thể tải trang! Vui lòng kiểm tra kết nối và thử lại!</p></body></html></string>
@@ -434,7 +432,6 @@
 
     <string name="distance">%1$d km</string>
     <string name="setting_location">Vị trí</string>
-    <string name="other_new_notification">Thông báo công việc mới</string>
     <string name="alert_dialog_submit">ĐỒNG Ý</string>
     <string name="error_message">Lỗi!</string>
     <string name="promotion_code_title">Mã khuyến mãi</string>
@@ -645,7 +642,6 @@
     <string name="hint_promotion">6 ký tự liền nhau, ví dụ: Ab12cC</string>
     <string name="hozo_d">đ</string>
     <string name="btn_cancel_task">Bạn đã bỏ lỡ việc này</string>
-    <string name="post_a_task_description_error">Mô tả công việc phải lớn hơn 25 ký tự \n vui lòng nhập mô tả hợp lệ</string>
     <string name="tv_cost">Tiền công / người</string>
     <string name="notification_comment_received_footer">mà bạn tương tác</string>
     <string name="notification_bid_received_footer">.Hãy nhanh chóng giao việc</string>
@@ -673,7 +669,6 @@
     <string name="cancel_task_content_assign">Công việc của bạn đã được giao. Nếu Hủy việc thì ví Hozo của bạn sẽ bị trừ %1$s đ. Bạn có chắc chắn muốn hủy việc?</string>
     <string name="detail_view_contact_worker">Liên lạc người làm</string>
     <string name="push_title">Có 1 việc mới phù hợp với bạn</string>
-    <string name="error_length_name">chiều dài ký tự tối đa là</string>
-    <string name="min_length_name">chiều dài ký tự tối thiểu là 3</string>
     <string name="every_where">Mọi nơi</string>
+    <string name="code_promotion_hint">TN102A</string>
 </resources>

@@ -130,29 +130,43 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <vn.tonish.hozo.view.EdittextHozo
-                    android:id="@+id/edt_atm"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
-                    android:background="@null"
-                    android:drawableEnd="@drawable/edit"
-                    android:drawableRight="@drawable/edit"
-                    android:hint="@string/input_money_hint"
-                    android:inputType="number"
-                    android:maxLength="10"
-                    android:padding="5dp"
-                    android:scrollbars="vertical"
-                    android:textColor="@color/tv_black_new"
-                    android:textSize="15sp" />
+                    android:orientation="horizontal">
+
+                    <vn.tonish.hozo.view.EdittextHozo
+                        android:id="@+id/edt_atm"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="@string/input_money_hint"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:padding="5dp"
+                        android:scrollbars="vertical"
+                        android:textColor="@color/tv_black_new"
+                        android:textSize="15sp" />
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
+                        android:text="@string/unit"
+                        android:textColor="@color/tv_gray_new"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:background="#c8d6da" />
 
                 <vn.tonish.hozo.view.ButtonHozo
@@ -207,23 +221,37 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <vn.tonish.hozo.view.EdittextHozo
-                    android:id="@+id/edt_visa"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
-                    android:background="@null"
-                    android:drawableEnd="@drawable/edit"
-                    android:drawableRight="@drawable/edit"
-                    android:hint="@string/input_money_hint"
-                    android:inputType="number"
-                    android:maxLength="10"
-                    android:padding="5dp"
-                    android:scrollbars="vertical"
-                    android:textColor="@color/tv_black_new"
-                    android:textSize="15sp" />
+                    android:orientation="horizontal">
+
+                    <vn.tonish.hozo.view.EdittextHozo
+                        android:id="@+id/edt_visa"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="@string/input_money_hint"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:padding="5dp"
+                        android:scrollbars="vertical"
+                        android:textColor="@color/tv_black_new"
+                        android:textSize="15sp" />
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
+                        android:text="@string/unit"
+                        android:textColor="@color/tv_gray_new"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
