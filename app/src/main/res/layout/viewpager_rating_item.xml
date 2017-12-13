@@ -49,6 +49,7 @@
         </LinearLayout>
 
         <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/label_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -57,7 +58,8 @@
             android:text="@string/confirm_rating"
             android:textAllCaps="true"
             android:textColor="@color/color_hint_create_task_lable"
-            android:textSize="@dimen/tv_size_xtiny" />
+            android:textSize="@dimen/tv_size_xtiny"
+            android:visibility="gone" />
 
         <RadioGroup
             android:id="@+id/rd_group"
@@ -66,7 +68,8 @@
             android:layout_marginEnd="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp">
+            android:layout_marginStart="16dp"
+            android:visibility="gone">
 
             <vn.tonish.hozo.view.RadioButtonHozo
                 android:id="@+id/ckeckbox_confirm_yes"
@@ -94,6 +97,25 @@
                 android:textSize="@dimen/tv_size_medium" />
         </RadioGroup>
 
+        <vn.tonish.hozo.view.CheckBoxHozo
+            android:id="@+id/ckeckbox_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            android:checked="true"
+            android:gravity="top"
+            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
+            android:text="@string/checkbox_complex_confirm"
+            android:textColor="@color/setting_text"
+            android:textColorHighlight="@color/setting_text"
+            android:textSize="@dimen/tv_size_medium"
+            android:visibility="gone" />
+
         <vn.tonish.hozo.view.TextViewHozo
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,7 +135,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:numStars="5" />
 
         <vn.tonish.hozo.view.EdittextHozo

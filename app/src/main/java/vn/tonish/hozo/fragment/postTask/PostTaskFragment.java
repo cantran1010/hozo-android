@@ -142,6 +142,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
     @Override
     protected void initData() {
         taskResponse = ((PostTaskActivity) getActivity()).getTaskResponse();
+        LogUtils.d(TAG, "values taskResponse" + taskResponse.toString() + "check: " + isCheckExpandable());
         edtBudget.addTextChangedListener(new NumberTextWatcher(edtBudget));
         edtBudget.addTextChangedListener(new TextWatcher() {
             @Override
@@ -196,7 +197,6 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             tvNumberWorker.setText(String.valueOf(taskResponse.getWorkerCount()));
         if (taskResponse.getMinAge() != 0)
             ageFrom = taskResponse.getMinAge();
-
         if (taskResponse.getMaxAge() != 0)
             ageTo = taskResponse.getMaxAge();
         tvAge.setText(getString(R.string.post_a_task_age, ageFrom, ageTo));
@@ -240,9 +240,13 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             imgSaveDraf.setVisibility(View.VISIBLE);
             imgMenu.setVisibility(View.GONE);
         }
-        advanceExpandableLayout.setExpanded(((PostTaskActivity) getActivity()).isExpanded);
-        if (advanceExpandableLayout.isExpanded())
+        if (isCheckExpandable()) {
             tvMoreShow.setVisibility(View.GONE);
+            advanceExpandableLayout.setExpanded(true);
+        } else {
+            tvMoreShow.setVisibility(View.VISIBLE);
+            advanceExpandableLayout.setExpanded(false);
+        }
 
 
     }
@@ -285,6 +289,14 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 return true;
             }
         });
+    }
+
+
+    private boolean isCheckExpandable() {
+        if ((taskResponse.getMinAge() == 18 || taskResponse.getMinAge() == 0) && (taskResponse.getMaxAge() == 60 || taskResponse.getMaxAge() == 0) && !taskResponse.isAutoAssign() && (taskResponse.getGender() == null||taskResponse.getGender().isEmpty()))
+            return false;
+        else
+            return true;
     }
 
     private void doDeleteTask() {
@@ -958,6 +970,5 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         response.setMaxAge(ageTo);
         response.setGender(strGender);
         response.setAutoAssign(cbAuto.isChecked());
-        ((PostTaskActivity) getActivity()).isExpanded = advanceExpandableLayout.isExpanded();
     }
 }

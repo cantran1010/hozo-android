@@ -34,6 +34,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.CheckBoxHozo;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.RadioButtonHozo;
@@ -82,15 +83,15 @@ public class ViewPageRatingAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
 
         // Declare Variables
-
         CircleImageView imgAvatar;
-        TextViewHozo tvName, tvTitle;
+        TextViewHozo tvName, tvTitle, tvConfirm;
+        RadioGroup group;
         final RatingBar ratingBar;
         final RadioButtonHozo ckDone, ckNotDone;
         final EdittextHozo edtReviews;
         final TextViewHozo btnSend;
         final int userID;
-        final RadioGroup radioGroup;
+        final CheckBoxHozo ckBox;
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -105,18 +106,22 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         ckNotDone = (RadioButtonHozo) itemView.findViewById(R.id.ckeckbox_confirm_no);
         edtReviews = (EdittextHozo) itemView.findViewById(R.id.edt_reviews);
         btnSend = (TextViewHozo) itemView.findViewById(R.id.btn_Send);
-        radioGroup = itemView.findViewById(R.id.rd_group);
+        tvConfirm = (TextViewHozo) itemView.findViewById(R.id.label_confirm);
+        ckBox = (CheckBoxHozo) itemView.findViewById(R.id.ckeckbox_confirm);
+        group = (RadioGroup) itemView.findViewById(R.id.rd_group);
 
         ratingBar.setStepSize(1.0f);
         // Capture position and set to the TextViews
         if (type.equals(Constants.ROLE_POSTER)) {
+            group.setVisibility(View.VISIBLE);
+            tvConfirm.setVisibility(View.VISIBLE);
+            ckBox.setVisibility(View.GONE);
             Assigner assigner = taskResponse.getAssignees().get(position);
             String title = formatTitle(position + 1) + context.getString(R.string.slash) + formatTitle(taskResponse.getAssigneeCount());
             tvTitle.setText(title);
             Utils.displayImageAvatar(context, imgAvatar, assigner.getAvatar());
             tvName.setText(assigner.getFullName());
             userID = assigner.getId();
-
             if (assigner.isRatingConfirm()) {
                 ckDone.setChecked(true);
                 ckNotDone.setChecked(false);
@@ -141,17 +146,21 @@ public class ViewPageRatingAdapter extends PagerAdapter {
             }
 
         } else {
+            group.setVisibility(View.GONE);
             Poster poster = taskResponse.getPoster();
             tvTitle.setText("");
             Utils.displayImageAvatar(context, imgAvatar, poster.getAvatar());
             tvName.setText(poster.getFullName());
             userID = poster.getId();
-
             if (taskResponse.isRatePoster()) {
+                ckBox.setVisibility(View.GONE);
+                tvConfirm.setVisibility(View.GONE);
                 ckDone.setEnabled(false);
                 ckNotDone.setEnabled(false);
                 updateUI(true, btnSend, edtReviews, ratingBar, poster.getRatingBody(), (int) taskResponse.getPoster().getPosterAverageRating());
             } else {
+                ckBox.setVisibility(View.VISIBLE);
+                tvConfirm.setVisibility(View.VISIBLE);
                 ckDone.setEnabled(true);
                 ckNotDone.setEnabled(true);
                 updateUI(false, btnSend, edtReviews, ratingBar, "", (int) taskResponse.getPoster().getPosterAverageRating());
@@ -162,7 +171,10 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doRate(position, userID, ratingBar.getRating(), edtReviews.getText().toString().trim(), ckDone.isChecked(), btnSend, edtReviews, ratingBar);
+                if (type.equals(Constants.ROLE_TASKER))
+                    doRate(position, userID, ratingBar.getRating(), edtReviews.getText().toString().trim(), ckBox.isChecked(), btnSend, edtReviews, ratingBar);
+                else
+                    doRate(position, userID, ratingBar.getRating(), edtReviews.getText().toString().trim(), ckDone.isChecked(), btnSend, edtReviews, ratingBar);
             }
         });
         ((ViewPager) container).addView(itemView);
