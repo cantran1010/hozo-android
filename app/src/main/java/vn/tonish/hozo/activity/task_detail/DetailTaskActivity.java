@@ -158,6 +158,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private String notificationEvent = "";
     private boolean isScroll = true;
     private ProgressBar progressBar;
+    private Call<TaskResponse> call;
 
     @Override
     protected int getLayout() {
@@ -166,6 +167,9 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initView() {
+
+        createSwipeToRefresh();
+
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
@@ -298,6 +302,24 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
+    public void onRefresh() {
+        super.onRefresh();
+        if (call != null) call.cancel();
+
+        if (moreDetailLayout.getVisibility() == View.VISIBLE) {
+            moreDetailVisibility = View.VISIBLE;
+        } else
+            moreDetailVisibility = View.GONE;
+
+        if (moreFooterLayout.getVisibility() == View.VISIBLE) {
+            moreDFooterVisibility = View.VISIBLE;
+        } else
+            moreDFooterVisibility = View.GONE;
+
+        getData();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
 
@@ -320,7 +342,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         Map<String, Boolean> option = new HashMap<>();
         option.put("viewer", true);
 
-        Call<TaskResponse> call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId, option);
+        call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId, option);
         call.enqueue(new Callback<TaskResponse>() {
             @Override
             public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
@@ -378,7 +400,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                         }
                     });
                 }
-//                onStopRefresh();
+                onStopRefresh();
                 ProgressDialogUtils.dismissProgressDialog();
             }
 
@@ -396,7 +418,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
                     }
                 });
-//                onStopRefresh();
+                onStopRefresh();
                 ProgressDialogUtils.dismissProgressDialog();
             }
         });
