@@ -563,7 +563,7 @@
     <string name="bid_lbl">Chi tiết công việc</string>
     <string name="bid_des1">Để đảm bảo uy tín ứng tuyển.\nHozo sẽ tạm thu %1$s đ từ ví Hozo của bạn.\nSố tiền sẽ được hoàn trả nếu:</string>
     <string name="bid_des2">Bạn hoàn thành công việc có\nxác nhận từ người thuê.</string>
-    <string name="bid_des3">Bạn huỷ ứng tuyển trước khi được giao việc hoặc sau khi được giao việc sau 30 phút.</string>
+    <string name="bid_des3">Bạn hủy ứng tuyển trước khi được giao việc hoặc trong vòng 30 phút sau khi được giao việc.</string>
     <string name="bid_confirm_policy">Xem thêm ở Điều khoản sử dụng</string>
     <string name="bid_confirm_policy_link">Điều khoản sử dụng</string>
     <string name="input_msg_hint">Nhập tin nhắn đến người đăng</string>
