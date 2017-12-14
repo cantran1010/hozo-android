@@ -28,6 +28,20 @@ public class PaymentAdapter extends BaseAdapter<TransactionResponse, PaymentAdap
         this.context = context;
     }
 
+    public interface OnItemClickLister {
+        public void onClick(int position);
+    }
+
+    private OnItemClickLister onItemClickLister;
+
+    public OnItemClickLister getOnItemClickLister() {
+        return onItemClickLister;
+    }
+
+    public void setOnItemClickLister(OnItemClickLister onItemClickLister) {
+        this.onItemClickLister = onItemClickLister;
+    }
+
     @Override
     protected int getItemLayout() {
         return R.layout.item_payment;
@@ -74,7 +88,7 @@ public class PaymentAdapter extends BaseAdapter<TransactionResponse, PaymentAdap
     }
 
 
-    public class MyViewHolder extends BaseHolder {
+    public class MyViewHolder extends BaseHolder implements View.OnClickListener {
 
         private TextViewHozo tvPrice, tvDate, tvContent, tvUnit;
 
@@ -84,7 +98,14 @@ public class PaymentAdapter extends BaseAdapter<TransactionResponse, PaymentAdap
             tvDate = itemView.findViewById(R.id.tv_date);
             tvContent = itemView.findViewById(R.id.tv_content);
             tvUnit = itemView.findViewById(R.id.tv_unit);
+
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            if (onItemClickLister != null)
+                onItemClickLister.onClick(getAdapterPosition());
+        }
     }
 }

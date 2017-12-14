@@ -304,6 +304,7 @@
                         android:id="@+id/edt_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@null"
                         android:backgroundTint="@color/white"
                         android:focusable="true"
                         android:focusableInTouchMode="true"

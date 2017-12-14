@@ -397,20 +397,20 @@ public class Utils {
                 matcherColor = context.getString(R.string.notification_bidder_canceled_color);
                 break;
             case Constants.PUSH_TYPE_ASSIGNER_CANCELED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_assign_canceled_title) + " " + notification.getTaskName() + context.getString(R.string.notification_assign_canceled_footer);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_assign_canceled_title) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_assign_canceled_footer);
                 matcher = context.getString(R.string.notification_assigner_canceled_matcher);
                 matcherColor = context.getString(R.string.notification_bidder_canceled_color);
                 break;
             case Constants.PUSH_TYPE_BID_RECEIVED:
                 if (notification.getRelatedCount() == 1)
-                    content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.notification_bid_received_footer);
+                    content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + context.getString(R.string.notification_bid_received_footer);
                 else
-                    content = notification.getFullName() + " " + context.getString(R.string.notification_related, notification.getRelatedCount() - 1) + " " + context.getString(R.string.notification_bid_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.notification_bid_received_footer);
+                    content = notification.getFullName() + " " + context.getString(R.string.notification_related, notification.getRelatedCount() - 1) + " " + context.getString(R.string.notification_bid_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + context.getString(R.string.notification_bid_received_footer);
                 matcher = context.getString(R.string.notification_bid_received_matcher);
                 matcherColor = context.getString(R.string.notification_bid_received_color);
                 break;
             case Constants.PUSH_TYPE_BID_ACCEPTED:
-                content = context.getString(R.string.notification_bid_accepted_title) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_bid_accepted_footer);
+                content = context.getString(R.string.notification_bid_accepted_title) + " " + notification.getTaskName() + context.getString(R.string.notification_bid_accepted_footer);
                 matcher = context.getString(R.string.notification_bid_accepted_matcher);
                 matcherColor = context.getString(R.string.notification_bid_accepted_color);
                 break;
@@ -547,7 +547,7 @@ public class Utils {
                 content = notification.getFullName() + " " + context.getString(R.string.notification_bidder_canceled) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
                 break;
             case Constants.PUSH_TYPE_ASSIGNER_CANCELED:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_assign_canceled_title) + " " + notification.getTaskName() + context.getString(R.string.notification_assign_canceled_footer);
+                content = notification.getFullName() + " " + context.getString(R.string.notification_assign_canceled_title) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_assign_canceled_footer);
                 break;
             case Constants.PUSH_TYPE_BID_RECEIVED:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_bid_received) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task);
@@ -817,8 +817,26 @@ public class Utils {
 
     public static String getMemberChat(Context context, TaskResponse taskResponse) {
         String result = "";
-        result = result + taskResponse.getPoster().getFullName() + " ";
-        result = result + context.getString(R.string.count_assigner, taskResponse.getAssigneeCount());
+
+        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            if (taskResponse.getAssigneeCount() == 1) {
+                result = context.getString(R.string.you) + " " + taskResponse.getAssignees().get(0).getFullName();
+            } else {
+                result = context.getString(R.string.you2) + " " + taskResponse.getAssignees().get(0).getFullName()
+                        + " " + context.getString(R.string.count_assigner, taskResponse.getAssigneeCount() - 1);
+            }
+        } else {
+            if (taskResponse.getAssigneeCount() == 1) {
+                result = context.getString(R.string.you) + " " + taskResponse.getPoster().getFullName();
+            } else {
+                result = context.getString(R.string.you2) + " " + taskResponse.getPoster().getFullName()
+                        + " " + context.getString(R.string.count_assigner, taskResponse.getAssigneeCount() - 1);
+            }
+        }
+
+//        result = result + taskResponse.getPoster().getFullName() + " ";
+//        result = result + context.getString(R.string.count_assigner, taskResponse.getAssigneeCount());
+
         return result;
     }
 

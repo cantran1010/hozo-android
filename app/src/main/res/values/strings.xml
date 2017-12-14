@@ -170,7 +170,7 @@
     <string name="notification_related" tools:ignore="PluralsCandidate">và %1$d người khác</string>
     <string name="notification_comment_replied">đã trả lời bình luận công việc</string>//
     <string name="notification_bidder_canceled">đã hủy ứng tuyển ở việc</string>//
-    <string name="notification_bid_received">đã ứng tuyển công việc</string>//
+    <string name="notification_bid_received">đã ứng tuyển ở việc</string>//
     <string name="notification_task_reminder">bạn được giao sắp đến giờ đi làm</string>
     <string name="notification_task_completed">đã hoàn thành.</string>
     <string name="notification_task_completed_bidder">đã hoàn thành.</string>
@@ -184,7 +184,7 @@
     <string name="notification_review_received_matcher">không hoàn thành</string>
     <string name="notification_comment_received_matcher">bình luận</string>
     <string name="notification_comment_replied_matcher">trả lời</string>
-    <string name="notification_bidder_canceled_matcher">đã hủy</string>
+    <string name="notification_bidder_canceled_matcher">hủy ứng tuyển</string>
     <string name="notification_bid_received_matcher">ứng tuyển</string>
     <string name="notification_bid_accepted_matcher">được giao việc</string>
     <string name="notification_task_reminder_matcher">sắp đến giờ</string>
@@ -194,10 +194,10 @@
     <string name="notification_bid_missed_matcher">không được giao việc</string>
     <string name="notification_task_reopen_matcher">mở lại</string>
     <string name="notification_cancel_bid_matcher">hủy chọn</string>
-    <string name="notification_enough_bidder_matcher">đã đủ</string>
+    <string name="notification_enough_bidder_matcher">đủ người ứng tuyển</string>
     <string name="notification_review_poster_matcher">yêu cầu xác nhận</string>//
     <string name="notification_review_worker_matcher">hoàn thành</string>//
-    <string name="notification_await_approval_matcher">duyệt</string>//
+    <string name="notification_await_approval_matcher">duyệt người làm</string>//
 
     <string name="notification_review_received_color">#00A2E5</string>
     <string name="notification_comment_received_color">#00A2E5</string>
@@ -413,7 +413,7 @@
     <string name="setting_status_open">open</string>
     <string name="setting_status_assigned">assigned</string>
     <string name="keyword_hint">Nhập từ khoá</string>
-    <string name="payment_history_title">Tài khoản thanh toán</string>
+    <string name="payment_history_title">Ví Hozo</string>
     <string name="wallet_title">Ví Hozo của bạn có</string>
     <string name="btn_payment">Nạp tiền</string>
     <string name="history_title">LỊCH SỬ GIAO DỊCH</string>
@@ -520,7 +520,7 @@
     <string name="rd_poster">Người đăng việc</string>
     <string name="rd_worker">Người làm việc</string>
     <string name="rc_both">Cả hai</string>
-    <string name="send_tag">Gủi</string>
+    <string name="send_tag">Gửi</string>
     <string name="profile_age">tuổi</string>
     <string name="un_follow">Hủy theo dõi</string>
     <string name="review_all_title">Tất cả đánh giá</string>
@@ -539,7 +539,7 @@
     <string name="setting_follow">Kết nối trên Hozo</string>
     <string name="setting_alert_new_task">Cài đặt để nhận thông báo việc mới</string>
     <string name="system_error">system_error</string>
-    <string name="detail_task_header">Chi tiết</string>
+    <string name="detail_task_header">Chi tiết công việc</string>
     <string name="view_map">Xem bản đồ</string>
     <string name="detail_vnd">VNĐ</string>
     <string name="see_more_detail">Chi tiết công việc</string>
@@ -563,7 +563,7 @@
     <string name="bid_lbl">Chi tiết công việc</string>
     <string name="bid_des1">Để đảm bảo uy tín ứng tuyển.\nHozo sẽ tạm thu %1$s đ từ ví Hozo của bạn.\nSố tiền sẽ được hoàn trả nếu:</string>
     <string name="bid_des2">Bạn hoàn thành công việc có\nxác nhận từ người thuê.</string>
-    <string name="bid_des3">Bạn huỷ ứng tuyển trước khi được giao việc hoặc sau khi được giao việc sau 30 phút.</string>
+    <string name="bid_des3">Bạn hủy ứng tuyển trước khi được giao việc hoặc trong vòng 30 phút sau khi được giao việc.</string>
     <string name="bid_confirm_policy">Xem thêm ở Điều khoản sử dụng</string>
     <string name="bid_confirm_policy_link">Điều khoản sử dụng</string>
     <string name="input_msg_hint">Nhập tin nhắn đến người đăng</string>
@@ -645,9 +645,9 @@
     <string name="btn_cancel_task">Bạn đã bỏ lỡ việc này</string>
     <string name="tv_cost">Tiền công / người</string>
     <string name="notification_comment_received_footer">mà bạn tương tác</string>
-    <string name="notification_bid_received_footer">.Hãy nhanh chóng giao việc</string>
+    <string name="notification_bid_received_footer">. Hãy nhanh chóng giao việc</string>
     <string name="push_overdue_title">Rất tiếc việc</string>
-    <string name="push_overdue_footer">đã quá hạn.Bạn có muốn đăng lại?</string>
+    <string name="push_overdue_footer">đã quá hạn. Bạn có muốn đăng lại?</string>
     <string name="notification_review_worker_title">đã gửi yêu cầu xác nhận công việc</string>
     <string name="notification_review_worker_footer">đã hoàn thành</string>
     <string name="bid_missed_title">Rất tiếc bạn đã không được giao việc</string>
@@ -666,7 +666,7 @@
     <string name="notification_bid_accepted_footer">. Hãy nhanh chóng liên hệ với người đăng. Nếu bạn hủy việc sau đó 30 phút thì bạn sẽ không lấy lại được tiền đặt cọc.</string>
     <string name="notification_assign_canceled_title">đã từ chối làm việc</string>
     <string name="notification_assign_canceled_footer">của bạn. Bạn có thể chọn người thay thế.</string>
-    <string name="notification_assigner_canceled_matcher">từ chối</string>
+    <string name="notification_assigner_canceled_matcher">từ chối làm việc</string>
     <string name="cancel_task_content_assign">Công việc của bạn đã được giao. Nếu Hủy việc thì ví Hozo của bạn sẽ bị trừ %1$s đ. Bạn có chắc chắn muốn hủy việc?</string>
     <string name="detail_view_contact_worker">Liên lạc người làm</string>
     <string name="push_title">Có 1 việc mới phù hợp với bạn</string>
@@ -675,4 +675,6 @@
     <string name="notification_review_content">đã đánh giá bạn ở việc</string>
     <string name="notification_review_matcher">đánh giá</string>
     <string name="checkbox_complex_confirm">Yêu cầu người đăng xác nhận việc đã hoàn thành</string>
+    <string name="you">Bạn và</string>
+    <string name="you2">Bạn,</string>
 </resources>

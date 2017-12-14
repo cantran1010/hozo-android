@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.BaseTouchActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.PreviewImageActivity;
 import vn.tonish.hozo.adapter.CommentTaskAdapter;
@@ -61,7 +62,7 @@ import vn.tonish.hozo.view.EdittextHozo;
  * Created by LongBui on 11/14/17.
  */
 
-public class CommentAllActivity extends BaseActivity implements View.OnClickListener {
+public class CommentAllActivity extends BaseTouchActivity implements View.OnClickListener {
 
     private static final String TAG = CommentAllActivity.class.getSimpleName();
     public final static int LIMIT = 20;
@@ -199,6 +200,20 @@ public class CommentAllActivity extends BaseActivity implements View.OnClickList
                 intentAnswer.putExtra(Constants.COMMENT_INPUT_EXTRA, layoutFooter.getVisibility());
                 intentAnswer.putExtra(Constants.POSTER_ID_EXTRA, posterId);
                 startActivityForResult(intentAnswer, Constants.COMMENT_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
+
+        rcvComment.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    view.performClick();
+                    Utils.hideKeyBoard(CommentAllActivity.this);
+                    rcvComment.requestFocus();
+                    return true;
+                }
+                return false;
             }
         });
 

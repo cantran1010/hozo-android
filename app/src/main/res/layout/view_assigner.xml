@@ -61,7 +61,7 @@
 
         <vn.tonish.hozo.view.ButtonHozo
             android:id="@+id/btn_contact"
-            style="@style/btn_style_green"
+            style="@style/btn_style_green_new"
             android:layout_width="75dp"
             android:layout_height="22dp"
             android:layout_gravity="end"

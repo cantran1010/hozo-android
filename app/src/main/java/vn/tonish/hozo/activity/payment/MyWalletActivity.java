@@ -16,6 +16,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.PaymentAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -84,6 +85,20 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvPayment.setLayoutManager(linearLayoutManager);
         rcvPayment.setAdapter(paymentAdapter);
+
+        paymentAdapter.setOnItemClickLister(new PaymentAdapter.OnItemClickLister() {
+            @Override
+            public void onClick(int position) {
+
+                if (payments.get(position).getTaskId() != 0) {
+                    Intent intent = new Intent(MyWalletActivity.this, DetailTaskActivity.class);
+                    intent.putExtra(Constants.TASK_ID_EXTRA, payments.get(position).getTaskId());
+                    startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+                }
+
+            }
+        });
+
     }
 
     private void getTransactions() {

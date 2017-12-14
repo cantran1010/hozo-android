@@ -1,5 +1,6 @@
 package vn.tonish.hozo.activity.payment;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,6 +16,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.PaymentAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -24,6 +26,7 @@ import vn.tonish.hozo.rest.responseRes.TransactionResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 
 /**
  * Created by LongBui on 11/16/17.
@@ -63,7 +66,7 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
     }
 
     private void setUpList() {
-        paymentAdapter = new PaymentAdapter(this,payments);
+        paymentAdapter = new PaymentAdapter(this, payments);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvPayment.setLayoutManager(linearLayoutManager);
         rcvPayment.setAdapter(paymentAdapter);
@@ -76,6 +79,19 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
             }
         };
         rcvPayment.addOnScrollListener(endlessRecyclerViewScrollListener);
+
+        paymentAdapter.setOnItemClickLister(new PaymentAdapter.OnItemClickLister() {
+            @Override
+            public void onClick(int position) {
+
+                if (payments.get(position).getTaskId() != 0) {
+                    Intent intent = new Intent(PaymentHistoryActivity.this, DetailTaskActivity.class);
+                    intent.putExtra(Constants.TASK_ID_EXTRA, payments.get(position).getTaskId());
+                    startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+                }
+
+            }
+        });
 
     }
 

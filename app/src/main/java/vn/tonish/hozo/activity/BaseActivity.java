@@ -251,7 +251,14 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeRef
             if (x < view.getLeft() || x > view.getRight() || y < view.getTop() || y > view.getBottom())
                 ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((this.getWindow().getDecorView().getApplicationWindowToken()), 0);
         }
-        return ev == null || super.dispatchTouchEvent(ev);
+
+        try {
+            return ev == null || super.dispatchTouchEvent(ev);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ev == null;
+        }
+
     }
 
     @Override

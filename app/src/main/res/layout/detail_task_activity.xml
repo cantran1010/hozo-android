@@ -642,6 +642,7 @@
                 android:layout_marginStart="@dimen/margin_left_screen"
                 android:layout_marginTop="10dp"
                 android:text="@string/detail_view_rate"
+                android:textColor="@color/white"
                 android:visibility="gone" />
 
             <vn.tonish.hozo.view.TextViewHozo

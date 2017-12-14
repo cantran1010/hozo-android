@@ -59,33 +59,125 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
     public ChatRoomAdapter(final Context context, List<TaskResponse> tasks) {
         this.tasks = tasks;
         this.context = context;
+        try {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            myRef = database.getReference();
+            for (int i = 0; i < tasks.size(); i++) messages.add(new Message());
+            for (int i = 0; i < tasks.size(); i++) {
+                final int finalI = i;
+                ChildEventListener childEventListener = new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
-        for (int i = 0; i < tasks.size(); i++) messages.add(new Message());
-        for (int i = 0; i < tasks.size(); i++) {
-            final int finalI = i;
+                        Message message = dataSnapshot.getValue(Message.class);
+                        message.setId(dataSnapshot.getKey());
+                        LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , message : " + message.toString());
+
+                        messages.set(finalI, message);
+
+                        Intent intentNewMsg = new Intent();
+                        intentNewMsg.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                        intentNewMsg.putExtra(Constants.COUNT_NEW_MSG_EXTRA, getCountRoomUnRead());
+                        context.sendBroadcast(intentNewMsg);
+
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                    Message message = dataSnapshot.getValue(Message.class);
+//                    LogUtils.d(TAG, "messageCloudEndPoint onChildChanged , message : " + message.toString());
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                };
+
+                DatabaseReference messageCloudEndPoint = myRef.child("task-messages").child(String.valueOf(tasks.get(i).getId()));
+
+                messageCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(childEventListener);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_chat_room, parent, false);
+        return new MyViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+
+        try {
+            TaskResponse taskResponse = tasks.get(position);
+
+            Utils.displayImageAvatar(context, holder.imgAvatar, taskResponse.getPoster().getAvatar());
+            holder.tvTitle.setText(taskResponse.getTitle());
+//        holder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), context));
+            holder.tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
+
+            final DatabaseReference messageCloudEndPoint = myRef.child("task-messages").child(String.valueOf(taskResponse.getId()));
+
             ChildEventListener childEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
+                    if (holder.getAdapterPosition() < 0) return;
+                    if (holder.getAdapterPosition() >= tasks.size()) return;
+
                     Message message = dataSnapshot.getValue(Message.class);
                     message.setId(dataSnapshot.getKey());
-                    LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , message : " + message.toString());
+                    LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildAdded , message : " + message.toString());
+                    LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildAdded , holder.getAdapterPosition() : " + holder.getAdapterPosition());
 
-                    messages.set(finalI, message);
+                    holder.tvLastMsg.setText(message.getMessage());
+                    messages.set(holder.getAdapterPosition(), message);
 
-                    Intent intentNewMsg = new Intent();
-                    intentNewMsg.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-                    intentNewMsg.putExtra(Constants.COUNT_NEW_MSG_EXTRA, getCountRoomUnRead());
-                    context.sendBroadcast(intentNewMsg);
+                    Map<String, Boolean> map = messages.get(holder.getAdapterPosition()).getReads();
+
+                    if (map != null)
+                        LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint map : " + map.toString());
+
+                    if (map != null && map.containsKey(String.valueOf(UserManager.getMyUser().getId()))) {
+                        holder.tvLastMsg.setTextColor(ContextCompat.getColor(context, R.color.setting_text));
+//                    holder.tvTitle.setTextColor(ContextCompat.getColor(context, R.color.tv_black));
+
+                        holder.tvLastMsg.setTypeface(holder.tvLastMsg.getTypeface(), Typeface.NORMAL);
+                        holder.tvTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.img_message_read, 0, 0, 0);
+
+                    } else {
+                        holder.tvLastMsg.setTextColor(ContextCompat.getColor(context, R.color.hozo_bg));
+//                    holder.tvTitle.setTextColor(ContextCompat.getColor(context, R.color.hozo_bg));
+
+                        holder.tvLastMsg.setTypeface(holder.tvLastMsg.getTypeface(), Typeface.BOLD);
+                        holder.tvTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.img_message_unread, 0, 0, 0);
+                    }
+
+                    holder.tvTimeAgo.setVisibility(View.VISIBLE);
+                    holder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(message.getCreated_atLong(true), context));
 
                 }
 
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                    Message message = dataSnapshot.getValue(Message.class);
-//                    LogUtils.d(TAG, "messageCloudEndPoint onChildChanged , message : " + message.toString());
+//                Message message = dataSnapshot.getValue(Message.class);
+//                LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildChanged , message : " + message.toString());
                 }
 
                 @Override
@@ -104,93 +196,10 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
                 }
             };
 
-            DatabaseReference messageCloudEndPoint = myRef.child("task-messages").child(String.valueOf(tasks.get(i).getId()));
-
             messageCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(childEventListener);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
-
-    @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_chat_room, parent, false);
-        return new MyViewHolder(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
-
-        TaskResponse taskResponse = tasks.get(position);
-
-        Utils.displayImageAvatar(context, holder.imgAvatar, taskResponse.getPoster().getAvatar());
-        holder.tvTitle.setText(taskResponse.getTitle());
-//        holder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), context));
-        holder.tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
-
-        final DatabaseReference messageCloudEndPoint = myRef.child("task-messages").child(String.valueOf(taskResponse.getId()));
-
-        ChildEventListener childEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                if (holder.getAdapterPosition() < 0) return;
-
-                Message message = dataSnapshot.getValue(Message.class);
-                message.setId(dataSnapshot.getKey());
-                LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildAdded , message : " + message.toString());
-                LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildAdded , holder.getAdapterPosition() : " + holder.getAdapterPosition());
-
-                holder.tvLastMsg.setText(message.getMessage());
-                messages.set(holder.getAdapterPosition(), message);
-
-                Map<String, Boolean> map = messages.get(holder.getAdapterPosition()).getReads();
-
-                if (map != null)
-                    LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint map : " + map.toString());
-
-                if (map != null && map.containsKey(String.valueOf(UserManager.getMyUser().getId()))) {
-                    holder.tvLastMsg.setTextColor(ContextCompat.getColor(context, R.color.setting_text));
-//                    holder.tvTitle.setTextColor(ContextCompat.getColor(context, R.color.tv_black));
-
-                    holder.tvLastMsg.setTypeface(holder.tvLastMsg.getTypeface(), Typeface.NORMAL);
-                    holder.tvTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.img_message_read, 0, 0, 0);
-
-                } else {
-                    holder.tvLastMsg.setTextColor(ContextCompat.getColor(context, R.color.hozo_bg));
-//                    holder.tvTitle.setTextColor(ContextCompat.getColor(context, R.color.hozo_bg));
-
-                    holder.tvLastMsg.setTypeface(holder.tvLastMsg.getTypeface(), Typeface.BOLD);
-                    holder.tvTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.img_message_unread, 0, 0, 0);
-                }
-
-                holder.tvTimeAgo.setVisibility(View.VISIBLE);
-                holder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(message.getCreated_atLong(true), context));
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                Message message = dataSnapshot.getValue(Message.class);
-//                LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildChanged , message : " + message.toString());
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-
-        messageCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(childEventListener);
 
     }
 
