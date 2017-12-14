@@ -15,48 +15,48 @@
         android:layout_marginStart="16dp"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rcv_keyword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp" />
-
         <RelativeLayout
             android:id="@+id/layout_footer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/btn_send"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
                 android:contentDescription="@string/content_description_send"
+                android:scaleType="centerInside"
                 android:src="@drawable/img_send_comment" />
 
             <vn.tonish.hozo.view.EdittextHozo
                 android:id="@+id/edt_keyword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
                 android:layout_toLeftOf="@id/btn_send"
                 android:layout_toStartOf="@id/btn_send"
-                android:background="@drawable/bg_gray_corners"
+                android:background="@drawable/selector_edittext"
+                android:focusableInTouchMode="true"
                 android:hint="@string/keyword_hint"
-                android:inputType="textCapSentences"
-                android:minHeight="@dimen/edt_min_height"
+                android:maxLength="35"
                 android:padding="5dp"
-                android:textColor="@color/setting_text"
+                android:textColor="@color/tv_gray_new"
                 android:textColorHint="@color/color_edt_border"
                 android:textSize="@dimen/tv_size_nomal" />
 
+
         </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcv_keyword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </vn.tonish.hozo.view.ExpandableLayout>
