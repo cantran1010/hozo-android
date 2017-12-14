@@ -163,7 +163,7 @@
     <!-- rate -->
     <string name="rate_msg_no_content_error">Vui lòng chọn sao đánh giá</string>
 
-    <string name="brower_task_map_activity">Tìm việc gần đây</string>
+    <string name="brower_task_map_activity">Bản đồ công việc</string>
 
     <!-- notification -->
     <string name="notification_comment_received">đã bình luận công việc</string>//
