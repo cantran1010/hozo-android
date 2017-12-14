@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -26,7 +25,9 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.MyLinearLayoutManager;
 import vn.tonish.hozo.utils.PreferUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -42,7 +43,7 @@ public class ChatFragment extends BaseFragment {
     private List<TaskResponse> taskResponses = new ArrayList<>();
     private Call<List<TaskResponse>> call;
     private TextViewHozo tvNoData;
-    private LinearLayoutManager lvManager;
+    private MyLinearLayoutManager lvManager;
 
     @Override
     protected int getLayout() {
@@ -79,6 +80,8 @@ public class ChatFragment extends BaseFragment {
     }
 
     private void getChatRooms() {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        if (call != null) call.cancel();
         call = ApiClient.getApiService().getChatRooms(UserManager.getUserToken());
         call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
@@ -114,6 +117,7 @@ public class ChatFragment extends BaseFragment {
                     });
                 }
                 onStopRefresh();
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -130,13 +134,14 @@ public class ChatFragment extends BaseFragment {
                     }
                 });
                 onStopRefresh();
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
 
     private void refreshChatRooms() {
         ChatRoomAdapter chatRoomAdapter = new ChatRoomAdapter(getActivity(), taskResponses);
-        lvManager = new LinearLayoutManager(getActivity());
+        lvManager = new MyLinearLayoutManager(getActivity());
         rcvChatRooms.setLayoutManager(lvManager);
         rcvChatRooms.setAdapter(chatRoomAdapter);
 
