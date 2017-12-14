@@ -34,8 +34,9 @@
     <color name="color_edt_create_task_lable">#444444</color>
     <color name="color_edt_border">#bcccd2</color>
     <color name="color_count_word">#cf1463</color>
-    <color name="green_new">#33FF33</color>
-    <color name="tv_gray_new_2">#bccad0</color>
+    <color name="green_new">#aac9d2</color>
+    <color name="tv_gray_new_2">#92becb</color>
+    <color name="tv_green_new_3">#d8ed97</color>
     <color name="bg_tab_mytask">#e8f0f0</color>
-    <color name="received_color">#00CC00</color>
+    <color name="received_color">#80c0d3</color>
 </resources>
