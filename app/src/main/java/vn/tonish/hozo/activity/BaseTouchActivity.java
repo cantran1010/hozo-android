@@ -25,7 +25,7 @@ public abstract class BaseTouchActivity extends AppCompatActivity implements Swi
     private static final String TAG = BaseTouchActivity.class.getName();
     private FragmentManager fragmentManager;
     private TransitionScreen transitionScreen;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    public SwipeRefreshLayout swipeRefreshLayout;
     private final Stack<StackEntry> fragmentsStack = new Stack<>();
     private FragmentTransaction transaction;
     private BlockBroadCastReceiver blockBroadCastReceiver = new BlockBroadCastReceiver();
@@ -43,7 +43,7 @@ public abstract class BaseTouchActivity extends AppCompatActivity implements Swi
 
     }
 
-    void createSwipeToRefresh() {
+    public void createSwipeToRefresh() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swpRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.hozo_bg, R.color.hozo_red, R.color.blue_2);
@@ -62,7 +62,7 @@ public abstract class BaseTouchActivity extends AppCompatActivity implements Swi
     }
 
 
-    void onStopRefresh() {
+    public void onStopRefresh() {
         swipeRefreshLayout.setRefreshing(false);
     }
 

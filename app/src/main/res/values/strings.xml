@@ -539,7 +539,7 @@
     <string name="setting_follow">Kết nối trên Hozo</string>
     <string name="setting_alert_new_task">Cài đặt để nhận thông báo việc mới</string>
     <string name="system_error">system_error</string>
-    <string name="detail_task_header">Chi tiết</string>
+    <string name="detail_task_header">Chi tiết công việc</string>
     <string name="view_map">Xem bản đồ</string>
     <string name="detail_vnd">VNĐ</string>
     <string name="see_more_detail">Chi tiết công việc</string>

@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.BaseTouchActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.PreviewImageActivity;
 import vn.tonish.hozo.adapter.CommentsAdapter;
@@ -64,7 +65,7 @@ import vn.tonish.hozo.view.EdittextHozo;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 
-public class CommentsAnswerActivity extends BaseActivity implements View.OnClickListener {
+public class CommentsAnswerActivity extends BaseTouchActivity implements View.OnClickListener {
     private static final String TAG = CommentsAnswerActivity.class.getSimpleName();
     public final static int LIMIT = 20;
     private CommentsAdapter commentsAdapter;
@@ -84,6 +85,7 @@ public class CommentsAnswerActivity extends BaseActivity implements View.OnClick
     private Comment comment;
     private CommentBigView commentBigView;
     private int vilibisity, posterId;
+    private LinearLayout mainLayout;
 
     @Override
     protected int getLayout() {
@@ -108,6 +110,36 @@ public class CommentsAnswerActivity extends BaseActivity implements View.OnClick
         imgBack.setOnClickListener(this);
 
         commentBigView = (CommentBigView) findViewById(R.id.comment_big_view);
+
+        mainLayout = (LinearLayout) findViewById(R.id.main_layout);
+
+        mainLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    view.performClick();
+                    Utils.hideKeyBoard(CommentsAnswerActivity.this);
+                    lvList.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        lvList.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    view.performClick();
+                    Utils.hideKeyBoard(CommentsAnswerActivity.this);
+                    lvList.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -297,7 +329,6 @@ public class CommentsAnswerActivity extends BaseActivity implements View.OnClick
 
                     comment.setRepliesCount(comment.getRepliesCount() + 1);
 
-
                     ArrayList<Comment> newList = new ArrayList<>();
 
                     if (comment.getComments().size() > 0)
@@ -309,6 +340,7 @@ public class CommentsAnswerActivity extends BaseActivity implements View.OnClick
                     strSince = null;
                     isLoadingMoreFromServer = true;
                     getCommentsInComments(null);
+
 
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(CommentsAnswerActivity.this, new NetworkUtils.RefreshListener() {
