@@ -954,7 +954,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             layoutInputComment.setVisibility(View.VISIBLE);
 
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() != UserManager.getMyUser().getId()) {
-            updateStatusTask(true, false, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received));
+            updateStatusTask(true, false, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received_non));
 
             showExpand(true);
 
