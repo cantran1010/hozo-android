@@ -76,7 +76,7 @@ import static vn.tonish.hozo.utils.Utils.setViewBackground;
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private ImageView imgback, imgEdit, imgCheckedFb, imgCheckedEmail, imgBackground;
-    private TextView btnWorker, btnPoster, tvTitle;
+    private TextView btnWorker, btnPoster;
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvRateLbl, btnMoreReview, btnLogOut, tvAbout, tvCountActivity, tvCountFollow, tvMobileLbl, tvExperience;
     private TextViewHozo tvReviewsCount, tvTaskCount, tvCompletionRate;
@@ -123,7 +123,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btnWorker = (TextViewHozo) findViewById(R.id.btn_worker);
         btnPoster = (TextViewHozo) findViewById(R.id.btn_poster);
         tvRateLbl = (TextViewHozo) findViewById(R.id.tv_rate);
-        tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         tvAbout = (TextViewHozo) findViewById(R.id.tv_about);
         tvReviewsCount = (TextViewHozo) findViewById(R.id.tv_reviews_count);
         tvTaskCount = (TextViewHozo) findViewById(R.id.tv_task_count);
@@ -177,7 +176,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btnWorker.setOnClickListener(this);
         btnMoreReview.setOnClickListener(this);
         imgAvatar.setOnClickListener(this);
-//        tvAddVerify.setOnClickListener(this);
         if (isMyUser) {
             mUserEntity = UserManager.getMyUser();
         } else {
@@ -200,18 +198,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         startActivityForResult(intent, Constants.REQUEST_CODE_UPDATE_PROFILE, TransitionScreen.UP_TO_DOWN);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-////        if (requestCode == Constants.REQUEST_CODE_UPDATE_PROFILE && resultCode == Constants.RESULT_CODE_UPDATE_PROFILE) {
-////            updateUi(UserManager.getMyUser());
-////        } else if (requestCode == Constants.REQUEST_CODE_VERIFY && resultCode == Constants.RESULT_CODE_VERIFY) {
-////            updateUi(UserManager.getMyUser());
-////        }
-//        mUserEntity = UserManager.getUserById(userId);
-//        updateUi();
-//    }
-
     private void getUserFromServer() {
         if (mUserEntity == null) {
             ProgressDialogUtils.showProgressDialog(this);
@@ -233,12 +219,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                             userEntity.setRefreshToken(UserManager.getMyUser().getRefreshToken());
                     }
                     UserManager.insertUser(response.body(), isMyUser);
-
                     mUserEntity = userEntity;
                     isFollow = mUserEntity.isFollowed();
-
                     updateUi();
-
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(ProfileActivity.this);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
@@ -251,9 +234,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.d(TAG, "errorBody" + error.toString());
-//                    Toast.makeText(ProfileActivity.this, error.message(), Toast.LENGTH_SHORT).show();
                     Utils.showLongToast(ProfileActivity.this, error.message(), true, false);
-
                 }
                 ProgressDialogUtils.dismissProgressDialog();
 
@@ -346,7 +327,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                 layoutLogout.setVisibility(View.VISIBLE);
                 imgEdit.setVisibility(View.VISIBLE);
-                tvTitle.setText(getString(R.string.my_account));
+
                 btnVerify.setVisibility(View.VISIBLE);
             } else {
                 tvMobile.setVisibility(View.GONE);
@@ -354,7 +335,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                 imgEdit.setVisibility(View.GONE);
                 layoutLogout.setVisibility(View.GONE);
-                tvTitle.setText(getString(R.string.user_account));
                 btnVerify.setVisibility(View.GONE);
             }
 
@@ -454,8 +434,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             reviewEntities.addAll(posterReviewEntity);
 
             if (rateCountPoster == 0) tvRateLbl.setVisibility(View.GONE);
-            else
+            else {
                 tvRateLbl.setVisibility(View.VISIBLE);
+                tvRateLbl.setText(getString(R.string.profile_rate_title, rateCountPoster));
+            }
 
         } else {
             tvReviewsCount.setText(getString(R.string.reviews_count, retaCountWorker));
@@ -466,8 +448,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             reviewEntities.addAll(taskerReviewEntity);
 
             if (retaCountWorker == 0) tvRateLbl.setVisibility(View.GONE);
-            else
+            else {
                 tvRateLbl.setVisibility(View.VISIBLE);
+                tvRateLbl.setText(getString(R.string.profile_rate_title, retaCountWorker));
+            }
 
         }
         reviewsListView.updateData((ArrayList<ReviewEntity>) reviewEntities);

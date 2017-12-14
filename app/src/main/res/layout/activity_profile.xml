@@ -46,7 +46,8 @@
                     android:layout_toEndOf="@id/img_back"
                     android:layout_toLeftOf="@+id/img_edit"
                     android:layout_toRightOf="@id/img_back"
-                    android:layout_toStartOf="@+id/img_edit" />
+                    android:layout_toStartOf="@+id/img_edit"
+                    android:text="@string/user_account" />
 
                 <ImageView
                     android:id="@+id/img_edit"
@@ -232,7 +233,7 @@
                         android:layout_marginTop="10dp"
                         android:text="@string/verify_title"
                         android:textColor="@color/tv_gray_new_2"
-                        android:textSize="@dimen/tv_size_nomal"
+                        android:textSize="@dimen/tv_size_xtiny"
                         android:textStyle="bold" />
 
                     <RelativeLayout
@@ -293,6 +294,7 @@
                         </LinearLayout>
 
                         <vn.tonish.hozo.view.ButtonHozo
+                            android:textSize="@dimen/tv_size_tiny"
                             android:id="@+id/btn_verify"
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
@@ -315,7 +317,7 @@
                         android:layout_marginTop="10dp"
                         android:text="@string/profile_address"
                         android:textColor="@color/tv_gray_new_2"
-                        android:textSize="@dimen/tv_size_nomal"
+                        android:textSize="@dimen/tv_size_xtiny"
                         android:textStyle="bold" />
 
                     <vn.tonish.hozo.view.TextViewHozo
@@ -333,7 +335,7 @@
                         android:layout_marginTop="10dp"
                         android:text="@string/profile_phone"
                         android:textColor="@color/tv_gray_new_2"
-                        android:textSize="@dimen/tv_size_nomal"
+                        android:textSize="@dimen/tv_size_xtiny"
                         android:textStyle="bold" />
 
                     <vn.tonish.hozo.view.TextViewHozo
@@ -349,7 +351,7 @@
                         android:layout_marginTop="10dp"
                         android:text="@string/profile_about"
                         android:textColor="@color/tv_gray_new_2"
-                        android:textSize="@dimen/tv_size_nomal"
+                        android:textSize="@dimen/tv_size_xtiny"
                         android:textStyle="bold" />
 
                     <vn.tonish.hozo.view.TextViewHozo
@@ -372,7 +374,7 @@
                         android:layout_marginTop="10dp"
                         android:text="@string/profile_skill"
                         android:textColor="@color/tv_gray_new_2"
-                        android:textSize="@dimen/tv_size_nomal"
+                        android:textSize="@dimen/tv_size_xtiny"
                         android:textStyle="bold" />
 
                     <android.support.v7.widget.RecyclerView

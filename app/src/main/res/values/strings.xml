@@ -107,8 +107,7 @@
     <string name="alert_dialog_no">KHÔNG</string>
     <string name="post_a_task_complete">Chúc mừng bạn đã đăng tuyển thành công!</string>
     <string name="draft_a_task_complete">Lưu việc thành công!</string>
-    <string name="my_account">Tài khoản của tôi</string>
-    <string name="user_account">Tài khoản</string>
+    <string name="user_account">Thông tin cá nhân</string>
     <string name="retry_title">Lỗi kết nối.</string>
     <string name="retry_content">Không thể kết nối tới máy chủ. Vui lòng kiểm tra kết nối của bạn và thử lại.</string>
     <string name="retry">THỬ LẠI</string>
@@ -303,7 +302,7 @@
     <string name="task_detail_no_exit">Việc không tồn tại</string>
     <string name="task_detail_block">Việc đã bị khóa !</string>
     <string name="task_detail_block_reasons">Lý do :</string>
-    <string name="brower_new_task" tools:ignore="PluralsCandidate">%1$d việc mới</string>
+    <string name="brower_new_task" tools:ignore="PluralsCandidate">Có %1$d việc mới</string>
     <string name="address_hint">Nhập địa chỉ</string>
     <string name="no_address">Rất tiếc,không tìm thấy địa chỉ!</string>
     <string name="email_verify_done">Vui lòng kiểm tra email để hoàn thành bước xác thưc!</string>
@@ -498,7 +497,7 @@
     <string name="count_follow">%1$d lượt\ntheo dõi</string>
     <string name="follow">Theo dõi</string>
     <string name="verify_title">THÔNG TIN XÁC THỰC</string>
-    <string name="profile_rate_title">ĐÁNH GIÁ</string>
+    <string name="profile_rate_title">ĐÁNH GIÁ (%1$d)</string>
     <string name="show_all_rate">Xem tất cả đánh giá</string>
     <string name="profile_skill">KỸ NĂNG</string>
     <string name="profile_language">NGOẠI NGỮ</string>

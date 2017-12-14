@@ -100,10 +100,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
-
         showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.NON);
         updateMenuUi(1);
-
         layoutPostATask.setOnClickListener(this);
         layoutBrowserTask.setOnClickListener(this);
         layoutMyTask.setOnClickListener(this);
