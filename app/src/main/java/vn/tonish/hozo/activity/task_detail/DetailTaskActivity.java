@@ -313,7 +313,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private void getData() {
-//        ProgressDialogUtils.showProgressDialog(this);
+        ProgressDialogUtils.showProgressDialog(this);
         LogUtils.d(TAG, "getDetailTask , taskId : " + taskId);
         LogUtils.d(TAG, "getDetailTask , UserManager.getUserToken() : " + UserManager.getUserToken());
 
@@ -379,7 +379,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                     });
                 }
 //                onStopRefresh();
-//                ProgressDialogUtils.dismissProgressDialog();
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -397,7 +397,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                     }
                 });
 //                onStopRefresh();
-//                ProgressDialogUtils.dismissProgressDialog();
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
 
@@ -624,7 +624,11 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
             btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.GONE);
-            btnContactHozoWorker.setVisibility(View.VISIBLE);
+
+            if (taskResponse.getAssignees().size() > 0)
+                btnContactHozoWorker.setVisibility(View.VISIBLE);
+            else
+                btnContactHozoWorker.setVisibility(View.GONE);
 
             //menu popup
             isDelete = false;
@@ -1114,7 +1118,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             }
         });
 
-        if (moreDetailVisibility != -1 && !taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
+        if (moreDetailVisibility != -1) {
             if (moreDetailVisibility == View.VISIBLE) {
                 moreDetailLayout.setVisibility(View.VISIBLE);
                 tvSeeMoreDetail.setText(getString(R.string.advance_more_hide));
@@ -1126,8 +1130,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             }
         }
 
-
-        if (moreDFooterVisibility != -1 && !taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
+        if (moreDFooterVisibility != -1) {
             if (moreDFooterVisibility == View.VISIBLE) {
                 moreFooterLayout.setVisibility(View.VISIBLE);
                 tvSeeMoreFooter.setText(getString(R.string.advance_more_hide));
@@ -1136,7 +1139,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 moreFooterLayout.setVisibility(View.GONE);
                 tvSeeMoreFooter.setText(getString(R.string.see_more_detail_footer));
                 tvSeeMoreFooter.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down_blue, 0);
-
             }
         }
 
@@ -1842,10 +1844,12 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                     mComments.set(i, comment);
                     commentsAdapter.notifyDataSetChanged();
                 }
-        }
-        if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+        } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             setResult(Constants.POST_A_TASK_RESPONSE_CODE);
             finish();
+        } else if (requestCode == Constants.BID_REQUEST_CODE && resultCode == Constants.BID_RESPONSE_CODE) {
+            moreDetailVisibility = View.GONE;
+            moreDFooterVisibility = View.GONE;
         }
     }
 
@@ -1895,7 +1899,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             case R.id.btn_bid:
                 Intent intentBid = new Intent(this, ConfirmBidActivity.class);
                 intentBid.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-                startActivity(intentBid, TransitionScreen.RIGHT_TO_LEFT);
+                startActivityForResult(intentBid, Constants.BID_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.btn_contact:
@@ -1919,6 +1923,17 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.btn_comment:
+
+                if (moreDetailLayout.getVisibility() == View.VISIBLE) {
+                    moreDetailVisibility = View.VISIBLE;
+                } else
+                    moreDetailVisibility = View.GONE;
+
+                if (moreFooterLayout.getVisibility() == View.VISIBLE) {
+                    moreDFooterVisibility = View.VISIBLE;
+                } else
+                    moreDFooterVisibility = View.GONE;
+
                 doSend();
                 break;
 

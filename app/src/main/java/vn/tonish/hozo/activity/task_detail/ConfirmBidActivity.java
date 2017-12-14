@@ -148,6 +148,7 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
                     DialogUtils.showOkDialogNonTouch(ConfirmBidActivity.this, getString(R.string.create_task_title), getString(R.string.bid_success), getString(R.string.create_task_ok), new AlertDialogOkNonTouch.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
+                            setResult(Constants.BID_RESPONSE_CODE);
                             finish();
                         }
                     });

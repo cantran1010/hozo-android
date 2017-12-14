@@ -48,6 +48,8 @@ public class Constants {
     public static final int MIN_LENGTH_TITLE = 10;
     public static final int MIN_LENGTH_DES = 25;
     public static final int RESULT_CODE_TASK_CANCEL = 77;
+    public static final int BID_REQUEST_CODE = 741;
+    public static final int BID_RESPONSE_CODE = 147;
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
