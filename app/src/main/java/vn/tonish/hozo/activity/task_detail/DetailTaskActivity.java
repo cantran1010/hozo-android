@@ -1114,7 +1114,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             }
         });
 
-        if (moreDetailVisibility != -1) {
+        if (moreDetailVisibility != -1 && !taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
             if (moreDetailVisibility == View.VISIBLE) {
                 moreDetailLayout.setVisibility(View.VISIBLE);
                 tvSeeMoreDetail.setText(getString(R.string.advance_more_hide));
@@ -1127,7 +1127,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         }
 
 
-        if (moreDFooterVisibility != -1) {
+        if (moreDFooterVisibility != -1 && !taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
             if (moreDFooterVisibility == View.VISIBLE) {
                 moreFooterLayout.setVisibility(View.VISIBLE);
                 tvSeeMoreFooter.setText(getString(R.string.advance_more_hide));
