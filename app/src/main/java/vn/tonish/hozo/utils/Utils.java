@@ -817,8 +817,26 @@ public class Utils {
 
     public static String getMemberChat(Context context, TaskResponse taskResponse) {
         String result = "";
-        result = result + taskResponse.getPoster().getFullName() + " ";
-        result = result + context.getString(R.string.count_assigner, taskResponse.getAssigneeCount());
+
+        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            if (taskResponse.getAssigneeCount() == 1) {
+                result = context.getString(R.string.you) + " " + taskResponse.getAssignees().get(0).getFullName();
+            } else {
+                result = context.getString(R.string.you2) + " " + taskResponse.getAssignees().get(0).getFullName()
+                        + " " + context.getString(R.string.count_assigner, taskResponse.getAssigneeCount() - 1);
+            }
+        } else {
+            if (taskResponse.getAssigneeCount() == 1) {
+                result = context.getString(R.string.you) + " " + taskResponse.getPoster().getFullName();
+            } else {
+                result = context.getString(R.string.you2) + " " + taskResponse.getPoster().getFullName()
+                        + " " + context.getString(R.string.count_assigner, taskResponse.getAssigneeCount() - 1);
+            }
+        }
+
+//        result = result + taskResponse.getPoster().getFullName() + " ";
+//        result = result + context.getString(R.string.count_assigner, taskResponse.getAssigneeCount());
+
         return result;
     }
 

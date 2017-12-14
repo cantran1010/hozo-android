@@ -675,4 +675,6 @@
     <string name="notification_review_content">đã đánh giá bạn ở việc</string>
     <string name="notification_review_matcher">đánh giá</string>
     <string name="checkbox_complex_confirm">Yêu cầu người đăng xác nhận việc đã hoàn thành</string>
+    <string name="you">Bạn và</string>
+    <string name="you2">Bạn,</string>
 </resources>
