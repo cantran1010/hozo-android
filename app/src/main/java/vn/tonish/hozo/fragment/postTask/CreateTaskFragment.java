@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -38,7 +37,7 @@ import java.util.ArrayList;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.PreviewImageActivity;
-import vn.tonish.hozo.activity.task.PostTaskActivity;
+import vn.tonish.hozo.activity.PostTaskActivity;
 import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
@@ -172,7 +171,7 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
                 .checkSelfPermission(getContext(),
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), permissions, Constants.PERMISSION_REQUEST_CODE);
+            requestPermissions(permissions, Constants.PERMISSION_REQUEST_CODE);
         } else {
             permissionGranted();
         }
@@ -332,7 +331,6 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             autocompleteView.setText(address);
         }
     }
-
 
     private void doNext() {
         if (edtWorkName.getText().toString().length() < 10) {

@@ -55,7 +55,7 @@ import vn.tonish.hozo.activity.comment.CommentsAnswerActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.PreviewImageListActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
-import vn.tonish.hozo.activity.task.PostTaskActivity;
+import vn.tonish.hozo.activity.PostTaskActivity;
 import vn.tonish.hozo.adapter.AssignerAdapter;
 import vn.tonish.hozo.adapter.CommentTaskAdapter;
 import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
@@ -1172,6 +1172,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 LogUtils.d(TAG, "doCacelTask , body : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    setResult(Constants.RESULT_CODE_TASK_CANCEL);
                     Utils.showLongToast(DetailTaskActivity.this, getString(R.string.cancel_task_success_msg), false, false);
                     taskResponse = response.body();
                     Utils.updateRole(taskResponse);

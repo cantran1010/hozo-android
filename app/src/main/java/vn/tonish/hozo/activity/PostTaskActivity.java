@@ -1,4 +1,4 @@
-package vn.tonish.hozo.activity.task;
+package vn.tonish.hozo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.view.View;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.manager.CategoryManager;
