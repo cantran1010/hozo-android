@@ -205,7 +205,6 @@
             android:text="@string/not_find_task"
             android:textSize="@dimen/tv_size_medium"
             android:visibility="gone" />
-
     </FrameLayout>
 
 </LinearLayout>

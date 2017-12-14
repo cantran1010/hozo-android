@@ -205,7 +205,7 @@
 
     <style name="edt_create_task">
         <item name="android:textSize">@dimen/tv_size_medium</item>
-        <item name="android:padding">5dp</item>
+        <item name="android:padding">7dp</item>
         <item name="android:textColor">@color/color_edt_create_task_lable</item>
         <item name="android:textColorHint">@color/color_hint_create_task_lable</item>
         <item name="android:background">@drawable/selector_edittext</item>
@@ -213,7 +213,7 @@
 
     <style name="tv_bg_btn">
         <item name="android:textSize">@dimen/tv_size_medium</item>
-        <item name="android:padding">5dp</item>
+        <item name="android:padding">7dp</item>
         <item name="android:textColor">@color/color_edt_create_task_lable</item>
         <item name="android:textColorHint">@color/color_hint_create_task_lable</item>
         <item name="android:background">@drawable/btn_selector_image</item>

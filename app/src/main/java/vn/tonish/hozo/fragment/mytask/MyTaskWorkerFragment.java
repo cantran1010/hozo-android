@@ -18,7 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.task.PostTaskActivity;
+import vn.tonish.hozo.activity.PostTaskActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.MyTaskAdapter;
 import vn.tonish.hozo.common.Constants;
@@ -304,16 +304,9 @@ public class MyTaskWorkerFragment extends BaseFragment {
             onRefresh();
         } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             onRefresh();
-        } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.RESULT_CODE_TASK_DELETE) {
-            TaskResponse taskEdit = (TaskResponse) data.getSerializableExtra(Constants.EXTRA_TASK);
-            for (int i = 0; i < taskResponses.size(); i++) {
-                if (taskResponses.get(i).getId() == taskEdit.getId()) {
-                    taskResponses.remove(i);
-                    myTaskAdapter.notifyDataSetChanged();
-                    break;
-                }
-            }
         }
+        if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.RESULT_CODE_TASK_CANCEL)
+            onRefresh();
 
     }
 

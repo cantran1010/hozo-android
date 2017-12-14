@@ -16,10 +16,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingLeft="@dimen/title_margin_left"
+            android:paddingStart="@dimen/title_margin_left"
             android:text="@string/select_task_title" />
 
         <ImageView
