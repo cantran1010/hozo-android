@@ -132,7 +132,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         keywordExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_keyword);
 
 
-        RelativeLayout layoutFollow = (RelativeLayout) findViewById(R.id.layout_follow);
+//        RelativeLayout layoutFollow = (RelativeLayout) findViewById(R.id.layout_follow);
         RelativeLayout layoutCategory = (RelativeLayout) findViewById(R.id.layout_category);
         RelativeLayout layoutDateTime = (RelativeLayout) findViewById(R.id.layout_date_time);
         RelativeLayout layoutDistance = (RelativeLayout) findViewById(R.id.layout_distance);
@@ -198,7 +198,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         tvSaturday.setOnClickListener(this);
         tvSunday.setOnClickListener(this);
         btnBack.setOnClickListener(this);
-        layoutFollow.setOnClickListener(this);
+//        layoutFollow.setOnClickListener(this);
         layoutCategory.setOnClickListener(this);
         layoutDateTime.setOnClickListener(this);
         layoutDistance.setOnClickListener(this);
@@ -847,9 +847,9 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 hideKeyBoard(this);
                 finish();
                 break;
-            case R.id.layout_follow:
-                expandableLayout(followExpandableLayout, imgFollowArrow);
-                break;
+//            case R.id.layout_follow:
+//                expandableLayout(followExpandableLayout, imgFollowArrow);
+//                break;
             case R.id.layout_category:
                 expandableLayout(categoryExpandableLayout, imgCategoryArrow);
                 break;

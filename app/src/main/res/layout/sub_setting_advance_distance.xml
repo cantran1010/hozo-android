@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/base_location"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/bg_border_search_map"
+                android:background="@drawable/selector_edittext"
                 android:focusableInTouchMode="true"
                 android:padding="5dp"
                 android:textColor="@color/tv_gray_new"

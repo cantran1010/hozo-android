@@ -34,6 +34,8 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/img_back"
             android:layout_toRightOf="@+id/img_back"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@string/task_alert_setting" />
 
     </RelativeLayout>
@@ -80,7 +82,8 @@
                     android:paddingEnd="16dp"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:paddingStart="16dp">
+                    android:paddingStart="16dp"
+                    android:visibility="gone">
 
                     <vn.tonish.hozo.view.TextViewHozo
                         android:id="@+id/follow"
@@ -116,7 +119,9 @@
 
                 </RelativeLayout>
 
-                <include layout="@layout/sub_followed_new_task_activity" />
+                <include
+                    layout="@layout/sub_followed_new_task_activity"
+                    android:visibility="gone" />
 
 
                 <View

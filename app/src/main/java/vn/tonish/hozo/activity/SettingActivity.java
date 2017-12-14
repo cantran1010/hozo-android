@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -118,6 +119,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private String mOrder = "asc";
     private String strOrderBy = "";
     private String strOrder = "";
+    private ScrollView scrollView;
 
     @Override
     protected int getLayout() {
@@ -282,6 +284,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
+
+
     }
 
     private final AdapterView.OnItemClickListener mAutocompleteClickListener
@@ -462,7 +466,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
         keyWordAdapter = new KeyWordAdapter(this, keywords);
         keyWordAdapter.stopLoadMore();
-        RecyclerView.LayoutManager keyWordLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager keyWordLayoutManager = new LinearLayoutManager(this);
+        keyWordLayoutManager.setReverseLayout(true);
+        keyWordLayoutManager.setStackFromEnd(true);
         rcvKeyword.setLayoutManager(keyWordLayoutManager);
         rcvKeyword.setAdapter(keyWordAdapter);
         keyWordAdapter.setKeyWordListener(new KeyWordAdapter.KeyWordListener() {
@@ -1173,5 +1179,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
 }
 

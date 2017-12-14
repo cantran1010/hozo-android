@@ -163,7 +163,7 @@
     <!-- rate -->
     <string name="rate_msg_no_content_error">Vui lòng chọn sao đánh giá</string>
 
-    <string name="brower_task_map_activity">Tìm việc gần đây</string>
+    <string name="brower_task_map_activity">Bản đồ công việc</string>
 
     <!-- notification -->
     <string name="notification_comment_received">đã bình luận công việc</string>//
@@ -302,7 +302,7 @@
     <string name="completion_rate" tools:ignore="PluralsCandidate">hoàn thành</string>
     <string name="facebook_app_id">956632744473365</string>
     <!--<string name="facebook_app_id_test">330769947332955</string>-->
-    <string name="hozo_tonish">\n © 2017 Tonish. Giữ mọi quyền.</string>
+    <string name="hozo_tonish">\n © 2017 Tonish giữ mọi quyền.</string>
     <string name="cancel_bid_title">Hủy chọn</string>
     <string name="cancel_bid_content">Lưu ý khi hủy chọn sẽ ảnh hưởng đến tỷ lệ hoàn thành việc của bạn</string>
     <string name="cancel_task_content">Lưu ý khi hủy việc sẽ ảnh hưởng đến tỷ lệ hoàn thành việc của bạn</string>
@@ -402,7 +402,7 @@
     <string name="setting_price">Giá tiền</string>
     <string name="setting_key_word">Từ khoá</string>
     <string name="setting_optional">Tuỳ chọn</string>
-    <string name="base_location_hint">Cài đặt vị trí công việc</string>
+    <string name="base_location_hint">Vị trí mốc</string>
     <string name="km_1">1 km</string>
     <string name="max_km">50 km</string>
     <string name="setting_price_10">10.000 VNĐ – 100.000 VNĐ</string>
@@ -432,7 +432,7 @@
     <string name="sun_day">CN</string>
 
     <string name="distance">%1$d km</string>
-    <string name="setting_location">Vị trí</string>
+    <string name="setting_location">Cài đặt vị trí</string>
     <string name="alert_dialog_submit">ĐỒNG Ý</string>
     <string name="error_message">Lỗi!</string>
     <string name="promotion_code_title">Mã khuyến mãi</string>
@@ -530,7 +530,7 @@
     <string name="ben_verify_email">Gửi</string>
     <string name="notification_tab_3">Việc mới</string>
     <string name="smooth_top">smooth_top</string>
-    <string name="task_alert_setting">Cài đặt việc mới</string>
+    <string name="task_alert_setting">Cài đặt thông báo việc mới</string>
     <string name="task_alert_top">Bạn có muốn nhận thông báo việc mới?</string>
     <string name="yes_all">Có</string>
     <string name="no_all">Không</string>

@@ -307,11 +307,13 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.img_back:
                 query = null;
-                edtSearch.setText("");
                 showSearch(getActivity(), layoutHeader, true);
                 showSearch(getActivity(), layoutSearch, false);
                 endlessRecyclerViewScrollListener.resetState();
-                onRefresh();
+                if (!edtSearch.getText().toString().isEmpty()) {
+                    onRefresh();
+                }
+                edtSearch.setText("");
                 break;
             case R.id.img_clear:
                 edtSearch.setText("");

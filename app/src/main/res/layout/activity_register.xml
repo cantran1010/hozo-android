@@ -78,7 +78,6 @@
                 android:layout_marginTop="20dp">
 
                 <vn.tonish.hozo.view.EdittextHozo
-                    android:nextFocusDown="@+id/edt_address"
                     android:id="@+id/edt_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -87,6 +86,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
                     android:maxLength="50"
+                    android:nextFocusDown="@+id/edt_address"
                     android:textColor="@color/setting_text"
                     android:textColorHint="@color/edt_hint"
                     android:textSize="@dimen/tv_size_medium"

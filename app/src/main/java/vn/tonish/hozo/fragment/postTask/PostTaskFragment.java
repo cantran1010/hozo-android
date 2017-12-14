@@ -293,7 +293,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
 
 
     private boolean isCheckExpandable() {
-        if ((taskResponse.getMinAge() == 18 || taskResponse.getMinAge() == 0) && (taskResponse.getMaxAge() == 60 || taskResponse.getMaxAge() == 0) && !taskResponse.isAutoAssign() && (taskResponse.getGender() == null||taskResponse.getGender().isEmpty()))
+        if ((taskResponse.getMinAge() == 18 || taskResponse.getMinAge() == 0) && (taskResponse.getMaxAge() == 60 || taskResponse.getMaxAge() == 0) && !taskResponse.isAutoAssign() && (taskResponse.getGender() == null || taskResponse.getGender().isEmpty() || taskResponse.getGender().equalsIgnoreCase(Constants.GENDER_ANY)))
             return false;
         else
             return true;

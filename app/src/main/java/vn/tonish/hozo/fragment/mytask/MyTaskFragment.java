@@ -215,17 +215,19 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
                 break;
             case R.id.img_search:
                 edtSearch.requestFocus();
-                Utils.showSoftKeyboard(getActivity(),edtSearch);
+                Utils.showSoftKeyboard(getActivity(), edtSearch);
                 showSearch(getContext(), layoutSearch, true);
                 showSearch(getContext(), layoutHeader, false);
                 break;
             case R.id.img_back:
+                mQuery = null;
                 showSearch(getContext(), layoutHeader, true);
                 showSearch(getContext(), layoutSearch, false);
-                mQuery = null;
-                edtSearch.setText("");
                 myTaskFragmentAdapter.resetState(position);
-                myTaskFragmentAdapter.onRefreshTab(position);
+                if (!edtSearch.getText().toString().trim().isEmpty())
+                    myTaskFragmentAdapter.onRefreshTab(position);
+                edtSearch.setText("");
+
                 break;
             case R.id.img_clear:
                 edtSearch.setText("");

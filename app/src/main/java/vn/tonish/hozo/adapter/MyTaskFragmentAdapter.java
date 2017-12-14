@@ -54,11 +54,13 @@ public class MyTaskFragmentAdapter extends FragmentStatePagerAdapter {
 
 
     public void search(String query, int pos) {
-        if (pos == 0)
+        if (pos == 0) {
             if (myTaskPosterFragment != null)
                 myTaskPosterFragment.search(query);
-            else if (myTaskWorkerFragment != null)
+        } else {
+            if (myTaskWorkerFragment != null)
                 myTaskWorkerFragment.search(query);
+        }
     }
 
     public void resetState(int pos) {
