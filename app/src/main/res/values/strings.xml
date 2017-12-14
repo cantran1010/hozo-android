@@ -413,7 +413,7 @@
     <string name="setting_status_open">open</string>
     <string name="setting_status_assigned">assigned</string>
     <string name="keyword_hint">Nhập từ khoá</string>
-    <string name="payment_history_title">Tài khoản thanh toán</string>
+    <string name="payment_history_title">Ví Hozo</string>
     <string name="wallet_title">Ví Hozo của bạn có</string>
     <string name="btn_payment">Nạp tiền</string>
     <string name="history_title">LỊCH SỬ GIAO DỊCH</string>
@@ -520,7 +520,7 @@
     <string name="rd_poster">Người đăng việc</string>
     <string name="rd_worker">Người làm việc</string>
     <string name="rc_both">Cả hai</string>
-    <string name="send_tag">Gủi</string>
+    <string name="send_tag">Gửi</string>
     <string name="profile_age">tuổi</string>
     <string name="un_follow">Hủy theo dõi</string>
     <string name="review_all_title">Tất cả đánh giá</string>
