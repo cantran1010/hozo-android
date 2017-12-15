@@ -445,7 +445,7 @@
     <string name="other_support">Hỗ trợ</string>
     <string name="other_connect">Liên kết trên Hozo</string>
 
-    <string name="promotion_success">Mã khuyến mãi hợp lệ,chúc mừng bạn đã được cộng tiền vào tài khoản !</string>
+    <string name="promotion_success">Mã khuyến mãi hợp lệ,chúc mừng bạn đã được cộng tiền vào tài khoản!</string>
     <string name="promotion_error_empty">Mã trống</string>
     <string name="promotion_error_no">Mã khuyến mãi không hợp lệ</string>
     <string name="promotion_error_not_started">Mã chưa kích hoạt</string>
@@ -618,7 +618,7 @@
     <string name="transaction_bid_deposit_in">Hệ thống hoàn trả tiền đặt cọc việc \"%1$s\"</string>
     <string name="transaction_bid_deposit_out">Hệ thống đã thu tiền đặt cọc việc \"%1$s\"</string>
     <string name="transaction_reg_awarded">Hệ thống tặng tiền đăng kí tài khoản thành công</string>
-    <string name="transaction_sys_donated">Hệ thống tặng tiền cho bạn nhân dịp \"%1$s\"</string>
+    <string name="transaction_sys_donated">Hệ thống tặng tiền \"%1$s\"</string>
     <string name="no_history_payment">Chưa có giao dịch nào</string>
     <string name="nofification_money_received">Hệ thống đã tặng tiền cho bạn nhân dịp</string>
     <string name="nofification_money_received_matcher">tặng tiền</string>
