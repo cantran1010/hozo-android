@@ -86,21 +86,15 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
 
     @Override
     protected void initData() {
-        LogUtils.d(TAG, "SystemNotificationFragment life cycle , initData");
+//        LogUtils.d(TAG, "SystemNotificationFragment life cycle , initData");
         initList();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                LogUtils.d(TAG, "SystemNotificationFragment life cycle , initData delay 5000s");
-
-                PreferUtils.setPushNewTaskCount(getActivity(), 0);
-                PreferUtils.setNewPushChatCount(getActivity(), 0);
-//                Intent intentPushCount = new Intent();
-//                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-//                getActivity().sendBroadcast(intentPushCount);
-            }
-        }, TIME_DELAY);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                LogUtils.d(TAG, "SystemNotificationFragment life cycle , initData delay 5000s");
+//                PreferUtils.setPushNewTaskCount(getActivity(), 0);
+//            }
+//        }, TIME_DELAY);
 
     }
 
@@ -250,7 +244,7 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
                             @Override
                             public void run() {
                                 PreferUtils.setPushNewTaskCount(getActivity(), 0);
-                                PreferUtils.setNewPushChatCount(getActivity(), 0);
+//                                PreferUtils.setNewPushChatCount(getActivity(), 0);
 
                                 if (getActivity() != null && getActivity() instanceof MainActivity)
                                     ((MainActivity) getActivity()).updateCountMsg();

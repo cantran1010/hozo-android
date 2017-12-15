@@ -101,7 +101,7 @@ public class NotificationFragment extends BaseFragment {
 
                 } else if (tab.getPosition() == 2) {
                     if (tvCountTab3.getVisibility() == View.VISIBLE) {
-                        PreferUtils.setNewPushChatCount(getContext(), 0);
+                        PreferUtils.setPushNewTaskCount(getContext(), 0);
                         notifyFragmentAdapter.onRefreshTab(2);
                     }
                     tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));

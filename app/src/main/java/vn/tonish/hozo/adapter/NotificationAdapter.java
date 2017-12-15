@@ -3,9 +3,11 @@ package vn.tonish.hozo.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
@@ -23,7 +25,6 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
-import vn.tonish.hozo.utils.TypefaceContainer;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -115,6 +116,24 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
                     Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());
                     String strContent = context.getString(R.string.notification_new_task_alert_title) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_new_task_alert_day) + " " + DateTimeUtils.getOnlyDateFromIso(notification.getTaskStartTime()) + " " + context.getString(R.string.notification_new_task_alert_footer);
                     notificationHolder.tvContent.setText(strContent);
+
+                    SpannableStringBuilder spannable1 = new SpannableStringBuilder(notificationHolder.tvContent.getText().toString());
+
+                    int fromMatcher = notificationHolder.tvContent.getText().toString().indexOf(notification.getTaskName());
+                    int toMatcher = fromMatcher + notification.getTaskName().length();
+                    if (fromMatcher >= 0) {
+                        spannable1.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), fromMatcher, toMatcher, 0);
+                    }
+                    int fromMatcher1 = notificationHolder.tvContent.getText().toString().indexOf(DateTimeUtils.getOnlyDateFromIso(notification.getTaskStartTime()));
+                    int toMatcher1 = fromMatcher1 + DateTimeUtils.getOnlyDateFromIso(notification.getTaskStartTime()).length();
+                    if (fromMatcher1 >= 0) {
+                        spannable1.setSpan(new android.text.style.StyleSpan(Typeface.BOLD), fromMatcher1, toMatcher1, 0);
+                    }
+
+                    notificationHolder.tvContent.setText(spannable1);
+                    notificationHolder.tvContent.setContentDescription(spannable1);
+
+
                     break;
                 case Constants.PUSH_TYPE_MONEY_RECEIVED:
                     notificationHolder.imgAvata.setImageResource(R.mipmap.app_icon);
@@ -149,13 +168,11 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
 
             if (notification.getRead()) {
                 if (notification.getEvent().equalsIgnoreCase(Constants.PUSH_TYPE_NEW_TASK_ALERT)) {
-                    notificationHolder.tvContent.setTypeface(TypefaceContainer.TYPEFACE_LIGHT);
                     notificationHolder.tvContent.setTextColor(ContextCompat.getColor(context, R.color.color_create_task_lable));
                 } else
                     notificationHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
             } else {
                 if (notification.getEvent().equalsIgnoreCase(Constants.PUSH_TYPE_NEW_TASK_ALERT)) {
-                    notificationHolder.tvContent.setTypeface(TypefaceContainer.TYPEFACE_REGULAR);
                     notificationHolder.tvContent.setTextColor(ContextCompat.getColor(context, R.color.hozo_bg));
                 } else
                     notificationHolder.mainLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.notify_unread));

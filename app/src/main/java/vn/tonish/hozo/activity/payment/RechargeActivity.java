@@ -35,6 +35,7 @@ import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
+import vn.tonish.hozo.view.ExpandableLayout;
 
 /**
  * Created by LongBui on 10/10/17.
@@ -43,12 +44,11 @@ import vn.tonish.hozo.view.EdittextHozo;
 public class RechargeActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = RechargeActivity.class.getSimpleName();
-    private LinearLayout inputVisaLayout;
-    private LinearLayout inputAtmLayout;
     private EdittextHozo edtVisa, edtAtm;
     private int MIN_MONEY = 10000;
     private int MAX_MONEY = 2000000;
     private LinearLayout atmLayout, visaLayout;
+    private ExpandableLayout inputAtmExpandableLayout, inputVisaExpandableLayout;
 
     @Override
     protected int getLayout() {
@@ -59,25 +59,18 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     protected void initView() {
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
-
         LinearLayout promotionLayout = (LinearLayout) findViewById(R.id.promotion_layout);
         promotionLayout.setOnClickListener(this);
-
         atmLayout = (LinearLayout) findViewById(R.id.atm_layout);
         atmLayout.setOnClickListener(this);
-
         visaLayout = (LinearLayout) findViewById(R.id.visa_layout);
         visaLayout.setOnClickListener(this);
-
-        inputVisaLayout = (LinearLayout) findViewById(R.id.input_visa_layout);
-        inputAtmLayout = (LinearLayout) findViewById(R.id.input_atm_layout);
-
+        inputAtmExpandableLayout = (ExpandableLayout) findViewById(R.id.input_atm_expandableLayout);
+        inputVisaExpandableLayout = (ExpandableLayout) findViewById(R.id.input_visa_expandableLayout);
         edtVisa = (EdittextHozo) findViewById(R.id.edt_visa);
         edtAtm = (EdittextHozo) findViewById(R.id.edt_atm);
-
         ButtonHozo btnVisa = (ButtonHozo) findViewById(R.id.btn_visa);
         btnVisa.setOnClickListener(this);
-
         ButtonHozo btnAtm = (ButtonHozo) findViewById(R.id.btn_atm);
         btnAtm.setOnClickListener(this);
     }
@@ -305,26 +298,6 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         });
     }
 
-    private void doExpandVisa() {
-        if (inputVisaLayout.getVisibility() == View.VISIBLE) {
-            Utils.setViewBackground(visaLayout, ContextCompat.getDrawable(this, R.drawable.bg_rechange));
-            inputVisaLayout.setVisibility(View.GONE);
-        } else {
-            Utils.setViewBackground(visaLayout, ContextCompat.getDrawable(this, R.drawable.bg_rechange_on));
-            inputVisaLayout.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void doExpandAtm() {
-        if (inputAtmLayout.getVisibility() == View.VISIBLE) {
-            inputAtmLayout.setVisibility(View.GONE);
-            Utils.setViewBackground(atmLayout, ContextCompat.getDrawable(this, R.drawable.bg_rechange));
-        } else {
-            inputAtmLayout.setVisibility(View.VISIBLE);
-            Utils.setViewBackground(atmLayout, ContextCompat.getDrawable(this, R.drawable.bg_rechange_on));
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -348,21 +321,18 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 break;
 
             case R.id.atm_layout:
-                inputVisaLayout.setVisibility(View.GONE);
                 edtVisa.setText("");
                 edtVisa.setError(null);
                 Utils.setViewBackground(visaLayout, ContextCompat.getDrawable(this, R.drawable.bg_rechange));
-                doExpandAtm();
+                expandableLayout(inputAtmExpandableLayout);
                 break;
 
             case R.id.visa_layout:
-                inputAtmLayout.setVisibility(View.GONE);
                 edtAtm.setText("");
                 edtAtm.setError(null);
                 Utils.setViewBackground(atmLayout, ContextCompat.getDrawable(this, R.drawable.bg_rechange));
-                doExpandVisa();
+                expandableLayout(inputVisaExpandableLayout);
                 break;
-
             case R.id.btn_atm:
                 doAtm();
                 break;
@@ -372,5 +342,27 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 break;
         }
     }
+
+    private void expandableLayout(ExpandableLayout expan) {
+        Utils.hideKeyBoard(this);
+        expan.toggle();
+        if (inputAtmExpandableLayout.isExpanded() && expan != inputAtmExpandableLayout)
+            inputAtmExpandableLayout.toggle();
+        if (inputVisaExpandableLayout.isExpanded() && expan != inputVisaExpandableLayout)
+            inputVisaExpandableLayout.toggle();
+        changeBachground();
+    }
+
+    private void changeBachground() {
+        if (inputAtmExpandableLayout.isExpanded())
+            Utils.setViewBackground(atmLayout, ContextCompat.getDrawable(this, R.drawable.btn_selector_payment));
+        else
+            Utils.setViewBackground(atmLayout, ContextCompat.getDrawable(this, R.drawable.btn_unselector_payment));
+        if (inputVisaExpandableLayout.isExpanded())
+            Utils.setViewBackground(visaLayout, ContextCompat.getDrawable(this, R.drawable.btn_selector_payment));
+        else
+            Utils.setViewBackground(visaLayout, ContextCompat.getDrawable(this, R.drawable.btn_unselector_payment));
+    }
+
 
 }
