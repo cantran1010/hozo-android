@@ -92,7 +92,7 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
             tvVerifyFaceBook.setText(R.string.verify);
             tvVerifyFaceBook.setTextColor(ContextCompat.getColor(this, R.color.tv_black_new));
             tvVerifyFaceBook.setEnabled(true);
-            Utils.setViewBackground(tvVerifyFaceBook, ContextCompat.getDrawable(this, R.drawable.btn_green_selector));
+            Utils.setViewBackground(tvVerifyFaceBook, ContextCompat.getDrawable(this, R.drawable.btn_green_selector_new));
         }
 
         if (!(mEmail.equalsIgnoreCase("") || mEmail == null) && mUserEntity.isEmailActive()) {
@@ -104,7 +104,7 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
         } else {
             tvVerifyEmail.setText(R.string.verify);
             tvVerifyEmail.setTextColor(ContextCompat.getColor(this, R.color.tv_black_new));
-            Utils.setViewBackground(tvVerifyEmail, ContextCompat.getDrawable(this, R.drawable.btn_green_selector));
+            Utils.setViewBackground(tvVerifyEmail, ContextCompat.getDrawable(this, R.drawable.btn_green_selector_new));
             layoutVerifyEmail.setEnabled(true);
         }
 

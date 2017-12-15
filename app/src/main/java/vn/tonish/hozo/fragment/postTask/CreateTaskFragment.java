@@ -116,6 +116,8 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
+        Constants.MAX_IMAGE_ATTACH = 6;
+
         taskResponse = ((PostTaskActivity) getActivity()).getTaskResponse();
         imageAdapter = new ImageAdapter(getContext(), ((PostTaskActivity) getActivity()).images);
         grImage.setAdapter(imageAdapter);
