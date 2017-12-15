@@ -24,7 +24,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.activity.payment.MyWalletActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.NotificationAdapter;
@@ -324,8 +323,9 @@ public class SystemNotificationFragment extends BaseFragment {
     public void onRefresh() {
         super.onRefresh();
         PreferUtils.setNewPushCount(getActivity(), 0);
-        if (getActivity() != null && getActivity() instanceof MainActivity)
-            ((MainActivity) getActivity()).updateCountMsg();
+        lvList.smoothScrollToPosition(0);
+//        if (getActivity() != null && getActivity() instanceof MainActivity)
+//            ((MainActivity) getActivity()).updateCountMsg();
         Intent intentPushCount = new Intent();
         intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
         if (getActivity() != null)

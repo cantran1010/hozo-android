@@ -668,4 +668,5 @@
     <string name="you">Bạn và</string>
     <string name="you2">Bạn,</string>
     <string name="confirm_rating_poster">Xác nhận người làm</string>
+    <string name="worker_ratting_else">Đánh giá người đăng</string>
 </resources>
