@@ -16,6 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/img_close"
+            android:layout_toStartOf="@+id/img_close"
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingLeft="@dimen/title_margin_left"

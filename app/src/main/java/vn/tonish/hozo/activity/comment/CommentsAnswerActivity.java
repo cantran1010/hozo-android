@@ -1,6 +1,7 @@
 package vn.tonish.hozo.activity.comment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -92,6 +93,7 @@ public class CommentsAnswerActivity extends BaseTouchActivity implements View.On
         return R.layout.activity_comments_new;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initView() {
         lvList = (RecyclerView) findViewById(R.id.lvList);

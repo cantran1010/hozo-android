@@ -29,7 +29,7 @@ public class PaymentAdapter extends BaseAdapter<TransactionResponse, PaymentAdap
     }
 
     public interface OnItemClickLister {
-        public void onClick(int position);
+        void onClick(int position);
     }
 
     private OnItemClickLister onItemClickLister;

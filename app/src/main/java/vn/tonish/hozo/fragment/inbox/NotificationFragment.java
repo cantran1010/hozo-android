@@ -52,7 +52,6 @@ public class NotificationFragment extends BaseFragment {
         }
         @SuppressLint("InflateParams") View headerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.custom_tab_notification, null, false) : null;
-
         tabLayout.getTabAt(0).setCustomView(headerView.findViewById(R.id.ll1));
         tabLayout.getTabAt(1).setCustomView(headerView.findViewById(R.id.ll2));
         tabLayout.getTabAt(2).setCustomView(headerView.findViewById(R.id.ll3));
@@ -78,9 +77,7 @@ public class NotificationFragment extends BaseFragment {
                 if (tab.getPosition() == 0) {
                     LogUtils.d(TAG, "check");
                     if (tvCountTab1.getVisibility() == View.VISIBLE) {
-                        PreferUtils.setNewPushCount(getContext(), 0);
                         notifyFragmentAdapter.onRefreshTab(0);
-//                        updateCountMsg();
                     }
                     tvTab1.setTextColor(ContextCompat.getColor(getActivity(), R.color.hozo_bg));
                     tvTab2.setTextColor(ContextCompat.getColor(getActivity(), R.color.setting_text));
@@ -183,12 +180,19 @@ public class NotificationFragment extends BaseFragment {
     private void updateCountMsg() {
         int pushCount = PreferUtils.getNewPushCount(getActivity());
         int pushNewTaskCount = PreferUtils.getPushNewTaskCount(getActivity());
+        int pushChat = PreferUtils.getNewPushChatCount(getActivity());
 
         if (pushCount == 0) {
             tvCountTab1.setVisibility(View.GONE);
         } else {
             tvCountTab1.setVisibility(View.VISIBLE);
             tvCountTab1.setText(String.valueOf(pushCount));
+        }
+        if (pushChat == 0) {
+            tvCountTab2.setVisibility(View.GONE);
+        } else {
+            tvCountTab2.setVisibility(View.VISIBLE);
+            tvCountTab2.setText(String.valueOf(pushChat));
         }
         if (pushNewTaskCount == 0) {
             tvCountTab3.setVisibility(View.GONE);

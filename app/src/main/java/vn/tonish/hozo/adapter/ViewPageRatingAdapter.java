@@ -114,10 +114,10 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         ratingBar.setStepSize(1.0f);
         // Capture position and set to the TextViews
         if (type.equals(Constants.ROLE_POSTER)) {
+            ckBox.setVisibility(View.GONE);
             group.setVisibility(View.VISIBLE);
             tvConfirm.setVisibility(View.VISIBLE);
             tvConfirm.setText(context.getString(R.string.confirm_rating_poster));
-            ckBox.setVisibility(View.GONE);
             Assigner assigner = taskResponse.getAssignees().get(position);
             String title = formatTitle(position + 1) + context.getString(R.string.slash) + formatTitle(taskResponse.getAssigneeCount());
             tvTitle.setText(title);
@@ -157,15 +157,16 @@ public class ViewPageRatingAdapter extends PagerAdapter {
             if (taskResponse.isRatePoster()) {
                 ckBox.setVisibility(View.GONE);
                 tvConfirm.setVisibility(View.GONE);
-                ckDone.setEnabled(false);
-                ckNotDone.setEnabled(false);
                 updateUI(true, btnSend, edtReviews, ratingBar, poster.getRatingBody(), (int) taskResponse.getPoster().getPosterAverageRating());
             } else {
-                ckBox.setVisibility(View.VISIBLE);
-                tvConfirm.setVisibility(View.VISIBLE);
-                tvConfirm.setText(context.getString(R.string.confirm_rating));
-                ckDone.setEnabled(true);
-                ckNotDone.setEnabled(true);
+                if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_NOT_APPROVED) || taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_COMPLETED)) {
+                    ckBox.setVisibility(View.GONE);
+                    tvConfirm.setVisibility(View.GONE);
+                } else {
+                    ckBox.setVisibility(View.VISIBLE);
+                    tvConfirm.setVisibility(View.VISIBLE);
+                    tvConfirm.setText(context.getString(R.string.confirm_rating));
+                }
                 updateUI(false, btnSend, edtReviews, ratingBar, "", (int) taskResponse.getPoster().getPosterAverageRating());
             }
 

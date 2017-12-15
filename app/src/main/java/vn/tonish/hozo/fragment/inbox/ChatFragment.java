@@ -170,6 +170,13 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void onRefresh() {
         super.onRefresh();
+        rcvChatRooms.smoothScrollToPosition(0);
+//        if (getActivity() != null && getActivity() instanceof MainActivity)
+//            ((MainActivity) getActivity()).updateCountMsg();
+        Intent intentPushCount = new Intent();
+        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+        if (getActivity() != null)
+            getActivity().sendBroadcast(intentPushCount);
         if (call != null) call.cancel();
         taskResponses.clear();
         getChatRooms();

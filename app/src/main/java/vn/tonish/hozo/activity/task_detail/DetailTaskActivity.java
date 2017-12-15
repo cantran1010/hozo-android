@@ -927,15 +927,17 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             layoutInputComment.setVisibility(View.VISIBLE);
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_NOT_APPROVED)) {
             updateStatusTask(true, false, getString(R.string.my_task_status_poster_not_approved), ContextCompat.getDrawable(this, R.drawable.bg_border_not_approved));
-
             showExpand(false);
-
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
-            btnRatePoster.setVisibility(View.GONE);
             btnContactHozo.setVisibility(View.VISIBLE);
             btnContactHozoWorker.setVisibility(View.GONE);
-
+            if (taskResponse.isRatePoster()) {
+                btnRatePoster.setVisibility(View.GONE);
+            } else {
+                btnRatePoster.setVisibility(View.VISIBLE);
+                btnRatePoster.setText(getString(R.string.worker_ratting_else));
+            }
             isDelete = false;
             isReportTask = false;
             isShowCancel = false;
@@ -949,7 +951,11 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
-            btnRatePoster.setVisibility(View.GONE);
+            if (!taskResponse.isRatePoster()) {
+                btnRatePoster.setVisibility(View.VISIBLE);
+                btnRatePoster.setText(getString(R.string.worker_ratting_else));
+            } else btnRatePoster.setVisibility(View.GONE);
+
             btnContactHozo.setVisibility(View.GONE);
             btnContactHozoWorker.setVisibility(View.GONE);
 

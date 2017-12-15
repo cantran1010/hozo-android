@@ -1,6 +1,7 @@
 package vn.tonish.hozo.activity.comment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -160,6 +161,7 @@ public class CommentAllActivity extends BaseTouchActivity implements View.OnClic
 //        }
 //    }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setUpRecyclerView() {
         mComments = new ArrayList<>();
         commentsAdapter = new CommentTaskAdapter(this, mComments);
