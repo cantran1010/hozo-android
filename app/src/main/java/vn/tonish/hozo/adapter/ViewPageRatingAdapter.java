@@ -110,11 +110,13 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         ckBox = (CheckBoxHozo) itemView.findViewById(R.id.ckeckbox_confirm);
         group = (RadioGroup) itemView.findViewById(R.id.rd_group);
 
+
         ratingBar.setStepSize(1.0f);
         // Capture position and set to the TextViews
         if (type.equals(Constants.ROLE_POSTER)) {
             group.setVisibility(View.VISIBLE);
             tvConfirm.setVisibility(View.VISIBLE);
+            tvConfirm.setText(context.getString(R.string.confirm_rating_poster));
             ckBox.setVisibility(View.GONE);
             Assigner assigner = taskResponse.getAssignees().get(position);
             String title = formatTitle(position + 1) + context.getString(R.string.slash) + formatTitle(taskResponse.getAssigneeCount());
@@ -161,6 +163,7 @@ public class ViewPageRatingAdapter extends PagerAdapter {
             } else {
                 ckBox.setVisibility(View.VISIBLE);
                 tvConfirm.setVisibility(View.VISIBLE);
+                tvConfirm.setText(context.getString(R.string.confirm_rating));
                 ckDone.setEnabled(true);
                 ckNotDone.setEnabled(true);
                 updateUI(false, btnSend, edtReviews, ratingBar, "", (int) taskResponse.getPoster().getPosterAverageRating());

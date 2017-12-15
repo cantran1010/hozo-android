@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -36,16 +36,18 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_bid"
+        android:layout_below="@+id/layout_header">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="@dimen/margin_right_screen"
-            android:layout_marginLeft="@dimen/margin_left_screen"
-            android:layout_marginRight="@dimen/margin_right_screen"
-            android:layout_marginStart="@dimen/margin_left_screen"
+            android:layout_marginEnd="@dimen/title_margin_left"
+            android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_marginRight="@dimen/title_margin_left"
+            android:layout_marginStart="@dimen/title_margin_left"
             android:orientation="vertical">
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -275,22 +277,23 @@
                 android:layout_height="1px"
                 android:background="#c8d6da"
                 android:visibility="gone" />
-
-            <vn.tonish.hozo.view.ButtonHozo
-                android:id="@+id/btn_bid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/btn_new_selector"
-                android:text="@string/confirm"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
         </LinearLayout>
-
     </android.support.v4.widget.NestedScrollView>
 
-</LinearLayout>
+    <vn.tonish.hozo.view.ButtonHozo
+        android:id="@+id/btn_bid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="@dimen/title_margin_left"
+        android:layout_marginLeft="@dimen/title_margin_left"
+        android:layout_marginRight="@dimen/title_margin_left"
+        android:layout_marginStart="@dimen/title_margin_left"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_new_selector"
+        android:text="@string/confirm"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+</RelativeLayout>
