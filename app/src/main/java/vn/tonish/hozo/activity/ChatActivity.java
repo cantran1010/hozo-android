@@ -116,9 +116,10 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         posterId = getIntent().getIntExtra(Constants.USER_ID_EXTRA, 0);
         tvTitle.setText(getIntent().getStringExtra(Constants.TITLE_INFO_EXTRA));
         taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.TASK_DETAIL_EXTRA);
-        tvMember.setText(Utils.getMemberChat(this, taskResponse));
 
-        LogUtils.d(TAG, "initData , taskId : " + taskId);
+        LogUtils.d(TAG, "initData , taskResponse : " + taskResponse.toString());
+
+        tvMember.setText(Utils.getMemberChat(this, taskResponse));
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
