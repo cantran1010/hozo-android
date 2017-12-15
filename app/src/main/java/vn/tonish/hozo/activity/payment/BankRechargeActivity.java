@@ -18,7 +18,6 @@ public class BankRechargeActivity extends BaseActivity implements View.OnClickLi
 
     private static final String TAG = BankRechargeActivity.class.getSimpleName();
     private CustomWebView customWebView;
-    private ImageView imgBack;
 
     @Override
     protected int getLayout() {
@@ -47,7 +46,7 @@ public class BankRechargeActivity extends BaseActivity implements View.OnClickLi
             }
         });
 
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
     }
 
