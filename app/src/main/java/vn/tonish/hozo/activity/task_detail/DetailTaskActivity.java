@@ -686,11 +686,11 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatusTask(true, false, getString(R.string.done), ContextCompat.getDrawable(this, R.drawable.bg_border_done));
 
-            showExpand(false);
+            showExpand(true);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
-            btnRatePoster.setVisibility(View.VISIBLE);
+            btnRatePoster.setVisibility(View.GONE);
             btnRatePoster.setText(getString(R.string.poster_ratting_complete));
             btnContactHozo.setVisibility(View.GONE);
             btnContactHozoWorker.setVisibility(View.GONE);
