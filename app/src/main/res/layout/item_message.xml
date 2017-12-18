@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -39,11 +40,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="14dp"
+                android:layout_marginStart="14dp"
                 android:gravity="center"
                 android:paddingBottom="2dp"
                 android:textColor="#b2b2b2"
-                android:textSize="12sp"
-                android:layout_marginStart="14dp" />
+                android:textSize="12sp" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_left_msg"
@@ -60,13 +61,40 @@
                 android:textColor="#666666"
                 android:textSize="14sp" />
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_left_name"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textColor="#c5d3d8"
-                android:textSize="13sp" />
+                android:orientation="horizontal">
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_left_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Tran Can"
+                    android:textColor="#c5d3d8"
+                    android:textSize="13sp" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_poster_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/bg_poster_comment"
+                    android:paddingBottom="0dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="0dp"
+                    android:text="@string/poster"
+                    android:textColor="@color/tv_gray_new"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
@@ -97,12 +125,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginEnd="14dp"
                 android:layout_marginRight="14dp"
                 android:gravity="center"
                 android:paddingBottom="2dp"
                 android:textColor="#b2b2b2"
-                android:textSize="12sp"
-                android:layout_marginEnd="14dp" />
+                android:textSize="12sp" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_right_msg"
@@ -118,13 +146,40 @@
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_right_name"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
-                android:textColor="#c5d3d8"
-                android:textSize="13sp" />
+                android:orientation="horizontal">
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_right_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Bui Duc long"
+                    android:textColor="#c5d3d8"
+                    android:textSize="13sp" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_poster_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/bg_poster_comment"
+                    android:paddingBottom="0dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="0dp"
+                    android:text="@string/poster"
+                    android:textColor="@color/tv_gray_new"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

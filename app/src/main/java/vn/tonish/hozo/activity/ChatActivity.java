@@ -192,6 +192,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     private void setUpMessageList() {
         LogUtils.d(TAG, "setUpMessageList start");
         messageAdapter = new MessageAdapter(this, messages, posterId);
+        messageAdapter.setPosterId(posterId);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);

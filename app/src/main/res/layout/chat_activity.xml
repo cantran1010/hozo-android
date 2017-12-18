@@ -108,14 +108,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/group"
-                android:textColor="@color/tv_black_new" />
+                android:textColor="@color/tv_black_new"
+                android:visibility="gone" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginStart="4dp"
                 android:textColor="@color/hozo_bg"
                 android:textStyle="bold" />
 

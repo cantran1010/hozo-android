@@ -40,6 +40,7 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
     private final Context context;
     @SuppressLint("UseSparseArrays")
     private final HashMap<Integer, Member> memberHashMap = new HashMap<>();
+    private int posterId;
 
     private final DatabaseReference memberCloudEndPoint;
 
@@ -127,9 +128,9 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
                     }
                 });
 
-//                if (message.getUser_id() == posterId)
-//                    workHolder.imgRightBoss.setVisibility(View.VISIBLE);
-//                else workHolder.imgRightBoss.setVisibility(View.GONE);
+                if (message.getUser_id() == posterId)
+                    workHolder.tvPosterRight.setVisibility(View.VISIBLE);
+                else workHolder.tvPosterRight.setVisibility(View.GONE);
 
                 workHolder.tvRightTime.setText(DateTimeUtils.getTimeChat(message.getCreated_atLong(true), context));
 
@@ -178,9 +179,9 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
                     }
                 });
 
-//                if (message.getUser_id() == posterId)
-//                    workHolder.imgLeftBoss.setVisibility(View.VISIBLE);
-//                else workHolder.imgLeftBoss.setVisibility(View.GONE);
+                if (message.getUser_id() == posterId)
+                    workHolder.tvPosterLeft.setVisibility(View.VISIBLE);
+                else workHolder.tvPosterLeft.setVisibility(View.GONE);
 
                 workHolder.tvLeftTime.setText(DateTimeUtils.getTimeChat(message.getCreated_atLong(true), context));
 
@@ -188,13 +189,20 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
         }
     }
 
+    public int getPosterId() {
+        return posterId;
+    }
+
+    public void setPosterId(int posterId) {
+        this.posterId = posterId;
+    }
 
     public class WorkHolder extends BaseHolder {
         final CircleImageView imgLeftAvatar;
         final CircleImageView imgRightAvatar;
         final LinearLayout leftLayout;
         final LinearLayout rightLayout;
-//        final ImageView imgLeftBoss;
+        //        final ImageView imgLeftBoss;
 //        final ImageView imgRightBoss;
         final TextViewHozo tvLeftName;
         final TextViewHozo tvRightName;
@@ -202,6 +210,8 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
         final TextViewHozo tvRightMsg;
         final TextViewHozo tvLeftTime;
         final TextViewHozo tvRightTime;
+        final TextViewHozo tvPosterLeft;
+        final TextViewHozo tvPosterRight;
 
 
         public WorkHolder(View itemView) {
@@ -224,6 +234,10 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
 
             tvLeftTime = itemView.findViewById(R.id.tv_left_time);
             tvRightTime = itemView.findViewById(R.id.tv_right_time);
+
+
+            tvPosterLeft = itemView.findViewById(R.id.tv_poster_left);
+            tvPosterRight = itemView.findViewById(R.id.tv_poster_right);
 
         }
     }
