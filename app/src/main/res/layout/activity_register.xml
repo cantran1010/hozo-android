@@ -85,7 +85,7 @@
                     android:hint="@string/hint_full_name"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
-                    android:maxLength="50"
+                    android:maxLength="30"
                     android:nextFocusDown="@+id/edt_address"
                     android:textColor="@color/setting_text"
                     android:textColorHint="@color/edt_hint"
