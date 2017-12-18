@@ -1,9 +1,6 @@
 package vn.tonish.hozo.fragment;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +26,6 @@ import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
-import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 
@@ -71,8 +67,8 @@ public class SelectTaskFragment extends BaseFragment {
 
     private void getCategory() {
 
-        if (CategoryManager.getAllCategories() == null || CategoryManager.getAllCategories().size() == 0)
-            ProgressDialogUtils.showHozoProgressDialog(getContext());
+//        if (CategoryManager.getAllCategories() == null || CategoryManager.getAllCategories().size() == 0)
+//            ProgressDialogUtils.showHozoProgressDialog(getContext());
 
         ApiClient.getApiService().getCategories(UserManager.getUserToken()).enqueue(new Callback<List<Category>>() {
             @Override
@@ -112,13 +108,13 @@ public class SelectTaskFragment extends BaseFragment {
                         }
                     });
                 }
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
             public void onFailure(Call<List<Category>> call, Throwable t) {
                 LogUtils.e(TAG, "getCategories onFailure status code : " + t.getMessage());
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
@@ -148,18 +144,18 @@ public class SelectTaskFragment extends BaseFragment {
 
     @Override
     protected void resumeData() {
-        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(Constants.BROAD_CAST_REFRESH_CATEGORY));
+//        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(Constants.BROAD_CAST_REFRESH_CATEGORY));
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        try {
-            getActivity().unregisterReceiver(broadcastReceiver);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        try {
+//            getActivity().unregisterReceiver(broadcastReceiver);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private void refreshCategory() {
         CategoryAdapter categoryAdapter = new CategoryAdapter(categories);
@@ -189,11 +185,11 @@ public class SelectTaskFragment extends BaseFragment {
     }
 
 
-    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            getCategory();
-        }
-    };
+//    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            getCategory();
+//        }
+//    };
 
 }
