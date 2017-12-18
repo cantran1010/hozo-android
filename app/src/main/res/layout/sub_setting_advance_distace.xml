@@ -5,12 +5,86 @@
     android:id="@+id/layout_detail_distance"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
+    android:padding="20dp"
     app:el_expanded="false">
 
-    <android.support.v7.widget.RecyclerView
+    <RadioGroup
+        android:id="@+id/radio_Distance"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <vn.tonish.hozo.view.RadioButtonHozo
+            android:id="@+id/rad_5_km"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:button="@drawable/radio_button_background"
+            android:checked="false"
+            android:padding="5dp"
+            android:text="@string/rad_5_km"
+            android:textColor="@color/tv_gray_new"
+            android:textSize="@dimen/tv_size_medium" />
+
+        <vn.tonish.hozo.view.RadioButtonHozo
+            android:id="@+id/rad_15_km"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:button="@drawable/radio_button_background"
+            android:checked="false"
+            android:padding="5dp"
+            android:text="@string/rad_15_km"
+            android:textColor="@color/tv_gray_new"
+            android:textSize="@dimen/tv_size_medium" />
+
+        <vn.tonish.hozo.view.RadioButtonHozo
+            android:id="@+id/rad_25_km"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:button="@drawable/radio_button_background"
+            android:checked="false"
+            android:padding="5dp"
+            android:text="@string/rad_25_km"
+            android:textColor="@color/tv_gray_new"
+            android:textSize="@dimen/tv_size_medium" />
+
+        <vn.tonish.hozo.view.RadioButtonHozo
+            android:id="@+id/rad_50_km"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:button="@drawable/radio_button_background"
+            android:checked="false"
+            android:padding="5dp"
+            android:text="@string/rad_50_km"
+            android:textColor="@color/tv_gray_new"
+            android:textSize="@dimen/tv_size_medium" />
+
+        <vn.tonish.hozo.view.RadioButtonHozo
+            android:id="@+id/rad_everywhere"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:button="@drawable/radio_button_background"
+            android:checked="true"
+            android:padding="5dp"
+            android:text="@string/every_where"
+            android:textColor="@color/tv_gray_new"
+            android:textSize="@dimen/tv_size_medium" />
+    </RadioGroup>
+
 
 </vn.tonish.hozo.view.ExpandableLayout>

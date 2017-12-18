@@ -670,4 +670,9 @@
     <string name="confirm_rating_poster">Xác nhận người làm</string>
     <string name="worker_ratting_else">Đánh giá người đăng</string>
     <string name="googleplace_hint">Nhập địa chỉ gợi ý bởi google</string>
+    <string name="default_address">Hà Nội, Việt Nam</string>
+    <string name="rad_5_km">5km</string>
+    <string name="rad_15_km">15km</string>
+    <string name="rad_25_km">25km</string>
+    <string name="rad_50_km">50km</string>
 </resources>

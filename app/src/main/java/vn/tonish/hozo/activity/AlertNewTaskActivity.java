@@ -1,8 +1,10 @@
 package vn.tonish.hozo.activity;
 
+import android.animation.ObjectAnimator;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -78,19 +79,17 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 public class AlertNewTaskActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = SettingActivity.class.getSimpleName();
-    private TextViewHozo tvDistanceValue;
-    private RelativeLayout layoutOptionDistance;
-    private ImageView imgFollowArrow, imgCategoryArrow, imgTimeArrow, imgDistance, imgKeyword, imgPrice;
+    private ImageView imgFollowArrow, imgCategoryArrow, imgTimeArrow, imgDistance, imgKeyword, imgPrice, imgLocation;
     private TextViewHozo tvFolowed, tvCategory, tvDateTime, tvDistance, tvPrice;
-    private RadioButtonHozo radAllTime, radDate, radAllDistance, radDistanceOption, radAllPrice, rad10, rad100, rad500, radNotiYes, radNotiNo, rdFolowedYes, rdFollowedNo;
+    private RadioButtonHozo radAllTime, radDate, radAllPrice, rad10, rad100, rad500, radNotiYes, radNotiNo, rdFolowedYes, rdFollowedNo;
+    private RadioButtonHozo radAllDistance, rad5km, rad15km, rad25km, rad50km;
     private RecyclerView rcvCategory, rcvKeyword;
-    private SeekBar seebarDistance;
     private Animation anim_down, anim_up;
-    private ExpandableLayout followExpandableLayout, categoryExpandableLayout, timeExpandableLayout, distanceExpandableLayout, priceExpandableLayout, keywordExpandableLayout;
+    private ExpandableLayout followExpandableLayout, categoryExpandableLayout, timeExpandableLayout, distanceExpandableLayout, locationExpandableLayout, priceExpandableLayout, keywordExpandableLayout;
     private TaskTypeAdapter mAdapter;
     private ArrayList<Category> categories;
     private SettingAdvanceEntity newTaskAlertEntity;
-    private TextViewHozo tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday, tvKeyword;
+    private TextViewHozo tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday, tvKeyword, tvLocation;
     private int count = 0;
     private String address = "";
     private int distance = 50;
@@ -111,6 +110,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     private boolean isFollowed = true;
     private boolean isNotification = true;
     private LinearLayout layoutContext;
+    private NestedScrollView scrollView;
 
     @Override
     protected int getLayout() {
@@ -119,14 +119,16 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initView() {
+
+        scrollView = (NestedScrollView) findViewById(R.id.scroll_View);
+
         ImageView btnBack = (ImageView) findViewById(R.id.img_back);
-
         rcvCategory = (RecyclerView) findViewById(R.id.rcv_category);
-
         layoutContext = (LinearLayout) findViewById(R.id.layout_content);
         followExpandableLayout = (ExpandableLayout) findViewById(R.id.follow_expandable_layout);
         categoryExpandableLayout = (ExpandableLayout) findViewById(R.id.category_expandable_layout);
         timeExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_time);
+        locationExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_location);
         distanceExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_distance);
         priceExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_price);
         keywordExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_keyword);
@@ -136,6 +138,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         RelativeLayout layoutCategory = (RelativeLayout) findViewById(R.id.layout_category);
         RelativeLayout layoutDateTime = (RelativeLayout) findViewById(R.id.layout_date_time);
         RelativeLayout layoutDistance = (RelativeLayout) findViewById(R.id.layout_distance);
+        RelativeLayout layoutLocation = (RelativeLayout) findViewById(R.id.layout_location);
         RelativeLayout layoutPrice = (RelativeLayout) findViewById(R.id.layout_price);
         RelativeLayout layoutKeyword = (RelativeLayout) findViewById(R.id.layout_keyword);
 
@@ -147,6 +150,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
         ImageView btnSend = (ImageView) findViewById(R.id.btn_send);
         tvKeyword = (TextViewHozo) findViewById(R.id.tv_keyword);
+        tvLocation = (TextViewHozo) findViewById(R.id.tv_location);
 
         edtKeyword = (EdittextHozo) findViewById(R.id.edt_keyword);
 
@@ -156,10 +160,12 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         imgDistance = (ImageView) findViewById(R.id.img_distance);
         imgPrice = (ImageView) findViewById(R.id.img_price);
         imgKeyword = (ImageView) findViewById(R.id.img_keyword);
+        imgLocation = (ImageView) findViewById(R.id.img_location);
 
 
         RadioGroup radioFollowed = (RadioGroup) findViewById(R.id.radio_follow);
         RadioGroup radioTime = (RadioGroup) findViewById(R.id.radio_time);
+        RadioGroup radioDistance = (RadioGroup) findViewById(R.id.radio_Distance);
         RadioGroup radioPrice = (RadioGroup) findViewById(R.id.radio_price);
         RadioGroup radioNotification = (RadioGroup) findViewById(R.id.radio_notification);
         radAllTime = (RadioButtonHozo) findViewById(R.id.radio_all_time);
@@ -168,6 +174,11 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         rad10 = (RadioButtonHozo) findViewById(R.id.rad_10_100);
         rad100 = (RadioButtonHozo) findViewById(R.id.rad_100_500);
         rad500 = (RadioButtonHozo) findViewById(R.id.rad_500);
+        radAllDistance = (RadioButtonHozo) findViewById(R.id.rad_everywhere);
+        rad5km = (RadioButtonHozo) findViewById(R.id.rad_5_km);
+        rad15km = (RadioButtonHozo) findViewById(R.id.rad_15_km);
+        rad25km = (RadioButtonHozo) findViewById(R.id.rad_25_km);
+        rad50km = (RadioButtonHozo) findViewById(R.id.rad_50_km);
         radNotiYes = (RadioButtonHozo) findViewById(R.id.rd_notification_yes);
         radNotiNo = (RadioButtonHozo) findViewById(R.id.rd_notification_no);
         rdFolowedYes = (RadioButtonHozo) findViewById(R.id.rd_folowed_yes);
@@ -185,6 +196,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         tvFriday = (TextViewHozo) findViewById(R.id.tv_friday);
         tvSaturday = (TextViewHozo) findViewById(R.id.tv_saturday);
         tvSunday = (TextViewHozo) findViewById(R.id.tv_sunday);
+        TextViewHozo tvDefault = (TextViewHozo) findViewById(R.id.tv_reset);
 
         tvMonday.setOnClickListener(this);
         tvTuesday.setOnClickListener(this);
@@ -198,11 +210,14 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         layoutCategory.setOnClickListener(this);
         layoutDateTime.setOnClickListener(this);
         layoutDistance.setOnClickListener(this);
+        layoutLocation.setOnClickListener(this);
         layoutPrice.setOnClickListener(this);
         layoutKeyword.setOnClickListener(this);
         btnSend.setOnClickListener(this);
+        tvDefault.setOnClickListener(this);
         radioFollowed.setOnCheckedChangeListener(this);
         radioTime.setOnCheckedChangeListener(this);
+        radioDistance.setOnCheckedChangeListener(this);
         radioPrice.setOnCheckedChangeListener(this);
         radioNotification.setOnCheckedChangeListener(this);
 
@@ -240,28 +255,6 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         autocompleteView.setAdapter(placeAutocompleteAdapter);
         createListCategory();
         getDataforView();
-        seebarDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                radDistanceOption.setChecked(true);
-                if (i < 1)
-                    seekBar.setProgress(1);
-                tvDistanceValue.setText(getString(R.string.distance, seekBar.getProgress()));
-                tvDistance.setText(getString(R.string.distance, seekBar.getProgress()));
-                distance = seekBar.getProgress();
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
     }
 
     private final AdapterView.OnItemClickListener mAutocompleteClickListener
@@ -408,18 +401,43 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         setDateTime();
         // set distance
         setDistanceForView();
+        //location
+        setLocationView();
         // set price
         setPriceForView();
         // set key word
         setKeyWordForView();
     }
 
+    private void setLocationView() {
+        hideKeyBoard(this);
+        locations = new ArrayList<>();
+        if (newTaskAlertEntity.getNtaLatlon() != null && newTaskAlertEntity.getNtaLatlon().size() > 0) {
+            locations.add(0, newTaskAlertEntity.getNtaLatlon().get(0).getVal());
+            locations.add(1, newTaskAlertEntity.getNtaLatlon().get(1).getVal());
+            address = newTaskAlertEntity.getNtaAddress();
+        } else {
+            locations = new ArrayList<>();
+            if (UserManager.getMyUser().getLatitude() != 0 && UserManager.getMyUser().getLongitude() != 0) {
+                locations.add(0, UserManager.getMyUser().getLatitude());
+                locations.add(1, UserManager.getMyUser().getLongitude());
+                address = UserManager.getMyUser().getAddress();
+            } else {
+                locations.add(0, 21.0277644);
+                locations.add(1, 105.8341598);
+                address = getString(R.string.default_address);
+            }
+        }
+        tvLocation.setText(address);
+        autocompleteView.setText(address);
+    }
+
 
     private void setKeyWordForView() {
         keywords = new ArrayList<>();
-        if (newTaskAlertEntity.getKeywords() != null && newTaskAlertEntity.getKeywords().size() > 0) {
-            LogUtils.d(TAG, "keyword" + newTaskAlertEntity.getKeywords().size());
-            for (RealmString realmString : newTaskAlertEntity.getKeywords()
+        if (newTaskAlertEntity.getNtaKeywords() != null && newTaskAlertEntity.getNtaKeywords().size() > 0) {
+            LogUtils.d(TAG, "keyword" + newTaskAlertEntity.getNtaKeywords().size());
+            for (RealmString realmString : newTaskAlertEntity.getNtaKeywords()
                     ) {
                 keywords.add(realmString.getValue());
             }
@@ -466,33 +484,30 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void setDistanceForView() {
-        hideKeyBoard(this);
-        if (newTaskAlertEntity.getNtaLatlon() != null && newTaskAlertEntity.getNtaLatlon().size() > 0) {
-            layoutOptionDistance.setVisibility(View.VISIBLE);
-            radDistanceOption.setChecked(true);
-            distance = newTaskAlertEntity.getNtaDistance();
-            locations = new ArrayList<>();
-            locations.add(0, newTaskAlertEntity.getNtaLatlon().get(0).getVal());
-            locations.add(1, newTaskAlertEntity.getNtaLatlon().get(1).getVal());
-            address = newTaskAlertEntity.getNtaAddress();
-            seebarDistance.setProgress(newTaskAlertEntity.getNtaDistance());
-            tvDistanceValue.setText(getString(R.string.distance, newTaskAlertEntity.getNtaDistance()));
-            tvDistance.setText(getString(R.string.distance, newTaskAlertEntity.getNtaDistance()));
-        } else {
-            layoutOptionDistance.setVisibility(View.GONE);
-            locations = new ArrayList<>();
-            radAllDistance.setChecked(true);
-            distance = seebarDistance.getProgress();
-            if (UserManager.getMyUser().getLatitude() != 0 && UserManager.getMyUser().getLongitude() != 0) {
-                locations.add(0, UserManager.getMyUser().getLatitude());
-                locations.add(1, UserManager.getMyUser().getLongitude());
-                address = UserManager.getMyUser().getAddress();
-            }
-            tvDistance.setText(getString(R.string.hozo_all));
-            tvDistanceValue.setText(getString(R.string.distance, seebarDistance.getProgress()));
+        distance = newTaskAlertEntity.getNtaDistance();
+        switch (distance) {
+            case 5:
+                rad5km.setChecked(true);
+                tvDistance.setText(rad5km.getText().toString().trim());
+                break;
+            case 15:
+                tvDistance.setText(rad15km.getText().toString().trim());
+                rad15km.setChecked(true);
+                break;
+            case 25:
+                tvDistance.setText(rad25km.getText().toString().trim());
+                rad25km.setChecked(true);
+                break;
+            case 50:
+                tvDistance.setText(rad50km.getText().toString().trim());
+                rad50km.setChecked(true);
+                break;
+            default:
+                tvDistance.setText(radAllDistance.getText().toString().trim());
+                radAllDistance.setChecked(true);
+                distance = 0;
+                break;
         }
-        autocompleteView.setText(address);
-
     }
 
 
@@ -661,24 +676,22 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         if (followExpandableLayout.isExpanded() && expan != followExpandableLayout) {
             followExpandableLayout.toggle();
             imgFollowArrow.startAnimation(anim_down);
-        }
-        if (categoryExpandableLayout.isExpanded() && expan != categoryExpandableLayout) {
+        } else if (categoryExpandableLayout.isExpanded() && expan != categoryExpandableLayout) {
             categoryExpandableLayout.toggle();
             imgCategoryArrow.startAnimation(anim_down);
-        }
-        if (timeExpandableLayout.isExpanded() && expan != timeExpandableLayout) {
+        } else if (timeExpandableLayout.isExpanded() && expan != timeExpandableLayout) {
             timeExpandableLayout.toggle();
             imgTimeArrow.startAnimation(anim_down);
-        }
-        if (distanceExpandableLayout.isExpanded() && expan != distanceExpandableLayout) {
+        } else if (distanceExpandableLayout.isExpanded() && expan != distanceExpandableLayout) {
             distanceExpandableLayout.toggle();
             imgDistance.startAnimation(anim_down);
-        }
-        if (priceExpandableLayout.isExpanded() && expan != priceExpandableLayout) {
+        } else if (locationExpandableLayout.isExpanded() && expan != locationExpandableLayout) {
+            locationExpandableLayout.toggle();
+            imgLocation.startAnimation(anim_down);
+        } else if (priceExpandableLayout.isExpanded() && expan != priceExpandableLayout) {
             priceExpandableLayout.toggle();
             imgPrice.startAnimation(anim_down);
-        }
-        if (keywordExpandableLayout.isExpanded() && expan != keywordExpandableLayout) {
+        } else if (keywordExpandableLayout.isExpanded() && expan != keywordExpandableLayout) {
             keywordExpandableLayout.toggle();
             imgKeyword.startAnimation(anim_down);
         }
@@ -759,15 +772,8 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                     for (int i = 0; i < locations.size(); i++)
                         jsonArray.put(locations.get(i));
                 }
-                LogUtils.d(TAG, "kt distance" + radDistanceOption.isChecked() + "--" + locations.size() + "--" + distance);
-                if (radDistanceOption.isChecked() && locations != null && locations.size() > 0 && distance > 0) {
-                    jsonRequest.put("nta_distance", distance);
-                    jsonRequest.put("nta_origin_location", jsonArray);
-
-                } else {
-                    jsonRequest.put("nta_distance", 0);
-                    jsonRequest.put("nta_origin_location", new JSONArray());
-                }
+                jsonRequest.put("nta_distance", distance);
+                jsonRequest.put("nta_origin_location", jsonArray);
                 jsonRequest.put("nta_origin_address", address);
             }
 
@@ -853,12 +859,18 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.layout_price:
                 expandableLayout(priceExpandableLayout, imgPrice);
+                scollLayout();
                 break;
             case R.id.layout_distance:
                 expandableLayout(distanceExpandableLayout, imgDistance);
+                scollLayout();
+                break;
+            case R.id.layout_location:
+                expandableLayout(locationExpandableLayout, imgLocation);
                 break;
             case R.id.layout_keyword:
                 expandableLayout(keywordExpandableLayout, imgKeyword);
+                scollLayout();
                 break;
             case R.id.tv_monday:
                 clickDay(tvMonday);
@@ -883,8 +895,9 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.btn_send:
                 sendKeyWord();
+                scollLayout();
                 break;
-            case R.id.tv_default:
+            case R.id.tv_reset:
                 defaultSetting();
                 break;
         }
@@ -913,17 +926,20 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
 
         clearChooseDay();
         tvDateTime.setText(getString(R.string.hozo_all));
-
         locations = new ArrayList<>();
-        radAllDistance.setChecked(true);
-        distance = 50;
+        distance = 0;
         if (UserManager.getMyUser().getLatitude() != 0 && UserManager.getMyUser().getLongitude() != 0) {
             locations.add(0, UserManager.getMyUser().getLatitude());
             locations.add(1, UserManager.getMyUser().getLongitude());
             address = UserManager.getMyUser().getAddress();
-            tvDistance.setText(getString(R.string.hozo_all));
+            tvLocation.setText(address);
+        } else {
+            locations.add(0, 21.0277644);
+            locations.add(1, 105.8341598);
+            address = getString(R.string.default_address);
         }
-//        autocompleteView.setText(address);
+        autocompleteView.setText(address);
+        tvLocation.setText(address);
         keywords.clear();
         keyWordAdapter.notifyDataSetChanged();
         setTextForKeyWord();
@@ -1043,6 +1059,26 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 maxPrice = 0;
                 tvPrice.setText(rad500.getText());
                 break;
+            case R.id.rad_everywhere:
+                distance = 0;
+                tvDistance.setText(radAllDistance.getText().toString().trim());
+                break;
+            case R.id.rad_5_km:
+                tvDistance.setText(rad5km.getText().toString().trim());
+                distance = 5;
+                break;
+            case R.id.rad_15_km:
+                tvDistance.setText(rad15km.getText().toString().trim());
+                distance = 15;
+                break;
+            case R.id.rad_25_km:
+                tvDistance.setText(rad25km.getText().toString().trim());
+                distance = 25;
+                break;
+            case R.id.rad_50_km:
+                tvDistance.setText(rad25km.getText().toString().trim());
+                distance = 50;
+                break;
             case R.id.rd_notification_yes:
                 isNotification = true;
                 setNotification();
@@ -1070,6 +1106,14 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         if (keywords == null || keywords.size() == 0) mKeyWord = "";
         tvKeyword.setText(mKeyWord);
 
+    }
+
+    private void scollLayout() {
+        int[] coords = {0, 0};
+        scrollView.getLocationOnScreen(coords);
+        int absoluteBottom = coords[1] + scrollView.getHeight();
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(800);
+        objectAnimator.start();
     }
 
     @Override

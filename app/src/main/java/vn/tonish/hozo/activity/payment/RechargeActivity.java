@@ -361,8 +361,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         if (inputVisaExpandableLayout.isExpanded())
             Utils.setViewBackground(visaLayout, ContextCompat.getDrawable(this, R.drawable.btn_selector_payment));
         else
-            Utils.setViewBackground(visaLayout, ContextCompat.getDrawable(this, R.drawable.btn_unselector_payment));
-    }
+            Utils.setViewBackground(visaLayout, ContextCompat.getDrawable(this, R.drawable.btn_unselector_payment));}
 
 
 }

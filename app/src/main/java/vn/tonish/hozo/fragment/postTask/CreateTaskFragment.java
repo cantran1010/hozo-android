@@ -416,7 +416,12 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
                 doClose();
                 break;
             case R.id.tv_img:
-                checkPermission();
+
+                if (((PostTaskActivity) getActivity()).images.size() < 6) {
+                    checkPermission();
+                } else {
+                    Utils.showLongToast(getContext(), getString(R.string.post_a_task_max_attach_err), true, false);
+                }
                 break;
             case R.id.btn_next:
                 doNext();
