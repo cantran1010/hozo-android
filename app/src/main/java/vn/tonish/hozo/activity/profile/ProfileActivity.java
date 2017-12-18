@@ -351,13 +351,23 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 btnVerify.setVisibility(View.GONE);
             }
 
-            tvAbout.setText(mUserEntity.getDescription());
+            if (TextUtils.isEmpty(mUserEntity.getDescription()))
+                tvAbout.setVisibility(View.GONE);
+            else {
+                tvAbout.setVisibility(View.VISIBLE);
+                tvAbout.setText(mUserEntity.getDescription());
+            }
 
             updateImagesAttach();
             updateSkills();
             updateLanguages();
 
-            tvExperience.setText(mUserEntity.getExperiences());
+            if (TextUtils.isEmpty(mUserEntity.getExperiences()))
+                tvExperience.setVisibility(View.GONE);
+            else {
+                tvExperience.setVisibility(View.VISIBLE);
+                tvExperience.setText(mUserEntity.getExperiences());
+            }
 
             setDataSelected(isTabPoster);
 

@@ -723,7 +723,8 @@
                             android:id="@+id/rcv_bidders"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="0dp" />
+                            android:layout_marginTop="0dp"
+                            tools:ignore="TooManyViews" />
 
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_see_more_bidders"
