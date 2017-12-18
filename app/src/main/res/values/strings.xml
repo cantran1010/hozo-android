@@ -10,7 +10,7 @@
     <string name="other_nad">Chính sách bảo mật</string>
     <string name="other_share">Chia sẻ với bạn bè</string>
     <string name="other_about">Về Hozo</string>
-    <string name="tv_login_policy">Nhấn \" Tiếp tục \" đồng nghĩa với bạn đồng ý với điều khoản sử dụng và chính sách bảo mật của chúng tôi.</string>
+    <string name="tv_login_policy">Nhấn \"Tiếp tục\" đồng nghĩa với bạn đồng ý với điều khoản sử dụng và chính sách bảo mật của chúng tôi.</string>
     <string name="login_policy_condition">điều khoản sử dụng</string>
     <string name="login_policy_nad">chính sách bảo mật</string>
     <string name="login_block_phone">Lỗi vượt quá số lần đăng nhập trong 1 ngày. Vui lòng trở lại sau 24h tiếp theo.</string>

@@ -284,17 +284,30 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
             String genderAge = "";
 
-            if (isMyUser)
-                genderAge = Utils.converGenderVn(this, mUserEntity.getGender()) + " - " + DateTimeUtils.getAgeFromIso(mUserEntity.getDateOfBirth()) + " " + getString(R.string.profile_age);
-            else {
+            if (isMyUser) {
+                if (mUserEntity.getDateOfBirth().equals("0001-01-01")) {
+                    genderAge = Utils.converGenderVn(this, mUserEntity.getGender());
+                } else {
+                    genderAge = Utils.converGenderVn(this, mUserEntity.getGender()) + " - " + DateTimeUtils.getAgeFromIso(mUserEntity.getDateOfBirth()) + " " + getString(R.string.profile_age);
+                }
+            } else {
                 if (mUserEntity.isPrivacyGender() && mUserEntity.isPrivacyBirth())
                     tvDateOfBirth.setVisibility(View.GONE);
-                else if (mUserEntity.isPrivacyGender() && !mUserEntity.isPrivacyBirth())
-                    genderAge = DateTimeUtils.getAgeFromIso(mUserEntity.getDateOfBirth()) + " " + getString(R.string.profile_age);
-                else if (!mUserEntity.isPrivacyGender() && mUserEntity.isPrivacyBirth())
+                else if (mUserEntity.isPrivacyGender() && !mUserEntity.isPrivacyBirth()) {
+                    if (mUserEntity.getDateOfBirth().equals("0001-01-01")) {
+                        tvDateOfBirth.setVisibility(View.GONE);
+                    } else {
+                        genderAge = DateTimeUtils.getAgeFromIso(mUserEntity.getDateOfBirth()) + " " + getString(R.string.profile_age);
+                    }
+                } else if (!mUserEntity.isPrivacyGender() && mUserEntity.isPrivacyBirth())
                     genderAge = Utils.converGenderVn(this, mUserEntity.getGender());
-                else
-                    genderAge = Utils.converGenderVn(this, mUserEntity.getGender()) + " - " + DateTimeUtils.getAgeFromIso(mUserEntity.getDateOfBirth()) + " " + getString(R.string.profile_age);
+                else {
+                    if (mUserEntity.getDateOfBirth().equals("0001-01-01")) {
+                        genderAge = Utils.converGenderVn(this, mUserEntity.getGender());
+                    } else {
+                        genderAge = Utils.converGenderVn(this, mUserEntity.getGender()) + " - " + DateTimeUtils.getAgeFromIso(mUserEntity.getDateOfBirth()) + " " + getString(R.string.profile_age);
+                    }
+                }
             }
 
             tvDateOfBirth.setText(genderAge);
