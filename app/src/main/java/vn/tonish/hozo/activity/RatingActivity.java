@@ -93,6 +93,7 @@ public class RatingActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void success() {
                 if (isFinishRating()) {
+                    setResult(Constants.RESPONSE_CODE_RATE);
                     finish();
                 } else {
                     viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);

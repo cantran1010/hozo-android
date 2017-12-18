@@ -667,7 +667,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_ASSIGNED) && taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             updateStatusTask(true, false, getString(R.string.delivered), ContextCompat.getDrawable(this, R.drawable.bg_border_received_poster));
 
-            showExpand(true);
+            showExpand(false);
 
             btnOffer.setVisibility(View.GONE);
             btnContact.setVisibility(View.GONE);
@@ -1875,6 +1875,9 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else if (requestCode == Constants.BID_REQUEST_CODE && resultCode == Constants.BID_RESPONSE_CODE) {
             moreDetailVisibility = View.GONE;
             moreDFooterVisibility = View.GONE;
+        } else if (requestCode == Constants.REQUEST_CODE_RATE && resultCode == Constants.RESPONSE_CODE_RATE) {
+            moreDetailVisibility = View.VISIBLE;
+            moreDFooterVisibility = View.VISIBLE;
         }
     }
 
