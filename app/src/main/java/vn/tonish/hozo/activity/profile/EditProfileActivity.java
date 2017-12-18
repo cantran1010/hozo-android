@@ -121,6 +121,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private int imageAttachCount = 0;
     private RadioButtonHozo rbPoster, rbWorker, rbBoth;
     private ImageView imgBackground;
+    private String DATE_DEFAULT = "01/01/1990";
 
     @Override
     protected int getLayout() {
@@ -630,8 +631,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             if (gender != null)
                 jsonRequest.put(Constants.PARAMETER_GENDER, gender);
             jsonRequest.put("privacy_hide_gender", cbHideGender.isChecked());
-            if (!tvBirthday.getText().toString().equals(""))
+
+            if (tvBirthday.getText().toString().trim() != null && !tvBirthday.getText().toString().trim().equals("") && !tvBirthday.getText().toString().trim().equals(DATE_DEFAULT))
                 jsonRequest.put(Constants.PARAMETER_DATE_OF_BIRTH, getOnlyIsoFromDate(tvBirthday.getText().toString()));
+
             jsonRequest.put("privacy_hide_date_of_birth", cbHideBirth.isChecked());
             jsonRequest.put("latitude", lat);
             jsonRequest.put("longitude", lon);
@@ -748,6 +751,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         if (!tvBirthday.getText().toString().isEmpty()) {
             Date date = DateTimeUtils.convertToDate(tvBirthday.getText().toString());
+            calendar.setTime(date);
+        } else {
+            Date date = DateTimeUtils.convertToDate(DATE_DEFAULT);
             calendar.setTime(date);
         }
 

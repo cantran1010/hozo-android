@@ -10,7 +10,7 @@
     <string name="other_nad">Chính sách bảo mật</string>
     <string name="other_share">Chia sẻ với bạn bè</string>
     <string name="other_about">Về Hozo</string>
-    <string name="tv_login_policy">Nhấn \" Tiếp tục \" đồng nghĩa với bạn đồng ý với điều khoản sử dụng và chính sách bảo mật của chúng tôi.</string>
+    <string name="tv_login_policy">Nhấn \"Tiếp tục\" đồng nghĩa với bạn đồng ý với điều khoản sử dụng và chính sách bảo mật của chúng tôi.</string>
     <string name="login_policy_condition">điều khoản sử dụng</string>
     <string name="login_policy_nad">chính sách bảo mật</string>
     <string name="login_block_phone">Lỗi vượt quá số lần đăng nhập trong 1 ngày. Vui lòng trở lại sau 24h tiếp theo.</string>
@@ -79,7 +79,7 @@
     <string name="done">Hoàn thành</string>
     <string name="work_detail_view_bit">Ứng Tuyển</string>
     <string name="type_your_text">Bình luận</string>
-    <string name="assign">Giao</string>
+    <string name="assign">Giao việc</string>
     <string name="cancel_task">Hủy việc</string>
     <string name="recruitment">Ứng tuyển</string>
     <string name="received">Đã nhận</string>
@@ -675,4 +675,8 @@
     <string name="rad_15_km">15km</string>
     <string name="rad_25_km">25km</string>
     <string name="rad_50_km">50km</string>
+    <string name="notification_bid_refunded_title">Hệ thống hoàn trả tiền đặt cọc của bạn ở việc</string>
+    <string name="notification_bid_refunded_matcher">hoàn trả tiền đặt cọc</string>
+    <string name="notification_chat">đã gửi tin nhắn đến nhóm</string>
+
 </resources>

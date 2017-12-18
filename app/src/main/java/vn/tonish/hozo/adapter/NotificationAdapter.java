@@ -139,6 +139,10 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
                     notificationHolder.imgAvata.setImageResource(R.mipmap.app_icon);
                     Utils.setContentMessage(context, notificationHolder.tvContent, notification);
                     break;
+                case Constants.PUSH_TYPE_BID_REFUNDED:
+                    notificationHolder.imgAvata.setImageResource(R.mipmap.app_icon);
+                    Utils.setContentMessage(context, notificationHolder.tvContent, notification);
+                    break;
                 default:
                     Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());
                     Utils.setContentMessage(context, notificationHolder.tvContent, notification);

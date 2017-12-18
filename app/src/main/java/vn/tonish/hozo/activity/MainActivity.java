@@ -345,9 +345,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
 
             case R.id.layout_post_a_task:
-                Intent intentRefresh = new Intent();
-                intentRefresh.setAction(Constants.BROAD_CAST_REFRESH_CATEGORY);
-                sendBroadcast(intentRefresh);
+//                Intent intentRefresh = new Intent();
+//                intentRefresh.setAction(Constants.BROAD_CAST_REFRESH_CATEGORY);
+//                sendBroadcast(intentRefresh);
 
                 if (tabIndex == 1) break;
                 showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);

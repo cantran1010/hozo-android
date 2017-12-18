@@ -485,7 +485,6 @@ public class Utils {
                 matcher = context.getString(R.string.notification_review_worker_matcher);
                 matcherColor = context.getString(R.string.notification_review_worker_color);
                 break;
-
             case Constants.PUSH_TYPE_AWAIT_APPROVAL:
                 content = context.getString(R.string.nofification_enouth_bidder_title) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task)
                         + " " + context.getString(R.string.notification_await_approval);
@@ -496,6 +495,11 @@ public class Utils {
                 content = context.getString(R.string.nofification_money_received) + " " + notification.getContent();
                 matcher = context.getString(R.string.nofification_money_received_matcher);
                 matcherColor = context.getString(R.string.notification_await_approval_color);
+                break;
+            case Constants.PUSH_TYPE_BID_REFUNDED:
+                content = context.getString(R.string.notification_bid_refunded_title) + " " + notification.getTaskName();
+                matcher = context.getString(R.string.notification_bid_refunded_matcher);
+                matcherColor = context.getString(R.string.notification_review_worker_color);
                 break;
         }
 
@@ -585,7 +589,6 @@ public class Utils {
             case Constants.PUSH_TYPE_ENOUGH_BIDDER:
                 content = context.getString(R.string.nofification_enouth_bidder_title) + " " + notification.getTaskName() + " " + context.getString(R.string.nofification_enouth_bidder_footer);
                 break;
-
             case Constants.PUSH_TYPE_REVIEW_WORKER:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_review_content) + " " + notification.getTaskName();
                 break;
@@ -598,7 +601,6 @@ public class Utils {
             case Constants.PUSH_TYPE_REVIEW_WORKER_DONE:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_review_worker_done_title) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_review_worker_done_footer);
                 break;
-
             case Constants.PUSH_TYPE_AWAIT_APPROVAL:
                 content = context.getString(R.string.nofification_enouth_bidder_title) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task)
                         + " " + context.getString(R.string.notification_await_approval);
@@ -609,6 +611,12 @@ public class Utils {
             case Constants.PUSH_TYPE_NEW_TASK_ALERT:
 //                content = context.getString(R.string.notification_new_task_alert_title) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_new_task_alert_day) + " " + DateTimeUtils.getOnlyDateFromIso(notification.getTaskStartTime()) + " " + context.getString(R.string.notification_new_task_alert_footer);
                 content = context.getString(R.string.notification_new_task_alert_title_2) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.notification_new_task_alert_footer);
+                break;
+            case Constants.PUSH_TYPE_BID_REFUNDED:
+                content = context.getString(R.string.notification_bid_refunded_title) + " " + notification.getTaskName();
+                break;
+            case Constants.PUSH_TYPE_CHAT:
+                content = notification.getFullName() + " " + context.getString(R.string.notification_chat) + " " + notification.getTaskName();
                 break;
         }
 
