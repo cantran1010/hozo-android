@@ -84,7 +84,9 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         btnSend = (ImageView) findViewById(R.id.img_send);
         edtMsg = (EdittextHozo) findViewById(R.id.edt_comment);
         imgBack = (ImageView) findViewById(R.id.img_back);
+
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
+        tvTitle.setOnClickListener(this);
 
         btnSend.setOnClickListener(this);
         imgBack.setOnClickListener(this);
@@ -508,6 +510,12 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
             case R.id.img_sms:
                 doSms();
+                break;
+
+            case R.id.tv_title:
+                Intent intent = new Intent(ChatActivity.this, DetailTaskActivity.class);
+                intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
+                startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }
