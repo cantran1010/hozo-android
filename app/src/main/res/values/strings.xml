@@ -678,4 +678,5 @@
     <string name="notification_bid_refunded_title">Hệ thống hoàn trả tiền đặt cọc của bạn ở việc</string>
     <string name="notification_bid_refunded_matcher">hoàn trả tiền đặt cọc</string>
     <string name="notification_chat">đã gửi tin nhắn đến nhóm</string>
+
 </resources>
