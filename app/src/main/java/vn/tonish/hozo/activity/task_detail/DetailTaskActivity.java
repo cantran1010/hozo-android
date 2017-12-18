@@ -525,8 +525,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         tvCommentCount.setText(String.valueOf(taskResponse.getCommentsCount()));
 
-        if (taskResponse.getCommentsCount() > 2) {
-            tvSeeMoreComment.setText(getString(R.string.see_all_comment, taskResponse.getCommentsCount() - 2));
+        if (taskResponse.getCommentsCount() > 5) {
+            tvSeeMoreComment.setText(getString(R.string.see_all_comment, taskResponse.getCommentsCount() - 5));
             tvSeeMoreComment.setVisibility(View.VISIBLE);
         } else {
             tvSeeMoreComment.setVisibility(View.GONE);
