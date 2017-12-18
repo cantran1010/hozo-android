@@ -289,7 +289,7 @@
                     android:layout_height="1px"
                     android:background="@color/gray" />
 
-                <include layout="@layout/sub_setting_advance_distance" />
+                <include layout="@layout/sub_setting_advance_location" />
 
 
                 <RelativeLayout

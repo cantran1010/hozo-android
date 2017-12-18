@@ -120,7 +120,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initView() {
         ImageView btnBack = (ImageView) findViewById(R.id.img_back);
-        seebarDistance = (SeekBar) findViewById(R.id.seebar_distance);
+
         rcvCategory = (RecyclerView) findViewById(R.id.rcv_category);
 
         layoutContext = (LinearLayout) findViewById(R.id.layout_content);
@@ -138,13 +138,12 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         RelativeLayout layoutDistance = (RelativeLayout) findViewById(R.id.layout_distance);
         RelativeLayout layoutPrice = (RelativeLayout) findViewById(R.id.layout_price);
         RelativeLayout layoutKeyword = (RelativeLayout) findViewById(R.id.layout_keyword);
-        layoutOptionDistance = (RelativeLayout) findViewById(R.id.layout_option_distance);
+
 
         tvFolowed = (TextViewHozo) findViewById(R.id.tv_follow);
         tvCategory = (TextViewHozo) findViewById(R.id.tv_category);
         tvDateTime = (TextViewHozo) findViewById(R.id.tv_time);
         tvDistance = (TextViewHozo) findViewById(R.id.tv_distance);
-        tvDistanceValue = (TextViewHozo) findViewById(R.id.tv_distance_value);
         tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
         ImageView btnSend = (ImageView) findViewById(R.id.btn_send);
         tvKeyword = (TextViewHozo) findViewById(R.id.tv_keyword);
@@ -161,13 +160,10 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
 
         RadioGroup radioFollowed = (RadioGroup) findViewById(R.id.radio_follow);
         RadioGroup radioTime = (RadioGroup) findViewById(R.id.radio_time);
-        RadioGroup radioDistance = (RadioGroup) findViewById(R.id.radio_distance);
         RadioGroup radioPrice = (RadioGroup) findViewById(R.id.radio_price);
         RadioGroup radioNotification = (RadioGroup) findViewById(R.id.radio_notification);
         radAllTime = (RadioButtonHozo) findViewById(R.id.radio_all_time);
         radDate = (RadioButtonHozo) findViewById(R.id.radio_date);
-        radAllDistance = (RadioButtonHozo) findViewById(R.id.rad_all_distance);
-        radDistanceOption = (RadioButtonHozo) findViewById(R.id.rad_distance_option);
         radAllPrice = (RadioButtonHozo) findViewById(R.id.rad_all_price);
         rad10 = (RadioButtonHozo) findViewById(R.id.rad_10_100);
         rad100 = (RadioButtonHozo) findViewById(R.id.rad_100_500);
@@ -207,7 +203,6 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         btnSend.setOnClickListener(this);
         radioFollowed.setOnCheckedChangeListener(this);
         radioTime.setOnCheckedChangeListener(this);
-        radioDistance.setOnCheckedChangeListener(this);
         radioPrice.setOnCheckedChangeListener(this);
         radioNotification.setOnCheckedChangeListener(this);
 
@@ -1027,16 +1022,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 clearChooseDay();
                 tvDateTime.setText(radAllTime.getText());
                 break;
-            case R.id.rad_all_distance:
-                distance = 0;
-                layoutOptionDistance.setVisibility(View.GONE);
-                tvDistance.setText(getString(R.string.hozo_all));
-                break;
-            case R.id.rad_distance_option:
-                distance = seebarDistance.getProgress();
-                layoutOptionDistance.setVisibility(View.VISIBLE);
-                tvDistance.setText(getString(R.string.distance, seebarDistance.getProgress()));
-                break;
+
             case R.id.rad_all_price:
                 minPrice = 0;
                 maxPrice = 0;

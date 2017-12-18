@@ -92,7 +92,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private RecyclerView rcvCategory, rcvKeyword;
     private SeekBar seebarDistance;
     private Animation anim_down, anim_up;
-    private ExpandableLayout statusExpandableLayout, categoryExpandableLayout, timeExpandableLayout, distanceExpandableLayout, priceExpandableLayout, keywordExpandableLayout, orderByExpandableLayout;
+    private ExpandableLayout statusExpandableLayout, categoryExpandableLayout, timeExpandableLayout,locationExpandableLayout, distanceExpandableLayout, priceExpandableLayout, keywordExpandableLayout, orderByExpandableLayout;
     private TaskTypeAdapter mAdapter;
     private ArrayList<Category> categories;
     private SettingAdvanceEntity advanceEntity;
@@ -130,11 +130,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     protected void initView() {
         ImageView btnBack = (ImageView) findViewById(R.id.img_back);
         TextViewHozo tvDefault = (TextViewHozo) findViewById(R.id.tv_default);
-        seebarDistance = (SeekBar) findViewById(R.id.seebar_distance);
         rcvCategory = (RecyclerView) findViewById(R.id.rcv_category);
         statusExpandableLayout = (ExpandableLayout) findViewById(R.id.status_expandable_layout);
         categoryExpandableLayout = (ExpandableLayout) findViewById(R.id.category_expandable_layout);
         timeExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_time);
+       locationExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_location);
         distanceExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_distance);
         priceExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_price);
         keywordExpandableLayout = (ExpandableLayout) findViewById(R.id.layout_detail_keyword);
@@ -147,13 +147,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         RelativeLayout layoutPrice = (RelativeLayout) findViewById(R.id.layout_price);
         RelativeLayout layoutKeyword = (RelativeLayout) findViewById(R.id.layout_keyword);
         RelativeLayout layoutOrderBy = (RelativeLayout) findViewById(R.id.layout_sort_by);
-        layoutOptionDistance = (RelativeLayout) findViewById(R.id.layout_option_distance);
 
         tvStatus = (TextViewHozo) findViewById(R.id.tv_status);
         tvCategory = (TextViewHozo) findViewById(R.id.tv_category);
         tvDateTime = (TextViewHozo) findViewById(R.id.tv_time);
         tvDistance = (TextViewHozo) findViewById(R.id.tv_distance);
-        tvDistanceValue = (TextViewHozo) findViewById(R.id.tv_distance_value);
         tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
         tvOrderBy = (TextViewHozo) findViewById(R.id.tv_sort_by);
         tvKeyword = (TextViewHozo) findViewById(R.id.tv_keyword);
@@ -172,14 +170,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         radioStatus = (RadioGroup) findViewById(R.id.radio_status);
         radioTime = (RadioGroup) findViewById(R.id.radio_time);
-        RadioGroup radioDistance = (RadioGroup) findViewById(R.id.radio_distance);
         RadioGroup radioPrice = (RadioGroup) findViewById(R.id.radio_price);
         RadioGroup radioOrderBy = (RadioGroup) findViewById(R.id.radio_OrderBy);
         RadioGroup radioOrder = (RadioGroup) findViewById(R.id.radio_Order);
         radAllTime = (RadioButtonHozo) findViewById(R.id.radio_all_time);
         radDate = (RadioButtonHozo) findViewById(R.id.radio_date);
-        radAllDistance = (RadioButtonHozo) findViewById(R.id.rad_all_distance);
-        radDistanceOption = (RadioButtonHozo) findViewById(R.id.rad_distance_option);
         radAllPrice = (RadioButtonHozo) findViewById(R.id.rad_all_price);
         rad10 = (RadioButtonHozo) findViewById(R.id.rad_10_100);
         rad100 = (RadioButtonHozo) findViewById(R.id.rad_100_500);
@@ -222,7 +217,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         btnSend.setOnClickListener(this);
         radioStatus.setOnCheckedChangeListener(this);
         radioTime.setOnCheckedChangeListener(this);
-        radioDistance.setOnCheckedChangeListener(this);
         radioPrice.setOnCheckedChangeListener(this);
         radioOrderBy.setOnCheckedChangeListener(this);
         radioOrder.setOnCheckedChangeListener(this);
@@ -1095,17 +1089,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 clearChooseDay();
                 tvDateTime.setText(radAllTime.getText());
                 break;
-            case R.id.rad_all_distance:
-                distance = 0;
-                layoutOptionDistance.setVisibility(View.GONE);
-                tvDistance.setText(getString(R.string.hozo_all));
-                break;
-            case R.id.rad_distance_option:
-                distance = seebarDistance.getProgress();
-                layoutOptionDistance.setVisibility(View.VISIBLE);
-                String mDis = address + getString(R.string.setting_space) + " " + getString(R.string.distance, seebarDistance.getProgress());
-                tvDistance.setText(mDis);
-                break;
+
             case R.id.rad_all_price:
                 minPrice = 0;
                 maxPrice = 0;
