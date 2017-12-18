@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vn.tonish.hozo.view.ExpandableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_detail_location"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    app:el_expanded="false">
+
+    <AutoCompleteTextView
+        android:id="@+id/edt_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_edittext"
+        android:focusableInTouchMode="true"
+        android:padding="5dp"
+        android:textColor="@color/tv_gray_new"
+        android:textSize="@dimen/tv_size_medium" />
+
+
+</vn.tonish.hozo.view.ExpandableLayout>

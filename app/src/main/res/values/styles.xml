@@ -230,7 +230,7 @@
     </style>
 
     <style name="tv_setting_advance_show">
-        <item name="android:textSize">@dimen/tv_size_tiny</item>
+        <item name="android:textSize">@dimen/tv_size_xtiny</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/hozo_bg</item>
         <item name="android:ellipsize">end</item>

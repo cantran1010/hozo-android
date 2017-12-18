@@ -852,14 +852,11 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isShowCancel = false;
             isReportTask = true;
             isFollow = false;
-
             layoutInputComment.setVisibility(View.GONE);
 
         } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_PENDING)) {
             updateStatusTask(true, false, getString(R.string.recruitment), ContextCompat.getDrawable(this, R.drawable.bg_border_recruitment));
-
             showExpand(false);
-
             btnOffer.setVisibility(View.VISIBLE);
             btnOffer.setText(getString(R.string.wait_accept));
             Utils.setViewBackground(btnOffer, ContextCompat.getDrawable(this, R.drawable.btn_wait_accept));
