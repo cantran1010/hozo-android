@@ -2,6 +2,7 @@ package vn.tonish.hozo.activity.profile;
 
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -47,6 +48,7 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
     private EdittextHozo edtEmail;
     private CallbackManager callbackmanager;
     private LinearLayout layoutVerifyEmail;
+    private TextViewHozo tvWaittingEmail;
 
     @Override
     protected int getLayout() {
@@ -71,6 +73,8 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
 
         ButtonHozo btnSendEmail = (ButtonHozo) findViewById(R.id.btn_send_email);
         btnSendEmail.setOnClickListener(this);
+
+        tvWaittingEmail = (TextViewHozo) findViewById(R.id.tv_waitting_verify_email);
 
     }
 
@@ -102,6 +106,15 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
             tvVerifyEmail.setPadding(0, 0, 0, 0);
             Utils.setViewBackground(tvVerifyEmail, ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
         } else {
+
+            edtEmail.setText(mUserEntity.getEmail());
+
+            if (TextUtils.isEmpty(mUserEntity.getEmail())) {
+                tvWaittingEmail.setVisibility(View.GONE);
+            } else {
+                tvWaittingEmail.setVisibility(View.VISIBLE);
+            }
+
             tvVerifyEmail.setText(R.string.verify);
             tvVerifyEmail.setTextColor(ContextCompat.getColor(this, R.color.tv_black_new));
             Utils.setViewBackground(tvVerifyEmail, ContextCompat.getDrawable(this, R.drawable.btn_green_selector_new));

@@ -85,14 +85,14 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 break;
 
             case R.id.layout_condition:
-                openGeneralInfoActivity(getString(R.string.other_condition), "http://hozo.vn/dieu-khoan-su-dung/?ref=app");
+                openGeneralInfoActivity(getString(R.string.other_condition), "http://hozo.vn/dieu-khoan-su-dung/?raw");
                 break;
 
             case R.id.layout_nda:
-                openGeneralInfoActivity(getString(R.string.other_nad), "http://hozo.vn/chinh-sach-bao-mat/?ref=app");
+                openGeneralInfoActivity(getString(R.string.other_nad), "http://hozo.vn/chinh-sach-bao-mat/?raw");
                 break;
             case R.id.layout_about:
-                openGeneralInfoActivity(getString(R.string.other_about), "http://hozo.vn/gioi-thieu/?ref=app");
+                openGeneralInfoActivity(getString(R.string.other_about), "http://hozo.vn/gioi-thieu/?raw");
                 break;
 
             case R.id.layout_support:
