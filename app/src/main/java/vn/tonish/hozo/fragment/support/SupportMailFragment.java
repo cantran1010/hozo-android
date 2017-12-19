@@ -36,6 +36,8 @@ import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.fragment.BaseFragment;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
@@ -204,6 +206,18 @@ public class SupportMailFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void doSend() {
+
+        if (TextUtils.isEmpty(edtEmail.getText().toString().trim())) {
+            Utils.showLongToast(getActivity(), getString(R.string.email_missing_error), true, false);
+            return;
+        } else if (TextUtils.isEmpty(edtContent.getText().toString().trim())) {
+            Utils.showLongToast(getActivity(), getString(R.string.content_missing_error), true, false);
+            return;
+        } else if (!Utils.isValidEmail(edtEmail.getText().toString().trim())) {
+            Utils.showLongToast(getActivity(), getString(R.string.validate_email_error), true, false);
+            return;
+        }
+
         if (images.size() > 1) doAttachFiles();
         else doSendMail();
     }
@@ -256,16 +270,6 @@ public class SupportMailFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void doSendMail() {
-        if (TextUtils.isEmpty(edtEmail.getText().toString().trim())) {
-            Utils.showLongToast(getActivity(), getString(R.string.email_missing_error), true, false);
-            return;
-        } else if (TextUtils.isEmpty(edtContent.getText().toString().trim())) {
-            Utils.showLongToast(getActivity(), getString(R.string.content_missing_error), true, false);
-            return;
-        } else if (!Utils.isValidEmail(edtEmail.getText().toString().trim())) {
-            Utils.showLongToast(getActivity(), getString(R.string.validate_email_error), true, false);
-            return;
-        }
 
         ProgressDialogUtils.showProgressDialog(getActivity());
         final JSONObject jsonRequest = new JSONObject();
@@ -296,6 +300,10 @@ public class SupportMailFragment extends BaseFragment implements View.OnClickLis
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     Utils.showLongToast(getActivity(), getString(R.string.send_mail_support_success), false, false);
                 } else {
+
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.d(TAG, "doSendMail error : " + error.toString());
+
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
