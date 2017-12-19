@@ -42,12 +42,6 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
         this.myTaskAdapterListener = myTaskAdapterListener;
     }
 
-//    @Override
-//    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
-//        super.onViewAttachedToWindow(holder);
-//        holder.itemView.clearAnimation();
-//    }
-
     @Override
     public int getItemLayout() {
         return R.layout.item_my_task;
@@ -133,13 +127,6 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
                     workHolder.progressBar.setVisibility(View.GONE);
 
                 }
-//                else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_COMPLETED)) {
-//                    workHolder.tvStatus.setText(context.getString(R.string.my_task_status_worker_completed));
-//                    Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
-//
-//                    workHolder.progressBar.setVisibility(View.GONE);
-//
-//                }
 
                 else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_AWAIT_APPROVAL)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_await_approval));
@@ -209,11 +196,7 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
             }
 
         }
-//        Animation animation = AnimationUtils.loadAnimation(context,
-//                (position > lastPosition) ? R.anim.up_from_bottom
-//                        : R.anim.down_from_top);
-//        holder.itemView.startAnimation(animation);
-//        lastPosition = position;
+
     }
 
     class WorkHolder extends BaseHolder implements View.OnClickListener {

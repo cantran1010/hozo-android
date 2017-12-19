@@ -206,28 +206,24 @@ public class SupportMailFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void doSend() {
-
         if (TextUtils.isEmpty(edtEmail.getText().toString().trim())) {
             Utils.showLongToast(getActivity(), getString(R.string.email_missing_error), true, false);
-            return;
-        } else if (TextUtils.isEmpty(edtContent.getText().toString().trim())) {
-            Utils.showLongToast(getActivity(), getString(R.string.content_missing_error), true, false);
             return;
         } else if (!Utils.isValidEmail(edtEmail.getText().toString().trim())) {
             Utils.showLongToast(getActivity(), getString(R.string.validate_email_error), true, false);
             return;
+        } else if (TextUtils.isEmpty(edtContent.getText().toString().trim())) {
+            Utils.showLongToast(getActivity(), getString(R.string.content_missing_error), true, false);
+            return;
         }
-
         if (images.size() > 1) doAttachFiles();
         else doSendMail();
     }
 
     private void doAttachFiles() {
         ProgressDialogUtils.showProgressDialog(getActivity());
-
         imageAttachCount = images.size() - 1;
         imagesArr = new int[images.size() - 1];
-
         for (int i = 0; i < images.size() - 1; i++) {
             LogUtils.d(TAG, " attachAllFile image " + i + " : " + images.get(i).getPath());
             File file = new File(images.get(i).getPath());

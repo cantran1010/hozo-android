@@ -20,7 +20,9 @@
             android:layout_toStartOf="@+id/img_close"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingEnd="16dp"
             android:paddingLeft="@dimen/title_margin_left"
+            android:paddingRight="16dp"
             android:paddingStart="@dimen/title_margin_left"
             android:text="@string/select_task_title" />
 

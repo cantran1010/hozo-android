@@ -42,8 +42,6 @@ import vn.tonish.hozo.fragment.mytask.MyTaskFragment;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
-import vn.tonish.hozo.rest.responseRes.APIError;
-import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.NewTaskResponse;
 import vn.tonish.hozo.rest.responseRes.UpdateResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
@@ -204,7 +202,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void getNewTaskCount(final String since) {
-
         Map<String, String> option = new HashMap<>();
         if (since != null) option.put("since", since);
         if (call != null) call.cancel();
@@ -221,7 +218,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_SEARCH);
                     intentAnswer.putExtra(Constants.COUNT_NEW_TASK_EXTRA, countNewTask);
                     sendBroadcast(intentAnswer);
-
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(MainActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -231,13 +227,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(MainActivity.this);
-                } else {
-                    APIError error = ErrorUtils.parseError(response);
-                    LogUtils.d(TAG, "errorBody" + error.toString());
-                    Utils.showLongToast(MainActivity.this, error.message(), true, false);
                 }
             }
-
             @Override
             public void onFailure(Call<NewTaskResponse> call, Throwable t) {
 
@@ -250,7 +241,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onNewIntent(intent);
         if (intent.hasExtra(Constants.NOTIFICATION_EXTRA)) {
             final Notification notification = (Notification) intent.getSerializableExtra(Constants.NOTIFICATION_EXTRA);
-
             switch (notification.getEvent()) {
                 case Constants.PUSH_TYPE_ADMIN_PUSH:
                     if (TextUtils.isEmpty(notification.getExternalLink())) {
@@ -345,10 +335,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
 
             case R.id.layout_post_a_task:
-//                Intent intentRefresh = new Intent();
-//                intentRefresh.setAction(Constants.BROAD_CAST_REFRESH_CATEGORY);
-//                sendBroadcast(intentRefresh);
-
                 if (tabIndex == 1) break;
                 showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 tabIndex = 1;

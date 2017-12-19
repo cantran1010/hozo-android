@@ -66,17 +66,12 @@ public class SelectTaskFragment extends BaseFragment {
     }
 
     private void getCategory() {
-
-//        if (CategoryManager.getAllCategories() == null || CategoryManager.getAllCategories().size() == 0)
-//            ProgressDialogUtils.showHozoProgressDialog(getContext());
-
         ApiClient.getApiService().getCategories(UserManager.getUserToken()).enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
                 LogUtils.d(TAG, "getCategories onResponse body : " + response.body());
                 LogUtils.d(TAG, "getCategories onResponse status code : " + response.code());
                 LogUtils.d(TAG, "getCategories onResponse isSuccessful : " + response.isSuccessful());
-
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     categories.clear();
                     for (Category category : response.body())
@@ -108,13 +103,11 @@ public class SelectTaskFragment extends BaseFragment {
                         }
                     });
                 }
-//                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
             public void onFailure(Call<List<Category>> call, Throwable t) {
                 LogUtils.e(TAG, "getCategories onFailure status code : " + t.getMessage());
-//                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
@@ -144,18 +137,8 @@ public class SelectTaskFragment extends BaseFragment {
 
     @Override
     protected void resumeData() {
-//        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(Constants.BROAD_CAST_REFRESH_CATEGORY));
     }
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        try {
-//            getActivity().unregisterReceiver(broadcastReceiver);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     private void refreshCategory() {
         CategoryAdapter categoryAdapter = new CategoryAdapter(categories);
@@ -183,13 +166,5 @@ public class SelectTaskFragment extends BaseFragment {
             updateMenuUi(3);
         }
     }
-
-
-//    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            getCategory();
-//        }
-//    };
 
 }
