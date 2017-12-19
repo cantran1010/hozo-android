@@ -245,7 +245,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.REQUEST_CODE_FILTER_MY_TASK && resultCode == Constants.FILTER_MY_TASK_RESPONSE_CODE) {
+        if ((requestCode == Constants.REQUEST_CODE_FILTER_MY_TASK && resultCode == Constants.FILTER_MY_TASK_RESPONSE_CODE)) {
             if (position == 0)
                 myTaskFragmentAdapter.onRefreshTab(0);
             else

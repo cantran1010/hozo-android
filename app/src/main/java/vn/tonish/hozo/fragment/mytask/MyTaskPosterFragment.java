@@ -289,7 +289,6 @@ public class MyTaskPosterFragment extends BaseFragment {
             onRefresh();
         } else if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.RESULT_CODE_TASK_CANCEL)
             onRefresh();
-
     }
 
     public void search(String query) {

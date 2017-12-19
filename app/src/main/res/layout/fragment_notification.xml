@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -20,8 +21,6 @@
             android:layout_marginLeft="@dimen/title_margin_left"
             android:layout_marginStart="@dimen/title_margin_left"
             android:text="@string/notify_title" />
-
-
     </RelativeLayout>
 
     <android.support.design.widget.TabLayout

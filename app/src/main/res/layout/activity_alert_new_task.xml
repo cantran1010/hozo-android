@@ -452,7 +452,6 @@
                     style="@style/tv_style_normal_gray"
                     android:layout_width="match_parent"
                     android:layout_height="?android:attr/actionBarSize"
-                    android:layout_centerVertical="true"
                     android:background="@drawable/btn_back_selector"
                     android:gravity="center_vertical"
                     android:paddingEnd="16dp"

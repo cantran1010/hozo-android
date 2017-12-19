@@ -72,7 +72,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Tran Can"
                     android:textColor="#c5d3d8"
                     android:textSize="13sp" />
 
@@ -157,7 +156,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Bui Duc long"
                     android:textColor="#c5d3d8"
                     android:textSize="13sp" />
 
