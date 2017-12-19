@@ -326,8 +326,8 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
     private void getDefaultAddress() {
         PostTaskEntity postTaskEntity = PostTaskManager.getPostTaskEntity();
         if (postTaskEntity != null) {
-            lat = postTaskEntity.getLon();
-            lon = postTaskEntity.getLat();
+            lat = postTaskEntity.getLat();
+            lon = postTaskEntity.getLon();
             address = postTaskEntity.getAddress();
             LogUtils.d(TAG, "getDefaultAddress" + postTaskEntity.toString());
             autocompleteView.setText(address);

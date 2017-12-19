@@ -387,7 +387,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         currentPage = 1;
         taskAdapter.onLoadMore();
         getTaskResponse(query);
-
         // update lastTime
         // set new task = 0
         updateCountNewTask(0);
