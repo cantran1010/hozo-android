@@ -25,7 +25,6 @@ import static vn.tonish.hozo.R.id.lvList;
 public class BiddersActivity extends BaseActivity implements View.OnClickListener {
     private final static String TAG = BiddersActivity.class.getSimpleName();
     private RecyclerView rcvBidders;
-    private ImageView imgBack;
     private TaskResponse taskResponse;
     private ArrayList<Bidder> bidders;
     private String bidderType = "";
@@ -41,7 +40,7 @@ public class BiddersActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initView() {
         rcvBidders = (RecyclerView) findViewById(lvList);
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         bidders = new ArrayList<>();
         taskResponse = new TaskResponse();

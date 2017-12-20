@@ -84,7 +84,6 @@ public class CommentAllActivity extends BaseTouchActivity implements View.OnClic
     private Call<List<Comment>> call;
     private int taskId = 0;
     private int posterId = 0;
-    private ImageView imgBack;
 
     @Override
     protected int getLayout() {
@@ -95,7 +94,7 @@ public class CommentAllActivity extends BaseTouchActivity implements View.OnClic
     protected void initView() {
         createSwipeToRefresh();
 
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
         rcvComment = (RecyclerView) findViewById(R.id.rcv_comment);

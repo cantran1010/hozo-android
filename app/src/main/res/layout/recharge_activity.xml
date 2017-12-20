@@ -127,7 +127,6 @@
                 app:el_expanded="false">
 
                 <LinearLayout
-                    android:id="@+id/input_atm_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -224,7 +223,6 @@
                 app:el_expanded="false">
 
                 <LinearLayout
-                    android:id="@+id/input_visa_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"

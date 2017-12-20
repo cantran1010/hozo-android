@@ -359,9 +359,8 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             return false;
         else if (address.isEmpty())
             return false;
-        else if (lat == 0 && lon == 0)
-            return false;
-        else return strAuto.equalsIgnoreCase(address);
+        else
+            return !(lat == 0 && lon == 0) && strAuto.equalsIgnoreCase(address);
     }
 
     private void doClose() {

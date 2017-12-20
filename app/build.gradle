@@ -100,7 +100,7 @@ configurations.all {
 
 dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
-        transitive = true;
+        transitive = true
     }
     compile 'com.facebook.android:account-kit-sdk:4.28.0'
     compile 'com.googlecode.libphonenumber:libphonenumber:8.5.2'

@@ -48,15 +48,11 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     private static final String TAG = ChatActivity.class.getSimpleName();
     private RecyclerView rcvMessage;
     private MessageAdapter messageAdapter;
-    private ImageView btnSend;
     private EdittextHozo edtMsg;
-    private ImageView imgBack;
     private int taskId;
     private List<Message> messages = new ArrayList<>();
     private boolean isLoadingMoreFromServer = true;
-    private DatabaseReference myRef;
     private String lastKeyMsg;
-    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private int posterId;
     private DatabaseReference messageCloudEndPoint;
     private TextViewHozo tvTitle, tvMember;
@@ -70,7 +66,6 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     private Query recentPostsQuery = null;
     private ImageView imgMenu;
     private DatabaseReference memberCloudEndPoint;
-    private ImageView imgCall, imgSms;
     private TaskResponse taskResponse;
 
     @Override
@@ -81,9 +76,9 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     @Override
     protected void initView() {
         rcvMessage = (RecyclerView) findViewById(R.id.rcv_msg);
-        btnSend = (ImageView) findViewById(R.id.img_send);
+        ImageView btnSend = (ImageView) findViewById(R.id.img_send);
         edtMsg = (EdittextHozo) findViewById(R.id.edt_comment);
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
 
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         tvTitle.setOnClickListener(this);
@@ -104,8 +99,8 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
         tvMember = (TextViewHozo) findViewById(R.id.tv_member);
 
-        imgCall = (ImageView) findViewById(R.id.img_call);
-        imgSms = (ImageView) findViewById(R.id.img_sms);
+        ImageView imgCall = (ImageView) findViewById(R.id.img_call);
+        ImageView imgSms = (ImageView) findViewById(R.id.img_sms);
 
         imgCall.setOnClickListener(this);
         imgSms.setOnClickListener(this);
@@ -124,7 +119,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         tvMember.setText(Utils.getMemberChat(this, taskResponse));
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
+        DatabaseReference myRef = database.getReference();
         messageCloudEndPoint = myRef.child("task-messages").child(String.valueOf(taskId));
         setUpMessageList();
 
@@ -236,7 +231,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
             }
         });
 
-        endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
 
