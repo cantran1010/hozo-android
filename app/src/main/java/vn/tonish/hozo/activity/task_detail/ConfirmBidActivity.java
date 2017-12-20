@@ -47,8 +47,6 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
     private static final String TAG = ConfirmBidActivity.class.getSimpleName();
     private TextViewHozo tvTitle, tvDate, tvTime, tvHour, tvBudget, tvPolicy, tvDes;
     private TaskResponse taskResponse;
-    private ButtonHozo btnBid;
-    private ImageView imgBack;
 
     @Override
     protected int getLayout() {
@@ -64,10 +62,10 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
         tvBudget = (TextViewHozo) findViewById(R.id.tv_budget);
         tvPolicy = (TextViewHozo) findViewById(R.id.tv_policy);
 
-        btnBid = (ButtonHozo) findViewById(R.id.btn_bid);
+        ButtonHozo btnBid = (ButtonHozo) findViewById(R.id.btn_bid);
         btnBid.setOnClickListener(this);
 
-        imgBack = (ImageView) findViewById(R.id.img_back);
+        ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
         tvDes = (TextViewHozo) findViewById(R.id.tv_des);

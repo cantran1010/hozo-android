@@ -21,8 +21,6 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
 
     private static final String TAG = ContactActivity.class.getSimpleName();
     private RecyclerView rcvAssign;
-    private AssignerCallAdapter assignerAdapter;
-    private ArrayList<Assigner> assigners;
     private TaskResponse taskResponse;
     private TextViewHozo tvTaskName;
 
@@ -52,8 +50,8 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setupList() {
-        assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
-        assignerAdapter = new AssignerCallAdapter(assigners, "");
+        ArrayList<Assigner> assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
+        AssignerCallAdapter assignerAdapter = new AssignerCallAdapter(assigners, "");
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvAssign.setLayoutManager(linearLayoutManager);
         assignerAdapter.setTaskId(taskResponse.getId());

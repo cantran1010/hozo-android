@@ -86,7 +86,6 @@ public class CommentsAnswerActivity extends BaseTouchActivity implements View.On
     private Comment comment;
     private CommentBigView commentBigView;
     private int vilibisity, posterId;
-    private LinearLayout mainLayout;
 
     @Override
     protected int getLayout() {
@@ -113,7 +112,7 @@ public class CommentsAnswerActivity extends BaseTouchActivity implements View.On
 
         commentBigView = (CommentBigView) findViewById(R.id.comment_big_view);
 
-        mainLayout = (LinearLayout) findViewById(R.id.main_layout);
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout);
 
         mainLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override

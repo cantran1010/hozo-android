@@ -96,23 +96,26 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         }
 
-        if (notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_PUSH)
-                || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)
-                || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_USER)
-                || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_TASK)
-                || notification.getEvent().equals(Constants.PUSH_TYPE_ACTIVE_COMMENT)
-                || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_TASK)
-                || notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_COMMENT)
-                || notification.getEvent().equals(Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT)
-                ) {
-            title = getString(R.string.app_name);
-            message = notification.getContent();
-        } else if (notification.getEvent().equals(Constants.PUSH_TYPE_NEW_TASK_ALERT)) {
-            title = getString(R.string.push_title);
-            message = notification.getTaskName();
-        } else {
-            title = notification.getTaskName();
-            message = Utils.getContentFromNotification(getApplicationContext(), notification);
+        switch (notification.getEvent()) {
+            case Constants.PUSH_TYPE_ADMIN_PUSH:
+            case Constants.PUSH_TYPE_BLOCK_USER:
+            case Constants.PUSH_TYPE_ACTIVE_USER:
+            case Constants.PUSH_TYPE_ACTIVE_TASK:
+            case Constants.PUSH_TYPE_ACTIVE_COMMENT:
+            case Constants.PUSH_TYPE_BLOCK_TASK:
+            case Constants.PUSH_TYPE_BLOCK_COMMENT:
+            case Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT:
+                title = getString(R.string.app_name);
+                message = notification.getContent();
+                break;
+            case Constants.PUSH_TYPE_NEW_TASK_ALERT:
+                title = getString(R.string.push_title);
+                message = notification.getTaskName();
+                break;
+            default:
+                title = notification.getTaskName();
+                message = Utils.getContentFromNotification(getApplicationContext(), notification);
+                break;
         }
 
         if (!notification.getEvent().equals(Constants.PUSH_TYPE_CHAT)) {
