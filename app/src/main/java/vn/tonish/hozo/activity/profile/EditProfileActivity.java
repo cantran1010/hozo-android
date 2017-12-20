@@ -270,7 +270,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             image1.setPath(userEntity.getImages().get(i).getUrl());
             images.add(image1);
         }
-
         //images
         final Image image = new Image();
         image.setAdd(true);

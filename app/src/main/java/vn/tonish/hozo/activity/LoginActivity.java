@@ -1,14 +1,6 @@
 package vn.tonish.hozo.activity;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.facebook.accountkit.AccessToken;
@@ -20,15 +12,10 @@ import com.facebook.accountkit.ui.ButtonType;
 import com.facebook.accountkit.ui.LoginType;
 import com.facebook.accountkit.ui.TextPosition;
 import com.facebook.accountkit.ui.UIManager;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -64,12 +51,12 @@ import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 public class LoginActivity extends BaseActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
     private int nextPermissionsRequestCode = 4000;
-    @SuppressLint("UseSparseArrays")
-    private final Map<Integer, OnCompleteListener> permissionsListeners = new HashMap<>();
+//    @SuppressLint("UseSparseArrays")
+//    private final Map<Integer, OnCompleteListener> permissionsListeners = new HashMap<>();
 
-    private interface OnCompleteListener {
-        void onComplete();
-    }
+//    private interface OnCompleteListener {
+//        void onComplete();
+//    }
 
     @Override
     protected int getLayout() {
@@ -110,45 +97,45 @@ public class LoginActivity extends BaseActivity {
         //noinspection deprecation
         uiManager = new HozoAccountKitUIManager(ButtonType.NEXT, ButtonType.NEXT, TextPosition.ABOVE_BODY, LoginType.PHONE);
         configurationBuilder.setUIManager(uiManager);
-        configurationBuilder.setDefaultCountryCode("VN").setReadPhoneStateEnabled(true).setReceiveSMS(true);
+        configurationBuilder.setDefaultCountryCode("VN").setReadPhoneStateEnabled(false).setReceiveSMS(false);
         final AccountKitConfiguration configuration = configurationBuilder.build();
         intent.putExtra(
                 AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
                 configuration);
-        OnCompleteListener completeListener = new OnCompleteListener() {
-            @Override
-            public void onComplete() {
+//        OnCompleteListener completeListener = new OnCompleteListener() {
+//            @Override
+//            public void onComplete() {
                 startActivityForResult(intent, ACCOUNT_KIT_REQUEST_CODE);
-            }
-        };
-        if (configuration.isReceiveSMSEnabled() && !canReadSmsWithoutPermission()) {
-            final OnCompleteListener receiveSMSCompleteListener = completeListener;
-            completeListener = new OnCompleteListener() {
-                @Override
-                public void onComplete() {
-                    requestPermissions(
-                            Manifest.permission.RECEIVE_SMS,
-                            R.string.permissions_receive_sms_title,
-                            R.string.permissions_receive_sms_message,
-                            receiveSMSCompleteListener);
-                }
-            };
-        }
-        if (configuration.isReadPhoneStateEnabled() && !isGooglePlayServicesAvailable()) {
-            final OnCompleteListener readPhoneStateCompleteListener = completeListener;
-            completeListener = new OnCompleteListener() {
-                @Override
-                public void onComplete() {
-                    requestPermissions(
-                            Manifest.permission.READ_PHONE_STATE,
-                            R.string.permissions_read_phone_state_title,
-                            R.string.permissions_read_phone_state_message,
-                            readPhoneStateCompleteListener);
-                }
-            };
-        }
-
-        completeListener.onComplete();
+//            }
+//        };
+//        if (configuration.isReceiveSMSEnabled() && !canReadSmsWithoutPermission()) {
+//            final OnCompleteListener receiveSMSCompleteListener = completeListener;
+//            completeListener = new OnCompleteListener() {
+//                @Override
+//                public void onComplete() {
+//                    requestPermissions(
+//                            Manifest.permission.RECEIVE_SMS,
+//                            R.string.permissions_receive_sms_title,
+//                            R.string.permissions_receive_sms_message,
+//                            receiveSMSCompleteListener);
+//                }
+//            };
+//        }
+//        if (configuration.isReadPhoneStateEnabled() && !isGooglePlayServicesAvailable()) {
+//            final OnCompleteListener readPhoneStateCompleteListener = completeListener;
+//            completeListener = new OnCompleteListener() {
+//                @Override
+//                public void onComplete() {
+//                    requestPermissions(
+//                            Manifest.permission.READ_PHONE_STATE,
+//                            R.string.permissions_read_phone_state_title,
+//                            R.string.permissions_read_phone_state_message,
+//                            readPhoneStateCompleteListener);
+//                }
+//            };
+//        }
+//
+//        completeListener.onComplete();
     }
 
 
@@ -294,94 +281,94 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    private boolean isGooglePlayServicesAvailable() {
-        final GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int googlePlayServicesAvailable = apiAvailability.isGooglePlayServicesAvailable(this);
-        return googlePlayServicesAvailable == ConnectionResult.SUCCESS;
-    }
-
-    private boolean canReadSmsWithoutPermission() {
-        final GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int googlePlayServicesAvailable = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (googlePlayServicesAvailable == ConnectionResult.SUCCESS) {
-            return true;
-        }
-        //TODO we should also check for Android O here t18761104
-
-        return false;
-    }
-
-    private void requestPermissions(
-            final String permission,
-            final int rationaleTitleResourceId,
-            final int rationaleMessageResourceId,
-            final OnCompleteListener listener) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            if (listener != null) {
-                listener.onComplete();
-            }
-            return;
-        }
-
-        checkRequestPermissions(
-                permission,
-                rationaleTitleResourceId,
-                rationaleMessageResourceId,
-                listener);
-    }
-
-    @TargetApi(23)
-    private void checkRequestPermissions(
-            final String permission,
-            final int rationaleTitleResourceId,
-            final int rationaleMessageResourceId,
-            final OnCompleteListener listener) {
-        if (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
-            if (listener != null) {
-                listener.onComplete();
-            }
-            return;
-        }
-
-        final int requestCode = nextPermissionsRequestCode++;
-        permissionsListeners.put(requestCode, listener);
-
-        if (shouldShowRequestPermissionRationale(permission)) {
-            new AlertDialog.Builder(this)
-                    .setTitle(rationaleTitleResourceId)
-                    .setMessage(rationaleMessageResourceId)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(final DialogInterface dialog, final int which) {
-                            requestPermissions(new String[]{permission}, requestCode);
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(final DialogInterface dialog, final int which) {
-                            // ignore and clean up the listener
-                            permissionsListeners.remove(requestCode);
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-        } else {
-            requestPermissions(new String[]{permission}, requestCode);
-        }
-    }
-
-    @TargetApi(23)
-    @SuppressWarnings("unused")
-    @Override
-    public void onRequestPermissionsResult(final int requestCode,
-                                           final @NonNull String permissions[],
-                                           final @NonNull int[] grantResults) {
-        final OnCompleteListener permissionsListener = permissionsListeners.remove(requestCode);
-        if (permissionsListener != null
-                && grantResults.length > 0
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            permissionsListener.onComplete();
-        }
-    }
+//    private boolean isGooglePlayServicesAvailable() {
+//        final GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+//        int googlePlayServicesAvailable = apiAvailability.isGooglePlayServicesAvailable(this);
+//        return googlePlayServicesAvailable == ConnectionResult.SUCCESS;
+//    }
+//
+//    private boolean canReadSmsWithoutPermission() {
+//        final GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+//        int googlePlayServicesAvailable = apiAvailability.isGooglePlayServicesAvailable(this);
+//        if (googlePlayServicesAvailable == ConnectionResult.SUCCESS) {
+//            return true;
+//        }
+//        //TODO we should also check for Android O here t18761104
+//
+//        return false;
+//    }
+//
+//    private void requestPermissions(
+//            final String permission,
+//            final int rationaleTitleResourceId,
+//            final int rationaleMessageResourceId,
+//            final OnCompleteListener listener) {
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+//            if (listener != null) {
+//                listener.onComplete();
+//            }
+//            return;
+//        }
+//
+//        checkRequestPermissions(
+//                permission,
+//                rationaleTitleResourceId,
+//                rationaleMessageResourceId,
+//                listener);
+//    }
+//
+//    @TargetApi(23)
+//    private void checkRequestPermissions(
+//            final String permission,
+//            final int rationaleTitleResourceId,
+//            final int rationaleMessageResourceId,
+//            final OnCompleteListener listener) {
+//        if (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+//            if (listener != null) {
+//                listener.onComplete();
+//            }
+//            return;
+//        }
+//
+//        final int requestCode = nextPermissionsRequestCode++;
+//        permissionsListeners.put(requestCode, listener);
+//
+//        if (shouldShowRequestPermissionRationale(permission)) {
+//            new AlertDialog.Builder(this)
+//                    .setTitle(rationaleTitleResourceId)
+//                    .setMessage(rationaleMessageResourceId)
+//                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(final DialogInterface dialog, final int which) {
+//                            requestPermissions(new String[]{permission}, requestCode);
+//                        }
+//                    })
+//                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(final DialogInterface dialog, final int which) {
+//                            // ignore and clean up the listener
+//                            permissionsListeners.remove(requestCode);
+//                        }
+//                    })
+//                    .setIcon(android.R.drawable.ic_dialog_alert)
+//                    .show();
+//        } else {
+//            requestPermissions(new String[]{permission}, requestCode);
+//        }
+//    }
+//
+//    @TargetApi(23)
+//    @SuppressWarnings("unused")
+//    @Override
+//    public void onRequestPermissionsResult(final int requestCode,
+//                                           final @NonNull String permissions[],
+//                                           final @NonNull int[] grantResults) {
+//        final OnCompleteListener permissionsListener = permissionsListeners.remove(requestCode);
+//        if (permissionsListener != null
+//                && grantResults.length > 0
+//                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//            permissionsListener.onComplete();
+//        }
+//    }
 
 }
