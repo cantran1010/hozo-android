@@ -338,19 +338,26 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         ArrayList<MiniTask> miniTasks = new ArrayList<>();
 
         for (int i = 0; i < taskList.size(); i++) {
-            MiniTask miniTask = new MiniTask();
-            miniTask.setId(taskList.get(i).getId());
-            miniTask.setTitle(taskList.get(i).getTitle());
-            miniTask.setAddress(taskList.get(i).getAddress());
-            miniTask.setLat(taskList.get(i).getLatitude());
-            miniTask.setLon(taskList.get(i).getLongitude());
 
-            miniTasks.add(miniTask);
+            if (!taskList.get(i).isOnline()) {
+                MiniTask miniTask = new MiniTask();
+                miniTask.setId(taskList.get(i).getId());
+                miniTask.setTitle(taskList.get(i).getTitle());
+                miniTask.setAddress(taskList.get(i).getAddress());
+                miniTask.setLat(taskList.get(i).getLatitude());
+                miniTask.setLon(taskList.get(i).getLongitude());
+
+                miniTasks.add(miniTask);
+            }
+
         }
 
-        Intent intent = new Intent(getActivity(), BrowserTaskMapActivity.class);
-        intent.putParcelableArrayListExtra(Constants.LIST_TASK_EXTRA, miniTasks);
-        startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+        if (miniTasks.size() > 0) {
+            Intent intent = new Intent(getActivity(), BrowserTaskMapActivity.class);
+            intent.putParcelableArrayListExtra(Constants.LIST_TASK_EXTRA, miniTasks);
+            startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+        }
+
     }
 
 

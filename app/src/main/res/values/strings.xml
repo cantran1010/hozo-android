@@ -304,7 +304,6 @@
     <string name="task_detail_block_reasons">Lý do :</string>
     <string name="brower_new_task" tools:ignore="PluralsCandidate">Có %1$d việc mới</string>
     <string name="address_hint">Nhập địa chỉ</string>
-    <string name="no_address">Rất tiếc,không tìm thấy địa chỉ!</string>
     <string name="email_verify_done">Vui lòng kiểm tra email để hoàn thành bước xác thưc!</string>
     <string name="cancel_task_by_poster">Công việc đã bị hủy bời người tạo!</string>
     <string name="cancel_task_by_poster_title">Việc đã hủy</string>
@@ -377,14 +376,6 @@
     <string name="other_payment">Ví Hozo</string>
     <string name="ACCOUNT_KIT_CLIENT_TOKEN">d9278fc58b4d68801c0a5a682dfcaad2</string>
     <!--<string name="ACCOUNT_KIT_CLIENT_TOKEN_TEST">462ec5de77bb446a2a1baca7903111af</string>-->
-    <string name="permissions_read_phone_state_message">
-        Cho phép đọc số điện thoại của bạn từ thiết bị của bạn để điền vào trước.
-    </string>
-    <string name="permissions_read_phone_state_title">Read Phone Number</string>
-    <string name="permissions_receive_sms_message">
-      Cho phép đọc mã SMS của bạn từ thiết bị của bạn để điền vào trước.
-    </string>
-    <string name="permissions_receive_sms_title">Đọc Mã SMS</string>
     <string name="setting_status">Trạng thái công việc</string>
     <string name="setting_category">Loại công việc</string>
     <string name="setting_time">Ngày làm</string>
