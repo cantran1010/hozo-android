@@ -135,7 +135,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     imgClear.setVisibility(View.GONE);
                 }
                 search();
-
             }
 
             @Override
@@ -329,6 +328,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     private void search() {
+        if (call != null) call.cancel();
         currentPage = 1;
         query = edtSearch.getText().toString();
         getTaskResponse(query);
