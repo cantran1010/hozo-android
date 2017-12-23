@@ -309,6 +309,7 @@ public class MyTaskWorkerFragment extends BaseFragment {
     }
 
     public void search(String query) {
+        if (call != null) call.cancel();
         mQuery = query;
         sinceStr = null;
         getTaskFromServer(null, LIMIT, filter, query);
