@@ -441,12 +441,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
 
         mOrder = advanceEntity.getOrder();
-        if (mOrder != null && mOrder.equalsIgnoreCase(Constants.ORDER_DESC)) {
-            radReduction.setChecked(true);
-            strOrder = radReduction.getText().toString();
-        } else {
+        if (mOrder != null && mOrder.equalsIgnoreCase(Constants.ORDER_ASC)) {
             radAugment.setChecked(true);
             strOrder = radAugment.getText().toString();
+        } else {
+            radReduction.setChecked(true);
+            strOrder = radReduction.getText().toString();
         }
         tvOrderBy.setText(strOrderBy + "-" + strOrder);
     }
