@@ -604,7 +604,7 @@
     <string name="transaction_reg_awarded">Hệ thống tặng tiền đăng kí tài khoản thành công</string>
     <string name="transaction_sys_donated">Hệ thống tặng tiền \"%1$s\"</string>
     <string name="no_history_payment">Chưa có giao dịch nào</string>
-    <string name="nofification_money_received">Hệ thống đã tặng tiền cho bạn nhân dịp</string>
+    <string name="nofification_money_received">Hệ thống đã tặng tiền cho bạn</string>
     <string name="nofification_money_received_matcher">tặng tiền</string>
     <string name="transaction_ref_bonus">Tặng tiền giới thiệu thành viên</string>
     <string name="transaction_promo_posting">Tặng tiền giới thiệu việc đăng</string>

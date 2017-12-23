@@ -27,7 +27,7 @@ import static android.content.ContentValues.TAG;
  */
 public class CustomWebView extends WebView {
 
-    private static final String RECHARGE_SUCCESS_LINK = "https://staging-api.hozo.vn/v1/web/wallet/callbacks/1pay?_success=1";
+    private static final String RECHARGE_SUCCESS_LINK = "web/wallet/callbacks/1pay?_success=1";
 
     public interface WebviewListener {
         void onSuccess();
@@ -102,9 +102,13 @@ public class CustomWebView extends WebView {
             LogUtils.d(TAG, "onPageFinished: " + url);
             ProgressDialogUtils.dismissProgressDialog();
 
-            if (url.equals(RECHARGE_SUCCESS_LINK)) {
+            if (url.contains(RECHARGE_SUCCESS_LINK)) {
                 if (webviewListener != null) webviewListener.onSuccess();
             }
+
+//            else {
+//                if (webviewListener != null) webviewListener.onFail();
+//            }
 
         }
 

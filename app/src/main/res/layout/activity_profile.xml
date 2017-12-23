@@ -388,7 +388,7 @@
                         android:layout_marginTop="10dp"
                         android:text="@string/profile_language"
                         android:textColor="@color/tv_gray_new_2"
-                        android:textSize="@dimen/tv_size_nomal"
+                        android:textSize="@dimen/tv_size_xtiny"
                         android:textStyle="bold" />
 
                     <android.support.v7.widget.RecyclerView
@@ -402,7 +402,7 @@
                         android:layout_marginTop="10dp"
                         android:text="@string/profile_experience"
                         android:textColor="@color/tv_gray_new_2"
-                        android:textSize="@dimen/tv_size_nomal"
+                        android:textSize="@dimen/tv_size_xtiny"
                         android:textStyle="bold" />
 
                     <vn.tonish.hozo.view.TextViewHozo
