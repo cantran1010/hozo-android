@@ -42,7 +42,8 @@ public class BankRechargeActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onFail() {
-
+//                Utils.showLongToast(BankRechargeActivity.this, getString(R.string.error_recharge), true, false);
+//                finish();
             }
         });
 
