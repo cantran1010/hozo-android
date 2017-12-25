@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by LongBui on 5/11/2017.
  */
 
-public class Bidder implements Serializable{
+public class Bidder implements Serializable {
     private int id;
     @SerializedName("full_name")
     private String fullName;

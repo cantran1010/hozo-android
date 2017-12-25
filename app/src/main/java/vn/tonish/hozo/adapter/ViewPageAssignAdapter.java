@@ -1,43 +1,17 @@
 package vn.tonish.hozo.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.database.manager.UserManager;
-import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
-import vn.tonish.hozo.network.NetworkUtils;
-import vn.tonish.hozo.rest.ApiClient;
-import vn.tonish.hozo.rest.responseRes.APIError;
-import vn.tonish.hozo.rest.responseRes.Assigner;
-import vn.tonish.hozo.rest.responseRes.ErrorUtils;
-import vn.tonish.hozo.rest.responseRes.Poster;
-import vn.tonish.hozo.rest.responseRes.RateResponse;
-import vn.tonish.hozo.rest.responseRes.TaskResponse;
-import vn.tonish.hozo.utils.DialogUtils;
-import vn.tonish.hozo.utils.LogUtils;
-import vn.tonish.hozo.utils.ProgressDialogUtils;
-import vn.tonish.hozo.utils.Utils;
-import vn.tonish.hozo.view.CheckBoxHozo;
 import vn.tonish.hozo.view.CircleImageView;
-import vn.tonish.hozo.view.EdittextHozo;
-import vn.tonish.hozo.view.RadioButtonHozo;
+import vn.tonish.hozo.view.ReviewsListView;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -48,30 +22,23 @@ public class ViewPageAssignAdapter extends PagerAdapter {
     private static final String TAG = ViewPageAssignAdapter.class.getSimpleName();
     // Declare Variables
     private final Context context;
-    private final TaskResponse taskResponse;
-    private final String type;
-    private RatingListener ratingListener;
+    private final int taskID;
+    private final int bidderCount;
+    private final int assignerCount;
+    private final int assigned;
 
-    public interface RatingListener {
-        void success();
-    }
 
-    public void setRatingListener(RatingListener ratingListener) {
-        this.ratingListener = ratingListener;
-    }
-
-    public ViewPageAssignAdapter(Context context, TaskResponse taskResponse, String type) {
+    public ViewPageAssignAdapter(Context context, int taskID, int bidderCount, int assignerCount, int assigned) {
         this.context = context;
-        this.taskResponse = taskResponse;
-        this.type = type;
-
+        this.taskID = taskID;
+        this.bidderCount = bidderCount;
+        this.assignerCount = assignerCount;
+        this.assigned = assigned;
     }
 
     @Override
     public int getCount() {
-        if (type.equals(Constants.ROLE_TASKER))
-            return 1;
-        else return taskResponse.getAssignees().size();
+        return assigned;
     }
 
     @Override
@@ -81,106 +48,48 @@ public class ViewPageAssignAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-
-        // Declare Variables
-        CircleImageView imgAvatar;
-        TextViewHozo tvName, tvTitle, tvConfirm;
-        RadioGroup group;
-        final RatingBar ratingBar;
-        final RadioButtonHozo ckDone, ckNotDone;
-        final EdittextHozo edtReviews;
-        final TextViewHozo btnSend;
-        final int userID;
-        final CheckBoxHozo ckBox;
+        final TextViewHozo tvAssigner, tvAssignerCount, tvBidderCount, tvName, tvDes;
+        final TextViewHozo tvRatingCount, tvBidsCount, tvComplex;
+        final TextViewHozo tv5star, tv4star, tv3star, tv2star, tv1star;
+        final TextViewHozo tvPrice, tvDesMsg, tvShowReviews, tvMoreReviews;
+        final ProgressBar assignProgress;
+        final ReviewsListView reviewsListView;
+        final RatingBar rbRating, rbRating5, rbRating4, rbRating3, rbRating2, rbRating1;
+        final CircleImageView imgAvatarAssign, imgAvatarDes;
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         assert inflater != null;
         View itemView = inflater.inflate(R.layout.viewpager_assign_item, container,
                 false);
-        imgAvatar = (CircleImageView) itemView.findViewById(R.id.img_avatar);
+        tvAssigner = (TextViewHozo) itemView.findViewById(R.id.tv_assigner);
+        tvAssignerCount = (TextViewHozo) itemView.findViewById(R.id.tv_assigner_count);
+        tvBidderCount = (TextViewHozo) itemView.findViewById(R.id.tv_bidder_count);
         tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
-        tvTitle = (TextViewHozo) itemView.findViewById(R.id.tv_title);
-        ratingBar = (RatingBar) itemView.findViewById(R.id.rating);
-        ckDone = (RadioButtonHozo) itemView.findViewById(R.id.ckeckbox_confirm_yes);
-        ckNotDone = (RadioButtonHozo) itemView.findViewById(R.id.ckeckbox_confirm_no);
-        edtReviews = (EdittextHozo) itemView.findViewById(R.id.edt_reviews);
-        btnSend = (TextViewHozo) itemView.findViewById(R.id.btn_Send);
-        tvConfirm = (TextViewHozo) itemView.findViewById(R.id.label_confirm);
-        ckBox = (CheckBoxHozo) itemView.findViewById(R.id.ckeckbox_confirm);
-        group = (RadioGroup) itemView.findViewById(R.id.rd_group);
+        tvDes = (TextViewHozo) itemView.findViewById(R.id.tv_des);
+        tvRatingCount = (TextViewHozo) itemView.findViewById(R.id.tv_rating_count);
+        tvBidsCount = (TextViewHozo) itemView.findViewById(R.id.tv_bids_count);
+        tvComplex = (TextViewHozo) itemView.findViewById(R.id.tv_complex);
+        tv5star = (TextViewHozo) itemView.findViewById(R.id.tv_5star);
+        tv4star = (TextViewHozo) itemView.findViewById(R.id.tv_4star);
+        tv3star = (TextViewHozo) itemView.findViewById(R.id.tv_3star);
+        tv2star = (TextViewHozo) itemView.findViewById(R.id.tv_2star);
+        tv1star = (TextViewHozo) itemView.findViewById(R.id.tv_1star);
+        tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
+        tvDesMsg = (TextViewHozo) itemView.findViewById(R.id.tv_des_msg);
+        tvShowReviews = (TextViewHozo) itemView.findViewById(R.id.tv_show_reviews);
+        tvMoreReviews = (TextViewHozo) itemView.findViewById(R.id.tv_more_reviews);
+        assignProgress = (ProgressBar) itemView.findViewById(R.id.assign_progress);
+        reviewsListView = (ReviewsListView) itemView.findViewById(R.id.rcv_reviews);
+        rbRating = (RatingBar) itemView.findViewById(R.id.rb_rating);
+        rbRating5 = (RatingBar) itemView.findViewById(R.id.rb_rating5);
+        rbRating4 = (RatingBar) itemView.findViewById(R.id.rb_rating4);
+        rbRating3 = (RatingBar) itemView.findViewById(R.id.rb_rating3);
+        rbRating2 = (RatingBar) itemView.findViewById(R.id.rb_rating2);
+        rbRating1 = (RatingBar) itemView.findViewById(R.id.rb_rating1);
 
-
-        ratingBar.setStepSize(1.0f);
-        // Capture position and set to the TextViews
-        if (type.equals(Constants.ROLE_POSTER)) {
-            ckBox.setVisibility(View.GONE);
-            group.setVisibility(View.VISIBLE);
-            tvConfirm.setVisibility(View.VISIBLE);
-            tvConfirm.setText(context.getString(R.string.confirm_rating_poster));
-            Assigner assigner = taskResponse.getAssignees().get(position);
-            String title = formatTitle(position + 1) + context.getString(R.string.slash) + formatTitle(taskResponse.getAssigneeCount());
-            tvTitle.setText(title);
-            Utils.displayImageAvatar(context, imgAvatar, assigner.getAvatar());
-            tvName.setText(assigner.getFullName());
-            userID = assigner.getId();
-            if (assigner.isRatingConfirm()) {
-                ckDone.setChecked(true);
-                ckNotDone.setChecked(false);
-            } else {
-                if (assigner.getRating() != 0) {
-                    ckDone.setChecked(false);
-                    ckNotDone.setChecked(true);
-                } else {
-                    ckDone.setChecked(true);
-                    ckNotDone.setChecked(false);
-                }
-            }
-
-            if (assigner.getRating() != 0) {
-                ckDone.setEnabled(false);
-                ckNotDone.setEnabled(false);
-                updateUI(true, btnSend, edtReviews, ratingBar, assigner.getRatingBody(), (int) assigner.getRating());
-            } else {
-                ckDone.setEnabled(true);
-                ckNotDone.setEnabled(true);
-                updateUI(false, btnSend, edtReviews, ratingBar, "", (int) assigner.getRating());
-            }
-
-        } else {
-            group.setVisibility(View.GONE);
-            Poster poster = taskResponse.getPoster();
-            tvTitle.setText("");
-            Utils.displayImageAvatar(context, imgAvatar, poster.getAvatar());
-            tvName.setText(poster.getFullName());
-            userID = poster.getId();
-            if (taskResponse.isRatePoster()) {
-                ckBox.setVisibility(View.GONE);
-                tvConfirm.setVisibility(View.GONE);
-                updateUI(true, btnSend, edtReviews, ratingBar, poster.getRatingBody(), (int) taskResponse.getPoster().getPosterAverageRating());
-            } else {
-                if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_NOT_APPROVED) || taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_COMPLETED)) {
-                    ckBox.setVisibility(View.GONE);
-                    tvConfirm.setVisibility(View.GONE);
-                } else {
-                    ckBox.setVisibility(View.VISIBLE);
-                    tvConfirm.setVisibility(View.VISIBLE);
-                    tvConfirm.setText(context.getString(R.string.confirm_rating));
-                }
-                updateUI(false, btnSend, edtReviews, ratingBar, "", (int) taskResponse.getPoster().getPosterAverageRating());
-            }
-
-        }
-
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (type.equals(Constants.ROLE_TASKER))
-                    doRate(position, userID, ratingBar.getRating(), edtReviews.getText().toString().trim(), ckBox.isChecked(), btnSend, edtReviews, ratingBar);
-                else
-                    doRate(position, userID, ratingBar.getRating(), edtReviews.getText().toString().trim(), ckDone.isChecked(), btnSend, edtReviews, ratingBar);
-            }
-        });
+        imgAvatarAssign = (CircleImageView) itemView.findViewById(R.id.img_avatar_assign);
+        imgAvatarDes = (CircleImageView) itemView.findViewById(R.id.avatar_des);
         ((ViewPager) container).addView(itemView);
 
         return itemView;
@@ -197,104 +106,86 @@ public class ViewPageAssignAdapter extends PagerAdapter {
         else return String.valueOf(pos);
     }
 
-    private void doRate(final int position, final int userId, final float rb, final String reviews, final boolean confirm, final TextViewHozo tvHozo, final EdittextHozo edHozo, final RatingBar rbBar) {
+//    private void doRate(final int position, final int userId, final float rb, final String reviews, final boolean confirm, final TextViewHozo tvHozo, final EdittextHozo edHozo, final RatingBar rbBar) {
+//
+//        if (rb == 0f) {
+//            Utils.showLongToast(context, context.getString(R.string.rate_msg_no_content_error), true, false);
+//            return;
+//        }
+//        ProgressDialogUtils.showProgressDialog(context);
+//        final JSONObject jsonRequest = new JSONObject();
+//        try {
+//            jsonRequest.put("user_id", userId);
+//            jsonRequest.put("body", reviews);
+//            jsonRequest.put("rating", rb);
+//            jsonRequest.put("confirm", confirm);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        LogUtils.d(TAG, "doRate data request : " + jsonRequest.toString());
+//        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+//        ApiClient.getApiService().rateTask(UserManager.getUserToken(), taskResponse.getId(), body).enqueue(new Callback<RateResponse>() {
+//            @Override
+//            public void onResponse(Call<RateResponse> call, Response<RateResponse> response) {
+//                APIError error = ErrorUtils.parseError(response);
+//                LogUtils.d(TAG, "doRate code : " + response.code());
+//                LogUtils.d(TAG, "doRate : " + error.status() + "sms" + error.message() + "task iD" + taskResponse.getId());
+//                if (response.code() == Constants.HTTP_CODE_OK) {
+//                    taskResponse.getAssignees().get(position).setRating(response.body().getRating());
+//                    updateUI(true, tvHozo, edHozo, rbBar, response.body().getBody(), response.body().getRating());
+//                    ratingListener.success();
+//                } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
+//                    if (error.status().equals(Constants.INVALID_DATA)) {
+//                        Utils.showLongToast(context, context.getString(R.string.rating_invalid_data), true, false);
+//                    } else if (error.status().equals(Constants.NO_EXIST)) {
+//                        Utils.showLongToast(context, context.getString(R.string.task_no_exist), true, false);
+//                    } else if (error.status().equals(Constants.NO_PERMISSION)) {
+//                        Utils.showLongToast(context, context.getString(R.string.rating_no_permission), true, false);
+//                    } else if (error.status().equals(Constants.SYSTEM_ERROR)) {
+//                        Utils.showLongToast(context, context.getString(R.string.rating_system_error), true, false);
+//                    }
+//                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+//                    NetworkUtils.refreshToken(context, new NetworkUtils.RefreshListener() {
+//                        @Override
+//                        public void onRefreshFinish() {
+//                            doRate(position, userId, rb, reviews, confirm, tvHozo, edHozo, rbBar);
+//                        }
+//                    });
+//                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+//                    Utils.blockUser(context);
+//                } else {
+//                    DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
+//                        @Override
+//                        public void onSubmit() {
+//                            doRate(position, userId, rb, reviews, confirm, tvHozo, edHozo, rbBar);
+//                        }
+//
+//                        @Override
+//                        public void onCancel() {
+//
+//                        }
+//                    });
+//                }
+//                ProgressDialogUtils.dismissProgressDialog();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<RateResponse> call, Throwable t) {
+//                DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
+//                    @Override
+//                    public void onSubmit() {
+//                        doRate(position, userId, rb, reviews, confirm, tvHozo, edHozo, rbBar);
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//
+//                    }
+//                });
+//                ProgressDialogUtils.dismissProgressDialog();
+//            }
+//        });
+//    }
 
-        if (rb == 0f) {
-            Utils.showLongToast(context, context.getString(R.string.rate_msg_no_content_error), true, false);
-            return;
-        }
-        ProgressDialogUtils.showProgressDialog(context);
-        final JSONObject jsonRequest = new JSONObject();
-        try {
-            jsonRequest.put("user_id", userId);
-            jsonRequest.put("body", reviews);
-            jsonRequest.put("rating", rb);
-            jsonRequest.put("confirm", confirm);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        LogUtils.d(TAG, "doRate data request : " + jsonRequest.toString());
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().rateTask(UserManager.getUserToken(), taskResponse.getId(), body).enqueue(new Callback<RateResponse>() {
-            @Override
-            public void onResponse(Call<RateResponse> call, Response<RateResponse> response) {
-                APIError error = ErrorUtils.parseError(response);
-                LogUtils.d(TAG, "doRate code : " + response.code());
-                LogUtils.d(TAG, "doRate : " + error.status() + "sms" + error.message() + "task iD" + taskResponse.getId());
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    taskResponse.getAssignees().get(position).setRating(response.body().getRating());
-                    updateUI(true, tvHozo, edHozo, rbBar, response.body().getBody(), response.body().getRating());
-                    ratingListener.success();
-                } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
-                    if (error.status().equals(Constants.INVALID_DATA)) {
-                        Utils.showLongToast(context, context.getString(R.string.rating_invalid_data), true, false);
-                    } else if (error.status().equals(Constants.NO_EXIST)) {
-                        Utils.showLongToast(context, context.getString(R.string.task_no_exist), true, false);
-                    } else if (error.status().equals(Constants.NO_PERMISSION)) {
-                        Utils.showLongToast(context, context.getString(R.string.rating_no_permission), true, false);
-                    } else if (error.status().equals(Constants.SYSTEM_ERROR)) {
-                        Utils.showLongToast(context, context.getString(R.string.rating_system_error), true, false);
-                    }
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(context, new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            doRate(position, userId, rb, reviews, confirm, tvHozo, edHozo, rbBar);
-                        }
-                    });
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(context);
-                } else {
-                    DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            doRate(position, userId, rb, reviews, confirm, tvHozo, edHozo, rbBar);
-                        }
-
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
-                }
-                ProgressDialogUtils.dismissProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<RateResponse> call, Throwable t) {
-                DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        doRate(position, userId, rb, reviews, confirm, tvHozo, edHozo, rbBar);
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
-                ProgressDialogUtils.dismissProgressDialog();
-            }
-        });
-    }
-
-    private void updateUI(boolean isOk, TextViewHozo tv, EdittextHozo ed, RatingBar rb, String reviews, int value) {
-        if (isOk) {
-            tv.setEnabled(false);
-            tv.setText(context.getString(R.string.send_done));
-            Utils.setViewBackground(tv, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
-            ed.setText(reviews);
-            rb.setRating(value);
-            rb.setEnabled(false);
-            ed.setEnabled(false);
-        } else {
-            tv.setEnabled(true);
-            tv.setText(context.getString(R.string.send));
-            Utils.setViewBackground(tv, ContextCompat.getDrawable(context, R.drawable.btn_new_selector));
-            rb.setEnabled(true);
-            ed.setEnabled(true);
-        }
-
-    }
 
 }

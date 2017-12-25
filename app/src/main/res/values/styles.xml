@@ -75,9 +75,9 @@
         <item name="android:maxHeight">32dp</item>
     </style>
     <style name="StarRatingBarMedium" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/ratingbar_selector_images_medium</item>
-        <item name="android:minHeight">20dp</item>
-        <item name="android:maxHeight">20dp</item>
+        <item name="android:progressDrawable">@drawable/ratingbar_selector_images_big</item>
+        <item name="android:minHeight">27dp</item>
+        <item name="android:maxHeight">27dp</item>
     </style>
 
     <style name="StarRatingBarSupport" parent="@android:style/Widget.RatingBar">

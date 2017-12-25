@@ -1,6 +1,7 @@
 package vn.tonish.hozo.view;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -19,6 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.AssignActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -27,6 +29,7 @@ import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.BidResponse;
 import vn.tonish.hozo.rest.responseRes.Bidder;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
@@ -82,7 +85,7 @@ public class BidderOpenView extends RelativeLayout implements View.OnClickListen
         btnAssign = findViewById(R.id.btn_assign);
     }
 
-    public void updateData(final Bidder bidder, String type) {
+    public void updateData(final BidResponse bidder, String type) {
         LogUtils.d(TAG, "updateData bidder : " + bidder.toString());
         this.bidder = bidder;
         Utils.displayImageAvatar(getContext(), imgAvatar, bidder.getAvatar());
@@ -97,7 +100,9 @@ public class BidderOpenView extends RelativeLayout implements View.OnClickListen
             btnAssign.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    doAcceptOffer();
+                    Intent intentAssign = new Intent(getContext(), AssignActivity.class);
+                    intentAssign.putExtra(Constants.TASK_RESPONSE_RATING, bidder);
+                    ((Activity) getContext()).startActivityForResult(intentAssign, Constants.REQUEST_CODE_RATE);
                 }
 
                 private void doAcceptOffer() {
@@ -118,7 +123,6 @@ public class BidderOpenView extends RelativeLayout implements View.OnClickListen
                         public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                             LogUtils.d(TAG, "acceptOffer code : " + response.code());
                             LogUtils.d(TAG, "acceptOffer body : " + response.body());
-
                             if (response.code() == Constants.HTTP_CODE_OK) {
                                 Intent intentAnswer = new Intent();
                                 intentAnswer.setAction("MyBroadcast");

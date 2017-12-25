@@ -663,6 +663,7 @@
     <string name="notification_bid_refunded_matcher">hoàn trả tiền đặt cọc</string>
     <string name="notification_chat">đã gửi tin nhắn đến nhóm</string>
     <string name="verified_watting">Đang đợi xác thực</string>
+    <string name="view_reviews">Xem Đánh giá</string>
     <string name="btn_exchange">Thanh toán</string>
     <string name="btn_withdraw">Rút tiền</string>
     <string name="exchange_title">Chuyển tiền</string>
