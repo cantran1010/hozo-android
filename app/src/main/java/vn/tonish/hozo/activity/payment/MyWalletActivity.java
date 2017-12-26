@@ -61,6 +61,12 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
         ButtonHozo btnPayment = (ButtonHozo) findViewById(R.id.btn_payment);
         btnPayment.setOnClickListener(this);
 
+        ButtonHozo btnExchange = (ButtonHozo) findViewById(R.id.btn_exchange);
+        btnExchange.setOnClickListener(this);
+
+        ButtonHozo btnWithdraw = (ButtonHozo) findViewById(R.id.btn_withdraw);
+        btnWithdraw.setOnClickListener(this);
+
         tvMyWallet = (TextViewHozo) findViewById(R.id.tv_my_wallet);
         tvCountHistory = (TextViewHozo) findViewById(R.id.tv_count_history);
 
@@ -224,6 +230,14 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
             case R.id.btn_payment:
                 Intent intent = new Intent(MyWalletActivity.this, RechargeActivity.class);
                 startActivityForResult(intent, Constants.PROMOTION_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+
+            case R.id.btn_exchange:
+                startActivity(ExchangeActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+
+            case R.id.btn_withdraw:
+                startActivity(WithdrawalActivity.class, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }

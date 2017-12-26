@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/hozo_bg">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_centerVertical="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/content_description_back"
+            android:focusable="true"
+            android:padding="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back" />
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_title"
+            style="@style/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/img_back"
+            android:layout_toRightOf="@id/img_back"
+            android:text="@string/bankadded_title" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/margin_left_screen"
+        android:layout_marginRight="@dimen/margin_right_screen">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_add_bank">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <vn.tonish.hozo.view.CircleImageView
+                        android:id="@+id/img_avatar"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/avatar_default" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/bank_user_name"
+                            android:textColor="@color/tv_gray" />
+
+                        <vn.tonish.hozo.view.TextViewHozo
+                            android:id="@+id/tv_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Bui Duc Long"
+                            android:textColor="@color/tv_black_new" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/user_name_receive"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <vn.tonish.hozo.view.EdittextHozo
+                    android:id="@+id/edt_receiver"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_border_gray_conner"
+                    android:hint="@string/user_name_receive_hint"
+                    android:padding="5dp"
+                    android:textColor="@color/tv_gray"
+                    android:textColorHint="#bccad0"
+                    android:textSize="15sp" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/number_bank"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <vn.tonish.hozo.view.EdittextHozo
+                    android:id="@+id/edt_card_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_border_gray_conner"
+                    android:hint="@string/number_bank_hint"
+                    android:padding="5dp"
+                    android:textColor="@color/tv_gray"
+                    android:textColorHint="#bccad0"
+                    android:textSize="15sp" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/bank_lbl"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_border_gray_conner">
+
+                    <Spinner
+                        android:id="@+id/sp_bank"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@null" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_down_arrow" />
+
+                </RelativeLayout>
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/branch_bank"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <vn.tonish.hozo.view.EdittextHozo
+                    android:id="@+id/edt_branch"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_border_gray_conner"
+                    android:hint="@string/branch_bank_hint"
+                    android:padding="5dp"
+                    android:textColor="@color/tv_gray"
+                    android:textColorHint="#bccad0"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <vn.tonish.hozo.view.ButtonHozo
+            android:id="@+id/btn_add_bank"
+            style="@style/btn_style_hozo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:text="@string/add_bank" />
+
+    </RelativeLayout>
+
+</LinearLayout>

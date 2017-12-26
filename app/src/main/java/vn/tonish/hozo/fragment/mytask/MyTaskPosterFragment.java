@@ -21,10 +21,8 @@ import vn.tonish.hozo.activity.PostTaskActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.MyTaskAdapter;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.entity.StatusEntity;
 import vn.tonish.hozo.database.manager.StatusManager;
-import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.fragment.BaseFragment;
@@ -187,7 +185,7 @@ public class MyTaskPosterFragment extends BaseFragment {
                     for (TaskResponse taskReponse : taskResponsesBody)
                         taskReponse.setRole(Constants.ROLE_POSTER);
                     taskResponses.addAll(taskResponsesBody);
-                    TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponsesBody));
+//                    TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponsesBody));
                     if (taskResponsesBody.size() < LIMIT) {
                         myTaskAdapter.stopLoadMore();
                         isLoadingMoreFromServer = false;

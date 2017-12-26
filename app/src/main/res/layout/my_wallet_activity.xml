@@ -82,17 +82,56 @@
 
         </RelativeLayout>
 
-        <vn.tonish.hozo.view.ButtonHozo
-            android:id="@+id/btn_payment"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/btn_white_corner_selector"
-            android:text="@string/btn_payment"
-            android:textAllCaps="false"
-            android:textColor="@color/hozo_bg"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left_screen"
+            android:layout_marginRight="@dimen/margin_right_screen"
+            android:orientation="horizontal">
+
+            <vn.tonish.hozo.view.ButtonHozo
+                android:id="@+id/btn_payment"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_corner_selector"
+                android:text="@string/btn_payment"
+                android:textAllCaps="false"
+                android:textColor="@color/hozo_bg"
+                android:textStyle="normal" />
+
+            <vn.tonish.hozo.view.ButtonHozo
+                android:id="@+id/btn_exchange"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_corner_selector"
+                android:text="@string/btn_exchange"
+                android:textAllCaps="false"
+                android:textColor="@color/hozo_bg"
+                android:textStyle="normal" />
+
+            <vn.tonish.hozo.view.ButtonHozo
+                android:id="@+id/btn_withdraw"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_corner_selector"
+                android:text="@string/btn_withdraw"
+                android:textAllCaps="false"
+                android:textColor="@color/hozo_bg"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
