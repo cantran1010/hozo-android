@@ -237,6 +237,7 @@
     <string name="crop_image_error_message">Đã xảy ra lỗi trong quá trình xử lý</string>
     <string name="all_space_type"><b> </b></string>
     <string name="vnd">%sđ</string>
+    <string name="hozo_vnd">VNĐ</string>
     <string name="comments">| %s Bình luận</string>
     <string name="bidder_count">%s ứng tuyển<b> </b></string>
     <string name="task_detail_reply_member">\@%s \n</string>
@@ -664,6 +665,10 @@
     <string name="notification_chat">đã gửi tin nhắn đến nhóm</string>
     <string name="verified_watting">Đang đợi xác thực</string>
     <string name="view_reviews">Xem Đánh giá</string>
+    <string name="tasks_count">Tham gia %1$d việc</string>
+    <string name="tasks_complex">%1$d Hoàn thành </string>
+    <string name="bidder_reviews">Xem Đánh giá( %1$d )</string>
+
     <string name="btn_exchange">Thanh toán</string>
     <string name="btn_withdraw">Rút tiền</string>
     <string name="exchange_title">Chuyển tiền</string>

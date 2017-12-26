@@ -155,50 +155,50 @@ public class DataParse {
         return taskResponse;
     }
 
-    public static TaskEntity converTaskReponseToTaskEntity(TaskResponse taskResponse) {
-        TaskEntity taskEntity = new TaskEntity();
-        taskEntity.setId(taskResponse.getId());
-        taskEntity.setCategoryId(taskResponse.getCategoryId());
-        taskEntity.setTitle(taskResponse.getTitle());
-        taskEntity.setDescription(taskResponse.getDescription());
-        taskEntity.setStartTime(DateTimeUtils.getDateFromStringIso(taskResponse.getStartTime()));
-        taskEntity.setEndTime(DateTimeUtils.getDateFromStringIso(taskResponse.getEndTime()));
-        taskEntity.setStatus(taskResponse.getStatus());
-        taskEntity.setOfferStatus(taskResponse.getOfferStatus());
-        taskEntity.setCommentsCount(taskResponse.getCommentsCount());
-        taskEntity.setGender(taskResponse.getGender());
-        taskEntity.setMinAge(taskResponse.getMinAge());
-        taskEntity.setMaxAge(taskResponse.getMaxAge());
-        taskEntity.setLatitude(taskResponse.getLatitude());
-        taskEntity.setLongitude(taskResponse.getLongitude());
-        taskEntity.setCity(taskResponse.getCity());
-        taskEntity.setDistrict(taskResponse.getDistrict());
-        taskEntity.setAddress(taskResponse.getAddress());
-        taskEntity.setWorkerRate(taskResponse.getWorkerRate());
-        taskEntity.setWorkerCount(taskResponse.getWorkerCount());
-        taskEntity.setAssigneeCount(taskResponse.getAssigneeCount());
-        taskEntity.setBidderCount(taskResponse.getBidderCount());
-        taskEntity.setCurrency(taskResponse.getCurrency());
-        taskEntity.setRatePoster(taskResponse.isRatePoster());
-        taskEntity.setPoster(convertPosterToPosterEntity(taskResponse.getPoster()));
-        taskEntity.setRole(taskResponse.getRole());
-        taskEntity.setCreatedAt(DateTimeUtils.getDateFromStringIso(taskResponse.getCreatedAt()));
-
-        List<String> atachments = taskResponse.getAttachments();
-        StringBuilder strAtachments = new StringBuilder();
-        for (int i = 0; i < atachments.size(); i++) {
-            strAtachments.append(",").append(atachments.get(i));
-        }
-        taskEntity.setAttachments(strAtachments.toString());
-
-        taskEntity.setBidders(convertListBidderToListBidderEntity(taskResponse.getBidders()));
-
-        taskEntity.setAssignees(convertListAssigerToListAssignerEntity(taskResponse.getAssignees()));
-
-        taskEntity.setComments(convertListCommentToListCommentEntity(taskResponse.getComments()));
-
-        return taskEntity;
-    }
+//    public static TaskEntity converTaskReponseToTaskEntity(TaskResponse taskResponse) {
+//        TaskEntity taskEntity = new TaskEntity();
+//        taskEntity.setId(taskResponse.getId());
+//        taskEntity.setCategoryId(taskResponse.getCategoryId());
+//        taskEntity.setTitle(taskResponse.getTitle());
+//        taskEntity.setDescription(taskResponse.getDescription());
+//        taskEntity.setStartTime(DateTimeUtils.getDateFromStringIso(taskResponse.getStartTime()));
+//        taskEntity.setEndTime(DateTimeUtils.getDateFromStringIso(taskResponse.getEndTime()));
+//        taskEntity.setStatus(taskResponse.getStatus());
+//        taskEntity.setOfferStatus(taskResponse.getOfferStatus());
+//        taskEntity.setCommentsCount(taskResponse.getCommentsCount());
+//        taskEntity.setGender(taskResponse.getGender());
+//        taskEntity.setMinAge(taskResponse.getMinAge());
+//        taskEntity.setMaxAge(taskResponse.getMaxAge());
+//        taskEntity.setLatitude(taskResponse.getLatitude());
+//        taskEntity.setLongitude(taskResponse.getLongitude());
+//        taskEntity.setCity(taskResponse.getCity());
+//        taskEntity.setDistrict(taskResponse.getDistrict());
+//        taskEntity.setAddress(taskResponse.getAddress());
+//        taskEntity.setWorkerRate(taskResponse.getWorkerRate());
+//        taskEntity.setWorkerCount(taskResponse.getWorkerCount());
+//        taskEntity.setAssigneeCount(taskResponse.getAssigneeCount());
+//        taskEntity.setBidderCount(taskResponse.getBidderCount());
+//        taskEntity.setCurrency(taskResponse.getCurrency());
+//        taskEntity.setRatePoster(taskResponse.isRatePoster());
+//        taskEntity.setPoster(convertPosterToPosterEntity(taskResponse.getPoster()));
+//        taskEntity.setRole(taskResponse.getRole());
+//        taskEntity.setCreatedAt(DateTimeUtils.getDateFromStringIso(taskResponse.getCreatedAt()));
+//
+//        List<String> atachments = taskResponse.getAttachments();
+//        StringBuilder strAtachments = new StringBuilder();
+//        for (int i = 0; i < atachments.size(); i++) {
+//            strAtachments.append(",").append(atachments.get(i));
+//        }
+//        taskEntity.setAttachments(strAtachments.toString());
+//
+//        taskEntity.setBidders(convertListBidderToListBidderEntity(taskResponse.getBidders()));
+//
+//        taskEntity.setAssignees(convertListAssigerToListAssignerEntity(taskResponse.getAssignees()));
+//
+//        taskEntity.setComments(convertListCommentToListCommentEntity(taskResponse.getComments()));
+//
+//        return taskEntity;
+//    }
 
     private static Poster convertPosterEntityToPoster(PosterEntity posterEntity) {
         Poster poster = new Poster();
@@ -356,13 +356,13 @@ public class DataParse {
             commentEntities.add(convertCommentToCommentEntity(comment));
         return commentEntities;
     }
-
-    public static List<TaskEntity> convertListTaskResponseToTaskEntity(List<TaskResponse> taskResponses) {
-        List<TaskEntity> taskEntities = new ArrayList<>();
-        for (int i = 0; i < taskResponses.size(); i++)
-            taskEntities.add(converTaskReponseToTaskEntity(taskResponses.get(i)));
-        return taskEntities;
-    }
+//
+//    public static List<TaskEntity> convertListTaskResponseToTaskEntity(List<TaskResponse> taskResponses) {
+//        List<TaskEntity> taskEntities = new ArrayList<>();
+//        for (int i = 0; i < taskResponses.size(); i++)
+//            taskEntities.add(converTaskReponseToTaskEntity(taskResponses.get(i)));
+//        return taskEntities;
+//    }
 // convert integer
 
     public static List<Integer> realmListToListInt(RealmList<RealmInt> realmInts) {

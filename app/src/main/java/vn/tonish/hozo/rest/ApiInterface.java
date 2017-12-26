@@ -24,6 +24,7 @@ import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.model.SettingAdvance;
+import vn.tonish.hozo.rest.responseRes.BidResponse;
 import vn.tonish.hozo.rest.responseRes.BankResponse;
 import vn.tonish.hozo.rest.responseRes.BlockResponse;
 import vn.tonish.hozo.rest.responseRes.DepositResponse;
@@ -196,6 +197,9 @@ public interface ApiInterface {
 
     @POST("v1/wallet/deposit")
     Call<DepositResponse> deposit(@Header("Authorization") String token, @Body RequestBody body);
+
+    @GET("v1/tasks/{taskId}/bidders")
+    Call<List<BidResponse>> getBidders(@Header("Authorization") String token, @Path("taskId") int taskId);
 
     @GET("v1/wallet/banks")
     Call<List<BankResponse>> getBanks(@Header("Authorization") String token);

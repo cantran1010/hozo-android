@@ -11,7 +11,7 @@ import vn.tonish.hozo.database.entity.ReviewEntity;
  * Created by CanTran on 12/25/17.
  */
 
-public class BidResponse extends Bidder {
+public class BidResponse {
     private int id;
     @SerializedName("full_name")
     private String fullName;
@@ -22,7 +22,7 @@ public class BidResponse extends Bidder {
     @SerializedName("tasker_done_count")
     private int taskerDoneCount;
     @SerializedName("tasker_done_rate")
-    private int taskerDoneRate;
+    private float taskerDoneRate;
     private int price;
     private String message;
     private String description;
@@ -35,52 +35,42 @@ public class BidResponse extends Bidder {
     @SerializedName("reviews")
     private List<ReviewEntity> reviews = new ArrayList<>();
 
-    @Override
     public int getId() {
         return id;
     }
 
-    @Override
     public void setId(int id) {
         this.id = id;
     }
 
-    @Override
     public String getFullName() {
         return fullName;
     }
 
-    @Override
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    @Override
     public String getAvatar() {
         return avatar;
     }
 
-    @Override
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 
-    @Override
     public int getVerify() {
         return verify;
     }
 
-    @Override
     public void setVerify(int verify) {
         this.verify = verify;
     }
 
-    @Override
     public float getTaskerAverageRating() {
         return taskerAverageRating;
     }
 
-    @Override
     public void setTaskerAverageRating(float taskerAverageRating) {
         this.taskerAverageRating = taskerAverageRating;
     }
@@ -93,11 +83,11 @@ public class BidResponse extends Bidder {
         this.taskerDoneCount = taskerDoneCount;
     }
 
-    public int getTaskerDoneRate() {
+    public float getTaskerDoneRate() {
         return taskerDoneRate;
     }
 
-    public void setTaskerDoneRate(int taskerDoneRate) {
+    public void setTaskerDoneRate(float taskerDoneRate) {
         this.taskerDoneRate = taskerDoneRate;
     }
 

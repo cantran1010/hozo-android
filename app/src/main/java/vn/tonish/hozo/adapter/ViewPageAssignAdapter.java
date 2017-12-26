@@ -9,7 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.database.entity.ReviewEntity;
+import vn.tonish.hozo.rest.responseRes.BidResponse;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.ReviewsListView;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -23,22 +29,19 @@ public class ViewPageAssignAdapter extends PagerAdapter {
     // Declare Variables
     private final Context context;
     private final int taskID;
-    private final int bidderCount;
-    private final int assignerCount;
-    private final int assigned;
+    private final List<BidResponse> bidResponses;
 
 
-    public ViewPageAssignAdapter(Context context, int taskID, int bidderCount, int assignerCount, int assigned) {
+    public ViewPageAssignAdapter(Context context, List<BidResponse> bidResponses, int taskID) {
         this.context = context;
+        this.bidResponses = bidResponses;
         this.taskID = taskID;
-        this.bidderCount = bidderCount;
-        this.assignerCount = assignerCount;
-        this.assigned = assigned;
+
     }
 
     @Override
     public int getCount() {
-        return assigned;
+        return bidResponses.size();
     }
 
     @Override
@@ -48,6 +51,7 @@ public class ViewPageAssignAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
+        BidResponse bidResponse = bidResponses.get(position);
         final TextViewHozo tvAssigner, tvAssignerCount, tvBidderCount, tvName, tvDes;
         final TextViewHozo tvRatingCount, tvBidsCount, tvComplex;
         final TextViewHozo tv5star, tv4star, tv3star, tv2star, tv1star;
@@ -87,11 +91,68 @@ public class ViewPageAssignAdapter extends PagerAdapter {
         rbRating3 = (RatingBar) itemView.findViewById(R.id.rb_rating3);
         rbRating2 = (RatingBar) itemView.findViewById(R.id.rb_rating2);
         rbRating1 = (RatingBar) itemView.findViewById(R.id.rb_rating1);
-
         imgAvatarAssign = (CircleImageView) itemView.findViewById(R.id.img_avatar_assign);
         imgAvatarDes = (CircleImageView) itemView.findViewById(R.id.avatar_des);
-        ((ViewPager) container).addView(itemView);
 
+        String title = formatTitle(position + 1) + context.getString(R.string.slash) + formatTitle(getCount());
+        tvBidderCount.setText(title);
+        Utils.displayImageAvatar(context, imgAvatarAssign, bidResponse.getAvatar());
+        tvName.setText(bidResponse.getFullName());
+        tvDes.setText(bidResponse.getDescription());
+        rbRating.setRating(bidResponse.getTaskerAverageRating());
+        tvRatingCount.setText(context.getString(R.string.reviews_count, bidResponse.getTaskerRatingCount()));
+        tvBidsCount.setText(context.getString(R.string.tasks_count, bidResponse.getTaskerCount()));
+        tvComplex.setText(context.getString(R.string.tasks_complex, Math.round(100 * bidResponse.getTaskerDoneRate())));
+        if (bidResponse.getTaskerRatings().get(0) > 0) {
+            rbRating1.setRating(5);
+            tv1star.setText(String.valueOf(bidResponse.getTaskerRatings().get(0)));
+        } else {
+            rbRating1.setRating(0);
+            tv1star.setText("0");
+        }
+        if (bidResponse.getTaskerRatings().get(1) > 0) {
+            rbRating2.setRating(5);
+            tv2star.setText(String.valueOf(bidResponse.getTaskerRatings().get(1)));
+        } else {
+            rbRating2.setRating(0);
+            tv2star.setText("0");
+        }
+        if (bidResponse.getTaskerRatings().get(2) > 0) {
+            rbRating3.setRating(5);
+            tv3star.setText(String.valueOf(bidResponse.getTaskerRatings().get(2)));
+        } else {
+            rbRating3.setRating(0);
+            tv3star.setText("0");
+        }
+        if (bidResponse.getTaskerRatings().get(3) > 0) {
+            rbRating4.setRating(5);
+            tv4star.setText(String.valueOf(bidResponse.getTaskerRatings().get(3)));
+        } else {
+            rbRating1.setRating(0);
+            tv1star.setText("0");
+        }
+        if (bidResponse.getTaskerRatings().get(4) > 0) {
+            rbRating5.setRating(5);
+            tv5star.setText(String.valueOf(bidResponse.getTaskerRatings().get(4)));
+        } else {
+            rbRating5.setRating(0);
+            tv5star.setText("0");
+        }
+        tvPrice.setText(String.valueOf(bidResponse.getPrice()));
+        tvDesMsg.setText(bidResponse.getDescription());
+        Utils.displayImageAvatar(context, imgAvatarDes, bidResponse.getAvatar());
+        if (bidResponse.getTaskerRatingCount() > 0) {
+            tvShowReviews.setVisibility(View.VISIBLE);
+            tvShowReviews.setText(context.getString(R.string.bidder_reviews, bidResponse.getTaskerRatingCount()));
+            reviewsListView.updateData((ArrayList<ReviewEntity>) bidResponse.getReviews());
+            if (bidResponse.getTaskerRatingCount() > 5)
+                tvMoreReviews.setVisibility(View.VISIBLE);
+            else tvMoreReviews.setVisibility(View.GONE);
+        } else {
+            tvShowReviews.setVisibility(View.GONE);
+        }
+
+        ((ViewPager) container).addView(itemView);
         return itemView;
     }
 
@@ -105,87 +166,6 @@ public class ViewPageAssignAdapter extends PagerAdapter {
         if (pos < 10) return "0" + pos;
         else return String.valueOf(pos);
     }
-
-//    private void doRate(final int position, final int userId, final float rb, final String reviews, final boolean confirm, final TextViewHozo tvHozo, final EdittextHozo edHozo, final RatingBar rbBar) {
-//
-//        if (rb == 0f) {
-//            Utils.showLongToast(context, context.getString(R.string.rate_msg_no_content_error), true, false);
-//            return;
-//        }
-//        ProgressDialogUtils.showProgressDialog(context);
-//        final JSONObject jsonRequest = new JSONObject();
-//        try {
-//            jsonRequest.put("user_id", userId);
-//            jsonRequest.put("body", reviews);
-//            jsonRequest.put("rating", rb);
-//            jsonRequest.put("confirm", confirm);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        LogUtils.d(TAG, "doRate data request : " + jsonRequest.toString());
-//        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-//        ApiClient.getApiService().rateTask(UserManager.getUserToken(), taskResponse.getId(), body).enqueue(new Callback<RateResponse>() {
-//            @Override
-//            public void onResponse(Call<RateResponse> call, Response<RateResponse> response) {
-//                APIError error = ErrorUtils.parseError(response);
-//                LogUtils.d(TAG, "doRate code : " + response.code());
-//                LogUtils.d(TAG, "doRate : " + error.status() + "sms" + error.message() + "task iD" + taskResponse.getId());
-//                if (response.code() == Constants.HTTP_CODE_OK) {
-//                    taskResponse.getAssignees().get(position).setRating(response.body().getRating());
-//                    updateUI(true, tvHozo, edHozo, rbBar, response.body().getBody(), response.body().getRating());
-//                    ratingListener.success();
-//                } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
-//                    if (error.status().equals(Constants.INVALID_DATA)) {
-//                        Utils.showLongToast(context, context.getString(R.string.rating_invalid_data), true, false);
-//                    } else if (error.status().equals(Constants.NO_EXIST)) {
-//                        Utils.showLongToast(context, context.getString(R.string.task_no_exist), true, false);
-//                    } else if (error.status().equals(Constants.NO_PERMISSION)) {
-//                        Utils.showLongToast(context, context.getString(R.string.rating_no_permission), true, false);
-//                    } else if (error.status().equals(Constants.SYSTEM_ERROR)) {
-//                        Utils.showLongToast(context, context.getString(R.string.rating_system_error), true, false);
-//                    }
-//                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-//                    NetworkUtils.refreshToken(context, new NetworkUtils.RefreshListener() {
-//                        @Override
-//                        public void onRefreshFinish() {
-//                            doRate(position, userId, rb, reviews, confirm, tvHozo, edHozo, rbBar);
-//                        }
-//                    });
-//                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-//                    Utils.blockUser(context);
-//                } else {
-//                    DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
-//                        @Override
-//                        public void onSubmit() {
-//                            doRate(position, userId, rb, reviews, confirm, tvHozo, edHozo, rbBar);
-//                        }
-//
-//                        @Override
-//                        public void onCancel() {
-//
-//                        }
-//                    });
-//                }
-//                ProgressDialogUtils.dismissProgressDialog();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<RateResponse> call, Throwable t) {
-//                DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
-//                    @Override
-//                    public void onSubmit() {
-//                        doRate(position, userId, rb, reviews, confirm, tvHozo, edHozo, rbBar);
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//
-//                    }
-//                });
-//                ProgressDialogUtils.dismissProgressDialog();
-//            }
-//        });
-//    }
 
 
 }

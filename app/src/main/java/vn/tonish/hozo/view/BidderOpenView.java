@@ -29,7 +29,6 @@ import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
-import vn.tonish.hozo.rest.responseRes.BidResponse;
 import vn.tonish.hozo.rest.responseRes.Bidder;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
@@ -85,7 +84,7 @@ public class BidderOpenView extends RelativeLayout implements View.OnClickListen
         btnAssign = findViewById(R.id.btn_assign);
     }
 
-    public void updateData(final BidResponse bidder, String type) {
+    public void updateData(final Bidder bidder, String type) {
         LogUtils.d(TAG, "updateData bidder : " + bidder.toString());
         this.bidder = bidder;
         Utils.displayImageAvatar(getContext(), imgAvatar, bidder.getAvatar());
@@ -101,85 +100,11 @@ public class BidderOpenView extends RelativeLayout implements View.OnClickListen
                 @Override
                 public void onClick(View v) {
                     Intent intentAssign = new Intent(getContext(), AssignActivity.class);
-                    intentAssign.putExtra(Constants.TASK_RESPONSE_RATING, bidder);
+                    intentAssign.putExtra(Constants.OFFER_TASK_ID, getTaskId());
                     ((Activity) getContext()).startActivityForResult(intentAssign, Constants.REQUEST_CODE_RATE);
                 }
 
-                private void doAcceptOffer() {
-                    ProgressDialogUtils.showProgressDialog(getContext());
-                    JSONObject jsonRequest = new JSONObject();
-                    try {
-                        jsonRequest.put(Constants.PARAMETER_ACCEPTED_OFFER_USER_ID, bidder.getId());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
 
-                    RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-                    LogUtils.d(TAG, "acceptOffer jsonRequest : " + jsonRequest.toString());
-                    LogUtils.d(TAG, "acceptOffer jsonRequest : " + jsonRequest.toString() + " task Id : " + getTaskId());
-
-                    ApiClient.getApiService().acceptOffer(UserManager.getUserToken(), getTaskId(), body).enqueue(new Callback<TaskResponse>() {
-                        @Override
-                        public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
-                            LogUtils.d(TAG, "acceptOffer code : " + response.code());
-                            LogUtils.d(TAG, "acceptOffer body : " + response.body());
-                            if (response.code() == Constants.HTTP_CODE_OK) {
-                                Intent intentAnswer = new Intent();
-                                intentAnswer.setAction("MyBroadcast");
-                                intentAnswer.putExtra(Constants.EXTRA_TASK, response.body());
-                                getContext().sendBroadcast(intentAnswer);
-                            } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                                NetworkUtils.refreshToken(getContext(), new NetworkUtils.RefreshListener() {
-                                    @Override
-                                    public void onRefreshFinish() {
-                                        doAcceptOffer();
-                                    }
-                                });
-                            } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
-                                APIError error = ErrorUtils.parseError(response);
-                                LogUtils.e(TAG, "acceptOffer errorBody" + error.toString());
-                                DialogUtils.showOkDialog(getContext(), getContext().getString(R.string.error), error.message(), getContext().getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                    @Override
-                                    public void onSubmit() {
-
-                                    }
-                                });
-                            } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                                Utils.blockUser(getContext());
-                            } else {
-                                DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                                    @Override
-                                    public void onSubmit() {
-                                        doAcceptOffer();
-                                    }
-
-                                    @Override
-                                    public void onCancel() {
-
-                                    }
-                                });
-                            }
-
-                            ProgressDialogUtils.dismissProgressDialog();
-                        }
-
-                        @Override
-                        public void onFailure(Call<TaskResponse> call, Throwable t) {
-                            DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
-                                    doAcceptOffer();
-                                }
-
-                                @Override
-                                public void onCancel() {
-
-                                }
-                            });
-                            ProgressDialogUtils.dismissProgressDialog();
-                        }
-                    });
-                }
             });
         } else {
             btnAssign.setVisibility(View.GONE);
@@ -190,15 +115,89 @@ public class BidderOpenView extends RelativeLayout implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.img_avatar:
                 Intent intent = new Intent(getContext(), ProfileActivity.class);
                 intent.putExtra(Constants.USER_ID, bidder.getId());
                 intent.putExtra(Constants.IS_MY_USER, bidder.getId() == UserManager.getMyUser().getId());
                 getContext().startActivity(intent);
                 break;
-
         }
+    }
+
+    private void doAcceptOffer() {
+        ProgressDialogUtils.showProgressDialog(getContext());
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put(Constants.PARAMETER_ACCEPTED_OFFER_USER_ID, bidder.getId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        LogUtils.d(TAG, "acceptOffer jsonRequest : " + jsonRequest.toString());
+        LogUtils.d(TAG, "acceptOffer jsonRequest : " + jsonRequest.toString() + " task Id : " + getTaskId());
+
+        ApiClient.getApiService().acceptOffer(UserManager.getUserToken(), getTaskId(), body).enqueue(new Callback<TaskResponse>() {
+            @Override
+            public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+                LogUtils.d(TAG, "acceptOffer code : " + response.code());
+                LogUtils.d(TAG, "acceptOffer body : " + response.body());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    Intent intentAnswer = new Intent();
+                    intentAnswer.setAction("MyBroadcast");
+                    intentAnswer.putExtra(Constants.EXTRA_TASK, response.body());
+                    getContext().sendBroadcast(intentAnswer);
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(getContext(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doAcceptOffer();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.e(TAG, "acceptOffer errorBody" + error.toString());
+                    DialogUtils.showOkDialog(getContext(), getContext().getString(R.string.error), error.message(), getContext().getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getContext());
+                } else {
+                    DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doAcceptOffer();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<TaskResponse> call, Throwable t) {
+                DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doAcceptOffer();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
     }
 
     private int getTaskId() {
