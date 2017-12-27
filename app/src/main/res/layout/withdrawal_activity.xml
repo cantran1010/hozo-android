@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -41,12 +42,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/margin_left_screen"
-        android:layout_marginRight="@dimen/margin_right_screen">
+        android:layout_marginRight="@dimen/margin_right_screen"
+        android:layout_marginStart="@dimen/margin_left_screen"
+        android:layout_marginEnd="@dimen/margin_right_screen">
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/btn_exchange">
+            android:layout_above="@+id/btn_confirm">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,13 +66,15 @@
                     android:textColor="@color/tv_gray" />
 
                 <vn.tonish.hozo.view.EdittextHozo
+                    android:id="@+id/edt_money"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:background="@null"
                     android:gravity="center"
-                    android:text="50.000"
+                    android:inputType="number"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="36sp" />
 
@@ -97,13 +102,14 @@
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:src="@drawable/img_bank_add" />
+                    android:src="@drawable/img_bank_add"
+                    tools:ignore="ContentDescription" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
         <vn.tonish.hozo.view.ButtonHozo
-            android:id="@+id/btn_exchange"
+            android:id="@+id/btn_confirm"
             style="@style/btn_style_hozo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

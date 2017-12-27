@@ -12,8 +12,12 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.adapter.BankAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.dialog.ConfirmTransferDialog;
 import vn.tonish.hozo.model.Bank;
+import vn.tonish.hozo.utils.NumberTextWatcher;
 import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.EdittextHozo;
 
 /**
  * Created by LongBui on 12/25/17.
@@ -26,6 +30,8 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
     private ArrayList<Bank> banks = new ArrayList<>();
     private RecyclerView rcvBank;
     private BankAdapter bankAdapter;
+    private ButtonHozo btnConfirm;
+    private EdittextHozo edtMoney;
 
     @Override
     protected int getLayout() {
@@ -42,11 +48,17 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
 
         rcvBank = (RecyclerView) findViewById(R.id.rcv_bank);
 
+        btnConfirm = (ButtonHozo) findViewById(R.id.btn_confirm);
+        btnConfirm.setOnClickListener(this);
+
+        edtMoney = (EdittextHozo) findViewById(R.id.edt_money);
 
     }
 
     @Override
     protected void initData() {
+        edtMoney.addTextChangedListener(new NumberTextWatcher(edtMoney));
+
         setUpBank();
     }
 
@@ -76,7 +88,7 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onEdit(int position) {
                 Intent intent = new Intent(WithdrawalActivity.this, BankActivity.class);
-                intent.putExtra(Constants.BANK_EDIT_EXTRA,banks.get(position));
+                intent.putExtra(Constants.BANK_EDIT_EXTRA, banks.get(position));
                 startActivityForResult(intent, Constants.EDIT_BANK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
@@ -94,6 +106,12 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
 
     }
 
+    private void doConfirm() {
+        ConfirmTransferDialog confirmTransferDialog = new ConfirmTransferDialog(this);
+//        confirmTransferDialog.updateUi(Utils.getLongEdittext(edtMoney),banks);
+        confirmTransferDialog.showView();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -105,6 +123,10 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
             case R.id.img_add_bank:
                 Intent intent = new Intent(WithdrawalActivity.this, BankActivity.class);
                 startActivityForResult(intent, Constants.BANK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+
+            case R.id.btn_confirm:
+                doConfirm();
                 break;
 
         }

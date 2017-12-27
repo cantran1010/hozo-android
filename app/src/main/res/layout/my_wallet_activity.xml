@@ -87,7 +87,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_left_screen"
             android:layout_marginRight="@dimen/margin_right_screen"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/margin_left_screen"
+            android:layout_marginEnd="@dimen/margin_right_screen">
 
             <vn.tonish.hozo.view.ButtonHozo
                 android:id="@+id/btn_payment"
@@ -101,7 +103,8 @@
                 android:text="@string/btn_payment"
                 android:textAllCaps="false"
                 android:textColor="@color/hozo_bg"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                android:layout_marginEnd="10dp" />
 
             <vn.tonish.hozo.view.ButtonHozo
                 android:id="@+id/btn_exchange"
@@ -128,7 +131,8 @@
                 android:text="@string/btn_withdraw"
                 android:textAllCaps="false"
                 android:textColor="@color/hozo_bg"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                android:layout_marginStart="10dp" />
 
         </LinearLayout>
 

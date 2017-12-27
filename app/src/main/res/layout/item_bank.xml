@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,7 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/img_delete_bank" />
+        android:src="@drawable/img_delete_bank"
+        tools:ignore="ContentDescription"
+        android:layout_alignParentEnd="true" />
 
     <ImageView
         android:id="@+id/img_edit"
@@ -20,14 +23,18 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/img_delete"
-        android:src="@drawable/img_edit_bank" />
+        android:src="@drawable/img_edit_bank"
+        tools:ignore="ContentDescription"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/img_delete" />
 
     <ImageView
         android:id="@+id/img_checked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:src="@drawable/radio_button_on" />
+        android:src="@drawable/radio_button_on"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:id="@+id/name_layout"
@@ -38,7 +45,9 @@
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/img_edit"
         android:layout_toRightOf="@id/img_checked"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_toStartOf="@id/img_edit"
+        android:layout_toEndOf="@id/img_checked">
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_bank_name"

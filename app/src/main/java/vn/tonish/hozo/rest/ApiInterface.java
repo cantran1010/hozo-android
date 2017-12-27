@@ -202,4 +202,7 @@ public interface ApiInterface {
     @GET("v1/tasks/transferable")
     Call<List<TaskExchangeResponse>> getTransferableTask(@Header("Authorization") String token);
 
+    @POST("v1/wallet/transfer/wage/{taskId}")
+    Call<Void> transfer(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
+
 }

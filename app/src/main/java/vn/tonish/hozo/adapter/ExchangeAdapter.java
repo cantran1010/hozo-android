@@ -49,11 +49,17 @@ public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.MyView
         holder.tvName.setText(assignerExchangeResponse.getFullName());
         holder.tvPrice.setText(context.getString(R.string.unit_2, Utils.formatNumber(assignerExchangeResponse.getPrice())));
 
+        final long originPrice = assignerExchangeResponse.getPrice();
+
         holder.imgUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                assignerExchangeResponse.setPrice(assignerExchangeResponse.getPrice() + 10000);
-                holder.tvPrice.setText(context.getString(R.string.unit_2, Utils.formatNumber(assignerExchangeResponse.getPrice())));
+
+                if (assignerExchangeResponse.getPrice() + 10000 <= originPrice * 1.5) {
+                    assignerExchangeResponse.setPrice(assignerExchangeResponse.getPrice() + 10000);
+                    holder.tvPrice.setText(context.getString(R.string.unit_2, Utils.formatNumber(assignerExchangeResponse.getPrice())));
+                }
+
             }
         });
 

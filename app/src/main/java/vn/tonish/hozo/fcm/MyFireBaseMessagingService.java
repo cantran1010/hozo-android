@@ -112,6 +112,10 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                 title = getString(R.string.push_title);
                 message = notification.getTaskName();
                 break;
+            case Constants.PUSH_TYPE_MONEY_RECEIVED:
+                title = getString(R.string.app_name);
+                message = Utils.getContentFromNotification(getApplicationContext(), notification);
+                break;
             default:
                 title = notification.getTaskName();
                 message = Utils.getContentFromNotification(getApplicationContext(), notification);

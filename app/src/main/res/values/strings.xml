@@ -398,6 +398,7 @@
     <string name="recharge_title">Nạp tiền</string>
     <string name="recharge_des">HÌNH THỨC NẠP TIỀN</string>
     <string name="unit">VNĐ</string>
+    <string name="unit3">%1$s VNĐ</string>
     <string name="admin_link_title">Thông báo</string>
     <string name="admin_link_submit">Xem chi tiết</string>
     <string name="web_site_hozo">hozo.vn</string>
@@ -686,5 +687,21 @@
     <string name="edit_bank_title">Cập nhật ngân hàng</string>
     <string name="btn_add_bank">Cập nhật</string>
     <string name="unit_2">%1$s đ</string>
+    <string name="non_user_exchange">Vui lòng chọn người thanh toán!</string>
+    <string name="transfer_error_not_enough_balance">Bạn không đủ tiền trong ví Hozo để thanh toán!</string>
+    <string name="transfer_error_transfer_duplicated">Bạn đã thanh toán việc này rồi!</string>
+    <string name="transfer_error_np_user">Người làm không còn tồn tại!</string>
+    <string name="transfer_error_transfer_not_allowed">Thanh toán không hợp lệ,thời gian thanh toán quá muộn!</string>
+    <string name="transfer_error_no_permission">Bạn không có quyền thanh toán!</string>
+    <string name="transfer_error_no_task">Việc không còn tồn tại!</string>
+    <string name="transfer_success">Thanh toán thành công!</string>
+    <string name="wage_transfer">Trừ tiền thanh toán việc \"%1$s\" qua ví Hozo</string>
+    <string name="wage_received">Nhận tiền thanh toán việc \"%1$s\" qua ví Hozo</string>
+    <string name="confirm_title">Xác nhận</string>
+    <string name="confirm_des1">Bạn yêu cầu rút</string>
+    <string name="confirm_des2">Từ ví Hozo của bạn\nvào tài khoản ngân hàng</string>
+    <string name="bank_name_des">Tên tài khoản</string>
+    <string name="card_number_des">Số tài khoản</string>
+    <string name="bank_des">Ngân hàng</string>
 
 </resources>
