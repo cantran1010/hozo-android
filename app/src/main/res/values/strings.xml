@@ -695,7 +695,7 @@
     <string name="transfer_error_no_permission">Bạn không có quyền thanh toán!</string>
     <string name="transfer_error_no_task">Việc không còn tồn tại!</string>
     <string name="transfer_success">Thanh toán thành công!</string>
-    <string name="wage_transfer">Trừ tiền thanh toán việc \"%1$s\" qua ví Hozo</string>
+    <string name="wage_transfer">Trừ tiền thanh toán việc \"%1$s\" qua ví Hozo cho người làm \"%2$s\"</string>
     <string name="wage_received">Nhận tiền thanh toán việc \"%1$s\" qua ví Hozo</string>
     <string name="confirm_title">Xác nhận</string>
     <string name="confirm_des1">Bạn yêu cầu rút</string>
@@ -703,5 +703,6 @@
     <string name="bank_name_des">Tên tài khoản</string>
     <string name="card_number_des">Số tài khoản</string>
     <string name="bank_des">Ngân hàng</string>
+    <string name="no_data_tranfer">Chưa có dữ liệu thanh toán.\nBạn hãy giao việc để có thể \n thanh toán cho người làm.</string>
 
 </resources>

@@ -822,7 +822,7 @@ public class Utils {
         else if (transactionResponse.getMethod().equals("promo_posting"))
             return context.getString(R.string.transaction_promo_posting);
         else if (transactionResponse.getMethod().equals("wage_transfer"))
-            return context.getString(R.string.wage_transfer, transactionResponse.getTaskName());
+            return context.getString(R.string.wage_transfer, transactionResponse.getTaskName(), transactionResponse.getFullName());
         else if (transactionResponse.getMethod().equals("wage_received"))
             return context.getString(R.string.wage_received, transactionResponse.getTaskName());
         else return "Waitting";
@@ -854,7 +854,7 @@ public class Utils {
     }
 
 
-    public static  long getLongEdittext(EdittextHozo edittextHozo) {
+    public static long getLongEdittext(EdittextHozo edittextHozo) {
         String s = edittextHozo.getText().toString().replace(",", "").replace(".", "");
         return Long.valueOf(s);
     }

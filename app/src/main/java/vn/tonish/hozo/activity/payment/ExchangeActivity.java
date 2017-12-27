@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import org.json.JSONArray;
@@ -37,6 +38,7 @@ import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by LongBui on 12/25/17.
@@ -51,6 +53,8 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
     private ArrayList<AssignerExchangeResponse> assignerExchangeResponses = new ArrayList<>();
     private ExchangeAdapter exchangeAdapter;
     private ButtonHozo btnExchange;
+    private TextViewHozo tvNoData;
+    private LinearLayout mainLayout;
 
     @Override
     protected int getLayout() {
@@ -68,6 +72,8 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
         btnExchange = (ButtonHozo) findViewById(R.id.btn_exchange);
         btnExchange.setOnClickListener(this);
 
+        tvNoData = (TextViewHozo) findViewById(R.id.tv_no_data);
+        mainLayout = (LinearLayout) findViewById(R.id.main_layout);
     }
 
     @Override
@@ -96,6 +102,17 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
                 LogUtils.d(TAG, "getTransferableTask response : " + response.body());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
+
+                    if (response.body().size() == 0) {
+                        mainLayout.setVisibility(View.GONE);
+                        btnExchange.setVisibility(View.GONE);
+                        tvNoData.setVisibility(View.VISIBLE);
+                    } else {
+                        mainLayout.setVisibility(View.VISIBLE);
+                        btnExchange.setVisibility(View.VISIBLE);
+                        tvNoData.setVisibility(View.GONE);
+                    }
+
                     taskExchangeResponses.addAll(response.body());
 
                     List<String> list = new ArrayList<String>();
