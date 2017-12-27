@@ -666,8 +666,11 @@
     <string name="verified_watting">Đang đợi xác thực</string>
     <string name="view_reviews">Xem Đánh giá</string>
     <string name="tasks_count">Tham gia %1$d việc</string>
-    <string name="tasks_complex">%1$d Hoàn thành </string>
-    <string name="bidder_reviews">Xem Đánh giá( %1$d )</string>
+    <string name="tasks_complex">hoàn thành </string>
+    <string name="assigned_count">Đã giao: %1$d</string>
+    <string name="worker_count">Tổng cần: %1$d</string>
+    <string name="assiger_done">Giao việc thành công!</string>
+    <string name="assigned_done">Đã giao</string>
 
     <string name="btn_exchange">Thanh toán</string>
     <string name="btn_withdraw">Rút tiền</string>

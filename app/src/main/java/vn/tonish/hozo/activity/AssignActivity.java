@@ -37,7 +37,8 @@ public class AssignActivity extends BaseActivity implements View.OnClickListener
     private ImageView imgNext;
     private ImageView imgBack;
     private List<BidResponse> bidResponses = new ArrayList<>();
-    private int taskID;
+    private int taskID, bidderID, workerCount, assignerCount;
+    private ViewPageAssignAdapter adapter;
 
     @Override
     protected int getLayout() {
@@ -47,10 +48,12 @@ public class AssignActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initView() {
         viewPager = (ViewPager) findViewById(R.id.container);
-        ImageView imgClose = (ImageView) findViewById(R.id.img_back);
+        imgNext = (ImageView) findViewById(R.id.img_rating_next);
+        imgBack = (ImageView) findViewById(R.id.img_rating_back);
+        ImageView imgClose = (ImageView) findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
-
-
+        imgNext.setOnClickListener(this);
+        imgBack.setOnClickListener(this);
     }
 
     @Override
@@ -61,13 +64,26 @@ public class AssignActivity extends BaseActivity implements View.OnClickListener
             LogUtils.d(TAG, "check task id :" + taskID);
             getBidders(taskID);
         }
+        if (intent.hasExtra(Constants.BIDDER_ID)) {
+            bidderID = intent.getExtras().getInt(Constants.BIDDER_ID);
+            LogUtils.d(TAG, "check bidder id :" + bidderID);
+        }
+        if (intent.hasExtra(Constants.BIDDER_ID)) {
+            workerCount = intent.getExtras().getInt(Constants.WORKER_COUNT);
+            LogUtils.d(TAG, "check workerCount  :" + workerCount);
+        }
+        if (intent.hasExtra(Constants.BIDDER_ID)) {
+            assignerCount = intent.getExtras().getInt(Constants.ASSSIGNER_COUNT);
+            LogUtils.d(TAG, "check assignerCount:" + assignerCount);
+        }
+        setDataForPageView();
 
 
     }
 
 
     private void setDataForPageView() {
-        ViewPageAssignAdapter adapter = new ViewPageAssignAdapter(this, bidResponses, taskID);
+        adapter = new ViewPageAssignAdapter(this, bidResponses, taskID, workerCount, assignerCount);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -76,6 +92,7 @@ public class AssignActivity extends BaseActivity implements View.OnClickListener
 
             @Override
             public void onPageSelected(int position) {
+                updateUi(position);
 
             }
 
@@ -84,20 +101,45 @@ public class AssignActivity extends BaseActivity implements View.OnClickListener
 
             }
         });
+
     }
 
+    private int getPosition(int bidderID) {
+        int pos = 0;
+        for (int i = 0; i < bidResponses.size(); i++) {
+            if (bidderID == bidResponses.get(i).getId()) {
+                pos = i;
+                break;
+            }
+
+        }
+        return pos;
+
+    }
+
+    private void updateUi(int position) {
+        if (position == 0)
+            imgBack.setVisibility(View.GONE);
+        else imgBack.setVisibility(View.VISIBLE);
+        if (position == bidResponses.size() - 1)
+            imgNext.setVisibility(View.GONE);
+        else imgNext.setVisibility(View.VISIBLE);
+    }
 
     private void getBidders(final int id) {
         ProgressDialogUtils.showProgressDialog(this);
-
         ApiClient.getApiService().getBidders(UserManager.getUserToken(), id).enqueue(new Callback<List<BidResponse>>() {
             @Override
             public void onResponse(Call<List<BidResponse>> call, Response<List<BidResponse>> response) {
+                APIError error = ErrorUtils.parseError(response);
                 LogUtils.d(TAG, "TaskResponse code : " + response.code());
                 LogUtils.d(TAG, "TaskResponse body : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    bidResponses.clear();
                     bidResponses.addAll(response.body());
-                    setDataForPageView();
+                    updateUi(getPosition(bidderID));
+                    adapter.notifyDataSetChanged();
+                    viewPager.setCurrentItem(getPosition(bidderID));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(AssignActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -106,7 +148,6 @@ public class AssignActivity extends BaseActivity implements View.OnClickListener
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
-                    APIError error = ErrorUtils.parseError(response);
                     DialogUtils.showOkDialog(AssignActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
@@ -116,14 +157,9 @@ public class AssignActivity extends BaseActivity implements View.OnClickListener
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(AssignActivity.this);
                 } else {
-                    DialogUtils.showRetryDialog(AssignActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    DialogUtils.showOkDialog(AssignActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            getBidders(id);
-                        }
-
-                        @Override
-                        public void onCancel() {
 
                         }
                     });
@@ -134,7 +170,6 @@ public class AssignActivity extends BaseActivity implements View.OnClickListener
 
             @Override
             public void onFailure(Call<List<BidResponse>> call, Throwable t) {
-
                 LogUtils.e(TAG, "ERROR : " + t.getMessage());
                 DialogUtils.showRetryDialog(AssignActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
@@ -163,6 +198,12 @@ public class AssignActivity extends BaseActivity implements View.OnClickListener
         switch (view.getId()) {
             case R.id.img_close:
                 finish();
+                break;
+            case R.id.img_rating_next:
+                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                break;
+            case R.id.img_rating_back:
+                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
                 break;
         }
     }

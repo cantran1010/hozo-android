@@ -20,6 +20,8 @@ public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.My
     private final ArrayList<Bidder> bidders;
     private final String type;
     private int taskId;
+    private int assinerCount;
+    private int workerCount;
 
     public PosterOpenAdapter(ArrayList<Bidder> bidders, String type) {
         this.bidders = bidders;
@@ -37,6 +39,8 @@ public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.My
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.bidderOpenView.updateData(bidders.get(position), type);
         holder.bidderOpenView.setTaskId(getTaskId());
+        holder.bidderOpenView.setWorkerCount(getWorkerCount());
+        holder.bidderOpenView.setAssinerCount(getAssinerCount());
     }
 
     @Override
@@ -61,5 +65,21 @@ public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.My
 
     public void setTaskId(int taskId) {
         this.taskId = taskId;
+    }
+
+    public int getAssinerCount() {
+        return assinerCount;
+    }
+
+    public void setAssinerCount(int assinerCount) {
+        this.assinerCount = assinerCount;
+    }
+
+    public int getWorkerCount() {
+        return workerCount;
+    }
+
+    public void setWorkerCount(int workerCount) {
+        this.workerCount = workerCount;
     }
 }

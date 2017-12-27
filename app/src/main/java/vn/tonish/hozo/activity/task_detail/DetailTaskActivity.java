@@ -566,6 +566,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvBidder.setLayoutManager(linearLayoutManager);
         posterOpenAdapter.setTaskId(taskResponse.getId());
+        posterOpenAdapter.setWorkerCount(taskResponse.getWorkerCount());
+        posterOpenAdapter.setAssinerCount(taskResponse.getAssigneeCount());
         rcvBidder.setAdapter(posterOpenAdapter);
     }
 
