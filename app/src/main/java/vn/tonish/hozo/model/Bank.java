@@ -1,5 +1,7 @@
 package vn.tonish.hozo.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -9,12 +11,37 @@ import java.io.Serializable;
 public class Bank implements Serializable{
 
     private int id;
-    private String receiver;
-    private String cardNumber;
+    @SerializedName("bank_key")
+    private String bankKey;
+    @SerializedName("bank_name")
     private String bankName;
+    @SerializedName("bank_trading_name")
     private String vnBankName;
+    @SerializedName("name")
+    private String receiver;
+    @SerializedName("number")
+    private String cardNumber;
+    @SerializedName("branch")
     private String branchName;
+    @SerializedName("created_at")
+    private String createdAt;
     private boolean isSelected = false;
+
+    public String getBankKey() {
+        return bankKey;
+    }
+
+    public void setBankKey(String bankKey) {
+        this.bankKey = bankKey;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public String getVnBankName() {
         return vnBankName;
@@ -76,11 +103,13 @@ public class Bank implements Serializable{
     public String toString() {
         return "Bank{" +
                 "id=" + id +
-                ", receiver='" + receiver + '\'' +
-                ", cardNumber='" + cardNumber + '\'' +
+                ", bankKey='" + bankKey + '\'' +
                 ", bankName='" + bankName + '\'' +
                 ", vnBankName='" + vnBankName + '\'' +
+                ", receiver='" + receiver + '\'' +
+                ", cardNumber='" + cardNumber + '\'' +
                 ", branchName='" + branchName + '\'' +
+                ", createdAt='" + createdAt + '\'' +
                 ", isSelected=" + isSelected +
                 '}';
     }

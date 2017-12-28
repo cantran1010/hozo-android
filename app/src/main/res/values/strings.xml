@@ -704,5 +704,15 @@
     <string name="card_number_des">Số tài khoản</string>
     <string name="bank_des">Ngân hàng</string>
     <string name="no_data_tranfer">Chưa có dữ liệu thanh toán.\nBạn hãy giao việc để có thể \n thanh toán cho người làm.</string>
+    <string name="add_bank_null_receiver">Vui lòng nhập tên\nngười thụ hưởng</string>
+    <string name="add_bank_null_number">Vui lòng nhập\nsố tài khoản</string>
+    <string name="add_bank_null_branch">Vui lòng nhập\nchi nhánh</string>
+    <string name="add_bank_success">Thêm ngân hàng thành công!</string>
+    <string name="edit_bank_success">Cập nhật thành công!</string>
+    <string name="delete_bank_title">Xóa ngân hàng</string>
+    <string name="delete_bank_content">Bạn có chắc chắn muốn xóa ngân hàng \"%1$s\"?</string>
+    <string name="bank_select_error">Vui lòng chọn ngân hàng!</string>
+    <string name="null_money_transfer">Vui lòng nhập số tiền cần rút</string>
+    <string name="bank_name_confirm">%1$s\n%2$s</string>
 
 </resources>

@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:src="@drawable/radio_button_on"
+        android:src="@drawable/bank_non_selected"
         tools:ignore="ContentDescription" />
 
     <LinearLayout

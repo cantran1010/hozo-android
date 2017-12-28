@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.model.Bank;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -34,7 +35,7 @@ public class ConfirmTransferDialog extends BaseDialogFullScreenAnimFadeInOut imp
 
     @Override
     protected void initData() {
-        ImageView imgClose = (ImageView) findViewById(R.id.img_close);
+        ImageView imgClose = findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
 
         tvMoney = findViewById(R.id.tv_money);
@@ -47,10 +48,12 @@ public class ConfirmTransferDialog extends BaseDialogFullScreenAnimFadeInOut imp
     }
 
     public void updateUi(long price, Bank bank) {
+        LogUtils.d(TAG, "updateUi , bank : " + bank.toString());
+        LogUtils.d(TAG, "updateUi , price : " + price);
         tvMoney.setText(getContext().getString(R.string.unit3, Utils.formatNumber(price)));
         tvReceiver.setText(bank.getReceiver());
         tvCardNumber.setText(bank.getCardNumber());
-        tvBankName.setText(bank.getBankName());
+        tvBankName.setText(getContext().getString(R.string.bank_name_confirm, bank.getBankName(), bank.getVnBankName()));
     }
 
     private void doConfirm() {

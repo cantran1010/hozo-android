@@ -58,6 +58,12 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.MyViewHolder> 
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.tvBankName.setText(banks.get(position).getBankName());
         holder.tvVnBankName.setText(banks.get(position).getVnBankName());
+
+        if (banks.get(position).isSelected())
+            holder.imgChecked.setImageResource(R.drawable.bank_selected);
+        else
+            holder.imgChecked.setImageResource(R.drawable.bank_non_selected);
+
     }
 
     @Override

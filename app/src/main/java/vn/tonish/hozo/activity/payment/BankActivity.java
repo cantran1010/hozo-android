@@ -1,13 +1,19 @@
 package vn.tonish.hozo.activity.payment;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -16,12 +22,16 @@ import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.adapter.HozoSpinnerAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.Bank;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.BankResponse;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.CircleImageView;
@@ -112,11 +122,6 @@ public class BankActivity extends BaseActivity implements View.OnClickListener {
                         list.add(bankResponse.getName());
                     }
 
-//                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(BankActivity.this,
-//                            android.R.layout.simple_spinner_item, list);
-//                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//                    spBank.setAdapter(dataAdapter);
-
                     HozoSpinnerAdapter dataAdapter = new HozoSpinnerAdapter(BankActivity.this, list);
                     spBank.setAdapter(dataAdapter);
 
@@ -158,18 +163,141 @@ public class BankActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void doAddBank() {
-        bank = new Bank();
-        bank.setReceiver(edtReceiver.getText().toString());
-        bank.setCardNumber(edtCardNumber.getText().toString());
-        bank.setBranchName(edtBranch.getText().toString());
 
-        bank.setBankName(bankResponses.get(spBank.getSelectedItemPosition()).getName());
-        bank.setVnBankName(bankResponses.get(spBank.getSelectedItemPosition()).getTradingNamel());
+        if (TextUtils.isEmpty(edtReceiver.getText().toString())) {
+            edtReceiver.requestFocus();
+            edtReceiver.setError(getString(R.string.add_bank_null_receiver));
+            return;
+        }
 
-        Intent intent = new Intent();
-        intent.putExtra(Constants.BANK_EXTRA, bank);
-        setResult(Constants.BANK_RESULT_CODE, intent);
-        finish();
+        if (TextUtils.isEmpty(edtCardNumber.getText().toString())) {
+            edtCardNumber.requestFocus();
+            edtCardNumber.setError(getString(R.string.add_bank_null_number));
+            return;
+        }
+
+        if (TextUtils.isEmpty(edtBranch.getText().toString())) {
+            edtBranch.requestFocus();
+            edtBranch.setError(getString(R.string.add_bank_null_branch));
+            return;
+        }
+
+        if (isEdit) {
+            ProgressDialogUtils.showProgressDialog(this);
+            final JSONObject jsonRequest = new JSONObject();
+            try {
+                jsonRequest.put("key", bankResponses.get(spBank.getSelectedItemPosition()).getKey());
+                jsonRequest.put("name", edtReceiver.getText().toString());
+                jsonRequest.put("number", edtCardNumber.getText().toString());
+                jsonRequest.put("branch", edtBranch.getText().toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            LogUtils.d(TAG, "doAddBank data request : " + jsonRequest.toString());
+            RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+            ApiClient.getApiService().editBank(UserManager.getUserToken(), bank.getId(), body).enqueue(new Callback<Bank>() {
+                @Override
+                public void onResponse(Call<Bank> call, Response<Bank> response) {
+
+                    LogUtils.d(TAG, "doAddBank onResponse : " + response.body());
+                    LogUtils.d(TAG, "doAddBank code : " + response.code());
+
+                    if (response.code() == Constants.HTTP_CODE_OK) {
+                        Utils.showLongToast(BankActivity.this, getString(R.string.edit_bank_success), false, false);
+                        bank = response.body();
+                        Intent intent = new Intent();
+                        intent.putExtra(Constants.BANK_EXTRA, bank);
+                        setResult(Constants.EDIT_BANK_RESULT_CODE, intent);
+                        finish();
+                    } else {
+                        APIError error = ErrorUtils.parseError(response);
+                        DialogUtils.showOkDialog(BankActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                    ProgressDialogUtils.dismissProgressDialog();
+                }
+
+                @Override
+                public void onFailure(Call<Bank> call, Throwable t) {
+                    DialogUtils.showRetryDialog(BankActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doAddBank();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                    ProgressDialogUtils.dismissProgressDialog();
+                }
+            });
+        } else {
+            ProgressDialogUtils.showProgressDialog(this);
+            final JSONObject jsonRequest = new JSONObject();
+            try {
+                jsonRequest.put("key", bankResponses.get(spBank.getSelectedItemPosition()).getKey());
+                jsonRequest.put("name", edtReceiver.getText().toString());
+                jsonRequest.put("number", edtCardNumber.getText().toString());
+                jsonRequest.put("branch", edtBranch.getText().toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            LogUtils.d(TAG, "doAddBank data request : " + jsonRequest.toString());
+            RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+            ApiClient.getApiService().addBank(UserManager.getUserToken(), body).enqueue(new Callback<Bank>() {
+                @Override
+                public void onResponse(Call<Bank> call, Response<Bank> response) {
+
+                    LogUtils.d(TAG, "doAddBank onResponse : " + response.body());
+                    LogUtils.d(TAG, "doAddBank code : " + response.code());
+
+                    if (response.code() == Constants.HTTP_CODE_OK) {
+                        Utils.showLongToast(BankActivity.this, getString(R.string.add_bank_success), false, false);
+                        bank = response.body();
+                        Intent intent = new Intent();
+                        intent.putExtra(Constants.BANK_EXTRA, bank);
+                        setResult(Constants.BANK_RESULT_CODE, intent);
+                        finish();
+                    } else {
+                        APIError error = ErrorUtils.parseError(response);
+                        DialogUtils.showOkDialog(BankActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                    ProgressDialogUtils.dismissProgressDialog();
+                }
+
+                @Override
+                public void onFailure(Call<Bank> call, Throwable t) {
+                    DialogUtils.showRetryDialog(BankActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doAddBank();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                    ProgressDialogUtils.dismissProgressDialog();
+                }
+            });
+        }
+
     }
 
     private int getPositionByKey(String key) {

@@ -55,6 +55,7 @@ public class Constants {
     public static final int BANK_RESULT_CODE = 789;
     public static final int EDIT_BANK_REQUEST_CODE = 159;
     public static final String BANK_EDIT_EXTRA = "bank_edit_extra";
+    public static final int EDIT_BANK_RESULT_CODE = 258;
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

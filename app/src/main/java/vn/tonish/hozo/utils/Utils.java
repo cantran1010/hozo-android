@@ -209,7 +209,7 @@ public class Utils {
         return myFormatter.format(input);
     }
 
-    public static String formatNumber(Long input) {
+    public static String formatNumber(long input) {
         DecimalFormat myFormatter = new DecimalFormat("###,###.###");
         return myFormatter.format(input);
     }
