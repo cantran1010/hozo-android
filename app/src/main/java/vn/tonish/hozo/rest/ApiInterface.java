@@ -94,7 +94,7 @@ public interface ApiInterface {
     Call<Void> report(@Header("Authorization") String token, @Path("commentId") int commentId, @Body RequestBody body);
 
     @POST("v1/tasks/{taskId}/bids")
-    Call<TaskResponse> bidsTask(@Header("Authorization") String token, @Path("taskId") int taskId);
+    Call<TaskResponse> bidsTask(@Header("Authorization") String token, @Path("taskId") int taskId,@Body RequestBody body);
 
     @POST("v1/tasks/{taskId}/accept")
     Call<TaskResponse> acceptOffer(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);

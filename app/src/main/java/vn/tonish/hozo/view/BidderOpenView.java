@@ -30,7 +30,7 @@ import static android.content.ContentValues.TAG;
 public class BidderOpenView extends RelativeLayout implements View.OnClickListener {
 
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName, tvDoneRate;
+    private TextViewHozo tvName, tvDoneRate, tvPrice;
     private RatingBar rbRate;
     private ButtonHozo btnAssign;
     private Bidder bidder;
@@ -68,6 +68,7 @@ public class BidderOpenView extends RelativeLayout implements View.OnClickListen
         tvDoneRate = findViewById(R.id.tv_poster_done_rate);
         rbRate = findViewById(R.id.rb_rate);
         btnAssign = findViewById(R.id.btn_assign);
+        tvPrice = findViewById(R.id.tv_price);
     }
 
     public void updateData(final Bidder bidder, String type) {
@@ -76,6 +77,7 @@ public class BidderOpenView extends RelativeLayout implements View.OnClickListen
         Utils.displayImageAvatar(getContext(), imgAvatar, bidder.getAvatar());
         tvName.setText(bidder.getFullName());
         rbRate.setRating(bidder.getTaskerAverageRating());
+        tvPrice.setText(getContext().getString(R.string.price_bidder, Utils.formatNumber(bidder.getPrice())));
 
         String percentDone = (int) (bidder.getPosterDoneRate() * 100) + "% " + getContext().getString(R.string.completion_rate);
         tvDoneRate.setText(percentDone);

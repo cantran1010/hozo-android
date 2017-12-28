@@ -10,8 +10,13 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,11 +37,15 @@ import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.NumberTextWatcher;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
+import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
+
+import static vn.tonish.hozo.utils.Utils.showSoftKeyboard;
 
 /**
  * Created by LongBui on 11/15/17.
@@ -45,8 +54,12 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class ConfirmBidActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = ConfirmBidActivity.class.getSimpleName();
-    private TextViewHozo tvTitle, tvDate, tvTime, tvHour, tvBudget, tvPolicy, tvDes;
+    private static final int MAX_BUGDET = 1000000;
+    private static final int MIN_BUGDET = 10000;
+    private TextViewHozo tvTitle, tvDate, tvTime, tvHour, tvPolicy, tvDes;
+    private EdittextHozo edtSms, edtBudget;
     private TaskResponse taskResponse;
+    private ImageView imgEdit;
 
     @Override
     protected int getLayout() {
@@ -59,7 +72,8 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
         tvDate = (TextViewHozo) findViewById(R.id.tv_date);
         tvTime = (TextViewHozo) findViewById(R.id.tv_time);
         tvHour = (TextViewHozo) findViewById(R.id.tv_hour);
-        tvBudget = (TextViewHozo) findViewById(R.id.tv_budget);
+        edtBudget = (EdittextHozo) findViewById(R.id.edt_budget);
+        edtSms = (EdittextHozo) findViewById(R.id.edt_sms);
         tvPolicy = (TextViewHozo) findViewById(R.id.tv_policy);
 
         ButtonHozo btnBid = (ButtonHozo) findViewById(R.id.btn_bid);
@@ -67,6 +81,8 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
 
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
+        ImageView imgEdit = (ImageView) findViewById(R.id.img_edit);
+        imgEdit.setOnClickListener(this);
 
         tvDes = (TextViewHozo) findViewById(R.id.tv_des);
     }
@@ -89,10 +105,10 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        tvBudget.setText(Utils.formatNumber(taskResponse.getWorkerRate()));
+        edtBudget.addTextChangedListener(new NumberTextWatcher(edtBudget));
+        edtBudget.setText(String.valueOf(taskResponse.getWorkerRate()));
         tvDes.setText(getString(R.string.bid_des1, Utils.formatNumber(taskResponse.getBidDepositAmount())));
-
+        edtBudget.setEnabled(false);
         String text = getString(R.string.bid_confirm_policy);
         SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
 
@@ -129,6 +145,10 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
         startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
     }
 
+    private String getLongAutoCompleteTextView(EdittextHozo autoCompleteTextView) {
+        return autoCompleteTextView.getText().toString().replace(",", "").replace(".", "").replace(" ", "");
+    }
+
     @Override
     protected void resumeData() {
 
@@ -136,7 +156,19 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
 
     private void doOffer() {
         ProgressDialogUtils.showProgressDialog(this);
-        ApiClient.getApiService().bidsTask(UserManager.getUserToken(), taskResponse.getId()).enqueue(new Callback<TaskResponse>() {
+        String sms = edtSms.getText().toString().trim();
+        String price = getLongAutoCompleteTextView(edtBudget);
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            if (price.isEmpty()) jsonRequest.put(Constants.PARAMETER_OFFER_PRICE, price);
+            if (!sms.isEmpty())
+                jsonRequest.put(Constants.PARAMETER_OFFER_SMS, sms);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        ApiClient.getApiService().bidsTask(UserManager.getUserToken(), taskResponse.getId(), body).enqueue(new Callback<TaskResponse>() {
             @Override
             public void onResponse(Call<TaskResponse> call, final Response<TaskResponse> response) {
                 LogUtils.d(TAG, "bidsTask status code : " + response.code());
@@ -243,11 +275,27 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
         switch (view.getId()) {
 
             case R.id.btn_bid:
-                doOffer();
+                if (edtBudget.getText().toString().trim().isEmpty()) {
+                    edtBudget.requestFocus();
+                    edtBudget.setError(getString(R.string.post_a_task_budget_error));
+                } else if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) > MAX_BUGDET) {
+                    edtBudget.requestFocus();
+                    edtBudget.setError(getString(R.string.max_budget_error, Utils.formatNumber(MAX_BUGDET)));
+                } else if (Long.valueOf(getLongAutoCompleteTextView(edtBudget)) < MIN_BUGDET) {
+                    edtBudget.requestFocus();
+                    edtBudget.setError(getString(R.string.min_budget_error, Utils.formatNumber(MIN_BUGDET)));
+                } else
+                    doOffer();
                 break;
 
             case R.id.img_back:
                 finish();
+                break;
+            case R.id.img_edit:
+                edtBudget.setEnabled(true);
+                if (edtBudget.length() > 4)
+                    edtBudget.setSelection(edtBudget.length() - 4);
+                showSoftKeyboard(this, edtBudget);
                 break;
 
         }

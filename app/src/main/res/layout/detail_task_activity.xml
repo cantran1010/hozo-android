@@ -485,7 +485,7 @@
                             android:layout_marginBottom="5dp">
 
                             <vn.tonish.hozo.view.TextViewHozo
-                                android:id="@+id/tv_budget"
+                                android:id="@+id/edt_budget"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
@@ -495,10 +495,10 @@
                             <vn.tonish.hozo.view.TextViewHozo
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignTop="@id/tv_budget"
+                                android:layout_alignTop="@id/edt_budget"
                                 android:layout_marginTop="14dp"
-                                android:layout_toEndOf="@id/tv_budget"
-                                android:layout_toRightOf="@id/tv_budget"
+                                android:layout_toEndOf="@id/edt_budget"
+                                android:layout_toRightOf="@id/edt_budget"
                                 android:text="@string/detail_vnd"
                                 android:textColor="@color/tv_gray_new"
                                 android:textSize="13sp" />

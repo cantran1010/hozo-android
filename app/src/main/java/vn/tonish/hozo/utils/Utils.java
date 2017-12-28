@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,6 +53,7 @@ import java.util.regex.Pattern;
 import vn.tonish.hozo.BuildConfig;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.SplashActivity;
+import vn.tonish.hozo.adapter.CustomArrayAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Notification;
@@ -67,6 +70,8 @@ public class Utils {
     private static final String TAG = Utils.class.getName();
     private static final int MAXSIZE = 1000;
     public static final int MAXSIZE_AVATA = 300;
+    private static final int MAX_BUGDET = 1000000;
+    private static final int MIN_BUGDET = 10000;
 
     public static void displayImage(Context context, ImageView img, String url) {
 
@@ -851,6 +856,25 @@ public class Utils {
 //        result = result + context.getString(R.string.count_assigner, taskResponse.getAssigneeCount());
 
         return result;
+    }
+
+    public static void formatMoney(Context context, ArrayList<String> vnds,long mn, AutoCompleteTextView autoCompleteTextView, CustomArrayAdapter adapter) {
+        if (mn * 10 >= MIN_BUGDET && mn * 10 <= MAX_BUGDET && mn * 10 % 1000 == 0)
+            vnds.add(formatNumber(mn * 10));
+        if (mn * 100 >= MIN_BUGDET && mn * 100 <= MAX_BUGDET && mn * 100 % 1000 == 0)
+            vnds.add(formatNumber(mn * 100));
+        if (mn * 1000 >= MIN_BUGDET && mn * 1000 <= MAX_BUGDET)
+            vnds.add(formatNumber(mn * 1000));
+        if (mn * 10000 >= MIN_BUGDET && mn * 10000 <= MAX_BUGDET)
+            vnds.add(formatNumber(mn * 10000));
+        if (mn * 100000 >= MIN_BUGDET && mn * 100000 <= MAX_BUGDET)
+            vnds.add(formatNumber(mn * 100000));
+        if (mn * 1000000 >= MIN_BUGDET && mn * 1000000 <= MAX_BUGDET)
+            vnds.add(formatNumber(mn * 1000000));
+        if (mn * 10000000 >= MIN_BUGDET && mn * 10000000 <= MAX_BUGDET)
+            vnds.add(formatNumber(mn * 10000000));
+        adapter = new CustomArrayAdapter(context, vnds);
+        autoCompleteTextView.setAdapter(adapter);
     }
 
 

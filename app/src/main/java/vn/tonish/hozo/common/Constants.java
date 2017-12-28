@@ -50,8 +50,10 @@ public class Constants {
     public static final int RESULT_CODE_TASK_CANCEL = 77;
     public static final int BID_REQUEST_CODE = 741;
     public static final int BID_RESPONSE_CODE = 147;
-    public static final String OFFER_TASK_ID ="task_id" ;
+    public static final String OFFER_TASK_ID = "task_id";
     public static final String BIDDER_ID = "bidder_id";
+    public static final String PARAMETER_OFFER_PRICE = "price";
+    public static final String PARAMETER_OFFER_SMS = "message";
     public static final String ASSSIGNER_COUNT ="assigner_count" ;
     public static final String WORKER_COUNT ="assigner_amount" ;
     public static final int BANK_REQUEST_CODE = 987;

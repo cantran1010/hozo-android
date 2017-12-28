@@ -68,11 +68,11 @@ public class AssignActivity extends BaseActivity implements View.OnClickListener
             bidderID = intent.getExtras().getInt(Constants.BIDDER_ID);
             LogUtils.d(TAG, "check bidder id :" + bidderID);
         }
-        if (intent.hasExtra(Constants.BIDDER_ID)) {
+        if (intent.hasExtra(Constants.WORKER_COUNT)) {
             workerCount = intent.getExtras().getInt(Constants.WORKER_COUNT);
             LogUtils.d(TAG, "check workerCount  :" + workerCount);
         }
-        if (intent.hasExtra(Constants.BIDDER_ID)) {
+        if (intent.hasExtra(Constants.ASSSIGNER_COUNT)) {
             assignerCount = intent.getExtras().getInt(Constants.ASSSIGNER_COUNT);
             LogUtils.d(TAG, "check assignerCount:" + assignerCount);
         }

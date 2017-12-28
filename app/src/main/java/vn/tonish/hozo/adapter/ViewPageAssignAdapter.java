@@ -1,8 +1,8 @@
 package vn.tonish.hozo.adapter;
 
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -29,6 +29,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.ReviewsActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -43,6 +45,7 @@ import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.ExpandableLayout;
@@ -136,13 +139,14 @@ public class ViewPageAssignAdapter extends PagerAdapter {
         imgArrowDown = (ImageView) itemView.findViewById(R.id.img_arrow_down);
         scrollView = (NestedScrollView) itemView.findViewById(R.id.scroll_View);
         layoutSms = (RelativeLayout) itemView.findViewById(R.id.layout_sms);
+        LogUtils.d(TAG, "assigner adapter" + assignerCount + ":" + workerCount);
         btnAssiged.setEnabled(true);
         Utils.setViewBackground(btnAssiged, ContextCompat.getDrawable(context, R.drawable.btn_new_selector));
         btnAssiged.setText(context.getString(R.string.assign));
         tvAssigner.setText(context.getString(R.string.assigned_count, assignerCount));
         tvWorkerCount.setText(context.getString(R.string.worker_count, workerCount));
-        assignProgress.setProgress(assignerCount);
         assignProgress.setMax(workerCount);
+        assignProgress.setProgress(assignerCount);
         String title = formatTitle(position + 1) + context.getString(R.string.slash) + formatTitle(getCount());
         tvBidderCount.setText(title);
         Utils.displayImageAvatar(context, imgAvatarAssign, bidResponse.getAvatar());
@@ -231,6 +235,15 @@ public class ViewPageAssignAdapter extends PagerAdapter {
                 doAcceptOffer(bidResponse.getId(), assignProgress, btnAssiged, tvAssigner);
             }
         });
+        tvMoreReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ReviewsActivity.class);
+                intent.putExtra(Constants.USER_ID, bidResponse.getId());
+                intent.putExtra(Constants.TAB_EXTRA, false);
+                ((BaseActivity) context).startActivity(intent, TransitionScreen.DOWN_TO_UP);
+            }
+        });
 
         ((ViewPager) container).addView(itemView);
         return itemView;
@@ -273,7 +286,7 @@ public class ViewPageAssignAdapter extends PagerAdapter {
                     assignerCount = response.body().getAssigneeCount();
                     Utils.showLongToast(context, context.getString(R.string.assiger_done), false, false);
                     textViewHozo.setText(context.getString(R.string.assigned_count, assignerCount));
-                    if (assignerCount == workerCount) ((Activity) context).finish();
+                    if (assignerCount == workerCount) ((BaseActivity) context).finish();
                     progressBar.setProgress(assignerCount);
                     tvAss.setEnabled(false);
                     tvAss.setText(context.getString(R.string.assigned_done));

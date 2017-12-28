@@ -205,7 +205,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         tvStatus = (TextViewHozo) findViewById(R.id.tv_status);
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
 
-        tvBudget = (TextViewHozo) findViewById(R.id.tv_budget);
+        tvBudget = (TextViewHozo) findViewById(R.id.edt_budget);
         tvWorkerCount = (TextViewHozo) findViewById(R.id.tv_worker_count);
         tvAssignerCount = (TextViewHozo) findViewById(R.id.tv_assigner_count);
         tvEmptyCount = (TextViewHozo) findViewById(R.id.tv_empty_count);

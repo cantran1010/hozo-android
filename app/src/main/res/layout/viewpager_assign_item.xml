@@ -54,8 +54,8 @@
                 android:layout_marginRight="90dp"
                 android:layout_marginStart="90dp"
                 android:layout_marginTop="10dp"
-                android:max="1"
-                android:progress="1"
+                android:max="0"
+                android:progress="0"
                 android:progressDrawable="@drawable/custom_progress_assign" />
 
             <vn.tonish.hozo.view.TextViewHozo
