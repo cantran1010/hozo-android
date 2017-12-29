@@ -48,6 +48,7 @@ import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.BiddersActivity;
 import vn.tonish.hozo.activity.BlockTaskActivity;
 import vn.tonish.hozo.activity.ChatActivity;
+import vn.tonish.hozo.activity.PostTaskActivity;
 import vn.tonish.hozo.activity.RatingActivity;
 import vn.tonish.hozo.activity.SupportActivity;
 import vn.tonish.hozo.activity.comment.CommentAllActivity;
@@ -55,7 +56,6 @@ import vn.tonish.hozo.activity.comment.CommentsAnswerActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.PreviewImageListActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
-import vn.tonish.hozo.activity.PostTaskActivity;
 import vn.tonish.hozo.adapter.AssignerAdapter;
 import vn.tonish.hozo.adapter.CommentTaskAdapter;
 import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
@@ -67,6 +67,7 @@ import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
+import vn.tonish.hozo.model.MiniTask;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
@@ -568,6 +569,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         posterOpenAdapter.setTaskId(taskResponse.getId());
         posterOpenAdapter.setWorkerCount(taskResponse.getWorkerCount());
         posterOpenAdapter.setAssinerCount(taskResponse.getAssigneeCount());
+        posterOpenAdapter.setPosterId(taskResponse.getPoster().getId());
         rcvBidder.setAdapter(posterOpenAdapter);
     }
 
@@ -1906,6 +1908,17 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.tv_map:
+                ArrayList<MiniTask> miniTasks = new ArrayList<>();
+                MiniTask miniTask = new MiniTask();
+                miniTask.setId(taskResponse.getId());
+                miniTask.setTitle(taskResponse.getTitle());
+                miniTask.setLon(taskResponse.getLongitude());
+                miniTask.setLat(taskResponse.getLatitude());
+                miniTask.setAddress(taskResponse.getAddress());
+                miniTasks.add(miniTask);
+                Intent intent = new Intent(this, LocationMapActivity.class);
+                intent.putParcelableArrayListExtra(Constants.LOCATION_TASK, miniTasks);
+                startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
 
                 break;
 
@@ -1921,9 +1934,9 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             case R.id.rb_rate:
             case R.id.tv_name:
             case R.id.img_avatar_cm:
-                Intent intent = new Intent(this, ProfileActivity.class);
-                intent.putExtra(Constants.USER_ID, taskResponse.getPoster().getId());
-                startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                Intent intentMap = new Intent(this, ProfileActivity.class);
+                intentMap.putExtra(Constants.USER_ID, taskResponse.getPoster().getId());
+                startActivity(intentMap, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.btn_bid:

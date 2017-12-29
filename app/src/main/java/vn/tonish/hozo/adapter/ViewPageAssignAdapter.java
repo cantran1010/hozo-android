@@ -140,8 +140,14 @@ public class ViewPageAssignAdapter extends PagerAdapter {
         scrollView = (NestedScrollView) itemView.findViewById(R.id.scroll_View);
         layoutSms = (RelativeLayout) itemView.findViewById(R.id.layout_sms);
         LogUtils.d(TAG, "assigner adapter" + assignerCount + ":" + workerCount);
-        btnAssiged.setEnabled(true);
-        Utils.setViewBackground(btnAssiged, ContextCompat.getDrawable(context, R.drawable.btn_new_selector));
+        if (!bidResponse.isAccept()) {
+            btnAssiged.setEnabled(true);
+            Utils.setViewBackground(btnAssiged, ContextCompat.getDrawable(context, R.drawable.btn_new_selector));
+        } else {
+            btnAssiged.setEnabled(false);
+            btnAssiged.setText(context.getString(R.string.assigned_done));
+            Utils.setViewBackground(btnAssiged, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
+        }
         btnAssiged.setText(context.getString(R.string.assign));
         tvAssigner.setText(context.getString(R.string.assigned_count, assignerCount));
         tvWorkerCount.setText(context.getString(R.string.worker_count, workerCount));
@@ -232,7 +238,7 @@ public class ViewPageAssignAdapter extends PagerAdapter {
             @Override
             public void onClick(View view) {
 
-                doAcceptOffer(bidResponse.getId(), assignProgress, btnAssiged, tvAssigner);
+                doAcceptOffer(bidResponse.getId(), assignProgress, btnAssiged, tvAssigner, position);
             }
         });
         tvMoreReviews.setOnClickListener(new View.OnClickListener() {
@@ -264,7 +270,7 @@ public class ViewPageAssignAdapter extends PagerAdapter {
     }
 
 
-    private void doAcceptOffer(final int bidderID, final ProgressBar progressBar, final TextViewHozo tvAss, final TextViewHozo textViewHozo) {
+    private void doAcceptOffer(final int bidderID, final ProgressBar progressBar, final TextViewHozo tvAss, final TextViewHozo textViewHozo, final int position) {
         ProgressDialogUtils.showProgressDialog(context);
         JSONObject jsonRequest = new JSONObject();
         try {
@@ -286,16 +292,18 @@ public class ViewPageAssignAdapter extends PagerAdapter {
                     assignerCount = response.body().getAssigneeCount();
                     Utils.showLongToast(context, context.getString(R.string.assiger_done), false, false);
                     textViewHozo.setText(context.getString(R.string.assigned_count, assignerCount));
-                    if (assignerCount == workerCount) ((BaseActivity) context).finish();
                     progressBar.setProgress(assignerCount);
                     tvAss.setEnabled(false);
                     tvAss.setText(context.getString(R.string.assigned_done));
                     Utils.setViewBackground(tvAss, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
+                    bidResponses.get(position).setAccept(true);
+                    if (assignerCount == workerCount || isCheckDone())
+                        ((BaseActivity) context).finish();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(context, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            doAcceptOffer(bidderID, progressBar, textViewHozo, tvAss);
+                            doAcceptOffer(bidderID, progressBar, textViewHozo, tvAss, position);
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
@@ -313,7 +321,7 @@ public class ViewPageAssignAdapter extends PagerAdapter {
                     DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
-                            doAcceptOffer(bidderID, progressBar, textViewHozo, tvAss);
+                            doAcceptOffer(bidderID, progressBar, textViewHozo, tvAss, position);
                         }
 
                         @Override
@@ -331,7 +339,7 @@ public class ViewPageAssignAdapter extends PagerAdapter {
                 DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        doAcceptOffer(bidderID, progressBar, textViewHozo, tvAss);
+                        doAcceptOffer(bidderID, progressBar, textViewHozo, tvAss, position);
                     }
 
                     @Override
@@ -348,6 +356,18 @@ public class ViewPageAssignAdapter extends PagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
 
+    }
+
+    private boolean isCheckDone() {
+        boolean isCK = true;
+        for (BidResponse response : bidResponses
+                ) {
+            if (!response.isAccept())
+                isCK = false;
+            break;
+
+        }
+        return isCK;
     }
 
     private String formatTitle(int pos) {

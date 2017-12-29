@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="@string/comment_des"
-        android:textColor="@color/tv_gray_new" />
+        android:textColor="@color/tv_gray_new"
+        android:textSize="@dimen/tv_size_xxtiny" />
 
     <View
         android:layout_width="match_parent"
@@ -34,8 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:orientation="vertical"
-            android:layout_marginStart="10dp">
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,9 +77,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
+                    android:gravity="top"
                     android:hint="@string/type_your_text"
                     android:inputType="textCapSentences"
-                    android:minHeight="@dimen/edt_min_height"
+                    android:minHeight="50dp"
                     android:paddingBottom="5dp"
                     android:paddingEnd="0dp"
                     android:paddingLeft="5dp"
@@ -87,7 +89,7 @@
                     android:paddingTop="5dp"
                     android:textColor="@color/tv_gray_new"
                     android:textColorHint="@color/tv_gray"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/tv_size_nomal" />
 
             </LinearLayout>
 
@@ -103,9 +105,10 @@
                     android:layout_centerVertical="true"
                     android:drawableLeft="@drawable/ic_photo_camera"
                     android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/ic_photo_camera"
                     android:text="@string/attach_image_des"
                     android:textColor="@color/tv_gray_new"
-                    android:drawableStart="@drawable/ic_photo_camera" />
+                    android:textSize="@dimen/tv_size_nomal" />
 
                 <vn.tonish.hozo.view.ButtonHozo
                     android:id="@+id/btn_comment"

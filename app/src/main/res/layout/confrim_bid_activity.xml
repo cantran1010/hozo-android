@@ -50,14 +50,6 @@
             android:layout_marginStart="@dimen/title_margin_left"
             android:orientation="vertical">
 
-            <!--<vn.tonish.hozo.view.TextViewHozo-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_horizontal"-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:text="@string/bid_lbl"-->
-            <!--android:textColor="@color/tv_gray_new" />-->
-
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
@@ -65,7 +57,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:textColor="@color/hozo_bg"
-                android:textSize="20sp"
+                android:textSize="@dimen/tv_size_lager"
                 android:textStyle="bold" />
 
             <View
@@ -290,8 +282,8 @@
                 android:drawableEnd="@drawable/edit"
                 android:drawableRight="@drawable/edit"
                 android:hint="@string/input_msg_hint"
-                android:inputType="textMultiLine"
-                android:maxLength="50"
+                android:inputType="textMultiLine|textCapSentences"
+                android:maxLength="500"
                 android:textColor="@color/tv_gray_new"
                 android:textColorHint="@color/color_hint_create_task_lable"
                 android:textSize="@dimen/tv_size_nomal" />

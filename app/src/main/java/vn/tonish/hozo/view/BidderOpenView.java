@@ -37,6 +37,7 @@ public class BidderOpenView extends RelativeLayout implements View.OnClickListen
     private int taskId;
     private int assinerCount;
     private int workerCount;
+    private int posterID;
 
     public BidderOpenView(Context context) {
         super(context);
@@ -73,12 +74,15 @@ public class BidderOpenView extends RelativeLayout implements View.OnClickListen
 
     public void updateData(final Bidder bidder, String type) {
         LogUtils.d(TAG, "updateData bidder : " + bidder.toString());
+        LogUtils.d(TAG, "posterId: : " + getPosterID());
         this.bidder = bidder;
         Utils.displayImageAvatar(getContext(), imgAvatar, bidder.getAvatar());
         tvName.setText(bidder.getFullName());
         rbRate.setRating(bidder.getTaskerAverageRating());
-        tvPrice.setText(getContext().getString(R.string.price_bidder, Utils.formatNumber(bidder.getPrice())));
-
+        if (UserManager.getMyUser().getId() == getPosterID()) {
+            tvPrice.setVisibility(VISIBLE);
+            tvPrice.setText(getContext().getString(R.string.price_bidder, Utils.formatNumber(bidder.getPrice())));
+        } else tvPrice.setVisibility(GONE);
         String percentDone = (int) (bidder.getPosterDoneRate() * 100) + "% " + getContext().getString(R.string.completion_rate);
         tvDoneRate.setText(percentDone);
         if (type.equals(getContext().getString(R.string.assign))) {
@@ -136,5 +140,13 @@ public class BidderOpenView extends RelativeLayout implements View.OnClickListen
 
     public void setWorkerCount(int workerCount) {
         this.workerCount = workerCount;
+    }
+
+    public int getPosterID() {
+        return posterID;
+    }
+
+    public void setPosterID(int posterID) {
+        this.posterID = posterID;
     }
 }

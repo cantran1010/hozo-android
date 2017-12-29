@@ -2,62 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="30dp"
-    android:layout_marginRight="30dp"
-    android:background="@color/transparent"
-    android:orientation="horizontal">
+    android:layout_marginEnd="60dp"
+    android:layout_marginLeft="60dp"
+    android:layout_marginRight="60dp"
+    android:layout_marginStart="60dp"
+    android:background="@drawable/background_marker"
+    android:orientation="horizontal"
+    android:padding="10dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/popup_map_detail">
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/tv_black_new"
+        android:textSize="@dimen/tv_size_medium"
+        android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toLeftOf="@+id/img_next"
-            android:layout_toStartOf="@id/img_next"
-            android:orientation="vertical">
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="3"
-                android:textColor="@color/hozo_bg"
-                android:textSize="20sp" />
-
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="3"
-                android:textColor="#8B8B8B"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/img_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:contentDescription="@string/just_image"
-            android:src="@drawable/img_next" />
-
-    </RelativeLayout>
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/tv_black_new"
+        android:textSize="@dimen/tv_size_xxtiny" />
 
 
 </RelativeLayout>

@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/comment"
                 android:textColor="@color/tv_gray_new"
+                android:textSize="@dimen/tv_size_xtiny"
                 android:textStyle="bold" />
 
             <vn.tonish.hozo.view.TextViewHozo
@@ -38,7 +39,7 @@
                 android:paddingRight="15dp"
                 android:paddingTop="2dp"
                 android:textColor="#d23176"
-                android:textSize="12sp"
+                android:textSize="@dimen/tv_size_tiny"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -60,12 +61,12 @@
         android:id="@+id/rcv_comment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
         android:layout_marginEnd="@dimen/margin_right_screen"
         android:layout_marginLeft="@dimen/margin_left_screen"
         android:layout_marginRight="@dimen/margin_right_screen"
         android:layout_marginStart="@dimen/margin_left_screen"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="20dp"
         android:scrollbars="vertical" />
 
     <vn.tonish.hozo.view.TextViewHozo

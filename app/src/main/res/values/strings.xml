@@ -673,6 +673,7 @@
     <string name="assigned_done">Đã giao</string>
     <string name="price_bidder">%1$sđ</string>
     <string name="confrim_price">*Bạn có thể điều chỉnh tiền công mong muốn.</string>
+    <string name="task_location">Vị trí công việc</string>
 
     <string name="btn_exchange">Thanh toán</string>
     <string name="btn_withdraw">Rút tiền</string>

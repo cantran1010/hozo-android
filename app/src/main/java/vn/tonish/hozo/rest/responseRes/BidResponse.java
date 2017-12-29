@@ -34,6 +34,7 @@ public class BidResponse {
     private int taskerCount;
     @SerializedName("reviews")
     private List<ReviewEntity> reviews = new ArrayList<>();
+    private  boolean isAccept;
 
     public int getId() {
         return id;
@@ -147,6 +148,14 @@ public class BidResponse {
         this.reviews = reviews;
     }
 
+    public boolean isAccept() {
+        return isAccept;
+    }
+
+    public void setAccept(boolean accept) {
+        isAccept = accept;
+    }
+
     @Override
     public String toString() {
         return "BidResponse{" +
@@ -164,6 +173,7 @@ public class BidResponse {
                 ", taskerRatingCount=" + taskerRatingCount +
                 ", taskerCount=" + taskerCount +
                 ", reviews=" + reviews +
+                ", isAccept=" + isAccept +
                 '}';
     }
 }

@@ -23,7 +23,8 @@
         android:layout_alignParentRight="true"
         android:textColor="@color/color_count_word"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <vn.tonish.hozo.view.ButtonHozo
         android:id="@+id/btn_assign"

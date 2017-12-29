@@ -54,6 +54,7 @@ public class Constants {
     public static final String BIDDER_ID = "bidder_id";
     public static final String PARAMETER_OFFER_PRICE = "price";
     public static final String PARAMETER_OFFER_SMS = "message";
+    public static final String LOCATION_TASK ="location_task" ;
     public static final String ASSSIGNER_COUNT ="assigner_count" ;
     public static final String WORKER_COUNT ="assigner_amount" ;
     public static final int BANK_REQUEST_CODE = 987;

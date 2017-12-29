@@ -160,7 +160,7 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
         String price = getLongAutoCompleteTextView(edtBudget);
         JSONObject jsonRequest = new JSONObject();
         try {
-            if (price.isEmpty()) jsonRequest.put(Constants.PARAMETER_OFFER_PRICE, price);
+            jsonRequest.put(Constants.PARAMETER_OFFER_PRICE, price);
             if (!sms.isEmpty())
                 jsonRequest.put(Constants.PARAMETER_OFFER_SMS, sms);
         } catch (JSONException e) {
