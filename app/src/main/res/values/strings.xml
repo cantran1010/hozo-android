@@ -547,7 +547,7 @@
     <string name="history_payment_count">%1$d lượt</string>
     <string name="see_all_payment">Xem tất cả giao dịch</string>
     <string name="transaction_promotion">Tặng tiền từ mã khuyến mại</string>
-    <string name="payment_history_title_all">Tất cả giao dịch</string>
+    <string name="payment_history_title_all">Tất cả giao dịch (%1$d)</string>
     <string name="promotion_code">Mã khuyễn mại</string>
     <string name="atm">Thẻ ATM nội địa</string>
     <string name="visa">Thẻ Visa / Master Card</string>
@@ -663,7 +663,7 @@
     <string name="notification_bid_refunded_matcher">hoàn trả tiền đặt cọc</string>
     <string name="notification_chat">đã gửi tin nhắn đến nhóm</string>
     <string name="verified_watting">Đang đợi xác thực</string>
-    <string name="btn_exchange">Chuyển tiền</string>
+    <string name="btn_exchange">Thanh toán</string>
     <string name="btn_withdraw">Rút tiền</string>
     <string name="exchange_title">Chuyển tiền</string>
     <string name="btn_exchange_submit">Thanh toán</string>
@@ -714,5 +714,8 @@
     <string name="bank_select_error">Vui lòng chọn ngân hàng!</string>
     <string name="null_money_transfer">Vui lòng nhập số tiền cần rút</string>
     <string name="bank_name_confirm">%1$s\n%2$s</string>
+    <string name="btn_history">Xem giao dịch</string>
+    <string name="wallet_account_title">Ví tài khoản của bạn có</string>
+    <string name="wallet_money_title">Ví tiền của bạn có</string>
 
 </resources>

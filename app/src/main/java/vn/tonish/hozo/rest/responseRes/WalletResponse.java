@@ -14,16 +14,14 @@ public class WalletResponse {
     private String fullName;
     private String avatar;
     private int balance;
-    @SerializedName("total_transactions")
-    private  int totalTransactions;
-
-    public int getTotalTransactions() {
-        return totalTransactions;
-    }
-
-    public void setTotalTransactions(int totalTransactions) {
-        this.totalTransactions = totalTransactions;
-    }
+    @SerializedName("balance_account")
+    private int balanceAccount;
+    @SerializedName("balance_cash")
+    private int balanceCash;
+    @SerializedName("total_account_transactions")
+    private int totalAccountTransactions;
+    @SerializedName("total_cash_transactions")
+    private int totalCashTransactions;
 
     public int getId() {
         return id;
@@ -65,6 +63,38 @@ public class WalletResponse {
         this.balance = balance;
     }
 
+    public int getBalanceAccount() {
+        return balanceAccount;
+    }
+
+    public void setBalanceAccount(int balanceAccount) {
+        this.balanceAccount = balanceAccount;
+    }
+
+    public int getBalanceCash() {
+        return balanceCash;
+    }
+
+    public void setBalanceCash(int balanceCash) {
+        this.balanceCash = balanceCash;
+    }
+
+    public int getTotalAccountTransactions() {
+        return totalAccountTransactions;
+    }
+
+    public void setTotalAccountTransactions(int totalAccountTransactions) {
+        this.totalAccountTransactions = totalAccountTransactions;
+    }
+
+    public int getTotalCashTransactions() {
+        return totalCashTransactions;
+    }
+
+    public void setTotalCashTransactions(int totalCashTransactions) {
+        this.totalCashTransactions = totalCashTransactions;
+    }
+
     @Override
     public String toString() {
         return "WalletResponse{" +
@@ -73,7 +103,10 @@ public class WalletResponse {
                 ", fullName='" + fullName + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", balance=" + balance +
-                ", totalTransactions=" + totalTransactions +
+                ", balanceAccount=" + balanceAccount +
+                ", balanceCash=" + balanceCash +
+                ", totalAccountTransactions=" + totalAccountTransactions +
+                ", totalCashTransactions=" + totalCashTransactions +
                 '}';
     }
 
