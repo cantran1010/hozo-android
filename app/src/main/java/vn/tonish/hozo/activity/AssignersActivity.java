@@ -80,6 +80,7 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvAssign.setLayoutManager(linearLayoutManager);
         assignerAdapter.setTaskId(taskResponse.getId());
+        assignerAdapter.setPosterID(taskResponse.getPoster().getId());
         rcvAssign.setAdapter(assignerAdapter);
     }
 

@@ -1,7 +1,6 @@
 package vn.tonish.hozo.fragment.postTask;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -21,25 +20,21 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceBuffer;
-import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.PostTaskActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.PreviewImageActivity;
-import vn.tonish.hozo.activity.PostTaskActivity;
 import vn.tonish.hozo.adapter.ImageAdapter;
-import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.PostTaskEntity;
 import vn.tonish.hozo.database.manager.PostTaskManager;
@@ -56,14 +51,15 @@ import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.CheckBoxHozo;
 import vn.tonish.hozo.view.EdittextHozo;
-import vn.tonish.hozo.view.HozoAutoCompleteTextView;
 import vn.tonish.hozo.view.MyGridView;
 import vn.tonish.hozo.view.TextViewHozo;
 
+import static android.app.Activity.RESULT_OK;
 import static vn.tonish.hozo.common.Constants.MAX_LENGTH_DES;
 import static vn.tonish.hozo.common.Constants.MAX_LENGTH_TITLE;
 import static vn.tonish.hozo.common.Constants.MIN_LENGTH_DES;
 import static vn.tonish.hozo.common.Constants.MIN_LENGTH_TITLE;
+import static vn.tonish.hozo.common.Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
@@ -72,7 +68,7 @@ import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
  * Created by CanTran on 12/6/17.
  */
 
-public class CreateTaskFragment extends BaseFragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class CreateTaskFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = CreateTaskFragment.class.getSimpleName();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private TextViewHozo tvTaskNameMsg;
@@ -85,10 +81,7 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
     private ImageAdapter imageAdapter;
     private String imgPath;
     private int countImageCopy;
-
-    private GoogleApiClient googleApiClient;
-    private PlaceAutocompleteAdapter placeAutocompleteAdapter;
-    private HozoAutoCompleteTextView autocompleteView;
+    private EdittextHozo autocompleteView;
     private double lat, lon;
     private String address = "";
 
@@ -107,21 +100,20 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
         TextViewHozo tvImg = (TextViewHozo) findViewById(R.id.tv_img);
         grImage = (MyGridView) findViewById(R.id.gr_image);
         tvImg.setOnClickListener(this);
-        autocompleteView = (HozoAutoCompleteTextView) findViewById(R.id.edt_address);
+        autocompleteView = (EdittextHozo) findViewById(R.id.edt_address);
         tvTaskNameMsg = (TextViewHozo) findViewById(R.id.tv_title_msg);
         tvDesMsg = (TextViewHozo) findViewById(R.id.tv_des_msg);
         ImageView imgClose = (ImageView) findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
+        autocompleteView.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
         Constants.MAX_IMAGE_ATTACH = 6;
-
         taskResponse = ((PostTaskActivity) getActivity()).getTaskResponse();
         imageAdapter = new ImageAdapter(getContext(), ((PostTaskActivity) getActivity()).images);
         grImage.setAdapter(imageAdapter);
-        toDoAddress();
         getDefaultAddress();
         edtWorkName.addTextChangedListener(new MyTextWatcher(edtWorkName));
         edtDescription.addTextChangedListener(new MyTextWatcher(edtDescription));
@@ -165,6 +157,26 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
         edtWorkName.setHint(((PostTaskActivity) getActivity()).getCategory().getSuggestTitle());
         edtDescription.setHint(((PostTaskActivity) getActivity()).getCategory().getDescription());
 
+    }
+
+
+    private void findPlace() {
+        final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
+                .setTypeFilter(Place.TYPE_COUNTRY)
+                .build();
+        try {
+            Intent intent =
+                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                            .setFilter(autocompleteFilter)
+                            .build(getActivity());
+            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+        } catch (GooglePlayServicesRepairableException e) {
+            LogUtils.d(TAG, "GooglePlayServicesRepairableException" + e.toString());
+            autocompleteView.setError(getString(R.string.post_task_map_get_location_error_next));
+        } catch (GooglePlayServicesNotAvailableException e) {
+            LogUtils.d(TAG, "GooglePlayServicesNotAvailableException" + e.toString());
+            autocompleteView.setError(getString(R.string.post_task_map_get_location_error_next));
+        }
     }
 
     private void checkPermission() {
@@ -264,64 +276,7 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onPause() {
         super.onPause();
-        googleApiClient.stopAutoManage(getActivity());
-        googleApiClient.disconnect();
     }
-
-    private void toDoAddress() {
-        googleApiClient = new GoogleApiClient.Builder(getContext())
-                .enableAutoManage(getActivity(), 0 /* clientId */, this)
-                .addApi(Places.GEO_DATA_API)
-                .build();
-        autocompleteView.setThreshold(1);
-        autocompleteView.setOnItemClickListener(mAutocompleteClickListener);
-        final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
-                .setTypeFilter(Place.TYPE_COUNTRY)
-                .build();
-        placeAutocompleteAdapter = new PlaceAutocompleteAdapter(getContext(), googleApiClient, null,
-                autocompleteFilter);
-        autocompleteView.setAdapter(placeAutocompleteAdapter);
-
-    }
-
-    private final AdapterView.OnItemClickListener mAutocompleteClickListener
-            = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            final AutocompletePrediction item = placeAutocompleteAdapter.getItem(position);
-            final String placeId = item != null ? item.getPlaceId() : null;
-            final CharSequence primaryText = item.getPrimaryText(null);
-            LogUtils.i(TAG, "Autocomplete item selected: " + primaryText);
-            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
-                    .getPlaceById(googleApiClient, placeId);
-            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
-            LogUtils.i(TAG, "Called getPlaceById to get Place details for " + placeId);
-        }
-    };
-
-    private final ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
-            = new ResultCallback<PlaceBuffer>() {
-        @Override
-        public void onResult(@NonNull PlaceBuffer places) {
-            if (!places.getStatus().isSuccess()) {
-                LogUtils.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
-                places.release();
-                return;
-            }
-            try {
-                final Place place = places.get(0);
-                LogUtils.e(TAG, "Place address : " + place.getAddress());
-                lat = place.getLatLng().latitude;
-                lon = place.getLatLng().longitude;
-                address = autocompleteView.getText().toString().trim();
-                autocompleteView.setError(null);
-                places.release();
-                hideKeyBoard(getActivity());
-            } catch (Exception e) {
-                Utils.showLongToast(getContext(), getString(R.string.post_task_map_get_location_error_next), true, false);
-            }
-        }
-    };
 
     private void getDefaultAddress() {
         PostTaskEntity postTaskEntity = PostTaskManager.getPostTaskEntity();
@@ -396,7 +351,7 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
             ((PostTaskActivity) getActivity()).images.addAll(0, imagesSelected);
             imageAdapter.notifyDataSetChanged();
-        } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == RESULT_OK) {
             final String selectedImagePath = getImagePath();
             LogUtils.d(TAG, "onActivityResult selectedImagePath : " + selectedImagePath);
             Image image = new Image();
@@ -404,6 +359,23 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             image.setPath(selectedImagePath);
             ((PostTaskActivity) getActivity()).images.add(0, image);
             imageAdapter.notifyDataSetChanged();
+        }
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlaceAutocomplete.getPlace(getContext(), data);
+                LogUtils.d(TAG, "Place: " + place.getName());
+                // Get the Place object from the buffer.
+                LogUtils.e(TAG, "Place address : " + place.getAddress());
+                lat = place.getLatLng().latitude;
+                lon = place.getLatLng().longitude;
+                autocompleteView.setText(place.getAddress());
+                address = place.getAddress().toString();
+                hideKeyBoard(getActivity());
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                Status status = PlaceAutocomplete.getStatus(getContext(), data);
+                LogUtils.d(TAG, status.getStatusMessage());
+                autocompleteView.setError(getString(R.string.post_task_map_get_location_error_next));
+            }
         }
     }
 
@@ -415,7 +387,6 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
                 doClose();
                 break;
             case R.id.tv_img:
-
                 if (((PostTaskActivity) getActivity()).images.size() < 6) {
                     checkPermission();
                 } else {
@@ -425,17 +396,11 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             case R.id.btn_next:
                 doNext();
                 break;
+            case R.id.edt_address:
+                findPlace();
+                break;
         }
 
-    }
-
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        LogUtils.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
-                + connectionResult.getErrorCode());
-
-        Utils.showLongToast(getContext(), getString(R.string.gg_api_error), true, false);
     }
 
 

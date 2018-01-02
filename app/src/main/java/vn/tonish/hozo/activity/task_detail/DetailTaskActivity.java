@@ -47,6 +47,7 @@ import vn.tonish.hozo.activity.AssignersActivity;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.BiddersActivity;
 import vn.tonish.hozo.activity.BlockTaskActivity;
+import vn.tonish.hozo.activity.BrowserTaskMapActivity;
 import vn.tonish.hozo.activity.ChatActivity;
 import vn.tonish.hozo.activity.PostTaskActivity;
 import vn.tonish.hozo.activity.RatingActivity;
@@ -160,6 +161,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private boolean isScroll = true;
     private ProgressBar progressBar;
     private Call<TaskResponse> call;
+    private TextViewHozo tvMap;
 
     @Override
     protected int getLayout() {
@@ -219,7 +221,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         TextViewHozo tvAgeLbl = (TextViewHozo) findViewById(R.id.tv_age_lbl);
         TextViewHozo tvSexLbl = (TextViewHozo) findViewById(R.id.tv_sex_lbl);
 
-        TextViewHozo tvMap = (TextViewHozo) findViewById(R.id.tv_map);
+        tvMap = (TextViewHozo) findViewById(R.id.tv_map);
         tvMap.setOnClickListener(this);
 
         rcvBidder = (RecyclerView) findViewById(R.id.rcv_bidders);
@@ -436,9 +438,11 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         tvTitle.setText(taskResponse.getTitle());
 
-        if (taskResponse.isOnline())
+        if (taskResponse.isOnline()) {
             tvAddress.setText(getString(R.string.online_task_address));
-        else {
+            tvMap.setVisibility(View.GONE);
+        } else {
+            tvMap.setVisibility(View.VISIBLE);
             if (taskResponse.getAddress().endsWith(Constants.VN1))
                 tvAddress.setText(taskResponse.getAddress().replace(Constants.VN1, ""));
             else if (taskResponse.getAddress().endsWith(Constants.VN2))
@@ -591,6 +595,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvAssign.setLayoutManager(linearLayoutManager);
         assignerAdapter.setTaskId(taskResponse.getId());
+        assignerAdapter.setPosterID(taskResponse.getPoster().getId());
         rcvAssign.setAdapter(assignerAdapter);
     }
 
@@ -1916,9 +1921,9 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 miniTask.setLat(taskResponse.getLatitude());
                 miniTask.setAddress(taskResponse.getAddress());
                 miniTasks.add(miniTask);
-                Intent intent = new Intent(this, LocationMapActivity.class);
-                intent.putParcelableArrayListExtra(Constants.LOCATION_TASK, miniTasks);
-                startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                Intent intent = new Intent(this, BrowserTaskMapActivity.class);
+                intent.putParcelableArrayListExtra(Constants.LIST_TASK_EXTRA, miniTasks);
+                startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
 
                 break;
 
