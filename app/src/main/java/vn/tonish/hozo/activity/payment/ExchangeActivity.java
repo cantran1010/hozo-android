@@ -117,7 +117,8 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
 
                     List<String> list = new ArrayList<String>();
                     for (TaskExchangeResponse taskExchangeResponse : response.body()) {
-                        list.add(taskExchangeResponse.getTitle());
+                        if (isTaskCanExchange(taskExchangeResponse))
+                            list.add(taskExchangeResponse.getTitle());
                     }
 
                     HozoSpinnerAdapter dataAdapter = new HozoSpinnerAdapter(ExchangeActivity.this, list);
@@ -127,8 +128,15 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, final int posititon, long id) {
                             assignerExchangeResponses.clear();
-                            assignerExchangeResponses.addAll(taskExchangeResponses.get(posititon).getAssignees());
+//                            assignerExchangeResponses.addAll(taskExchangeResponses.get(posititon).getAssignees());
+
+                            for (AssignerExchangeResponse assignerExchangeResponse : taskExchangeResponses.get(posititon).getAssignees()) {
+                                if (!assignerExchangeResponse.isWageTransferred())
+                                    assignerExchangeResponses.add(assignerExchangeResponse);
+                            }
+
                             exchangeAdapter.notifyDataSetChanged();
+
                         }
 
                         @Override
@@ -170,11 +178,21 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    private boolean isTaskCanExchange(TaskExchangeResponse taskExchangeResponse) {
+        boolean result = false;
+
+        for (AssignerExchangeResponse assignerExchangeResponse : taskExchangeResponse.getAssignees()) {
+            if (!assignerExchangeResponse.isWageTransferred()) return true;
+        }
+
+        return result;
+    }
+
     private void doExchange() {
         boolean isExchange = false;
 
         for (int i = 0; i < assignerExchangeResponses.size(); i++) {
-            if (assignerExchangeResponses.get(i).isChecked()) {
+            if (assignerExchangeResponses.get(i).isChecked() && !assignerExchangeResponses.get(i).isWageTransferred()) {
                 isExchange = true;
                 break;
             }

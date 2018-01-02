@@ -14,6 +14,16 @@ public class AssignerExchangeResponse {
     private String avatar;
     private long price;
     private boolean isChecked = true;
+    @SerializedName("wage_transferred")
+    private boolean wageTransferred;
+
+    public boolean isWageTransferred() {
+        return wageTransferred;
+    }
+
+    public void setWageTransferred(boolean wageTransferred) {
+        this.wageTransferred = wageTransferred;
+    }
 
     public boolean isChecked() {
         return isChecked;
@@ -63,6 +73,7 @@ public class AssignerExchangeResponse {
                 ", avatar='" + avatar + '\'' +
                 ", price=" + price +
                 ", isChecked=" + isChecked +
+                ", wageTransferred=" + wageTransferred +
                 '}';
     }
 
