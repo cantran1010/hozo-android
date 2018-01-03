@@ -138,7 +138,7 @@
         <activity
             android:name=".activity.payment.RechargeActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activity.profile.VerifyUserActivity"
             android:screenOrientation="portrait"
@@ -176,6 +176,19 @@
             android:name="com.facebook.accountkit.ui.AccountKitActivity"
             android:theme="@style/HozoAccountKit"
             tools:replace="android:theme" />
+        <activity
+            android:name=".activity.payment.ExchangeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.payment.WithdrawalActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.payment.BankActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.payment.WalletInfoActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

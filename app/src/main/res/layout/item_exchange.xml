@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp">
+
+    <vn.tonish.hozo.view.CheckBoxHozo
+        android:id="@+id/cb_exchange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:button="@drawable/checkbox_selector_2"
+        android:checked="true"
+        android:padding="5dp" />
+
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="0dp"
+        android:layout_toLeftOf="@+id/img_down"
+        android:layout_toRightOf="@id/cb_exchange"
+        android:text="Bui Duc Long"
+        android:textColor="@color/tv_gray"
+        android:textSize="14sp"
+        android:layout_marginStart="0dp"
+        android:layout_toStartOf="@+id/img_down"
+        android:layout_toEndOf="@id/cb_exchange" />
+
+    <ImageView
+        android:id="@+id/img_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="5dp"
+        android:src="@drawable/up_arrow"
+        tools:ignore="ContentDescription"
+        android:layout_alignParentEnd="true" />
+
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/img_up"
+        android:text="50.000 đ"
+        android:textColor="@color/hozo_red"
+        android:textSize="15sp"
+        android:layout_toStartOf="@id/img_up" />
+
+    <ImageView
+        android:id="@+id/img_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/tv_price"
+        android:padding="5dp"
+        android:src="@drawable/down_arrow"
+        tools:ignore="ContentDescription"
+        android:layout_toStartOf="@id/tv_price" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:background="@color/gray" />
+
+</RelativeLayout>

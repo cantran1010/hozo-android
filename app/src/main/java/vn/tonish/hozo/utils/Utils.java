@@ -56,6 +56,7 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.rest.responseRes.TransactionResponse;
+import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -208,7 +209,7 @@ public class Utils {
         return myFormatter.format(input);
     }
 
-    public static String formatNumber(Long input) {
+    public static String formatNumber(long input) {
         DecimalFormat myFormatter = new DecimalFormat("###,###.###");
         return myFormatter.format(input);
     }
@@ -820,6 +821,10 @@ public class Utils {
             return context.getString(R.string.transaction_ref_bonus);
         else if (transactionResponse.getMethod().equals("promo_posting"))
             return context.getString(R.string.transaction_promo_posting);
+        else if (transactionResponse.getMethod().equals("wage_transfer"))
+            return context.getString(R.string.wage_transfer, transactionResponse.getTaskName(), transactionResponse.getFullName());
+        else if (transactionResponse.getMethod().equals("wage_received"))
+            return context.getString(R.string.wage_received, transactionResponse.getTaskName());
         else return "Waitting";
     }
 
@@ -846,6 +851,12 @@ public class Utils {
 //        result = result + context.getString(R.string.count_assigner, taskResponse.getAssigneeCount());
 
         return result;
+    }
+
+
+    public static long getLongEdittext(EdittextHozo edittextHozo) {
+        String s = edittextHozo.getText().toString().replace(",", "").replace(".", "");
+        return Long.valueOf(s);
     }
 
 

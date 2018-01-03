@@ -32,10 +32,8 @@ import vn.tonish.hozo.activity.SettingActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.TaskAdapter;
 import vn.tonish.hozo.common.Constants;
-import vn.tonish.hozo.common.DataParse;
 import vn.tonish.hozo.database.entity.SettingAdvanceEntity;
 import vn.tonish.hozo.database.manager.SettingAdvanceManager;
-import vn.tonish.hozo.database.manager.TaskManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.fragment.mytask.MyTaskFragment;
@@ -230,7 +228,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     taskList.addAll(taskResponses);
                     taskAdapter.notifyDataSetChanged();
                     LogUtils.d(TAG, "getTaskResponse size : " + taskList.size());
-                    TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
+//                    TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
 
                     if (taskResponses.size() < limit) {
                         isLoadingMoreFromServer = false;

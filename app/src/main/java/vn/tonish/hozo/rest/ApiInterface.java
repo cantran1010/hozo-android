@@ -19,10 +19,12 @@ import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.database.entity.UserEntity;
+import vn.tonish.hozo.model.Bank;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.model.SettingAdvance;
+import vn.tonish.hozo.rest.responseRes.BankResponse;
 import vn.tonish.hozo.rest.responseRes.BlockResponse;
 import vn.tonish.hozo.rest.responseRes.DepositResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
@@ -32,6 +34,7 @@ import vn.tonish.hozo.rest.responseRes.NotifyChatRoomResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.PromotionResponse;
 import vn.tonish.hozo.rest.responseRes.RateResponse;
+import vn.tonish.hozo.rest.responseRes.TaskExchangeResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.rest.responseRes.Token;
 import vn.tonish.hozo.rest.responseRes.TransactionResponse;
@@ -194,4 +197,24 @@ public interface ApiInterface {
     @POST("v1/wallet/deposit")
     Call<DepositResponse> deposit(@Header("Authorization") String token, @Body RequestBody body);
 
+    @GET("v1/wallet/banks")
+    Call<List<BankResponse>> getBanks(@Header("Authorization") String token);
+
+    @GET("v1/tasks/transferable")
+    Call<List<TaskExchangeResponse>> getTransferableTask(@Header("Authorization") String token);
+
+    @POST("v1/wallet/transfer/wage/{taskId}")
+    Call<Void> transfer(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
+
+    @POST("v1/wallet/bank")
+    Call<Bank> addBank(@Header("Authorization") String token, @Body RequestBody body);
+
+    @GET("v1/wallet/bank/accounts")
+    Call<List<Bank>> getBanksList(@Header("Authorization") String token);
+
+    @PUT("v1/wallet/bank/{bankId}")
+    Call<Bank> editBank(@Header("Authorization") String token, @Path("bankId") int bankId, @Body RequestBody body);
+
+    @DELETE("v1/wallet/bank/{bankId}")
+    Call<Void> deleteBank(@Header("Authorization") String token, @Path("bankId") int bankId);
 }
