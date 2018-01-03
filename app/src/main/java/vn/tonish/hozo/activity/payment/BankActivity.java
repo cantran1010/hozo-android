@@ -182,6 +182,11 @@ public class BankActivity extends BaseActivity implements View.OnClickListener {
             return;
         }
 
+        if (bankResponses == null || bankResponses.size() == 0) {
+            Utils.showLongToast(this, getString(R.string.bank_null), true, false);
+            return;
+        }
+
         if (isEdit) {
             ProgressDialogUtils.showProgressDialog(this);
             final JSONObject jsonRequest = new JSONObject();

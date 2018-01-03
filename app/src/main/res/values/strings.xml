@@ -547,7 +547,7 @@
     <string name="history_payment_count">%1$d lượt</string>
     <string name="see_all_payment">Xem tất cả giao dịch</string>
     <string name="transaction_promotion">Tặng tiền từ mã khuyến mại</string>
-    <string name="payment_history_title_all">Tất cả giao dịch (%1$d)</string>
+    <string name="payment_history_title_all">Lịch sử giao dịch</string>
     <string name="promotion_code">Mã khuyễn mại</string>
     <string name="atm">Thẻ ATM nội địa</string>
     <string name="visa">Thẻ Visa / Master Card</string>
@@ -717,5 +717,14 @@
     <string name="btn_history">Xem giao dịch</string>
     <string name="wallet_account_title">Ví tài khoản của bạn có</string>
     <string name="wallet_money_title">Ví tiền của bạn có</string>
+    <string name="count_history">%1$d lượt</string>
+    <string name="wallet_account_info1">Lúc nhận việc thì ví tài khoản được sử dụng để đặt cọc. Số dư của tài khoản phải lớn hơn hoặc bằng số tiền cần đặt cọc thì bạn mới có quyền  ứng tuyển.</string>
+    <string name="wallet_account_info2">Lúc đăng việc thì bạn có thể dùng ví tài khoản để thanh toán cho người làm nếu bạn không muốn thanh toán tiền mặt.</string>
+    <string name="wallet_account_info3">Số dư của số tài khoản có thể tăng lên từ việc nhận khuyến mãi từ Hozo, nạp tiền từ thẻ ngân hàng hoặc chuyển từ ví tiền sang.</string>
+    <string name="wallet_accout_title">Ví tài khoản</string>
+    <string name="wallet_money_title2">Ví tiền</string>
+    <string name="wallet_account_info4">Ví tiền được dùng để giữ tiền công của công việc được người thuê chuyển vào từ ví tài khoản của người thuê.</string>
+    <string name="wallet_account_info5">Bạn có thể gửi yêu cầu rút tiền từ ví tiền vào tài khoản ngân hàng của bạn. Hozo sẽ duyệt yêu cầu này vào thứ 2 của tuần đầu tiên của tháng kế tiếp.</string>
+    <string name="bank_null">Bạn chưa chọn ngân hàng!</string>
 
 </resources>

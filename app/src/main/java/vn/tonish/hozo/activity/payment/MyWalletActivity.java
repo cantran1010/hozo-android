@@ -38,6 +38,7 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
     private ArrayList<TransactionResponse> payments = new ArrayList<>();
     private String since;
     private WalletResponse walletResponse;
+    private ImageView imgWalletAccount, imgWalletMoney;
 
     @Override
     protected int getLayout() {
@@ -73,6 +74,13 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
 
 //        rcvPayment = (RecyclerView) findViewById(R.id.rcv_payment_history);
 //        tvNoHistory = (TextViewHozo) findViewById(R.id.tv_no_history);
+
+        imgWalletAccount = (ImageView) findViewById(R.id.img_wallet_account_info);
+        imgWalletAccount.setOnClickListener(this);
+
+        imgWalletMoney = (ImageView) findViewById(R.id.img_wallet_account_money);
+        imgWalletMoney.setOnClickListener(this);
+
     }
 
     @Override
@@ -164,14 +172,14 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
             case R.id.btn_history_account:
                 Intent intentHistoryAccount = new Intent(MyWalletActivity.this, PaymentHistoryActivity.class);
                 intentHistoryAccount.putExtra(Constants.WALLET_TYPE_EXTRA, 1);
-                intentHistoryAccount.putExtra(Constants.WALLET_COUNT_HISTORY_EXTRA,walletResponse.getTotalAccountTransactions());
+                intentHistoryAccount.putExtra(Constants.WALLET_COUNT_HISTORY_EXTRA, walletResponse.getTotalAccountTransactions());
                 startActivity(intentHistoryAccount, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.btn_history_money:
                 Intent intentHistoryMoney = new Intent(MyWalletActivity.this, PaymentHistoryActivity.class);
                 intentHistoryMoney.putExtra(Constants.WALLET_TYPE_EXTRA, 2);
-                intentHistoryMoney.putExtra(Constants.WALLET_COUNT_HISTORY_EXTRA,walletResponse.getTotalCashTransactions());
+                intentHistoryMoney.putExtra(Constants.WALLET_COUNT_HISTORY_EXTRA, walletResponse.getTotalCashTransactions());
                 startActivity(intentHistoryMoney, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
@@ -186,6 +194,18 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
 
             case R.id.btn_withdraw_money:
                 startActivity(WithdrawalActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+
+            case R.id.img_wallet_account_info:
+                Intent intent1 = new Intent(MyWalletActivity.this, WalletInfoActivity.class);
+                intent1.putExtra(Constants.WALLET_TYPE_EXTRA, 1);
+                startActivity(intent1, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+
+            case R.id.img_wallet_account_money:
+                Intent intent2 = new Intent(MyWalletActivity.this, WalletInfoActivity.class);
+                intent2.putExtra(Constants.WALLET_TYPE_EXTRA, 2);
+                startActivity(intent2, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }

@@ -36,6 +36,21 @@
 
     </RelativeLayout>
 
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_left_screen"
+        android:layout_marginTop="@dimen/margin_left_screen"
+        android:background="@drawable/bg_count_history_transaction"
+        android:paddingBottom="3dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="3dp"
+        android:text="@string/count_history"
+        android:textColor="@color/hozo_red"
+        android:textSize="10sp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcv_payment_history"
         android:layout_width="match_parent"

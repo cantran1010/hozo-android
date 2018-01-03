@@ -186,6 +186,9 @@
         <activity
             android:name=".activity.payment.BankActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.payment.WalletInfoActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

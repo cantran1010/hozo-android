@@ -43,7 +43,7 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
     private String since;
     private static final int LIMIT = 20;
     private String type = "";
-    private TextViewHozo tvTitle;
+    private TextViewHozo tvCount;
 
     @Override
     protected int getLayout() {
@@ -55,20 +55,20 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        rcvPayment = (RecyclerView) findViewById(R.id.rcv_payment_history);
+        tvCount = (TextViewHozo) findViewById(R.id.tv_count);
 
-        tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
+        rcvPayment = (RecyclerView) findViewById(R.id.rcv_payment_history);
     }
 
     @Override
     protected void initData() {
         if (getIntent().getIntExtra(Constants.WALLET_TYPE_EXTRA, 1) == 1) {
             type = "account";
-            tvTitle.setText(getString(R.string.payment_history_title_all, getIntent().getIntExtra(Constants.WALLET_COUNT_HISTORY_EXTRA, 0)));
         } else if (getIntent().getIntExtra(Constants.WALLET_TYPE_EXTRA, 1) == 2) {
             type = "cash";
-            tvTitle.setText(getString(R.string.payment_history_title_all, getIntent().getIntExtra(Constants.WALLET_COUNT_HISTORY_EXTRA, 0)));
         }
+
+        tvCount.setText(getString(R.string.count_history, getIntent().getIntExtra(Constants.WALLET_COUNT_HISTORY_EXTRA, 0)));
     }
 
     @Override
