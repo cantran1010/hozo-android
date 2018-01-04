@@ -1,5 +1,5 @@
 # Dismiss warnings out of diff range
-dismiss_out_of_range_messages({
+github.dismiss_out_of_range_messages({
   error: false,
   warning: true,
   message: true,
