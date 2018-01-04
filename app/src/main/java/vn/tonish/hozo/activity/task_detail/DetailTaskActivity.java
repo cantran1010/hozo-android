@@ -371,7 +371,11 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                         finish();
                         Intent intent = new Intent(DetailTaskActivity.this, BlockTaskActivity.class);
                         intent.putExtra(Constants.TITLE_INFO_EXTRA, getString(R.string.task_detail_block));
-                        intent.putExtra(Constants.CONTENT_INFO_EXTRA, getString(R.string.task_detail_block_reasons) + " " + error.message());
+                        String msg = "";
+                        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId())
+                            msg = error.message();
+                        else msg = getString(R.string.term_and_policy);
+                        intent.putExtra(Constants.CONTENT_INFO_EXTRA, getString(R.string.task_detail_block_reasons) + " " + msg);
                         startActivity(intent, TransitionScreen.FADE_IN);
                     } else {
                         DialogUtils.showOkDialog(DetailTaskActivity.this, getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
@@ -1567,9 +1571,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 });
             } else if (intent.hasExtra(Constants.ASSIGNER_CONTACT_EXTRA)) {
                 Intent intentContact = new Intent(DetailTaskActivity.this, ChatActivity.class);
-                intentContact.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                intentContact.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
-                intentContact.putExtra(Constants.TITLE_INFO_EXTRA, taskResponse.getTitle());
                 intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
                 startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
             }

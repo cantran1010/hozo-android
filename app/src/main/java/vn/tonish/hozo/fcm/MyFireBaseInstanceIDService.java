@@ -77,7 +77,6 @@ public class MyFireBaseInstanceIDService extends FirebaseInstanceIdService {
 
             LogUtils.d(TAG, "sendRegistrationToServer , jsonRequest : " + jsonRequest.toString());
             RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-
             ApiClient.getApiService().updateDeviceToken(UserManager.getUserToken(), body).enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {

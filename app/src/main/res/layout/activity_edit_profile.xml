@@ -299,13 +299,13 @@
                         android:textColor="@color/tv_gray_new"
                         android:textStyle="bold" />
 
-                    <AutoCompleteTextView
+                    <vn.tonish.hozo.view.EdittextHozo
                         android:id="@+id/edt_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:backgroundTint="@color/white"
-                        android:focusable="true"
+                        android:focusable="false"
                         android:focusableInTouchMode="true"
                         android:minHeight="@dimen/edt_min_height"
                         android:padding="5dp"

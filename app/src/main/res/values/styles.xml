@@ -147,10 +147,9 @@
     </style>
 
     <style name="btn_style_green_new">
-        <item name="android:textSize">18sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@color/tv_black_new</item>
+        <item name="android:textColor">@color/setting_text</item>
         <item name="android:background">@drawable/btn_green_selector_new</item>
     </style>
 

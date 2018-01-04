@@ -149,9 +149,6 @@ public class ChatFragment extends BaseFragment {
             @Override
             public void onClick(int position) {
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra(Constants.TASK_ID_EXTRA, taskResponses.get(position).getId());
-                intent.putExtra(Constants.USER_ID_EXTRA, taskResponses.get(position).getPoster().getId());
-                intent.putExtra(Constants.TITLE_INFO_EXTRA, taskResponses.get(position).getTitle());
                 intent.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponses.get(position));
                 startActivity(intent, TransitionScreen.DOWN_TO_UP);
             }

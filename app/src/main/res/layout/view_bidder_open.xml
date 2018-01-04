@@ -21,22 +21,25 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:minWidth="83dp"
         android:textColor="@color/color_count_word"
-        android:textSize="14sp"
+        android:textSize="@dimen/tv_size_nomal"
         android:textStyle="bold"
         android:visibility="gone" />
 
     <vn.tonish.hozo.view.ButtonHozo
         android:id="@+id/btn_assign"
         style="@style/btn_style_green_new"
-        android:layout_width="75dp"
-        android:layout_height="22dp"
+        android:layout_width="83dp"
+        android:layout_height="25dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_price"
         android:layout_marginTop="5dp"
         android:text="@string/assign"
-        android:textSize="12sp" />
+        android:textSize="@dimen/tv_size_tiny"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,6 +56,8 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="3"
             android:textColor="@color/tv_black_new"
             android:textSize="14sp" />
 
@@ -71,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/tv_gray_new"
-            android:textSize="11sp"
+            android:textSize="@dimen/tv_size_tiny"
             tools:ignore="SmallSp" />
 
     </LinearLayout>
