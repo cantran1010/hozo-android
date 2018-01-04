@@ -5,56 +5,58 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.adapter.AssignerCallAdapter;
+import vn.tonish.hozo.adapter.MemberAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
- * Created by LongBui on 11/17/17.
+ * Created by CanTran on 1/4/18.
  */
 
-public class ContactActivity extends BaseActivity implements View.OnClickListener {
-
-    private static final String TAG = ContactActivity.class.getSimpleName();
-    private RecyclerView rcvAssign;
+public class ContactsActivity extends BaseActivity implements View.OnClickListener {
     private TaskResponse taskResponse;
+    private List<Assigner> assigners = new ArrayList<>();
+    private RecyclerView rcvMember;
+    private MemberAdapter memberAdapter;
     private TextViewHozo tvTaskName;
 
     @Override
     protected int getLayout() {
-        return R.layout.contact_activity;
+        return R.layout.activity_contacts;
     }
 
     @Override
     protected void initView() {
-        rcvAssign = (RecyclerView) findViewById(R.id.lvList);
+        rcvMember = (RecyclerView) findViewById(R.id.rcv_member);
         tvTaskName = (TextViewHozo) findViewById(R.id.tv_task_name);
         findViewById(R.id.img_back).setOnClickListener(this);
+
     }
 
     @Override
     protected void initData() {
         taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.TASK_DETAIL_EXTRA);
         tvTaskName.setText(taskResponse.getTitle());
-        setupList();
+        assigners = taskResponse.getAssignees();
+        Assigner assigner = new Assigner();
+        assigner.setFullName("Nhóm");
+        assigners.add(0, assigner);
+        memberAdapter = new MemberAdapter(ContactsActivity.this, assigners);
+        LinearLayoutManager horizontalLayoutManagaer
+                = new LinearLayoutManager(ContactsActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        rcvMember.setLayoutManager(horizontalLayoutManagaer);
+        rcvMember.setAdapter(memberAdapter);
+
     }
 
     @Override
     protected void resumeData() {
 
-    }
-
-    private void setupList() {
-        ArrayList<Assigner> assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
-        AssignerCallAdapter assignerAdapter = new AssignerCallAdapter(assigners, "");
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        rcvAssign.setLayoutManager(linearLayoutManager);
-        assignerAdapter.setTaskId(taskResponse.getId());
-        rcvAssign.setAdapter(assignerAdapter);
     }
 
     @Override
@@ -66,5 +68,6 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
                 break;
 
         }
+
     }
 }

@@ -188,6 +188,10 @@
             android:name=".activity.payment.WalletInfoActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.ContactsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.payment.TransferMoneyActivity"
             android:screenOrientation="portrait" />
         <meta-data

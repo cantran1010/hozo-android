@@ -149,7 +149,6 @@ public class ChatFragment extends BaseFragment {
         lvManager = new MyLinearLayoutManager(getActivity());
         rcvChatRooms.setLayoutManager(lvManager);
         rcvChatRooms.setAdapter(chatRoomAdapter);
-
         chatRoomAdapter.setChatRoomListener(new ChatRoomAdapter.ChatRoomListener() {
             @Override
             public void onClick(int position) {
