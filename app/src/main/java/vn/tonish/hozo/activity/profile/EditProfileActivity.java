@@ -15,7 +15,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -23,14 +22,13 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceBuffer;
-import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,7 +51,6 @@ import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.CropImageActivity;
 import vn.tonish.hozo.activity.image.PreviewImageActivity;
 import vn.tonish.hozo.adapter.ImageAdapter;
-import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -78,13 +75,14 @@ import vn.tonish.hozo.view.RadioButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.img_avatar;
-import static vn.tonish.hozo.R.string.post_task_map_get_location_error_next;
+import static vn.tonish.hozo.common.Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE_AVATA;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE_BACKGROUND;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.DateTimeUtils.getDateBirthDayFromIso;
 import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyIsoFromDate;
+import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 
 
 /**
@@ -97,7 +95,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private CircleImageView imgAvatar;
     private String imgPath, imgPathBackground;
     //    private RadioButton rbMale, rbFemale;
-    private EdittextHozo edtName, edtAddress, edtDes, edtExperience;
+    private EdittextHozo edtName, edtDes, edtExperience;
     private TextViewHozo tvBirthday;
     private final Calendar calendar = Calendar.getInstance();
     //    private RadioGroup rgRadius;
@@ -105,13 +103,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private int avataId, backgroundId;
     private boolean isUpdateAvata = false;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private ImageView imgMale, imgFemale;
     private String gender;
     private double lat, lon;
     private String address = "";
-    private GoogleApiClient googleApiClient;
-    private PlaceAutocompleteAdapter placeAutocompleteAdapter;
-    private AutoCompleteTextView autocompleteView;
+    private EdittextHozo autocompleteView;
     private RadioButtonHozo rbMale, rbFemale, rbAny;
     private CheckBoxHozo cbHideGender, cbHideBirth;
     private MyGridView grImage;
@@ -151,7 +146,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
 
         edtDes = (EdittextHozo) findViewById(R.id.edt_description);
-        autocompleteView = (AutoCompleteTextView) findViewById(R.id.edt_address);
+        autocompleteView = (EdittextHozo) findViewById(R.id.edt_address);
 
         rbMale = (RadioButtonHozo) findViewById(R.id.rd_male);
         rbFemale = (RadioButtonHozo) findViewById(R.id.rd_female);
@@ -179,6 +174,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         imgBackground = (ImageView) findViewById(R.id.img_background);
         imgBackground.setOnClickListener(this);
+        autocompleteView.setOnClickListener(this);
     }
 
     @Override
@@ -233,35 +229,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         cbHideBirth.setChecked(userEntity.isPrivacyBirth());
 
         address = userEntity.getAddress();
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, 0 /* clientId */, this)
-                .addApi(Places.GEO_DATA_API)
-                .build();
-        // Retrieve the AutoCompleteTextView that will display Place suggestions.
-        autocompleteView = (AutoCompleteTextView)
-                findViewById(R.id.edt_address);
-
-        autocompleteView.setThreshold(1);
-
-        // Register a listener that receives callbacks when a suggestion has been selected
-        autocompleteView.setOnItemClickListener(mAutocompleteClickListener);
-
-        final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
-                .setTypeFilter(Place.TYPE_COUNTRY)
-//                .setCountry("VN")
-                .build();
-
-        // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
-        // the entire world.
-        placeAutocompleteAdapter = new PlaceAutocompleteAdapter(this, googleApiClient, null,
-                autocompleteFilter);
-        autocompleteView.setAdapter(placeAutocompleteAdapter);
-
         lat = userEntity.getLatitude();
         lon = userEntity.getLongitude();
-
         autocompleteView.setText(userEntity.getAddress());
-
         edtDes.setText(userEntity.getDescription());
 
         for (int i = 0; i < userEntity.getImages().size(); i++) {
@@ -311,63 +281,25 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     }
 
-    private final AdapterView.OnItemClickListener mAutocompleteClickListener
-            = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            /*
-             Retrieve the place ID of the selected item from the Adapter.
-             The adapter stores each Place suggestion in a AutocompletePrediction from which we
-             read the place ID and title.
-              */
-            final AutocompletePrediction item = placeAutocompleteAdapter.getItem(position);
-            final String placeId = item.getPlaceId();
-            final CharSequence primaryText = item.getPrimaryText(null);
 
-            LogUtils.i(TAG, "Autocomplete item selected: " + primaryText);
-
-            /*
-             Issue a request to the Places Geo Data API to retrieve a Place object with additional
-             details about the place.
-              */
-            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
-                    .getPlaceById(googleApiClient, placeId);
-            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
-
-            LogUtils.i(TAG, "Called getPlaceById to get Place details for " + placeId);
+    private void findPlace() {
+        final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
+                .setTypeFilter(Place.TYPE_COUNTRY)
+                .build();
+        try {
+            Intent intent =
+                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                            .setFilter(autocompleteFilter)
+                            .build(this);
+            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+        } catch (GooglePlayServicesRepairableException e) {
+            LogUtils.d(TAG, "GooglePlayServicesRepairableException" + e.toString());
+            autocompleteView.setError(getString(R.string.post_task_map_get_location_error_next));
+        } catch (GooglePlayServicesNotAvailableException e) {
+            LogUtils.d(TAG, "GooglePlayServicesNotAvailableException" + e.toString());
+            autocompleteView.setError(getString(R.string.post_task_map_get_location_error_next));
         }
-    };
-    /**
-     * Callback for results from a Places Geo Data API query that shows the first place result in
-     * the details view on screen.
-     */
-    private final ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
-            = new ResultCallback<PlaceBuffer>() {
-        @Override
-        public void onResult(@NonNull PlaceBuffer places) {
-            if (!places.getStatus().isSuccess()) {
-                // Request did not complete successfully
-                LogUtils.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
-                places.release();
-                return;
-            }
-            try {
-
-                // Get the Place object from the buffer.
-                final Place place = places.get(0);
-                LogUtils.e(TAG, "Place address : " + place.getAddress());
-                lat = place.getLatLng().latitude;
-                lon = place.getLatLng().longitude;
-                address = autocompleteView.getText().toString();
-                autocompleteView.setError(null);
-                places.release();
-                Utils.hideKeyBoard(EditProfileActivity.this);
-
-            } catch (Exception e) {
-                Utils.showLongToast(EditProfileActivity.this, getString(post_task_map_get_location_error_next), true, false);
-            }
-        }
-    };
+    }
 
     @Override
     protected void resumeData() {
@@ -377,8 +309,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onPause() {
         super.onPause();
-        googleApiClient.stopAutoManage(this);
-        googleApiClient.disconnect();
     }
 
     private void updateGender(String gender) {
@@ -772,7 +702,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         //avata
         if (requestCode == REQUEST_CODE_PICK_IMAGE_AVATA
                 && resultCode == RESPONSE_CODE_PICK_IMAGE
@@ -838,7 +767,24 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         else if (requestCode == Constants.REQUEST_CODE_LANGUAGE && resultCode == Constants.RESULT_CODE_TAG) {
             userEntity = UserManager.getMyUser();
             LogUtils.d(TAG, "onActivityResult userEntity REQUEST_CODE_LANGUAGE : " + userEntity.toString());
+        } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlaceAutocomplete.getPlace(this, data);
+                LogUtils.d(TAG, "Place: " + place.getName());
+                // Get the Place object from the buffer.
+                LogUtils.e(TAG, "Place address : " + place.getAddress());
+                lat = place.getLatLng().latitude;
+                lon = place.getLatLng().longitude;
+                autocompleteView.setText(place.getAddress());
+                address = place.getAddress().toString();
+                hideKeyBoard(EditProfileActivity.this);
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                Status status = PlaceAutocomplete.getStatus(this, data);
+                LogUtils.d(TAG, status.getStatusMessage());
+                autocompleteView.setError(getString(R.string.post_task_map_get_location_error_next));
+            }
         }
+
 
     }
 
@@ -1015,7 +961,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             case R.id.img_cancel:
                 doSave();
                 break;
-
+            case R.id.edt_address:
+                findPlace();
+                break;
             case R.id.layout_birthday:
                 openDatePicker();
                 break;

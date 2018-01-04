@@ -20,6 +20,7 @@ public class AssignerAdapter extends RecyclerView.Adapter<AssignerAdapter.MyView
     private final ArrayList<Assigner> assigners;
     private final String assignType;
     private int taskId;
+    private int posterID;
 
     public AssignerAdapter(ArrayList<Assigner> assigners, String assignType) {
         this.assigners = assigners;
@@ -35,8 +36,9 @@ public class AssignerAdapter extends RecyclerView.Adapter<AssignerAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.assignerView.updateData(assigners.get(position), assignType);
         holder.assignerView.setTaskId(getTaskId());
+        holder.assignerView.setPosterID(getPosterID());
+        holder.assignerView.updateData(assigners.get(position), assignType);
     }
 
     @Override
@@ -61,5 +63,13 @@ public class AssignerAdapter extends RecyclerView.Adapter<AssignerAdapter.MyView
 
     public void setTaskId(int taskId) {
         this.taskId = taskId;
+    }
+
+    public int getPosterID() {
+        return posterID;
+    }
+
+    public void setPosterID(int posterID) {
+        this.posterID = posterID;
     }
 }

@@ -63,6 +63,9 @@ public class BiddersActivity extends BaseActivity implements View.OnClickListene
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvBidders.setLayoutManager(linearLayoutManager);
         posterOpenAdapter.setTaskId(taskResponse.getId());
+        posterOpenAdapter.setWorkerCount(taskResponse.getWorkerCount());
+        posterOpenAdapter.setAssinerCount(taskResponse.getAssigneeCount());
+        posterOpenAdapter.setPosterId(taskResponse.getPoster().getId());
         rcvBidders.setAdapter(posterOpenAdapter);
     }
 

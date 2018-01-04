@@ -109,15 +109,12 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
     @Override
     protected void initData() {
-        taskId = getIntent().getIntExtra(Constants.TASK_ID_EXTRA, 0);
-        posterId = getIntent().getIntExtra(Constants.USER_ID_EXTRA, 0);
-        tvTitle.setText(getIntent().getStringExtra(Constants.TITLE_INFO_EXTRA));
         taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.TASK_DETAIL_EXTRA);
-
+        taskId = taskResponse.getId();
+        posterId = taskResponse.getPoster().getId();
+        tvTitle.setText(taskResponse.getTitle());
         LogUtils.d(TAG, "initData , taskResponse : " + taskResponse.toString());
-
         tvMember.setText(Utils.getMemberChat(this, taskResponse));
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
         messageCloudEndPoint = myRef.child("task-messages").child(String.valueOf(taskId));

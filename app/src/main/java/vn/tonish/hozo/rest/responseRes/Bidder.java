@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by LongBui on 5/11/2017.
  */
 
-public class Bidder implements Serializable{
+public class Bidder implements Serializable {
     private int id;
     @SerializedName("full_name")
     private String fullName;
@@ -26,6 +26,15 @@ public class Bidder implements Serializable{
     private boolean emailActive;
     @SerializedName("tasker_done_rate")
     private float posterDoneRate;
+    private int price;
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
     public float getPosterDoneRate() {
         return posterDoneRate;
@@ -115,6 +124,7 @@ public class Bidder implements Serializable{
         this.phone = phone;
     }
 
+
     @Override
     public String toString() {
         return "Bidder{" +
@@ -129,7 +139,7 @@ public class Bidder implements Serializable{
                 ", facebookId='" + facebookId + '\'' +
                 ", emailActive=" + emailActive +
                 ", posterDoneRate=" + posterDoneRate +
+                ", price=" + price +
                 '}';
     }
-
 }

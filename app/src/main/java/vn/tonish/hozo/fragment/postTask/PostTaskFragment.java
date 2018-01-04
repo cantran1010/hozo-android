@@ -66,7 +66,7 @@ import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.ExpandableLayout;
 import vn.tonish.hozo.view.TextViewHozo;
 
-import static vn.tonish.hozo.utils.Utils.formatNumber;
+import static vn.tonish.hozo.utils.Utils.formatMoney;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
 /**
@@ -157,7 +157,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0) {
                     edtBudget.setThreshold(edtBudget.getText().length());
-                    formatMoney(Long.parseLong(edtBudget.getText().toString().trim().replace(",", "").replace(".", "")));
+                    formatMoney(getContext(),vnds,Long.parseLong(edtBudget.getText().toString().trim().replace(",", "").replace(".", "")),edtBudget,adapter);
                 }
             }
 
@@ -885,24 +885,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    private void formatMoney(long mn) {
-        if (mn * 10 >= MIN_BUGDET && mn * 10 <= MAX_BUGDET && mn * 10 % 1000 == 0)
-            vnds.add(formatNumber(mn * 10));
-        if (mn * 100 >= MIN_BUGDET && mn * 100 <= MAX_BUGDET && mn * 100 % 1000 == 0)
-            vnds.add(formatNumber(mn * 100));
-        if (mn * 1000 >= MIN_BUGDET && mn * 1000 <= MAX_BUGDET)
-            vnds.add(formatNumber(mn * 1000));
-        if (mn * 10000 >= MIN_BUGDET && mn * 10000 <= MAX_BUGDET)
-            vnds.add(formatNumber(mn * 10000));
-        if (mn * 100000 >= MIN_BUGDET && mn * 100000 <= MAX_BUGDET)
-            vnds.add(formatNumber(mn * 100000));
-        if (mn * 1000000 >= MIN_BUGDET && mn * 1000000 <= MAX_BUGDET)
-            vnds.add(formatNumber(mn * 1000000));
-        if (mn * 10000000 >= MIN_BUGDET && mn * 10000000 <= MAX_BUGDET)
-            vnds.add(formatNumber(mn * 10000000));
-        adapter = new CustomArrayAdapter(getContext(), vnds);
-        edtBudget.setAdapter(adapter);
-    }
+
 
     private String getLongAutoCompleteTextView(AutoCompleteTextView autoCompleteTextView) {
         return autoCompleteTextView.getText().toString().replace(",", "").replace(".", "").replace(" ₫", "");

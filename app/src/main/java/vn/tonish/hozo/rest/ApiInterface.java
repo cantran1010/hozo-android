@@ -24,6 +24,7 @@ import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.model.SettingAdvance;
+import vn.tonish.hozo.rest.responseRes.BidResponse;
 import vn.tonish.hozo.rest.responseRes.BankResponse;
 import vn.tonish.hozo.rest.responseRes.BlockResponse;
 import vn.tonish.hozo.rest.responseRes.DepositResponse;
@@ -93,7 +94,7 @@ public interface ApiInterface {
     Call<Void> report(@Header("Authorization") String token, @Path("commentId") int commentId, @Body RequestBody body);
 
     @POST("v1/tasks/{taskId}/bids")
-    Call<TaskResponse> bidsTask(@Header("Authorization") String token, @Path("taskId") int taskId);
+    Call<TaskResponse> bidsTask(@Header("Authorization") String token, @Path("taskId") int taskId,@Body RequestBody body);
 
     @POST("v1/tasks/{taskId}/accept")
     Call<TaskResponse> acceptOffer(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
@@ -196,6 +197,9 @@ public interface ApiInterface {
 
     @POST("v1/wallet/deposit")
     Call<DepositResponse> deposit(@Header("Authorization") String token, @Body RequestBody body);
+
+    @GET("v1/tasks/{taskId}/bidders")
+    Call<List<BidResponse>> getBidders(@Header("Authorization") String token, @Path("taskId") int taskId);
 
     @GET("v1/wallet/banks")
     Call<List<BankResponse>> getBanks(@Header("Authorization") String token);

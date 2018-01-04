@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.rest.responseRes.Bidder;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.view.BidderOpenView;
 
 /**
@@ -16,10 +17,13 @@ import vn.tonish.hozo.view.BidderOpenView;
  */
 
 public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.MyViewHolder> {
-
+    private final static String TAG = PosterOpenAdapter.class.getSimpleName();
     private final ArrayList<Bidder> bidders;
     private final String type;
     private int taskId;
+    private int assinerCount;
+    private int workerCount;
+    private int posterId;
 
     public PosterOpenAdapter(ArrayList<Bidder> bidders, String type) {
         this.bidders = bidders;
@@ -35,8 +39,12 @@ public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.bidderOpenView.updateData(bidders.get(position), type);
         holder.bidderOpenView.setTaskId(getTaskId());
+        holder.bidderOpenView.setWorkerCount(getWorkerCount());
+        holder.bidderOpenView.setAssinerCount(getAssinerCount());
+        holder.bidderOpenView.setPosterID(getPosterId());
+        holder.bidderOpenView.updateData(bidders.get(position), type);
+        LogUtils.d(TAG, "posterId:" + getPosterId());
     }
 
     @Override
@@ -61,5 +69,29 @@ public class PosterOpenAdapter extends RecyclerView.Adapter<PosterOpenAdapter.My
 
     public void setTaskId(int taskId) {
         this.taskId = taskId;
+    }
+
+    public int getAssinerCount() {
+        return assinerCount;
+    }
+
+    public void setAssinerCount(int assinerCount) {
+        this.assinerCount = assinerCount;
+    }
+
+    public int getWorkerCount() {
+        return workerCount;
+    }
+
+    public void setWorkerCount(int workerCount) {
+        this.workerCount = workerCount;
+    }
+
+    public int getPosterId() {
+        return posterId;
+    }
+
+    public void setPosterId(int posterId) {
+        this.posterId = posterId;
     }
 }

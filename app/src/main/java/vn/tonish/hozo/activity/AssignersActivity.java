@@ -80,6 +80,7 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvAssign.setLayoutManager(linearLayoutManager);
         assignerAdapter.setTaskId(taskResponse.getId());
+        assignerAdapter.setPosterID(taskResponse.getPoster().getId());
         rcvAssign.setAdapter(assignerAdapter);
     }
 
@@ -165,9 +166,6 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
                 startActivityForResult(intentRate, Constants.REQUEST_CODE_RATE, TransitionScreen.UP_TO_DOWN);
             } else if (intent.hasExtra(Constants.ASSIGNER_CONTACT_EXTRA)) {
                 Intent intentContact = new Intent(AssignersActivity.this, ChatActivity.class);
-                intentContact.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                intentContact.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
-                intentContact.putExtra(Constants.TITLE_INFO_EXTRA, taskResponse.getTitle());
                 intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
                 startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
             }

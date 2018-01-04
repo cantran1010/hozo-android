@@ -47,7 +47,9 @@ import vn.tonish.hozo.activity.AssignersActivity;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.BiddersActivity;
 import vn.tonish.hozo.activity.BlockTaskActivity;
+import vn.tonish.hozo.activity.BrowserTaskMapActivity;
 import vn.tonish.hozo.activity.ChatActivity;
+import vn.tonish.hozo.activity.PostTaskActivity;
 import vn.tonish.hozo.activity.RatingActivity;
 import vn.tonish.hozo.activity.SupportActivity;
 import vn.tonish.hozo.activity.comment.CommentAllActivity;
@@ -55,7 +57,6 @@ import vn.tonish.hozo.activity.comment.CommentsAnswerActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.PreviewImageListActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
-import vn.tonish.hozo.activity.PostTaskActivity;
 import vn.tonish.hozo.adapter.AssignerAdapter;
 import vn.tonish.hozo.adapter.CommentTaskAdapter;
 import vn.tonish.hozo.adapter.ImageDetailTaskAdapter;
@@ -67,6 +68,7 @@ import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Image;
+import vn.tonish.hozo.model.MiniTask;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
@@ -159,6 +161,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private boolean isScroll = true;
     private ProgressBar progressBar;
     private Call<TaskResponse> call;
+    private TextViewHozo tvMap;
 
     @Override
     protected int getLayout() {
@@ -205,7 +208,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         tvStatus = (TextViewHozo) findViewById(R.id.tv_status);
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
 
-        tvBudget = (TextViewHozo) findViewById(R.id.tv_budget);
+        tvBudget = (TextViewHozo) findViewById(R.id.edt_budget);
         tvWorkerCount = (TextViewHozo) findViewById(R.id.tv_worker_count);
         tvAssignerCount = (TextViewHozo) findViewById(R.id.tv_assigner_count);
         tvEmptyCount = (TextViewHozo) findViewById(R.id.tv_empty_count);
@@ -218,7 +221,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         TextViewHozo tvAgeLbl = (TextViewHozo) findViewById(R.id.tv_age_lbl);
         TextViewHozo tvSexLbl = (TextViewHozo) findViewById(R.id.tv_sex_lbl);
 
-        TextViewHozo tvMap = (TextViewHozo) findViewById(R.id.tv_map);
+        tvMap = (TextViewHozo) findViewById(R.id.tv_map);
         tvMap.setOnClickListener(this);
 
         rcvBidder = (RecyclerView) findViewById(R.id.rcv_bidders);
@@ -368,7 +371,11 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                         finish();
                         Intent intent = new Intent(DetailTaskActivity.this, BlockTaskActivity.class);
                         intent.putExtra(Constants.TITLE_INFO_EXTRA, getString(R.string.task_detail_block));
-                        intent.putExtra(Constants.CONTENT_INFO_EXTRA, getString(R.string.task_detail_block_reasons) + " " + error.message());
+                        String msg = "";
+                        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId())
+                            msg = error.message();
+                        else msg = getString(R.string.term_and_policy);
+                        intent.putExtra(Constants.CONTENT_INFO_EXTRA, getString(R.string.task_detail_block_reasons) + " " + msg);
                         startActivity(intent, TransitionScreen.FADE_IN);
                     } else {
                         DialogUtils.showOkDialog(DetailTaskActivity.this, getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
@@ -435,9 +442,11 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         tvTitle.setText(taskResponse.getTitle());
 
-        if (taskResponse.isOnline())
+        if (taskResponse.isOnline()) {
             tvAddress.setText(getString(R.string.online_task_address));
-        else {
+            tvMap.setVisibility(View.GONE);
+        } else {
+            tvMap.setVisibility(View.VISIBLE);
             if (taskResponse.getAddress().endsWith(Constants.VN1))
                 tvAddress.setText(taskResponse.getAddress().replace(Constants.VN1, ""));
             else if (taskResponse.getAddress().endsWith(Constants.VN2))
@@ -566,6 +575,9 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvBidder.setLayoutManager(linearLayoutManager);
         posterOpenAdapter.setTaskId(taskResponse.getId());
+        posterOpenAdapter.setWorkerCount(taskResponse.getWorkerCount());
+        posterOpenAdapter.setAssinerCount(taskResponse.getAssigneeCount());
+        posterOpenAdapter.setPosterId(taskResponse.getPoster().getId());
         rcvBidder.setAdapter(posterOpenAdapter);
     }
 
@@ -587,6 +599,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvAssign.setLayoutManager(linearLayoutManager);
         assignerAdapter.setTaskId(taskResponse.getId());
+        assignerAdapter.setPosterID(taskResponse.getPoster().getId());
         rcvAssign.setAdapter(assignerAdapter);
     }
 
@@ -1558,9 +1571,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 });
             } else if (intent.hasExtra(Constants.ASSIGNER_CONTACT_EXTRA)) {
                 Intent intentContact = new Intent(DetailTaskActivity.this, ChatActivity.class);
-                intentContact.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                intentContact.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
-                intentContact.putExtra(Constants.TITLE_INFO_EXTRA, taskResponse.getTitle());
                 intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
                 startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
             }
@@ -1904,6 +1914,17 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.tv_map:
+                ArrayList<MiniTask> miniTasks = new ArrayList<>();
+                MiniTask miniTask = new MiniTask();
+                miniTask.setId(taskResponse.getId());
+                miniTask.setTitle(taskResponse.getTitle());
+                miniTask.setLon(taskResponse.getLongitude());
+                miniTask.setLat(taskResponse.getLatitude());
+                miniTask.setAddress(taskResponse.getAddress());
+                miniTasks.add(miniTask);
+                Intent intent = new Intent(this, BrowserTaskMapActivity.class);
+                intent.putParcelableArrayListExtra(Constants.LIST_TASK_EXTRA, miniTasks);
+                startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
 
                 break;
 
@@ -1919,9 +1940,9 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             case R.id.rb_rate:
             case R.id.tv_name:
             case R.id.img_avatar_cm:
-                Intent intent = new Intent(this, ProfileActivity.class);
-                intent.putExtra(Constants.USER_ID, taskResponse.getPoster().getId());
-                startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                Intent intentMap = new Intent(this, ProfileActivity.class);
+                intentMap.putExtra(Constants.USER_ID, taskResponse.getPoster().getId());
+                startActivity(intentMap, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.btn_bid:

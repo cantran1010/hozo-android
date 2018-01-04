@@ -95,13 +95,13 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeRef
             TransitionScreen.overridePendingTransitionOut(this, transitionScreen);
     }
 
-    protected void startActivityForResult(Intent intent, int requestCode, TransitionScreen transitionScreen) {
+    public void startActivityForResult(Intent intent, int requestCode, TransitionScreen transitionScreen) {
         intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
         startActivityForResult(intent, requestCode);
         TransitionScreen.overridePendingTransition(this, transitionScreen);
     }
 
-    protected void startActivity(Intent intent, TransitionScreen transitionScreen) {
+    public void startActivity(Intent intent, TransitionScreen transitionScreen) {
         intent.putExtra(Constants.TRANSITION_EXTRA, transitionScreen);
         startActivity(intent);
         TransitionScreen.overridePendingTransition(this, transitionScreen);

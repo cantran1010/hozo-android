@@ -38,6 +38,7 @@ public class Assigner implements Serializable {
     private String ratingBody;
     @SerializedName("rating_confirm")
     private boolean ratingConfirm;
+    private int price;
 
     public boolean isRatingConfirm() {
         return ratingConfirm;
@@ -183,6 +184,16 @@ public class Assigner implements Serializable {
         this.ratingBody = ratingBody;
     }
 
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+
     @Override
     public String toString() {
         return "Assigner{" +
@@ -204,7 +215,7 @@ public class Assigner implements Serializable {
                 ", posterDoneRate=" + posterDoneRate +
                 ", ratingBody='" + ratingBody + '\'' +
                 ", ratingConfirm=" + ratingConfirm +
+                ", price=" + price +
                 '}';
     }
-
 }

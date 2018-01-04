@@ -186,14 +186,14 @@
                     android:drawableStart="@drawable/ic_location_point"
                     android:text="@string/location" />
 
-                <vn.tonish.hozo.view.HozoAutoCompleteTextView
+                <vn.tonish.hozo.view.EdittextHozo
                     android:id="@+id/edt_address"
-                    style="@style/edt_create_task"
+                    style="@style/tv_bg_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:focusable="true"
+                    android:focusable="false"
                     android:hint="@string/address_hint" />
             </LinearLayout>
         </LinearLayout>

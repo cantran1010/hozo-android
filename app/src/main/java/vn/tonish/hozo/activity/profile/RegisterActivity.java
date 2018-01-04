@@ -1,4 +1,4 @@
-package vn.tonish.hozo.activity;
+package vn.tonish.hozo.activity.profile;
 
 import android.Manifest;
 import android.app.Activity;
@@ -49,6 +49,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.GeneralInfoActivity;
+import vn.tonish.hozo.activity.LoginActivity;
+import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.CropImageActivity;
 import vn.tonish.hozo.common.Constants;
@@ -137,7 +141,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         checkBoxCoupon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
                 if (b) inputLayoutCoupon.setVisibility(View.VISIBLE);
                 else inputLayoutCoupon.setVisibility(View.GONE);
 
@@ -152,7 +155,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 .setTypeFilter(Place.TYPE_COUNTRY)
 //                .setCountry("VN")
                 .build();
-
         try {
             Intent intent =
                     new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)

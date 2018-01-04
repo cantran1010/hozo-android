@@ -27,11 +27,12 @@ import static android.content.ContentValues.TAG;
 public class AssignerView extends LinearLayout implements View.OnClickListener {
 
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName,tvDoneRate;
+    private TextViewHozo tvName,tvDoneRate,tvPrice;
     private RatingBar ratingBar;
-    private ButtonHozo btnContact, btnCancel, btnRate;
+    private ButtonHozo  btnCancel;
     private Assigner assigner;
     private int taskId;
+    private int posterID;
 
     public AssignerView(Context context) {
         super(context);
@@ -62,10 +63,8 @@ public class AssignerView extends LinearLayout implements View.OnClickListener {
 
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
         ratingBar = (RatingBar) findViewById(R.id.rb_rate);
-        btnContact = (ButtonHozo) findViewById(R.id.btn_contact);
+        tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
         btnCancel = findViewById(R.id.btn_cancel);
-        btnRate = findViewById(R.id.btn_rate);
-
         tvDoneRate = findViewById(R.id.tv_poster_done_rate);
     }
 
@@ -76,17 +75,16 @@ public class AssignerView extends LinearLayout implements View.OnClickListener {
         Utils.displayImageAvatar(getContext(), imgAvatar, assigner.getAvatar());
         tvName.setText(assigner.getFullName());
         ratingBar.setRating(assigner.getTaskerAverageRating());
-
-
+        LogUtils.d(TAG, "AssignerCallView , updateData assigner : " +( UserManager.getMyUser().getId() == getPosterID()));
+        if (UserManager.getMyUser().getId() == getPosterID()) {
+            tvPrice.setVisibility(VISIBLE);
+            tvPrice.setText(getContext().getString(R.string.price_bidder, Utils.formatNumber(assigner.getPrice())));
+        } else tvPrice.setVisibility(GONE);
         String percentDone = (int) (assigner.getPosterDoneRate() * 100) + "% " + getContext().getString(R.string.completion_rate);
         tvDoneRate.setText(percentDone);
 
         if (assignType.equals(getContext().getString(R.string.call))) {
-
-            btnContact.setVisibility(View.VISIBLE);
             btnCancel.setVisibility(View.VISIBLE);
-            btnRate.setVisibility(View.GONE);
-
             btnCancel.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -98,41 +96,11 @@ public class AssignerView extends LinearLayout implements View.OnClickListener {
             });
 
 
-            btnContact.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intentAnswer = new Intent();
-                    intentAnswer.setAction("MyBroadcast");
-                    intentAnswer.putExtra(Constants.ASSIGNER_CONTACT_EXTRA, assigner);
-                    getContext().sendBroadcast(intentAnswer);
-                }
-            });
 
         } else if (assignType.equals(getContext().getString(R.string.rate))) {
-
-            btnContact.setVisibility(View.GONE);
             btnCancel.setVisibility(View.GONE);
-            btnRate.setVisibility(View.VISIBLE);
-
-            if (assigner.getRating() == 0) {
-                btnRate.setVisibility(View.VISIBLE);
-                btnRate.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intentAnswer = new Intent();
-                        intentAnswer.setAction("MyBroadcast");
-                        intentAnswer.putExtra(Constants.ASSIGNER_RATE_EXTRA, assigner);
-                        getContext().sendBroadcast(intentAnswer);
-                    }
-                });
-            } else {
-                btnRate.setVisibility(View.GONE);
-            }
-
         } else {
-            btnContact.setVisibility(View.GONE);
             btnCancel.setVisibility(View.GONE);
-            btnRate.setVisibility(View.GONE);
         }
 
     }
@@ -157,5 +125,13 @@ public class AssignerView extends LinearLayout implements View.OnClickListener {
 
     public void setTaskId(int taskId) {
         this.taskId = taskId;
+    }
+
+    public int getPosterID() {
+        return posterID;
+    }
+
+    public void setPosterID(int posterID) {
+        this.posterID = posterID;
     }
 }
