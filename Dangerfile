@@ -1,3 +1,11 @@
+# Dismiss warnings out of diff range
+github.dismiss_out_of_range_messages({
+  error: false,
+  warning: true,
+  message: true,
+  markdown: true
+})
+
 # Android Lint
 android_lint.filtering = true
 android_lint.report_file = "app/build/reports/lint-results.xml"
