@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -41,7 +42,9 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/margin_left_screen"
         android:layout_marginRight="@dimen/margin_right_screen"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/margin_left_screen"
+        android:layout_marginEnd="@dimen/margin_right_screen">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,7 +56,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:src="@drawable/img_dot_blue" />
+                android:src="@drawable/img_dot_blue"
+                tools:ignore="ContentDescription" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"
@@ -61,7 +65,8 @@
                 android:layout_marginLeft="5dp"
                 android:text="@string/wallet_account_info4"
                 android:textColor="@color/tv_black"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:layout_marginStart="5dp" />
 
         </LinearLayout>
 
@@ -75,7 +80,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:src="@drawable/img_dot_blue" />
+                android:src="@drawable/img_dot_blue"
+                tools:ignore="ContentDescription" />
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"
@@ -83,7 +89,8 @@
                 android:layout_marginLeft="5dp"
                 android:text="@string/wallet_account_info5"
                 android:textColor="@color/tv_black"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:layout_marginStart="5dp" />
 
         </LinearLayout>
 

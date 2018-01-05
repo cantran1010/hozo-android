@@ -71,6 +71,8 @@
         android:layout_height="1px"
         android:layout_marginLeft="@dimen/margin_left_screen"
         android:layout_marginRight="@dimen/margin_right_screen"
-        android:background="#bcccd2" />
+        android:background="#bcccd2"
+        android:layout_marginStart="@dimen/margin_left_screen"
+        android:layout_marginEnd="@dimen/margin_right_screen" />
 
 </LinearLayout>

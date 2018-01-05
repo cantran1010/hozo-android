@@ -24,6 +24,7 @@
         <ignore path="src/main/res/drawable-hdpi/ic_down_arrow.png" />
         <ignore path="src/main/res/drawable-hdpi/ic_up_arrow.png" />
         <ignore path="src/main/res/drawable-hdpi/img_close.png" />
+        <ignore path="src/main/res/drawable-hdpi/img_dot_blue.png" />
         <ignore path="src/main/res/drawable-hdpi/location_create_task.png" />
         <ignore path="src/main/res/drawable-hdpi/support_star_off.png" />
         <ignore path="src/main/res/drawable-hdpi/support_star_on.png" />
@@ -34,6 +35,7 @@
         <ignore path="src/main/res/drawable-mdpi/ic_down_arrow.png" />
         <ignore path="src/main/res/drawable-mdpi/ic_up_arrow.png" />
         <ignore path="src/main/res/drawable-mdpi/img_close.png" />
+        <ignore path="src/main/res/drawable-mdpi/img_dot_blue.png" />
         <ignore path="src/main/res/drawable-mdpi/location_create_task.png" />
         <ignore path="src/main/res/drawable-mdpi/support_star_off.png" />
         <ignore path="src/main/res/drawable-mdpi/support_star_on.png" />
@@ -44,6 +46,7 @@
         <ignore path="src/main/res/drawable-xhdpi/ic_down_arrow.png" />
         <ignore path="src/main/res/drawable-xhdpi/ic_up_arrow.png" />
         <ignore path="src/main/res/drawable-xhdpi/img_close.png" />
+        <ignore path="src/main/res/drawable-xhdpi/img_dot_blue.png" />
         <ignore path="src/main/res/drawable-xhdpi/location_create_task.png" />
         <ignore path="src/main/res/drawable-xhdpi/support_star_off.png" />
         <ignore path="src/main/res/drawable-xhdpi/support_star_on.png" />
@@ -54,6 +57,7 @@
         <ignore path="src/main/res/drawable-xxhdpi/ic_down_arrow.png" />
         <ignore path="src/main/res/drawable-xxhdpi/ic_up_arrow.png" />
         <ignore path="src/main/res/drawable-xxhdpi/img_close.png" />
+        <ignore path="src/main/res/drawable-xxhdpi/img_dot_blue.png" />
         <ignore path="src/main/res/drawable-xxhdpi/location_create_task.png" />
         <ignore path="src/main/res/drawable-xxhdpi/support_star_off.png" />
         <ignore path="src/main/res/drawable-xxhdpi/support_star_on.png" />
@@ -64,6 +68,7 @@
         <ignore path="src/main/res/drawable-xxxhdpi/ic_down_arrow.png" />
         <ignore path="src/main/res/drawable-xxxhdpi/ic_up_arrow.png" />
         <ignore path="src/main/res/drawable-xxxhdpi/img_close.png" />
+        <ignore path="src/main/res/drawable-xxxhdpi/img_dot_blue.png" />
         <ignore path="src/main/res/drawable-xxxhdpi/location_create_task.png" />
         <ignore path="src/main/res/drawable-xxxhdpi/support_star_off.png" />
         <ignore path="src/main/res/drawable-xxxhdpi/support_star_on.png" />

@@ -23,7 +23,6 @@
         android:layout_marginLeft="0dp"
         android:layout_toLeftOf="@+id/img_down"
         android:layout_toRightOf="@id/cb_exchange"
-        android:text="Bui Duc Long"
         android:textColor="@color/tv_gray"
         android:textSize="14sp"
         android:layout_marginStart="0dp"
@@ -49,7 +48,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/img_up"
-        android:text="50.000 đ"
         android:textColor="@color/hozo_red"
         android:textSize="15sp"
         android:layout_toStartOf="@id/img_up" />

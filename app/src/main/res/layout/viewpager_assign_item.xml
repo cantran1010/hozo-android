@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -71,7 +72,6 @@
                 android:id="@+id/img_avatar_assign"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/avatar_default" />
@@ -112,7 +112,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="RtlHardcoded">
 
                     <RatingBar
                         android:id="@+id/rb_rating"
@@ -130,8 +131,6 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
-                        android:layout_toEndOf="@+id/rb_rating4"
-                        android:layout_toRightOf="@+id/rb_rating4"
                         android:textSize="@dimen/tv_size_xxtiny"
                         android:textStyle="normal" />
 
@@ -141,8 +140,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
-                        android:layout_toEndOf="@+id/rb_rating4"
-                        android:layout_toRightOf="@+id/rb_rating4"
                         android:textSize="@dimen/tv_size_xxtiny"
                         android:textStyle="normal" />
 
@@ -152,8 +149,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
-                        android:layout_toEndOf="@+id/rb_rating4"
-                        android:layout_toRightOf="@+id/rb_rating4"
                         android:textSize="@dimen/tv_size_xxtiny"
                         android:textStyle="normal" />
 
@@ -166,7 +161,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
                     android:gravity="right"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="RtlHardcoded">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -328,7 +324,6 @@
                     android:textStyle="bold" />
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/vnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -410,7 +405,8 @@
                     android:layout_toEndOf="@id/tv_show_reviews"
                     android:layout_toRightOf="@id/tv_show_reviews"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_down_arrow" />
+                    android:src="@drawable/ic_down_arrow"
+                    tools:ignore="ContentDescription" />
             </RelativeLayout>
 
             <vn.tonish.hozo.view.ExpandableLayout

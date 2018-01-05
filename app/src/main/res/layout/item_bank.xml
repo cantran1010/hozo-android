@@ -37,7 +37,6 @@
         tools:ignore="ContentDescription" />
 
     <LinearLayout
-        android:id="@+id/name_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -53,14 +52,12 @@
             android:id="@+id/tv_bank_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="VietCombank"
             android:textColor="@color/hozo_bg" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_vn_bank_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ngan hang ngoai thuong viet nam"
             android:textColor="@color/tv_gray" />
 
     </LinearLayout>
