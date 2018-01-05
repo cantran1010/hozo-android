@@ -38,7 +38,6 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
     private ArrayList<TransactionResponse> payments = new ArrayList<>();
     private String since;
     private WalletResponse walletResponse;
-    private ImageView imgWalletAccount, imgWalletMoney;
 
     @Override
     protected int getLayout() {
@@ -75,10 +74,10 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
 //        rcvPayment = (RecyclerView) findViewById(R.id.rcv_payment_history);
 //        tvNoHistory = (TextViewHozo) findViewById(R.id.tv_no_history);
 
-        imgWalletAccount = (ImageView) findViewById(R.id.img_wallet_account_info);
+        ImageView imgWalletAccount = (ImageView) findViewById(R.id.img_wallet_account_info);
         imgWalletAccount.setOnClickListener(this);
 
-        imgWalletMoney = (ImageView) findViewById(R.id.img_wallet_account_money);
+        ImageView imgWalletMoney = (ImageView) findViewById(R.id.img_wallet_account_money);
         imgWalletMoney.setOnClickListener(this);
 
     }
@@ -193,7 +192,9 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
                 break;
 
             case R.id.btn_withdraw_money:
-                startActivity(WithdrawalActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+                Intent intentWithdraw = new Intent(MyWalletActivity.this, WithdrawalActivity.class);
+                intentWithdraw.putExtra(Constants.BALANCE_CASH_EXTRA, walletResponse.getBalanceCash());
+                startActivity(intentWithdraw, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.img_wallet_account_info:

@@ -41,6 +41,7 @@ import vn.tonish.hozo.rest.responseRes.Token;
 import vn.tonish.hozo.rest.responseRes.TransactionResponse;
 import vn.tonish.hozo.rest.responseRes.UpdateResponse;
 import vn.tonish.hozo.rest.responseRes.WalletResponse;
+import vn.tonish.hozo.rest.responseRes.WithdrawMoneyReponse;
 
 /**
  * Created by LongBui on 09/05/2017.
@@ -221,4 +222,7 @@ public interface ApiInterface {
 
     @DELETE("v1/wallet/bank/{bankId}")
     Call<Void> deleteBank(@Header("Authorization") String token, @Path("bankId") int bankId);
+
+    @POST("v1/wallet/withdraw")
+    Call<WithdrawMoneyReponse> withdrawMoney(@Header("Authorization") String token, @Body RequestBody body);
 }

@@ -393,9 +393,7 @@
     <string name="setting_status_assigned">assigned</string>
     <string name="keyword_hint">Nhập từ khoá</string>
     <string name="payment_history_title">Ví Hozo</string>
-    <string name="wallet_title">Ví Hozo của bạn có</string>
     <string name="btn_payment">Nạp tiền</string>
-    <string name="history_title">LỊCH SỬ GIAO DỊCH</string>
     <string name="recharge_title">Nạp tiền</string>
     <string name="recharge_des">HÌNH THỨC NẠP TIỀN</string>
     <string name="unit">VNĐ</string>
@@ -537,7 +535,6 @@
     <string name="cancel_assigner">Hủy giao</string>
     <string name="all_comment">Tất cả bình luận</string>
     <string name="confirm_bid_title">Xác nhận ứng tuyển</string>
-    <string name="bid_lbl">Chi tiết công việc</string>
     <string name="bid_des1">Để đảm bảo uy tín ứng tuyển.\nHozo sẽ tạm thu %1$s đ từ ví Hozo của bạn.\nSố tiền sẽ được hoàn trả nếu:</string>
     <string name="bid_des2">Bạn hoàn thành công việc có xác nhận từ người thuê.</string>
     <string name="bid_des3">Bạn hủy ứng tuyển trước khi được giao việc hoặc trong vòng 30 phút sau khi được giao việc.</string>
@@ -545,8 +542,6 @@
     <string name="bid_confirm_policy_link">Điều khoản sử dụng</string>
     <string name="input_msg_hint">Nhập tin nhắn đến người đăng</string>
     <string name="confirm">Đồng ý</string>
-    <string name="history_payment_count">%1$d lượt</string>
-    <string name="see_all_payment">Xem tất cả giao dịch</string>
     <string name="transaction_promotion">Tặng tiền từ mã khuyến mại</string>
     <string name="payment_history_title_all">Lịch sử giao dịch</string>
     <string name="promotion_code">Mã khuyễn mại</string>
@@ -605,7 +600,6 @@
     <string name="transaction_bid_deposit_out">Hệ thống đã thu tiền đặt cọc việc \"%1$s\"</string>
     <string name="transaction_reg_awarded">Hệ thống tặng tiền đăng kí tài khoản thành công</string>
     <string name="transaction_sys_donated">Hệ thống tặng tiền \"%1$s\"</string>
-    <string name="no_history_payment">Chưa có giao dịch nào</string>
     <string name="nofification_money_received">Hệ thống đã tặng tiền cho bạn</string>
     <string name="nofification_money_received_matcher">tặng tiền</string>
     <string name="transaction_ref_bonus">Tặng tiền giới thiệu thành viên</string>
@@ -665,7 +659,7 @@
     <string name="notification_chat">đã gửi tin nhắn đến nhóm</string>
     <string name="verified_watting">Đang đợi xác thực</string>
     <string name="view_reviews">Xem Đánh giá</string>
-    <string name="tasks_count">Tham gia %1$d việc</string>
+    <string name="tasks_count" tools:ignore="PluralsCandidate">Tham gia %1$d việc</string>
     <string name="tasks_complex">hoàn thành </string>
     <string name="assigned_count">Đã giao: %1$d</string>
     <string name="worker_count">Tổng cần: %1$d</string>
@@ -673,7 +667,6 @@
     <string name="assigned_done">Đã giao</string>
     <string name="price_bidder">%1$sđ</string>
     <string name="confrim_price">*Bạn có thể điều chỉnh tiền công mong muốn.</string>
-    <string name="task_location">Vị trí công việc</string>
 
     <string name="btn_exchange">Thanh toán</string>
     <string name="btn_withdraw">Rút tiền</string>
@@ -738,5 +731,13 @@
     <string name="wallet_account_info4">Ví tiền được dùng để giữ tiền công của công việc được người thuê chuyển vào từ ví tài khoản của người thuê.</string>
     <string name="wallet_account_info5">Bạn có thể gửi yêu cầu rút tiền từ ví tiền vào tài khoản ngân hàng của bạn. Hozo sẽ duyệt yêu cầu này vào thứ 2 của tuần đầu tiên của tháng kế tiếp.</string>
     <string name="bank_null">Bạn chưa chọn ngân hàng!</string>
+    <string name="max_money_transfer">Số tiền tối đa có thể rút là %1$s VNĐ</string>
+    <string name="min_money_transfer">Số tiền tối thiểu có thể rút là %1$s VNĐ</string>
+    <string name="withdraw_error_invalid_data">Lỗi dữ liệu!</string>
+    <string name="withdraw_error_no_bank">Không tồn tại ngân hàng này!</string>
+    <string name="withdraw_error_not_enough">Tiền tiền không đủ để rút!</string>
+    <string name="withdraw_success">Bạn yêu cầu rút tiền thành công,hệ thống đã tiếp nhận yêu cầu!</string>
+    <string name="no_money_transfer">Tài khoản của bạn không đủ để rút.\nSố tiền tối thiểu là 50.000 VNĐ.</string>
+    <string name="withdraw_bank">Trừ tiền rút tiền từ ví.</string>
 
 </resources>

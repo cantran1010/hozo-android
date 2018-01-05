@@ -61,7 +61,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="50.000 VND"
             android:textColor="@color/tv_black"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -121,7 +120,6 @@
                         android:id="@+id/tv_receiver"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bui Duc Long"
                         android:textColor="@color/tv_black"
                         android:textSize="14sp" />
 
@@ -160,7 +158,6 @@
                         android:id="@+id/tv_card_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0145454545454545454"
                         android:textColor="@color/tv_black"
                         android:textSize="14sp" />
 
@@ -199,7 +196,6 @@
                         android:id="@+id/tv_bank_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TPBank"
                         android:textColor="@color/tv_black"
                         android:textSize="14sp" />
 

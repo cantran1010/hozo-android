@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -49,7 +50,9 @@
         android:paddingTop="3dp"
         android:text="@string/count_history"
         android:textColor="@color/hozo_red"
-        android:textSize="10sp" />
+        android:textSize="10sp"
+        android:layout_marginStart="@dimen/margin_left_screen"
+        tools:ignore="SmallSp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcv_payment_history"

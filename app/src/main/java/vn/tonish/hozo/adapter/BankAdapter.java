@@ -20,8 +20,6 @@ import vn.tonish.hozo.view.TextViewHozo;
 
 public class BankAdapter extends RecyclerView.Adapter<BankAdapter.MyViewHolder> {
 
-    private Context context;
-
     public BankAdapter(List<Bank> banks) {
         this.banks = banks;
     }
@@ -50,7 +48,7 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.MyViewHolder> 
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_bank, parent, false);
-        context = parent.getContext();
+        Context context = parent.getContext();
         return new MyViewHolder(itemView);
     }
 

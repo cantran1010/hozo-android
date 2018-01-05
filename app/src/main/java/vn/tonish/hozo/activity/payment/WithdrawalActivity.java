@@ -38,12 +38,11 @@ import vn.tonish.hozo.view.EdittextHozo;
 public class WithdrawalActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = WithdrawalActivity.class.getSimpleName();
-    private ImageView imgAddBank;
     private ArrayList<Bank> banks = new ArrayList<>();
     private RecyclerView rcvBank;
     private BankAdapter bankAdapter;
-    private ButtonHozo btnConfirm;
     private EdittextHozo edtMoney;
+    private int balanceCash;
 
     @Override
     protected int getLayout() {
@@ -55,12 +54,12 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        imgAddBank = (ImageView) findViewById(R.id.img_add_bank);
+        ImageView imgAddBank = (ImageView) findViewById(R.id.img_add_bank);
         imgAddBank.setOnClickListener(this);
 
         rcvBank = (RecyclerView) findViewById(R.id.rcv_bank);
 
-        btnConfirm = (ButtonHozo) findViewById(R.id.btn_confirm);
+        ButtonHozo btnConfirm = (ButtonHozo) findViewById(R.id.btn_confirm);
         btnConfirm.setOnClickListener(this);
 
         edtMoney = (EdittextHozo) findViewById(R.id.edt_money);
@@ -69,6 +68,7 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initData() {
+        balanceCash = getIntent().getIntExtra(Constants.BALANCE_CASH_EXTRA, 0);
         edtMoney.addTextChangedListener(new NumberTextWatcher(edtMoney));
 
         setUpBank();
@@ -239,6 +239,24 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
         if (TextUtils.isEmpty(edtMoney.getText().toString())) {
             edtMoney.requestFocus();
             edtMoney.setError(getString(R.string.null_money_transfer));
+            return;
+        }
+
+        if(balanceCash < 50000){
+            edtMoney.requestFocus();
+            edtMoney.setError(getString(R.string.no_money_transfer));
+            return;
+        }
+
+        if (Utils.getLongEdittext(edtMoney) < 50000) {
+            edtMoney.requestFocus();
+            edtMoney.setError(getString(R.string.min_money_transfer, "50.000"));
+            return;
+        }
+
+        if (Utils.getLongEdittext(edtMoney) > balanceCash) {
+            edtMoney.requestFocus();
+            edtMoney.setError(getString(R.string.max_money_transfer, Utils.formatNumber(balanceCash)));
             return;
         }
 

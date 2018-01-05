@@ -830,6 +830,8 @@ public class Utils {
             return context.getString(R.string.wage_transfer, transactionResponse.getTaskName(), transactionResponse.getFullName());
         else if (transactionResponse.getMethod().equals("wage_received"))
             return context.getString(R.string.wage_received, transactionResponse.getTaskName());
+        else if (transactionResponse.getMethod().equals("withdraw_bank"))
+            return context.getString(R.string.withdraw_bank);
         else return "Waitting";
     }
 
@@ -858,7 +860,7 @@ public class Utils {
         return result;
     }
 
-    public static void formatMoney(Context context, ArrayList<String> vnds,long mn, AutoCompleteTextView autoCompleteTextView, CustomArrayAdapter adapter) {
+    public static void formatMoney(Context context, ArrayList<String> vnds, long mn, AutoCompleteTextView autoCompleteTextView, CustomArrayAdapter adapter) {
         if (mn * 10 >= MIN_BUGDET && mn * 10 <= MAX_BUGDET && mn * 10 % 1000 == 0)
             vnds.add(formatNumber(mn * 10));
         if (mn * 100 >= MIN_BUGDET && mn * 100 <= MAX_BUGDET && mn * 100 % 1000 == 0)
