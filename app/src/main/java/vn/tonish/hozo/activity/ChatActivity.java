@@ -115,13 +115,10 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         tvTitle.setText(taskResponse.getTitle());
         LogUtils.d(TAG, "initData , taskResponse : " + taskResponse.toString());
         tvMember.setText(Utils.getMemberChat(this, taskResponse));
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
         messageCloudEndPoint = myRef.child("task-messages").child(String.valueOf(taskId));
         setUpMessageList();
-
         memberCloudEndPoint = myRef.child("members").child(String.valueOf(UserManager.getMyUser().getId()));
-
         memberEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -245,24 +242,18 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
                 Message message = dataSnapshot.getValue(Message.class);
                 message.setId(dataSnapshot.getKey());
                 LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , message : " + message.toString());
                 LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , message id : " + dataSnapshot.getKey());
                 LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , checkContain(message) : " + checkContain(message));
-
                 if (checkContain(message)) return;
-
                 messages.add(0, message);
                 messageAdapter.notifyDataSetChanged();
                 LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , messages size : " + messages.size());
-
                 Map<String, Boolean> map = new HashMap<>();
                 map.put(String.valueOf(UserManager.getMyUser().getId()), Boolean.TRUE);
-
                 messageCloudEndPoint.child(dataSnapshot.getKey()).child("reads").child(String.valueOf(UserManager.getMyUser().getId())).setValue(true);
-
             }
 
             @Override
@@ -329,14 +320,11 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                     if (dataSnapshot.getChildrenCount() < PAGE_COUNT) {
                         Message message = dataSnapshot1.getValue(Message.class);
                         message.setId(dataSnapshot1.getKey());
-
                         LogUtils.d(TAG, "addValueEventListener recentPostsQuery : " + message.toString());
                         LogUtils.d(TAG, "addValueEventListener recentPostsQuery key : " + dataSnapshot1.getKey());
-
                         if (!checkContain(message))
                             messagesAdded.add(0, message);
                         isLoadingMoreFromServer = false;
-
                         messageAdapter.stopLoadMore();
                     } else {
                         if (i == 0) lastKeyMsg = dataSnapshot1.getKey();
@@ -420,7 +408,6 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     private boolean checkContain(Message message) {
         for (int i = 0; i < messages.size(); i++)
             if (message.getId().equals(messages.get(i).getId())) return true;
-
         return false;
     }
 
