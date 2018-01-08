@@ -65,3 +65,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Translation files
+translations_*.csv
