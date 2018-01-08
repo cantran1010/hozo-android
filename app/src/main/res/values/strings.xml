@@ -676,7 +676,7 @@
     <string name="select_task">CHỌN VIỆC LIÊN QUAN</string>
     <string name="money_des">SỐ TIỀN CẦN THANH TOÁN</string>
     <string name="withdrawal_title">Rút tiền</string>
-    <string name="withdrawal_des">Bạn có thể gửi yêu cầu rút tiền\ntừ ví Hozo và từ tài khoản ngân hàng của bạn.\nGiao dịch sẽ được thực hiện vào\nthứ 6 của tuần cuối cùng trong tháng.\n \n \nNhập số tiền cần rút.</string>
+    <string name="withdrawal_des">Bạn có thể gửi yêu cầu rút tiền\ntừ ví Hozo vào tài khoản ngân hàng của bạn.\nGiao dịch sẽ được thực hiện vào\nthứ 2 của tuần đầu tiên trong tháng kế tiếp.\n \n \nNhập số tiền cần rút.</string>
     <string name="bank_label">CHỌN NGÂN HÀNG</string>
     <string name="btn_withdrawal">Xác nhận</string>
     <string name="bankadded_title">Thêm ngân hàng</string>
@@ -739,5 +739,6 @@
     <string name="withdraw_success">Bạn yêu cầu rút tiền thành công,hệ thống đã tiếp nhận yêu cầu!</string>
     <string name="no_money_transfer">Tài khoản của bạn không đủ để rút.\nSố tiền tối thiểu là 50.000 VNĐ.</string>
     <string name="withdraw_bank">Trừ tiền rút tiền từ ví.</string>
+    <string name="name_error">Không được chứa \n email hoặc số điện thoại</string>
 
 </resources>

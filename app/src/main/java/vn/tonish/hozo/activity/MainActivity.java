@@ -28,6 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.payment.MyWalletActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -157,6 +158,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     intentTaskAdmin.putExtra(Constants.TASK_ID_EXTRA, taskIdAdmin);
                     startActivityForResult(intentTaskAdmin, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                     break;
+                case Constants.PUSH_TYPE_MONEY_RECEIVED:
+                    Intent intentWallet = new Intent(this, MyWalletActivity.class);
+                    startActivity(intentWallet, TransitionScreen.RIGHT_TO_LEFT);
+                    break;
                 default:
                     int taskId = notification.getTaskId();
                     Intent intent = new Intent(this, DetailTaskActivity.class);
@@ -229,6 +234,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     Utils.blockUser(MainActivity.this);
                 }
             }
+
             @Override
             public void onFailure(Call<NewTaskResponse> call, Throwable t) {
 
@@ -287,6 +293,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     Intent intentTaskAdmin = new Intent(this, DetailTaskActivity.class);
                     intentTaskAdmin.putExtra(Constants.TASK_ID_EXTRA, taskIdAdmin);
                     startActivityForResult(intentTaskAdmin, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+                    break;
+                case Constants.PUSH_TYPE_MONEY_RECEIVED:
+                    Intent intentWallet = new Intent(this, MyWalletActivity.class);
+                    startActivity(intentWallet, TransitionScreen.RIGHT_TO_LEFT);
                     break;
                 default:
                     int taskId = notification.getTaskId();

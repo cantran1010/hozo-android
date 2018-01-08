@@ -627,6 +627,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             inputLayoutName.setError(getString(R.string.err_msg_name));
             edtName.requestFocus();
             return false;
+        } else if (!Utils.validateInput(this, edtName.getText().toString().trim())) {
+            edtName.setError(getString(R.string.name_error));
+            edtName.requestFocus();
+            return false;
         } else {
             inputLayoutName.setErrorEnabled(false);
         }

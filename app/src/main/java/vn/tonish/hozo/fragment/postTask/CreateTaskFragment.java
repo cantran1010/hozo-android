@@ -299,13 +299,16 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             address = "";
             lat = 0;
             lon = 0;
-            autocompleteView.requestFocus();
+        } else if (!Utils.validateInput(getActivity(), edtWorkName.getText().toString().trim())) {
+            Utils.showLongToast(getActivity(), getString(R.string.post_a_task_input_error), true, false);
+            return;
+        } else if (!Utils.validateInput(getActivity(), edtDescription.getText().toString().trim())) {
+            Utils.showLongToast(getActivity(), getString(R.string.post_a_task_input_error), true, false);
+            return;
         } else {
             inserTask(((PostTaskActivity) getActivity()).getTaskResponse());
             openFragment(R.id.layout_container, PostTaskFragment.class, new Bundle(), true, TransitionScreen.RIGHT_TO_LEFT);
         }
-
-
     }
 
     private boolean validAdress() {

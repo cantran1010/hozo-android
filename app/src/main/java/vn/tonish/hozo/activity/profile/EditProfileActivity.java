@@ -326,9 +326,17 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             edtName.requestFocus();
             edtName.setError(getString(R.string.erro_empty_name));
             return;
+        } else if (!Utils.validateInput(this, edtName.getText().toString().trim())) {
+            edtName.requestFocus();
+            edtName.setError(getString(R.string.name_error));
+            return;
         } else if (edtDes.getText().toString().trim().length() > 500) {
             edtDes.requestFocus();
             edtDes.setError(getString(R.string.error_des));
+            return;
+        } else if (!Utils.validateInput(this, edtDes.getText().toString().trim())) {
+            edtDes.requestFocus();
+            edtDes.setError(getString(R.string.name_error));
             return;
         } else if (lat == 0 && lon == 0) {
             Log.d(TAG, "lat +long" + lat + " : " + lon);
@@ -338,6 +346,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         } else if (TextUtils.isEmpty(address)) {
             autocompleteView.requestFocus();
             autocompleteView.setError(getString(R.string.post_task_address_error));
+            return;
+        } else if (!Utils.validateInput(this, edtExperience.getText().toString().trim())) {
+            edtExperience.requestFocus();
+            edtExperience.setError(getString(R.string.name_error));
             return;
         }
 
