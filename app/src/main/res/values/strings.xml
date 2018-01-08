@@ -739,5 +739,6 @@
     <string name="withdraw_success">Bạn yêu cầu rút tiền thành công,hệ thống đã tiếp nhận yêu cầu!</string>
     <string name="no_money_transfer">Tài khoản của bạn không đủ để rút.\nSố tiền tối thiểu là 50.000 VNĐ.</string>
     <string name="withdraw_bank">Trừ tiền rút tiền từ ví.</string>
+    <string name="name_error">Không được chứa \n email hoặc số điện thoại</string>
 
 </resources>
