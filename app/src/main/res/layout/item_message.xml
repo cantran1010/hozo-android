@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -46,20 +47,28 @@
                 android:textColor="#b2b2b2"
                 android:textSize="12sp" />
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_left_msg"
+            <android.support.v7.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:autoLink="web"
-                android:background="@drawable/chat_left_bg"
-                android:orientation="vertical"
-                android:paddingBottom="4dp"
-                android:paddingLeft="6dp"
-                android:paddingRight="6dp"
-                android:paddingTop="4dp"
-                android:textColor="#666666"
-                android:textSize="14sp" />
+                card_view:cardCornerRadius="4dp"
+                card_view:cardElevation="4dp"
+                card_view:cardUseCompatPadding="true">
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_left_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:autoLink="web"
+                    android:background="@drawable/chat_left_bg"
+                    android:orientation="vertical"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:paddingTop="4dp"
+                    android:textColor="#666666"
+                    android:textSize="14sp" />
+            </android.support.v7.widget.CardView>
 
 
             <LinearLayout
@@ -131,19 +140,27 @@
                 android:textColor="#b2b2b2"
                 android:textSize="12sp" />
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_right_msg"
+            <android.support.v7.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:autoLink="web"
-                android:background="@drawable/chat_right_bg"
-                android:paddingBottom="4dp"
-                android:paddingLeft="6dp"
-                android:paddingRight="6dp"
-                android:paddingTop="4dp"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                card_view:cardCornerRadius="4dp"
+                card_view:cardElevation="4dp"
+                card_view:cardUseCompatPadding="true">
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_right_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:background="@drawable/chat_right_bg"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:paddingTop="4dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </android.support.v7.widget.CardView>
 
             <LinearLayout
                 android:layout_width="wrap_content"

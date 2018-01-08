@@ -190,6 +190,9 @@
         <activity
             android:name=".activity.ContactsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChatPrivateActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.payment.TransferMoneyActivity"

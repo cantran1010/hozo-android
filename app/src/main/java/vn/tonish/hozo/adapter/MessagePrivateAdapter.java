@@ -33,9 +33,9 @@ import vn.tonish.hozo.view.TextViewHozo;
  * Created by LongBui on 4/21/2017.
  */
 
-public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHolder, LoadingHolder> {
+public class MessagePrivateAdapter extends BaseAdapter<Message, MessagePrivateAdapter.WorkHolder, LoadingHolder> {
 
-    private static final String TAG = MessageAdapter.class.getSimpleName();
+    private static final String TAG = MessagePrivateAdapter.class.getSimpleName();
     private final List<Message> messages;
     private final Context context;
     @SuppressLint("UseSparseArrays")
@@ -44,12 +44,10 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
 
     private final DatabaseReference memberCloudEndPoint;
 
-    public MessageAdapter(Context context, List<Message> messages, int posterId) {
+    public MessagePrivateAdapter(Context context, List<Message> messages) {
         super(context, messages);
         this.messages = messages;
         this.context = context;
-        int posterId1 = posterId;
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
         memberCloudEndPoint = myRef.child("members");
@@ -66,7 +64,7 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
     }
 
     @Override
-    protected MessageAdapter.WorkHolder returnItemHolder(View view) {
+    protected MessagePrivateAdapter.WorkHolder returnItemHolder(View view) {
         return new WorkHolder(view);
     }
 

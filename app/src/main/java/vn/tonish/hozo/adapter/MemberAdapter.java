@@ -22,10 +22,24 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MyViewHold
 
     private Context context;
     private List<Assigner> members;
+    private memberAdapterListener memberAdapterListener;
+
+
+    public interface memberAdapterListener {
+        void onClick(int position);
+    }
 
     public MemberAdapter(Context context, List<Assigner> members) {
         this.context = context;
         this.members = members;
+    }
+
+    public MemberAdapter.memberAdapterListener getMemberAdapterListener() {
+        return memberAdapterListener;
+    }
+
+    public void setMemberAdapterListener(MemberAdapter.memberAdapterListener memberAdapterListener) {
+        this.memberAdapterListener = memberAdapterListener;
     }
 
     @Override
@@ -60,6 +74,18 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MyViewHold
             super(itemView);
             tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
             imgAvatar = (CircleImageView) itemView.findViewById(R.id.img_avatar);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        if (memberAdapterListener != null)
+                            memberAdapterListener.onClick(getAdapterPosition());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
         }
 
     }

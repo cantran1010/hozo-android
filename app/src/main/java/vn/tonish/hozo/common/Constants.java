@@ -65,6 +65,7 @@ public class Constants {
     public static final int EDIT_BANK_RESULT_CODE = 258;
     public static final String WALLET_TYPE_EXTRA = "wallet_extra";
     public static final String WALLET_COUNT_HISTORY_EXTRA = "wallet_count_extra";
+    public static final String ASSIGNER_PRIVATE_ID ="assigner_id" ;
     public static final String BALANCE_CASH_EXTRA = "balance_cash_extra";
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";

@@ -60,7 +60,6 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
     private TextViewHozo tvTitle, tvDate, tvTime, tvHour, tvPolicy, tvDes;
     private EdittextHozo edtSms, edtBudget;
     private TaskResponse taskResponse;
-    private ImageView imgEdit;
 
     @Override
     protected int getLayout() {
