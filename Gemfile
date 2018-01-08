@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 source "https://rubygems.org"
 
+gem "babelish", :git => "https://github.com/thii/Babelish.git", :branch => "update-google-drive"
 gem "danger"
 gem "danger-android_lint"
 gem "fastlane"
