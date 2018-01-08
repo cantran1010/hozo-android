@@ -68,3 +68,6 @@ Temporary Items
 
 # Translation files
 translations_*.csv
+
+# Local gems
+/vendor
