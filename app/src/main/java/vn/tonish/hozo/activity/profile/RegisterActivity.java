@@ -150,7 +150,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
 
     private void findPlace() {
-
         final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
                 .setTypeFilter(Place.TYPE_COUNTRY)
 //                .setCountry("VN")

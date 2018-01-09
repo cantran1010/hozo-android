@@ -60,15 +60,14 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
         this.tasks = tasks;
         this.context = context;
         try {
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            myRef = database.getReference();
+
+            myRef = FirebaseDatabase.getInstance().getReference();
             for (int i = 0; i < tasks.size(); i++) messages.add(new Message());
             for (int i = 0; i < tasks.size(); i++) {
                 final int finalI = i;
                 ChildEventListener childEventListener = new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
                         Message message = dataSnapshot.getValue(Message.class);
                         message.setId(dataSnapshot.getKey());
                         LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , message : " + message.toString());

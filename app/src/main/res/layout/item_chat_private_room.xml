@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/img_dot_blue"
+        android:visibility="gone" />
+
+    <vn.tonish.hozo.view.CircleImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/dot"
+        android:layout_toRightOf="@+id/dot"
+        android:src="@drawable/avatar_default" />
+
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/img_avatar"
+        android:layout_toLeftOf="@+id/tv_time_ago"
+        android:layout_toRightOf="@+id/img_avatar"
+        android:layout_toStartOf="@+id/tv_time_ago"
+        android:text="Tran van can"
+        android:textColor="@color/tv_black_new"
+        android:textSize="@dimen/tv_size_medium" />
+
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_time_ago"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="20-11-2017"
+        android:textColor="@color/setting_text"
+        android:textSize="@dimen/tv_size_xtiny" />
+
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_last_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/img_avatar"
+        android:layout_toRightOf="@+id/img_avatar"
+        android:textColor="@color/setting_text"
+        android:textSize="@dimen/tv_size_nomal" />
+
+
+</RelativeLayout>

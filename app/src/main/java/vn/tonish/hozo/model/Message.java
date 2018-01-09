@@ -3,13 +3,14 @@ package vn.tonish.hozo.model;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * Created by LongBui on 9/13/17.
  */
 
-public class Message {
+public class Message implements Serializable {
 
     private String id;
     private int user_id;

@@ -110,17 +110,33 @@
 
     <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/count_chat"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
+        android:text="@string/no_read_sms"
         android:textColor="@color/tv_gray_new"
         android:textSize="@dimen/tv_size_xtiny"
         android:textStyle="bold"
-        android:text="@string/no_read_sms"
+        app:layout_constraintTop_toBottomOf="@+id/rcv_member"
+       />
+
+    <vn.tonish.hozo.view.TextViewHozo
+        android:id="@+id/tv_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_count_bidder"
+        android:padding="5dp"
+        android:text="0"
+        android:textColor="@color/color_count_word"
+        android:textSize="@dimen/tv_size_tiny"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/count_chat"
+        app:layout_constraintStart_toEndOf="@+id/count_chat"
         app:layout_constraintTop_toBottomOf="@+id/rcv_member" />
 
     <android.support.v7.widget.RecyclerView

@@ -39,6 +39,7 @@ public class Assigner implements Serializable {
     @SerializedName("rating_confirm")
     private boolean ratingConfirm;
     private int price;
+    private boolean read;
 
     public boolean isRatingConfirm() {
         return ratingConfirm;
@@ -193,6 +194,13 @@ public class Assigner implements Serializable {
         this.price = price;
     }
 
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
 
     @Override
     public String toString() {
@@ -216,6 +224,7 @@ public class Assigner implements Serializable {
                 ", ratingBody='" + ratingBody + '\'' +
                 ", ratingConfirm=" + ratingConfirm +
                 ", price=" + price +
+                ", read=" + read +
                 '}';
     }
 }

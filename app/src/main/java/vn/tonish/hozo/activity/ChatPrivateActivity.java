@@ -375,29 +375,21 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     }
 
     private void doSend() {
-
         if (edtMsg.getText().toString().trim().equals("")) return;
-
         String key = messageCloudEndPoint.push().getKey();
-
         Message message = new Message();
         message.setUser_id(UserManager.getMyUser().getId());
         message.setMessage(edtMsg.getText().toString().trim());
-
         Map<String, Boolean> reads = new HashMap<>();
         reads.put(String.valueOf(UserManager.getMyUser().getId()), true);
-
         message.setReads(reads);
-
         messageCloudEndPoint.child(key).setValue(message, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-
                     LogUtils.d(TAG, "onComplete databaseError : " + databaseError.toString());
                     Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.permission_chat_error), true, false);
                     finish();
-
                 }
             }
         });
@@ -426,7 +418,6 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     }
 
     public void showMenu() {
-
         //Creating the instance of PopupMenu
         PopupMenu popup = new PopupMenu(this, imgMenu);
         popup.getMenuInflater().inflate(R.menu.menu_chat, popup.getMenu());
@@ -434,9 +425,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-
                 switch (item.getItemId()) {
-
                     case R.id.menu_detail_task:
                         Intent intent = new Intent(ChatPrivateActivity.this, DetailTaskActivity.class);
                         intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
