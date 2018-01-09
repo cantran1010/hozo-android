@@ -97,8 +97,13 @@ public class LoginActivity extends BaseActivity {
                 AccountKitActivity.ResponseType.TOKEN);
         //noinspection deprecation
         uiManager = new HozoAccountKitUIManager(ButtonType.NEXT, ButtonType.NEXT, TextPosition.ABOVE_BODY, LoginType.PHONE);
-        configurationBuilder.setUIManager(uiManager);
-        configurationBuilder.setDefaultCountryCode("VN").setReadPhoneStateEnabled(false).setReceiveSMS(false);
+        configurationBuilder
+                .setUIManager(uiManager)
+                .setDefaultCountryCode("VN")
+                .setReadPhoneStateEnabled(false)
+                .setReceiveSMS(false)
+                .setFacebookNotificationsEnabled(true)
+                .setVoiceCallbackNotificationsEnabled(true);
         final AccountKitConfiguration configuration = configurationBuilder.build();
         intent.putExtra(
                 AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
