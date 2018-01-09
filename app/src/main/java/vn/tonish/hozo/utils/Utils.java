@@ -832,6 +832,8 @@ public class Utils {
             return context.getString(R.string.wage_received, transactionResponse.getTaskName());
         else if (transactionResponse.getMethod().equals("withdraw_bank"))
             return context.getString(R.string.withdraw_bank);
+        else if (transactionResponse.getMethod().equals("refund_withdraw_bank"))
+            return context.getString(R.string.refund_withdraw_bank);
         else return "Waitting";
     }
 

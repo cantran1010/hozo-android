@@ -34,7 +34,7 @@ public class BidResponse {
     private int taskerCount;
     @SerializedName("reviews")
     private List<ReviewEntity> reviews = new ArrayList<>();
-    private  boolean isAccept;
+    private  boolean isAccept = false;
 
     public int getId() {
         return id;
