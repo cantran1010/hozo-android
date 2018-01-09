@@ -1,0 +1,12 @@
+###################################### CSV2Base ######################################
+
+filename: "Hozo Localizable Strings"    # CSV file (CSV_FILENAME) to convert from or name of file in Google Drive
+langs:                                  # Languages to convert. i.e. English:en
+  "en": "en"
+  "vi": "vi"
+  "ja": "ja"
+fetch: true                             # set to true to get file(filename) from google drive
+default_lang: "en"                      # Header name of column containing fallback value if value is empty
+output_dir: "app/src/main/res"                      # Path of output files
+output_basenames:                       # Basename of output files
+ - strings

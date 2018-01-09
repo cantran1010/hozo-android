@@ -1,3 +1,16 @@
+GIT
+  remote: https://github.com/thii/Babelish.git
+  revision: 394b14e1ae699aad9278f42c78e2f92105dcb757
+  branch: update-google-drive
+  specs:
+    babelish (0.5.2)
+      google_drive (~> 2.1.7)
+      highline
+      json
+      nokogiri
+      rack (= 1.6.4)
+      thor
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -101,6 +114,10 @@ GEM
       mime-types (~> 3.0)
       representable (~> 3.0)
       retriable (>= 2.0, < 4.0)
+    google_drive (2.1.7)
+      google-api-client (>= 0.11.0, < 0.14.0)
+      googleauth (>= 0.5.0, < 1.0.0)
+      nokogiri (>= 1.5.3, < 2.0.0)
     googleauth (0.6.2)
       faraday (~> 0.12)
       jwt (>= 1.4, < 3.0)
@@ -125,12 +142,15 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     mini_magick (4.5.1)
+    mini_portile2 (2.3.0)
     multi_json (1.12.2)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     nanaimo (0.2.3)
     nap (1.1.0)
     no_proxy_fix (0.1.2)
+    nokogiri (1.8.1)
+      mini_portile2 (~> 2.3.0)
     octokit (4.8.0)
       sawyer (~> 0.8.0, >= 0.5.3)
     oga (2.12)
@@ -141,6 +161,7 @@ GEM
     plist (3.4.0)
     proxies (0.2.1)
     public_suffix (2.0.5)
+    rack (1.6.4)
     representable (3.0.4)
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
@@ -166,6 +187,7 @@ GEM
     terminal-notifier (1.8.0)
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
+    thor (0.20.0)
     tty-cursor (0.5.0)
     tty-screen (0.6.4)
     tty-spinner (0.7.0)
@@ -190,6 +212,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  babelish!
   danger
   danger-android_lint
   fastlane
