@@ -367,6 +367,12 @@ public class Utils {
     }
 
     public static void call(Context context, String phoneNumber) {
+
+        if (phoneNumber == null) {
+            showLongToast(context, context.getString(R.string.call_err_null_number), true, false);
+            return;
+        }
+
         try {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null));
             context.startActivity(intent);
@@ -832,6 +838,8 @@ public class Utils {
             return context.getString(R.string.wage_received, transactionResponse.getTaskName());
         else if (transactionResponse.getMethod().equals("withdraw_bank"))
             return context.getString(R.string.withdraw_bank);
+        else if (transactionResponse.getMethod().equals("refund_withdraw_bank"))
+            return context.getString(R.string.refund_withdraw_bank);
         else return "Waitting";
     }
 

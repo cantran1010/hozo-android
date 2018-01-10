@@ -194,7 +194,7 @@ public class ViewPageAssignAdapter extends PagerAdapter {
             tv4star.setText(String.valueOf(bidResponse.getTaskerRatings().get(3)));
         } else {
             rbRating4.setRating(0);
-            tv1star.setText("0");
+            tv4star.setText("0");
         }
         if (bidResponse.getTaskerRatings().get(4) > 0) {
             rbRating5.setRating(5);
@@ -269,7 +269,6 @@ public class ViewPageAssignAdapter extends PagerAdapter {
 
     }
 
-
     private void doAcceptOffer(final int bidderID, final ProgressBar progressBar, final TextViewHozo tvAss, final TextViewHozo textViewHozo, final int position) {
         ProgressDialogUtils.showProgressDialog(context);
         JSONObject jsonRequest = new JSONObject();
@@ -281,7 +280,7 @@ public class ViewPageAssignAdapter extends PagerAdapter {
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         LogUtils.d(TAG, "acceptOffer jsonRequest : " + jsonRequest.toString());
-        LogUtils.d(TAG, "acceptOffer jsonRequest : " + jsonRequest.toString() + " task Id : " + taskID);
+        LogUtils.d(TAG, "acceptOffer jsonRequest task Id : " + taskID);
 
         ApiClient.getApiService().acceptOffer(UserManager.getUserToken(), taskID, body).enqueue(new Callback<TaskResponse>() {
             @Override
@@ -359,15 +358,11 @@ public class ViewPageAssignAdapter extends PagerAdapter {
     }
 
     private boolean isCheckDone() {
-        boolean isCK = true;
-        for (BidResponse response : bidResponses
-                ) {
+        for (BidResponse response : bidResponses) {
             if (!response.isAccept())
-                isCK = false;
-            break;
-
+                return false;
         }
-        return isCK;
+        return true;
     }
 
     private String formatTitle(int pos) {

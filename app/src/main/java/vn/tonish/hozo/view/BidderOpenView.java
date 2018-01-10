@@ -95,7 +95,6 @@ public class BidderOpenView extends RelativeLayout implements View.OnClickListen
                     intentAssign.putExtra(Constants.BIDDER_ID, bidder.getId());
                     intentAssign.putExtra(Constants.WORKER_COUNT, getWorkerCount());
                     intentAssign.putExtra(Constants.ASSSIGNER_COUNT, getAssinerCount());
-                    intentAssign.putExtra(Constants.BIDDER_ID, bidder.getId());
                     ((BaseActivity) getContext()).startActivityForResult(intentAssign, Constants.REQUEST_CODE_RATE, TransitionScreen.RIGHT_TO_LEFT);
                 }
             });

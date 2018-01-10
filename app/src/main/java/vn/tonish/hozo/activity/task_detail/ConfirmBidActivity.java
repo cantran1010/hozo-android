@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
@@ -156,16 +157,15 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
 
     private void doOffer() {
         ProgressDialogUtils.showProgressDialog(this);
-        String sms = edtSms.getText().toString().trim();
-        String price = getLongAutoCompleteTextView(edtBudget);
         JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put(Constants.PARAMETER_OFFER_PRICE, price);
-            if (!sms.isEmpty())
-                jsonRequest.put(Constants.PARAMETER_OFFER_SMS, sms);
+            jsonRequest.put(Constants.PARAMETER_OFFER_PRICE, Utils.getLongEdittext(edtBudget));
+            if (!TextUtils.isEmpty(edtSms.getText().toString().trim()))
+                jsonRequest.put(Constants.PARAMETER_OFFER_SMS, edtSms.getText().toString().trim());
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        LogUtils.d(TAG, "bidsTask jsonRequest : " + jsonRequest.toString());
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         ApiClient.getApiService().bidsTask(UserManager.getUserToken(), taskResponse.getId(), body).enqueue(new Callback<TaskResponse>() {
