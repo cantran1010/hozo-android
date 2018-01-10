@@ -367,6 +367,12 @@ public class Utils {
     }
 
     public static void call(Context context, String phoneNumber) {
+
+        if (phoneNumber == null) {
+            showLongToast(context, context.getString(R.string.call_err_null_number), true, false);
+            return;
+        }
+
         try {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null));
             context.startActivity(intent);
