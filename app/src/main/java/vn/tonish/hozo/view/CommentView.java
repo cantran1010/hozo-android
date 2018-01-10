@@ -106,7 +106,6 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.img_setting:
                 showPopupMenu();
                 break;

@@ -9,17 +9,22 @@ import com.google.gson.annotations.SerializedName;
 public class ImageResponse {
 
     @SerializedName("tmp_id")
-    private  int idTemp;
+    private int idTemp;
+    private String url;
 
     public int getIdTemp() {
         return idTemp;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     @Override
     public String toString() {
         return "ImageResponse{" +
                 "idTemp=" + idTemp +
+                ", url='" + url + '\'' +
                 '}';
     }
-
 }

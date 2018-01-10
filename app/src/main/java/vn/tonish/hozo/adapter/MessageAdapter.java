@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.image.PreviewImageActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -25,6 +27,7 @@ import vn.tonish.hozo.model.Member;
 import vn.tonish.hozo.model.Message;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PxUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -80,16 +83,23 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
         if (holder instanceof WorkHolder) {
 
             final Message message = messages.get(position);
+            final WorkHolder workHolder = (WorkHolder) holder;
 
             LogUtils.d(TAG, "onBindViewHolder , position : " + message.toString());
 
             if (message.getUser_id() == UserManager.getMyUser().getId()) {
-                final WorkHolder workHolder = (WorkHolder) holder;
-
                 workHolder.rightLayout.setVisibility(View.VISIBLE);
                 workHolder.leftLayout.setVisibility(View.GONE);
-
                 workHolder.tvRightMsg.setText(message.getMessage());
+                if (message.getType() == 1) {
+                    workHolder.tvRightMsg.setVisibility(View.GONE);
+                    workHolder.imgAttachRight.setVisibility(View.VISIBLE);
+                    Utils.displayImageRounded(context, workHolder.imgAttachRight, message.getMessage(), (int) PxUtils.pxFromDp(context, 10), 0);
+                } else {
+                    workHolder.tvRightMsg.setVisibility(View.VISIBLE);
+                    workHolder.imgAttachRight.setVisibility(View.GONE);
+                    workHolder.tvRightMsg.setText(message.getMessage());
+                }
 
                 if (memberHashMap.containsKey(message.getUser_id())) {
                     if (memberHashMap.get(message.getUser_id()) != null && memberHashMap.get(message.getUser_id()).getAvatar() != null)
@@ -137,13 +147,17 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
                 workHolder.tvRightTime.setText(DateTimeUtils.getTimeChat(message.getCreated_atLong(true), context));
 
             } else {
-                final WorkHolder workHolder = (WorkHolder) holder;
-
                 workHolder.leftLayout.setVisibility(View.VISIBLE);
                 workHolder.rightLayout.setVisibility(View.GONE);
-
-                workHolder.tvLeftMsg.setText(message.getMessage());
-
+                if (message.getType() == 1) {
+                    workHolder.tvLeftMsg.setVisibility(View.GONE);
+                    workHolder.imgAttach.setVisibility(View.VISIBLE);
+                    Utils.displayImageRounded(context, workHolder.imgAttach, message.getMessage(), (int) PxUtils.pxFromDp(context, 10), 0);
+                } else {
+                    workHolder.tvLeftMsg.setVisibility(View.VISIBLE);
+                    workHolder.imgAttach.setVisibility(View.GONE);
+                    workHolder.tvLeftMsg.setText(message.getMessage());
+                }
                 if (memberHashMap.containsKey(message.getUser_id())) {
                     if (memberHashMap.get(message.getUser_id()) != null && memberHashMap.get(message.getUser_id()).getAvatar() != null)
                         Utils.displayImageAvatar(context, workHolder.imgLeftAvatar, memberHashMap.get(message.getUser_id()).getAvatar());
@@ -186,11 +200,27 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
                 if (message.getUser_id() == posterId)
                     workHolder.tvPosterLeft.setVisibility(View.VISIBLE);
                 else workHolder.tvPosterLeft.setVisibility(View.GONE);
-
                 workHolder.tvLeftTime.setText(DateTimeUtils.getTimeChat(message.getCreated_atLong(true), context));
 
             }
+            workHolder.imgAttach.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intentViewImage = new Intent(context, PreviewImageActivity.class);
+                    intentViewImage.putExtra(Constants.EXTRA_IMAGE_PATH, message.getMessage());
+                    context.startActivity(intentViewImage);
+                }
+            });
+            workHolder.imgAttachRight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intentViewImage = new Intent(context, PreviewImageActivity.class);
+                    intentViewImage.putExtra(Constants.EXTRA_IMAGE_PATH, message.getMessage());
+                    context.startActivity(intentViewImage);
+                }
+            });
         }
+
     }
 
     public int getPosterId() {
@@ -216,6 +246,8 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
         final TextViewHozo tvRightTime;
         final TextViewHozo tvPosterLeft;
         final TextViewHozo tvPosterRight;
+        final ImageView imgAttach;
+        final ImageView imgAttachRight;
 
 
         public WorkHolder(View itemView) {
@@ -223,7 +255,8 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
 
             imgLeftAvatar = itemView.findViewById(R.id.img_left_thumbnail);
             imgRightAvatar = itemView.findViewById(R.id.img_right_thumbnail);
-
+            imgAttach = itemView.findViewById(R.id.img_attach_show);
+            imgAttachRight = itemView.findViewById(R.id.img_attach_show_right);
             leftLayout = itemView.findViewById(R.id.left_layout);
             rightLayout = itemView.findViewById(R.id.right_layout);
 
@@ -244,5 +277,7 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
             tvPosterRight = itemView.findViewById(R.id.tv_poster_right);
 
         }
+
+
     }
 }

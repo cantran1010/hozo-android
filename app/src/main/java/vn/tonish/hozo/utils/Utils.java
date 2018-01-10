@@ -74,7 +74,7 @@ public class Utils {
     private static final int MIN_BUGDET = 10000;
 
     public static void displayImage(Context context, ImageView img, String url) {
-
+        LogUtils.d(TAG, "onBindViewHolder , url : " + url);
 //        if (url == null) return;
         if (context == null) return;
         if (context instanceof Activity) {
@@ -121,6 +121,7 @@ public class Utils {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.image_placeholder)
                 .dontAnimate()
+                .error(R.drawable.image_placeholder)
                 .bitmapTransform(new CenterCrop(context), new RoundedCornersTransformation(context, radius, margin))
                 .into(img);
     }

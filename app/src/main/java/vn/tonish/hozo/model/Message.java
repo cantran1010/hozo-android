@@ -17,6 +17,7 @@ public class Message implements Serializable {
     private String message;
     private Object created_at;
     private Map<String, Boolean> reads;
+    private int type;
 
     public Message() {
         this.created_at = ServerValue.TIMESTAMP;
@@ -54,6 +55,14 @@ public class Message implements Serializable {
         this.created_at = created_at;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     @Exclude
     public Long getCreated_atLong(boolean isLong) {
         if (created_at instanceof Long) return (Long) created_at;
@@ -76,7 +85,7 @@ public class Message implements Serializable {
                 ", message='" + message + '\'' +
                 ", created_at=" + created_at +
                 ", reads=" + reads +
+                ", type=" + type +
                 '}';
     }
-
 }

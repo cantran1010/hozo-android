@@ -148,7 +148,7 @@
     <string name="gender_female_vn">Nữ</string>
 
 
-    <string name="empty_content_comment_error">Vui lòng nhập nội dung bình luận</string>
+    <string name="empty_content_comment_error">Vui lòng nhập nội dung</string>
 
     <!-- rate -->
     <string name="rate_msg_no_content_error">Vui lòng chọn sao đánh giá</string>
@@ -731,6 +731,8 @@
     <string name="wallet_account_info4">Ví tiền được dùng để giữ tiền công của công việc được người thuê chuyển vào từ ví tài khoản của người thuê.</string>
     <string name="wallet_account_info5">Bạn có thể gửi yêu cầu rút tiền từ ví tiền vào tài khoản ngân hàng của bạn. Hozo sẽ duyệt yêu cầu này vào thứ 2 của tuần đầu tiên của tháng kế tiếp.</string>
     <string name="bank_null">Bạn chưa chọn ngân hàng!</string>
+    <string name="no_read_sms">TIN NHẮN</string>
+    <string name="send_img">Đã gửi một ảnh</string>
     <string name="no_read_sms">TIN NHẮN CHƯA ĐỌC</string>
     <string name="max_money_transfer">Số tiền tối đa có thể rút là %1$s VNĐ</string>
     <string name="min_money_transfer">Số tiền tối thiểu có thể rút là %1$s VNĐ</string>

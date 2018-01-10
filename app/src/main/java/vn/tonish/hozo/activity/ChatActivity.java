@@ -95,7 +95,6 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
         ImageView imgAttach = (ImageView) findViewById(R.id.img_attach);
         imgAttach.setOnClickListener(this);
-        imgAttach.setVisibility(View.GONE);
 
         tvMember = (TextViewHozo) findViewById(R.id.tv_member);
 
@@ -123,9 +122,6 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-//                Member member = dataSnapshot.getValue(Member.class);
-//                LogUtils.d(TAG, "memberEventListener onChildAdded , member : " + member.toString());
-
             }
 
             @Override
@@ -134,12 +130,6 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
                 LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
                 if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
-//                    DialogUtils.showOkDialog(ChatActivity.this, getString(R.string.kick_out_chat_title), getString(R.string.kick_out_chat_content), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-//                        @Override
-//                        public void onSubmit() {
-//
-//                        }
-//                    });
                     Utils.showLongToast(ChatActivity.this, getString(R.string.kick_out_chat_content), true, false);
                     setResult(Constants.RESULT_CODE_CHAT);
                     finish();

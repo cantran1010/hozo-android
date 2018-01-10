@@ -32,7 +32,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 import static vn.tonish.hozo.utils.Utils.sortID;
 
 /**
- * Created by LongBui on 4/21/2017.
+ * Created by cantran on 4/21/2017.
  */
 
 public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.MyViewHolder> {
@@ -88,7 +88,10 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
                         message.setId(dataSnapshot.getKey());
                         LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildAdded , message : " + message.toString());
                         LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildAdded , holder.getAdapterPosition() : " + holder.getAdapterPosition());
-                        holder.tvLastMsg.setText(message.getMessage());
+                        if (message.getType() == 1)
+                            holder.tvLastMsg.setText(context.getString(R.string.send_img));
+                        else
+                            holder.tvLastMsg.setText(message.getMessage());
                         messages.set(0, message);
                         Map<String, Boolean> map = messages.get(0).getReads();
                         if (map != null)
@@ -135,7 +138,10 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
                         Message message = dataSnapshot.getValue(Message.class);
                         message.setId(dataSnapshot.getKey());
                         LogUtils.d(TAG, "messageCloudEndPoint onChildAdded last, message : " + message.toString());
-                        holder.tvLastMsg.setText(message.getMessage());
+                        if (message.getType() == 1)
+                            holder.tvLastMsg.setText(context.getString(R.string.send_img));
+                        else
+                            holder.tvLastMsg.setText(message.getMessage());
                         messages.set(position, message);
                         Map<String, Boolean> map = messages.get(position).getReads();
                         if (map != null)

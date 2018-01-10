@@ -33,7 +33,6 @@
         android:layout_toLeftOf="@+id/tv_time_ago"
         android:layout_toRightOf="@+id/img_avatar"
         android:layout_toStartOf="@+id/tv_time_ago"
-        android:text="Tran van can"
         android:textColor="@color/tv_black_new"
         android:textSize="@dimen/tv_size_medium" />
 
@@ -43,7 +42,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:text="20-11-2017"
         android:textColor="@color/setting_text"
         android:textSize="@dimen/tv_size_xtiny" />
 
