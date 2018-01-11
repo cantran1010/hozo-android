@@ -840,6 +840,10 @@ public class Utils {
             return context.getString(R.string.withdraw_bank);
         else if (transactionResponse.getMethod().equals("refund_withdraw_bank"))
             return context.getString(R.string.refund_withdraw_bank);
+        else if (transactionResponse.getMethod().equals("transfer_cash_account"))
+            return context.getString(R.string.transfer_cash);
+        else if (transactionResponse.getMethod().equals("received_cash_account"))
+            return context.getString(R.string.received_cash);
         else return "Waitting";
     }
 

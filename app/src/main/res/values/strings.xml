@@ -753,5 +753,7 @@
     <string name="money_transfer_null_error">Vui lòng nhập số tiền!</string>
     <string name="money_transfer_not_enough">Số tiền phải nhỏ hơn\ntiền có trong ví tiền!</string>
     <string name="money_transfer_min_error">Số tiền tối thiểu là 1.000 VNĐ</string>
+    <string name="received_cash">Nhận tiền từ ví tiền</string>
+    <string name="transfer_cash">Chuyển tiền sang ví tài khoản</string>
 
 </resources>
