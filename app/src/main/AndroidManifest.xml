@@ -99,7 +99,7 @@
         <activity android:name=".activity.image.PreviewImageActivity" />
         <activity android:name=".activity.image.PreviewImageListActivity" />
         <activity
-            android:name=".activity.ReportTaskActivity"
+            android:name=".activity.task_detail.ReportTaskActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RatingActivity"
@@ -128,7 +128,7 @@
             android:name=".activity.BlockActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.BlockTaskActivity"
+            android:name=".activity.task_detail.BlockTaskActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.payment.MyWalletActivity"

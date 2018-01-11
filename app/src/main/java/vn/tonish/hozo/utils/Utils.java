@@ -898,10 +898,10 @@ public class Utils {
         return Long.valueOf(s);
     }
 
-    public static String sortID(int assID) {
-        if (assID < UserManager.getMyUser().getId())
-            return assID + "-" + UserManager.getMyUser().getId();
-        else return UserManager.getMyUser().getId() + "-" + assID;
+    public static String sortID(int posterID,int taskerID) {
+        if (posterID < taskerID)
+            return posterID + "-" + taskerID;
+        else return taskerID + "-" + posterID;
     }
 
 

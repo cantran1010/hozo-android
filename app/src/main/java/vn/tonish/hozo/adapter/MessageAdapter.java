@@ -84,9 +84,7 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
 
             final Message message = messages.get(position);
             final WorkHolder workHolder = (WorkHolder) holder;
-
             LogUtils.d(TAG, "onBindViewHolder , position : " + message.toString());
-
             if (message.getUser_id() == UserManager.getMyUser().getId()) {
                 workHolder.rightLayout.setVisibility(View.VISIBLE);
                 workHolder.leftLayout.setVisibility(View.GONE);
@@ -112,10 +110,8 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Log.d(TAG, "member addValueEventListener dataSnapshot toString : " + dataSnapshot.toString());
-
                             Member member = dataSnapshot.getValue(Member.class);
                             memberHashMap.put(message.getUser_id(), member);
-
                             if (memberHashMap.get(message.getUser_id()) != null && memberHashMap.get(message.getUser_id()).getAvatar() != null)
                                 Utils.displayImageAvatar(context, workHolder.imgRightAvatar, memberHashMap.get(message.getUser_id()).getAvatar());
                             String[] names = memberHashMap.get(message.getUser_id()).getFull_name().split(" ");

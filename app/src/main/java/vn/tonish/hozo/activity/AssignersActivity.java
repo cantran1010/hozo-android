@@ -139,7 +139,6 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, final Intent intent) {
-
             if (intent.hasExtra(Constants.ASSIGNER_CANCEL_BID_EXTRA)) {
                 DialogUtils.showOkAndCancelDialog(AssignersActivity.this, getString(R.string.cancel_bid_title), getString(R.string.cancel_bid_content), getString(R.string.cancel_task_ok), getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
@@ -160,14 +159,8 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
                 intentRate.putExtra(Constants.USER_ID_EXTRA, assigner.getId());
                 intentRate.putExtra(Constants.AVATAR_EXTRA, assigner.getAvatar());
                 intentRate.putExtra(Constants.NAME_EXTRA, assigner.getFullName());
-
                 assignersIdRate = assigner.getId();
-
                 startActivityForResult(intentRate, Constants.REQUEST_CODE_RATE, TransitionScreen.UP_TO_DOWN);
-            } else if (intent.hasExtra(Constants.ASSIGNER_CONTACT_EXTRA)) {
-                Intent intentContact = new Intent(AssignersActivity.this, ChatActivity.class);
-                intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-                startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
             }
 
         }

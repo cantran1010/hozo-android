@@ -41,6 +41,9 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
     private final List<Assigner> assigners;
     private Context context;
     private List<Message> messages = new ArrayList<>();
+    private DatabaseReference messageCloudEndPoint, messageGroupCloudEndPoint;
+    private int taskID;
+    private int posterID;
 
 
     public interface ChatPrivateListener {
@@ -57,10 +60,11 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
         this.chatPrivateListener = chatPrivateListener;
     }
 
-    public ChatPrivateAdapter(final Context context, List<Assigner> assigners) {
-        LogUtils.d(TAG, "taskiD: " + assigners.get(0).getId());
+    public ChatPrivateAdapter(final Context context, int taskID, int posterID, List<Assigner> assigners) {
         this.context = context;
         this.assigners = assigners;
+        this.taskID = taskID;
+        this.posterID = posterID;
     }
 
     @Override
@@ -74,114 +78,51 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         try {
             Assigner assigner = assigners.get(position);
-            Utils.displayImageAvatar(context, holder.imgAvatar, assigner.getAvatar());
+            if (assigner.getId() == taskID && assigner.getFullName().equalsIgnoreCase(context.getString(R.string.group_chat)))
+                holder.imgAvatar.setImageResource(R.mipmap.app_icon);
+            else
+                Utils.displayImageAvatar(context, holder.imgAvatar, assigner.getAvatar());
             holder.tvTitle.setText(assigner.getFullName());
-            DatabaseReference myRef;
-            myRef = FirebaseDatabase.getInstance().getReference();
             for (int i = 0; i < assigners.size(); i++) messages.add(new Message());
-            if (position == 0) {
-                final DatabaseReference messageCloudEndPoint1 = myRef.child("task-messages").child(String.valueOf(assigner.getId()));
-                ChildEventListener childEventListener = new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Message message = dataSnapshot.getValue(Message.class);
-                        message.setId(dataSnapshot.getKey());
-                        LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildAdded , message : " + message.toString());
-                        LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildAdded , holder.getAdapterPosition() : " + holder.getAdapterPosition());
-                        if (message.getType() == 1)
-                            holder.tvLastMsg.setText(context.getString(R.string.send_img));
-                        else
-                            holder.tvLastMsg.setText(message.getMessage());
-                        messages.set(0, message);
-                        Map<String, Boolean> map = messages.get(0).getReads();
-                        if (map != null)
-                            LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint map : " + map.toString());
-                        if (map != null && map.containsKey(String.valueOf(UserManager.getMyUser().getId()))) {
-                            holder.imgDot.setVisibility(View.GONE);
-                            assigners.get(0).setRead(false);
-                        } else {
-                            holder.imgDot.setVisibility(View.VISIBLE);
-                            assigners.get(0).setRead(true);
-                        }
-                        holder.tvTimeAgo.setVisibility(View.VISIBLE);
-                        holder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(message.getCreated_atLong(true), context));
-                        sendBroasdCast();
-                    }
+            ChildEventListener childEventListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Message message = dataSnapshot.getValue(Message.class);
+                    message.setId(dataSnapshot.getKey());
+                    LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildAdded , message : " + message.toString());
+                    updateUI(position, message, holder.tvLastMsg, holder.imgDot, holder.tvTimeAgo);
+                    sendBroasdCast();
+                }
 
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                        LogUtils.d(TAG, "onChildChanged");
-                        notifyDataSetChanged();
-                        sendBroasdCast();
-                    }
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    LogUtils.d(TAG, "onChildChanged");
+                    notifyDataSetChanged();
+                    sendBroasdCast();
+                }
 
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                    }
+                }
 
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
 
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                };
-                messageCloudEndPoint1.orderByKey().limitToLast(1).addChildEventListener(childEventListener);
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            };
+            if (assigner.getId() == taskID && assigner.getFullName().equalsIgnoreCase(context.getString(R.string.group_chat))) {
+                messageGroupCloudEndPoint = FirebaseDatabase.getInstance().getReference().child("task-messages").child(String.valueOf(taskID));
+                messageGroupCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(childEventListener);
             } else {
-                ChildEventListener childEventListener = new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Message message = dataSnapshot.getValue(Message.class);
-                        message.setId(dataSnapshot.getKey());
-                        LogUtils.d(TAG, "messageCloudEndPoint onChildAdded last, message : " + message.toString());
-                        if (message.getType() == 1)
-                            holder.tvLastMsg.setText(context.getString(R.string.send_img));
-                        else
-                            holder.tvLastMsg.setText(message.getMessage());
-                        messages.set(position, message);
-                        Map<String, Boolean> map = messages.get(position).getReads();
-                        if (map != null)
-                            LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint map : " + map.toString());
-                        if (map != null && map.containsKey(String.valueOf(UserManager.getMyUser().getId()))) {
-                            holder.imgDot.setVisibility(View.GONE);
-                            assigners.get(position).setRead(false);
-                        } else {
-                            holder.imgDot.setVisibility(View.VISIBLE);
-                            assigners.get(position).setRead(true);
-                        }
-                        holder.tvTimeAgo.setVisibility(View.VISIBLE);
-                        holder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(message.getCreated_atLong(true), context));
-                        sendBroasdCast();
-                    }
-
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                        LogUtils.d(TAG, "onChildChanged" + position);
-                        notifyDataSetChanged();
-                        sendBroasdCast();
-
-                    }
-
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                    }
-
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                };
-                DatabaseReference messageCloudEndPoint = myRef.child("private-messages").child(String.valueOf(assigners.get(0).getId())).child(sortID(assigners.get(position).getId()));
+                int id;
+                if (posterID == UserManager.getMyUser().getId())
+                    id = posterID;
+                else id = UserManager.getMyUser().getId();
+                messageCloudEndPoint = FirebaseDatabase.getInstance().getReference().child("private-messages").child(String.valueOf(taskID)).child(sortID(id, assigners.get(position).getId()));
                 messageCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(childEventListener);
             }
 
@@ -222,6 +163,27 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
             });
 
         }
+    }
+
+    private void updateUI(int pos, Message message, TextViewHozo tvSms, ImageView imgerDot, TextViewHozo timeAgo) {
+        if (message.getType() == 1)
+            tvSms.setText(context.getString(R.string.send_img));
+        else
+            tvSms.setText(message.getMessage());
+        messages.set(pos, message);
+        Map<String, Boolean> map = messages.get(pos).getReads();
+        if (map != null)
+            LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint map : " + map.toString());
+        if (map != null && map.containsKey(String.valueOf(UserManager.getMyUser().getId()))) {
+            imgerDot.setVisibility(View.GONE);
+            assigners.get(pos).setRead(false);
+        } else {
+            imgerDot.setVisibility(View.VISIBLE);
+            assigners.get(pos).setRead(true);
+        }
+        timeAgo.setVisibility(View.VISIBLE);
+        timeAgo.setText(DateTimeUtils.getTimeAgo(message.getCreated_atLong(true), context));
+
     }
 
     private int getCountRoomUnRead() {

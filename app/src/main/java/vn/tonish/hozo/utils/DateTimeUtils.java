@@ -252,10 +252,6 @@ public class DateTimeUtils {
         long time;
         try {
             time = toCalendar(date).getTimeInMillis();
-//            if (time < 1000000000000L) {
-//                // if timestamp given in seconds, convert to millis
-//                time *= 1000;
-//            }
             Calendar calendar = Calendar.getInstance();
             long now = calendar.getTimeInMillis();
             if (time > now || time <= 0) {
@@ -321,8 +317,7 @@ public class DateTimeUtils {
     public static long daysBetween(Calendar startDate, Calendar endDate) {
         long end = endDate.getTimeInMillis();
         long start = startDate.getTimeInMillis();
-
-        LogUtils.d(TAG, "daysBetween : " + TimeUnit.DAYS.toDays(end - start));
+        LogUtils.d(TAG, "daysBetween : " + TimeUnit.MILLISECONDS.toDays(end - start));
         return TimeUnit.MILLISECONDS.toDays(end - start);
     }
 

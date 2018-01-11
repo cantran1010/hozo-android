@@ -336,8 +336,6 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 if (messageAdapter != null) messageAdapter.notifyDataSetChanged();
                 LogUtils.d(TAG, "addValueEventListener messages size : " + messages.size());
                 isLoading = false;
-
-
                 if (valueEventListener != null && recentPostsQuery != null)
                     recentPostsQuery.removeEventListener(valueEventListener);
 
@@ -362,36 +360,27 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     }
 
     private void doSend() {
-
         if (edtMsg.getText().toString().trim().equals("")) return;
-
         String key = messageCloudEndPoint.push().getKey();
-
         Message message = new Message();
         message.setUser_id(UserManager.getMyUser().getId());
         message.setMessage(edtMsg.getText().toString().trim());
 
         Map<String, Boolean> reads = new HashMap<>();
         reads.put(String.valueOf(UserManager.getMyUser().getId()), true);
-
         message.setReads(reads);
-
         messageCloudEndPoint.child(key).setValue(message, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
-
                     LogUtils.d(TAG, "onComplete databaseError : " + databaseError.toString());
                     Utils.showLongToast(ChatActivity.this, getString(R.string.permission_chat_error), true, false);
                     finish();
-
                 }
             }
         });
         message.setId(key);
-
         LogUtils.d(TAG, "doSend , message : " + message.toString());
-
         edtMsg.setText(getString(R.string.empty));
     }
 
