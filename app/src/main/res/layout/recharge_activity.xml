@@ -40,7 +40,6 @@
 
     </RelativeLayout>
 
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -86,6 +85,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/promotion_code"
+                    android:textColor="@color/tv_black_new"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/wallet_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/btn_unselector_payment"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="#ffa800"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/img_wallet_recharge"
+                    tools:ignore="ContentDescription" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wallet_recharge"
                     android:textColor="@color/tv_black_new"
                     android:textSize="15sp" />
 

@@ -225,4 +225,8 @@ public interface ApiInterface {
 
     @POST("v1/wallet/withdraw")
     Call<WithdrawMoneyReponse> withdrawMoney(@Header("Authorization") String token, @Body RequestBody body);
+
+    @POST("v1/wallet/transfer/cash2account")
+    Call<TransactionResponse> transfer(@Header("Authorization") String token, @Body RequestBody body);
+
 }

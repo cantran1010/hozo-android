@@ -157,7 +157,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0) {
                     edtBudget.setThreshold(edtBudget.getText().length());
-                    formatMoney(getContext(),vnds,Long.parseLong(edtBudget.getText().toString().trim().replace(",", "").replace(".", "")),edtBudget,adapter);
+                    formatMoney(getContext(),vnds,Long.parseLong(edtBudget.getText().toString().trim().replace(",", "").replace(".", "")),edtBudget);
                 }
             }
 

@@ -742,5 +742,18 @@
     <string name="name_error">Không được chứa \n email hoặc số điện thoại</string>
     <string name="refund_withdraw_bank">Hoàn tiền do giao dịch rút tiền thất bại.</string>
     <string name="call_err_null_number">Số điện thoại không hợp lệ.</string>
+    <string name="wallet_recharge">Ví tiền</string>
+    <string name="transfer_money_title">Nạp tiền từ ví</string>
+    <string name="accept">Đồng ý</string>
+    <string name="transfer_des">Nhập số tiền bạn cần nạp\ntừ ví tiền vào ví tài khoản</string>
+    <string name="balance_accout_title">Số dư trong ví tài khoản</string>
+    <string name="balance_money_title">Số dư trong ví tiền hiện có</string>
+    <string name="transfer_success_msg">Chuyển tiền thành công!</string>
+    <string name="transfer_error_not_enough">Không đủ tiền trong ví tiền!</string>
+    <string name="money_transfer_null_error">Vui lòng nhập số tiền!</string>
+    <string name="money_transfer_not_enough">Số tiền phải nhỏ hơn\ntiền có trong ví tiền!</string>
+    <string name="money_transfer_min_error">Số tiền tối thiểu là 1.000 VNĐ</string>
+    <string name="received_cash">Nhận tiền từ ví tiền</string>
+    <string name="transfer_cash">Chuyển tiền sang ví tài khoản</string>
 
 </resources>
