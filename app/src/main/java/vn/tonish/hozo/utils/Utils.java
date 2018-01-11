@@ -868,7 +868,7 @@ public class Utils {
         return result;
     }
 
-    public static void formatMoney(Context context, ArrayList<String> vnds, long mn, AutoCompleteTextView autoCompleteTextView, CustomArrayAdapter adapter) {
+    public static void formatMoney(Context context, ArrayList<String> vnds, long mn, AutoCompleteTextView autoCompleteTextView) {
         if (mn * 10 >= MIN_BUGDET && mn * 10 <= MAX_BUGDET && mn * 10 % 1000 == 0)
             vnds.add(formatNumber(mn * 10));
         if (mn * 100 >= MIN_BUGDET && mn * 100 <= MAX_BUGDET && mn * 100 % 1000 == 0)
@@ -883,7 +883,7 @@ public class Utils {
             vnds.add(formatNumber(mn * 1000000));
         if (mn * 10000000 >= MIN_BUGDET && mn * 10000000 <= MAX_BUGDET)
             vnds.add(formatNumber(mn * 10000000));
-        adapter = new CustomArrayAdapter(context, vnds);
+        CustomArrayAdapter adapter = new CustomArrayAdapter(context, vnds);
         autoCompleteTextView.setAdapter(adapter);
     }
 

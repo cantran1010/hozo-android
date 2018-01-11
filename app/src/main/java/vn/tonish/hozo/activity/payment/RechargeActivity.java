@@ -47,7 +47,8 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     private EdittextHozo edtVisa, edtAtm;
     private int MIN_MONEY = 10000;
     private int MAX_MONEY = 2000000;
-    private LinearLayout atmLayout, visaLayout;
+    private LinearLayout atmLayout;
+    private LinearLayout visaLayout;
     private ExpandableLayout inputAtmExpandableLayout, inputVisaExpandableLayout;
 
     @Override
@@ -73,6 +74,9 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         btnVisa.setOnClickListener(this);
         ButtonHozo btnAtm = (ButtonHozo) findViewById(R.id.btn_atm);
         btnAtm.setOnClickListener(this);
+
+        LinearLayout walletLayout = (LinearLayout) findViewById(R.id.wallet_layout);
+        walletLayout.setOnClickListener(this);
     }
 
     @Override
@@ -340,7 +344,16 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
             case R.id.btn_visa:
                 doVisa();
                 break;
+
+            case R.id.wallet_layout:
+                rechargeFromWallet();
+                break;
         }
+    }
+
+    private void rechargeFromWallet() {
+        Intent intent = new Intent(RechargeActivity.this, TransferMoneyActivity.class);
+        startActivityForResult(intent, Constants.PROMOTION_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
     }
 
     private void expandableLayout(ExpandableLayout expan) {
@@ -361,7 +374,8 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         if (inputVisaExpandableLayout.isExpanded())
             Utils.setViewBackground(visaLayout, ContextCompat.getDrawable(this, R.drawable.btn_selector_payment));
         else
-            Utils.setViewBackground(visaLayout, ContextCompat.getDrawable(this, R.drawable.btn_unselector_payment));}
+            Utils.setViewBackground(visaLayout, ContextCompat.getDrawable(this, R.drawable.btn_unselector_payment));
+    }
 
 
 }
