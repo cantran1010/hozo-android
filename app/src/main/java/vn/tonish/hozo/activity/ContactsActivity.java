@@ -11,23 +11,25 @@ import android.view.View;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.ChatPrivateAdapter;
 import vn.tonish.hozo.adapter.MemberAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
-import vn.tonish.hozo.model.Taskgroup;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.Poster;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.utils.Utils.sortID;
@@ -40,11 +42,18 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
 
     private static final String TAG = ContactsActivity.class.getSimpleName();
     private TaskResponse taskResponse;
-    private List<Assigner> assigners = new ArrayList<>();
+    private List<Assigner> assigners;
+    private List<Assigner> chatAssigners;
     private RecyclerView rcvMember, rcvChat;
     private TextViewHozo tvTaskName, tvCount;
     private int posterID, myUserID;
-
+    private MemberAdapter memberAdapter;
+    private ChatPrivateAdapter chatPrivateAdapter;
+    private DatabaseReference assignersReference, messageReference, groupTaskReference, membersReference;
+    private ValueEventListener assignersListener;
+    private ChildEventListener messageListener, groupTaskListener, membersListener;
+    private Assigner mAssigner = new Assigner();
+    private Assigner mMember = new Assigner();
 
     @Override
     protected int getLayout() {
@@ -66,9 +75,10 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.TASK_DETAIL_EXTRA);
         posterID = taskResponse.getPoster().getId();
         myUserID = UserManager.getMyUser().getId();
-        updateListAssigners();
+        updateListMembers();
         updateMessageRoom();
         checkTask();
+//        checkMembers();
 
     }
 
@@ -80,7 +90,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     }
 
 
-    private void updateListAssigners() {
+    private void updateListMembers() {
+        assigners = new ArrayList<>();
         Assigner assigner;
         Poster poster = taskResponse.getPoster();
         tvTaskName.setText(taskResponse.getTitle());
@@ -95,7 +106,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             assigners.add(assigner);
         }
         addGroup(assigners);
-        MemberAdapter memberAdapter = new MemberAdapter(ContactsActivity.this, assigners);
+        memberAdapter = new MemberAdapter(ContactsActivity.this, assigners);
         LinearLayoutManager horizontalLayoutManagaer
                 = new LinearLayoutManager(ContactsActivity.this, LinearLayoutManager.HORIZONTAL, false);
         rcvMember.setLayoutManager(horizontalLayoutManagaer);
@@ -119,8 +130,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void updateMessageRoom() {
-        final List<Assigner> chatAssigners = new ArrayList<>();
-        final ChatPrivateAdapter chatPrivateAdapter = new ChatPrivateAdapter(this, taskResponse.getId(), taskResponse.getPoster().getId(), chatAssigners);
+        chatAssigners = new ArrayList<>();
+        chatPrivateAdapter = new ChatPrivateAdapter(this, taskResponse.getId(), taskResponse.getPoster().getId(), chatAssigners);
         LinearLayoutManager layoutManagaer
                 = new LinearLayoutManager(ContactsActivity.this, LinearLayoutManager.VERTICAL, false);
         rcvChat.setLayoutManager(layoutManagaer);
@@ -142,7 +153,9 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             }
         });
 
-        FirebaseDatabase.getInstance().getReference().child("task-messages").addListenerForSingleValueEvent(new ValueEventListener() {
+        //--------list member assiger-----------
+
+        assignersListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.child(String.valueOf(taskResponse.getId())).exists()) {
@@ -155,9 +168,13 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
 
-        FirebaseDatabase.getInstance().getReference().child("private-messages").child(String.valueOf(taskResponse.getId())).addChildEventListener(new ChildEventListener() {
+        assignersReference = FirebaseDatabase.getInstance().getReference().child("task-messages");
+        assignersReference.addListenerForSingleValueEvent(assignersListener);
+        //--------list chat assiger-----------
+
+        messageListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 LogUtils.d(TAG, "dataSnapshot" + dataSnapshot.getKey() + "assigners" + assigners.toString());
@@ -195,21 +212,57 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+        messageReference = FirebaseDatabase.getInstance().getReference();
+        messageReference.child("private-messages").child(String.valueOf(taskResponse.getId())).addChildEventListener(messageListener);
+
 
     }
 
     private void checkTask() {
-        FirebaseDatabase.getInstance().getReference().child("groups-task").child(String.valueOf(taskResponse.getId())).addChildEventListener(new ChildEventListener() {
+        LogUtils.d(TAG, "checkTask start , task id : " + taskResponse.getId());
+        groupTaskListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Taskgroup map = dataSnapshot.getValue(Taskgroup.class);
-//                String descrip = (String) map.get("title");
-             LogUtils.d(TAG, "groupTask" + map.toString());
+
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                LogUtils.d(TAG, "checkTask members  add, task id : " + dataSnapshot.toString());
+                if (dataSnapshot.getKey().equals("block")) {
+                    boolean block = (boolean) dataSnapshot.getValue();
+                    if (block) {
+                        Utils.showLongToast(ContactsActivity.this, getString(R.string.block_task), true, false);
+                        finish();
+                    }
+                } else if (dataSnapshot.getKey().equals("close")) {
+                    boolean close = (boolean) dataSnapshot.getValue();
+                    if (close) {
+                        Utils.showLongToast(ContactsActivity.this, getString(R.string.close_task), true, false);
+                        finish();
+                    }
+
+                } else if (dataSnapshot.getKey().equals("members")) {
+                    Map<String, Boolean> members = (Map<String, Boolean>) dataSnapshot.getValue();
+                    LogUtils.d(TAG, "checkTask members  add, task id : " + members.toString());
+                    if (members.containsKey(String.valueOf(posterID)) && !members.get(String.valueOf(posterID))) {
+                        Utils.showLongToast(ContactsActivity.this, getString(R.string.kick_out_task_content), true, false);
+                        finish();
+                    }
+                    for (Assigner assigner : assigners
+                            ) {
+                        if (members.containsKey(String.valueOf(assigner.getId())) && !members.get(String.valueOf(assigner.getId()))) {
+                            assigners.remove(assigner);
+                            memberAdapter.notifyDataSetChanged();
+                            updateMessageRoom();
+                            String kickName = assigner.getFullName() + " " + getString(R.string.kick_out_task_assigner);
+                            Utils.showLongToast(ContactsActivity.this, kickName, true, false);
+                            return;
+                        }
+                    }
+
+                }
 
             }
 
@@ -227,8 +280,9 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
-
+        };
+        groupTaskReference = FirebaseDatabase.getInstance().getReference().child("groups-task").child(String.valueOf(taskResponse.getId()));
+        groupTaskReference.addChildEventListener(groupTaskListener);
     }
 
     private final BroadcastReceiver broadcastReceiverSmsCount = new BroadcastReceiver() {
@@ -251,6 +305,19 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         registerReceiver(broadcastReceiverSmsCount, new IntentFilter(Constants.BROAD_CAST_PUSH_CHAT_COUNT));
         LogUtils.d(TAG, "ChatFragment resumeData start");
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (assignersListener != null && assignersReference != null)
+            assignersReference.removeEventListener(assignersListener);
+        if (messageListener != null && messageReference != null)
+            messageReference.removeEventListener(messageListener);
+        if (groupTaskListener != null && groupTaskReference != null)
+            groupTaskReference.removeEventListener(groupTaskListener);
+        if (membersListener != null && membersReference != null)
+            membersReference.removeEventListener(membersListener);
     }
 
     @Override
