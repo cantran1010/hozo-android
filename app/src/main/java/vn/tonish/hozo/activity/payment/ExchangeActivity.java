@@ -203,24 +203,29 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
             return;
         }
 
+        final JSONObject jsonRequest = new JSONObject();
         JSONArray jsonArray = new JSONArray();
-        for (int i = 0; i < assignerExchangeResponses.size(); i++) {
 
-            if (assignerExchangeResponses.get(i).isChecked()) {
-                AssignerExchangeResponse assignerExchangeResponse = assignerExchangeResponses.get(i);
-                JSONObject jsonObject = new JSONObject();
-                try {
+        try {
+            for (int i = 0; i < assignerExchangeResponses.size(); i++) {
+
+                if (assignerExchangeResponses.get(i).isChecked()) {
+                    AssignerExchangeResponse assignerExchangeResponse = assignerExchangeResponses.get(i);
+                    JSONObject jsonObject = new JSONObject();
+
                     jsonObject.put("user_id", assignerExchangeResponse.getId());
                     jsonObject.put("amount", assignerExchangeResponse.getPrice());
                     jsonArray.put(jsonObject);
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+
             }
 
+            jsonRequest.put("to", jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        LogUtils.d(TAG, "doExchange data jsonArray : " + jsonArray.toString());
+        LogUtils.d(TAG, "doExchange data jsonArray : " + jsonRequest.toString());
         LogUtils.d(TAG, "doExchange taskId : " + taskExchangeResponses.get(spTask.getSelectedItemPosition()).getId());
 
         ProgressDialogUtils.showProgressDialog(this);
@@ -239,7 +244,7 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
 //            e.printStackTrace();
 //        }
 
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonArray.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
 
         ApiClient.getApiService().transfer(UserManager.getUserToken(), taskExchangeResponses.get(spTask.getSelectedItemPosition()).getId(), body).enqueue(new Callback<Void>() {
             @Override

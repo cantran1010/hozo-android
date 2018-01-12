@@ -58,6 +58,8 @@ public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.MyView
                 if (assignerExchangeResponse.getPrice() + 10000 <= originPrice * 1.5) {
                     assignerExchangeResponse.setPrice(assignerExchangeResponse.getPrice() + 10000);
                     holder.tvPrice.setText(context.getString(R.string.unit_2, Utils.formatNumber(assignerExchangeResponse.getPrice())));
+                } else {
+                    Utils.showLongToast(context, context.getString(R.string.max_money_exchange), true, false);
                 }
 
             }
@@ -70,6 +72,8 @@ public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.MyView
                 if (assignerExchangeResponse.getPrice() >= 20000) {
                     assignerExchangeResponse.setPrice(assignerExchangeResponse.getPrice() - 10000);
                     holder.tvPrice.setText(context.getString(R.string.unit_2, Utils.formatNumber(assignerExchangeResponse.getPrice())));
+                } else {
+                    Utils.showLongToast(context, context.getString(R.string.min_money_exchange), true, false);
                 }
 
             }
