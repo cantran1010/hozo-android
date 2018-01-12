@@ -761,7 +761,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContact.setVisibility(View.GONE);
 
             try {
-                if (DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2
+                if (DateTimeUtils.minutesBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2 * 24 * 60
                         && DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) >= 0)
                     btnContactHozoWorker.setVisibility(View.VISIBLE);
                 else
@@ -915,8 +915,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             btnContactHozoWorker.setVisibility(View.GONE);
 
             try {
-                if (DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2
-                        && DateTimeUtils.daysBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) >= 0)
+                if (DateTimeUtils.minutesBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) <= 2 * 24 * 60
+                        && DateTimeUtils.hoursBetween(DateTimeUtils.toCalendar(taskResponse.getEndTime()), Calendar.getInstance()) >= 0)
                     btnContact.setVisibility(View.VISIBLE);
                 else
                     btnContact.setVisibility(View.GONE);

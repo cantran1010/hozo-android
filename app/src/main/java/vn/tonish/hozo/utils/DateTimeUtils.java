@@ -313,6 +313,8 @@ public class DateTimeUtils {
     public static long hoursBetween(Calendar startDate, Calendar endDate) {
         long end = endDate.getTimeInMillis();
         long start = startDate.getTimeInMillis();
+
+        LogUtils.d(TAG, "hoursBetween : " + TimeUnit.MILLISECONDS.toHours(Math.abs(end - start)));
         return TimeUnit.MILLISECONDS.toHours(Math.abs(end - start));
     }
 
@@ -329,6 +331,7 @@ public class DateTimeUtils {
         long start = startDate.getTimeInMillis();
 
         if (end < start) return 0;
+        LogUtils.d(TAG, "minutesBetween : " + TimeUnit.MILLISECONDS.toMinutes(Math.abs(end - start)));
         return TimeUnit.MILLISECONDS.toMinutes(Math.abs(end - start));
     }
 
