@@ -27,7 +27,6 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.MyLinearLayoutManager;
 import vn.tonish.hozo.utils.PreferUtils;
-import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -65,8 +64,14 @@ public class ChatFragment extends BaseFragment {
     @Override
     protected void resumeData() {
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_CHAT));
+
         LogUtils.d(TAG, "ChatFragment resumeData start");
-        getChatRooms();
+        try {
+            getChatRooms();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -80,7 +85,7 @@ public class ChatFragment extends BaseFragment {
     }
 
     private void getChatRooms() {
-        ProgressDialogUtils.showProgressDialog(getActivity());
+//        ProgressDialogUtils.showProgressDialog(getActivity());
         if (call != null) call.cancel();
         call = ApiClient.getApiService().getChatRooms(UserManager.getUserToken());
         call.enqueue(new Callback<List<TaskResponse>>() {
@@ -117,7 +122,7 @@ public class ChatFragment extends BaseFragment {
                     });
                 }
                 onStopRefresh();
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -134,7 +139,7 @@ public class ChatFragment extends BaseFragment {
                     }
                 });
                 onStopRefresh();
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
