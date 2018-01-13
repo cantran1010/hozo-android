@@ -10,3 +10,4 @@ default_lang: "en"                      # Header name of column containing fallb
 output_dir: "app/src/main/res"                      # Path of output files
 output_basenames:                       # Basename of output files
  - strings
+sheet: 0                                # Index of worksheet to download. First index is 0.
