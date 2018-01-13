@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -84,7 +85,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     private boolean isLoading = false;
     private RelativeLayout mainLayout;
 
-    private static final int PAGE_COUNT = 31;
+    private static final int PAGE_COUNT = 10;
     private ValueEventListener valueEventListener;
     private ChildEventListener childEventListener;
     private ChildEventListener memberEventListener;
@@ -148,9 +149,6 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-//                Member member = dataSnapshot.getValue(Member.class);
-//                LogUtils.d(TAG, "memberEventListener onChildAdded , member : " + member.toString());
-
             }
 
             @Override
@@ -169,7 +167,6 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                     setResult(Constants.RESULT_CODE_CHAT);
                     finish();
                 }
-
             }
 
             @Override
@@ -189,35 +186,6 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
         };
 
         memberCloudEndPoint.addChildEventListener(memberEventListener);
-    }
-
-    private String sortID(int assID) {
-        if (assID < UserManager.getMyUser().getId())
-            return assID + "-" + UserManager.getMyUser().getId();
-        else return UserManager.getMyUser().getId() + "-" + assID;
-    }
-
-    @Override
-    protected void resumeData() {
-        PreferUtils.setPushShow(this, false);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        PreferUtils.setPushShow(this, true);
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void setUpMessageList() {
-        LogUtils.d(TAG, "setUpMessageList start");
-        messageAdapter = new MessageAdapter(this, messages, posterId);
-        messageAdapter.setPosterId(posterId);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        rcvMessage.setLayoutManager(linearLayoutManager);
-        rcvMessage.setAdapter(messageAdapter);
 
         edtMsg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -255,21 +223,46 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                 return false;
             }
         });
+    }
 
+    private String sortID(int assID) {
+        if (assID < UserManager.getMyUser().getId())
+            return assID + "-" + UserManager.getMyUser().getId();
+        else return UserManager.getMyUser().getId() + "-" + assID;
+    }
+
+    @Override
+    protected void resumeData() {
+        PreferUtils.setPushShow(this, false);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        PreferUtils.setPushShow(this, true);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void setUpMessageList() {
+        LogUtils.d(TAG, "setUpMessageList start");
+        messageAdapter = new MessageAdapter(this, messages, posterId);
+        messageAdapter.setPosterId(posterId);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rcvMessage.setLayoutManager(linearLayoutManager);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        rcvMessage.setHasFixedSize(true);
+        rcvMessage.setAdapter(messageAdapter);
         EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-
                 LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
                 if (isLoadingMoreFromServer) getMessage();
-
             }
         };
         rcvMessage.addOnScrollListener(endlessRecyclerViewScrollListener);
-
         if (childEventListener != null)
             messageCloudEndPoint.removeEventListener(childEventListener);
-
         childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -280,7 +273,8 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                 LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , checkContain(message) : " + checkContain(message));
                 if (checkContain(message)) return;
                 messages.add(0, message);
-                messageAdapter.notifyDataSetChanged();
+                rcvMessage.scrollToPosition(0);
+                messageAdapter.notifyItemInserted(0);
                 LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , messages size : " + messages.size());
                 Map<String, Boolean> map = new HashMap<>();
                 map.put(String.valueOf(UserManager.getMyUser().getId()), Boolean.TRUE);
@@ -289,8 +283,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                Message message = dataSnapshot.getValue(Message.class);
-//                LogUtils.d(TAG, "messageCloudEndPoint onChildChanged , message : " + message.toString());
+
             }
 
             @Override
@@ -354,11 +347,8 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
 
     private void doAttachImage() {
         ProgressDialogUtils.showProgressDialog(this);
-
         File fileUp = Utils.compressFile(fileAttach);
-
         LogUtils.d(TAG, "doAttachImage , file Name : " + fileUp.getName());
-
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
         MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
 
@@ -419,13 +409,9 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
 
 
     private void getMessage() {
-
         if (isLoading) return;
-
         isLoading = true;
-
         valueEventListener = null;
-
         if (lastKeyMsg == null) {
             LogUtils.d(TAG, "getMessage start");
             recentPostsQuery = messageCloudEndPoint.orderByKey().limitToLast(PAGE_COUNT);
@@ -433,26 +419,19 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
             LogUtils.d(TAG, "getMessage lastKeyMsg : " + lastKeyMsg);
             recentPostsQuery = messageCloudEndPoint.orderByKey().endAt(lastKeyMsg).limitToLast(PAGE_COUNT);
         }
-
         if (valueEventListener != null && recentPostsQuery != null)
             recentPostsQuery.removeEventListener(valueEventListener);
-
         if (valueEventListener != null)
             messageCloudEndPoint.removeEventListener(valueEventListener);
 
         valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 ArrayList<Message> messagesAdded = new ArrayList<>();
                 int i = 0;
-
                 LogUtils.d(TAG, "addValueEventListener dataSnapshot.getChildrenCount() : " + dataSnapshot.getChildrenCount());
-
                 if (dataSnapshot.getChildrenCount() == 0) messageAdapter.stopLoadMore();
-
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-
                     if (dataSnapshot.getChildrenCount() < PAGE_COUNT) {
                         Message message = dataSnapshot1.getValue(Message.class);
                         message.setId(dataSnapshot1.getKey());
@@ -468,25 +447,18 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                             Message message = dataSnapshot1.getValue(Message.class);
                             message.setId(dataSnapshot1.getKey());
                             LogUtils.d(TAG, "addValueEventListener recentPostsQuery : " + message.toString());
-
                             if (!checkContain(message))
                                 messagesAdded.add(0, message);
                         }
                     }
-
                     i++;
-
                 }
-
                 messages.addAll(messagesAdded);
                 if (messageAdapter != null) messageAdapter.notifyDataSetChanged();
                 LogUtils.d(TAG, "addValueEventListener messages size : " + messages.size());
                 isLoading = false;
-
-
                 if (valueEventListener != null && recentPostsQuery != null)
                     recentPostsQuery.removeEventListener(valueEventListener);
-
                 if (valueEventListener != null)
                     messageCloudEndPoint.removeEventListener(valueEventListener);
             }
@@ -502,17 +474,11 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                     messageCloudEndPoint.removeEventListener(valueEventListener);
             }
         };
-
         valueEventListener = recentPostsQuery.addValueEventListener(valueEventListener);
-
     }
 
     private void doSend() {
-        if (imgPath == null) {
-            doChat(edtMsg.getText().toString().trim(), 0);
-        } else {
-            doAttachImage();
-        }
+        doChat(edtMsg.getText().toString().trim(), 0);
     }
 
     private void doChat(String chat, int type) {
@@ -539,7 +505,6 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
             }
         });
         message.setId(key);
-
         LogUtils.d(TAG, "doSend , message : " + message.toString());
         ProgressDialogUtils.dismissProgressDialog();
         imgLayout.setVisibility(View.GONE);
@@ -566,13 +531,33 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
             Utils.displayImage(ChatPrivateActivity.this, imgAttached, imgPath);
             imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
+            if (imgPath != null) {
+                doAttachImage();
+            }
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
             Utils.displayImage(ChatPrivateActivity.this, imgAttached, imgPath);
             imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
+            if (imgPath != null) {
+                doAttachImage();
+            }
+
         }
+
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0) {
+            boolean cameraPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+            boolean readExternalFile = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+            if (cameraPermission && readExternalFile) {
+                permissionGranted();
+            }
+        }
+    }
 
     @Override
     protected void onDestroy() {
@@ -586,11 +571,8 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     }
 
     public void showMenu() {
-        //Creating the instance of PopupMenu
         PopupMenu popup = new PopupMenu(this, imgMenu);
         popup.getMenuInflater().inflate(R.menu.menu_chat, popup.getMenu());
-
-        //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {

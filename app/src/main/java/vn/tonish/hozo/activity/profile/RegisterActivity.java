@@ -251,7 +251,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
 
     private void permissionGrantedAvata() {
-
         PickImageDialog pickImageDialog = new PickImageDialog(RegisterActivity.this);
         pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
             @Override

@@ -13,7 +13,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,11 +48,9 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     private int posterID, myUserID;
     private MemberAdapter memberAdapter;
     private ChatPrivateAdapter chatPrivateAdapter;
-    private DatabaseReference assignersReference, messageReference, groupTaskReference, membersReference;
-    private ValueEventListener assignersListener;
-    private ChildEventListener messageListener, groupTaskListener, membersListener;
-    private Assigner mAssigner = new Assigner();
-    private Assigner mMember = new Assigner();
+    private DatabaseReference assignersReference, messageReference, groupTaskReference;
+    private ChildEventListener messageListener, groupTaskListener, assignersListener;
+
 
     @Override
     protected int getLayout() {
@@ -78,7 +75,6 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         updateListMembers();
         updateMessageRoom();
         checkTask();
-//        checkMembers();
 
     }
 
@@ -154,14 +150,29 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         });
 
         //--------list member assiger-----------
-
-        assignersListener = new ValueEventListener() {
+        assignersListener = new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.child(String.valueOf(taskResponse.getId())).exists()) {
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.exists()) {
                     addGroup(chatAssigners);
                     chatPrivateAdapter.notifyDataSetChanged();
+                    assignersReference.removeEventListener(assignersListener);
                 }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
@@ -170,8 +181,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             }
         };
 
-        assignersReference = FirebaseDatabase.getInstance().getReference().child("task-messages");
-        assignersReference.addListenerForSingleValueEvent(assignersListener);
+        assignersReference = FirebaseDatabase.getInstance().getReference().child("task-messages").child(String.valueOf(taskResponse.getId()));
+        assignersReference.addChildEventListener(assignersListener);
         //--------list chat assiger-----------
 
         messageListener = new ChildEventListener() {
@@ -224,43 +235,51 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         groupTaskListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
+                switch (dataSnapshot.getKey()) {
+                    case "block":
+                        boolean block = (boolean) dataSnapshot.getValue();
+                        if (block) {
+                            Utils.showLongToast(ContactsActivity.this, getString(R.string.block_task), true, false);
+                            finish();
+                        }
+                        break;
+                    case "close":
+                        boolean close = (boolean) dataSnapshot.getValue();
+                        if (close) {
+                            Utils.showLongToast(ContactsActivity.this, getString(R.string.close_task), true, false);
+                            finish();
+                        }
+                        break;
+                }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                LogUtils.d(TAG, "checkTask members  add, task id : " + dataSnapshot.toString());
-                if (dataSnapshot.getKey().equals("block")) {
-                    boolean block = (boolean) dataSnapshot.getValue();
-                    if (block) {
-                        Utils.showLongToast(ContactsActivity.this, getString(R.string.block_task), true, false);
-                        finish();
-                    }
-                } else if (dataSnapshot.getKey().equals("close")) {
-                    boolean close = (boolean) dataSnapshot.getValue();
-                    if (close) {
-                        Utils.showLongToast(ContactsActivity.this, getString(R.string.close_task), true, false);
-                        finish();
-                    }
 
-                } else if (dataSnapshot.getKey().equals("members")) {
-                    Map<String, Boolean> members = (Map<String, Boolean>) dataSnapshot.getValue();
-                    LogUtils.d(TAG, "checkTask members  add, task id : " + members.toString());
-                    if (members.containsKey(String.valueOf(posterID)) && !members.get(String.valueOf(posterID))) {
-                        Utils.showLongToast(ContactsActivity.this, getString(R.string.kick_out_task_content), true, false);
-                        finish();
-                    }
-                    for (Assigner assigner : assigners
-                            ) {
-                        if (members.containsKey(String.valueOf(assigner.getId())) && !members.get(String.valueOf(assigner.getId()))) {
-                            assigners.remove(assigner);
-                            memberAdapter.notifyDataSetChanged();
-                            updateMessageRoom();
-                            String kickName = assigner.getFullName() + " " + getString(R.string.kick_out_task_assigner);
-                            Utils.showLongToast(ContactsActivity.this, kickName, true, false);
-                            return;
+                LogUtils.d(TAG, "checkTask members  add, task id : " + dataSnapshot.toString());
+                switch (dataSnapshot.getKey()) {
+                    case "block":
+                        boolean block = (boolean) dataSnapshot.getValue();
+                        if (block) {
+                            Utils.showLongToast(ContactsActivity.this, getString(R.string.block_task), true, false);
+                            finish();
                         }
-                    }
+                        break;
+                    case "close":
+                        boolean close = (boolean) dataSnapshot.getValue();
+                        if (close) {
+                            Utils.showLongToast(ContactsActivity.this, getString(R.string.close_task), true, false);
+                            finish();
+                        }
+                        break;
+                    case "members":
+                        Map<String, Boolean> members = (Map<String, Boolean>) dataSnapshot.getValue();
+                        if (members.containsKey(String.valueOf(posterID)) && !members.get(String.valueOf(posterID))) {
+                            Utils.showLongToast(ContactsActivity.this, getString(R.string.kick_out_task_content), true, false);
+                            finish();
+                        }
+
+                        break;
 
                 }
 
@@ -316,8 +335,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             messageReference.removeEventListener(messageListener);
         if (groupTaskListener != null && groupTaskReference != null)
             groupTaskReference.removeEventListener(groupTaskListener);
-        if (membersListener != null && membersReference != null)
-            membersReference.removeEventListener(membersListener);
+        chatPrivateAdapter.killListener();
     }
 
     @Override

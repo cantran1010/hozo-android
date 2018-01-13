@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -43,7 +42,7 @@ import vn.tonish.hozo.view.TextViewHozo;
  * Created by LongBui on 9/18/17.
  */
 
-public class ChatActivity extends BaseTouchActivity implements View.OnClickListener {
+public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = ChatActivity.class.getSimpleName();
     private RecyclerView rcvMessage;
@@ -86,7 +85,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         btnSend.setOnClickListener(this);
         imgBack.setOnClickListener(this);
 
-        mainLayout = (RelativeLayout) findViewById(R.id.main_layout);
+//        mainLayout = (RelativeLayout) findViewById(R.id.main_layout);
 
         imgMenu = (ImageView) findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
@@ -175,45 +174,46 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
+        rcvMessage.setHasFixedSize(true);
         rcvMessage.setLayoutManager(linearLayoutManager);
         rcvMessage.setAdapter(messageAdapter);
 
-        edtMsg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    rcvMessage.smoothScrollToPosition(0);
-                }
-            }
-        });
+//        edtMsg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean hasFocus) {
+//                if (hasFocus) {
+//                    rcvMessage.smoothScrollToPosition(0);
+//                }
+//            }
+//        });
 
-        mainLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    view.performClick();
-                    Utils.hideKeyBoard(ChatActivity.this);
-                    rcvMessage.requestFocus();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        rcvMessage.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    view.performClick();
-                    Utils.hideKeyBoard(ChatActivity.this);
-                    rcvMessage.requestFocus();
-                    return true;
-                }
-                return false;
-            }
-        });
+//        mainLayout.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//
+//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                    view.performClick();
+//                    Utils.hideKeyBoard(ChatActivity.this);
+//                    rcvMessage.requestFocus();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
+//
+//        rcvMessage.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//
+//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                    view.performClick();
+//                    Utils.hideKeyBoard(ChatActivity.this);
+//                    rcvMessage.requestFocus();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
         EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
@@ -239,6 +239,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , checkContain(message) : " + checkContain(message));
                 if (checkContain(message)) return;
                 messages.add(0, message);
+                rcvMessage.scrollToPosition(0);//
                 messageAdapter.notifyDataSetChanged();
                 LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , messages size : " + messages.size());
                 Map<String, Boolean> map = new HashMap<>();
@@ -313,7 +314,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                         LogUtils.d(TAG, "addValueEventListener recentPostsQuery : " + message.toString());
                         LogUtils.d(TAG, "addValueEventListener recentPostsQuery key : " + dataSnapshot1.getKey());
                         if (!checkContain(message))
-                            messagesAdded.add(0, message);
+                            messagesAdded.add(0,message);
                         isLoadingMoreFromServer = false;
                         messageAdapter.stopLoadMore();
                     } else {
@@ -324,7 +325,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                             LogUtils.d(TAG, "addValueEventListener recentPostsQuery : " + message.toString());
 
                             if (!checkContain(message))
-                                messagesAdded.add(0, message);
+                                messagesAdded.add(0,message);
                         }
                     }
 

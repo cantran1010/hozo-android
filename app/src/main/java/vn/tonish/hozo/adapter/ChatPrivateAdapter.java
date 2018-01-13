@@ -42,6 +42,7 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
     private Context context;
     private List<Message> messages = new ArrayList<>();
     private DatabaseReference messageCloudEndPoint, messageGroupCloudEndPoint;
+    private ChildEventListener messageListener;
     private int taskID;
     private int posterID;
 
@@ -84,7 +85,7 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
                 Utils.displayImageAvatar(context, holder.imgAvatar, assigner.getAvatar());
             holder.tvTitle.setText(assigner.getFullName());
             for (int i = 0; i < assigners.size(); i++) messages.add(new Message());
-            ChildEventListener childEventListener = new ChildEventListener() {
+            messageListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Message message = dataSnapshot.getValue(Message.class);
@@ -116,14 +117,14 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
             };
             if (assigner.getId() == taskID && assigner.getFullName().equalsIgnoreCase(context.getString(R.string.group_chat))) {
                 messageGroupCloudEndPoint = FirebaseDatabase.getInstance().getReference().child("task-messages").child(String.valueOf(taskID));
-                messageGroupCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(childEventListener);
+                messageGroupCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(messageListener);
             } else {
                 int id;
                 if (posterID == UserManager.getMyUser().getId())
                     id = posterID;
                 else id = UserManager.getMyUser().getId();
                 messageCloudEndPoint = FirebaseDatabase.getInstance().getReference().child("private-messages").child(String.valueOf(taskID)).child(sortID(id, assigners.get(position).getId()));
-                messageCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(childEventListener);
+                messageCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(messageListener);
             }
 
 
@@ -165,6 +166,7 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
         }
     }
 
+
     private void updateUI(int pos, Message message, TextViewHozo tvSms, ImageView imgerDot, TextViewHozo timeAgo) {
         if (message.getType() == 1)
             tvSms.setText(context.getString(R.string.send_img));
@@ -201,6 +203,14 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
         intentNewMsg.setAction(Constants.BROAD_CAST_PUSH_CHAT_COUNT);
         intentNewMsg.putExtra(Constants.COUNT_NEW_CHAT_EXTRA, getCountRoomUnRead());
         context.sendBroadcast(intentNewMsg);
+
+    }
+
+    public void killListener() {
+        if (messageCloudEndPoint != null && messageListener != null)
+            messageCloudEndPoint.removeEventListener(messageListener);
+        if (messageGroupCloudEndPoint != null && messageListener != null)
+            messageGroupCloudEndPoint.removeEventListener(messageListener);
 
     }
 
