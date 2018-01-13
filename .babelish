@@ -7,6 +7,7 @@ langs:                                  # Languages to convert. i.e. English:en
   "ja": "ja"
 fetch: true                             # set to true to get file(filename) from google drive
 default_lang: "en"                      # Header name of column containing fallback value if value is empty
-output_dir: "app/src/main/res"                      # Path of output files
+output_dir: "app/src/main/res"          # Path of output files
 output_basenames:                       # Basename of output files
  - strings
+sheet: 0                                # Index of worksheet to download. First index is 0.
