@@ -14,10 +14,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -53,6 +51,7 @@ import vn.tonish.hozo.model.Message;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
+import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.FileUtils;
@@ -68,7 +67,7 @@ import vn.tonish.hozo.view.TextViewHozo;
  * Created by LongBui on 9/18/17.
  */
 
-public class ChatPrivateActivity extends BaseTouchActivity implements View.OnClickListener {
+public class ChatPrivateActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = ChatPrivateActivity.class.getSimpleName();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -83,9 +82,8 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     private DatabaseReference messageCloudEndPoint;
     private TextViewHozo tvTitle, tvMember;
     private boolean isLoading = false;
-    private RelativeLayout mainLayout;
 
-    private static final int PAGE_COUNT = 10;
+    private static final int PAGE_COUNT = 11;
     private ValueEventListener valueEventListener;
     private ChildEventListener childEventListener;
     private ChildEventListener memberEventListener;
@@ -95,8 +93,8 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     private int smsID;
     private String imgPath = null;
     private File fileAttach;
-    private RelativeLayout imgLayout;
-    private ImageView imgAttached;
+    private TaskResponse taskResponse;
+    private int pos;
 
 
     @Override
@@ -110,15 +108,12 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
         ImageView btnSend = (ImageView) findViewById(R.id.img_send);
         edtMsg = (EdittextHozo) findViewById(R.id.edt_comment);
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
-        imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
-        imgAttached = (ImageView) findViewById(R.id.img_attached);
         ImageView imgDelete = (ImageView) findViewById(R.id.img_delete);
         tvTitle.setOnClickListener(this);
         btnSend.setOnClickListener(this);
         imgBack.setOnClickListener(this);
         imgDelete.setOnClickListener(this);
-        mainLayout = (RelativeLayout) findViewById(R.id.main_layout);
         imgMenu = (ImageView) findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
         edtMsg.setHint(getString(R.string.chat_hint));
@@ -136,11 +131,15 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
 
     @Override
     protected void initData() {
-        taskId = getIntent().getExtras().getInt(Constants.TASK_ID_EXTRA);
-        smsID = getIntent().getExtras().getInt(Constants.ASSIGNER_PRIVATE_ID);
-//        tvTitle.setText(taskResponse.getTitle());
-//        LogUtils.d(TAG, "initData , taskResponse : " + taskResponse.toString());
-//        tvMember.setText(Utils.getMemberChat(this, taskResponse));
+        taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.TASK_DETAIL_EXTRA);
+        pos = getIntent().getExtras().getInt(Constants.ASSIGNER_POSITION);
+        posterId = taskResponse.getPoster().getId();
+        taskId = taskResponse.getId();
+        smsID = taskResponse.getAssignees().get(pos).getId();
+        tvTitle.setText(taskResponse.getTitle());
+        LogUtils.d(TAG, "initData , taskResponse : " + taskResponse.toString());
+        String result = getString(R.string.you) + " " + taskResponse.getAssignees().get(pos).getFullName();
+        tvMember.setText(result);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
         messageCloudEndPoint = myRef.child("private-messages").child(String.valueOf(taskId)).child(sortID(smsID));
         setUpMessageList();
@@ -157,16 +156,11 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                 Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
                 LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
                 if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
-//                    DialogUtils.showOkDialog(ChatActivity.this, getString(R.string.kick_out_chat_title), getString(R.string.kick_out_chat_content), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-//                        @Override
-//                        public void onSubmit() {
-//
-//                        }
-//                    });
                     Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.kick_out_chat_content), true, false);
                     setResult(Constants.RESULT_CODE_CHAT);
                     finish();
                 }
+
             }
 
             @Override
@@ -186,44 +180,8 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
         };
 
         memberCloudEndPoint.addChildEventListener(memberEventListener);
-
-        edtMsg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    rcvMessage.smoothScrollToPosition(0);
-                }
-            }
-        });
-
-        mainLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    view.performClick();
-                    Utils.hideKeyBoard(ChatPrivateActivity.this);
-                    rcvMessage.requestFocus();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        rcvMessage.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    view.performClick();
-                    Utils.hideKeyBoard(ChatPrivateActivity.this);
-                    rcvMessage.requestFocus();
-                    return true;
-                }
-                return false;
-            }
-        });
     }
+
 
     private String sortID(int assID) {
         if (assID < UserManager.getMyUser().getId())
@@ -248,21 +206,34 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
         messageAdapter = new MessageAdapter(this, messages, posterId);
         messageAdapter.setPosterId(posterId);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        rcvMessage.setLayoutManager(linearLayoutManager);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
-        rcvMessage.setHasFixedSize(true);
+        rcvMessage.setLayoutManager(linearLayoutManager);
         rcvMessage.setAdapter(messageAdapter);
+
+        edtMsg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    rcvMessage.smoothScrollToPosition(0);
+                }
+            }
+        });
+
         EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
+
                 LogUtils.d(TAG, "refreshList addOnScrollListener, page : " + page + " , totalItemsCount : " + totalItemsCount);
                 if (isLoadingMoreFromServer) getMessage();
+
             }
         };
         rcvMessage.addOnScrollListener(endlessRecyclerViewScrollListener);
+
         if (childEventListener != null)
             messageCloudEndPoint.removeEventListener(childEventListener);
+
         childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -273,8 +244,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                 LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , checkContain(message) : " + checkContain(message));
                 if (checkContain(message)) return;
                 messages.add(0, message);
-                rcvMessage.scrollToPosition(0);
-                messageAdapter.notifyItemInserted(0);
+                messageAdapter.notifyDataSetChanged();
                 LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , messages size : " + messages.size());
                 Map<String, Boolean> map = new HashMap<>();
                 map.put(String.valueOf(UserManager.getMyUser().getId()), Boolean.TRUE);
@@ -283,7 +253,8 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+//                Message message = dataSnapshot.getValue(Message.class);
+//                LogUtils.d(TAG, "messageCloudEndPoint onChildChanged , message : " + message.toString());
             }
 
             @Override
@@ -338,6 +309,20 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
         pickImageDialog.showView();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0) {
+            boolean cameraPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+            boolean readExternalFile = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+            if (cameraPermission && readExternalFile) {
+                permissionGranted();
+            }
+        }
+    }
+
     private Uri setImageUri() {
         File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
         Uri imgUri = Uri.fromFile(file);
@@ -357,9 +342,9 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
             public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
                 LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
                 LogUtils.d(TAG, "uploadImage code : " + response.code());
-
                 if (response.code() == Constants.HTTP_CODE_CREATED) {
                     doChat(response.body().getUrl(), 1);
+                    ProgressDialogUtils.dismissProgressDialog();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(ChatPrivateActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -384,6 +369,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                     });
                 }
                 FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+
             }
 
             @Override
@@ -409,9 +395,13 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
 
 
     private void getMessage() {
+
         if (isLoading) return;
+
         isLoading = true;
+
         valueEventListener = null;
+
         if (lastKeyMsg == null) {
             LogUtils.d(TAG, "getMessage start");
             recentPostsQuery = messageCloudEndPoint.orderByKey().limitToLast(PAGE_COUNT);
@@ -419,19 +409,26 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
             LogUtils.d(TAG, "getMessage lastKeyMsg : " + lastKeyMsg);
             recentPostsQuery = messageCloudEndPoint.orderByKey().endAt(lastKeyMsg).limitToLast(PAGE_COUNT);
         }
+
         if (valueEventListener != null && recentPostsQuery != null)
             recentPostsQuery.removeEventListener(valueEventListener);
+
         if (valueEventListener != null)
             messageCloudEndPoint.removeEventListener(valueEventListener);
 
         valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 ArrayList<Message> messagesAdded = new ArrayList<>();
                 int i = 0;
+
                 LogUtils.d(TAG, "addValueEventListener dataSnapshot.getChildrenCount() : " + dataSnapshot.getChildrenCount());
+
                 if (dataSnapshot.getChildrenCount() == 0) messageAdapter.stopLoadMore();
+
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+
                     if (dataSnapshot.getChildrenCount() < PAGE_COUNT) {
                         Message message = dataSnapshot1.getValue(Message.class);
                         message.setId(dataSnapshot1.getKey());
@@ -447,18 +444,25 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                             Message message = dataSnapshot1.getValue(Message.class);
                             message.setId(dataSnapshot1.getKey());
                             LogUtils.d(TAG, "addValueEventListener recentPostsQuery : " + message.toString());
+
                             if (!checkContain(message))
                                 messagesAdded.add(0, message);
                         }
                     }
+
                     i++;
+
                 }
+
                 messages.addAll(messagesAdded);
                 if (messageAdapter != null) messageAdapter.notifyDataSetChanged();
                 LogUtils.d(TAG, "addValueEventListener messages size : " + messages.size());
                 isLoading = false;
+
+
                 if (valueEventListener != null && recentPostsQuery != null)
                     recentPostsQuery.removeEventListener(valueEventListener);
+
                 if (valueEventListener != null)
                     messageCloudEndPoint.removeEventListener(valueEventListener);
             }
@@ -474,12 +478,11 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                     messageCloudEndPoint.removeEventListener(valueEventListener);
             }
         };
+
         valueEventListener = recentPostsQuery.addValueEventListener(valueEventListener);
+
     }
 
-    private void doSend() {
-        doChat(edtMsg.getText().toString().trim(), 0);
-    }
 
     private void doChat(String chat, int type) {
         if (chat.equals("")) {
@@ -505,9 +508,9 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
             }
         });
         message.setId(key);
+
         LogUtils.d(TAG, "doSend , message : " + message.toString());
         ProgressDialogUtils.dismissProgressDialog();
-        imgLayout.setVisibility(View.GONE);
         imgPath = null;
         edtMsg.setText(getString(R.string.empty));
     }
@@ -528,36 +531,14 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
             imgPath = imagesSelected.get(0).getPath();
-            Utils.displayImage(ChatPrivateActivity.this, imgAttached, imgPath);
-            imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
-            if (imgPath != null) {
-                doAttachImage();
-            }
+            doAttachImage();
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
-            Utils.displayImage(ChatPrivateActivity.this, imgAttached, imgPath);
-            imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
-            if (imgPath != null) {
-                doAttachImage();
-            }
-
-        }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (grantResults.length > 0) {
-            boolean cameraPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-            boolean readExternalFile = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-            if (cameraPermission && readExternalFile) {
-                permissionGranted();
-            }
+            doAttachImage();
         }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -581,41 +562,20 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                         intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
                         startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                         break;
-
                 }
                 return true;
             }
         });
-
         popup.show();
     }
 
-    private void doCall() {
-//        if (posterId == UserManager.getMyUser().getId()) {
-//            Intent intent = new Intent(this, ContactActivity.class);
-//            intent.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-//            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-//        } else {
-//            Utils.call(this, taskResponse.getPoster().getPhone());
-//        }
-    }
-
-    private void doSms() {
-//        if (posterId == UserManager.getMyUser().getId()) {
-//            Intent intent = new Intent(this, ContactActivity.class);
-//            intent.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-//            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-//        } else {
-//            Utils.sendSms(this, taskResponse.getPoster().getPhone(), "");
-//        }
-    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.img_send:
-                doSend();
+                doChat(edtMsg.getText().toString().trim(), 0);
+                rcvMessage.scrollToPosition(0);
                 break;
 
             case R.id.img_back:
@@ -627,10 +587,9 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                 break;
 
             case R.id.img_call:
-                doCall();
+                Utils.call(this, taskResponse.getAssignees().get(pos).getPhone());
                 break;
             case R.id.img_delete:
-                imgLayout.setVisibility(View.GONE);
                 imgPath = null;
                 break;
 
@@ -645,7 +604,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                 break;
 
             case R.id.img_sms:
-                doSms();
+                Utils.sendSms(this, taskResponse.getAssignees().get(pos).getPhone(), "");
                 break;
 
             case R.id.tv_title:

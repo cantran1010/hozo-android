@@ -52,6 +52,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        if (holder.getAdapterPosition() < 0) return;
         if (position == 0) {
             holder.imgAvatar.setImageResource(R.mipmap.app_icon);
         } else

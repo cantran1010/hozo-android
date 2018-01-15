@@ -79,10 +79,10 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         // fix crash on crashlytic
         if (!UserManager.checkLogin()) return;
         if (notification == null || notification.getEvent() == null) return;
-
         if (notification.getEvent().equals(Constants.PUSH_TYPE_CHAT) && !PreferUtils.isPushShow(getApplicationContext()))
             return;
-
+        if (notification.getEvent().equals(Constants.PUSH_TYPE_PRIVATE_CHAT) && !PreferUtils.isPushShow(getApplicationContext()))
+            return;
         String title;
         String message;
         Intent intent;
@@ -95,7 +95,6 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             intent.putExtra(Constants.NOTIFICATION_EXTRA, notification);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         }
-
         switch (notification.getEvent()) {
             case Constants.PUSH_TYPE_ADMIN_PUSH:
             case Constants.PUSH_TYPE_BLOCK_USER:
@@ -116,13 +115,17 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                 title = getString(R.string.app_name);
                 message = Utils.getContentFromNotification(getApplicationContext(), notification);
                 break;
+            case Constants.PUSH_TYPE_PRIVATE_CHAT:
+                title = getString(R.string.app_name);
+                message = Utils.getContentFromNotification(getApplicationContext(), notification);
+                break;
             default:
                 title = notification.getTaskName();
                 message = Utils.getContentFromNotification(getApplicationContext(), notification);
                 break;
         }
 
-        if (!notification.getEvent().equals(Constants.PUSH_TYPE_CHAT)) {
+        if (!notification.getEvent().equals(Constants.PUSH_TYPE_CHAT) || !notification.getEvent().equals(Constants.PUSH_TYPE_PRIVATE_CHAT)) {
             // vibrator when receive push notification from server
             Vibrator v = (Vibrator) getApplicationContext()
                     .getSystemService(Context.VIBRATOR_SERVICE);

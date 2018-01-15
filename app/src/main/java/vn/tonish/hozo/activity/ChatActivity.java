@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -56,9 +55,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private DatabaseReference messageCloudEndPoint;
     private TextViewHozo tvTitle, tvMember;
     private boolean isLoading = false;
-    private RelativeLayout mainLayout;
-
-    private static final int PAGE_COUNT = 31;
+    private static final int PAGE_COUNT = 11;
     private ValueEventListener valueEventListener;
     private ChildEventListener childEventListener;
     private ChildEventListener memberEventListener;

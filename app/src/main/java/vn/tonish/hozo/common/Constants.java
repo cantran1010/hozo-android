@@ -65,7 +65,9 @@ public class Constants {
     public static final int EDIT_BANK_RESULT_CODE = 258;
     public static final String WALLET_TYPE_EXTRA = "wallet_extra";
     public static final String WALLET_COUNT_HISTORY_EXTRA = "wallet_count_extra";
+    public static final String ASSIGNER_POSITION = "assigner_id";
     public static final String BROAD_CAST_CHAT_COUNT = "broad_cast_chat_count";
+    public static final String CHECK_GROUP = "check_group";
     public static final String ASSIGNER_PRIVATE_ID ="assigner_id" ;
     public static final String BALANCE_CASH_EXTRA = "balance_cash_extra";
     public static int MAX_IMAGE_ATTACH = 6;
@@ -204,6 +206,7 @@ public class Constants {
     public static final String PUSH_TYPE_AWAIT_APPROVAL = "task_await_approval";
     public static final String PUSH_TYPE_MONEY_RECEIVED = "money_received";
     public static final String PUSH_TYPE_BID_REFUNDED = "bid_refunded";
+    public static final String PUSH_TYPE_PRIVATE_CHAT = "prv_message_received";
 
     public static final String ROLE_EXTRA = "role_extra";
 

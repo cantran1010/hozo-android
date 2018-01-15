@@ -116,8 +116,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                     startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
                 } else {
                     Intent intentContact = new Intent(ContactsActivity.this, ChatPrivateActivity.class);
-                    intentContact.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                    intentContact.putExtra(Constants.ASSIGNER_PRIVATE_ID, assigners.get(position).getId());
+                    intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
+                    intentContact.putExtra(Constants.ASSIGNER_POSITION, position);
                     startActivity(intentContact, TransitionScreen.DOWN_TO_UP);
                 }
             }
@@ -141,8 +141,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                     startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
                 } else {
                     Intent intentContact = new Intent(ContactsActivity.this, ChatPrivateActivity.class);
-                    intentContact.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                    intentContact.putExtra(Constants.ASSIGNER_PRIVATE_ID, chatAssigners.get(position).getId());
+                    intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
+                    intentContact.putExtra(Constants.ASSIGNER_POSITION, position);
                     startActivity(intentContact, TransitionScreen.DOWN_TO_UP);
                 }
 
@@ -314,8 +314,6 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                 tvCount.setText(String.valueOf(count));
                 LogUtils.d(TAG, "broadcastReceiverSmsCount onReceive" + count);
             }
-
-
         }
     };
 

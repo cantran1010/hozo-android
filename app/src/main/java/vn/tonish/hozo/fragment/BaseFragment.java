@@ -84,6 +84,7 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
+        if (swipeRefreshLayout.isRefreshing()) return;
         swipeRefreshLayout.setRefreshing(true);
     }
 

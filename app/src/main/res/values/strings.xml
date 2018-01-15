@@ -549,7 +549,7 @@
     <string name="visa">Thẻ Visa / Master Card</string>
     <string name="recharge_success">Chúc mừng bạn đã nạp tiền thành công!</string>
     <string name="transaction_1pay">Nạp tiền vào tài khoản Hozo</string>
-    <string name="group">Nhóm : </string>
+    <string name="group">Nhóm:</string>
     <string name="count_assigner" tools:ignore="PluralsCandidate">và %1$d người khác</string>
     <string name="recharge">Nạp tiền</string>
     <string name="input_money_hint">Nhập số tiền bạn muốn nạp</string>
@@ -740,6 +740,7 @@
     <string name="block_user">đã bị khoá tài khoản bởi hệ thống.</string>
     <string name="active_user">đã được mở lại tài khoản!</string>
     <string name="return_task_assigner">đã tham gia nhóm!</string>
+    <string name="notification_private_chat">đã gửi tin nhắn cho bạn</string>
     <string name="no_read_sms">TIN NHẮN CHƯA ĐỌC</string>
     <string name="max_money_transfer">Số tiền tối đa có thể rút là %1$s VNĐ</string>
     <string name="min_money_transfer">Số tiền tối thiểu có thể rút là %1$s VNĐ</string>
