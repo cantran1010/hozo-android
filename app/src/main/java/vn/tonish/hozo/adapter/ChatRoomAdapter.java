@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import vn.tonish.hozo.R;
@@ -95,7 +96,8 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
 
     private void updateUI(int pos, RecyclerView rcvChat) {
         final TaskResponse taskResponse = tasks.get(pos);
-        List<Assigner> chatAssigners = taskResponse.getAssignees();
+        List<Assigner> chatAssigners = new ArrayList<>();
+        chatAssigners.addAll(taskResponse.getAssignees());
         if (!checkGroup(chatAssigners, pos))
             addGroup(chatAssigners, taskResponse);
         chatPrivateAdapter = new ChatPrivateAdapter(context, taskResponse.getId(), taskResponse.getPoster().getId(), chatAssigners);
@@ -136,7 +138,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
         boolean b = false;
         for (Assigner assigner : list
                 ) {
-            if (assigner.getFullName().equals(R.string.group)) {
+            if (assigner.getFullName().equals(R.string.group_chat)) {
                 b = true;
             }
 

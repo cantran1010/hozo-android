@@ -850,7 +850,6 @@ public class Utils {
 
     public static String getMemberChat(Context context, TaskResponse taskResponse) {
         String result = "";
-
         if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             if (taskResponse.getAssigneeCount() == 1) {
                 result = context.getString(R.string.you) + " " + taskResponse.getAssignees().get(0).getFullName();

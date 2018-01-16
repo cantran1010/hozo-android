@@ -50,6 +50,7 @@ import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.model.Message;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
@@ -94,7 +95,7 @@ public class ChatPrivateActivity extends BaseActivity implements View.OnClickLis
     private String imgPath = null;
     private File fileAttach;
     private TaskResponse taskResponse;
-    private int pos;
+    private Assigner ass;
 
 
     @Override
@@ -109,11 +110,9 @@ public class ChatPrivateActivity extends BaseActivity implements View.OnClickLis
         edtMsg = (EdittextHozo) findViewById(R.id.edt_comment);
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
-        ImageView imgDelete = (ImageView) findViewById(R.id.img_delete);
         tvTitle.setOnClickListener(this);
         btnSend.setOnClickListener(this);
         imgBack.setOnClickListener(this);
-        imgDelete.setOnClickListener(this);
         imgMenu = (ImageView) findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
         edtMsg.setHint(getString(R.string.chat_hint));
@@ -132,16 +131,16 @@ public class ChatPrivateActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initData() {
         taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.TASK_DETAIL_EXTRA);
-        pos = getIntent().getExtras().getInt(Constants.ASSIGNER_POSITION);
+        ass = (Assigner) getIntent().getExtras().get(Constants.ASSIGNER_EXTRA);
         posterId = taskResponse.getPoster().getId();
         taskId = taskResponse.getId();
-        smsID = taskResponse.getAssignees().get(pos).getId();
+        smsID = ass.getId();
         tvTitle.setText(taskResponse.getTitle());
         LogUtils.d(TAG, "initData , taskResponse : " + taskResponse.toString());
-        String result = getString(R.string.you) + " " + taskResponse.getAssignees().get(pos).getFullName();
+        String result = getString(R.string.you) + " " + ass.getFullName();
         tvMember.setText(result);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
-        messageCloudEndPoint = myRef.child("private-messages").child(String.valueOf(taskId)).child(sortID(smsID));
+        messageCloudEndPoint = myRef.child("private-messages").child(String.valueOf(taskId)).child(sortID(ass.getId()));
         setUpMessageList();
         memberCloudEndPoint = myRef.child("members").child(String.valueOf(UserManager.getMyUser().getId()));
         memberEventListener = new ChildEventListener() {
@@ -253,8 +252,7 @@ public class ChatPrivateActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                Message message = dataSnapshot.getValue(Message.class);
-//                LogUtils.d(TAG, "messageCloudEndPoint onChildChanged , message : " + message.toString());
+
             }
 
             @Override
@@ -587,12 +585,8 @@ public class ChatPrivateActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.img_call:
-                Utils.call(this, taskResponse.getAssignees().get(pos).getPhone());
+                Utils.call(this, ass.getPhone());
                 break;
-            case R.id.img_delete:
-                imgPath = null;
-                break;
-
             case R.id.img_attach:
                 checkPermission();
                 break;
@@ -604,7 +598,7 @@ public class ChatPrivateActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.img_sms:
-                Utils.sendSms(this, taskResponse.getAssignees().get(pos).getPhone(), "");
+                Utils.sendSms(this, ass.getPhone(), "");
                 break;
 
             case R.id.tv_title:
