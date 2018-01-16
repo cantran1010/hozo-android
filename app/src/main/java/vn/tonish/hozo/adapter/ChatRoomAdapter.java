@@ -136,7 +136,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
         boolean b = false;
         for (Assigner assigner : list
                 ) {
-            if (assigner.getFullName().equals(R.string.group)) {
+            if (assigner.getFullName().equals(R.string.group_chat)) {
                 b = true;
             }
 

@@ -1,13 +1,23 @@
 package vn.tonish.hozo.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -17,21 +27,39 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.image.AlbumActivity;
+import vn.tonish.hozo.activity.image.PreviewImageActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.MessageAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.dialog.PickImageDialog;
+import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.model.Message;
+import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
+import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
@@ -44,6 +72,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = ChatActivity.class.getSimpleName();
+    private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private RecyclerView rcvMessage;
     private MessageAdapter messageAdapter;
     private EdittextHozo edtMsg;
@@ -63,6 +92,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private ImageView imgMenu;
     private DatabaseReference memberCloudEndPoint;
     private TaskResponse taskResponse;
+    private RelativeLayout mainLayout;
+    private String imgPath = null;
+    private File fileAttach;
 
     @Override
     protected int getLayout() {
@@ -75,28 +107,19 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         ImageView btnSend = (ImageView) findViewById(R.id.img_send);
         edtMsg = (EdittextHozo) findViewById(R.id.edt_comment);
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
-
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
         tvTitle.setOnClickListener(this);
-
         btnSend.setOnClickListener(this);
         imgBack.setOnClickListener(this);
-
-//        mainLayout = (RelativeLayout) findViewById(R.id.main_layout);
-
+        mainLayout = (RelativeLayout) findViewById(R.id.main_layout);
         imgMenu = (ImageView) findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
-
         edtMsg.setHint(getString(R.string.chat_hint));
-
         ImageView imgAttach = (ImageView) findViewById(R.id.img_attach);
         imgAttach.setOnClickListener(this);
-
         tvMember = (TextViewHozo) findViewById(R.id.tv_member);
-
         ImageView imgCall = (ImageView) findViewById(R.id.img_call);
         ImageView imgSms = (ImageView) findViewById(R.id.img_sms);
-
         imgCall.setOnClickListener(this);
         imgSms.setOnClickListener(this);
 
@@ -152,9 +175,143 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         memberCloudEndPoint.addChildEventListener(memberEventListener);
     }
 
+
     @Override
     protected void resumeData() {
         PreferUtils.setPushShow(this, false);
+    }
+
+    private void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+        } else {
+            permissionGranted();
+        }
+    }
+
+    private void permissionGranted() {
+        PickImageDialog pickImageDialog = new PickImageDialog(ChatActivity.this);
+        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+            @Override
+            public void onCamera() {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+            }
+
+            @Override
+            public void onGallery() {
+                Intent intent = new Intent(ChatActivity.this, AlbumActivity.class);
+                intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
+                startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
+        pickImageDialog.showView();
+    }
+
+    private Uri setImageUri() {
+        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+        Uri imgUri = Uri.fromFile(file);
+        this.imgPath = file.getAbsolutePath();
+        return imgUri;
+    }
+
+    private void doAttachImage() {
+        ProgressDialogUtils.showProgressDialog(this);
+        File fileUp = Utils.compressFile(fileAttach);
+        LogUtils.d(TAG, "doAttachImage , file Name : " + fileUp.getName());
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
+        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
+
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(), itemPart).enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+                LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
+                LogUtils.d(TAG, "uploadImage code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_CREATED) {
+                    doChat(response.body().getUrl(), 1);
+                    ProgressDialogUtils.dismissProgressDialog();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(ChatActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doAttachImage();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(ChatActivity.this);
+                } else {
+                    ProgressDialogUtils.dismissProgressDialog();
+                    DialogUtils.showRetryDialog(ChatActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doAttachImage();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
+                DialogUtils.showRetryDialog(ChatActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doAttachImage();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+            }
+        });
+    }
+
+    private void doChat(String chat, int type) {
+        if (chat.equals("")) {
+            Utils.showLongToast(ChatActivity.this, getString(R.string.empty_content_comment_error), true, false);
+            return;
+        }
+        String key = messageCloudEndPoint.push().getKey();
+        Message message = new Message();
+        message.setUser_id(UserManager.getMyUser().getId());
+        message.setMessage(chat);
+        Map<String, Boolean> reads = new HashMap<>();
+        reads.put(String.valueOf(UserManager.getMyUser().getId()), true);
+        message.setReads(reads);
+        message.setType(type);
+        messageCloudEndPoint.child(key).setValue(message, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    LogUtils.d(TAG, "onComplete databaseError : " + databaseError.toString());
+                    Utils.showLongToast(ChatActivity.this, getString(R.string.permission_chat_error), true, false);
+                    finish();
+                }
+            }
+        });
+        message.setId(key);
+
+        LogUtils.d(TAG, "doSend , message : " + message.toString());
+        ProgressDialogUtils.dismissProgressDialog();
+        imgPath = null;
+        edtMsg.setText(getString(R.string.empty));
     }
 
     @Override
@@ -175,42 +332,42 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         rcvMessage.setLayoutManager(linearLayoutManager);
         rcvMessage.setAdapter(messageAdapter);
 
-//        edtMsg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean hasFocus) {
-//                if (hasFocus) {
-//                    rcvMessage.smoothScrollToPosition(0);
-//                }
-//            }
-//        });
+        edtMsg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    rcvMessage.smoothScrollToPosition(0);
+                }
+            }
+        });
 
-//        mainLayout.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                    view.performClick();
-//                    Utils.hideKeyBoard(ChatActivity.this);
-//                    rcvMessage.requestFocus();
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
-//
-//        rcvMessage.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                    view.performClick();
-//                    Utils.hideKeyBoard(ChatActivity.this);
-//                    rcvMessage.requestFocus();
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
+        mainLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    view.performClick();
+                    Utils.hideKeyBoard(ChatActivity.this);
+                    rcvMessage.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        rcvMessage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    view.performClick();
+                    Utils.hideKeyBoard(ChatActivity.this);
+                    rcvMessage.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
@@ -311,7 +468,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                         LogUtils.d(TAG, "addValueEventListener recentPostsQuery : " + message.toString());
                         LogUtils.d(TAG, "addValueEventListener recentPostsQuery key : " + dataSnapshot1.getKey());
                         if (!checkContain(message))
-                            messagesAdded.add(0,message);
+                            messagesAdded.add(0, message);
                         isLoadingMoreFromServer = false;
                         messageAdapter.stopLoadMore();
                     } else {
@@ -322,7 +479,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                             LogUtils.d(TAG, "addValueEventListener recentPostsQuery : " + message.toString());
 
                             if (!checkContain(message))
-                                messagesAdded.add(0,message);
+                                messagesAdded.add(0, message);
                         }
                     }
 
@@ -357,29 +514,35 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-    private void doSend() {
-        if (edtMsg.getText().toString().trim().equals("")) return;
-        String key = messageCloudEndPoint.push().getKey();
-        Message message = new Message();
-        message.setUser_id(UserManager.getMyUser().getId());
-        message.setMessage(edtMsg.getText().toString().trim());
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.d(TAG, "onActivityResult , requestCode : " + requestCode + " , resultCode : " + resultCode);
+        if (requestCode == Constants.REQUEST_CODE_PICK_IMAGE
+                && resultCode == Constants.RESPONSE_CODE_PICK_IMAGE
+                && data != null) {
+            ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+            imgPath = imagesSelected.get(0).getPath();
+            fileAttach = new File(imgPath);
+            doAttachImage();
+        } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+            fileAttach = new File(imgPath);
+            doAttachImage();
+        }
+    }
 
-        Map<String, Boolean> reads = new HashMap<>();
-        reads.put(String.valueOf(UserManager.getMyUser().getId()), true);
-        message.setReads(reads);
-        messageCloudEndPoint.child(key).setValue(message, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if (databaseError != null) {
-                    LogUtils.d(TAG, "onComplete databaseError : " + databaseError.toString());
-                    Utils.showLongToast(ChatActivity.this, getString(R.string.permission_chat_error), true, false);
-                    finish();
-                }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0) {
+            boolean cameraPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+            boolean readExternalFile = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+            if (cameraPermission && readExternalFile) {
+                permissionGranted();
             }
-        });
-        message.setId(key);
-        LogUtils.d(TAG, "doSend , message : " + message.toString());
-        edtMsg.setText(getString(R.string.empty));
+        }
     }
 
     private boolean checkContain(Message message) {
@@ -450,7 +613,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         switch (view.getId()) {
 
             case R.id.img_send:
-                doSend();
+                doChat(edtMsg.getText().toString().trim(), 0);
+                rcvMessage.scrollToPosition(0);
                 break;
 
             case R.id.img_back:
@@ -460,7 +624,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             case R.id.img_menu:
                 showMenu();
                 break;
-
+            case R.id.img_attach:
+                checkPermission();
+                break;
+            case R.id.img_attached:
+                Intent imgIntent = new Intent(ChatActivity.this, PreviewImageActivity.class);
+                imgIntent.putExtra(Constants.EXTRA_IMAGE_PATH, imgPath);
+                startActivity(imgIntent, TransitionScreen.RIGHT_TO_LEFT);
+                break;
             case R.id.img_call:
                 doCall();
                 break;

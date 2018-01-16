@@ -49,7 +49,14 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setupList() {
-        ArrayList<Assigner> assigners = (ArrayList<Assigner>) taskResponse.getAssignees();
+        ArrayList<Assigner> assigners = new ArrayList<>();
+        for (Assigner assigner : (ArrayList<Assigner>) taskResponse.getAssignees()
+                ) {
+            if (!assigner.getFullName().equals(getString(R.string.group_chat))) {
+                assigners.add(assigner);
+            }
+
+        }
         AssignerCallAdapter assignerAdapter = new AssignerCallAdapter(assigners, "");
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvAssign.setLayoutManager(linearLayoutManager);
@@ -60,7 +67,6 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.img_back:
                 finish();
                 break;

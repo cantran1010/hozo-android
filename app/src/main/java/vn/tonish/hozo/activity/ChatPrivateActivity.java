@@ -109,11 +109,9 @@ public class ChatPrivateActivity extends BaseActivity implements View.OnClickLis
         edtMsg = (EdittextHozo) findViewById(R.id.edt_comment);
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
-        ImageView imgDelete = (ImageView) findViewById(R.id.img_delete);
         tvTitle.setOnClickListener(this);
         btnSend.setOnClickListener(this);
         imgBack.setOnClickListener(this);
-        imgDelete.setOnClickListener(this);
         imgMenu = (ImageView) findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
         edtMsg.setHint(getString(R.string.chat_hint));
@@ -588,9 +586,6 @@ public class ChatPrivateActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.img_call:
                 Utils.call(this, taskResponse.getAssignees().get(pos).getPhone());
-                break;
-            case R.id.img_delete:
-                imgPath = null;
                 break;
 
             case R.id.img_attach:
