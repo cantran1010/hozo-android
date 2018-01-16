@@ -27,9 +27,9 @@ import static android.content.ContentValues.TAG;
 public class AssignerView extends LinearLayout implements View.OnClickListener {
 
     private CircleImageView imgAvatar;
-    private TextViewHozo tvName,tvDoneRate,tvPrice;
+    private TextViewHozo tvName, tvDoneRate, tvPrice;
     private RatingBar ratingBar;
-    private ButtonHozo  btnCancel;
+    private ButtonHozo btnCancel;
     private Assigner assigner;
     private int taskId;
     private int posterID;
@@ -69,20 +69,18 @@ public class AssignerView extends LinearLayout implements View.OnClickListener {
     }
 
     public void updateData(final Assigner assigner, String assignType) {
-
         LogUtils.d(TAG, "AssignerCallView , updateData assigner : " + assigner.toString());
         this.assigner = assigner;
         Utils.displayImageAvatar(getContext(), imgAvatar, assigner.getAvatar());
         tvName.setText(assigner.getFullName());
         ratingBar.setRating(assigner.getTaskerAverageRating());
-        LogUtils.d(TAG, "AssignerCallView , updateData assigner : " +( UserManager.getMyUser().getId() == getPosterID()));
+        LogUtils.d(TAG, "AssignerCallView , updateData assigner : " + (UserManager.getMyUser().getId() == getPosterID()));
         if (UserManager.getMyUser().getId() == getPosterID()) {
             tvPrice.setVisibility(VISIBLE);
             tvPrice.setText(getContext().getString(R.string.price_bidder, Utils.formatNumber(assigner.getPrice())));
         } else tvPrice.setVisibility(GONE);
         String percentDone = (int) (assigner.getPosterDoneRate() * 100) + "% " + getContext().getString(R.string.completion_rate);
         tvDoneRate.setText(percentDone);
-
         if (assignType.equals(getContext().getString(R.string.call))) {
             btnCancel.setVisibility(View.VISIBLE);
             btnCancel.setOnClickListener(new OnClickListener() {
@@ -94,7 +92,6 @@ public class AssignerView extends LinearLayout implements View.OnClickListener {
                     getContext().sendBroadcast(intentAnswer);
                 }
             });
-
 
 
         } else if (assignType.equals(getContext().getString(R.string.rate))) {

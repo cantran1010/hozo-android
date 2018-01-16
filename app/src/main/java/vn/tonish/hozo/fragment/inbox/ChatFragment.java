@@ -26,7 +26,7 @@ import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.MyLinearLayoutManager;
-import vn.tonish.hozo.utils.PreferUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -43,6 +43,7 @@ public class ChatFragment extends BaseFragment {
     private Call<List<TaskResponse>> call;
     private TextViewHozo tvNoData;
     private MyLinearLayoutManager lvManager;
+    private ChatRoomAdapter chatRoomAdapter;
 
     @Override
     protected int getLayout() {
@@ -59,6 +60,7 @@ public class ChatFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        getChatRooms();
     }
 
     @Override
@@ -85,7 +87,7 @@ public class ChatFragment extends BaseFragment {
     }
 
     private void getChatRooms() {
-//        ProgressDialogUtils.showProgressDialog(getActivity());
+        ProgressDialogUtils.showProgressDialog(getActivity());
         if (call != null) call.cancel();
         call = ApiClient.getApiService().getChatRooms(UserManager.getUserToken());
         call.enqueue(new Callback<List<TaskResponse>>() {
@@ -94,11 +96,11 @@ public class ChatFragment extends BaseFragment {
                 LogUtils.d(TAG, "getChatRooms code : " + response.code());
                 LogUtils.d(TAG, "getChatRooms body : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    PreferUtils.setNewPushChatCount(getActivity(), 0);
+//                    PreferUtils.setNewPushChatCount(getActivity(), 0);
                     if (response.body() == null) taskResponses = new ArrayList<>();
                     else
                         taskResponses = response.body();
-                    refreshChatRooms();
+                    updateUI();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
@@ -122,7 +124,7 @@ public class ChatFragment extends BaseFragment {
                     });
                 }
                 onStopRefresh();
-//                ProgressDialogUtils.dismissProgressDialog();
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -139,17 +141,16 @@ public class ChatFragment extends BaseFragment {
                     }
                 });
                 onStopRefresh();
-//                ProgressDialogUtils.dismissProgressDialog();
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
 
-    private void refreshChatRooms() {
-        ChatRoomAdapter chatRoomAdapter = new ChatRoomAdapter(getActivity(), taskResponses);
+    private void updateUI() {
+        chatRoomAdapter = new ChatRoomAdapter(getActivity(), taskResponses);
         lvManager = new MyLinearLayoutManager(getActivity());
         rcvChatRooms.setLayoutManager(lvManager);
         rcvChatRooms.setAdapter(chatRoomAdapter);
-
         chatRoomAdapter.setChatRoomListener(new ChatRoomAdapter.ChatRoomListener() {
             @Override
             public void onClick(int position) {
@@ -158,7 +159,6 @@ public class ChatFragment extends BaseFragment {
                 startActivity(intent, TransitionScreen.DOWN_TO_UP);
             }
         });
-
         if (taskResponses.size() > 0) {
             rcvChatRooms.setVisibility(View.VISIBLE);
             tvNoData.setVisibility(View.GONE);
@@ -172,16 +172,14 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void onRefresh() {
         super.onRefresh();
+        chatRoomAdapter = null;
+        getChatRooms();
         rcvChatRooms.smoothScrollToPosition(0);
-//        if (getActivity() != null && getActivity() instanceof MainActivity)
-//            ((MainActivity) getActivity()).updateCountMsg();
         Intent intentPushCount = new Intent();
         intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
         if (getActivity() != null)
             getActivity().sendBroadcast(intentPushCount);
         if (call != null) call.cancel();
-        taskResponses.clear();
-        getChatRooms();
     }
 
     private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
@@ -193,4 +191,10 @@ public class ChatFragment extends BaseFragment {
         }
     };
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (chatRoomAdapter != null) chatRoomAdapter.killAdapter();
+
+    }
 }

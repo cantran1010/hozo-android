@@ -117,7 +117,7 @@
     <string name="minutes_ago">phút trước</string>
     <string name="hour_ago">1 giờ trước</string>
     <string name="hours_ago">giờ trước</string>
-    <string name="yesterday">ngày hôm qua</string>
+    <string name="yesterday">hôm qua</string>
     <string name="days_ago">ngày trước</string>
     <string name="month_ago">tháng trước</string>
     <string name="msg_contten_logOut">Bạn có chắc chắn muốn đăng xuất?</string>
@@ -148,7 +148,7 @@
     <string name="gender_female_vn">Nữ</string>
 
 
-    <string name="empty_content_comment_error">Vui lòng nhập nội dung bình luận</string>
+    <string name="empty_content_comment_error">Vui lòng nhập nội dung</string>
 
     <!-- rate -->
     <string name="rate_msg_no_content_error">Vui lòng chọn sao đánh giá</string>
@@ -549,7 +549,7 @@
     <string name="visa">Thẻ Visa / Master Card</string>
     <string name="recharge_success">Chúc mừng bạn đã nạp tiền thành công!</string>
     <string name="transaction_1pay">Nạp tiền vào tài khoản Hozo</string>
-    <string name="group">Nhóm : </string>
+    <string name="group">Nhóm:</string>
     <string name="count_assigner" tools:ignore="PluralsCandidate">và %1$d người khác</string>
     <string name="recharge">Nạp tiền</string>
     <string name="input_money_hint">Nhập số tiền bạn muốn nạp</string>
@@ -731,6 +731,17 @@
     <string name="wallet_account_info4">Ví tiền được dùng để giữ tiền công của công việc được người thuê chuyển vào từ ví tài khoản của người thuê.</string>
     <string name="wallet_account_info5">Bạn có thể gửi yêu cầu rút tiền từ ví tiền vào tài khoản ngân hàng của bạn. Hozo sẽ duyệt yêu cầu này vào thứ 2 của tuần đầu tiên của tháng kế tiếp.</string>
     <string name="bank_null">Bạn chưa chọn ngân hàng!</string>
+    <string name="send_img">Đã gửi một ảnh</string>
+    <string name="group_chat">Nhóm</string>
+    <string name="block_task">Rất tiếc, công việc này đã bị khoá.</string>
+    <string name="close_task">Rất tiếc, công việc này đã đóng.</string>
+    <string name="kick_out_task_content">Rất tiếc, bạn đã rời khỏi nhóm này!</string>
+    <string name="kick_out_task_assigner">đã rời khỏi phòng.</string>
+    <string name="block_user">đã bị khoá tài khoản bởi hệ thống.</string>
+    <string name="active_user">đã được mở lại tài khoản!</string>
+    <string name="return_task_assigner">đã tham gia nhóm!</string>
+    <string name="notification_private_chat">đã gửi tin nhắn cho bạn</string>
+    <string name="no_read_sms">TIN NHẮN CHƯA ĐỌC</string>
     <string name="max_money_transfer">Số tiền tối đa có thể rút là %1$s VNĐ</string>
     <string name="min_money_transfer">Số tiền tối thiểu có thể rút là %1$s VNĐ</string>
     <string name="withdraw_error_invalid_data">Lỗi dữ liệu!</string>

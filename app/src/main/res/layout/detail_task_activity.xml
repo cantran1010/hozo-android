@@ -426,7 +426,7 @@
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_age"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginLeft="5dp"
                             android:layout_marginStart="5dp"
                             android:gravity="center"
@@ -445,7 +445,8 @@
                         <vn.tonish.hozo.view.TextViewHozo
                             android:id="@+id/tv_sex_lbl"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:drawablePadding="10dp"
                             android:text="@string/sex"
                             android:textColor="@color/tv_gray_title"
                             android:textSize="@dimen/tv_size_xtiny"
@@ -455,7 +456,7 @@
                             android:id="@+id/tv_sex"
                             style="@style/tv_style_normal_black"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginLeft="5dp"
                             android:layout_marginStart="5dp"
                             android:gravity="center"

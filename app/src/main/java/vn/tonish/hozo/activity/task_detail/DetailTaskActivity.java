@@ -46,9 +46,9 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AssignersActivity;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.BiddersActivity;
-import vn.tonish.hozo.activity.BlockTaskActivity;
 import vn.tonish.hozo.activity.BrowserTaskMapActivity;
 import vn.tonish.hozo.activity.ChatActivity;
+import vn.tonish.hozo.activity.ContactsActivity;
 import vn.tonish.hozo.activity.PostTaskActivity;
 import vn.tonish.hozo.activity.RatingActivity;
 import vn.tonish.hozo.activity.SupportActivity;
@@ -1569,11 +1569,12 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
                     }
                 });
-            } else if (intent.hasExtra(Constants.ASSIGNER_CONTACT_EXTRA)) {
-                Intent intentContact = new Intent(DetailTaskActivity.this, ChatActivity.class);
-                intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-                startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
             }
+//            else if (intent.hasExtra(Constants.ASSIGNER_CONTACT_EXTRA)) {
+//                Intent intentContact = new Intent(DetailTaskActivity.this, ContactsActivity.class);
+//                intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
+//                startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
+//            }
 
         }
     };
@@ -1953,12 +1954,15 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             case R.id.btn_contact:
             case R.id.btn_contact_worker:
-                Intent intentContact = new Intent(DetailTaskActivity.this, ChatActivity.class);
-                intentContact.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());
-                intentContact.putExtra(Constants.USER_ID_EXTRA, taskResponse.getPoster().getId());
-                intentContact.putExtra(Constants.TITLE_INFO_EXTRA, taskResponse.getTitle());
-                intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-                startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
+                if (taskResponse.getWorkerCount() > 1) {
+                    Intent intentContact = new Intent(DetailTaskActivity.this, ContactsActivity.class);
+                    intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
+                    startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
+                } else {
+                    Intent intentContact = new Intent(DetailTaskActivity.this, ChatActivity.class);
+                    intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
+                    startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
+                }
                 break;
 
             case R.id.btn_rate:

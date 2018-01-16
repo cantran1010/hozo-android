@@ -3,19 +3,21 @@ package vn.tonish.hozo.model;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * Created by LongBui on 9/13/17.
  */
 
-public class Message {
+public class Message implements Serializable {
 
     private String id;
     private int user_id;
     private String message;
     private Object created_at;
     private Map<String, Boolean> reads;
+    private int type;
 
     public Message() {
         this.created_at = ServerValue.TIMESTAMP;
@@ -53,6 +55,14 @@ public class Message {
         this.created_at = created_at;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     @Exclude
     public Long getCreated_atLong(boolean isLong) {
         if (created_at instanceof Long) return (Long) created_at;
@@ -75,7 +85,7 @@ public class Message {
                 ", message='" + message + '\'' +
                 ", created_at=" + created_at +
                 ", reads=" + reads +
+                ", type=" + type +
                 '}';
     }
-
 }

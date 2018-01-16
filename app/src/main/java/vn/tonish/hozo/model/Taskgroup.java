@@ -3,18 +3,18 @@ package vn.tonish.hozo.model;
 import java.util.Map;
 
 /**
- * Created by LongBui on 9/13/17.
+ * Created by CanTran on 1/12/18.
  */
 
-class Task {
-
+public class Taskgroup {
     private int id;
     private String title;
     private int poster_id;
     private boolean block;
-    private Map<String,Boolean> members;
+    private boolean close;
+    private Map<String, Boolean> members;
 
-    public Task() {
+    public Taskgroup() {
 
     }
 
@@ -58,15 +58,25 @@ class Task {
         this.members = members;
     }
 
+    public boolean isClose() {
+        return close;
+    }
+
+    public void setClose(boolean close) {
+        this.close = close;
+    }
+
     @Override
     public String toString() {
-        return "Task{" +
+        return "Taskgroup{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", poster_id=" + poster_id +
                 ", block=" + block +
+                ", close=" + close +
                 ", members=" + members +
                 '}';
     }
 
 }
+

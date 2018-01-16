@@ -1,8 +1,9 @@
-package vn.tonish.hozo.activity;
+package vn.tonish.hozo.activity.task_detail;
 
 import android.view.View;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -42,7 +43,6 @@ public class BlockTaskActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.tv_yes:
                 finish();
                 break;

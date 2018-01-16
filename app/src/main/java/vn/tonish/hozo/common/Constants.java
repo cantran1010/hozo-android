@@ -54,9 +54,9 @@ public class Constants {
     public static final String BIDDER_ID = "bidder_id";
     public static final String PARAMETER_OFFER_PRICE = "price";
     public static final String PARAMETER_OFFER_SMS = "message";
-    public static final String LOCATION_TASK ="location_task" ;
-    public static final String ASSSIGNER_COUNT ="assigner_count" ;
-    public static final String WORKER_COUNT ="assigner_amount" ;
+    public static final String LOCATION_TASK = "location_task";
+    public static final String ASSSIGNER_COUNT = "assigner_count";
+    public static final String WORKER_COUNT = "assigner_amount";
     public static final int BANK_REQUEST_CODE = 987;
     public static final String BANK_EXTRA = "bank_extra";
     public static final int BANK_RESULT_CODE = 789;
@@ -65,6 +65,10 @@ public class Constants {
     public static final int EDIT_BANK_RESULT_CODE = 258;
     public static final String WALLET_TYPE_EXTRA = "wallet_extra";
     public static final String WALLET_COUNT_HISTORY_EXTRA = "wallet_count_extra";
+    public static final String ASSIGNER_POSITION = "assigner_id";
+    public static final String BROAD_CAST_CHAT_COUNT = "broad_cast_chat_count";
+    public static final String CHECK_GROUP = "check_group";
+    public static final String ASSIGNER_PRIVATE_ID ="assigner_id" ;
     public static final String BALANCE_CASH_EXTRA = "balance_cash_extra";
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
@@ -202,6 +206,7 @@ public class Constants {
     public static final String PUSH_TYPE_AWAIT_APPROVAL = "task_await_approval";
     public static final String PUSH_TYPE_MONEY_RECEIVED = "money_received";
     public static final String PUSH_TYPE_BID_REFUNDED = "bid_refunded";
+    public static final String PUSH_TYPE_PRIVATE_CHAT = "prv_message_received";
 
     public static final String ROLE_EXTRA = "role_extra";
 
@@ -225,6 +230,7 @@ public class Constants {
     public static final String BROAD_CAST_MY = "MyBroadcast";
     public static final String LOGOUT_EXTRA = "logout_extra";
     public static final String BROAD_CAST_PUSH_COUNT = "push_count";
+    public static final String BROAD_CAST_PUSH_CHAT_COUNT = "push_count";
     public static final String PARAMETER_DESCRIPTION = "description";
     public static final String MYTASK_FILTER_EXTRA = "mytask_filter_extra";
     public static final int RESULT_CODE_TASK_DELETE = 642;
@@ -262,6 +268,7 @@ public class Constants {
     public static final String VN1 = ", Việt Nam";
     public static final String VN2 = ", Vietnam";
     public static final String COUNT_NEW_MSG_EXTRA = "count_new_msg_extra";
+    public static final String COUNT_NEW_CHAT_EXTRA = "count_new_msg_extra";
     public static final int REQUEST_CODE_CHAT = 246;
     public static final int RESULT_CODE_CHAT = 147;
     public static final String TAB_EXTRA = "tab_extra";

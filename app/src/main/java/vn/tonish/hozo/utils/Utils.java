@@ -74,7 +74,7 @@ public class Utils {
     private static final int MIN_BUGDET = 10000;
 
     public static void displayImage(Context context, ImageView img, String url) {
-
+        LogUtils.d(TAG, "onBindViewHolder , url : " + url);
 //        if (url == null) return;
         if (context == null) return;
         if (context instanceof Activity) {
@@ -121,6 +121,7 @@ public class Utils {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.image_placeholder)
                 .dontAnimate()
+                .error(R.drawable.image_placeholder)
                 .bitmapTransform(new CenterCrop(context), new RoundedCornersTransformation(context, radius, margin))
                 .into(img);
     }
@@ -628,7 +629,7 @@ public class Utils {
                 content = context.getString(R.string.notification_bid_refunded_title) + " " + notification.getTaskName();
                 break;
             case Constants.PUSH_TYPE_CHAT:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_chat) + " " + notification.getTaskName();
+                content = notification.getFullName() + " " + context.getString(R.string.notification_private_chat);
                 break;
         }
 
@@ -895,6 +896,12 @@ public class Utils {
     public static long getLongEdittext(EdittextHozo edittextHozo) {
         String s = edittextHozo.getText().toString().replace(",", "").replace(".", "");
         return Long.valueOf(s);
+    }
+
+    public static String sortID(int posterID,int taskerID) {
+        if (posterID < taskerID)
+            return posterID + "-" + taskerID;
+        else return taskerID + "-" + posterID;
     }
 
 

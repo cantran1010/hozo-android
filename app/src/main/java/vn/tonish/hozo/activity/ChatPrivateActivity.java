@@ -1,7 +1,15 @@
 package vn.tonish.hozo.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -17,21 +25,39 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.image.AlbumActivity;
+import vn.tonish.hozo.activity.image.PreviewImageActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.MessageAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.dialog.PickImageDialog;
+import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.model.Message;
+import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
+import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
@@ -41,9 +67,10 @@ import vn.tonish.hozo.view.TextViewHozo;
  * Created by LongBui on 9/18/17.
  */
 
-public class ChatActivity extends BaseActivity implements View.OnClickListener {
+public class ChatPrivateActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final String TAG = ChatActivity.class.getSimpleName();
+    private static final String TAG = ChatPrivateActivity.class.getSimpleName();
+    private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private RecyclerView rcvMessage;
     private MessageAdapter messageAdapter;
     private EdittextHozo edtMsg;
@@ -55,6 +82,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private DatabaseReference messageCloudEndPoint;
     private TextViewHozo tvTitle, tvMember;
     private boolean isLoading = false;
+
     private static final int PAGE_COUNT = 11;
     private ValueEventListener valueEventListener;
     private ChildEventListener childEventListener;
@@ -62,7 +90,12 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private Query recentPostsQuery = null;
     private ImageView imgMenu;
     private DatabaseReference memberCloudEndPoint;
+    private int smsID;
+    private String imgPath = null;
+    private File fileAttach;
     private TaskResponse taskResponse;
+    private int pos;
+
 
     @Override
     protected int getLayout() {
@@ -75,23 +108,17 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         ImageView btnSend = (ImageView) findViewById(R.id.img_send);
         edtMsg = (EdittextHozo) findViewById(R.id.edt_comment);
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
-
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
+        ImageView imgDelete = (ImageView) findViewById(R.id.img_delete);
         tvTitle.setOnClickListener(this);
-
         btnSend.setOnClickListener(this);
         imgBack.setOnClickListener(this);
-
-//        mainLayout = (RelativeLayout) findViewById(R.id.main_layout);
-
+        imgDelete.setOnClickListener(this);
         imgMenu = (ImageView) findViewById(R.id.img_menu);
         imgMenu.setOnClickListener(this);
-
         edtMsg.setHint(getString(R.string.chat_hint));
-
         ImageView imgAttach = (ImageView) findViewById(R.id.img_attach);
         imgAttach.setOnClickListener(this);
-
         tvMember = (TextViewHozo) findViewById(R.id.tv_member);
 
         ImageView imgCall = (ImageView) findViewById(R.id.img_call);
@@ -105,13 +132,16 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initData() {
         taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.TASK_DETAIL_EXTRA);
-        taskId = taskResponse.getId();
+        pos = getIntent().getExtras().getInt(Constants.ASSIGNER_POSITION);
         posterId = taskResponse.getPoster().getId();
+        taskId = taskResponse.getId();
+        smsID = taskResponse.getAssignees().get(pos).getId();
         tvTitle.setText(taskResponse.getTitle());
         LogUtils.d(TAG, "initData , taskResponse : " + taskResponse.toString());
-        tvMember.setText(Utils.getMemberChat(this, taskResponse));
+        String result = getString(R.string.you) + " " + taskResponse.getAssignees().get(pos).getFullName();
+        tvMember.setText(result);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
-        messageCloudEndPoint = myRef.child("task-messages").child(String.valueOf(taskId));
+        messageCloudEndPoint = myRef.child("private-messages").child(String.valueOf(taskId)).child(sortID(smsID));
         setUpMessageList();
         memberCloudEndPoint = myRef.child("members").child(String.valueOf(UserManager.getMyUser().getId()));
         memberEventListener = new ChildEventListener() {
@@ -126,7 +156,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
                 LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
                 if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
-                    Utils.showLongToast(ChatActivity.this, getString(R.string.kick_out_chat_content), true, false);
+                    Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.kick_out_chat_content), true, false);
                     setResult(Constants.RESULT_CODE_CHAT);
                     finish();
                 }
@@ -152,6 +182,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         memberCloudEndPoint.addChildEventListener(memberEventListener);
     }
 
+
+    private String sortID(int assID) {
+        if (assID < UserManager.getMyUser().getId())
+            return assID + "-" + UserManager.getMyUser().getId();
+        else return UserManager.getMyUser().getId() + "-" + assID;
+    }
+
     @Override
     protected void resumeData() {
         PreferUtils.setPushShow(this, false);
@@ -171,46 +208,17 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
-        rcvMessage.setHasFixedSize(true);
         rcvMessage.setLayoutManager(linearLayoutManager);
         rcvMessage.setAdapter(messageAdapter);
 
-//        edtMsg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean hasFocus) {
-//                if (hasFocus) {
-//                    rcvMessage.smoothScrollToPosition(0);
-//                }
-//            }
-//        });
-
-//        mainLayout.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                    view.performClick();
-//                    Utils.hideKeyBoard(ChatActivity.this);
-//                    rcvMessage.requestFocus();
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
-//
-//        rcvMessage.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                    view.performClick();
-//                    Utils.hideKeyBoard(ChatActivity.this);
-//                    rcvMessage.requestFocus();
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
+        edtMsg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    rcvMessage.smoothScrollToPosition(0);
+                }
+            }
+        });
 
         EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
@@ -236,7 +244,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , checkContain(message) : " + checkContain(message));
                 if (checkContain(message)) return;
                 messages.add(0, message);
-                rcvMessage.scrollToPosition(0);//
                 messageAdapter.notifyDataSetChanged();
                 LogUtils.d(TAG, "messageCloudEndPoint onChildAdded , messages size : " + messages.size());
                 Map<String, Boolean> map = new HashMap<>();
@@ -269,6 +276,123 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         messageCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(childEventListener);
 
     }
+
+    private void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE);
+        } else {
+            permissionGranted();
+        }
+    }
+
+    private void permissionGranted() {
+        PickImageDialog pickImageDialog = new PickImageDialog(ChatPrivateActivity.this);
+        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+            @Override
+            public void onCamera() {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+            }
+
+            @Override
+            public void onGallery() {
+                Intent intent = new Intent(ChatPrivateActivity.this, AlbumActivity.class);
+                intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
+                startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
+        pickImageDialog.showView();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0) {
+            boolean cameraPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+            boolean readExternalFile = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+            if (cameraPermission && readExternalFile) {
+                permissionGranted();
+            }
+        }
+    }
+
+    private Uri setImageUri() {
+        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+        Uri imgUri = Uri.fromFile(file);
+        this.imgPath = file.getAbsolutePath();
+        return imgUri;
+    }
+
+    private void doAttachImage() {
+        ProgressDialogUtils.showProgressDialog(this);
+        File fileUp = Utils.compressFile(fileAttach);
+        LogUtils.d(TAG, "doAttachImage , file Name : " + fileUp.getName());
+        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
+        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
+
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(), itemPart).enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+                LogUtils.d(TAG, "uploadImage onResponse : " + response.body());
+                LogUtils.d(TAG, "uploadImage code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_CREATED) {
+                    doChat(response.body().getUrl(), 1);
+                    ProgressDialogUtils.dismissProgressDialog();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(ChatPrivateActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            doAttachImage();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(ChatPrivateActivity.this);
+                } else {
+                    ProgressDialogUtils.dismissProgressDialog();
+                    DialogUtils.showRetryDialog(ChatPrivateActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            doAttachImage();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
+                DialogUtils.showRetryDialog(ChatPrivateActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doAttachImage();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+            }
+        });
+    }
+
 
     private void getMessage() {
 
@@ -311,7 +435,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                         LogUtils.d(TAG, "addValueEventListener recentPostsQuery : " + message.toString());
                         LogUtils.d(TAG, "addValueEventListener recentPostsQuery key : " + dataSnapshot1.getKey());
                         if (!checkContain(message))
-                            messagesAdded.add(0,message);
+                            messagesAdded.add(0, message);
                         isLoadingMoreFromServer = false;
                         messageAdapter.stopLoadMore();
                     } else {
@@ -322,7 +446,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                             LogUtils.d(TAG, "addValueEventListener recentPostsQuery : " + message.toString());
 
                             if (!checkContain(message))
-                                messagesAdded.add(0,message);
+                                messagesAdded.add(0, message);
                         }
                     }
 
@@ -334,6 +458,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 if (messageAdapter != null) messageAdapter.notifyDataSetChanged();
                 LogUtils.d(TAG, "addValueEventListener messages size : " + messages.size());
                 isLoading = false;
+
+
                 if (valueEventListener != null && recentPostsQuery != null)
                     recentPostsQuery.removeEventListener(valueEventListener);
 
@@ -357,28 +483,35 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-    private void doSend() {
-        if (edtMsg.getText().toString().trim().equals("")) return;
+
+    private void doChat(String chat, int type) {
+        if (chat.equals("")) {
+            Utils.showLongToast(this, getString(R.string.empty_content_comment_error), true, false);
+            return;
+        }
         String key = messageCloudEndPoint.push().getKey();
         Message message = new Message();
         message.setUser_id(UserManager.getMyUser().getId());
-        message.setMessage(edtMsg.getText().toString().trim());
-
+        message.setMessage(chat);
         Map<String, Boolean> reads = new HashMap<>();
         reads.put(String.valueOf(UserManager.getMyUser().getId()), true);
         message.setReads(reads);
+        message.setType(type);
         messageCloudEndPoint.child(key).setValue(message, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
                     LogUtils.d(TAG, "onComplete databaseError : " + databaseError.toString());
-                    Utils.showLongToast(ChatActivity.this, getString(R.string.permission_chat_error), true, false);
+                    Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.permission_chat_error), true, false);
                     finish();
                 }
             }
         });
         message.setId(key);
+
         LogUtils.d(TAG, "doSend , message : " + message.toString());
+        ProgressDialogUtils.dismissProgressDialog();
+        imgPath = null;
         edtMsg.setText(getString(R.string.empty));
     }
 
@@ -387,6 +520,25 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             if (message.getId().equals(messages.get(i).getId())) return true;
         return false;
     }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.d(TAG, "onActivityResult , requestCode : " + requestCode + " , resultCode : " + resultCode);
+        if (requestCode == Constants.REQUEST_CODE_PICK_IMAGE
+                && resultCode == Constants.RESPONSE_CODE_PICK_IMAGE
+                && data != null) {
+            ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+            imgPath = imagesSelected.get(0).getPath();
+            fileAttach = new File(imgPath);
+            doAttachImage();
+        } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+            fileAttach = new File(imgPath);
+            doAttachImage();
+        }
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -400,57 +552,30 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void showMenu() {
-
-        //Creating the instance of PopupMenu
         PopupMenu popup = new PopupMenu(this, imgMenu);
         popup.getMenuInflater().inflate(R.menu.menu_chat, popup.getMenu());
-
-        //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-
                 switch (item.getItemId()) {
-
                     case R.id.menu_detail_task:
-                        Intent intent = new Intent(ChatActivity.this, DetailTaskActivity.class);
+                        Intent intent = new Intent(ChatPrivateActivity.this, DetailTaskActivity.class);
                         intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
                         startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                         break;
-
                 }
                 return true;
             }
         });
-
         popup.show();
     }
 
-    private void doCall() {
-        if (posterId == UserManager.getMyUser().getId()) {
-            Intent intent = new Intent(this, ContactActivity.class);
-            intent.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-        } else {
-            Utils.call(this, taskResponse.getPoster().getPhone());
-        }
-    }
-
-    private void doSms() {
-        if (posterId == UserManager.getMyUser().getId()) {
-            Intent intent = new Intent(this, ContactActivity.class);
-            intent.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-        } else {
-            Utils.sendSms(this, taskResponse.getPoster().getPhone(), "");
-        }
-    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.img_send:
-                doSend();
+                doChat(edtMsg.getText().toString().trim(), 0);
+                rcvMessage.scrollToPosition(0);
                 break;
 
             case R.id.img_back:
@@ -462,15 +587,28 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.img_call:
-                doCall();
+                Utils.call(this, taskResponse.getAssignees().get(pos).getPhone());
+                break;
+            case R.id.img_delete:
+                imgPath = null;
+                break;
+
+            case R.id.img_attach:
+                checkPermission();
+                break;
+
+            case R.id.img_attached:
+                Intent imgIntent = new Intent(ChatPrivateActivity.this, PreviewImageActivity.class);
+                imgIntent.putExtra(Constants.EXTRA_IMAGE_PATH, imgPath);
+                startActivity(imgIntent, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.img_sms:
-                doSms();
+                Utils.sendSms(this, taskResponse.getAssignees().get(pos).getPhone(), "");
                 break;
 
             case R.id.tv_title:
-                Intent intent = new Intent(ChatActivity.this, DetailTaskActivity.class);
+                Intent intent = new Intent(ChatPrivateActivity.this, DetailTaskActivity.class);
                 intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
                 startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 break;

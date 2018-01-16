@@ -33,7 +33,6 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
     protected void initView() {
         rcvAssign = (RecyclerView) findViewById(R.id.lvList);
         tvTaskName = (TextViewHozo) findViewById(R.id.tv_task_name);
-
         findViewById(R.id.img_back).setOnClickListener(this);
     }
 

@@ -150,7 +150,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
 
     private void findPlace() {
-
         final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
                 .setTypeFilter(Place.TYPE_COUNTRY)
 //                .setCountry("VN")
@@ -252,7 +251,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
 
     private void permissionGrantedAvata() {
-
         PickImageDialog pickImageDialog = new PickImageDialog(RegisterActivity.this);
         pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
             @Override
