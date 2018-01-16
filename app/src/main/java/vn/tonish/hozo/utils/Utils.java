@@ -629,6 +629,9 @@ public class Utils {
                 content = context.getString(R.string.notification_bid_refunded_title) + " " + notification.getTaskName();
                 break;
             case Constants.PUSH_TYPE_CHAT:
+                content = notification.getFullName() + " " + context.getString(R.string.notification_group_chat);
+                break;
+            case Constants.PUSH_TYPE_PRIVATE_CHAT:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_private_chat);
                 break;
         }

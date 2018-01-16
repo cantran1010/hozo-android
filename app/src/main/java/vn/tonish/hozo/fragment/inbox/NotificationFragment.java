@@ -129,19 +129,24 @@ public class NotificationFragment extends BaseFragment {
         updateCountMsg();
     }
 
-    @Override
-    protected void resumeData() {
-        getActivity().registerReceiver(broadcastCountNewMsg, new IntentFilter(Constants.BROAD_CAST_PUSH_COUNT));
-    }
+    private final BroadcastReceiver broadcastReceiverSmsCount = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            LogUtils.d(TAG, "broadcastReceiverSmsCount onReceive");
+            if (intent.hasExtra(Constants.COUNT_NEW_CHAT_EXTRA)) {
+                int count = intent.getIntExtra(Constants.COUNT_NEW_CHAT_EXTRA, 0);
+                tvCountTab2.setText(String.valueOf(count));
+                LogUtils.d(TAG, "broadcastReceiverSmsCount onReceive" + count);
+            }
+        }
+    };
 
     @Override
-    public void onStop() {
-        super.onStop();
-        try {
-            getActivity().unregisterReceiver(broadcastCountNewMsg);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    protected void resumeData() {
+        getActivity().registerReceiver(broadcastReceiverSmsCount, new IntentFilter(Constants.BROAD_CAST_PUSH_CHAT_COUNT));
+        LogUtils.d(TAG, "ChatFragment resumeData start");
+
     }
 
     private final BroadcastReceiver broadcastCountNewMsg = new BroadcastReceiver() {

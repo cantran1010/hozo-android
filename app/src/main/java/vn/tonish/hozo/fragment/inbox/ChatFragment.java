@@ -97,9 +97,10 @@ public class ChatFragment extends BaseFragment {
                 LogUtils.d(TAG, "getChatRooms body : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
 //                    PreferUtils.setNewPushChatCount(getActivity(), 0);
-                    if (response.body() == null) taskResponses = new ArrayList<>();
-                    else
-                        taskResponses = response.body();
+//                    if (response.body() == null) taskResponses = new ArrayList<>();
+//                    else
+                    taskResponses.clear();
+                    taskResponses = response.body();
                     updateUI();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
@@ -111,6 +112,7 @@ public class ChatFragment extends BaseFragment {
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(getActivity());
                 } else {
+                    LogUtils.d(TAG, "getChatRooms code : " + response.code());
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
@@ -172,14 +174,9 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void onRefresh() {
         super.onRefresh();
+        if (call != null) call.cancel();
         chatRoomAdapter = null;
         getChatRooms();
-        rcvChatRooms.smoothScrollToPosition(0);
-        Intent intentPushCount = new Intent();
-        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-        if (getActivity() != null)
-            getActivity().sendBroadcast(intentPushCount);
-        if (call != null) call.cancel();
     }
 
     private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {

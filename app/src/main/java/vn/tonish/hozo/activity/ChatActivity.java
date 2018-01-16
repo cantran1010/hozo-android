@@ -69,7 +69,7 @@ import vn.tonish.hozo.view.TextViewHozo;
  * Created by LongBui on 9/18/17.
  */
 
-public class ChatActivity extends BaseActivity implements View.OnClickListener {
+public class ChatActivity extends BaseTouchActivity implements View.OnClickListener {
 
     private static final String TAG = ChatActivity.class.getSimpleName();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};

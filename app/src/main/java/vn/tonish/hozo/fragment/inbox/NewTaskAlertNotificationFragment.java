@@ -342,7 +342,7 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
     @Override
     public void onRefresh() {
         super.onRefresh();
-        lvList.smoothScrollToPosition(0);
+        if (call != null) call.cancel();
         PreferUtils.setPushNewTaskCount(getActivity(), 0);
 //        if (getActivity() != null && getActivity() instanceof MainActivity)
 //            ((MainActivity) getActivity()).updateCountMsg();
@@ -350,7 +350,6 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
         intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
         if (getActivity() != null)
             getActivity().sendBroadcast(intentPushCount);
-        if (call != null) call.cancel();
         isLoadingMoreFromServer = true;
         since = null;
         notificationAdapter.onLoadMore();

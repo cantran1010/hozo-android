@@ -115,10 +115,10 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                 title = getString(R.string.app_name);
                 message = Utils.getContentFromNotification(getApplicationContext(), notification);
                 break;
-            case Constants.PUSH_TYPE_PRIVATE_CHAT:
-                title = getString(R.string.app_name);
-                message = Utils.getContentFromNotification(getApplicationContext(), notification);
-                break;
+//            case Constants.PUSH_TYPE_PRIVATE_CHAT:
+//                title = getString(R.string.notification_private_chat);
+//                message = Utils.getContentFromNotification(getApplicationContext(), notification);
+//                break;
             default:
                 title = notification.getTaskName();
                 message = Utils.getContentFromNotification(getApplicationContext(), notification);
@@ -182,6 +182,14 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                 sendBroadcast(intentPushCount);
                 break;
             }
+            case Constants.PUSH_TYPE_PRIVATE_CHAT: {
+                PreferUtils.setNewPushChatCount(getApplicationContext(), PreferUtils.getNewPushChatCount(getApplicationContext()) + 1);
+                Intent intentPushCount = new Intent();
+                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                sendBroadcast(intentPushCount);
+                break;
+            }
+
             default: {
                 PreferUtils.setNewPushCount(getApplicationContext(), PreferUtils.getNewPushCount(getApplicationContext()) + 1);
                 Intent intentPushCount = new Intent();
