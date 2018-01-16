@@ -670,13 +670,13 @@
 
     <string name="btn_exchange">Thanh toán</string>
     <string name="btn_withdraw">Rút tiền</string>
-    <string name="exchange_title">Chuyển tiền</string>
+    <string name="exchange_title">Thanh toán</string>
     <string name="btn_exchange_submit">Thanh toán</string>
     <string name="exchange_des">Bạn có thể dùng ví Hozo\nđể thanh toán cho người làm.</string>
     <string name="select_task">CHỌN VIỆC LIÊN QUAN</string>
     <string name="money_des">SỐ TIỀN CẦN THANH TOÁN</string>
     <string name="withdrawal_title">Rút tiền</string>
-    <string name="withdrawal_des">Bạn có thể gửi yêu cầu rút tiền\ntừ ví Hozo vào tài khoản ngân hàng của bạn.\nGiao dịch sẽ được thực hiện vào\nthứ 2 của tuần đầu tiên trong tháng kế tiếp.\n \n \nNhập số tiền cần rút.</string>
+    <string name="withdrawal_des">Bạn có thể gửi yêu cầu rút tiền\ntừ ví Hozo vào tài khoản ngân hàng của bạn.\nGiao dịch sẽ được thực hiện vào thứ 2 của tuần thứ 2 và thứ 2 của tuần thứ 4 trong tháng.\n \n \nNhập số tiền cần rút.</string>
     <string name="bank_label">CHỌN NGÂN HÀNG</string>
     <string name="btn_withdrawal">Xác nhận</string>
     <string name="bankadded_title">Thêm ngân hàng</string>
