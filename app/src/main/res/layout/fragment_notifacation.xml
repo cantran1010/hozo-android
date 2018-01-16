@@ -5,34 +5,36 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swpRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swpRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
+            android:layout_height="match_parent">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/lvList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbars="vertical" />
+        </android.support.v4.widget.SwipeRefreshLayout>
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_no_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_centerHorizontal="true"
-                android:text="@string/no_data"
-                android:textColor="@color/setting_text"
-                android:textSize="@dimen/tv_size_medium"
-                android:visibility="gone" />
+        <vn.tonish.hozo.view.TextViewHozo
+            android:id="@+id/tv_no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="@string/no_data"
+            android:textColor="@color/setting_text"
+            android:textSize="@dimen/tv_size_medium"
+            android:visibility="gone" />
 
-        </RelativeLayout>
+    </RelativeLayout>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

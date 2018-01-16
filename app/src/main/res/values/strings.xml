@@ -768,5 +768,7 @@
     <string name="transfer_cash">Chuyển tiền sang ví tài khoản</string>
     <string name="max_money_exchange">Số tiền tối đa là 150% tiền công</string>
     <string name="min_money_exchange">Số tiền tối thiểu là 10.000 VNĐ</string>
+    <string name="notification_group_chat">đã gửi tin nhắn đến nhóm chát</string>
+    <string name="task">Việc:</string>
 
 </resources>

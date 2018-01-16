@@ -68,7 +68,7 @@ import vn.tonish.hozo.view.TextViewHozo;
  * Created by LongBui on 9/18/17.
  */
 
-public class ChatPrivateActivity extends BaseActivity implements View.OnClickListener {
+public class ChatPrivateActivity extends BaseTouchActivity implements View.OnClickListener {
 
     private static final String TAG = ChatPrivateActivity.class.getSimpleName();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -132,9 +132,9 @@ public class ChatPrivateActivity extends BaseActivity implements View.OnClickLis
     protected void initData() {
         taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.TASK_DETAIL_EXTRA);
         ass = (Assigner) getIntent().getExtras().get(Constants.ASSIGNER_EXTRA);
+        LogUtils.d(TAG, "initData , taskResponse : " + ass.toString());
         posterId = taskResponse.getPoster().getId();
         taskId = taskResponse.getId();
-        smsID = ass.getId();
         tvTitle.setText(taskResponse.getTitle());
         LogUtils.d(TAG, "initData , taskResponse : " + taskResponse.toString());
         String result = getString(R.string.you) + " " + ass.getFullName();
@@ -442,7 +442,6 @@ public class ChatPrivateActivity extends BaseActivity implements View.OnClickLis
                             Message message = dataSnapshot1.getValue(Message.class);
                             message.setId(dataSnapshot1.getKey());
                             LogUtils.d(TAG, "addValueEventListener recentPostsQuery : " + message.toString());
-
                             if (!checkContain(message))
                                 messagesAdded.add(0, message);
                         }

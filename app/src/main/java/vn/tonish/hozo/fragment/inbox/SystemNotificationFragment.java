@@ -214,7 +214,6 @@ public class SystemNotificationFragment extends BaseFragment {
             params.put("since", since);
         params.put("limit", LIMIT + "");
         LogUtils.d(TAG, "getNotifications params : " + params.toString());
-
         call = ApiClient.getApiService().getMyNotificationsGroup(UserManager.getUserToken(), params);
         call.enqueue(new Callback<List<Notification>>() {
             @Override
@@ -251,6 +250,7 @@ public class SystemNotificationFragment extends BaseFragment {
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(getActivity());
                 } else {
+                    LogUtils.e(TAG, "getNotifications , onFailure : " + 1);
                     DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
@@ -322,15 +322,12 @@ public class SystemNotificationFragment extends BaseFragment {
     @Override
     public void onRefresh() {
         super.onRefresh();
+        if (call != null) call.cancel();
         PreferUtils.setNewPushCount(getActivity(), 0);
-        lvList.smoothScrollToPosition(0);
-//        if (getActivity() != null && getActivity() instanceof MainActivity)
-//            ((MainActivity) getActivity()).updateCountMsg();
         Intent intentPushCount = new Intent();
         intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
         if (getActivity() != null)
             getActivity().sendBroadcast(intentPushCount);
-        if (call != null) call.cancel();
         isLoadingMoreFromServer = true;
         since = null;
         notificationAdapter.onLoadMore();

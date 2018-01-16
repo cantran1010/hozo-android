@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginLeft="@dimen/title_margin_left"
+            android:layout_marginStart="@dimen/title_margin_left"
             android:layout_toEndOf="@+id/img_back"
             android:layout_toLeftOf="@+id/img_call"
             android:layout_toRightOf="@+id/img_back"
@@ -37,6 +37,7 @@
             android:focusable="true"
             android:scaleType="centerInside"
             android:src="@drawable/ic_back" />
+
 
         <ImageView
             android:id="@+id/img_sms"
@@ -78,9 +79,8 @@
             android:layout_height="?android:attr/actionBarSize"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/btn_back_selector"
             android:contentDescription="@string/adjust_image"
-            android:focusable="true"
             android:scaleType="centerInside"
             android:src="@drawable/more"
             android:visibility="gone" />
@@ -99,18 +99,35 @@
         android:layout_marginTop="5dp"
         android:orientation="vertical">
 
-        <vn.tonish.hozo.view.TextViewHozo
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/tv_black_new"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
 
+            <vn.tonish.hozo.view.TextViewHozo
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/task"
+                android:textColor="@color/tv_black_new"
+                android:textStyle="normal" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:textStyle="bold"
+                android:textColor="@color/tv_black_new" />
+
+        </LinearLayout>
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_member"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
             android:textColor="@color/tv_black_new" />
 
     </LinearLayout>

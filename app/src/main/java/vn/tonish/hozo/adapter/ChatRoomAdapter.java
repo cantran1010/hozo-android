@@ -16,6 +16,7 @@ import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.ChatActivity;
 import vn.tonish.hozo.activity.ChatPrivateActivity;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
@@ -94,13 +95,22 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
     }
 
 
-    private void updateUI(int pos, RecyclerView rcvChat) {
+    private void updateUI(final int pos, RecyclerView rcvChat) {
         final TaskResponse taskResponse = tasks.get(pos);
-        List<Assigner> chatAssigners = new ArrayList<>();
-        chatAssigners.addAll(taskResponse.getAssignees());
+        final List<Assigner> chatAssigners = new ArrayList<>();
+        if (UserManager.getMyUser().getId() == taskResponse.getPoster().getId())
+            chatAssigners.addAll(taskResponse.getAssignees());
+        else {
+            Assigner assigner = new Assigner();
+            assigner.setId(taskResponse.getPoster().getId());
+            assigner.setFullName(taskResponse.getPoster().getFullName());
+            assigner.setPhone(taskResponse.getPoster().getPhone());
+            chatAssigners.add(assigner);
+        }
         if (!checkGroup(chatAssigners, pos))
             addGroup(chatAssigners, taskResponse);
         chatPrivateAdapter = new ChatPrivateAdapter(context, taskResponse.getId(), taskResponse.getPoster().getId(), chatAssigners);
+
         LinearLayoutManager layoutManagaer = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         rcvChat.setLayoutManager(layoutManagaer);
         rcvChat.setAdapter(chatPrivateAdapter);
@@ -114,7 +124,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
                 } else {
                     Intent intentContact = new Intent(context, ChatPrivateActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-                    intentContact.putExtra(Constants.ASSIGNER_POSITION, position);
+                    intentContact.putExtra(Constants.ASSIGNER_EXTRA, chatAssigners.get(position));
                     ((BaseActivity) context).startActivity(intentContact, TransitionScreen.DOWN_TO_UP);
                 }
 
