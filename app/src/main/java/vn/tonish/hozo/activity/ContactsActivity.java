@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -41,8 +42,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
 
     private static final String TAG = ContactsActivity.class.getSimpleName();
     private TaskResponse taskResponse;
-    private List<Assigner> assigners;
-    private List<Assigner> chatAssigners;
+    private List<Assigner> assigners = new ArrayList<>();
+    private List<Assigner> chatAssigners = new ArrayList<>();
     private RecyclerView rcvMember, rcvChat;
     private TextViewHozo tvTaskName, tvCount;
     private int posterID, myUserID;
@@ -64,6 +65,10 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         tvTaskName = (TextViewHozo) findViewById(R.id.tv_task_name);
         tvCount = (TextViewHozo) findViewById(R.id.tv_count);
         findViewById(R.id.img_back).setOnClickListener(this);
+        ImageView imgCall = (ImageView) findViewById(R.id.img_call);
+        ImageView imgSms = (ImageView) findViewById(R.id.img_sms);
+        imgCall.setOnClickListener(this);
+        imgSms.setOnClickListener(this);
 
     }
 
@@ -87,12 +92,12 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
 
 
     private void updateListMembers() {
-        assigners = new ArrayList<>();
+        assigners.clear();
         Assigner assigner;
         Poster poster = taskResponse.getPoster();
         tvTaskName.setText(taskResponse.getTitle());
         if (posterID == myUserID)
-            assigners = taskResponse.getAssignees();
+            assigners.addAll(taskResponse.getAssignees());
         else {
             assigner = new Assigner();
             assigner.setId(poster.getId());
@@ -117,7 +122,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                 } else {
                     Intent intentContact = new Intent(ContactsActivity.this, ChatPrivateActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-                    intentContact.putExtra(Constants.ASSIGNER_POSITION, position);
+                    intentContact.putExtra(Constants.ASSIGNER_EXTRA, assigners.get(position));
                     startActivity(intentContact, TransitionScreen.DOWN_TO_UP);
                 }
             }
@@ -126,7 +131,6 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void updateMessageRoom() {
-        chatAssigners = new ArrayList<>();
         chatPrivateAdapter = new ChatPrivateAdapter(this, taskResponse.getId(), taskResponse.getPoster().getId(), chatAssigners);
         LinearLayoutManager layoutManagaer
                 = new LinearLayoutManager(ContactsActivity.this, LinearLayoutManager.VERTICAL, false);
@@ -135,14 +139,14 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         chatPrivateAdapter.setChatPrivateListener(new ChatPrivateAdapter.ChatPrivateListener() {
             @Override
             public void onClick(int position) {
-                if (chatAssigners.get(position).getId() == taskResponse.getId()) {
+                if (chatAssigners.get(position).getId() == taskResponse.getId() && chatAssigners.get(position).getFullName().equalsIgnoreCase(getString(R.string.group_chat))) {
                     Intent intentContact = new Intent(ContactsActivity.this, ChatActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
                     startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
                 } else {
                     Intent intentContact = new Intent(ContactsActivity.this, ChatPrivateActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-                    intentContact.putExtra(Constants.ASSIGNER_POSITION, position);
+                    intentContact.putExtra(Constants.ASSIGNER_EXTRA, chatAssigners.get(position));
                     startActivity(intentContact, TransitionScreen.DOWN_TO_UP);
                 }
 
@@ -153,10 +157,11 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         assignersListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.exists()) {
+                if (dataSnapshot.getChildrenCount() > 0) {
                     addGroup(chatAssigners);
                     chatPrivateAdapter.notifyDataSetChanged();
-                    assignersReference.removeEventListener(assignersListener);
+                    if (assignersReference != null)
+                        assignersReference.removeEventListener(assignersListener);
                 }
             }
 
@@ -183,23 +188,20 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
 
         assignersReference = FirebaseDatabase.getInstance().getReference().child("task-messages").child(String.valueOf(taskResponse.getId()));
         assignersReference.addChildEventListener(assignersListener);
+
         //--------list chat assiger-----------
 
         messageListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 LogUtils.d(TAG, "dataSnapshot" + dataSnapshot.getKey() + "assigners" + assigners.toString());
-                int id;
-                if (posterID == myUserID)
-                    id = posterID;
-                else id = myUserID;
                 for (Assigner assigner1 : assigners
                         ) {
-                    if (dataSnapshot.getKey().equalsIgnoreCase(sortID(id, assigner1.getId()))) {
+                    if (dataSnapshot.getKey().equalsIgnoreCase(sortID(myUserID, assigner1.getId()))) {
                         chatAssigners.add(assigner1);
+                        chatPrivateAdapter.notifyDataSetChanged();
                     }
                 }
-                chatPrivateAdapter.notifyDataSetChanged();
                 LogUtils.d(TAG, "dataSnapshot" + chatAssigners.toString());
 
             }
@@ -226,7 +228,6 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         };
         messageReference = FirebaseDatabase.getInstance().getReference();
         messageReference.child("private-messages").child(String.valueOf(taskResponse.getId())).addChildEventListener(messageListener);
-
 
     }
 
@@ -345,13 +346,38 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             e.printStackTrace();
         }
     }
+    private void doCall() {
+        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            Intent intent = new Intent(this, ContactActivity.class);
+            intent.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
+            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+        } else {
+            Utils.call(this, taskResponse.getPoster().getPhone());
+        }
+    }
 
+    private void doSms() {
+        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
+            Intent intent = new Intent(this, ContactActivity.class);
+            intent.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
+            startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+        } else {
+            Utils.sendSms(this, taskResponse.getPoster().getPhone(), "");
+        }
+    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
                 finish();
+                break;
+            case R.id.img_call:
+                doCall();
+                break;
+
+            case R.id.img_sms:
+                doSms();
                 break;
 
         }
