@@ -16,7 +16,7 @@ import vn.tonish.hozo.R;
  */
 abstract class BaseDialogFullScreenAnimDownUp extends Dialog {
 
-    private Context context;
+    private final Context context;
 
     BaseDialogFullScreenAnimDownUp(@NonNull Context context) {
         super(context, R.style.DialogSlideAnimFullScreenAnimDownUp);

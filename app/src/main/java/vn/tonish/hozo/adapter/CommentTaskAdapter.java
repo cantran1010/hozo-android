@@ -103,9 +103,9 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
     }
 
     class WorkHolder extends BaseHolder {
-        public CommentBigView commentBigView;
-        public RecyclerView recyclerView;
-        public TextViewHozo tvCommentCount;
+        public final CommentBigView commentBigView;
+        public final RecyclerView recyclerView;
+        public final TextViewHozo tvCommentCount;
 
         public WorkHolder(View itemView) {
             super(itemView);

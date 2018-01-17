@@ -77,7 +77,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     private MessageAdapter messageAdapter;
     private EdittextHozo edtMsg;
     private int taskId;
-    private List<Message> messages = new ArrayList<>();
+    private final List<Message> messages = new ArrayList<>();
     private boolean isLoadingMoreFromServer = true;
     private String lastKeyMsg;
     private int posterId;
@@ -146,6 +146,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 LogUtils.d(TAG, "memberEventListener onChildChanged , dataSnapshot : " + dataSnapshot.toString());
+                //noinspection unchecked
                 Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
                 LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
                 if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
@@ -559,7 +560,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
             memberCloudEndPoint.removeEventListener(memberEventListener);
     }
 
-    public void showMenu() {
+    private void showMenu() {
 
         //Creating the instance of PopupMenu
         PopupMenu popup = new PopupMenu(this, imgMenu);

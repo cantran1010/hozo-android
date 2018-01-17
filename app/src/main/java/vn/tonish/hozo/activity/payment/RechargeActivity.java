@@ -45,8 +45,8 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
     private static final String TAG = RechargeActivity.class.getSimpleName();
     private EdittextHozo edtVisa, edtAtm;
-    private int MIN_MONEY = 10000;
-    private int MAX_MONEY = 2000000;
+    private final int MIN_MONEY = 10000;
+    private final int MAX_MONEY = 2000000;
     private LinearLayout atmLayout;
     private LinearLayout visaLayout;
     private ExpandableLayout inputAtmExpandableLayout, inputVisaExpandableLayout;

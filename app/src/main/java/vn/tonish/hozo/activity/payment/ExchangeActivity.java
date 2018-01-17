@@ -49,8 +49,8 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
     private static final String TAG = ExchangeActivity.class.getSimpleName();
     private Spinner spTask;
     private RecyclerView rcvAssigner;
-    private ArrayList<TaskExchangeResponse> taskExchangeResponses = new ArrayList<>();
-    private ArrayList<AssignerExchangeResponse> assignerExchangeResponses = new ArrayList<>();
+    private final ArrayList<TaskExchangeResponse> taskExchangeResponses = new ArrayList<>();
+    private final ArrayList<AssignerExchangeResponse> assignerExchangeResponses = new ArrayList<>();
     private ExchangeAdapter exchangeAdapter;
     private ButtonHozo btnExchange;
     private TextViewHozo tvNoData;

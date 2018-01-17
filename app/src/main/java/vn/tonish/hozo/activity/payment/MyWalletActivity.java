@@ -35,7 +35,7 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
     //    private RecyclerView rcvPayment;
     private TextViewHozo tvMyWalletAccount, tvMyWalletMoney, tvCountHistoryAccount, tvHistoryMoney, tvNoHistory;
     //    private PaymentAdapter paymentAdapter;
-    private ArrayList<TransactionResponse> payments = new ArrayList<>();
+    private final ArrayList<TransactionResponse> payments = new ArrayList<>();
     private String since;
     private WalletResponse walletResponse;
 

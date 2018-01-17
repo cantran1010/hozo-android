@@ -32,7 +32,7 @@ public class TagActivity extends BaseActivity implements View.OnClickListener {
     private EdittextHozo edtTag;
     private RecyclerView rcvTag;
     private TagAdapter tagAdapter;
-    private ArrayList<TagResponse> tagResponses = new ArrayList<>();
+    private final ArrayList<TagResponse> tagResponses = new ArrayList<>();
     private UserEntity userEntity = new UserEntity();
     private int requestCode;
     private TextViewHozo tvTitle;

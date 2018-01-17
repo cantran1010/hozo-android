@@ -19,7 +19,7 @@ import vn.tonish.hozo.utils.Utils;
 
 public class ProfileImagesAdapter extends RecyclerView.Adapter<ProfileImagesAdapter.MyViewHolder> {
 
-    private Context context;
+    private final Context context;
 
     public ProfileImagesAdapter(Context context, List<ImageProfileResponse> imageResponses) {
         this.imageResponses = imageResponses;

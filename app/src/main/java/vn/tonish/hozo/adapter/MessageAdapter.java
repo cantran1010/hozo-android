@@ -51,7 +51,6 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
         super(context, messages);
         this.messages = messages;
         this.context = context;
-        int posterId1 = posterId;
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();

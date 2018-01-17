@@ -16,7 +16,7 @@ import vn.tonish.hozo.R;
  */
 abstract class BaseDialogFullScreenAnimFadeInOut extends Dialog {
 
-    private Context context;
+    private final Context context;
 
     BaseDialogFullScreenAnimFadeInOut(@NonNull Context context) {
         super(context, R.style.DialogSlideAnimFullScreenFadeInOut);

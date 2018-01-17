@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:src="@drawable/img_dot_blue"
+        android:contentDescription="@string/just_image"
         android:visibility="gone" />
 
     <vn.tonish.hozo.view.CircleImageView

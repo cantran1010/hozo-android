@@ -25,10 +25,20 @@
                 android:gravity="center">
 
                 <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/assigned_count"
+                    android:textSize="@dimen/tv_size_nomal" />
+
+                <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_assigner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/tv_size_nomal" />
+                    android:padding="5dp"
+                    android:text="@string/zero"
+                    android:textColor="@color/color_count_word"
+                    android:textSize="@dimen/tv_size_nomal"
+                    android:textStyle="bold" />
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:layout_width="1dp"
@@ -38,10 +48,20 @@
                     android:gravity="center" />
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tv_assigner_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/worker_count"
                     android:textSize="@dimen/tv_size_nomal" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_worker_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/zero"
+                    android:textColor="@color/setting_text"
+                    android:textSize="@dimen/tv_size_nomal"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -59,14 +79,37 @@
                 android:progress="0"
                 android:progressDrawable="@drawable/custom_progress_assign" />
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_bidder_count"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
                 android:layout_marginTop="15dp"
-                android:textSize="@dimen/tv_size_nomal"
-                android:textStyle="bold" />
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_bidder_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="2dp"
+                    android:text="@string/zero"
+                    android:textColor="@color/color_count_word"
+                    android:textSize="@dimen/tv_size_nomal"
+                    android:textStyle="bold" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_count_assigner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="2dp"
+                    android:text="@string/zero"
+                    android:textColor="@color/setting_text"
+                    android:textSize="@dimen/tv_size_nomal"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
 
             <vn.tonish.hozo.view.CircleImageView
                 android:id="@+id/img_avatar_assign"
@@ -131,6 +174,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
+                        android:textColor="@color/setting_text"
                         android:textSize="@dimen/tv_size_xxtiny"
                         android:textStyle="normal" />
 
@@ -140,6 +184,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
+                        android:textColor="@color/setting_text"
                         android:textSize="@dimen/tv_size_xxtiny"
                         android:textStyle="normal" />
 
@@ -149,6 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
+                        android:textColor="@color/setting_text"
                         android:textSize="@dimen/tv_size_xxtiny"
                         android:textStyle="normal" />
 
@@ -186,6 +232,7 @@
                             android:layout_marginStart="10dp"
                             android:layout_toEndOf="@+id/rb_rating5"
                             android:layout_toRightOf="@+id/rb_rating5"
+                            android:textColor="@color/setting_text"
                             android:textSize="@dimen/tv_size_xxtiny"
                             android:textStyle="normal" />
                     </RelativeLayout>
@@ -214,6 +261,7 @@
                             android:layout_marginStart="10dp"
                             android:layout_toEndOf="@+id/rb_rating4"
                             android:layout_toRightOf="@+id/rb_rating4"
+                            android:textColor="@color/setting_text"
                             android:textSize="@dimen/tv_size_xxtiny"
                             android:textStyle="normal" />
                     </RelativeLayout>
@@ -242,6 +290,7 @@
                             android:layout_marginStart="10dp"
                             android:layout_toEndOf="@+id/rb_rating3"
                             android:layout_toRightOf="@+id/rb_rating3"
+                            android:textColor="@color/setting_text"
                             android:textSize="@dimen/tv_size_xxtiny"
                             android:textStyle="normal" />
                     </RelativeLayout>
@@ -270,6 +319,7 @@
                             android:layout_marginStart="10dp"
                             android:layout_toEndOf="@+id/rb_rating2"
                             android:layout_toRightOf="@+id/rb_rating2"
+                            android:textColor="@color/setting_text"
                             android:textSize="@dimen/tv_size_xxtiny"
                             android:textStyle="normal" />
                     </RelativeLayout>
@@ -298,6 +348,7 @@
                             android:layout_marginStart="10dp"
                             android:layout_toEndOf="@+id/rb_rating1"
                             android:layout_toRightOf="@+id/rb_rating1"
+                            android:textColor="@color/setting_text"
                             android:textSize="@dimen/tv_size_xxtiny"
                             android:textStyle="normal" />
                     </RelativeLayout>

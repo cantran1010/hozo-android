@@ -30,7 +30,7 @@ public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.MyView
         this.assignerExchangeResponses = assignerExchangeResponses;
     }
 
-    private List<AssignerExchangeResponse> assignerExchangeResponses;
+    private final List<AssignerExchangeResponse> assignerExchangeResponses;
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -99,10 +99,11 @@ public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imgUp, imgDown;
-        private CheckBoxHozo cbExchange;
-        private TextViewHozo tvName;
-        private TextViewHozo tvPrice;
+        private final ImageView imgUp;
+        private final ImageView imgDown;
+        private final CheckBoxHozo cbExchange;
+        private final TextViewHozo tvName;
+        private final TextViewHozo tvPrice;
 
         public MyViewHolder(View itemView) {
             super(itemView);

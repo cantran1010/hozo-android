@@ -38,7 +38,7 @@ import vn.tonish.hozo.view.EdittextHozo;
 public class WithdrawalActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = WithdrawalActivity.class.getSimpleName();
-    private ArrayList<Bank> banks = new ArrayList<>();
+    private final ArrayList<Bank> banks = new ArrayList<>();
     private RecyclerView rcvBank;
     private BankAdapter bankAdapter;
     private EdittextHozo edtMoney;

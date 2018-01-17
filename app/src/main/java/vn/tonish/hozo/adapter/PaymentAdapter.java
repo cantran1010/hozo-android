@@ -20,7 +20,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class PaymentAdapter extends BaseAdapter<TransactionResponse, PaymentAdapter.MyViewHolder, LoadingHolder> {
 
     private final List<TransactionResponse> payments;
-    private Context context;
+    private final Context context;
 
     public PaymentAdapter(Context context, List<TransactionResponse> payments) {
         super(context, payments);
@@ -90,7 +90,10 @@ public class PaymentAdapter extends BaseAdapter<TransactionResponse, PaymentAdap
 
     public class MyViewHolder extends BaseHolder implements View.OnClickListener {
 
-        private TextViewHozo tvPrice, tvDate, tvContent, tvUnit;
+        private final TextViewHozo tvPrice;
+        private final TextViewHozo tvDate;
+        private final TextViewHozo tvContent;
+        private final TextViewHozo tvUnit;
 
         public MyViewHolder(View itemView) {
             super(itemView);

@@ -364,9 +364,8 @@
     <string name="bid_limmit_offer_error">Việc đã đủ người ứng tuyển.</string>
     <string name="bid_limmit_title">Thông báo</string>
     <string name="notification_tab_1">Hệ thống</string>
-    <string name="notification_tab_2">Chat nhóm</string>
+    <string name="notification_tab_2">Chat</string>
     <string name="chat_hint">Nhập tin nhắn …</string>
-    <string name="date_work">Ngày làm:</string>
     <string name="menu_detail_task">Xem chi tiết việc</string>
     <string name="permission_chat_error">Bạn không thể tiếp tục chat tại phòng này!</string>
     <string name="no_data">Chưa có dữ liệu</string>
@@ -656,13 +655,12 @@
     <string name="rad_50_km">50km</string>
     <string name="notification_bid_refunded_title">Hệ thống hoàn trả tiền đặt cọc của bạn ở việc</string>
     <string name="notification_bid_refunded_matcher">hoàn trả tiền đặt cọc</string>
-    <string name="notification_chat">đã gửi tin nhắn đến nhóm</string>
     <string name="verified_watting">Đang đợi xác thực</string>
     <string name="view_reviews">Xem Đánh giá</string>
     <string name="tasks_count" tools:ignore="PluralsCandidate">Tham gia %1$d việc</string>
     <string name="tasks_complex">hoàn thành </string>
-    <string name="assigned_count">Đã giao: %1$d</string>
-    <string name="worker_count">Tổng cần: %1$d</string>
+    <string name="assigned_count">Đã giao:</string>
+    <string name="worker_count">Tổng cần:</string>
     <string name="assiger_done">Giao việc thành công!</string>
     <string name="assigned_done">Đã giao</string>
     <string name="price_bidder">%1$sđ</string>
@@ -729,17 +727,13 @@
     <string name="wallet_accout_title">Ví tài khoản</string>
     <string name="wallet_money_title2">Ví tiền</string>
     <string name="wallet_account_info4">Ví tiền được dùng để giữ tiền công của công việc được người thuê chuyển vào từ ví tài khoản của người thuê.</string>
-    <string name="wallet_account_info5">Bạn có thể gửi yêu cầu rút tiền từ ví tiền vào tài khoản ngân hàng của bạn. Hozo sẽ duyệt yêu cầu này vào thứ 2 của tuần đầu tiên của tháng kế tiếp.</string>
+    <string name="wallet_account_info5">Bạn có thể gửi yêu cầu rút tiền từ ví tiền vào tài khoản ngân hàng của bạn. Hozo sẽ duyệt yêu cầu này vào thứ Hai của tuần thứ 2 và thứ Hai của tuần thứ 4 trong tháng.</string>
     <string name="bank_null">Bạn chưa chọn ngân hàng!</string>
     <string name="send_img">Đã gửi một ảnh</string>
     <string name="group_chat">Nhóm</string>
     <string name="block_task">Rất tiếc, công việc này đã bị khoá.</string>
     <string name="close_task">Rất tiếc, công việc này đã đóng.</string>
     <string name="kick_out_task_content">Rất tiếc, bạn đã rời khỏi nhóm này!</string>
-    <string name="kick_out_task_assigner">đã rời khỏi phòng.</string>
-    <string name="block_user">đã bị khoá tài khoản bởi hệ thống.</string>
-    <string name="active_user">đã được mở lại tài khoản!</string>
-    <string name="return_task_assigner">đã tham gia nhóm!</string>
     <string name="notification_private_chat">đã gửi tin nhắn cho bạn</string>
     <string name="no_read_sms">TIN NHẮN CHƯA ĐỌC</string>
     <string name="max_money_transfer">Số tiền tối đa có thể rút là %1$s VNĐ</string>
@@ -770,5 +764,6 @@
     <string name="min_money_exchange">Số tiền tối thiểu là 10.000 VNĐ</string>
     <string name="notification_group_chat">đã gửi tin nhắn đến nhóm chát</string>
     <string name="task">Việc:</string>
+    <string name="zero">0</string>
 
 </resources>
