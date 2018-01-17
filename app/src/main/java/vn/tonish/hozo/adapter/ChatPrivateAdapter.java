@@ -25,6 +25,7 @@ import vn.tonish.hozo.model.Message;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -41,8 +42,9 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
     private final List<Assigner> assigners;
     private Context context;
     private List<Message> messages = new ArrayList<>();
+    private List<Message> messagesGroup = new ArrayList<>();
     private DatabaseReference messageCloudEndPoint, messageGroupCloudEndPoint;
-    private ChildEventListener messageListener;
+    private ChildEventListener groupListener, messageListener;
     private int taskID;
     private int posterID;
 
@@ -85,45 +87,75 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
                 Utils.displayImageAvatar(context, holder.imgAvatar, assigner.getAvatar());
             holder.tvTitle.setText(assigner.getFullName());
             for (int i = 0; i < assigners.size(); i++) messages.add(new Message());
-            messageListener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Message message = dataSnapshot.getValue(Message.class);
-                    message.setId(dataSnapshot.getKey());
-                    LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildAdded , message : " + message.toString());
-                    updateUI(position, message, holder.tvLastMsg, holder.imgDot, holder.tvTimeAgo);
-                    sendBroasdCast();
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    LogUtils.d(TAG, "onChildChanged");
-                    notifyDataSetChanged();
-                    sendBroasdCast();
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            };
             if (assigner.getId() == taskID && assigner.getFullName().equalsIgnoreCase(context.getString(R.string.group_chat))) {
+                groupListener = new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Message message = dataSnapshot.getValue(Message.class);
+                        message.setId(dataSnapshot.getKey());
+                        LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildAdded , message : " + message.toString());
+                        updateUI(position, message, holder.tvLastMsg, holder.imgDot, holder.tvTimeAgo);
+                        sendBroasdCast();
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                        LogUtils.d(TAG, "onChildChanged");
+                        notifyDataSetChanged();
+                        sendBroasdCast();
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                };
                 messageGroupCloudEndPoint = FirebaseDatabase.getInstance().getReference().child("task-messages").child(String.valueOf(taskID));
-                messageGroupCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(messageListener);
+                messageGroupCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(groupListener);
             } else {
+                messageListener = new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Message message = dataSnapshot.getValue(Message.class);
+                        message.setId(dataSnapshot.getKey());
+                        LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildAdded , message : " + message.toString());
+                        updateUI(position, message, holder.tvLastMsg, holder.imgDot, holder.tvTimeAgo);
+                        sendBroasdCast();
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                        LogUtils.d(TAG, "onChildChanged");
+                        notifyDataSetChanged();
+                        sendBroasdCast();
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                };
                 int id;
                 if (posterID == UserManager.getMyUser().getId())
                     id = posterID;
                 else id = UserManager.getMyUser().getId();
-                messageCloudEndPoint = FirebaseDatabase.getInstance().getReference().child("private-messages").child(String.valueOf(taskID)).child(sortID(id, assigners.get(position).getId()));
+                messageCloudEndPoint = FirebaseDatabase.getInstance().getReference().child("private-messages").child(String.valueOf(taskID)).child(sortID(id, assigner.getId()));
                 messageCloudEndPoint.orderByKey().limitToLast(1).addChildEventListener(messageListener);
             }
 
@@ -166,6 +198,39 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
         }
     }
 
+    private void messageListener(ChildEventListener listener, final int position, final MyViewHolder hlder) {
+        listener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Message message = dataSnapshot.getValue(Message.class);
+                message.setId(dataSnapshot.getKey());
+                LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildAdded , message : " + message.toString());
+                updateUI(position, message, hlder.tvLastMsg, hlder.imgDot, hlder.tvTimeAgo);
+                sendBroasdCast();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                LogUtils.d(TAG, "onChildChanged");
+                notifyDataSetChanged();
+                sendBroasdCast();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+
+    }
 
     private void updateUI(int pos, Message message, TextViewHozo tvSms, ImageView imgerDot, TextViewHozo timeAgo) {
         if (message.getType() == 1)
@@ -202,6 +267,7 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
         Intent intentNewMsg = new Intent();
         intentNewMsg.setAction(Constants.BROAD_CAST_PUSH_CHAT_COUNT);
         intentNewMsg.putExtra(Constants.COUNT_NEW_CHAT_EXTRA, getCountRoomUnRead());
+        PreferUtils.setNewPushChatCount(context, getCountRoomUnRead());
         context.sendBroadcast(intentNewMsg);
 
     }
@@ -209,8 +275,8 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
     public void killListener() {
         if (messageCloudEndPoint != null && messageListener != null)
             messageCloudEndPoint.removeEventListener(messageListener);
-        if (messageGroupCloudEndPoint != null && messageListener != null)
-            messageGroupCloudEndPoint.removeEventListener(messageListener);
+        if (messageGroupCloudEndPoint != null && groupListener != null)
+            messageGroupCloudEndPoint.removeEventListener(groupListener);
 
     }
 

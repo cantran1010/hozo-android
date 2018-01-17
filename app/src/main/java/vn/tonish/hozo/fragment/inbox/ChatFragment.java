@@ -26,7 +26,6 @@ import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.MyLinearLayoutManager;
-import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -67,12 +66,12 @@ public class ChatFragment extends BaseFragment {
     protected void resumeData() {
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_CHAT));
 
-        LogUtils.d(TAG, "ChatFragment resumeData start");
-        try {
-            getChatRooms();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        LogUtils.d(TAG, "ChatFragment resumeData start");
+//        try {
+//            getChatRooms();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -87,14 +86,14 @@ public class ChatFragment extends BaseFragment {
     }
 
     private void getChatRooms() {
-        ProgressDialogUtils.showProgressDialog(getActivity());
+//        ProgressDialogUtils.showProgressDialog(getActivity());
         if (call != null) call.cancel();
         call = ApiClient.getApiService().getChatRooms(UserManager.getUserToken());
         call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
                 LogUtils.d(TAG, "getChatRooms code : " + response.code());
-                LogUtils.d(TAG, "getChatRooms body : " + response.body());
+                LogUtils.d(TAG, "getChatRooms body : " + response.body().size());
                 if (response.code() == Constants.HTTP_CODE_OK) {
 //                    PreferUtils.setNewPushChatCount(getActivity(), 0);
 //                    if (response.body() == null) taskResponses = new ArrayList<>();
@@ -126,11 +125,12 @@ public class ChatFragment extends BaseFragment {
                     });
                 }
                 onStopRefresh();
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
             public void onFailure(Call<List<TaskResponse>> call, Throwable t) {
+                LogUtils.e(TAG, "getChatRooms , onFailure : " + t.getMessage());
                 DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
@@ -143,7 +143,7 @@ public class ChatFragment extends BaseFragment {
                     }
                 });
                 onStopRefresh();
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
@@ -193,5 +193,11 @@ public class ChatFragment extends BaseFragment {
         super.onPause();
         if (chatRoomAdapter != null) chatRoomAdapter.killAdapter();
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        chatRoomAdapter.killListener();
     }
 }

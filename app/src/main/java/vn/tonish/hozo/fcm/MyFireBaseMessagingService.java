@@ -81,7 +81,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         if (notification == null || notification.getEvent() == null) return;
         if (notification.getEvent().equals(Constants.PUSH_TYPE_CHAT) && !PreferUtils.isPushShow(getApplicationContext()))
             return;
-        if (notification.getEvent().equals(Constants.PUSH_TYPE_PRIVATE_CHAT) && !PreferUtils.isPushShow(getApplicationContext()))
+        if (notification.getEvent().equals(Constants.PUSH_TYPE_PRIVATE_CHAT) && !PreferUtils.isPushPrivateShow(getApplicationContext()))
             return;
         String title;
         String message;
@@ -175,20 +175,18 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
                 break;
             }
-            case Constants.PUSH_TYPE_CHAT: {
-                PreferUtils.setNewPushChatCount(getApplicationContext(), PreferUtils.getNewPushChatCount(getApplicationContext()) + 1);
-                Intent intentPushCount = new Intent();
-                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-                sendBroadcast(intentPushCount);
-                break;
-            }
-            case Constants.PUSH_TYPE_PRIVATE_CHAT: {
-                PreferUtils.setNewPushChatCount(getApplicationContext(), PreferUtils.getNewPushChatCount(getApplicationContext()) + 1);
-                Intent intentPushCount = new Intent();
-                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-                sendBroadcast(intentPushCount);
-                break;
-            }
+//            case Constants.PUSH_TYPE_CHAT: {
+//                Intent intentPushCount = new Intent();
+//                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+//                sendBroadcast(intentPushCount);
+//                break;
+//            }
+//            case Constants.PUSH_TYPE_PRIVATE_CHAT: {
+//                Intent intentPushCount = new Intent();
+//                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+//                sendBroadcast(intentPushCount);
+//                break;
+//            }
 
             default: {
                 PreferUtils.setNewPushCount(getApplicationContext(), PreferUtils.getNewPushCount(getApplicationContext()) + 1);

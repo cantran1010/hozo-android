@@ -71,6 +71,7 @@ public class Constants {
     public static final String ASSIGNER_PRIVATE_ID ="assigner_id" ;
     public static final String BALANCE_CASH_EXTRA = "balance_cash_extra";
     public static final String ASSIGNER_EXTRA ="assigner_extra" ;
+    public static final String COUNT_PRIVATE_CHAT_EXTRA ="push_count_chat" ;
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

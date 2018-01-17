@@ -190,13 +190,13 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
 
     @Override
     protected void resumeData() {
-        PreferUtils.setPushShow(this, false);
+        PreferUtils.setPushPrivateShow(this, false);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        PreferUtils.setPushShow(this, true);
+        PreferUtils.setPushPrivateShow(this, true);
     }
 
     @SuppressLint("ClickableViewAccessibility")

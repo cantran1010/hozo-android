@@ -221,6 +221,11 @@ public class SystemNotificationFragment extends BaseFragment {
                 LogUtils.d(TAG, "getNotifications code : " + response.code());
                 LogUtils.d(TAG, "getNotifications body : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    PreferUtils.setNewPushCount(getActivity(), 0);
+                    Intent intentPushCount = new Intent();
+                    intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                    if (getActivity() != null)
+                        getActivity().sendBroadcast(intentPushCount);
                     List<Notification> notificationResponse = response.body();
                     if (since == null) {
                         notifications.clear();
@@ -323,11 +328,6 @@ public class SystemNotificationFragment extends BaseFragment {
     public void onRefresh() {
         super.onRefresh();
         if (call != null) call.cancel();
-        PreferUtils.setNewPushCount(getActivity(), 0);
-        Intent intentPushCount = new Intent();
-        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-        if (getActivity() != null)
-            getActivity().sendBroadcast(intentPushCount);
         isLoadingMoreFromServer = true;
         since = null;
         notificationAdapter.onLoadMore();

@@ -150,7 +150,6 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
                 if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
                     Utils.showLongToast(ChatActivity.this, getString(R.string.kick_out_chat_content), true, false);
-                    setResult(Constants.RESULT_CODE_CHAT);
                     finish();
                 }
 
@@ -452,12 +451,10 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 ArrayList<Message> messagesAdded = new ArrayList<>();
                 int i = 0;
-
                 LogUtils.d(TAG, "addValueEventListener dataSnapshot.getChildrenCount() : " + dataSnapshot.getChildrenCount());
-
+                if (dataSnapshot.getChildrenCount() > 0) setResult(Constants.RESULT_CODE_CHAT);
                 if (dataSnapshot.getChildrenCount() == 0) messageAdapter.stopLoadMore();
 
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
