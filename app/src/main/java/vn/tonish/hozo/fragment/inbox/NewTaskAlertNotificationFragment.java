@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -26,7 +25,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.AlertNewTaskActivity;
-import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.adapter.NotificationAdapter;
 import vn.tonish.hozo.common.Constants;
@@ -224,28 +222,17 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
             public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {
                 LogUtils.d(TAG, "getNotifications code : " + response.code());
                 LogUtils.d(TAG, "getNotifications body : " + response.body());
-
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    PreferUtils.setPushNewTaskCount(getActivity(), 0);
                     List<Notification> notificationResponse = response.body();
                     if (since == null) {
                         notifications.clear();
                         endlessRecyclerViewScrollListener.resetState();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                PreferUtils.setPushNewTaskCount(getActivity(), 0);
-//                                PreferUtils.setNewPushChatCount(getActivity(), 0);
+                        PreferUtils.setPushNewTaskCount(getActivity(), 0);
+                        Intent intentPushCount = new Intent();
+                        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                        if (getActivity() != null)
+                            getActivity().sendBroadcast(intentPushCount);
 
-                                if (getActivity() != null && getActivity() instanceof MainActivity)
-                                    ((MainActivity) getActivity()).updateCountMsg();
-
-                                Intent intentPushCount = new Intent();
-                                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-                                if (getActivity() != null)
-                                    getActivity().sendBroadcast(intentPushCount);
-                            }
-                        }, TIME_DELAY);
 
                     }
                     notifications.addAll(notificationResponse);
@@ -343,13 +330,6 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
     public void onRefresh() {
         super.onRefresh();
         if (call != null) call.cancel();
-        PreferUtils.setPushNewTaskCount(getActivity(), 0);
-//        if (getActivity() != null && getActivity() instanceof MainActivity)
-//            ((MainActivity) getActivity()).updateCountMsg();
-        Intent intentPushCount = new Intent();
-        intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-        if (getActivity() != null)
-            getActivity().sendBroadcast(intentPushCount);
         isLoadingMoreFromServer = true;
         since = null;
         notificationAdapter.onLoadMore();

@@ -8,7 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import vn.tonish.hozo.R;
@@ -17,10 +21,10 @@ import vn.tonish.hozo.activity.ChatActivity;
 import vn.tonish.hozo.activity.ChatPrivateActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.model.Message;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
-import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -34,6 +38,11 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
     private final List<TaskResponse> tasks;
     private Context context;
     public ChatPrivateAdapter chatPrivateAdapter;
+    private DatabaseReference messageCloudEndPoint, messageGroupCloudEndPoint;
+    private ChildEventListener messageListener;
+    private DatabaseReference myRef;
+    private final List<Message> messages = new ArrayList<>();
+    private HashMap<String, List<Message>> hashMap = new HashMap<>();
 
     public interface ChatRoomListener {
         void onClick(int position);
@@ -97,20 +106,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
 
     private void updateUI(final int pos, RecyclerView rcvChat) {
         final TaskResponse taskResponse = tasks.get(pos);
-        final List<Assigner> chatAssigners = new ArrayList<>();
-        if (UserManager.getMyUser().getId() == taskResponse.getPoster().getId())
-            chatAssigners.addAll(taskResponse.getAssignees());
-        else {
-            Assigner assigner = new Assigner();
-            assigner.setId(taskResponse.getPoster().getId());
-            assigner.setFullName(taskResponse.getPoster().getFullName());
-            assigner.setPhone(taskResponse.getPoster().getPhone());
-            chatAssigners.add(assigner);
-        }
-        if (!checkGroup(chatAssigners, pos))
-            addGroup(chatAssigners, taskResponse);
-        chatPrivateAdapter = new ChatPrivateAdapter(context, taskResponse.getId(), taskResponse.getPoster().getId(), chatAssigners);
-
+        chatPrivateAdapter = new ChatPrivateAdapter(context, taskResponse.getId(), taskResponse.getPoster().getId(), getAssigners(taskResponse, pos));
         LinearLayoutManager layoutManagaer = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         rcvChat.setLayoutManager(layoutManagaer);
         rcvChat.setAdapter(chatPrivateAdapter);
@@ -124,7 +120,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
                 } else {
                     Intent intentContact = new Intent(context, ChatPrivateActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-                    intentContact.putExtra(Constants.ASSIGNER_EXTRA, chatAssigners.get(position));
+                    intentContact.putExtra(Constants.ASSIGNER_EXTRA, getAssigners(taskResponse, pos).get(position));
                     ((BaseActivity) context).startActivity(intentContact, TransitionScreen.DOWN_TO_UP);
                 }
 
@@ -151,24 +147,32 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
             if (assigner.getFullName().equals(R.string.group_chat)) {
                 b = true;
             }
-
         }
-        LogUtils.d(TAG, "Check b" + b);
         return b;
     }
 
-//    private int getCountRoomUnRead() {
-//        int result = 0;
-//
-//        for (int i = 0; i < messages.size(); i++) {
-//
-//            LogUtils.d(TAG, "getCountRoomUnRead messsage " + i + " : " + messages.get(i).toString());
-//
-//            if ((messages.get(i).getReads() == null && messages.get(i).getId() != null) || (messages.get(i).getReads() != null && !messages.get(i).getReads().containsKey(String.valueOf(UserManager.getMyUser().getId()))))
-//                result++;
-//        }
-//
-//        return result;
-//    }
+    private List<Assigner> getAssigners(TaskResponse taskResponse, int pos) {
+        final List<Assigner> chatAssigners = new ArrayList<>();
+        if (UserManager.getMyUser().getId() == taskResponse.getPoster().getId())
+            chatAssigners.addAll(taskResponse.getAssignees());
+        else {
+            Assigner assigner = new Assigner();
+            assigner.setId(taskResponse.getPoster().getId());
+            assigner.setFullName(taskResponse.getPoster().getFullName());
+            assigner.setPhone(taskResponse.getPoster().getPhone());
+            chatAssigners.add(assigner);
+        }
+        if (!checkGroup(chatAssigners, pos))
+            addGroup(chatAssigners, taskResponse);
+        return chatAssigners;
+    }
+
+    public void killListener() {
+        if (messageCloudEndPoint != null && messageListener != null)
+            messageCloudEndPoint.removeEventListener(messageListener);
+        if (messageGroupCloudEndPoint != null && messageListener != null)
+            messageGroupCloudEndPoint.removeEventListener(messageListener);
+
+    }
 
 }

@@ -48,6 +48,16 @@ public class PreferUtils {
         editor.apply();
     }
 
+    public static boolean isPushPrivateShow(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
+        return preferences.getBoolean(PREFER_PUSH_SHOW, true);
+    }
+
+    public static void setPushPrivateShow(Context context, boolean isPush) {
+        Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(PREFER_PUSH_SHOW, isPush);
+        editor.apply();
+    }
     public static boolean isPushDeny(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
         return preferences.getBoolean(PREFER_PUSH_DENY, false);

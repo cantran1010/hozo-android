@@ -153,41 +153,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             }
         });
 
-        //--------list member assiger-----------
-        assignersListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.getChildrenCount() > 0) {
-                    addGroup(chatAssigners);
-                    chatPrivateAdapter.notifyDataSetChanged();
-                    if (assignersReference != null)
-                        assignersReference.removeEventListener(assignersListener);
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-
-        assignersReference = FirebaseDatabase.getInstance().getReference().child("task-messages").child(String.valueOf(taskResponse.getId()));
-        assignersReference.addChildEventListener(assignersListener);
+        groupListener();
 
         //--------list chat assiger-----------
 
@@ -229,6 +195,43 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         messageReference = FirebaseDatabase.getInstance().getReference();
         messageReference.child("private-messages").child(String.valueOf(taskResponse.getId())).addChildEventListener(messageListener);
 
+    }
+
+    private void groupListener() {
+        //--------list member assiger-----------
+        assignersListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                LogUtils.d(TAG, "dataSnapshot-getChildrenCount" + dataSnapshot.getChildrenCount());
+                if (dataSnapshot.getChildrenCount() > 0 && (chatAssigners.size() == 0 || chatAssigners.get(0).getId() != taskResponse.getId())) {
+                    addGroup(chatAssigners);
+                    chatPrivateAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        assignersReference = FirebaseDatabase.getInstance().getReference().child("task-messages").child(String.valueOf(taskResponse.getId()));
+        assignersReference.addChildEventListener(assignersListener);
     }
 
     private void checkTask() {
@@ -305,7 +308,19 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         groupTaskReference.addChildEventListener(groupTaskListener);
     }
 
-    private final BroadcastReceiver broadcastReceiverSmsCount = new BroadcastReceiver() {
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.d(TAG, "onActivityResult , requestCode : " + requestCode + " , resultCode : " + resultCode);
+        if (requestCode == Constants.REQUEST_CODE_CHAT && resultCode == Constants.RESULT_CODE_CHAT) {
+            groupListener();
+        }
+
+
+    }
+
+    private final BroadcastReceiver broadcastCountNewMsg = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -320,7 +335,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void resumeData() {
-        registerReceiver(broadcastReceiverSmsCount, new IntentFilter(Constants.BROAD_CAST_PUSH_CHAT_COUNT));
+        registerReceiver(broadcastCountNewMsg, new IntentFilter(Constants.BROAD_CAST_PUSH_CHAT_COUNT));
         LogUtils.d(TAG, "ChatFragment resumeData start");
 
     }
@@ -341,11 +356,12 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     public void onStop() {
         super.onStop();
         try {
-            unregisterReceiver(broadcastReceiverSmsCount);
+            unregisterReceiver(broadcastCountNewMsg);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     private void doCall() {
         if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             Intent intent = new Intent(this, ContactActivity.class);

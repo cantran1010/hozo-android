@@ -292,6 +292,7 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.img_edit:
                 edtBudget.setEnabled(true);
+                edtBudget.requestFocus();
                 if (edtBudget.length() > 4)
                     edtBudget.setSelection(edtBudget.length() - 4);
                 showSoftKeyboard(this, edtBudget);
