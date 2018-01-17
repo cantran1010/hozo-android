@@ -5,11 +5,13 @@
     android:layout_marginLeft="30dp"
     android:layout_marginRight="30dp"
     android:background="@color/transparent"
+    android:gravity="center"
     android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:background="@drawable/popup_map_detail">
