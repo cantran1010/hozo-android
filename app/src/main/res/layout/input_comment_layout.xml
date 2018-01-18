@@ -79,6 +79,7 @@
                     android:background="@null"
                     android:gravity="top"
                     android:hint="@string/type_your_text"
+                    android:imeOptions="actionSend"
                     android:inputType="textCapSentences"
                     android:minHeight="50dp"
                     android:paddingBottom="5dp"

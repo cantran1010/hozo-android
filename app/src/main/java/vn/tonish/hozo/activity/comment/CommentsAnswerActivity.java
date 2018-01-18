@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
@@ -73,7 +74,7 @@ public class CommentsAnswerActivity extends BaseTouchActivity implements View.On
     private RecyclerView lvList;
     private EdittextHozo edtComment;
     private RelativeLayout imgLayout;
-    private LinearLayout layoutFooter;
+    private CardView layoutFooter;
     private ImageView imgAttached;
     private List<Comment> mComments;
     private int tempId = 0;
@@ -99,7 +100,7 @@ public class CommentsAnswerActivity extends BaseTouchActivity implements View.On
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         edtComment = (EdittextHozo) findViewById(R.id.edt_comment);
         imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
-        layoutFooter = (LinearLayout) findViewById(R.id.layout_footer);
+        layoutFooter = (CardView) findViewById(R.id.layout_footer);
         imgAttached = (ImageView) findViewById(R.id.img_attached);
         ImageView imgDelete = (ImageView) findViewById(R.id.img_delete);
         ImageView imgComment = (ImageView) findViewById(R.id.img_send);

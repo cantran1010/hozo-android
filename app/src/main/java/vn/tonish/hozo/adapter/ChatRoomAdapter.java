@@ -34,6 +34,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
     private final List<TaskResponse> tasks;
     private Context context;
     public ChatPrivateAdapter chatPrivateAdapter;
+
     public interface ChatRoomListener {
         void onClick(int position);
     }
@@ -114,7 +115,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
                 if (position == 0) {
                     Intent intentContact = new Intent(context, ChatActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-                    ((BaseActivity) context).startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
+                    ((BaseActivity) context).startActivity(intentContact, TransitionScreen.DOWN_TO_UP);
                 } else {
                     Intent intentContact = new Intent(context, ChatPrivateActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);

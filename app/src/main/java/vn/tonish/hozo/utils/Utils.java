@@ -148,7 +148,6 @@ public class Utils {
     }
 
     public static void hideKeyBoard(Activity context) {
-
         if (context == null) return;
         View view = context.getCurrentFocus();
         if (view != null) {

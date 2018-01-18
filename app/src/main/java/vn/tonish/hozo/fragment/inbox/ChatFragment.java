@@ -53,7 +53,6 @@ public class ChatFragment extends BaseFragment {
     protected void initView() {
         rcvChatRooms = (RecyclerView) findViewById(R.id.rcv_chat_rooms);
         tvNoData = (TextViewHozo) findViewById(R.id.tv_no_data);
-
         createSwipeToRefresh();
     }
 
@@ -65,19 +64,12 @@ public class ChatFragment extends BaseFragment {
     @Override
     protected void resumeData() {
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_CHAT));
-
-//        LogUtils.d(TAG, "ChatFragment resumeData start");
-//        try {
-//            getChatRooms();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        chatRoomAdapter.killAdapter();
         try {
             getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
         } catch (Exception e) {
@@ -179,6 +171,14 @@ public class ChatFragment extends BaseFragment {
         getChatRooms();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQUEST_CODE_CHAT && resultCode == Constants.RESULT_CODE_CHAT) {
+            onRefresh();
+        }
+    }
+
     private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -188,16 +188,5 @@ public class ChatFragment extends BaseFragment {
         }
     };
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (chatRoomAdapter != null) chatRoomAdapter.killAdapter();
 
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        chatRoomAdapter.killAdapter();
-    }
 }

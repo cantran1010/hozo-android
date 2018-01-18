@@ -83,11 +83,11 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     private DatabaseReference messageCloudEndPoint;
     private TextViewHozo tvTitle, tvMember;
     private boolean isLoading = false;
-
     private static final int PAGE_COUNT = 11;
     private ValueEventListener valueEventListener;
     private ChildEventListener childEventListener;
     private ChildEventListener memberEventListener;
+    private ChildEventListener groupTaskListener;
     private Query recentPostsQuery = null;
     private ImageView imgMenu;
     private DatabaseReference memberCloudEndPoint;
@@ -95,6 +95,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     private String imgPath = null;
     private File fileAttach;
     private Assigner ass;
+    private DatabaseReference groupTaskReference;
 
 
     @Override
@@ -138,6 +139,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
         LogUtils.d(TAG, "initData , taskResponse : " + taskResponse.toString());
         String result = getString(R.string.you) + " " + ass.getFullName();
         tvMember.setText(result);
+        checkTask();
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
         messageCloudEndPoint = myRef.child("private-messages").child(String.valueOf(taskId)).child(sortID(ass.getId()));
         setUpMessageList();
@@ -155,7 +157,6 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                 LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
                 if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
                     Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.kick_out_chat_content), true, false);
-                    setResult(Constants.RESULT_CODE_CHAT);
                     finish();
                 }
 
@@ -247,6 +248,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                 Map<String, Boolean> map = new HashMap<>();
                 map.put(String.valueOf(UserManager.getMyUser().getId()), Boolean.TRUE);
                 messageCloudEndPoint.child(dataSnapshot.getKey()).child("reads").child(String.valueOf(UserManager.getMyUser().getId())).setValue(true);
+                setResult(Constants.RESULT_CODE_CHAT);
             }
 
             @Override
@@ -479,6 +481,80 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
 
     }
 
+    private void checkTask() {
+        LogUtils.d(TAG, "checkTask start , task id : " + taskId);
+        groupTaskListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                switch (dataSnapshot.getKey()) {
+                    case "block":
+                        boolean block = (boolean) dataSnapshot.getValue();
+                        if (block) {
+                            Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.block_task), true, false);
+                            finish();
+                        }
+                        break;
+                    case "close":
+                        boolean close = (boolean) dataSnapshot.getValue();
+                        if (close) {
+                            Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.close_task), true, false);
+                            finish();
+                        }
+                        break;
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                LogUtils.d(TAG, "checkTask members  add, task id : " + dataSnapshot.toString());
+                switch (dataSnapshot.getKey()) {
+                    case "block":
+                        boolean block = (boolean) dataSnapshot.getValue();
+                        if (block) {
+                            Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.block_task), true, false);
+                            finish();
+                        }
+                        break;
+                    case "close":
+                        boolean close = (boolean) dataSnapshot.getValue();
+                        if (close) {
+                            Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.close_task), true, false);
+                            finish();
+                        }
+                        break;
+                    case "members":
+                        Map<String, Boolean> members = (Map<String, Boolean>) dataSnapshot.getValue();
+                        if (members.containsKey(String.valueOf(posterId)) && !members.get(String.valueOf(posterId))) {
+                            Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.kick_out_task_content), true, false);
+                            finish();
+                        }
+
+                        break;
+
+                }
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        groupTaskReference = FirebaseDatabase.getInstance().getReference().child("groups-task").child(String.valueOf(taskId));
+        groupTaskReference.addChildEventListener(groupTaskListener);
+    }
+
 
     private void doChat(String chat, int type) {
         if (chat.equals("")) {
@@ -545,6 +621,8 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
             messageCloudEndPoint.removeEventListener(childEventListener);
         if (memberEventListener != null)
             memberCloudEndPoint.removeEventListener(memberEventListener);
+        if (groupTaskListener != null && groupTaskReference != null)
+            groupTaskReference.removeEventListener(groupTaskListener);
     }
 
     private void showMenu() {
