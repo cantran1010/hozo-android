@@ -65,19 +65,38 @@
                     android:text="@string/withdrawal_des"
                     android:textColor="@color/tv_gray" />
 
-                <vn.tonish.hozo.view.EdittextHozo
-                    android:id="@+id/edt_money"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:background="@null"
                     android:gravity="center"
-                    android:inputType="number"
-                    android:maxLength="11"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="36sp" />
+                    android:orientation="horizontal">
+
+                    <vn.tonish.hozo.view.EdittextHozo
+                        android:id="@+id/edt_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:minWidth="100dp"
+                        android:textColor="@color/black"
+                        android:textSize="35sp" />
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="0dp"
+                        android:text="@string/unit"
+                        android:textColor="@color/tv_black_new"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
