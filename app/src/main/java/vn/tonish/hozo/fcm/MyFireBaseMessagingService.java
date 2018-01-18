@@ -75,7 +75,6 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
     // [END receive_message]
 
     private void sendNotification(Notification notification) {
-
         // fix crash on crashlytic
         if (!UserManager.checkLogin()) return;
         if (notification == null || notification.getEvent() == null) return;
@@ -175,18 +174,9 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
                 break;
             }
-//            case Constants.PUSH_TYPE_CHAT: {
-//                Intent intentPushCount = new Intent();
-//                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-//                sendBroadcast(intentPushCount);
-//                break;
-//            }
-//            case Constants.PUSH_TYPE_PRIVATE_CHAT: {
-//                Intent intentPushCount = new Intent();
-//                intentPushCount.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-//                sendBroadcast(intentPushCount);
-//                break;
-//            }
+            case Constants.PUSH_TYPE_CHAT:
+            case Constants.PUSH_TYPE_PRIVATE_CHAT:
+                break;
 
             default: {
                 PreferUtils.setNewPushCount(getApplicationContext(), PreferUtils.getNewPushCount(getApplicationContext()) + 1);
