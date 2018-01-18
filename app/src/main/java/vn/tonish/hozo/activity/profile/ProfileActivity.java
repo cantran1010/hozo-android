@@ -265,25 +265,19 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private void updateUi() {
         if (mUserEntity != null) {
             LogUtils.d(TAG, "updateUi , mUserEntity : " + mUserEntity.toString());
-
             ratingPoster = mUserEntity.getPosterAverageRating();
             rateCountPoster = mUserEntity.getPosterReviewCount();
             retaCountWorker = mUserEntity.getTaskerReviewCount();
-            taskPostPoster = mUserEntity.getPosterDoneCount();
-            taskPostWorker = mUserEntity.getTaskerDoneCount();
+            taskPostPoster = mUserEntity.getPosterCount();
+            taskPostWorker = mUserEntity.getTaskerCount();
             percentDonePoster = mUserEntity.getPosterDoneRate();
             percentDoneWorker = mUserEntity.getTaskerDoneRate();
             ratingTasker = mUserEntity.getTaskerAverageRating();
-
             Utils.displayImageAvatar(getApplicationContext(), imgAvatar, mUserEntity.getAvatar());
-
             tvName.setText(mUserEntity.getFullName());
-
             if (!TextUtils.isEmpty(mUserEntity.getBackground()))
                 Utils.displayImage(this, imgBackground, mUserEntity.getBackground());
-
             String genderAge = "";
-
             if (isMyUser) {
                 if (mUserEntity.getDateOfBirth().equals("0001-01-01")) {
                     genderAge = Utils.converGenderVn(this, mUserEntity.getGender());
@@ -309,9 +303,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     }
                 }
             }
-
             tvDateOfBirth.setText(genderAge);
-
             tvCountActivity.setText(getString(R.string.count_activity, mUserEntity.getActivitiesCount()));
             tvCountFollow.setText(getString(R.string.count_follow, mUserEntity.getFollowersCount()));
 

@@ -27,6 +27,8 @@ public class Bidder implements Serializable {
     @SerializedName("tasker_done_rate")
     private float posterDoneRate;
     private int price;
+    @SerializedName("tasker_count")
+    private int taskerCount;
 
     public int getPrice() {
         return price;
@@ -124,6 +126,13 @@ public class Bidder implements Serializable {
         this.phone = phone;
     }
 
+    public int getTaskerCount() {
+        return taskerCount;
+    }
+
+    public void setTaskerCount(int taskerCount) {
+        this.taskerCount = taskerCount;
+    }
 
     @Override
     public String toString() {
@@ -140,6 +149,7 @@ public class Bidder implements Serializable {
                 ", emailActive=" + emailActive +
                 ", posterDoneRate=" + posterDoneRate +
                 ", price=" + price +
+                ", taskerCount=" + taskerCount +
                 '}';
     }
 }

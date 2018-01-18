@@ -40,6 +40,16 @@ public class Assigner implements Serializable {
     private boolean ratingConfirm;
     private int price;
     private boolean read;
+    @SerializedName("tasker_count")
+    private int taskerCount;
+
+    public int getTaskerCount() {
+        return taskerCount;
+    }
+
+    public void setTaskerCount(int taskerCount) {
+        this.taskerCount = taskerCount;
+    }
 
     public boolean isRatingConfirm() {
         return ratingConfirm;
@@ -225,6 +235,7 @@ public class Assigner implements Serializable {
                 ", ratingConfirm=" + ratingConfirm +
                 ", price=" + price +
                 ", read=" + read +
+                ", taskerCount=" + taskerCount +
                 '}';
     }
 }

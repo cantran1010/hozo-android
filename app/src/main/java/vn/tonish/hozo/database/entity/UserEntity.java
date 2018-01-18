@@ -54,7 +54,6 @@ public class UserEntity extends RealmObject implements Serializable {
     private float posterDoneRate;
     private double latitude;
     private double longitude;
-
     //    // version 1.8.0
     private RealmList<TagResponse> skills;
     private RealmList<TagResponse> languages;
@@ -73,6 +72,26 @@ public class UserEntity extends RealmObject implements Serializable {
     private String background;
     @SerializedName("referrer_phone")
     private String referrerPhone;
+    @SerializedName("tasker_count")
+    private int taskerCount;
+    @SerializedName("poster_count")
+    private int posterCount;
+
+    public int getTaskerCount() {
+        return taskerCount;
+    }
+
+    public void setTaskerCount(int taskerCount) {
+        this.taskerCount = taskerCount;
+    }
+
+    public int getPosterCount() {
+        return posterCount;
+    }
+
+    public void setPosterCount(int posterCount) {
+        this.posterCount = posterCount;
+    }
 
     public String getBackground() {
         return background;
@@ -424,6 +443,8 @@ public class UserEntity extends RealmObject implements Serializable {
                 ", followed=" + followed +
                 ", background='" + background + '\'' +
                 ", referrerPhone='" + referrerPhone + '\'' +
+                ", taskerCount=" + taskerCount +
+                ", posterCount=" + posterCount +
                 '}';
     }
 }

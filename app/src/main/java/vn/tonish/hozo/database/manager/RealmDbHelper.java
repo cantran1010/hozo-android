@@ -39,7 +39,7 @@ public class RealmDbHelper {
         if (realmConfiguration == null)
             realmConfiguration = new RealmConfiguration.Builder()
                     .name(Constants.DB_NAME)
-                    .schemaVersion(4)
+                    .schemaVersion(5)
                     .migration(migration)
 //                    .deleteRealmIfMigrationNeeded()
                     .encryptionKey(Base64.decode(key, Base64.DEFAULT))
@@ -104,7 +104,6 @@ public class RealmDbHelper {
                         .addField("maxWorkerRate", int.class)
                         .addField("address", String.class)
                         .addRealmListField("keywords", schema.get("RealmString"));
-
                 schema.get("UserEntity")
                         .addField("latitude", double.class)
                         .addField("longitude", double.class);
@@ -165,6 +164,12 @@ public class RealmDbHelper {
 
                 //noinspection UnusedAssignment
                 oldVersion++;
+            }
+            if (oldVersion == 4) {
+                oldVersion++;
+                schema.get("UserEntity")
+                        .addField("taskerCount", int.class)
+                        .addField("posterCount", int.class);
             }
         }
     };

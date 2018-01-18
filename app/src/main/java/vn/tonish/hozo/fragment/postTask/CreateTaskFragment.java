@@ -172,10 +172,10 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
         } catch (GooglePlayServicesRepairableException e) {
             LogUtils.d(TAG, "GooglePlayServicesRepairableException" + e.toString());
-            autocompleteView.setError(getString(R.string.post_task_map_get_location_error_next));
+            Utils.showLongToast(getContext(), getString(R.string.post_task_map_get_location_error_next), true, false);
         } catch (GooglePlayServicesNotAvailableException e) {
             LogUtils.d(TAG, "GooglePlayServicesNotAvailableException" + e.toString());
-            autocompleteView.setError(getString(R.string.post_task_map_get_location_error_next));
+            Utils.showLongToast(getContext(), getString(R.string.post_task_map_get_location_error_next), true, false);
         }
     }
 
@@ -290,7 +290,7 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             edtWorkName.setError(getString(R.string.post_a_task_name_error));
         } else if (!checkBoxHozo.isChecked() && !validAdress()) {
             autocompleteView.requestFocus();
-            autocompleteView.setError(getString(R.string.post_task_address_error_google));
+            Utils.showLongToast(getContext(), getString(R.string.post_task_address_error_google), true, false);
             address = "";
             lat = 0;
             lon = 0;
@@ -370,7 +370,7 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(getContext(), data);
                 LogUtils.d(TAG, status.getStatusMessage());
-                autocompleteView.setError(getString(R.string.post_task_map_get_location_error_next));
+                Utils.showLongToast(getContext(), getString(R.string.post_task_map_get_location_error_next), true, false);
             }
         }
     }
