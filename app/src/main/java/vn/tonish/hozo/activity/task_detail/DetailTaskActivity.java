@@ -16,8 +16,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +27,7 @@ import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -286,6 +289,28 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         taskId = intent.getIntExtra(Constants.TASK_ID_EXTRA, 0);
         if (intent.hasExtra(Constants.EVENT_NOTIFICATION_EXTRA))
             notificationEvent = intent.getStringExtra(Constants.EVENT_NOTIFICATION_EXTRA);
+        edtComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                boolean handler = false;
+                if (i == EditorInfo.IME_ACTION_SEND) {
+                    if (moreDetailLayout.getVisibility() == View.VISIBLE) {
+                        moreDetailVisibility = View.VISIBLE;
+                    } else
+                        moreDetailVisibility = View.GONE;
+
+                    if (moreFooterLayout.getVisibility() == View.VISIBLE) {
+                        moreDFooterVisibility = View.VISIBLE;
+                    } else
+                        moreDFooterVisibility = View.GONE;
+
+                    doSend();
+                    handler = true;
+                }
+                return handler;
+
+            }
+        });
     }
 
     @Override
@@ -1382,7 +1407,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
 
     private void doFollowTask() {
-
         if (taskResponse.isFollowed()) {
             ProgressDialogUtils.showProgressDialog(DetailTaskActivity.this);
 

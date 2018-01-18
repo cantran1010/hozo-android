@@ -70,7 +70,6 @@ import vn.tonish.hozo.view.TextViewHozo;
  */
 
 public class ChatActivity extends BaseTouchActivity implements View.OnClickListener {
-
     private static final String TAG = ChatActivity.class.getSimpleName();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private RecyclerView rcvMessage;
@@ -88,9 +87,11 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     private ValueEventListener valueEventListener;
     private ChildEventListener childEventListener;
     private ChildEventListener memberEventListener;
+    private ChildEventListener groupTaskListener;
     private Query recentPostsQuery = null;
     private ImageView imgMenu;
     private DatabaseReference memberCloudEndPoint;
+    private DatabaseReference groupTaskReference;
     private TaskResponse taskResponse;
     private RelativeLayout mainLayout;
     private String imgPath = null;
@@ -131,6 +132,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         taskId = taskResponse.getId();
         posterId = taskResponse.getPoster().getId();
         tvTitle.setText(taskResponse.getTitle());
+        checkTask();
         LogUtils.d(TAG, "initData , taskResponse : " + taskResponse.toString());
         tvMember.setText(Utils.getMemberChat(this, taskResponse));
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
@@ -512,6 +514,80 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
     }
 
+    private void checkTask() {
+        LogUtils.d(TAG, "checkTask start , task id : " + taskResponse.getId());
+        groupTaskListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                switch (dataSnapshot.getKey()) {
+                    case "block":
+                        boolean block = (boolean) dataSnapshot.getValue();
+                        if (block) {
+                            Utils.showLongToast(ChatActivity.this, getString(R.string.block_task), true, false);
+                            finish();
+                        }
+                        break;
+                    case "close":
+                        boolean close = (boolean) dataSnapshot.getValue();
+                        if (close) {
+                            Utils.showLongToast(ChatActivity.this, getString(R.string.close_task), true, false);
+                            finish();
+                        }
+                        break;
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                LogUtils.d(TAG, "checkTask members  add, task id : " + dataSnapshot.toString());
+                switch (dataSnapshot.getKey()) {
+                    case "block":
+                        boolean block = (boolean) dataSnapshot.getValue();
+                        if (block) {
+                            Utils.showLongToast(ChatActivity.this, getString(R.string.block_task), true, false);
+                            finish();
+                        }
+                        break;
+                    case "close":
+                        boolean close = (boolean) dataSnapshot.getValue();
+                        if (close) {
+                            Utils.showLongToast(ChatActivity.this, getString(R.string.close_task), true, false);
+                            finish();
+                        }
+                        break;
+                    case "members":
+                        Map<String, Boolean> members = (Map<String, Boolean>) dataSnapshot.getValue();
+                        if (members.containsKey(String.valueOf(taskResponse.getPoster().getId())) && !members.get(String.valueOf(taskResponse.getPoster().getId()))) {
+                            Utils.showLongToast(ChatActivity.this, getString(R.string.kick_out_task_content), true, false);
+                            finish();
+                        }
+
+                        break;
+
+                }
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        groupTaskReference = FirebaseDatabase.getInstance().getReference().child("groups-task").child(String.valueOf(taskResponse.getId()));
+        groupTaskReference.addChildEventListener(groupTaskListener);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -558,6 +634,8 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
             messageCloudEndPoint.removeEventListener(childEventListener);
         if (memberEventListener != null)
             memberCloudEndPoint.removeEventListener(memberEventListener);
+        if (groupTaskListener != null && groupTaskReference != null)
+            groupTaskReference.removeEventListener(groupTaskListener);
     }
 
     private void showMenu() {

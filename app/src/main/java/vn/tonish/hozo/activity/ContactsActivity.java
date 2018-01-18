@@ -39,7 +39,6 @@ import static vn.tonish.hozo.utils.Utils.sortID;
  */
 
 public class ContactsActivity extends BaseActivity implements View.OnClickListener {
-
     private static final String TAG = ContactsActivity.class.getSimpleName();
     private TaskResponse taskResponse;
     private final List<Assigner> assigners = new ArrayList<>();
@@ -117,7 +116,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                 if (position == 0) {
                     Intent intentContact = new Intent(ContactsActivity.this, ChatActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-                    startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
+                    startActivity(intentContact, TransitionScreen.DOWN_TO_UP);
                 } else {
                     Intent intentContact = new Intent(ContactsActivity.this, ChatPrivateActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
@@ -141,7 +140,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                 if (chatAssigners.get(position).getId() == taskResponse.getId() && chatAssigners.get(position).getFullName().equalsIgnoreCase(getString(R.string.group_chat))) {
                     Intent intentContact = new Intent(ContactsActivity.this, ChatActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-                    startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
+                    startActivity(intentContact, TransitionScreen.DOWN_TO_UP);
                 } else {
                     Intent intentContact = new Intent(ContactsActivity.this, ChatPrivateActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
@@ -307,18 +306,6 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         groupTaskReference.addChildEventListener(groupTaskListener);
     }
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        LogUtils.d(TAG, "onActivityResult , requestCode : " + requestCode + " , resultCode : " + resultCode);
-        if (requestCode == Constants.REQUEST_CODE_CHAT && resultCode == Constants.RESULT_CODE_CHAT) {
-            groupListener();
-        }
-
-
-    }
-
     private final BroadcastReceiver broadcastCountNewMsg = new BroadcastReceiver() {
 
         @Override
@@ -340,8 +327,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
         if (assignersListener != null && assignersReference != null)
             assignersReference.removeEventListener(assignersListener);
         if (messageListener != null && messageReference != null)
@@ -349,11 +336,6 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         if (groupTaskListener != null && groupTaskReference != null)
             groupTaskReference.removeEventListener(groupTaskListener);
         chatPrivateAdapter.killListener();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
         try {
             unregisterReceiver(broadcastCountNewMsg);
         } catch (Exception e) {

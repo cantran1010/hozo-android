@@ -10,12 +10,12 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import org.json.JSONException;
@@ -80,7 +80,7 @@ public class CommentAllActivity extends BaseTouchActivity implements View.OnClic
     private ImageView imgAttached;
     private File fileAttach;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private LinearLayout layoutFooter;
+    private CardView layoutFooter;
     private Call<List<Comment>> call;
     private int taskId = 0;
     private int posterId = 0;
@@ -109,8 +109,7 @@ public class CommentAllActivity extends BaseTouchActivity implements View.OnClic
         imgAttached.setOnClickListener(this);
         imgComment.setOnClickListener(this);
         imgDelete.setOnClickListener(this);
-
-        layoutFooter = (LinearLayout) findViewById(R.id.layout_footer);
+        layoutFooter = (CardView) findViewById(R.id.layout_footer);
     }
 
 

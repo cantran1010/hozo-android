@@ -68,6 +68,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static int countNewTask = 0;
     private Call<NewTaskResponse> call;
 
+
     @Override
     protected int getLayout() {
         return R.layout.activity_main;
@@ -336,7 +337,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onDestroy();
         if (call != null) call.cancel();
         timer.cancel();
+        removeFragment(SelectTaskFragment.class);
+        removeFragment(BrowseTaskFragment.class);
+        removeFragment(MyTaskFragment.class);
+        removeFragment(NotificationFragment.class);
+        removeFragment(SettingFragment.class);
+
     }
+
 
     @Override
     public void onClick(View v) {
