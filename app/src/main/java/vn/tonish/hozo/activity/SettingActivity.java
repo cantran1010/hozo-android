@@ -988,7 +988,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
         autocompleteView.setText(address);
         tvLocation.setText(address);
-        keywords.clear();
+        if (keywords != null) keywords.clear();
+        else keywords = new ArrayList<>();
         keyWordAdapter.notifyDataSetChanged();
         setTextForKeyWord();
         edtKeyword.setText("");
