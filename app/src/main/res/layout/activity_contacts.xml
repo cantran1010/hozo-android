@@ -97,7 +97,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/hozo_bg"
+        android:textColor="@color/tv_black_new"
         android:textSize="@dimen/tv_size_lager"
         android:textStyle="bold" />
 

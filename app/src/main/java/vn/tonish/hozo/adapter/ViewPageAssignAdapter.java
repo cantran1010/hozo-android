@@ -292,7 +292,7 @@ public class ViewPageAssignAdapter extends PagerAdapter {
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     assignerCount = response.body().getAssigneeCount();
                     Utils.showLongToast(context, context.getString(R.string.assiger_done), false, false);
-                    textViewHozo.setText(assignerCount);
+                    textViewHozo.setText(String.valueOf(assignerCount));
                     progressBar.setProgress(assignerCount);
                     tvAss.setEnabled(false);
                     tvAss.setText(context.getString(R.string.assigned_done));
