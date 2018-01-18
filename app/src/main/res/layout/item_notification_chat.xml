@@ -32,6 +32,8 @@
             android:layout_toLeftOf="@+id/tv_date"
             android:layout_toRightOf="@+id/tv_group"
             android:layout_toStartOf="@+id/tv_date"
+            android:background="?android:attr/selectableItemBackground"
+            android:focusable="true"
             android:paddingEnd="5dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
