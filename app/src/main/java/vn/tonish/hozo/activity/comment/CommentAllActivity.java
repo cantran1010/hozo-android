@@ -55,6 +55,7 @@ import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.PxUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
@@ -483,11 +484,11 @@ public class CommentAllActivity extends BaseTouchActivity implements View.OnClic
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
             imgPath = imagesSelected.get(0).getPath();
-            Utils.displayImage(CommentAllActivity.this, imgAttached, imgPath);
+            Utils.displayImageRounded(this, imgAttached, imgPath, (int) PxUtils.pxFromDp(this, 10), 0);
             imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
-            Utils.displayImage(CommentAllActivity.this, imgAttached, imgPath);
+            Utils.displayImageRounded(this, imgAttached, imgPath, (int) PxUtils.pxFromDp(this, 10), 0);
             imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
         } else if (requestCode == Constants.COMMENT_REQUEST_CODE && resultCode == Constants.COMMENT_RESPONSE_CODE) {

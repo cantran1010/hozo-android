@@ -21,6 +21,7 @@ import vn.tonish.hozo.dialog.ReportDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PxUtils;
 import vn.tonish.hozo.utils.Utils;
 
 /**
@@ -62,14 +63,12 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
         layoutInflater.inflate(R.layout.view_comment, this, true);
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
-
         tvName = (TextViewHozo) findViewById(R.id.tv_name);
         tvComment = (TextViewHozo) findViewById(R.id.tv_comment);
         tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
         imgSetting = (ImageView) findViewById(R.id.img_setting);
         imgAttach = (ImageView) findViewById(R.id.img_attach_show);
         imgAttach.setOnClickListener(this);
-
         imgSetting.setOnClickListener(this);
         tvPoster = findViewById(R.id.tv_poster);
     }
@@ -83,14 +82,11 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
         tvComment.setText(comment.getBody());
         tvTimeAgo.setText(DateTimeUtils.getTimeAgo(comment.getCreatedAt(), getContext()));
         LogUtils.d(TAG, "update Data time ago : " + DateTimeUtils.getTimeAgo(comment.getCreatedAt(), getContext()));
-
         if (comment.getBody().equals("")) tvComment.setVisibility(View.GONE);
-
         if (comment.getImgAttach() != null && !comment.getImgAttach().trim().equals("") && !comment.getImgAttach().equals("null")) {
             imgAttach.setVisibility(View.VISIBLE);
-            Utils.displayImage(getContext(), imgAttach, comment.getImgAttach());
+            Utils.displayImageRounded(getContext(), imgAttach, comment.getImgAttach(), (int) PxUtils.pxFromDp(getContext(), 10), 0);
         } else imgAttach.setVisibility(View.GONE);
-
         if (getCommentType() == View.VISIBLE && comment.getAuthorId() != UserManager.getMyUser().getId())
             imgSetting.setVisibility(View.VISIBLE);
         else
@@ -109,39 +105,32 @@ public class CommentView extends LinearLayout implements View.OnClickListener {
             case R.id.img_setting:
                 showPopupMenu();
                 break;
-
             case R.id.img_avatar:
                 Intent intent = new Intent(getContext(), ProfileActivity.class);
                 intent.putExtra(Constants.USER_ID, comment.getAuthorId());
                 intent.putExtra(Constants.IS_MY_USER, comment.getAuthorId() == UserManager.getMyUser().getId());
                 getContext().startActivity(intent);
                 break;
-
             case R.id.img_attach_show:
                 Intent intentViewImage = new Intent(getContext(), PreviewImageActivity.class);
                 intentViewImage.putExtra(Constants.EXTRA_IMAGE_PATH, comment.getImgAttach());
                 getContext().startActivity(intentViewImage);
                 break;
-
         }
     }
 
     private void showPopupMenu() {
         //Creating the instance of PopupMenu
         PopupMenu popup = new PopupMenu(getContext(), imgSetting);
-
         //Inflating the Popup using xml file
         popup.getMenuInflater().inflate(R.menu.menu_comment, popup.getMenu());
-
 //        if (TaskManager.getTaskById(comment.getTaskId()).getPoster().getId() == UserManager.getMyUser().getId())
 //            popup.getMenu().findItem(R.id.answer).setVisible(true);
 //        else
 //            popup.getMenu().findItem(R.id.answer).setVisible(false);
-
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-
                 switch (item.getItemId()) {
 
                     case R.id.report:

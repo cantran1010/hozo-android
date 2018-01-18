@@ -21,6 +21,7 @@ import vn.tonish.hozo.dialog.ReportDialog;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PxUtils;
 import vn.tonish.hozo.utils.Utils;
 
 /**
@@ -95,29 +96,23 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
 
     public void updateData(final Comment comment) {
         LogUtils.d(TAG, "update Data comment : " + comment.toString());
-
         this.comment = comment;
         Utils.displayImageAvatar(getContext(), imgAvatar, comment.getAvatar());
         tvName.setText(comment.getFullName());
         tvComment.setText(comment.getBody());
         tvTimeAgo.setText(DateTimeUtils.getTimeAgo(comment.getCreatedAt(), getContext()));
         LogUtils.d(TAG, "update Data time ago : " + DateTimeUtils.getTimeAgo(comment.getCreatedAt(), getContext()));
-
         if (comment.getBody().equals("")) tvComment.setVisibility(View.GONE);
-
         if (comment.getImgAttach() != null && !comment.getImgAttach().trim().equals("") && !comment.getImgAttach().equals("null")) {
             imgAttach.setVisibility(View.VISIBLE);
-            Utils.displayImage(getContext(), imgAttach, comment.getImgAttach());
+            Utils.displayImageRounded(getContext(), imgAttach, comment.getImgAttach(), (int) PxUtils.pxFromDp(getContext(), 10), 0);
         } else imgAttach.setVisibility(View.GONE);
-
         if (getCommentType() == View.VISIBLE) {
             imgSetting.setVisibility(View.VISIBLE);
             tvAnswer.setVisibility(View.VISIBLE);
-
             if (comment.getAuthorId() == UserManager.getMyUser().getId())
                 imgSetting.setVisibility(View.GONE);
             else imgSetting.setVisibility(View.VISIBLE);
-
         } else {
             imgSetting.setVisibility(View.GONE);
             tvAnswer.setVisibility(View.GONE);
@@ -127,17 +122,6 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
             tvPoster.setVisibility(VISIBLE);
         else
             tvPoster.setVisibility(GONE);
-
-//        if (getCommentCountVisibility() == View.GONE) {
-//            tvCommentCount.setVisibility(View.GONE);
-//        } else {
-//
-//            if (comment.getRepliesCount() > 2) {
-//                tvCommentCount.setText(getContext().getString(R.string.comment_count, comment.getRepliesCount() - 2));
-//                tvCommentCount.setVisibility(View.VISIBLE);
-//            } else
-//                tvCommentCount.setVisibility(View.GONE);
-//        }
 
     }
 

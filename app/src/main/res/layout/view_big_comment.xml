@@ -60,12 +60,13 @@
 
         <ImageView
             android:id="@+id/img_attach_show"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_marginTop="5dp"
             android:contentDescription="@string/just_image"
-            android:scaleType="centerCrop"
-            android:src="@drawable/avatar_default" />
+            android:scaleType="centerInside"
+            android:src="@drawable/image_placeholder"
+            />
 
         <RelativeLayout
             android:layout_width="match_parent"

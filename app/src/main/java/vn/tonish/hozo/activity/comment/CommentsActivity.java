@@ -55,6 +55,7 @@ import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.PxUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
@@ -110,7 +111,7 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initData() {
         taskId = getIntent().getExtras().getInt(Constants.TASK_ID_EXTRA);
-        commentType = getIntent().getIntExtra(Constants.COMMENT_STATUS_EXTRA,0);
+        commentType = getIntent().getIntExtra(Constants.COMMENT_STATUS_EXTRA, 0);
         int vilibisity = getIntent().getIntExtra(Constants.COMMENT_VISIBILITY, 0);
         LogUtils.d(TAG, "intent :" + taskId + ": " + commentType);
         setUpRecyclerView();
@@ -389,11 +390,11 @@ public class CommentsActivity extends BaseActivity implements View.OnClickListen
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
             imgPath = imagesSelected.get(0).getPath();
-            Utils.displayImage(CommentsActivity.this, imgAttached, imgPath);
+            Utils.displayImageRounded(this, imgAttached, imgPath, (int) PxUtils.pxFromDp(this, 10), 0);
             imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
-            Utils.displayImage(CommentsActivity.this, imgAttached, imgPath);
+            Utils.displayImageRounded(this, imgAttached, imgPath, (int) PxUtils.pxFromDp(this, 10), 0);
             imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
         }
