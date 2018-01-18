@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="20dp"
-    app:el_expanded="false">
+    app:el_expanded="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -107,22 +107,9 @@
             android:orientation="horizontal">
 
             <vn.tonish.hozo.view.RadioButtonHozo
-                android:id="@+id/rad_augment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/radio_button_background"
-                android:checked="false"
-                android:padding="10dp"
-                android:text="@string/augment"
-                android:textColor="@color/tv_gray_new"
-                android:textSize="@dimen/tv_size_medium" />
-
-            <vn.tonish.hozo.view.RadioButtonHozo
                 android:id="@+id/rad_reduction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
                 android:button="@drawable/radio_button_background"
                 android:checked="true"
                 android:padding="10dp"
@@ -130,6 +117,18 @@
                 android:textColor="@color/tv_gray_new"
                 android:textSize="@dimen/tv_size_medium" />
 
+            <vn.tonish.hozo.view.RadioButtonHozo
+                android:id="@+id/rad_augment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:button="@drawable/radio_button_background"
+                android:checked="false"
+                android:padding="10dp"
+                android:text="@string/augment"
+                android:textColor="@color/tv_gray_new"
+                android:textSize="@dimen/tv_size_medium" />
         </RadioGroup>
 
     </LinearLayout>

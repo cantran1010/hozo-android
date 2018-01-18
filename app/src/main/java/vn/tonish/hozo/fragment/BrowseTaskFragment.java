@@ -79,7 +79,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private TextViewHozo tvCountNewTask;
     private int currentPage = 1;
     private String orderBy = "";
-    private String order = Constants.ORDER_ASC;
+    private String order = Constants.ORDER_DESC;
 
     @Override
     protected int getLayout() {
