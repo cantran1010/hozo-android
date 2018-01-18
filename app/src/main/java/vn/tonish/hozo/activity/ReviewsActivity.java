@@ -94,7 +94,7 @@ public class ReviewsActivity extends BaseActivity implements View.OnClickListene
         LogUtils.d(TAG, "getReviews start");
         Map<String, String> params = new HashMap<>();
         if (since != null)
-            params.put("since", "");
+            params.put("since", since);
         params.put("limit", LIMIT + "");
 
         if (isTabPoster)
