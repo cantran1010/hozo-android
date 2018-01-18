@@ -198,6 +198,6 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        chatRoomAdapter.killListener();
+        chatRoomAdapter.killAdapter();
     }
 }

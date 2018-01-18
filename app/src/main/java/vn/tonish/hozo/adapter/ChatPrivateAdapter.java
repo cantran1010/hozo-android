@@ -40,13 +40,12 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
 
     private static final String TAG = ChatPrivateAdapter.class.getSimpleName();
     private final List<Assigner> assigners;
-    private Context context;
-    private List<Message> messages = new ArrayList<>();
-    private List<Message> messagesGroup = new ArrayList<>();
+    private final Context context;
+    private final List<Message> messages = new ArrayList<>();
     private DatabaseReference messageCloudEndPoint, messageGroupCloudEndPoint;
     private ChildEventListener groupListener, messageListener;
-    private int taskID;
-    private int posterID;
+    private final int taskID;
+    private final int posterID;
 
 
     public interface ChatPrivateListener {
@@ -172,9 +171,11 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
 
 
     public class MyViewHolder extends BaseHolder {
-        CircleImageView imgAvatar;
-        ImageView imgDot;
-        TextViewHozo tvTitle, tvTimeAgo, tvLastMsg;
+        final CircleImageView imgAvatar;
+        final ImageView imgDot;
+        final TextViewHozo tvTitle;
+        final TextViewHozo tvTimeAgo;
+        final TextViewHozo tvLastMsg;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -196,40 +197,6 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
             });
 
         }
-    }
-
-    private void messageListener(ChildEventListener listener, final int position, final MyViewHolder hlder) {
-        listener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Message message = dataSnapshot.getValue(Message.class);
-                message.setId(dataSnapshot.getKey());
-                LogUtils.d(TAG, "onBindViewHolder messageCloudEndPoint onChildAdded , message : " + message.toString());
-                updateUI(position, message, hlder.tvLastMsg, hlder.imgDot, hlder.tvTimeAgo);
-                sendBroasdCast();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                LogUtils.d(TAG, "onChildChanged");
-                notifyDataSetChanged();
-                sendBroasdCast();
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
-
     }
 
     private void updateUI(int pos, Message message, TextViewHozo tvSms, ImageView imgerDot, TextViewHozo timeAgo) {

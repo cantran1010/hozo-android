@@ -76,7 +76,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     private MessageAdapter messageAdapter;
     private EdittextHozo edtMsg;
     private int taskId;
-    private List<Message> messages = new ArrayList<>();
+    private final List<Message> messages = new ArrayList<>();
     private boolean isLoadingMoreFromServer = true;
     private String lastKeyMsg;
     private int posterId;
@@ -94,7 +94,6 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     private int smsID;
     private String imgPath = null;
     private File fileAttach;
-    private TaskResponse taskResponse;
     private Assigner ass;
 
 
@@ -130,7 +129,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
 
     @Override
     protected void initData() {
-        taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.TASK_DETAIL_EXTRA);
+        TaskResponse taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.TASK_DETAIL_EXTRA);
         ass = (Assigner) getIntent().getExtras().get(Constants.ASSIGNER_EXTRA);
         LogUtils.d(TAG, "initData , taskResponse : " + ass.toString());
         posterId = taskResponse.getPoster().getId();
@@ -548,7 +547,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
             memberCloudEndPoint.removeEventListener(memberEventListener);
     }
 
-    public void showMenu() {
+    private void showMenu() {
         PopupMenu popup = new PopupMenu(this, imgMenu);
         popup.getMenuInflater().inflate(R.menu.menu_chat, popup.getMenu());
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

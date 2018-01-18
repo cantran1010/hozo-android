@@ -42,12 +42,11 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
 
     private static final String TAG = ContactsActivity.class.getSimpleName();
     private TaskResponse taskResponse;
-    private List<Assigner> assigners = new ArrayList<>();
-    private List<Assigner> chatAssigners = new ArrayList<>();
+    private final List<Assigner> assigners = new ArrayList<>();
+    private final List<Assigner> chatAssigners = new ArrayList<>();
     private RecyclerView rcvMember, rcvChat;
     private TextViewHozo tvTaskName, tvCount;
     private int posterID, myUserID;
-    private MemberAdapter memberAdapter;
     private ChatPrivateAdapter chatPrivateAdapter;
     private DatabaseReference assignersReference, messageReference, groupTaskReference;
     private ChildEventListener messageListener, groupTaskListener, assignersListener;
@@ -107,7 +106,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             assigners.add(assigner);
         }
         addGroup(assigners);
-        memberAdapter = new MemberAdapter(ContactsActivity.this, assigners);
+        MemberAdapter memberAdapter = new MemberAdapter(ContactsActivity.this, assigners);
         LinearLayoutManager horizontalLayoutManagaer
                 = new LinearLayoutManager(ContactsActivity.this, LinearLayoutManager.HORIZONTAL, false);
         rcvMember.setLayoutManager(horizontalLayoutManagaer);

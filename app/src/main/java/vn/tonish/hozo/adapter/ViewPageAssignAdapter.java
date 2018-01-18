@@ -87,8 +87,8 @@ public class ViewPageAssignAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         final BidResponse bidResponse = bidResponses.get(position);
-        final TextViewHozo tvAssigner, tvWorkerCount, tvBidderCount, tvName, tvDes;
-        final TextViewHozo tvRatingCount, tvBidsCount, tvComplex;
+        final TextViewHozo tvAssigner, tvBidderCount, tvAssignerCount, tvName, tvDes;
+        final TextViewHozo tvRatingCount, tvBidsCount, tvComplex, tvWorker;
         final TextViewHozo tv5star, tv4star, tv3star, tv2star, tv1star;
         final TextViewHozo tvPrice, tvDesMsg, tvShowReviews, tvMoreReviews, btnAssiged;
         final ProgressBar assignProgress;
@@ -107,8 +107,9 @@ public class ViewPageAssignAdapter extends PagerAdapter {
         View itemView = inflater.inflate(R.layout.viewpager_assign_item, container,
                 false);
         tvAssigner = (TextViewHozo) itemView.findViewById(R.id.tv_assigner);
-        tvWorkerCount = (TextViewHozo) itemView.findViewById(R.id.tv_assigner_count);
+        tvWorker = (TextViewHozo) itemView.findViewById(R.id.tv_worker_count);
         tvBidderCount = (TextViewHozo) itemView.findViewById(R.id.tv_bidder_count);
+        tvAssignerCount = (TextViewHozo) itemView.findViewById(R.id.tv_count_assigner);
         tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
         tvDes = (TextViewHozo) itemView.findViewById(R.id.tv_des);
         tvRatingCount = (TextViewHozo) itemView.findViewById(R.id.tv_rating_count);
@@ -149,12 +150,13 @@ public class ViewPageAssignAdapter extends PagerAdapter {
             Utils.setViewBackground(btnAssiged, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
         }
         btnAssiged.setText(context.getString(R.string.assign));
-        tvAssigner.setText(context.getString(R.string.assigned_count, assignerCount));
-        tvWorkerCount.setText(context.getString(R.string.worker_count, workerCount));
+        tvAssigner.setText(String.valueOf(assignerCount));
+        tvWorker.setText(String.valueOf(workerCount));
         assignProgress.setMax(workerCount);
         assignProgress.setProgress(assignerCount);
-        String title = formatTitle(position + 1) + context.getString(R.string.slash) + formatTitle(getCount());
-        tvBidderCount.setText(title);
+        String title = context.getString(R.string.slash) + formatTitle(getCount());
+        tvBidderCount.setText(formatTitle(position + 1));
+        tvAssignerCount.setText(title);
         Utils.displayImageAvatar(context, imgAvatarAssign, bidResponse.getAvatar());
         tvName.setText(bidResponse.getFullName());
         if (bidResponse.getDescription() == null || bidResponse.getDescription().isEmpty()) {
@@ -290,7 +292,7 @@ public class ViewPageAssignAdapter extends PagerAdapter {
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     assignerCount = response.body().getAssigneeCount();
                     Utils.showLongToast(context, context.getString(R.string.assiger_done), false, false);
-                    textViewHozo.setText(context.getString(R.string.assigned_count, assignerCount));
+                    textViewHozo.setText(assignerCount);
                     progressBar.setProgress(assignerCount);
                     tvAss.setEnabled(false);
                     tvAss.setText(context.getString(R.string.assigned_done));

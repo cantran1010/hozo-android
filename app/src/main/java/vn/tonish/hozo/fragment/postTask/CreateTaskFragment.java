@@ -273,11 +273,6 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
     private void getDefaultAddress() {
         PostTaskEntity postTaskEntity = PostTaskManager.getPostTaskEntity();
         if (postTaskEntity != null) {
@@ -301,10 +296,8 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             lon = 0;
         } else if (!Utils.validateInput(getActivity(), edtWorkName.getText().toString().trim())) {
             Utils.showLongToast(getActivity(), getString(R.string.post_a_task_input_error), true, false);
-            return;
         } else if (!Utils.validateInput(getActivity(), edtDescription.getText().toString().trim())) {
             Utils.showLongToast(getActivity(), getString(R.string.post_a_task_input_error), true, false);
-            return;
         } else {
             inserTask(((PostTaskActivity) getActivity()).getTaskResponse());
             openFragment(R.id.layout_container, PostTaskFragment.class, new Bundle(), true, TransitionScreen.RIGHT_TO_LEFT);

@@ -36,7 +36,7 @@ public class AssignActivity extends BaseActivity implements View.OnClickListener
     private ViewPager viewPager;
     private ImageView imgNext;
     private ImageView imgBack;
-    private List<BidResponse> bidResponses = new ArrayList<>();
+    private final List<BidResponse> bidResponses = new ArrayList<>();
     private int taskID, bidderID, workerCount, assignerCount;
     private ViewPageAssignAdapter adapter;
 

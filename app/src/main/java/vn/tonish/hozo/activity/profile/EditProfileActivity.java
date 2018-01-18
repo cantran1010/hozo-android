@@ -116,7 +116,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private int imageAttachCount = 0;
     private RadioButtonHozo rbPoster, rbWorker, rbBoth;
     private ImageView imgBackground;
-    private String DATE_DEFAULT = "01/01/1990";
+    private final String DATE_DEFAULT = "01/01/1990";
 
     @Override
     protected int getLayout() {
@@ -765,7 +765,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
             String imgPath = data != null ? data.getStringExtra(Constants.EXTRA_IMAGE_PATH) : null;
             Utils.displayImage(EditProfileActivity.this, imgAvatar, imgPath);
-            file = new File(imgPath != null ? imgPath : null);
+            file = new File(imgPath);
             isUpdateAvata = true;
         }
 

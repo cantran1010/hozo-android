@@ -51,8 +51,8 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private TextViewHozo tvTag;
-        private ImageView imgDelete;
+        private final TextViewHozo tvTag;
+        private final ImageView imgDelete;
 
         public MyViewHolder(View itemView) {
             super(itemView);

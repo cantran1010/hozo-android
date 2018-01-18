@@ -21,7 +21,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MyViewHolder> {
 
     private Context context;
-    private List<Assigner> members;
+    private final List<Assigner> members;
     private memberAdapterListener memberAdapterListener;
 
 

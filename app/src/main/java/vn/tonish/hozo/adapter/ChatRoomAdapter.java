@@ -8,20 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DatabaseReference;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.ChatActivity;
 import vn.tonish.hozo.activity.ChatPrivateActivity;
+import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
-import vn.tonish.hozo.model.Message;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
@@ -38,12 +34,6 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
     private final List<TaskResponse> tasks;
     private Context context;
     public ChatPrivateAdapter chatPrivateAdapter;
-    private DatabaseReference messageCloudEndPoint, messageGroupCloudEndPoint;
-    private ChildEventListener messageListener;
-    private DatabaseReference myRef;
-    private final List<Message> messages = new ArrayList<>();
-    private HashMap<String, List<Message>> hashMap = new HashMap<>();
-
     public interface ChatRoomListener {
         void onClick(int position);
     }
@@ -99,6 +89,14 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
             tvName = itemView.findViewById(R.id.tv_name);
             tvDate = itemView.findViewById(R.id.tv_date);
             rcvAss = itemView.findViewById(R.id.rcv_assigner);
+            tvName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, DetailTaskActivity.class);
+                    intent.putExtra(Constants.TASK_ID_EXTRA, tasks.get(getAdapterPosition()).getId());
+                    ((BaseActivity) context).startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                }
+            });
 
         }
     }
@@ -165,14 +163,6 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
         if (!checkGroup(chatAssigners, pos))
             addGroup(chatAssigners, taskResponse);
         return chatAssigners;
-    }
-
-    public void killListener() {
-        if (messageCloudEndPoint != null && messageListener != null)
-            messageCloudEndPoint.removeEventListener(messageListener);
-        if (messageGroupCloudEndPoint != null && messageListener != null)
-            messageGroupCloudEndPoint.removeEventListener(messageListener);
-
     }
 
 }

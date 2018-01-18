@@ -71,10 +71,12 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.MyViewHolder> 
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ImageView imgChecked;
-        private TextViewHozo tvBankName, tvVnBankName;
-        private ImageView imgDelete, imgEdit;
-        private RelativeLayout rootLayout;
+        private final ImageView imgChecked;
+        private final TextViewHozo tvBankName;
+        private final TextViewHozo tvVnBankName;
+        private final ImageView imgDelete;
+        private final ImageView imgEdit;
+        private final RelativeLayout rootLayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);

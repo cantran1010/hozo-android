@@ -38,7 +38,7 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
     private static final String TAG = PaymentHistoryActivity.class.getSimpleName();
     private RecyclerView rcvPayment;
     private PaymentAdapter paymentAdapter;
-    private ArrayList<TransactionResponse> payments = new ArrayList<>();
+    private final ArrayList<TransactionResponse> payments = new ArrayList<>();
     private boolean isLoadingMoreFromServer = true;
     private String since;
     private static final int LIMIT = 20;

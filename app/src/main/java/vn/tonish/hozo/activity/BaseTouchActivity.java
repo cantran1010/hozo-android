@@ -28,7 +28,7 @@ public abstract class BaseTouchActivity extends AppCompatActivity implements Swi
     public SwipeRefreshLayout swipeRefreshLayout;
     private final Stack<StackEntry> fragmentsStack = new Stack<>();
     private FragmentTransaction transaction;
-    private BlockBroadCastReceiver blockBroadCastReceiver = new BlockBroadCastReceiver();
+    private final BlockBroadCastReceiver blockBroadCastReceiver = new BlockBroadCastReceiver();
 
     protected abstract int getLayout();
 
