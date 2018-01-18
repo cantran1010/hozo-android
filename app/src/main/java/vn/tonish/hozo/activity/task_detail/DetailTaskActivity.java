@@ -85,6 +85,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.PxUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
@@ -633,8 +634,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         commentsAdapter = new CommentTaskAdapter(this, mComments);
         commentsAdapter.stopLoadMore();
         final LinearLayoutManager lvManager = new LinearLayoutManager(this);
-        lvManager.setReverseLayout(true);
-        lvManager.setStackFromEnd(true);
+//        lvManager.setReverseLayout(true);
+//        lvManager.setStackFromEnd(true);
         rcvComment.setLayoutManager(lvManager);
         commentsAdapter.setCommentType(layoutInputComment.getVisibility());
         rcvComment.setAdapter(commentsAdapter);
@@ -1666,7 +1667,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             Utils.showLongToast(this, getString(R.string.post_a_task_input_error), true, false);
             return;
         }
-
         if (imgPath == null) {
             doComment();
         } else {
@@ -1890,11 +1890,11 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
             imgPath = imagesSelected.get(0).getPath();
-            Utils.displayImage(DetailTaskActivity.this, imgAttached, imgPath);
+            Utils.displayImageRounded(this, imgAttached, imgPath, (int) PxUtils.pxFromDp(this, 10), 0);
             imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
-            Utils.displayImage(DetailTaskActivity.this, imgAttached, imgPath);
+            Utils.displayImageRounded(this, imgAttached, imgPath, (int) PxUtils.pxFromDp(this, 10), 0);
             imgLayout.setVisibility(View.VISIBLE);
             fileAttach = new File(imgPath);
         } else if (requestCode == Constants.COMMENT_REQUEST_CODE && resultCode == Constants.COMMENT_RESPONSE_CODE) {

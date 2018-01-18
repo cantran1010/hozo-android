@@ -133,6 +133,16 @@ public class NotificationFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {
+            getActivity().unregisterReceiver(broadcastCountNewMsg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private final BroadcastReceiver broadcastCountNewMsg = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
