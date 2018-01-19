@@ -69,7 +69,6 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void onStop() {
         super.onStop();
-        chatRoomAdapter.killAdapter();
         try {
             getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
         } catch (Exception e) {
@@ -77,8 +76,13 @@ public class ChatFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        chatRoomAdapter.killAdapter();
+    }
+
     private void getChatRooms() {
-//        ProgressDialogUtils.showProgressDialog(getActivity());
         if (call != null) call.cancel();
         call = ApiClient.getApiService().getChatRooms(UserManager.getUserToken());
         call.enqueue(new Callback<List<TaskResponse>>() {
@@ -87,9 +91,6 @@ public class ChatFragment extends BaseFragment {
                 LogUtils.d(TAG, "getChatRooms code : " + response.code());
                 LogUtils.d(TAG, "getChatRooms body : " + response.body().size());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-//                    PreferUtils.setNewPushChatCount(getActivity(), 0);
-//                    if (response.body() == null) taskResponses = new ArrayList<>();
-//                    else
                     taskResponses.clear();
                     taskResponses = response.body();
                     updateUI();
@@ -117,7 +118,6 @@ public class ChatFragment extends BaseFragment {
                     });
                 }
                 onStopRefresh();
-//                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -135,7 +135,6 @@ public class ChatFragment extends BaseFragment {
                     }
                 });
                 onStopRefresh();
-//                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
@@ -169,14 +168,6 @@ public class ChatFragment extends BaseFragment {
         if (call != null) call.cancel();
         chatRoomAdapter = null;
         getChatRooms();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.REQUEST_CODE_CHAT && resultCode == Constants.RESULT_CODE_CHAT) {
-            onRefresh();
-        }
     }
 
     private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {

@@ -457,11 +457,8 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 ArrayList<Message> messagesAdded = new ArrayList<>();
                 int i = 0;
                 LogUtils.d(TAG, "addValueEventListener dataSnapshot.getChildrenCount() : " + dataSnapshot.getChildrenCount());
-                if (dataSnapshot.getChildrenCount() > 0) setResult(Constants.RESULT_CODE_CHAT);
                 if (dataSnapshot.getChildrenCount() == 0) messageAdapter.stopLoadMore();
-
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-
                     if (dataSnapshot.getChildrenCount() < PAGE_COUNT) {
                         Message message = dataSnapshot1.getValue(Message.class);
                         message.setId(dataSnapshot1.getKey());

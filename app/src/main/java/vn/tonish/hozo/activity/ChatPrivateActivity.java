@@ -248,7 +248,6 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                 Map<String, Boolean> map = new HashMap<>();
                 map.put(String.valueOf(UserManager.getMyUser().getId()), Boolean.TRUE);
                 messageCloudEndPoint.child(dataSnapshot.getKey()).child("reads").child(String.valueOf(UserManager.getMyUser().getId())).setValue(true);
-                setResult(Constants.RESULT_CODE_CHAT);
             }
 
             @Override
