@@ -146,14 +146,7 @@ public class NotificationFragment extends BaseFragment {
     private final BroadcastReceiver broadcastCountNewMsg = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.hasExtra(Constants.COUNT_NEW_CHAT_EXTRA)) {
-                int countTab2 = intent.getIntExtra(Constants.COUNT_NEW_CHAT_EXTRA, 0);
-                if (countTab2 > 0) {
-                    tvCountTab2.setVisibility(View.VISIBLE);
-                    tvCountTab2.setText(String.valueOf(countTab2));
-                } else
-                    tvCountTab2.setVisibility(View.GONE);
-            } else updateCountMsg();
+            updateCountMsg();
             if (intent.hasExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION)) {
                 if (intent.getStringExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION).equalsIgnoreCase(getActivity().getString(R.string.smooth_top))) {
                     if (position == 0) {
@@ -178,12 +171,19 @@ public class NotificationFragment extends BaseFragment {
     private void updateCountMsg() {
         int pushCount = PreferUtils.getNewPushCount(getActivity());
         int pushNewTaskCount = PreferUtils.getPushNewTaskCount(getActivity());
+        int pushChatCount = PreferUtils.getNewPushChatCount(getActivity());
 
         if (pushCount == 0) {
             tvCountTab1.setVisibility(View.GONE);
         } else {
             tvCountTab1.setVisibility(View.VISIBLE);
             tvCountTab1.setText(String.valueOf(pushCount));
+        }
+        if (pushChatCount == 0) {
+            tvCountTab2.setVisibility(View.GONE);
+        } else {
+            tvCountTab2.setVisibility(View.VISIBLE);
+            tvCountTab2.setText(String.valueOf(pushChatCount));
         }
         if (pushNewTaskCount == 0) {
             tvCountTab3.setVisibility(View.GONE);

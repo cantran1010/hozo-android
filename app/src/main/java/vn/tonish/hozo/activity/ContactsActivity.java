@@ -116,7 +116,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                 if (position == 0) {
                     Intent intentContact = new Intent(ContactsActivity.this, ChatActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
-                    startActivity(intentContact, TransitionScreen.DOWN_TO_UP);
+                    startActivity(intentContact,TransitionScreen.DOWN_TO_UP);
                 } else {
                     Intent intentContact = new Intent(ContactsActivity.this, ChatPrivateActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
@@ -329,6 +329,16 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onStop() {
         super.onStop();
+        try {
+            unregisterReceiver(broadcastCountNewMsg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         if (assignersListener != null && assignersReference != null)
             assignersReference.removeEventListener(assignersListener);
         if (messageListener != null && messageReference != null)
@@ -336,11 +346,6 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         if (groupTaskListener != null && groupTaskReference != null)
             groupTaskReference.removeEventListener(groupTaskListener);
         chatPrivateAdapter.killListener();
-        try {
-            unregisterReceiver(broadcastCountNewMsg);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void doCall() {
