@@ -242,7 +242,7 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
             return;
         }
 
-        if(balanceCash < 50000){
+        if (balanceCash < 50000) {
             edtMoney.requestFocus();
             edtMoney.setError(getString(R.string.no_money_transfer));
             return;
@@ -268,7 +268,12 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
         ConfirmTransferDialog confirmTransferDialog = new ConfirmTransferDialog(this);
         confirmTransferDialog.showView();
         confirmTransferDialog.updateUi(Utils.getLongEdittext(edtMoney), getBankSelected());
-
+        confirmTransferDialog.setConfirmTransferListener(new ConfirmTransferDialog.ConfirmTransferListener() {
+            @Override
+            public void onConfirm() {
+                finish();
+            }
+        });
     }
 
     private Bank getBankSelected() {

@@ -600,6 +600,7 @@
     <string name="transaction_reg_awarded">Hệ thống tặng tiền đăng kí tài khoản thành công</string>
     <string name="transaction_sys_donated">Hệ thống tặng tiền \"%1$s\"</string>
     <string name="nofification_money_received">Hệ thống đã tặng tiền cho bạn</string>
+    <string name="nofification_wage_received">đã chuyển %1$s VNĐ cho bạn</string>
     <string name="nofification_money_received_matcher">tặng tiền</string>
     <string name="transaction_ref_bonus">Tặng tiền giới thiệu thành viên</string>
     <string name="transaction_promo_posting">Tặng tiền giới thiệu việc đăng</string>
@@ -765,5 +766,10 @@
     <string name="notification_group_chat">đã gửi tin nhắn đến nhóm chát</string>
     <string name="task">Việc:</string>
     <string name="zero">0</string>
+    <string name="nofification_wage_received_matcher">đã chuyển</string>
+    <string name="nofification_posting_bonus_received">Bạn đã nhận được %1$s VNĐ khuyễn mại đăng việc %2$s</string>
+    <string name="nofification_posting_bonus_received_matcher">nhận được</string>
+    <string name="nofification_ref_bonus_received">Bạn đã nhận được %1$s VNĐ tiền thưởng giới thiệu người dùng</string>
+    <string name="nofification_ref_bonus_received_matcher">nhận được</string>
 
 </resources>

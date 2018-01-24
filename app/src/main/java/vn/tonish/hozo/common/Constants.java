@@ -72,6 +72,7 @@ public class Constants {
     public static final String BALANCE_CASH_EXTRA = "balance_cash_extra";
     public static final String ASSIGNER_EXTRA ="assigner_extra" ;
     public static final String COUNT_PRIVATE_CHAT_EXTRA ="push_count_chat" ;
+    public static final String PAYMENT_EXTRA = "payment_extra";
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
@@ -209,6 +210,9 @@ public class Constants {
     public static final String PUSH_TYPE_MONEY_RECEIVED = "money_received";
     public static final String PUSH_TYPE_BID_REFUNDED = "bid_refunded";
     public static final String PUSH_TYPE_PRIVATE_CHAT = "prv_message_received";
+    public static final String PUSH_TYPE_WAGE_RECEIVED = "wage_received";
+    public static final String PUSH_TYPE_POSTING_BONUS_RECEIVED = "posting_bonus_received";
+    public static final String PUSH_TYPE_REF_BONUS_RECEIVED = "ref_bonus_received";
 
     public static final String ROLE_EXTRA = "role_extra";
 

@@ -513,6 +513,21 @@ public class Utils {
                 matcher = context.getString(R.string.notification_bid_refunded_matcher);
                 matcherColor = context.getString(R.string.notification_review_worker_color);
                 break;
+            case Constants.PUSH_TYPE_WAGE_RECEIVED:
+                content = notification.getFullName() + " " + context.getString(R.string.nofification_wage_received, Utils.formatNumber(notification.getAmount()));
+                matcher = context.getString(R.string.nofification_wage_received_matcher);
+                matcherColor = context.getString(R.string.notification_await_approval_color);
+                break;
+            case Constants.PUSH_TYPE_POSTING_BONUS_RECEIVED:
+                content = context.getString(R.string.nofification_posting_bonus_received, Utils.formatNumber(notification.getAmount()), notification.getTaskName());
+                matcher = context.getString(R.string.nofification_posting_bonus_received_matcher);
+                matcherColor = context.getString(R.string.notification_await_approval_color);
+                break;
+            case Constants.PUSH_TYPE_REF_BONUS_RECEIVED:
+                content = context.getString(R.string.nofification_ref_bonus_received, Utils.formatNumber(notification.getAmount()));
+                matcher = context.getString(R.string.nofification_ref_bonus_received_matcher);
+                matcherColor = context.getString(R.string.notification_await_approval_color);
+                break;
         }
 
         tvContent.setText(content);
@@ -632,6 +647,15 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_PRIVATE_CHAT:
                 content = notification.getFullName() + " " + context.getString(R.string.notification_private_chat);
+                break;
+            case Constants.PUSH_TYPE_WAGE_RECEIVED:
+                content = notification.getFullName() + " " + context.getString(R.string.nofification_wage_received, Utils.formatNumber(notification.getAmount()));
+                break;
+            case Constants.PUSH_TYPE_POSTING_BONUS_RECEIVED:
+                content = context.getString(R.string.nofification_posting_bonus_received, Utils.formatNumber(notification.getAmount()), notification.getTaskName());
+                break;
+            case Constants.PUSH_TYPE_REF_BONUS_RECEIVED:
+                content = context.getString(R.string.nofification_ref_bonus_received, Utils.formatNumber(notification.getAmount()));
                 break;
         }
 
@@ -899,7 +923,7 @@ public class Utils {
         return Long.valueOf(s);
     }
 
-    public static String sortID(int posterID,int taskerID) {
+    public static String sortID(int posterID, int taskerID) {
         if (posterID < taskerID)
             return posterID + "-" + taskerID;
         else return taskerID + "-" + posterID;

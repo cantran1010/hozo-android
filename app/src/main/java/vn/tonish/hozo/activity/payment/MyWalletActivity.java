@@ -55,6 +55,9 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
         ButtonHozo btnPayment = (ButtonHozo) findViewById(R.id.btn_payment);
         btnPayment.setOnClickListener(this);
 
+        ButtonHozo btnPaymentMoney = (ButtonHozo) findViewById(R.id.btn_payment_money);
+        btnPaymentMoney.setOnClickListener(this);
+
         ButtonHozo btnExchange = (ButtonHozo) findViewById(R.id.btn_exchange);
         btnExchange.setOnClickListener(this);
 
@@ -184,7 +187,14 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
 
             case R.id.btn_payment:
                 Intent intent = new Intent(MyWalletActivity.this, RechargeActivity.class);
+                intent.putExtra(Constants.PAYMENT_EXTRA, 1);
                 startActivityForResult(intent, Constants.PROMOTION_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+
+            case R.id.btn_payment_money:
+                Intent intentPaymentMoney = new Intent(MyWalletActivity.this, RechargeActivity.class);
+                intentPaymentMoney.putExtra(Constants.PAYMENT_EXTRA, 2);
+                startActivityForResult(intentPaymentMoney, Constants.PROMOTION_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.btn_exchange:

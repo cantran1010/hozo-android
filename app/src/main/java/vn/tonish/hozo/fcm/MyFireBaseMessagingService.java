@@ -111,6 +111,9 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                 message = notification.getTaskName();
                 break;
             case Constants.PUSH_TYPE_MONEY_RECEIVED:
+            case Constants.PUSH_TYPE_WAGE_RECEIVED:
+            case Constants.PUSH_TYPE_POSTING_BONUS_RECEIVED:
+            case Constants.PUSH_TYPE_REF_BONUS_RECEIVED:
                 title = getString(R.string.app_name);
                 message = Utils.getContentFromNotification(getApplicationContext(), notification);
                 break;

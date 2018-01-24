@@ -32,6 +32,24 @@ public class Notification implements Serializable {
     private String externalLink;
     @SerializedName("task_start_time")
     private String taskStartTime;
+    private String wallet;
+    private int amount;
+
+    public String getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(String wallet) {
+        this.wallet = wallet;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
 
     public String getTaskStartTime() {
         return taskStartTime;
@@ -162,6 +180,8 @@ public class Notification implements Serializable {
                 ", relatedCount=" + relatedCount +
                 ", externalLink='" + externalLink + '\'' +
                 ", taskStartTime='" + taskStartTime + '\'' +
+                ", wallet='" + wallet + '\'' +
+                ", amount=" + amount +
                 '}';
     }
 
