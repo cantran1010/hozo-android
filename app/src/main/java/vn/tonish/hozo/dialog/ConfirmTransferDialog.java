@@ -45,6 +45,20 @@ public class ConfirmTransferDialog extends BaseDialogFullScreenAnimFadeInOut imp
         setCancelable(true);
     }
 
+    public interface ConfirmTransferListener {
+        public void onConfirm();
+    }
+
+    private ConfirmTransferListener confirmTransferListener;
+
+    public ConfirmTransferListener getConfirmTransferListener() {
+        return confirmTransferListener;
+    }
+
+    public void setConfirmTransferListener(ConfirmTransferListener confirmTransferListener) {
+        this.confirmTransferListener = confirmTransferListener;
+    }
+
     @Override
     protected int getLayout() {
         return R.layout.confirm_transfer_dialog;
@@ -100,6 +114,7 @@ public class ConfirmTransferDialog extends BaseDialogFullScreenAnimFadeInOut imp
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     Utils.showLongToast(getContext(), getContext().getString(R.string.withdraw_success), false, false);
                     hideView();
+                    if (confirmTransferListener != null) confirmTransferListener.onConfirm();
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     if (error.status().equals("invalid_data")) {

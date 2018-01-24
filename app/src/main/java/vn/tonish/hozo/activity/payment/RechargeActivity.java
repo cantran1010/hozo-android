@@ -50,6 +50,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     private LinearLayout atmLayout;
     private LinearLayout visaLayout;
     private ExpandableLayout inputAtmExpandableLayout, inputVisaExpandableLayout;
+    private LinearLayout walletLayout, promotionLayout;
 
     @Override
     protected int getLayout() {
@@ -60,8 +61,13 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     protected void initView() {
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
-        LinearLayout promotionLayout = (LinearLayout) findViewById(R.id.promotion_layout);
+
+        promotionLayout = (LinearLayout) findViewById(R.id.promotion_layout);
         promotionLayout.setOnClickListener(this);
+
+        walletLayout = (LinearLayout) findViewById(R.id.wallet_layout);
+        walletLayout.setOnClickListener(this);
+
         atmLayout = (LinearLayout) findViewById(R.id.atm_layout);
         atmLayout.setOnClickListener(this);
         visaLayout = (LinearLayout) findViewById(R.id.visa_layout);
@@ -75,12 +81,22 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         ButtonHozo btnAtm = (ButtonHozo) findViewById(R.id.btn_atm);
         btnAtm.setOnClickListener(this);
 
-        LinearLayout walletLayout = (LinearLayout) findViewById(R.id.wallet_layout);
-        walletLayout.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
+
+        if (getIntent().getIntExtra(Constants.PAYMENT_EXTRA, 1) == 1) {
+            promotionLayout.setVisibility(View.VISIBLE);
+            walletLayout.setVisibility(View.VISIBLE);
+            atmLayout.setVisibility(View.GONE);
+            visaLayout.setVisibility(View.GONE);
+        } else {
+            promotionLayout.setVisibility(View.GONE);
+            walletLayout.setVisibility(View.GONE);
+            atmLayout.setVisibility(View.VISIBLE);
+            visaLayout.setVisibility(View.VISIBLE);
+        }
 
         edtAtm.addTextChangedListener(new NumberTextWatcher(edtAtm));
         edtVisa.addTextChangedListener(new NumberTextWatcher(edtVisa));
