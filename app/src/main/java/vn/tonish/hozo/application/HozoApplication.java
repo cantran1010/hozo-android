@@ -5,9 +5,6 @@ import android.content.Context;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
-import com.appsflyer.AppsFlyerLib;
-import com.appsflyer.share.LinkGenerator;
-import com.appsflyer.share.ShareInviteHelper;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.accountkit.AccountKit;
 
@@ -43,20 +40,6 @@ public class HozoApplication extends Application {
 
             if (UserManager.checkLogin())
                 Crashlytics.setInt("user_id", UserManager.getMyUser().getId());
-        }
-
-        try {
-            //add appflyer
-            AppsFlyerLib.getInstance().startTracking(this, "Lx3D92KPaWNC9hTKciGEtD");
-            AppsFlyerLib.getInstance().setAppInviteOneLink("hozo_invite_1");
-            LinkGenerator linkGenerator = ShareInviteHelper.generateInviteUrl(this);
-
-            linkGenerator.addParameter("user1", "name1");
-            linkGenerator.addParameter("user2", "name2");
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
     }
