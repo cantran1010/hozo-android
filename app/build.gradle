@@ -130,7 +130,6 @@ dependencies {
     }
     implementation 'me.relex:circleindicator:1.2.2@aar'
     implementation 'com.android.support:exifinterface:26.1.0'
-    implementation files('libs/AF-Android-SDK.jar')
 }
 apply plugin: 'com.google.gms.google-services'
 
