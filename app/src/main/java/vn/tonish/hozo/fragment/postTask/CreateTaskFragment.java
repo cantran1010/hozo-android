@@ -308,10 +308,8 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
         String strAuto = autocompleteView.getText().toString().trim();
         if (strAuto.isEmpty())
             return false;
-        else if (address.isEmpty())
-            return false;
         else
-            return !(lat == 0 && lon == 0) && strAuto.equalsIgnoreCase(address);
+            return !address.isEmpty() && !(lat == 0 && lon == 0) && strAuto.equalsIgnoreCase(address);
     }
 
     private void doClose() {
