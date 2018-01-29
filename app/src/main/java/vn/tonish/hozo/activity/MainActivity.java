@@ -100,6 +100,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
+//        Tracker t = ((HozoApplication) getApplication()).getTracker(HozoApplication.TrackerName.APP_TRACKER);
+//        t.setScreenName("splash");
+//        final String campaignData = "https://play.google.com/store/apps/details?id=vn.tonish.hozo&referrer=utm_source%3Dtestsource%26utm_medium%3Dbanner%26utm_term%3Dtestterm%26utm_campaign%3Dhehe%26invite_id%3D123";
+//        t.send(new HitBuilders.ScreenViewBuilder()
+//                .setCampaignParamsFromUrl(campaignData)
+//                .build()
+//        );
         showFragment(R.id.layout_container, SelectTaskFragment.class, false, new Bundle(), TransitionScreen.NON);
         updateMenuUi(1);
         layoutPostATask.setOnClickListener(this);
@@ -320,6 +327,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         updateCountMsg();
         registerReceiver(broadcastPushCount, new IntentFilter(Constants.BROAD_CAST_PUSH_COUNT));
         checkUpdate();
+
     }
 
     @Override
@@ -331,6 +339,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -344,6 +353,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         removeFragment(SettingFragment.class);
 
     }
+
 
 
     @Override

@@ -229,4 +229,7 @@ public interface ApiInterface {
     @POST("v1/wallet/transfer/cash2account")
     Call<TransactionResponse> transfer(@Header("Authorization") String token, @Body RequestBody body);
 
+    @POST("v1/users/referrer")
+    Call<Void> referrer(@Header("Authorization") String token, @Body RequestBody body);
+
 }

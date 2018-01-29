@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,6 +42,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+
 //        try {
 //            PackageInfo packageInfo = getPackageManager().getPackageInfo("vn.tonish.hozo", PackageManager.GET_SIGNATURES);
 //            for(Signature signature: packageInfo.signatures){
@@ -50,6 +53,8 @@ public class SplashActivity extends BaseActivity {
 //        }catch (Exception e){
 //        }
     }
+
+
 
     @Override
     protected void initData() {
@@ -69,6 +74,20 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
+
+    @Override
+    protected void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+        GoogleAnalytics.getInstance(SplashActivity.this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        // TODO Auto-generated method stub
+        super.onStop();
+        GoogleAnalytics.getInstance(SplashActivity.this).reportActivityStop(this);
+    }
 
     @Override
     protected void resumeData() {
