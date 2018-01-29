@@ -320,7 +320,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         updateCountMsg();
         registerReceiver(broadcastPushCount, new IntentFilter(Constants.BROAD_CAST_PUSH_COUNT));
         checkUpdate();
-
     }
 
     @Override

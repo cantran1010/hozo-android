@@ -142,7 +142,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-
     @Override
     protected void initData() {
         hideKeyBoard(this);
@@ -257,7 +256,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             permissionGrantedAvata();
         }
     }
-
 
     private void permissionGrantedAvata() {
         PickImageDialog pickImageDialog = new PickImageDialog(RegisterActivity.this);
@@ -402,7 +400,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             updateInfor();
         }
     }
-
     private void updateAvata() {
         ProgressDialogUtils.showProgressDialog(this);
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
@@ -466,7 +463,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             }
         });
     }
-
     private void updateInfor() {
         ProgressDialogUtils.showProgressDialog(RegisterActivity.this);
         JSONObject jsonRequest = new JSONObject();
@@ -581,7 +577,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-
     private class MyTextWatcher implements TextWatcher {
 
         private final View view;
@@ -666,7 +661,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         return true;
     }
 
-
     private boolean isNumberValid(String countryCode, String phNumber) {
         if (TextUtils.isEmpty(countryCode)) {// Country code could not be empty
             return false;
@@ -736,8 +730,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 });
             }
         });
-
-
     }
 
     @Override

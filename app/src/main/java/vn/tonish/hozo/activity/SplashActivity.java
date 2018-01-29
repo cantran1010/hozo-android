@@ -40,7 +40,6 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
 //        try {
 //            PackageInfo packageInfo = getPackageManager().getPackageInfo("vn.tonish.hozo", PackageManager.GET_SIGNATURES);
 //            for(Signature signature: packageInfo.signatures){
@@ -51,8 +50,6 @@ public class SplashActivity extends BaseActivity {
 //        }catch (Exception e){
 //        }
     }
-
-
 
     @Override
     protected void initData() {
