@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.accountkit.AccountKit;
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -81,6 +82,8 @@ import static vn.tonish.hozo.common.Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE_AVATA;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
+import static vn.tonish.hozo.utils.PreferUtils.getReferrerId;
+import static vn.tonish.hozo.utils.PreferUtils.setReferrerId;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
@@ -103,6 +106,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private TextViewHozo tvPolicy;
     private android.support.design.widget.TextInputLayout inputLayoutName, inputLayoutAddress, inputLayoutCoupon;
     private CheckBoxHozo checkBoxCoupon;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleAnalytics.getInstance(RegisterActivity.this).reportActivityStart(this);
+    }
 
     @Override
     protected int getLayout() {
@@ -132,7 +141,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         edtCoupon.addTextChangedListener(new MyTextWatcher(edtCoupon));
 
     }
-
 
     @Override
     protected void initData() {
@@ -248,7 +256,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             permissionGrantedAvata();
         }
     }
-
 
     private void permissionGrantedAvata() {
         PickImageDialog pickImageDialog = new PickImageDialog(RegisterActivity.this);
@@ -393,7 +400,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             updateInfor();
         }
     }
-
     private void updateAvata() {
         ProgressDialogUtils.showProgressDialog(this);
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
@@ -457,7 +463,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             }
         });
     }
-
     private void updateInfor() {
         ProgressDialogUtils.showProgressDialog(RegisterActivity.this);
         JSONObject jsonRequest = new JSONObject();
@@ -490,18 +495,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 if (response.isSuccessful()) {
                     LogUtils.d(TAG, "onResponse updateInfor body : " + response.body());
                     if (response.code() == Constants.HTTP_CODE_OK) {
-                        if (response.body() != null) {
-                            UserEntity myUser = UserManager.getMyUser();
-                            Realm realm = Realm.getDefaultInstance();
-                            realm.beginTransaction();
-                            myUser.setFullName(edtName.getText().toString());
-                            myUser.setLongitude(lat);
-                            myUser.setLongitude(lon);
-                            realm.commitTransaction();
-
-                        }
                         Utils.showLongToast(RegisterActivity.this, getString(R.string.register_done), false, false);
-                        startActivityAndClearAllTask(new Intent(RegisterActivity.this, MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+                        int referrer = getReferrerId(RegisterActivity.this);
+                        if (referrer > 0) sendReferrerID(referrer);
+                        else {
+                            if (response.body() != null) {
+                                UserEntity myUser = UserManager.getMyUser();
+                                Realm realm = Realm.getDefaultInstance();
+                                realm.beginTransaction();
+                                myUser.setFullName(edtName.getText().toString());
+                                myUser.setLongitude(lat);
+                                myUser.setLongitude(lon);
+                                realm.commitTransaction();
+                            }
+                            startActivityAndClearAllTask(new Intent(RegisterActivity.this, MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+                        }
                     }
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     LogUtils.d(TAG, "onResponse HTTP_CODE_UNAUTHORIZED : ");
@@ -568,7 +576,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 Toast.LENGTH_SHORT).show();
 
     }
-
 
     private class MyTextWatcher implements TextWatcher {
 
@@ -654,7 +661,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         return true;
     }
 
-
     private boolean isNumberValid(String countryCode, String phNumber) {
         if (TextUtils.isEmpty(countryCode)) {// Country code could not be empty
             return false;
@@ -675,8 +681,62 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         } catch (Exception e) {
             return false;
         }
-
         return phoneNumberUtil.isValidNumber(phoneNumber);
+    }
+
+    private void sendReferrerID(final int referrerId) {
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            if (referrerId > 0) jsonRequest.put(Constants.PARAMETER_REFERRER, referrerId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        LogUtils.d(TAG, " jsonRequest sendReferrerID: " + jsonRequest.toString());
+        ApiClient.getApiService().referrer(UserManager.getUserToken(), body).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                startActivityAndClearAllTask(new Intent(RegisterActivity.this, MainActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+                LogUtils.d(TAG, "onResponse updateInfor code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    setReferrerId(RegisterActivity.this, 0);
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    LogUtils.d(TAG, "onResponse HTTP_CODE_UNAUTHORIZED : ");
+                    NetworkUtils.refreshToken(RegisterActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            sendReferrerID(referrerId);
+                        }
+                    });
+
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(RegisterActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                LogUtils.e(TAG, "onFailure message : " + t.getMessage());
+                showRetryDialog(RegisterActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        sendReferrerID(referrerId);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        GoogleAnalytics.getInstance(RegisterActivity.this).reportActivityStop(this);
+
     }
 
 }

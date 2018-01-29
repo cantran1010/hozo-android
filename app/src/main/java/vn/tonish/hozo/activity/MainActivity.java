@@ -332,6 +332,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -344,6 +345,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         removeFragment(SettingFragment.class);
 
     }
+
 
 
     @Override

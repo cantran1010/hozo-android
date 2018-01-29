@@ -1,5 +1,6 @@
 package vn.tonish.hozo.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -76,6 +77,7 @@ public class ChatPrivateAdapter extends RecyclerView.Adapter<ChatPrivateAdapter.
         return new MyViewHolder(itemView);
     }
 
+    @SuppressLint("RecyclerView")
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         try {

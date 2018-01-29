@@ -29,6 +29,7 @@ public class PreferUtils {
     private static final String PREFER_PUSH_SHOW = "push_show_notification_chat";
     private static final String KEY_ENCRYPTION = "key";
     private static final String LAST_TIME_COUNT_TASK = "last_time";
+    private static final String REFERRER_ID = "referrer_id";
 
     public SharedPreferences preferences;
 
@@ -216,6 +217,17 @@ public class PreferUtils {
     public static String getLastTimeCountTask(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
         return preferences.getString(LAST_TIME_COUNT_TASK, "");
+    }
+
+    public static void setReferrerId(Context context, int id) {
+        Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
+        editor.putInt(REFERRER_ID, id);
+        editor.apply();
+    }
+
+    public static int getReferrerId(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
+        return preferences.getInt(REFERRER_ID, 0);
     }
 
 }

@@ -46,7 +46,7 @@ public class ConfirmTransferDialog extends BaseDialogFullScreenAnimFadeInOut imp
     }
 
     public interface ConfirmTransferListener {
-        public void onConfirm();
+        void onConfirm();
     }
 
     private ConfirmTransferListener confirmTransferListener;

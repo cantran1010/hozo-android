@@ -130,6 +130,7 @@ dependencies {
     }
     implementation 'me.relex:circleindicator:1.2.2@aar'
     implementation 'com.android.support:exifinterface:26.1.0'
+    implementation 'com.google.android.gms:play-services-analytics:11.8.0'
 }
 apply plugin: 'com.google.gms.google-services'
 
