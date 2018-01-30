@@ -771,5 +771,6 @@
     <string name="nofification_posting_bonus_received_matcher">nhận được</string>
     <string name="nofification_ref_bonus_received">Bạn đã nhận được %1$s VNĐ tiền thưởng giới thiệu người dùng</string>
     <string name="nofification_ref_bonus_received_matcher">nhận được</string>
+    <string name="out_chat_content">đã rời khỏi nhóm</string>
 
 </resources>

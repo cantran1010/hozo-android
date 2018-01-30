@@ -192,7 +192,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                 LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
                 if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
                     String smsStr = ass.getFullName() + " " + getString(R.string.out_chat_content);
-                    Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.kick_out_chat_content), true, false);
+                    Utils.showLongToast(ChatPrivateActivity.this, smsStr, true, false);
                     finish();
                 }
 
