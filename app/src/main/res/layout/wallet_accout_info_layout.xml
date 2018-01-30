@@ -87,6 +87,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:text="@string/wallet_account_info2"
+                android:textColor="@color/tv_black"
+                android:textSize="14sp"
+                android:layout_marginStart="5dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:src="@drawable/img_dot_blue"
+                tools:ignore="ContentDescription" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:text="@string/wallet_account_info5"
                 android:textColor="@color/tv_black"
                 android:textSize="14sp"
