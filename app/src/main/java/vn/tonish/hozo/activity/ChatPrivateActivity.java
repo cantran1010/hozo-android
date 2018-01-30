@@ -80,23 +80,23 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     private boolean isLoadingMoreFromServer = true;
     private String lastKeyMsg;
     private int posterId;
-    private DatabaseReference messageCloudEndPoint;
     private TextViewHozo tvTitle, tvMember;
     private boolean isLoading = false;
     private static final int PAGE_COUNT = 11;
     private ValueEventListener valueEventListener;
     private ChildEventListener childEventListener;
     private ChildEventListener memberEventListener;
+    private ChildEventListener member1EventListener;
     private ChildEventListener groupTaskListener;
+    private DatabaseReference memberCloudEndPoint;
+    private DatabaseReference member1CloudEndPoint;
+    private DatabaseReference messageCloudEndPoint;
+    private DatabaseReference groupTaskReference;
     private Query recentPostsQuery = null;
     private ImageView imgMenu;
-    private DatabaseReference memberCloudEndPoint;
-    private int smsID;
     private String imgPath = null;
     private File fileAttach;
     private Assigner ass;
-    private DatabaseReference groupTaskReference;
-
 
     @Override
     protected int getLayout() {
@@ -143,7 +143,6 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
         messageCloudEndPoint = myRef.child("private-messages").child(String.valueOf(taskId)).child(sortID(ass.getId()));
         setUpMessageList();
-        memberCloudEndPoint = myRef.child("members").child(String.valueOf(UserManager.getMyUser().getId()));
         memberEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -177,8 +176,45 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
 
             }
         };
-
+        memberCloudEndPoint = myRef.child("members").child(String.valueOf(UserManager.getMyUser().getId()));
         memberCloudEndPoint.addChildEventListener(memberEventListener);
+        // check cancel assigner
+        member1EventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                LogUtils.d(TAG, "memberEventListener onChildChanged , dataSnapshot : " + dataSnapshot.toString());
+                Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
+                LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
+                if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
+                    String smsStr = ass.getFullName() + " " + getString(R.string.out_chat_content);
+                    Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.kick_out_chat_content), true, false);
+                    finish();
+                }
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        member1CloudEndPoint = myRef.child("members").child(String.valueOf(ass.getId()));
+        member1CloudEndPoint.addChildEventListener(member1EventListener);
     }
 
 
@@ -622,6 +658,8 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
             memberCloudEndPoint.removeEventListener(memberEventListener);
         if (groupTaskListener != null && groupTaskReference != null)
             groupTaskReference.removeEventListener(groupTaskListener);
+        if (member1EventListener != null)
+            member1CloudEndPoint.removeEventListener(member1EventListener);
     }
 
     private void showMenu() {
