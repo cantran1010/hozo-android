@@ -31,6 +31,7 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.ReviewsActivity;
+import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.ReviewEntity;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -85,7 +86,7 @@ public class ViewPageAssignAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, final int position) {
+    public Object instantiateItem(final ViewGroup container, final int position) {
         final BidResponse bidResponse = bidResponses.get(position);
         final TextViewHozo tvAssigner, tvBidderCount, tvAssignerCount, tvName, tvDes;
         final TextViewHozo tvRatingCount, tvBidsCount, tvComplex, tvWorker;
@@ -250,6 +251,26 @@ public class ViewPageAssignAdapter extends PagerAdapter {
                 intent.putExtra(Constants.USER_ID, bidResponse.getId());
                 intent.putExtra(Constants.TAB_EXTRA, false);
                 ((BaseActivity) context).startActivity(intent, TransitionScreen.DOWN_TO_UP);
+            }
+        });
+
+        imgAvatarAssign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                intent.putExtra(Constants.USER_ID, bidResponse.getId());
+                intent.putExtra(Constants.IS_MY_USER, bidResponse.getId() == UserManager.getMyUser().getId());
+                context.startActivity(intent);
+
+            }
+        });
+        imgAvatarDes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                intent.putExtra(Constants.USER_ID, bidResponse.getId());
+                intent.putExtra(Constants.IS_MY_USER, bidResponse.getId() == UserManager.getMyUser().getId());
+                context.startActivity(intent);
             }
         });
 
