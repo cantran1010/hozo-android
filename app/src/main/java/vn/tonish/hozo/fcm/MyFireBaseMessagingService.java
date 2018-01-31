@@ -179,6 +179,11 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             }
             case Constants.PUSH_TYPE_CHAT:
             case Constants.PUSH_TYPE_PRIVATE_CHAT:
+                if (PreferUtils.getNewPushChatCount(getApplicationContext()) < 1)
+                    PreferUtils.setNewPushChatCount(getApplicationContext(), 1);
+                Intent intentP = new Intent();
+                intentP.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                sendBroadcast(intentP);
                 break;
 
             default: {
