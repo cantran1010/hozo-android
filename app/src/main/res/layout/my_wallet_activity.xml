@@ -144,8 +144,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/btn_white_corner_selector"
                         android:paddingLeft="10dp"
