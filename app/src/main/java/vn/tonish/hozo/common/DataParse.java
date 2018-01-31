@@ -15,6 +15,7 @@ import vn.tonish.hozo.database.entity.RealmString;
 import vn.tonish.hozo.database.entity.TaskEntity;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
+import vn.tonish.hozo.model.Member;
 import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.Bidder;
 import vn.tonish.hozo.rest.responseRes.Poster;
@@ -154,51 +155,6 @@ public class DataParse {
 
         return taskResponse;
     }
-
-//    public static TaskEntity converTaskReponseToTaskEntity(TaskResponse taskResponse) {
-//        TaskEntity taskEntity = new TaskEntity();
-//        taskEntity.setId(taskResponse.getId());
-//        taskEntity.setCategoryId(taskResponse.getCategoryId());
-//        taskEntity.setTitle(taskResponse.getTitle());
-//        taskEntity.setDescription(taskResponse.getDescription());
-//        taskEntity.setStartTime(DateTimeUtils.getDateFromStringIso(taskResponse.getStartTime()));
-//        taskEntity.setEndTime(DateTimeUtils.getDateFromStringIso(taskResponse.getEndTime()));
-//        taskEntity.setStatus(taskResponse.getStatus());
-//        taskEntity.setOfferStatus(taskResponse.getOfferStatus());
-//        taskEntity.setCommentsCount(taskResponse.getCommentsCount());
-//        taskEntity.setGender(taskResponse.getGender());
-//        taskEntity.setMinAge(taskResponse.getMinAge());
-//        taskEntity.setMaxAge(taskResponse.getMaxAge());
-//        taskEntity.setLatitude(taskResponse.getLatitude());
-//        taskEntity.setLongitude(taskResponse.getLongitude());
-//        taskEntity.setCity(taskResponse.getCity());
-//        taskEntity.setDistrict(taskResponse.getDistrict());
-//        taskEntity.setAddress(taskResponse.getAddress());
-//        taskEntity.setWorkerRate(taskResponse.getWorkerRate());
-//        taskEntity.setWorkerCount(taskResponse.getWorkerCount());
-//        taskEntity.setAssigneeCount(taskResponse.getAssigneeCount());
-//        taskEntity.setBidderCount(taskResponse.getBidderCount());
-//        taskEntity.setCurrency(taskResponse.getCurrency());
-//        taskEntity.setRatePoster(taskResponse.isRatePoster());
-//        taskEntity.setPoster(convertPosterToPosterEntity(taskResponse.getPoster()));
-//        taskEntity.setRole(taskResponse.getRole());
-//        taskEntity.setCreatedAt(DateTimeUtils.getDateFromStringIso(taskResponse.getCreatedAt()));
-//
-//        List<String> atachments = taskResponse.getAttachments();
-//        StringBuilder strAtachments = new StringBuilder();
-//        for (int i = 0; i < atachments.size(); i++) {
-//            strAtachments.append(",").append(atachments.get(i));
-//        }
-//        taskEntity.setAttachments(strAtachments.toString());
-//
-//        taskEntity.setBidders(convertListBidderToListBidderEntity(taskResponse.getBidders()));
-//
-//        taskEntity.setAssignees(convertListAssigerToListAssignerEntity(taskResponse.getAssignees()));
-//
-//        taskEntity.setComments(convertListCommentToListCommentEntity(taskResponse.getComments()));
-//
-//        return taskEntity;
-//    }
 
     private static Poster convertPosterEntityToPoster(PosterEntity posterEntity) {
         Poster poster = new Poster();
@@ -356,25 +312,6 @@ public class DataParse {
             commentEntities.add(convertCommentToCommentEntity(comment));
         return commentEntities;
     }
-//
-//    public static List<TaskEntity> convertListTaskResponseToTaskEntity(List<TaskResponse> taskResponses) {
-//        List<TaskEntity> taskEntities = new ArrayList<>();
-//        for (int i = 0; i < taskResponses.size(); i++)
-//            taskEntities.add(converTaskReponseToTaskEntity(taskResponses.get(i)));
-//        return taskEntities;
-//    }
-// convert integer
-
-    public static List<Integer> realmListToListInt(RealmList<RealmInt> realmInts) {
-        List<Integer> integers = new ArrayList<>();
-        if (realmInts != null && realmInts.size() > 0)
-            for (RealmInt realmInt : realmInts
-                    ) {
-                integers.add(realmInt.getVal());
-            }
-
-        return integers;
-    }
 
     public static RealmList<RealmInt> listIntToRealmList(List<Integer> integers) {
         RealmList<RealmInt> realmInts = new RealmList<>();
@@ -402,33 +339,6 @@ public class DataParse {
         return realmDoubles;
     }
 
-
-    public static List<Double> realmListToListDouble(RealmList<RealmDouble> realmDoubles) {
-        List<Double> doubles = new ArrayList<>();
-        if (realmDoubles != null && realmDoubles.size() > 0)
-            for (RealmDouble realmDouble : realmDoubles
-                    ) {
-                doubles.add(realmDouble.getVal());
-            }
-
-        return doubles;
-    }
-
-
-
-    // convert String
-
-    public static List<String> realmListToListString(RealmList<RealmString> realmStrings) {
-        List<String> strings = new ArrayList<>();
-        if (realmStrings != null && realmStrings.size() > 0)
-            for (RealmString realmInt : realmStrings
-                    ) {
-                strings.add(realmInt.getValue());
-            }
-
-        return strings;
-    }
-
     public static RealmList<RealmString> listStringToRealmList(List<String> strings) {
         RealmList<RealmString> realmStrings = new RealmList<>();
         if (strings != null && strings.size() > 0)
@@ -439,6 +349,25 @@ public class DataParse {
                 realmStrings.add(realmString);
             }
         return realmStrings;
+    }
+
+    public static Member coverAssignerToMember(Assigner assigner) {
+        Member member = new Member();
+        member.setId(assigner.getId());
+        member.setFull_name(assigner.getFullName());
+        member.setAvatar(assigner.getAvatar());
+        member.setPhone(assigner.getPhone());
+        return member;
+    }
+
+    public static List<Member> coverAssignerToMember(List<Assigner> assignerList) {
+        List<Member> memberList = new ArrayList<>();
+        for (Assigner assigner : assignerList
+                ) {
+            memberList.add(coverAssignerToMember(assigner));
+        }
+
+        return memberList;
     }
 
 }

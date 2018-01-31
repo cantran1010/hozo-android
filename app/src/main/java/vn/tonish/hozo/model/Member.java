@@ -1,18 +1,21 @@
 package vn.tonish.hozo.model;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * Created by LongBui on 9/18/17.
  */
 
-public class Member {
-
+public class Member implements Serializable {
     private int id;
     private String full_name;
     private String avatar;
     private boolean block;
     private Map<String, Boolean> groups;
+    private Message message;
+    private String phone;
+    private boolean read;
 
     public int getId() {
         return id;
@@ -54,6 +57,30 @@ public class Member {
         this.groups = groups;
     }
 
+    public Message getMessage() {
+        return message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
+
     @Override
     public String toString() {
         return "Member{" +
@@ -62,7 +89,9 @@ public class Member {
                 ", avatar='" + avatar + '\'' +
                 ", block=" + block +
                 ", groups=" + groups +
+                ", message=" + message +
+                ", phone='" + phone + '\'' +
+                ", read=" + read +
                 '}';
     }
-
 }

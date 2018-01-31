@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.rest.responseRes.Assigner;
+import vn.tonish.hozo.model.Member;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.CircleImageView;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -21,7 +21,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MyViewHolder> {
 
     private Context context;
-    private final List<Assigner> members;
+    private final List<Member> members;
     private memberAdapterListener memberAdapterListener;
 
 
@@ -29,7 +29,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MyViewHold
         void onClick(int position);
     }
 
-    public MemberAdapter(Context context, List<Assigner> members) {
+    public MemberAdapter(Context context, List<Member> members) {
         this.context = context;
         this.members = members;
     }
@@ -57,7 +57,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MyViewHold
             holder.imgAvatar.setImageResource(R.mipmap.app_icon);
         } else
             Utils.displayImage(context, holder.imgAvatar, members.get(position).getAvatar());
-        String[] names = members.get(position).getFullName().split(" ");
+        String[] names = members.get(position).getFull_name().split(" ");
         holder.tvName.setText(names[names.length - 1]);
     }
 

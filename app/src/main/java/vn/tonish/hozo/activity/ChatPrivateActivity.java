@@ -47,10 +47,10 @@ import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Image;
+import vn.tonish.hozo.model.Member;
 import vn.tonish.hozo.model.Message;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
-import vn.tonish.hozo.rest.responseRes.Assigner;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
@@ -96,7 +96,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     private ImageView imgMenu;
     private String imgPath = null;
     private File fileAttach;
-    private Assigner ass;
+    private Member ass;
 
     @Override
     protected int getLayout() {
@@ -131,13 +131,13 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     @Override
     protected void initData() {
         TaskResponse taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.TASK_DETAIL_EXTRA);
-        ass = (Assigner) getIntent().getExtras().get(Constants.ASSIGNER_EXTRA);
+        ass = (Member) getIntent().getExtras().get(Constants.ASSIGNER_EXTRA);
         LogUtils.d(TAG, "initData , taskResponse : " + ass.toString());
         posterId = taskResponse.getPoster().getId();
         taskId = taskResponse.getId();
         tvTitle.setText(taskResponse.getTitle());
         LogUtils.d(TAG, "initData , taskResponse : " + taskResponse.toString());
-        String result = getString(R.string.you) + " " + ass.getFullName();
+        String result = getString(R.string.you) + " " + ass.getFull_name();
         tvMember.setText(result);
         checkTask();
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
@@ -191,7 +191,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                 Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
                 LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
                 if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
-                    String smsStr = ass.getFullName() + " " + getString(R.string.out_chat_content);
+                    String smsStr = ass.getFull_name() + " " + getString(R.string.out_chat_content);
                     Utils.showLongToast(ChatPrivateActivity.this, smsStr, true, false);
                     finish();
                 }
