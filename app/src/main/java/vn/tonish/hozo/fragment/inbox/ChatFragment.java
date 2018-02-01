@@ -93,7 +93,6 @@ public class ChatFragment extends BaseFragment {
     }
 
     private void getChatRooms() {
-        if (call != null) call.cancel();
         call = ApiClient.getApiService().getChatRooms(UserManager.getUserToken());
         call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
@@ -319,7 +318,7 @@ public class ChatFragment extends BaseFragment {
     @Override
     public void onRefresh() {
         super.onRefresh();
-        call = null;
+        if (call != null) call.cancel();
         chatRoomAdapter = null;
         getChatRooms();
     }
