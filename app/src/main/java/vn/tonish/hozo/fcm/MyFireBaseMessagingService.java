@@ -20,10 +20,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -127,13 +127,13 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                 break;
         }
 
-        if (!notification.getEvent().equals(Constants.PUSH_TYPE_CHAT) || !notification.getEvent().equals(Constants.PUSH_TYPE_PRIVATE_CHAT)) {
-            // vibrator when receive push notification from server
-            Vibrator v = (Vibrator) getApplicationContext()
-                    .getSystemService(Context.VIBRATOR_SERVICE);
-            assert v != null;
-            v.vibrate(500);
-        }
+//        if (!notification.getEvent().equals(Constants.PUSH_TYPE_CHAT) || !notification.getEvent().equals(Constants.PUSH_TYPE_PRIVATE_CHAT)) {
+//            // vibrator when receive push notification from server
+//            Vibrator v = (Vibrator) getApplicationContext()
+//                    .getSystemService(Context.VIBRATOR_SERVICE);
+//            assert v != null;
+//            v.vibrate(500);
+//        }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, notification.getId() /* Request code */, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
@@ -150,8 +150,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 //        notificationBuilder.setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.push_sound));
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int color = 0x008000;
-            notificationBuilder.setColor(color);
+            notificationBuilder.setColor(Color.parseColor("#d4e6f1"));
             notificationBuilder.setSmallIcon(R.mipmap.notification_icon);
         } else {
             notificationBuilder.setSmallIcon(R.mipmap.notification_icon);
@@ -160,8 +159,34 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        assert notificationManager != null;
-        notificationManager.notify(notification.getId() /* ID of notification */, notificationBuilder.build());
+//        assert notificationManager != null;
+//        notificationManager.notify(notification.getId() /* ID of notification */, notificationBuilder.build());
+
+        // group notification on notification bar
+        switch (notification.getEvent()) {
+            case Constants.PUSH_TYPE_COMMENT_RECEIVED:
+            case Constants.PUSH_TYPE_COMMENT_REPLIED:
+                notificationManager.notify(notification.getTaskId() * 10 + 1, notificationBuilder.build());
+                break;
+
+            case Constants.PUSH_TYPE_BID_RECEIVED:
+                notificationManager.notify(notification.getTaskId() * 10 + 2, notificationBuilder.build());
+                break;
+
+            case Constants.PUSH_TYPE_CHAT:
+                notificationManager.notify(notification.getTaskId() * 10 + 3, notificationBuilder.build());
+                break;
+
+            case Constants.PUSH_TYPE_PRIVATE_CHAT:
+                notificationManager.notify(notification.getTaskId() * 10 + 4, notificationBuilder.build());
+                break;
+
+            default:
+                notificationManager.notify((int) System.currentTimeMillis(), notificationBuilder.build());
+                break;
+
+        }
+
 
         if (notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)) {
             Intent intentBlock = new Intent();
