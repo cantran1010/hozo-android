@@ -1037,7 +1037,11 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             isShowCancel = false;
             isFollow = false;
 
-            layoutInputComment.setVisibility(View.VISIBLE);
+            if (isInAssigner())
+                layoutInputComment.setVisibility(View.VISIBLE);
+            else
+                layoutInputComment.setVisibility(View.GONE);
+
         }
 
         //Creating the instance of PopupMenu
@@ -1206,6 +1210,13 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             }
         }
 
+    }
+
+    private boolean isInAssigner() {
+        for (Assigner assigner : taskResponse.getAssignees()) {
+            if (UserManager.getMyUser().getId() == assigner.getId()) return true;
+        }
+        return false;
     }
 
     private void showExpand(boolean isShow) {
