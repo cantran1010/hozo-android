@@ -131,7 +131,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private ImageView imgMenu;
     private LinearLayout moreDetailLayout, moreFooterLayout, layoutInputComment;
     private PopupMenu popup;
-
     private RecyclerView rcvBidder;
     private ArrayList<Bidder> bidders = new ArrayList<>();
 
@@ -166,6 +165,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private ProgressBar progressBar;
     private Call<TaskResponse> call;
     private TextViewHozo tvMap;
+    private View footerView;
 
     @Override
     protected int getLayout() {
@@ -174,9 +174,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initView() {
-
         createSwipeToRefresh();
-
+        footerView = (View) findViewById(R.id.footer_scoll);
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
@@ -222,8 +221,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
         myGridView = (MyGridView) findViewById(R.id.gr_image);
 
-        TextViewHozo tvAgeLbl = (TextViewHozo) findViewById(R.id.tv_age_lbl);
-        TextViewHozo tvSexLbl = (TextViewHozo) findViewById(R.id.tv_sex_lbl);
+//        TextViewHozo tvAgeLbl = (TextViewHozo) findViewById(R.id.tv_age_lbl);
+//        TextViewHozo tvSexLbl = (TextViewHozo) findViewById(R.id.tv_sex_lbl);
 
         tvMap = (TextViewHozo) findViewById(R.id.tv_map);
         tvMap.setOnClickListener(this);
@@ -634,8 +633,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         commentsAdapter = new CommentTaskAdapter(this, mComments);
         commentsAdapter.stopLoadMore();
         final LinearLayoutManager lvManager = new LinearLayoutManager(this);
-//        lvManager.setReverseLayout(true);
-//        lvManager.setStackFromEnd(true);
+        lvManager.setReverseLayout(true);
+        lvManager.setStackFromEnd(true);
         rcvComment.setLayoutManager(lvManager);
         commentsAdapter.setCommentType(layoutInputComment.getVisibility());
         rcvComment.setAdapter(commentsAdapter);
@@ -1672,6 +1671,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else {
             doAttachImage();
         }
+        footerView.getParent().requestChildFocus(footerView, footerView);
     }
 
     private void doComment() {
