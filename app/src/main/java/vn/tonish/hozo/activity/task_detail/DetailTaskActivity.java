@@ -14,7 +14,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -132,8 +131,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private ImageView imgMenu;
     private LinearLayout moreDetailLayout, moreFooterLayout, layoutInputComment;
     private PopupMenu popup;
-    private NestedScrollView scollView;
-
     private RecyclerView rcvBidder;
     private ArrayList<Bidder> bidders = new ArrayList<>();
 
@@ -168,6 +165,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private ProgressBar progressBar;
     private Call<TaskResponse> call;
     private TextViewHozo tvMap;
+    private View footerView;
 
     @Override
     protected int getLayout() {
@@ -176,9 +174,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initView() {
-
         createSwipeToRefresh();
-        scollView = (NestedScrollView) findViewById(R.id.scoll_view);
+        footerView = (View) findViewById(R.id.footer_scoll);
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
@@ -1674,12 +1671,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else {
             doAttachImage();
         }
-        scollView.post(new Runnable() {
-            @Override
-            public void run() {
-                scollView.scrollTo(0, scollView.getBottom());
-            }
-        });
+        footerView.getParent().requestChildFocus(footerView, footerView);
     }
 
     private void doComment() {
