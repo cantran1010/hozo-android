@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -270,6 +271,12 @@ public class MessageAdapter extends BaseAdapter<Message, MessageAdapter.WorkHold
 
             tvPosterLeft = itemView.findViewById(R.id.tv_poster_left);
             tvPosterRight = itemView.findViewById(R.id.tv_poster_right);
+            if (tvLeftMsg != null) {
+                tvLeftMsg.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+            if (tvRightMsg != null) {
+                tvRightMsg.setMovementMethod(LinkMovementMethod.getInstance());
+            }
 
         }
 
