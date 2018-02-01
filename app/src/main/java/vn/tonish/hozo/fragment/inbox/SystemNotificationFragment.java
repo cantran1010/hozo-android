@@ -62,6 +62,7 @@ public class SystemNotificationFragment extends BaseFragment {
     private static final int LIMIT = 20;
     private boolean isLoadingMoreFromServer = true;
     private Call<List<Notification>> call;
+    private Call<Void> call1;
     public EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
     private TextViewHozo tvNoData;
@@ -174,8 +175,8 @@ public class SystemNotificationFragment extends BaseFragment {
 
         LogUtils.d(TAG, "updateReadNotification data request : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-
-        ApiClient.getApiService().updateReadNotification(UserManager.getUserToken(), notifications.get(position).getId(), body).enqueue(new Callback<Void>() {
+        call1 = ApiClient.getApiService().updateReadNotification(UserManager.getUserToken(), notifications.get(position).getId(), body);
+        call1.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 LogUtils.d(TAG, "updateReadNotification onResponse : " + response.body());
@@ -327,6 +328,7 @@ public class SystemNotificationFragment extends BaseFragment {
     @Override
     public void onRefresh() {
         super.onRefresh();
+        call1 = null;
         if (call != null) call.cancel();
         isLoadingMoreFromServer = true;
         since = null;

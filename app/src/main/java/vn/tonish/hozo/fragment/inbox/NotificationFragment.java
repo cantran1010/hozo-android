@@ -130,7 +130,6 @@ public class NotificationFragment extends BaseFragment {
     protected void resumeData() {
         getActivity().registerReceiver(broadcastCountNewMsg, new IntentFilter(Constants.BROAD_CAST_PUSH_CHAT_COUNT));
         LogUtils.d(TAG, "ChatFragment resumeData start");
-
     }
 
     @Override
@@ -163,17 +162,16 @@ public class NotificationFragment extends BaseFragment {
                     }
                 }
             } else if (intent.hasExtra(Constants.COUNT_NEW_CHAT_EXTRA)) {
-                int cChat = intent.getExtras().getInt(Constants.COUNT_NEW_CHAT_EXTRA);
-                if (cChat > 0) {
+                int countChat = intent.getExtras().getInt(Constants.COUNT_NEW_CHAT_EXTRA);
+                if (countChat > 0) {
                     tvCountTab2.setVisibility(View.VISIBLE);
-                    tvCountTab2.setText(String.valueOf(cChat));
+                    tvCountTab2.setText(String.valueOf(countChat));
                 } else {
                     tvCountTab2.setVisibility(View.GONE);
                 }
-                PreferUtils.setNewPushChatCount(context, cChat);
             }
             Intent intentAnswer = new Intent();
-            intentAnswer.setAction(Constants. BROAD_CAST_PUSH_COUNT);
+            intentAnswer.setAction(Constants.BROAD_CAST_PUSH_COUNT);
             getActivity().sendBroadcast(intentAnswer);
             updateCountMsg();
         }
@@ -182,7 +180,6 @@ public class NotificationFragment extends BaseFragment {
     private void updateCountMsg() {
         int pushCount = PreferUtils.getNewPushCount(getActivity());
         int pushNewTaskCount = PreferUtils.getPushNewTaskCount(getActivity());
-
         if (pushCount == 0) {
             tvCountTab1.setVisibility(View.GONE);
         } else {

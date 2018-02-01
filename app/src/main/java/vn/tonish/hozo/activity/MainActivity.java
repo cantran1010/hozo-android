@@ -394,6 +394,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.layout_inbox:
+                PreferUtils.setNewPushChatCount(getApplicationContext(), 0);
                 if (tabIndex == 4) {
                     Intent intentAnswer = new Intent();
                     intentAnswer.putExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION, getString(R.string.smooth_top));
