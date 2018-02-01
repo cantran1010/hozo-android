@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:orientation="horizontal">
+
+        <AutoCompleteTextView
+            android:id="@+id/autocomplete_places"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/bg_border_comment"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/address_hint"
+            android:inputType="text"
+            android:maxLines="1"
+            android:minHeight="40dp"
+            android:paddingEnd="30dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="30dp"
+            android:paddingStart="56dp"
+            android:textColor="@color/tv_black"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/content_description_back"
+            android:scaleType="centerInside"
+            android:src="@drawable/img_back" />
+
+        <ImageView
+            android:id="@+id/img_close"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/content_description_back"
+            android:scaleType="centerInside"
+            android:src="@drawable/img_close_black" />
+    </RelativeLayout>
+
+</LinearLayout>
