@@ -990,7 +990,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         tvLocation.setText(address);
         if (keywords != null) keywords.clear();
         else keywords = new ArrayList<>();
-        keyWordAdapter.notifyDataSetChanged();
+        if (keyWordAdapter != null) keyWordAdapter.notifyDataSetChanged();
         setTextForKeyWord();
         edtKeyword.setText("");
         mOrderBy = "";

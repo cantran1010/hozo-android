@@ -8,34 +8,54 @@
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:orientation="horizontal">
+        android:background="@color/hozo_bg"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <AutoCompleteTextView
             android:id="@+id/autocomplete_places"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_margin="5dp"
             android:background="@drawable/bg_border_comment"
+            android:ellipsize="end"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:hint="@string/address_hint"
             android:inputType="text"
             android:maxLines="1"
-            android:minHeight="40dp"
-            android:paddingEnd="30dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="30dp"
-            android:paddingStart="56dp"
+            android:paddingEnd="?android:attr/actionBarSize"
+            android:paddingLeft="?android:attr/actionBarSize"
+            android:paddingRight="?android:attr/actionBarSize"
+            android:paddingStart="?android:attr/actionBarSize"
             android:textColor="@color/tv_black"
-            android:textSize="15sp" />
+            android:textSize="@dimen/tv_size_medium"
+            android:visibility="gone" />
+
+        <vn.tonish.hozo.view.EdittextHozo
+            android:id="@+id/edt_places"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_border_comment"
+            android:ellipsize="end"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/address_hint"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingEnd="?android:attr/actionBarSize"
+            android:paddingLeft="?android:attr/actionBarSize"
+            android:paddingRight="?android:attr/actionBarSize"
+            android:paddingStart="?android:attr/actionBarSize"
+            android:textColor="@color/tv_black"
+            android:textSize="@dimen/tv_size_medium" />
 
         <ImageView
             android:id="@+id/img_back"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
             android:layout_centerVertical="true"
-            android:layout_margin="5dp"
             android:contentDescription="@string/content_description_back"
             android:scaleType="centerInside"
             android:src="@drawable/img_back" />

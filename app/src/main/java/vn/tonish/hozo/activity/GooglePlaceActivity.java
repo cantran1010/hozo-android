@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -23,7 +22,6 @@ import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
-import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by CanTran on 2/1/18.
@@ -39,7 +37,7 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
     private GoogleApiClient googleApiClient;
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
     private AutoCompleteTextView autocompleteView;
-    private TextViewHozo tvNoAddress;
+
 
     @Override
     protected int getLayout() {
@@ -51,10 +49,10 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        RelativeLayout layoutClear = (RelativeLayout) findViewById(R.id.layout_clear);
-        layoutClear.setOnClickListener(this);
-
-        tvNoAddress = (TextViewHozo) findViewById(R.id.tv_no_address);
+//        RelativeLayout layoutClear = (RelativeLayout) findViewById(R.id.layout_clear);
+//        layoutClear.setOnClickListener(this);
+//
+//        tvNoAddress = (TextViewHozo) findViewById(R.id.tv_no_address);
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, this)
@@ -82,11 +80,11 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
         placeAutocompleteAdapter.setOnCountListener(new PlaceAutocompleteAdapter.OnCountListener() {
             @Override
             public void onCount(int count) {
-                if (count == 0 && autocompleteView.getText().toString().trim().length() > 0) {
-                    tvNoAddress.setVisibility(View.VISIBLE);
-                } else {
-                    tvNoAddress.setVisibility(View.GONE);
-                }
+//                if (count == 0 && autocompleteView.getText().toString().trim().length() > 0) {
+//                    tvNoAddress.setVisibility(View.VISIBLE);
+//                } else {
+//                    tvNoAddress.setVisibility(View.GONE);
+//                }
             }
         });
 
@@ -197,10 +195,10 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
 
-            case R.id.layout_clear:
-                autocompleteView.setText(getString(R.string.all_space_type));
-                autocompleteView.requestFocus();
-                break;
+//            case R.id.layout_clear:
+//                autocompleteView.setText(getString(R.string.all_space_type));
+//                autocompleteView.requestFocus();
+//                break;
         }
     }
 
