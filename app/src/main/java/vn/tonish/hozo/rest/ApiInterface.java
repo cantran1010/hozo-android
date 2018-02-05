@@ -24,8 +24,8 @@ import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.Comment;
 import vn.tonish.hozo.model.Notification;
 import vn.tonish.hozo.model.SettingAdvance;
-import vn.tonish.hozo.rest.responseRes.BidResponse;
 import vn.tonish.hozo.rest.responseRes.BankResponse;
+import vn.tonish.hozo.rest.responseRes.BidResponse;
 import vn.tonish.hozo.rest.responseRes.BlockResponse;
 import vn.tonish.hozo.rest.responseRes.DepositResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
@@ -33,6 +33,7 @@ import vn.tonish.hozo.rest.responseRes.NewTaskResponse;
 import vn.tonish.hozo.rest.responseRes.NofifySystemResponse;
 import vn.tonish.hozo.rest.responseRes.NotifyChatRoomResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
+import vn.tonish.hozo.rest.responseRes.PlaceReponse;
 import vn.tonish.hozo.rest.responseRes.PromotionResponse;
 import vn.tonish.hozo.rest.responseRes.RateResponse;
 import vn.tonish.hozo.rest.responseRes.TaskExchangeResponse;
@@ -95,7 +96,7 @@ public interface ApiInterface {
     Call<Void> report(@Header("Authorization") String token, @Path("commentId") int commentId, @Body RequestBody body);
 
     @POST("v1/tasks/{taskId}/bids")
-    Call<TaskResponse> bidsTask(@Header("Authorization") String token, @Path("taskId") int taskId,@Body RequestBody body);
+    Call<TaskResponse> bidsTask(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
 
     @POST("v1/tasks/{taskId}/accept")
     Call<TaskResponse> acceptOffer(@Header("Authorization") String token, @Path("taskId") int taskId, @Body RequestBody body);
@@ -232,4 +233,6 @@ public interface ApiInterface {
     @POST("v1/users/referrer")
     Call<Void> referrer(@Header("Authorization") String token, @Body RequestBody body);
 
+    @GET("v1/applications/google/place")
+    Call<PlaceReponse> getPlaces(@Header("Authorization") String token, @QueryMap Map<String, String> params);
 }

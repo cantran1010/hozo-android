@@ -243,7 +243,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 .enableAutoManage(this, 0 /* clientId */, this)
                 .addApi(Places.GEO_DATA_API)
                 .build();
-        // Retrieve the AutoCompleteTextView that will display Place suggestions.
+        // Retrieve the AutoCompleteTextView that will display HozoPlace suggestions.
         autocompleteView = (AutoCompleteTextView)
                 findViewById(R.id.edt_address);
         autocompleteView.setThreshold(1);
@@ -277,7 +277,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     .getPlaceById(googleApiClient, placeId);
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
 
-            LogUtils.i(TAG, "Called getPlaceById to get Place details for " + placeId);
+            LogUtils.i(TAG, "Called getPlaceById to get HozoPlace details for " + placeId);
         }
     };
 
@@ -287,16 +287,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         public void onResult(@NonNull PlaceBuffer places) {
             if (!places.getStatus().isSuccess()) {
                 // Request did not complete successfully
-                LogUtils.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
+                LogUtils.e(TAG, "HozoPlace query did not complete. Error: " + places.getStatus().toString());
                 places.release();
                 return;
             }
             try {
-                // Get the Place object from the buffer.
+                // Get the HozoPlace object from the buffer.
                 final Place place = places.get(0);
                 double lat = place.getLatLng().latitude;
                 double lon = place.getLatLng().longitude;
-                LogUtils.e(TAG, "Place address : " + place.getAddress() + "-" + lat + "-" + lon);
+                LogUtils.e(TAG, "HozoPlace address : " + place.getAddress() + "-" + lat + "-" + lon);
                 if (lat != 0 && lon != 0) {
                     locations = new ArrayList<>();
                     locations.add(0, lat);

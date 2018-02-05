@@ -2,6 +2,10 @@ package vn.tonish.hozo.activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -17,11 +21,30 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.adapter.PlaceAdapter;
 import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.model.HozoPlace;
+import vn.tonish.hozo.network.NetworkUtils;
+import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.PlaceReponse;
+import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.TextViewHozo;
+
+import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 
 /**
  * Created by CanTran on 2/1/18.
@@ -36,8 +59,13 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
      */
     private GoogleApiClient googleApiClient;
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
+    private PlaceAdapter placedapter;
     private AutoCompleteTextView autocompleteView;
-
+    private List<HozoPlace> hozoPlaces = new ArrayList<>();
+    private RecyclerView rcvAdress;
+    private Call<PlaceReponse> call;
+    private ImageView imgClear;
+    private TextViewHozo tvNoAddress;
 
     @Override
     protected int getLayout() {
@@ -46,30 +74,26 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
+        LogUtils.d(TAG, "start GooglePlaceActivity");
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
-
-//        RelativeLayout layoutClear = (RelativeLayout) findViewById(R.id.layout_clear);
-//        layoutClear.setOnClickListener(this);
-//
-//        tvNoAddress = (TextViewHozo) findViewById(R.id.tv_no_address);
-
+        rcvAdress = (RecyclerView) findViewById(R.id.rcv_address);
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, this)
                 .addApi(Places.GEO_DATA_API)
                 .build();
-        // Retrieve the AutoCompleteTextView that will display Place suggestions.
-        autocompleteView = (AutoCompleteTextView)
-                findViewById(R.id.autocomplete_places);
-
+        // Retrieve the AutoCompleteTextView that will display HozoPlace suggestions.
+        autocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete_places);
         autocompleteView.setThreshold(1);
-
+        tvNoAddress = (TextViewHozo) findViewById(R.id.tv_no_address);
+        imgClear = (ImageView) findViewById(R.id.img_clear);
+        imgClear.setOnClickListener(this);
         // Register a listener that receives callbacks when a suggestion has been selected
         autocompleteView.setOnItemClickListener(mAutocompleteClickListener);
 
         final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
                 .setTypeFilter(Place.TYPE_COUNTRY)
-                .setCountry("VN")
+//                .setCountry("VN")
                 .build();
 
         // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
@@ -80,22 +104,97 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
         placeAutocompleteAdapter.setOnCountListener(new PlaceAutocompleteAdapter.OnCountListener() {
             @Override
             public void onCount(int count) {
-//                if (count == 0 && autocompleteView.getText().toString().trim().length() > 0) {
-//                    tvNoAddress.setVisibility(View.VISIBLE);
-//                } else {
-//                    tvNoAddress.setVisibility(View.GONE);
-//                }
+                if (count == 0 && autocompleteView.getText().toString().trim().length() > 0) {
+                    tvNoAddress.setVisibility(View.VISIBLE);
+                } else {
+                    tvNoAddress.setVisibility(View.GONE);
+                }
             }
         });
 
         autocompleteView.setAdapter(placeAutocompleteAdapter);
+
     }
 
     @Override
     protected void initData() {
+        googleApiClient.disconnect();
         String address = getIntent().getStringExtra(Constants.EXTRA_ADDRESS);
         autocompleteView.setText(address);
+        autocompleteView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (autocompleteView.getText().toString().length() > 0) {
+                    imgClear.setVisibility(View.VISIBLE);
+                } else {
+                    imgClear.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
+
+    private void setPlaceDefault() {
+        placedapter = new PlaceAdapter(GooglePlaceActivity.this, hozoPlaces);
+        LinearLayoutManager lvManager = new LinearLayoutManager(this);
+        rcvAdress.setLayoutManager(lvManager);
+        rcvAdress.setAdapter(placedapter);
+    }
+
+    private void getSearchAddress(final String query) {
+        LogUtils.d(TAG, "start getSearchAddress" + query);
+        Map<String, String> option = new HashMap<>();
+        if (query != null) option.put("query", query);
+        call = ApiClient.getApiService().getPlaces(UserManager.getUserToken(), option);
+        call.enqueue(new Callback<PlaceReponse>() {
+            @Override
+            public void onResponse(Call<PlaceReponse> call, Response<PlaceReponse> response) {
+                LogUtils.d(TAG, "getPlaces code : " + response.code());
+                LogUtils.d(TAG, "getPlaces body : " + response.body());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    if (response.body() != null)
+                        hozoPlaces.clear();
+                    hozoPlaces.addAll(response.body().getHozoPlaces());
+                    setPlaceDefault();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(GooglePlaceActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            getSearchAddress(query);
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(GooglePlaceActivity.this);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PlaceReponse> call, Throwable t) {
+                LogUtils.d(TAG, "getSearchAddress error : " + t.getMessage());
+                DialogUtils.showRetryDialog(GooglePlaceActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getSearchAddress(query);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
 
     @Override
     protected void resumeData() {
@@ -104,7 +203,7 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
 
     /**
      * Listener that handles selections from suggestions from the AutoCompleteTextView that
-     * displays Place suggestions.
+     * displays HozoPlace suggestions.
      * Gets the place id of the selected item and issues a request to the Places Geo Data API
      * to retrieve more details about the place.
      *
@@ -117,7 +216,7 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             /*
              Retrieve the place ID of the selected item from the Adapter.
-             The adapter stores each Place suggestion in a AutocompletePrediction from which we
+             The adapter stores each HozoPlace suggestion in a AutocompletePrediction from which we
              read the place ID and title.
               */
             final AutocompletePrediction item = placeAutocompleteAdapter.getItem(position);
@@ -127,14 +226,13 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
             LogUtils.i(TAG, "Autocomplete item selected: " + primaryText);
 
             /*
-             Issue a request to the Places Geo Data API to retrieve a Place object with additional
+             Issue a request to the Places Geo Data API to retrieve a HozoPlace object with additional
              details about the place.
               */
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
                     .getPlaceById(googleApiClient, placeId);
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
-
-            LogUtils.i(TAG, "Called getPlaceById to get Place details for " + placeId);
+            LogUtils.i(TAG, "Called getPlaceById to get HozoPlace details for " + placeId);
         }
     };
 
@@ -148,16 +246,13 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
         public void onResult(@NonNull PlaceBuffer places) {
             if (!places.getStatus().isSuccess()) {
                 // Request did not complete successfully
-                LogUtils.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
+                LogUtils.e(TAG, "HozoPlace query did not complete. Error: " + places.getStatus().toString());
                 places.release();
-                //goi api
                 return;
             }
             try {
-                Utils.hideKeyBoard(GooglePlaceActivity.this);
-                // Get the Place object from the buffer.
+                hideKeyBoard(GooglePlaceActivity.this);
                 final Place place = places.get(0);
-
                 Intent intent = new Intent();
                 intent.putExtra(Constants.LAT_EXTRA, place.getLatLng().latitude);
                 intent.putExtra(Constants.LON_EXTRA, place.getLatLng().longitude);
@@ -165,28 +260,12 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
                 setResult(Constants.RESULT_CODE_ADDRESS, intent);
                 finish();
                 places.release();
-
-//                // Get the Place object from the buffer.
-//                final Place place = places.get(0);
-//
-//                latLng = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
-//                getAddress(false);
-//                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
-//
-//                if (marker == null) {
-//                    marker = googleMap.addMarker(new MarkerOptions()
-//                            .position(new LatLng(latLng.latitude, latLng.longitude))
-//                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_pin)));
-//                } else
-//                    marker.setPosition(latLng);
-//
-//                Utils.hideKeyBoard(PlaceActivity.this);
-//                places.release();
             } catch (Exception e) {
-                //goi api
+
             }
         }
     };
+
 
     @Override
     public void onClick(View view) {
@@ -195,12 +274,14 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
 
-//            case R.id.layout_clear:
-//                autocompleteView.setText(getString(R.string.all_space_type));
-//                autocompleteView.requestFocus();
-//                break;
+            case R.id.img_clear:
+                autocompleteView.setText("");
+                autocompleteView.requestFocus();
+                break;
+
         }
     }
+
 
     /**
      * Called when the Activity could not connect to Google Play services and the auto manager
@@ -211,16 +292,22 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
      */
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        //goi api
+        autocompleteView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        LogUtils.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
-                + connectionResult.getErrorCode());
+            }
 
-//        // TODO(Developer): Check error code and notify the user of error state and resolution.
-//        Toast.makeText(this,
-//                "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
-//                Toast.LENGTH_SHORT).show();
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                getSearchAddress(autocompleteView.getText().toString().trim());
+                if (autocompleteView.getText().toString().trim().isEmpty()) hozoPlaces.clear();
+            }
 
-        Utils.showLongToast(this, getString(R.string.gg_api_error), true, false);
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 }
