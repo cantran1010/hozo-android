@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import io.realm.Realm;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -722,10 +723,16 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             Utils.displayImage(EditProfileActivity.this, imgAvatar, imgPath);
             file = new File(imgPath);
             isUpdateAvata = true;
+            Realm.getDefaultInstance().beginTransaction();
+            userEntity.setAvatar(imgPath);
+            Realm.getDefaultInstance().commitTransaction();
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA_AVATA && resultCode == Activity.RESULT_OK) {
             Intent intent = new Intent(EditProfileActivity.this, CropImageActivity.class);
             intent.putExtra(Constants.EXTRA_IMAGE_PATH, getImagePath());
             startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+            Realm.getDefaultInstance().beginTransaction();
+            userEntity.setAvatar(imgPath);
+            Realm.getDefaultInstance().commitTransaction();
         }
 
         // background
@@ -737,10 +744,16 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             Utils.displayImage(EditProfileActivity.this, imgBackground, imgPath);
             LogUtils.d(TAG, "imgPath background : " + imgPath);
             fileBackground = new File(imgPath);
+            Realm.getDefaultInstance().beginTransaction();
+            userEntity.setBackground(imgPath);
+            Realm.getDefaultInstance().commitTransaction();
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA_BACKGROUND && resultCode == Activity.RESULT_OK) {
             String selectedImagePath = getImagePathBackground();
             Utils.displayImage(EditProfileActivity.this, imgBackground, selectedImagePath);
             fileBackground = new File(selectedImagePath);
+            Realm.getDefaultInstance().beginTransaction();
+            userEntity.setBackground(imgPath);
+            Realm.getDefaultInstance().commitTransaction();
         }
 
         // image attach
