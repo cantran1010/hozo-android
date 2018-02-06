@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -22,13 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +43,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
+import vn.tonish.hozo.activity.GooglePlaceActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.CropImageActivity;
 import vn.tonish.hozo.activity.image.PreviewImageActivity;
@@ -76,14 +72,12 @@ import vn.tonish.hozo.view.RadioButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.img_avatar;
-import static vn.tonish.hozo.common.Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE_AVATA;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE_BACKGROUND;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.DateTimeUtils.getDateBirthDayFromIso;
 import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyIsoFromDate;
-import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 
 
 /**
@@ -284,22 +278,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
 
     private void findPlace() {
-        final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
-                .setTypeFilter(Place.TYPE_COUNTRY)
-                .build();
-        try {
-            Intent intent =
-                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                            .setFilter(autocompleteFilter)
-                            .build(this);
-            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-        } catch (GooglePlayServicesRepairableException e) {
-            LogUtils.d(TAG, "GooglePlayServicesRepairableException" + e.toString());
-            autocompleteView.setError(getString(R.string.post_task_map_get_location_error_next));
-        } catch (GooglePlayServicesNotAvailableException e) {
-            LogUtils.d(TAG, "GooglePlayServicesNotAvailableException" + e.toString());
-            autocompleteView.setError(getString(R.string.post_task_map_get_location_error_next));
-        }
+        Intent intent = new Intent(this, GooglePlaceActivity.class);
+        startActivityForResult(intent, Constants.REQUEST_CODE_GOOGLE_PLACE, TransitionScreen.DOWN_TO_UP);
     }
 
     @Override
@@ -734,7 +714,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             userEntity.setAvatar(imgPath);
             Realm.getDefaultInstance().commitTransaction();
         }
-
         // background
         else if (requestCode == REQUEST_CODE_PICK_IMAGE_BACKGROUND
                 && resultCode == RESPONSE_CODE_PICK_IMAGE
@@ -755,7 +734,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             userEntity.setBackground(imgPath);
             Realm.getDefaultInstance().commitTransaction();
         }
-
         // image attach
         else if (requestCode == REQUEST_CODE_PICK_IMAGE
                 && resultCode == RESPONSE_CODE_PICK_IMAGE
@@ -772,8 +750,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             images.add(0, image);
             imageAdapter.notifyDataSetChanged();
         }
-
-
         // crop image
         else if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE) {
             String imgPath = data != null ? data.getStringExtra(Constants.EXTRA_IMAGE_PATH) : null;
@@ -787,27 +763,19 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             userEntity = UserManager.getMyUser();
             LogUtils.d(TAG, "onActivityResult userEntity REQUEST_CODE_SKILL : " + userEntity.toString());
         }
-
         // language
         else if (requestCode == Constants.REQUEST_CODE_LANGUAGE && resultCode == Constants.RESULT_CODE_TAG) {
             userEntity = UserManager.getMyUser();
             LogUtils.d(TAG, "onActivityResult userEntity REQUEST_CODE_LANGUAGE : " + userEntity.toString());
-        } else if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Place place = PlaceAutocomplete.getPlace(this, data);
-                LogUtils.d(TAG, "Place: " + place.getName());
-                // Get the Place object from the buffer.
-                LogUtils.e(TAG, "Place address : " + place.getAddress());
-                lat = place.getLatLng().latitude;
-                lon = place.getLatLng().longitude;
-                autocompleteView.setText(place.getAddress());
-                address = place.getAddress().toString();
-                hideKeyBoard(EditProfileActivity.this);
-            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-                Status status = PlaceAutocomplete.getStatus(this, data);
-                LogUtils.d(TAG, status.getStatusMessage());
-                autocompleteView.setError(getString(R.string.post_task_map_get_location_error_next));
-            }
+        }
+        //google place
+        else if (requestCode == Constants.REQUEST_CODE_GOOGLE_PLACE && resultCode == Constants.RESULT_CODE_ADDRESS && data != null) {
+            Bundle bundle = data.getExtras();
+            lat = bundle.getDouble(Constants.LAT_EXTRA);
+            lon = bundle.getDouble(Constants.LON_EXTRA);
+            autocompleteView.setText(bundle.getString(Constants.EXTRA_ADDRESS));
+            address = bundle.getString(Constants.EXTRA_ADDRESS);
+
         }
 
 

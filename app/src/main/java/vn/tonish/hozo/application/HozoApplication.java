@@ -37,7 +37,6 @@ public class HozoApplication extends Application {
                     .debuggable(true)
                     .build();
             Fabric.with(fabric);
-
             if (UserManager.checkLogin())
                 Crashlytics.setInt("user_id", UserManager.getMyUser().getId());
         }

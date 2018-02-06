@@ -20,17 +20,12 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import vn.tonish.hozo.R;
+import vn.tonish.hozo.activity.GooglePlaceActivity;
 import vn.tonish.hozo.activity.PostTaskActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
 import vn.tonish.hozo.activity.image.PreviewImageActivity;
@@ -59,10 +54,8 @@ import static vn.tonish.hozo.common.Constants.MAX_LENGTH_DES;
 import static vn.tonish.hozo.common.Constants.MAX_LENGTH_TITLE;
 import static vn.tonish.hozo.common.Constants.MIN_LENGTH_DES;
 import static vn.tonish.hozo.common.Constants.MIN_LENGTH_TITLE;
-import static vn.tonish.hozo.common.Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
-import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 
 /**
  * Created by CanTran on 12/6/17.
@@ -161,22 +154,8 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
 
 
     private void findPlace() {
-        final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
-                .setTypeFilter(Place.TYPE_COUNTRY)
-                .build();
-        try {
-            Intent intent =
-                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                            .setFilter(autocompleteFilter)
-                            .build(getActivity());
-            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-        } catch (GooglePlayServicesRepairableException e) {
-            LogUtils.d(TAG, "GooglePlayServicesRepairableException" + e.toString());
-            Utils.showLongToast(getContext(), getString(R.string.post_task_map_get_location_error_next), true, false);
-        } catch (GooglePlayServicesNotAvailableException e) {
-            LogUtils.d(TAG, "GooglePlayServicesNotAvailableException" + e.toString());
-            Utils.showLongToast(getContext(), getString(R.string.post_task_map_get_location_error_next), true, false);
-        }
+        Intent intent = new Intent(getActivity(), GooglePlaceActivity.class);
+        startActivityForResult(intent, Constants.REQUEST_CODE_GOOGLE_PLACE, TransitionScreen.DOWN_TO_UP);
     }
 
     private void checkPermission() {
@@ -353,23 +332,12 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             image.setPath(selectedImagePath);
             ((PostTaskActivity) getActivity()).images.add(0, image);
             imageAdapter.notifyDataSetChanged();
-        }
-        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Place place = PlaceAutocomplete.getPlace(getContext(), data);
-                LogUtils.d(TAG, "Place: " + place.getName());
-                // Get the Place object from the buffer.
-                LogUtils.e(TAG, "Place address : " + place.getAddress());
-                lat = place.getLatLng().latitude;
-                lon = place.getLatLng().longitude;
-                autocompleteView.setText(place.getAddress());
-                address = place.getAddress().toString();
-                hideKeyBoard(getActivity());
-            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-                Status status = PlaceAutocomplete.getStatus(getContext(), data);
-                LogUtils.d(TAG, status.getStatusMessage());
-                Utils.showLongToast(getContext(), getString(R.string.post_task_map_get_location_error_next), true, false);
-            }
+        } else if (requestCode == Constants.REQUEST_CODE_GOOGLE_PLACE && resultCode == Constants.RESULT_CODE_ADDRESS && data != null) {
+            Bundle bundle = data.getExtras();
+            lat = bundle.getDouble(Constants.LAT_EXTRA);
+            lon = bundle.getDouble(Constants.LON_EXTRA);
+            autocompleteView.setText(bundle.getString(Constants.EXTRA_ADDRESS));
+            address = bundle.getString(Constants.EXTRA_ADDRESS);
         }
     }
 

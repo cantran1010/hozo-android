@@ -75,6 +75,7 @@ public class Constants {
     public static final String PAYMENT_EXTRA = "payment_extra";
     public static final String PARAMETER_REFERRER = "referrer_id";
     public static final String NO_USER = "no_user";
+    public static final int REQUEST_CODE_GOOGLE_PLACE =831 ;
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

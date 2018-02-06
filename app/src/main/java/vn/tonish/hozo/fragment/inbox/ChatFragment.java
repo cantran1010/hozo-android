@@ -345,7 +345,7 @@ public class ChatFragment extends BaseFragment {
         Intent intentNewMsg = new Intent();
         intentNewMsg.setAction(Constants.BROAD_CAST_PUSH_CHAT_COUNT);
         intentNewMsg.putExtra(Constants.COUNT_NEW_CHAT_EXTRA, getCountRoomUnRead());
-        getContext().sendBroadcast(intentNewMsg);
+       getActivity().sendBroadcast(intentNewMsg);
 
     }
 

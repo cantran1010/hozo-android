@@ -77,10 +77,8 @@ public class SelectTaskFragment extends BaseFragment {
                     for (Category category : response.body())
                         if (category.getStatus().equals(Constants.CATEGORY_ACTIVE))
                             categories.add(category);
-
                     refreshCategory();
                     inserCategory(response.body());
-
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
                         @Override
