@@ -15,8 +15,6 @@ import static vn.tonish.hozo.utils.Utils.getHashMapFromQuery;
 
 
 public class InstallReceiver extends BroadcastReceiver {
-    private final static String TAG = InstallReceiver.class.getName();
-
     @Override
     public void onReceive(Context context, Intent intent) {
         String rawReferrer = intent.getStringExtra("referrer");

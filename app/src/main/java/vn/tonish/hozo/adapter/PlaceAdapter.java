@@ -19,6 +19,20 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.MyViewHolder> {
     private Context context;
     private List<HozoPlace> places;
+    private PlaceAdapterLister placeAdapterLister;
+
+    public PlaceAdapterLister getPlaceAdapterLister() {
+        return placeAdapterLister;
+    }
+
+    public void setPlaceAdapterLister(PlaceAdapterLister placeAdapterLister) {
+        this.placeAdapterLister = placeAdapterLister;
+    }
+
+    public interface PlaceAdapterLister {
+        void onItemClick(int position);
+    }
+
 
     public PlaceAdapter(Context context, List<HozoPlace> places) {
         this.context = context;
@@ -45,14 +59,19 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.MyViewHolder
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextViewHozo address;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             address = itemView.findViewById(R.id.tv_address);
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            if (placeAdapterLister != null) placeAdapterLister.onItemClick(getAdapterPosition());
+        }
     }
 
 }

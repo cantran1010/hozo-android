@@ -111,16 +111,12 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
                 }
             }
         });
-
         autocompleteView.setAdapter(placeAutocompleteAdapter);
 
     }
 
     @Override
     protected void initData() {
-        googleApiClient.disconnect();
-        String address = getIntent().getStringExtra(Constants.EXTRA_ADDRESS);
-        autocompleteView.setText(address);
         autocompleteView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -148,6 +144,18 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
         LinearLayoutManager lvManager = new LinearLayoutManager(this);
         rcvAdress.setLayoutManager(lvManager);
         rcvAdress.setAdapter(placedapter);
+        placedapter.setPlaceAdapterLister(new PlaceAdapter.PlaceAdapterLister() {
+            @Override
+            public void onItemClick(int position) {
+                hideKeyBoard(GooglePlaceActivity.this);
+                Intent intent = new Intent();
+                intent.putExtra(Constants.LAT_EXTRA, hozoPlaces.get(position).getGeometry().getLocation().getLat());
+                intent.putExtra(Constants.LON_EXTRA, hozoPlaces.get(position).getGeometry().getLocation().getLng());
+                intent.putExtra(Constants.EXTRA_ADDRESS, hozoPlaces.get(position).getAddress());
+                setResult(Constants.RESULT_CODE_ADDRESS, intent);
+                finish();
+            }
+        });
     }
 
     private void getSearchAddress(final String query) {
@@ -256,7 +264,7 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
                 Intent intent = new Intent();
                 intent.putExtra(Constants.LAT_EXTRA, place.getLatLng().latitude);
                 intent.putExtra(Constants.LON_EXTRA, place.getLatLng().longitude);
-                intent.putExtra(Constants.EXTRA_ADDRESS, autocompleteView.getText().toString());
+                intent.putExtra(Constants.EXTRA_ADDRESS, place.getAddress());
                 setResult(Constants.RESULT_CODE_ADDRESS, intent);
                 finish();
                 places.release();
@@ -266,11 +274,11 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
         }
     };
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
+                hideKeyBoard(this);
                 finish();
                 break;
 
@@ -280,6 +288,14 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
                 break;
 
         }
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        googleApiClient.stopAutoManage(GooglePlaceActivity.this);
+        if (googleApiClient.isConnected()) googleApiClient.disconnect();
     }
 
 

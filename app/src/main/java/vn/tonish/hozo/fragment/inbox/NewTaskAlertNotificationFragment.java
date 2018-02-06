@@ -66,7 +66,7 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
     public EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private LinearLayoutManager linearLayoutManager;
     private TextViewHozo tvNoData;
-    private static final int TIME_DELAY = 2000;
+
 
     @Override
     protected int getLayout() {

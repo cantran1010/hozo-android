@@ -1,6 +1,8 @@
 package vn.tonish.hozo.activity;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -10,8 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,13 +21,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.AutocompletePrediction;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceBuffer;
-import com.google.android.gms.location.places.Places;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +35,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.KeyWordAdapter;
-import vn.tonish.hozo.adapter.PlaceAutocompleteAdapter;
 import vn.tonish.hozo.adapter.TaskTypeAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
@@ -62,6 +54,7 @@ import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.ExpandableLayout;
@@ -93,9 +86,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     private int count = 0;
     private String address = "";
     private int distance = 50;
-    private GoogleApiClient googleApiClient;
-    private PlaceAutocompleteAdapter placeAutocompleteAdapter;
-    private AutoCompleteTextView autocompleteView;
+    private TextViewHozo autocompleteView;
     private String categoryName = "";
     private String strTime = "";
     private KeyWordAdapter keyWordAdapter;
@@ -123,6 +114,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         scrollView = (NestedScrollView) findViewById(R.id.scroll_View);
 
         ImageView btnBack = (ImageView) findViewById(R.id.img_back);
+        autocompleteView = (TextViewHozo) findViewById(R.id.edt_address);
         rcvCategory = (RecyclerView) findViewById(R.id.rcv_category);
         layoutContext = (LinearLayout) findViewById(R.id.layout_content);
         followExpandableLayout = (ExpandableLayout) findViewById(R.id.follow_expandable_layout);
@@ -198,6 +190,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         tvSunday = (TextViewHozo) findViewById(R.id.tv_sunday);
         TextViewHozo tvDefault = (TextViewHozo) findViewById(R.id.tv_reset);
 
+        autocompleteView.setOnClickListener(this);
         tvMonday.setOnClickListener(this);
         tvTuesday.setOnClickListener(this);
         tvWednesday.setOnClickListener(this);
@@ -230,99 +223,10 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 R.anim.rotate_down);
         anim_up = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.rotate_up);
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, 0 /* clientId */, this)
-                .addApi(Places.GEO_DATA_API)
-                .build();
-        // Retrieve the AutoCompleteTextView that will display Place suggestions.
-        autocompleteView = (AutoCompleteTextView)
-                findViewById(R.id.edt_address);
-
-        autocompleteView.setThreshold(1);
-
-        // Register a listener that receives callbacks when a suggestion has been selected
-        autocompleteView.setOnItemClickListener(mAutocompleteClickListener);
-
-        final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
-                .setTypeFilter(Place.TYPE_COUNTRY)
-//                .setCountry("VN")
-                .build();
-
-        // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
-        // the entire world.
-        placeAutocompleteAdapter = new PlaceAutocompleteAdapter(this, googleApiClient, null,
-                autocompleteFilter);
-        autocompleteView.setAdapter(placeAutocompleteAdapter);
+        autocompleteView = (TextViewHozo) findViewById(R.id.edt_address);
         createListCategory();
         getDataforView();
     }
-
-    private final AdapterView.OnItemClickListener mAutocompleteClickListener
-            = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            /*
-             Retrieve the place ID of the selected item from the Adapter.
-             The adapter stores each Place suggestion in a AutocompletePrediction from which we
-             read the place ID and title.
-              */
-            final AutocompletePrediction item = placeAutocompleteAdapter.getItem(position);
-            final String placeId = item != null ? item.getPlaceId() : null;
-            final CharSequence primaryText = item != null ? item.getPrimaryText(null) : null;
-
-            LogUtils.i(TAG, "Autocomplete item selected: " + primaryText);
-
-            /*
-             Issue a request to the Places Geo Data API to retrieve a Place object with additional
-             details about the place.
-              */
-            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
-                    .getPlaceById(googleApiClient, placeId);
-            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
-
-            LogUtils.i(TAG, "Called getPlaceById to get Place details for " + placeId);
-        }
-    };
-
-    private final ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
-            = new ResultCallback<PlaceBuffer>() {
-        @Override
-        public void onResult(@NonNull PlaceBuffer places) {
-            if (!places.getStatus().isSuccess()) {
-                // Request did not complete successfully
-                LogUtils.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
-                places.release();
-                return;
-            }
-            try {
-                // Get the Place object from the buffer.
-                final Place place = places.get(0);
-                double lat = place.getLatLng().latitude;
-                double lon = place.getLatLng().longitude;
-                LogUtils.e(TAG, "Place address : " + place.getAddress() + "-" + lat + "-" + lon);
-                if (lat != 0 && lon != 0) {
-                    locations = new ArrayList<>();
-                    locations.add(0, lat);
-                    locations.add(1, lon);
-                }
-                address = autocompleteView.getText().toString();
-                autocompleteView.setError(null);
-                places.release();
-                hideKeyBoard(AlertNewTaskActivity.this);
-
-            } catch (Exception e) {
-                Utils.showLongToast(AlertNewTaskActivity.this, getString(R.string.post_task_map_get_location_error_next), true, false);
-            }
-        }
-    };
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        googleApiClient.stopAutoManage(AlertNewTaskActivity.this);
-        googleApiClient.disconnect();
-    }
-
 
     private void getDataforView() {
         if (getSettingAdvace() == null) {
@@ -834,6 +738,25 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQUEST_CODE_GOOGLE_PLACE && resultCode == Constants.RESULT_CODE_ADDRESS && data != null) {
+            Bundle bundle = data.getExtras();
+            double lat = bundle.getDouble(Constants.LAT_EXTRA);
+            double lon = bundle.getDouble(Constants.LON_EXTRA);
+            if (lat != 0 && lon != 0) {
+                locations = new ArrayList<>();
+                locations.add(0, lat);
+                locations.add(1, lon);
+            }
+            address = bundle.getString(Constants.EXTRA_ADDRESS);
+            autocompleteView.setError(null);
+            autocompleteView.setText(address);
+            tvLocation.setText(address);
+
+        }
+    }
 
     @Override
     protected void resumeData() {
@@ -899,6 +822,10 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.tv_reset:
                 defaultSetting();
+                break;
+            case R.id.edt_address:
+                Intent intent = new Intent(this, GooglePlaceActivity.class);
+                startActivityForResult(intent, Constants.REQUEST_CODE_GOOGLE_PLACE, TransitionScreen.DOWN_TO_UP);
                 break;
         }
 
@@ -1089,7 +1016,6 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 layoutContext.setVisibility(View.GONE);
                 isNotification = false;
                 break;
-
         }
 
     }

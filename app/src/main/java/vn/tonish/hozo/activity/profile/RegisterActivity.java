@@ -6,15 +6,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
@@ -27,13 +26,7 @@ import android.widget.Toast;
 import com.facebook.accountkit.AccountKit;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 
@@ -52,6 +45,7 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.GeneralInfoActivity;
+import vn.tonish.hozo.activity.GooglePlaceActivity;
 import vn.tonish.hozo.activity.LoginActivity;
 import vn.tonish.hozo.activity.MainActivity;
 import vn.tonish.hozo.activity.image.AlbumActivity;
@@ -78,7 +72,6 @@ import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 import static vn.tonish.hozo.R.id.img_avatar;
-import static vn.tonish.hozo.common.Constants.PLACE_AUTOCOMPLETE_REQUEST_CODE;
 import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE_AVATA;
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
@@ -136,10 +129,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         else inputLayoutCoupon.setVisibility(View.GONE);
         btnSave.setOnClickListener(this);
         edtAddress.setOnClickListener(this);
-        edtName.addTextChangedListener(new MyTextWatcher(edtName));
-        edtAddress.addTextChangedListener(new MyTextWatcher(edtAddress));
-        edtCoupon.addTextChangedListener(new MyTextWatcher(edtCoupon));
-
     }
 
     @Override
@@ -149,8 +138,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         checkBoxCoupon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) inputLayoutCoupon.setVisibility(View.VISIBLE);
-                else inputLayoutCoupon.setVisibility(View.GONE);
+                if (b) {
+                    inputLayoutCoupon.setVisibility(View.VISIBLE);
+                    edtCoupon.requestFocus();
+                } else inputLayoutCoupon.setVisibility(View.GONE);
 
             }
         });
@@ -158,23 +149,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
 
     private void findPlace() {
-        final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
-                .setTypeFilter(Place.TYPE_COUNTRY)
-//                .setCountry("VN")
-                .build();
-        try {
-            Intent intent =
-                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                            .setFilter(autocompleteFilter)
-                            .build(this);
-            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-        } catch (GooglePlayServicesRepairableException e) {
-            LogUtils.d(TAG, "GooglePlayServicesRepairableException" + e.toString());
-            inputLayoutAddress.setError(getString(R.string.post_task_map_get_location_error_next));
-        } catch (GooglePlayServicesNotAvailableException e) {
-            LogUtils.d(TAG, "GooglePlayServicesNotAvailableException" + e.toString());
-            inputLayoutAddress.setError(getString(R.string.post_task_map_get_location_error_next));
-        }
+        Intent intent = new Intent(this, GooglePlaceActivity.class);
+        startActivityForResult(intent, Constants.REQUEST_CODE_GOOGLE_PLACE, TransitionScreen.DOWN_TO_UP);
     }
 
 
@@ -300,25 +276,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             Utils.displayImage(RegisterActivity.this, imgAvatar, imgPath);
             file = new File(imgPath);
             isUpdateAvata = true;
-        }
-
-        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Place place = PlaceAutocomplete.getPlace(this, data);
-                LogUtils.d(TAG, "Place: " + place.getName());
-                // Get the Place object from the buffer.
-                LogUtils.e(TAG, "Place address : " + place.getAddress());
-                lat = place.getLatLng().latitude;
-                lon = place.getLatLng().longitude;
-                edtAddress.setText(place.getAddress());
-                address = place.getAddress().toString();
-                hideKeyBoard(RegisterActivity.this);
-                inputLayoutAddress.setErrorEnabled(false);
-            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-                Status status = PlaceAutocomplete.getStatus(this, data);
-                LogUtils.d(TAG, status.getStatusMessage());
-                inputLayoutAddress.setError(getString(R.string.post_task_map_get_location_error_next));
-            }
+        } else if (requestCode == Constants.REQUEST_CODE_GOOGLE_PLACE && resultCode == Constants.RESULT_CODE_ADDRESS && data != null) {
+            Bundle bundle = data.getExtras();
+            lat = bundle.getDouble(Constants.LAT_EXTRA);
+            lon = bundle.getDouble(Constants.LON_EXTRA);
+            edtAddress.setText(bundle.getString(Constants.EXTRA_ADDRESS));
+            address = bundle.getString(Constants.EXTRA_ADDRESS);
+            inputLayoutAddress.setErrorEnabled(false);
         }
     }
 
@@ -360,6 +324,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 doSave();
                 break;
             case R.id.edt_address:
+                edtName.clearFocus();
                 findPlace();
                 break;
         }
@@ -400,6 +365,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             updateInfor();
         }
     }
+
     private void updateAvata() {
         ProgressDialogUtils.showProgressDialog(this);
         final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
@@ -463,6 +429,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             }
         });
     }
+
     private void updateInfor() {
         ProgressDialogUtils.showProgressDialog(RegisterActivity.this);
         JSONObject jsonRequest = new JSONObject();
@@ -577,49 +544,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    private class MyTextWatcher implements TextWatcher {
-
-        private final View view;
-
-        private MyTextWatcher(View view) {
-            this.view = view;
-        }
-
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        }
-
-        public void afterTextChanged(Editable editable) {
-            switch (view.getId()) {
-                case R.id.edt_name:
-                    validateName();
-                    break;
-                case R.id.edt_address:
-                    validateAdress();
-                    break;
-                case R.id.edt_coupon:
-                    String mb = edtCoupon.getText().toString().trim();
-                    if (isNumberValid("84", mb)) {
-                        hideSoftKeyboard(RegisterActivity.this, edtCoupon);
-                        inputLayoutCoupon.setErrorEnabled(false);
-                    }
-                    break;
-            }
-
-        }
-    }
-
     private boolean validateAdress() {
         if (lat == 0 && lon == 0) {
             inputLayoutAddress.setError(getString(R.string.post_task_address_error_google));
-            edtAddress.requestFocus();
             return false;
         } else if (TextUtils.isEmpty(address)) {
             inputLayoutAddress.setError(getString(R.string.empty_adress));
-            edtAddress.requestFocus();
             return false;
         } else {
             inputLayoutAddress.setErrorEnabled(false);
