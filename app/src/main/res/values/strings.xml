@@ -779,5 +779,6 @@
     <string name="all_or">Hoặc</string>
     <string name="collaborators">Cộng tác viên Hozo</string>
     <string name="invite_click_link">Link giới thiệu</string>
+    <string name="chat_notification_des">Tắt nhận thông báo chat</string>
 
 </resources>
