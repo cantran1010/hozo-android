@@ -240,6 +240,7 @@ public interface ApiInterface {
 
     @GET("v1/users/referral-program")
     Call<ReferralResponse> referralProgram(@Header("Authorization") String token);
+
     @GET("v1/users/setting/notification_chat_items")
     Call<NotificationResponse> getNotificationChatRoom(@Header("Authorization") String token, @QueryMap Map<String, String> params);
 
