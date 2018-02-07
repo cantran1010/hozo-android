@@ -59,11 +59,9 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
      */
     private GoogleApiClient googleApiClient;
     private PlaceAutocompleteAdapter placeAutocompleteAdapter;
-    private PlaceAdapter placedapter;
     private AutoCompleteTextView autocompleteView;
     private List<HozoPlace> hozoPlaces = new ArrayList<>();
     private RecyclerView rcvAdress;
-    private Call<PlaceReponse> call;
     private ImageView imgClear;
     private TextViewHozo tvNoAddress;
 
@@ -140,7 +138,7 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void setPlaceDefault() {
-        placedapter = new PlaceAdapter(GooglePlaceActivity.this, hozoPlaces);
+        PlaceAdapter placedapter = new PlaceAdapter(hozoPlaces);
         LinearLayoutManager lvManager = new LinearLayoutManager(this);
         rcvAdress.setLayoutManager(lvManager);
         rcvAdress.setAdapter(placedapter);
@@ -162,7 +160,7 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
         LogUtils.d(TAG, "start getSearchAddress" + query);
         Map<String, String> option = new HashMap<>();
         if (query != null) option.put("query", query);
-        call = ApiClient.getApiService().getPlaces(UserManager.getUserToken(), option);
+        Call<PlaceReponse> call = ApiClient.getApiService().getPlaces(UserManager.getUserToken(), option);
         call.enqueue(new Callback<PlaceReponse>() {
             @Override
             public void onResponse(Call<PlaceReponse> call, Response<PlaceReponse> response) {
@@ -269,7 +267,7 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 places.release();
             } catch (Exception e) {
-
+                LogUtils.e(TAG, e.toString());
             }
         }
     };

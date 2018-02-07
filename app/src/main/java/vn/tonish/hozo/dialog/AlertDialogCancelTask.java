@@ -40,14 +40,14 @@ public class AlertDialogCancelTask extends BaseDialog implements View.OnClickLis
     @Override
     protected void initData() {
 
-        TextViewHozo tvYes = (TextViewHozo) findViewById(R.id.tv_yes);
+        TextViewHozo tvYes = findViewById(R.id.tv_yes);
         tvYes.setOnClickListener(this);
 
-        TextViewHozo tvNo = (TextViewHozo) findViewById(R.id.tv_no);
+        TextViewHozo tvNo = findViewById(R.id.tv_no);
         tvNo.setOnClickListener(this);
 
-        tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
-        tvContent = (TextViewHozo) findViewById(R.id.tv_content);
+        tvTitle = findViewById(R.id.tv_title);
+        tvContent = findViewById(R.id.tv_content);
 
     }
 

@@ -27,5 +27,7 @@
     <dimen name="setting_margin_left">65dp</dimen>
     <dimen name="tv_setting_title">15sp</dimen>
     <dimen name="tv_size_title">21sp</dimen>
+    <dimen name="invite_price">28sp</dimen>
+    <dimen name="invite_promotion_code">36sp</dimen>
 
 </resources>

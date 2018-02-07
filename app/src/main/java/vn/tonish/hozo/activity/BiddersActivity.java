@@ -117,7 +117,7 @@ public class BiddersActivity extends BaseActivity implements View.OnClickListene
                 taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
                 updateRole();
                 bidders.clear();
-                bidders.addAll((ArrayList<Bidder>) taskResponse.getBidders());
+                bidders.addAll(taskResponse.getBidders());
                 posterOpenAdapter.notifyDataSetChanged();
                 tvTitle.setText(getString(R.string.bidders, taskResponse.getBidderCount()));
                 LogUtils.d(TAG, "BiddersActivity broadcastReceiver bidders size : " + bidders.size());

@@ -50,7 +50,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            commentView = (CommentView) itemView.findViewById(R.id.comment_view);
+            commentView = itemView.findViewById(R.id.comment_view);
         }
     }
 

@@ -58,7 +58,6 @@
         android:layout_height="match_parent">
 
         <android.support.v4.widget.NestedScrollView
-            android:id="@+id/scoll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical">
@@ -415,7 +414,6 @@
                         android:orientation="horizontal">
 
                         <vn.tonish.hozo.view.TextViewHozo
-                            android:id="@+id/tv_age_lbl"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawablePadding="10dp"
@@ -444,7 +442,6 @@
                         android:orientation="horizontal">
 
                         <vn.tonish.hozo.view.TextViewHozo
-                            android:id="@+id/tv_sex_lbl"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:drawablePadding="10dp"

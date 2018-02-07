@@ -212,15 +212,15 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
 
         public WorkHolder(View itemView) {
             super(itemView);
-            imgAvata = (CircleImageView) itemView.findViewById(R.id.img_avatar);
-            tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
-            tvStatus = (TextViewHozo) itemView.findViewById(R.id.tv_status);
-            tvAddress = (TextViewHozo) itemView.findViewById(R.id.tv_address);
-            tvStartTime = (TextViewHozo) itemView.findViewById(R.id.tv_start_time);
-            tvComment = (TextViewHozo) itemView.findViewById(R.id.tv_comment);
-            tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
-            ratingBar = (RatingBar) itemView.findViewById(R.id.rb_rating);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.simpleProgressBar);
+            imgAvata = itemView.findViewById(R.id.img_avatar);
+            tvName = itemView.findViewById(R.id.tv_name);
+            tvStatus = itemView.findViewById(R.id.tv_status);
+            tvAddress = itemView.findViewById(R.id.tv_address);
+            tvStartTime = itemView.findViewById(R.id.tv_start_time);
+            tvComment = itemView.findViewById(R.id.tv_comment);
+            tvPrice = itemView.findViewById(R.id.tv_price);
+            ratingBar = itemView.findViewById(R.id.rb_rating);
+            progressBar = itemView.findViewById(R.id.simpleProgressBar);
 
             itemView.setOnClickListener(this);
         }

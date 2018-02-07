@@ -62,9 +62,9 @@ public class ImageSelectAdapter extends ArrayAdapter<Image> {
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
             convertView = layoutInflater.inflate(R.layout.item_image_select, parent, false);
             holder = new ViewHolder();
-            holder.imgImage = (ImageView) convertView.findViewById(R.id.img_image);
-            holder.imgCheck = (ImageView) convertView.findViewById(R.id.img_check);
-            holder.mainLayout = (RelativeLayout) convertView.findViewById(R.id.layout_main);
+            holder.imgImage = convertView.findViewById(R.id.img_image);
+            holder.imgCheck = convertView.findViewById(R.id.img_check);
+            holder.mainLayout = convertView.findViewById(R.id.layout_main);
 
             convertView.setTag(holder);
         } else {

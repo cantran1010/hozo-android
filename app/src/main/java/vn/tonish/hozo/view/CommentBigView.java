@@ -77,14 +77,14 @@ public class CommentBigView extends LinearLayout implements View.OnClickListener
     private void initView() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.view_big_comment, this, true);
-        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
+        imgAvatar = findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
 
-        tvName = (TextViewHozo) findViewById(R.id.tv_name);
-        tvComment = (TextViewHozo) findViewById(R.id.tv_comment);
-        tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
-        imgSetting = (ImageView) findViewById(R.id.img_setting);
-        imgAttach = (ImageView) findViewById(R.id.img_attach_show);
+        tvName = findViewById(R.id.tv_name);
+        tvComment = findViewById(R.id.tv_comment);
+        tvTimeAgo = findViewById(R.id.tv_time_ago);
+        imgSetting = findViewById(R.id.img_setting);
+        imgAttach = findViewById(R.id.img_attach_show);
         imgAttach.setOnClickListener(this);
 
         tvAnswer = findViewById(R.id.tv_answer);

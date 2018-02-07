@@ -194,9 +194,9 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
 
         public NotificationHolder(View itemView, Context context) {
             super(itemView, context);
-            imgAvata = (CircleImageView) itemView.findViewById(R.id.img_avatar);
-            tvContent = (TextViewHozo) itemView.findViewById(R.id.tv_content);
-            tvTimeAgo = (TextViewHozo) itemView.findViewById(R.id.tv_time_ago);
+            imgAvata = itemView.findViewById(R.id.img_avatar);
+            tvContent = itemView.findViewById(R.id.tv_content);
+            tvTimeAgo = itemView.findViewById(R.id.tv_time_ago);
             mainLayout = itemView.findViewById(R.id.main_layout);
             itemView.setOnClickListener(this);
         }

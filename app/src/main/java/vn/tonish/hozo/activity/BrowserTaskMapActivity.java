@@ -153,8 +153,8 @@ public class BrowserTaskMapActivity extends BaseActivity implements View.OnClick
 
         @Override
         public View getInfoWindow(final Marker marker) {
-            TextViewHozo tvName = (TextViewHozo) view.findViewById(R.id.tv_name);
-            TextViewHozo tvAddress = (TextViewHozo) view.findViewById(R.id.tv_address);
+            TextViewHozo tvName = view.findViewById(R.id.tv_name);
+            TextViewHozo tvAddress = view.findViewById(R.id.tv_address);
             int positon = (int) marker.getTag();
             tvName.setText(miniTasks.get(positon).getTitle());
             tvAddress.setText(miniTasks.get(positon).getAddress());

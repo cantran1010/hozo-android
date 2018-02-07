@@ -3,7 +3,6 @@ package vn.tonish.hozo.adapter;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,17 +97,17 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         assert inflater != null;
         View itemView = inflater.inflate(R.layout.viewpager_rating_item, container,
                 false);
-        imgAvatar = (CircleImageView) itemView.findViewById(R.id.img_avatar);
-        tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
-        tvTitle = (TextViewHozo) itemView.findViewById(R.id.tv_title);
-        ratingBar = (RatingBar) itemView.findViewById(R.id.rating);
-        ckDone = (RadioButtonHozo) itemView.findViewById(R.id.ckeckbox_confirm_yes);
-        ckNotDone = (RadioButtonHozo) itemView.findViewById(R.id.ckeckbox_confirm_no);
-        edtReviews = (EdittextHozo) itemView.findViewById(R.id.edt_reviews);
-        btnSend = (TextViewHozo) itemView.findViewById(R.id.btn_Send);
-        tvConfirm = (TextViewHozo) itemView.findViewById(R.id.label_confirm);
-        ckBox = (CheckBoxHozo) itemView.findViewById(R.id.ckeckbox_confirm);
-        group = (RadioGroup) itemView.findViewById(R.id.rd_group);
+        imgAvatar = itemView.findViewById(R.id.img_avatar);
+        tvName = itemView.findViewById(R.id.tv_name);
+        tvTitle = itemView.findViewById(R.id.tv_title);
+        ratingBar = itemView.findViewById(R.id.rating);
+        ckDone = itemView.findViewById(R.id.ckeckbox_confirm_yes);
+        ckNotDone = itemView.findViewById(R.id.ckeckbox_confirm_no);
+        edtReviews = itemView.findViewById(R.id.edt_reviews);
+        btnSend = itemView.findViewById(R.id.btn_Send);
+        tvConfirm = itemView.findViewById(R.id.label_confirm);
+        ckBox = itemView.findViewById(R.id.ckeckbox_confirm);
+        group = itemView.findViewById(R.id.rd_group);
 
 
         ratingBar.setStepSize(1.0f);
@@ -140,11 +139,11 @@ public class ViewPageRatingAdapter extends PagerAdapter {
             if (assigner.getRating() != 0) {
                 ckDone.setEnabled(false);
                 ckNotDone.setEnabled(false);
-                updateUI(true, btnSend, edtReviews, ratingBar, assigner.getRatingBody(), (int) assigner.getRating());
+                updateUI(true, btnSend, edtReviews, ratingBar, assigner.getRatingBody(), assigner.getRating());
             } else {
                 ckDone.setEnabled(true);
                 ckNotDone.setEnabled(true);
-                updateUI(false, btnSend, edtReviews, ratingBar, "", (int) assigner.getRating());
+                updateUI(false, btnSend, edtReviews, ratingBar, "", assigner.getRating());
             }
 
         } else {
@@ -181,7 +180,7 @@ public class ViewPageRatingAdapter extends PagerAdapter {
                     doRate(position, userID, ratingBar.getRating(), edtReviews.getText().toString().trim(), ckDone.isChecked(), btnSend, edtReviews, ratingBar);
             }
         });
-        ((ViewPager) container).addView(itemView);
+        container.addView(itemView);
 
         return itemView;
     }

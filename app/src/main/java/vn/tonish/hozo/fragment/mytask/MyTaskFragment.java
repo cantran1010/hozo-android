@@ -74,7 +74,7 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         myTaskViewPager = (ViewPager) findViewById(R.id.pager);
         myTaskTabLayout.addTab(myTaskTabLayout.newTab().setText(getContext().getString(R.string.my_task_poster)));
         myTaskTabLayout.addTab(myTaskTabLayout.newTab().setText(getContext().getString(R.string.my_task_worker)));
-        @SuppressLint("InflateParams") View headerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+        @SuppressLint("InflateParams") View headerView = getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) != null ? getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) != null ? getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.custom_tab_mytask, null, false) : null : null : null;
         final ViewGroup test = (ViewGroup) (myTaskTabLayout.getChildAt(0));
         int tabLen = test.getChildCount();

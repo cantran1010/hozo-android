@@ -36,6 +36,7 @@ import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.PlaceReponse;
 import vn.tonish.hozo.rest.responseRes.PromotionResponse;
 import vn.tonish.hozo.rest.responseRes.RateResponse;
+import vn.tonish.hozo.rest.responseRes.ReferralResponse;
 import vn.tonish.hozo.rest.responseRes.TaskExchangeResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.rest.responseRes.Token;
@@ -235,4 +236,7 @@ public interface ApiInterface {
 
     @GET("v1/applications/google/place")
     Call<PlaceReponse> getPlaces(@Header("Authorization") String token, @QueryMap Map<String, String> params);
+
+    @GET("v1/users/referral-program")
+    Call<ReferralResponse> referralProgram(@Header("Authorization") String token);
 }

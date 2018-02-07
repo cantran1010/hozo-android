@@ -1,8 +1,6 @@
 package vn.tonish.hozo.utils;
 
-/**
- * Created by LongBui on 12/12/17.
- */
+
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -19,7 +17,7 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapResource;
 
 /**
- * Created by javiergonzalezcabezas on 2/4/16.
+ * Created by LongBui on 12/12/17.
  */
 public class RoundedCornersTransformation implements Transformation<Bitmap> {
 

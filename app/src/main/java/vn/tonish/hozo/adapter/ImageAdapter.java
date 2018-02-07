@@ -41,9 +41,9 @@ public class ImageAdapter extends ArrayAdapter<Image> {
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
             convertView = layoutInflater.inflate(R.layout.item_image, parent, false);
             holder = new ViewHolder();
-            holder.imgImage = (ImageView) convertView.findViewById(R.id.img_image);
-            holder.imgAdd = (ImageView) convertView.findViewById(R.id.img_add);
-            holder.imgRemove = (ImageView) convertView.findViewById(R.id.img_remove);
+            holder.imgImage = convertView.findViewById(R.id.img_image);
+            holder.imgAdd = convertView.findViewById(R.id.img_add);
+            holder.imgRemove = convertView.findViewById(R.id.img_remove);
 
             convertView.setTag(holder);
         } else {

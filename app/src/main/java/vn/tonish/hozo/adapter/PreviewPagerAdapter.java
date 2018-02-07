@@ -35,7 +35,7 @@ public class PreviewPagerAdapter extends PagerAdapter {
         LogUtils.d(TAG, "PreviewPagerAdapter instantiateItem position : " + position);
         LayoutInflater inflater = LayoutInflater.from(context);
         final RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.item_viewpager_view, container, false);
-        final TouchImageView imageView = (TouchImageView) layout.findViewById(R.id.imgNewsFeed);
+        final TouchImageView imageView = layout.findViewById(R.id.imgNewsFeed);
         Utils.displayImage(context, imageView, pagerItems.get(position));
         container.addView(layout);
         return layout;

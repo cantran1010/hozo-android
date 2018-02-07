@@ -115,7 +115,7 @@ public class ExchangeActivity extends BaseActivity implements View.OnClickListen
 
                     taskExchangeResponses.addAll(response.body());
 
-                    List<String> list = new ArrayList<String>();
+                    List<String> list = new ArrayList<>();
                     for (TaskExchangeResponse taskExchangeResponse : response.body()) {
                         if (isTaskCanExchange(taskExchangeResponse))
                             list.add(taskExchangeResponse.getTitle());

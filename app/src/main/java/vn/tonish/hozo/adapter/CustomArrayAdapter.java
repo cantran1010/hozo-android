@@ -74,7 +74,7 @@ public class CustomArrayAdapter extends ArrayAdapter<String> implements
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
             convertView = layoutInflater.inflate(R.layout.item_price, parent, false);
             holder = new ViewHolder();
-            holder.tvPrice = (TextViewHozo) convertView.findViewById(R.id.tv_price);
+            holder.tvPrice = convertView.findViewById(R.id.tv_price);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

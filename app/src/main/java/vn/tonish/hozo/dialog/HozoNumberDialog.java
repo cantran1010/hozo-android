@@ -51,11 +51,11 @@ public class HozoNumberDialog extends BaseDialog implements View.OnClickListener
     @Override
     protected void initData() {
 
-        TextViewHozo btnOk = (TextViewHozo) findViewById(R.id.btn_ok);
+        TextViewHozo btnOk = findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(this);
 
         npHour = findViewById(R.id.np_hour);
-        TextViewHozo tvTitle = (TextViewHozo) findViewById(R.id.tv_title_dialog);
+        TextViewHozo tvTitle = findViewById(R.id.tv_title_dialog);
         tvTitle.setText(title);
         npHour.setMinValue(min);
         npHour.setMaxValue(max);

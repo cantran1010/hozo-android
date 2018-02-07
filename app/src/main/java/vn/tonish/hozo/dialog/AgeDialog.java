@@ -45,11 +45,11 @@ public class AgeDialog extends BaseDialog implements View.OnClickListener {
     @Override
     protected void initData() {
 
-        TextViewHozo btnOk = (TextViewHozo) findViewById(R.id.btn_ok);
+        TextViewHozo btnOk = findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(this);
 
-        npAgeFrom = (NumberPicker) findViewById(R.id.np_age_from);
-        npAgeTo = (NumberPicker) findViewById(R.id.np_age_to);
+        npAgeFrom = findViewById(R.id.np_age_from);
+        npAgeTo = findViewById(R.id.np_age_to);
 
         npAgeFrom.setMinValue(minAge);
         npAgeFrom.setMaxValue(maxAge);

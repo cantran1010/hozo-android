@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import vn.tonish.hozo.R;
@@ -76,7 +75,7 @@ public class CommentTaskAdapter extends BaseAdapter<Comment, CommentTaskAdapter.
                         answerListener.onAnswer(holder.getAdapterPosition());
                 }
             });
-            CommentAdapter commentAdapter = new CommentAdapter((ArrayList<Comment>) comments.get(position).getComments());
+            CommentAdapter commentAdapter = new CommentAdapter(comments.get(position).getComments());
             commentAdapter.setPosterId(getPosterId());
             commentAdapter.setCommentType(getCommentType());
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);

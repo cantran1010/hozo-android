@@ -141,8 +141,8 @@ public class PlaceAutocompleteAdapter
 
         AutocompletePrediction item = getItem(position);
 
-        TextViewHozo textView1 = (TextViewHozo) row.findViewById(R.id.text1);
-        TextViewHozo textView2 = (TextViewHozo) row.findViewById(R.id.text2);
+        TextViewHozo textView1 = row.findViewById(R.id.text1);
+        TextViewHozo textView2 = row.findViewById(R.id.text2);
         textView1.setText(item.getPrimaryText(STYLE_BOLD));
         textView2.setText(item.getSecondaryText(STYLE_BOLD));
 

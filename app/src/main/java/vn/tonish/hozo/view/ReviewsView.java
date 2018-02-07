@@ -54,12 +54,12 @@ public class ReviewsView extends LinearLayout implements View.OnClickListener {
     private void initView() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.view_reviews, this, true);
-        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
-        tvName = (TextViewHozo) findViewById(R.id.tv_name);
-        tvName = (TextViewHozo) findViewById(R.id.tv_name);
-        tvReviews = (TextViewHozo) findViewById(R.id.tv_reviews);
-        tvTimeAgo = (TextViewHozo) findViewById(R.id.tv_time_ago);
-        ratingBar = (RatingBar) findViewById(R.id.rating);
+        imgAvatar = findViewById(R.id.img_avatar);
+        tvName = findViewById(R.id.tv_name);
+        tvName = findViewById(R.id.tv_name);
+        tvReviews = findViewById(R.id.tv_reviews);
+        tvTimeAgo = findViewById(R.id.tv_time_ago);
+        ratingBar = findViewById(R.id.rating);
         imgAvatar.setOnClickListener(this);
         tvTaskName = findViewById(R.id.tv_task_name);
     }

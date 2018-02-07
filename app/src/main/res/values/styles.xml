@@ -245,11 +245,4 @@
 
     </style>
 
-    <style name="TextLabel" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:textColorHint">@color/edt_hint</item>
-        <item name="android:textSize">@dimen/tv_size_lager</item>
-        <item name="colorAccent">@color/border_gray</item>
-        <item name="colorControlNormal">@color/tv_black_new</item>
-        <item name="colorControlActivated">@color/setting_text</item>
-    </style>
 </resources>
