@@ -5,6 +5,38 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="@dimen/margin_right_screen"
+        android:layout_marginLeft="@dimen/margin_left_screen"
+        android:layout_marginRight="@dimen/margin_right_screen"
+        android:layout_marginStart="@dimen/margin_left_screen"
+        android:layout_marginTop="10dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chat_notification_des"
+            android:textColor="@color/hozo_red"
+            android:textSize="12sp" />
+
+        <ToggleButton
+            android:id="@+id/tg_on_off"
+            android:layout_width="50dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/notify_on_off_selector"
+            android:textOff=""
+            android:textOn="" />
+
+    </LinearLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,6 +47,7 @@
             android:id="@+id/swpRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rcv_chat_rooms"
                 android:layout_width="match_parent"

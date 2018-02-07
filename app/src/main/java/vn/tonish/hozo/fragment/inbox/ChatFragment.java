@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ToggleButton;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -13,10 +14,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,10 +37,12 @@ import vn.tonish.hozo.model.Member;
 import vn.tonish.hozo.model.Message;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.NotifyChatRoomResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.MyLinearLayoutManager;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -58,6 +66,7 @@ public class ChatFragment extends BaseFragment {
     private ChildEventListener VerticalListener, HorizotalListener;
     private List<ChatRoom> chatRooms = new ArrayList<>();
     private int myID;
+    private ToggleButton tgOnOffNotify;
 
     @Override
     protected int getLayout() {
@@ -68,6 +77,7 @@ public class ChatFragment extends BaseFragment {
     protected void initView() {
         rcvChatRooms = (RecyclerView) findViewById(R.id.rcv_chat_rooms);
         tvNoData = (TextViewHozo) findViewById(R.id.tv_no_data);
+        tgOnOffNotify = (ToggleButton) findViewById(R.id.tg_on_off);
         createSwipeToRefresh();
     }
 
@@ -75,10 +85,19 @@ public class ChatFragment extends BaseFragment {
     protected void initData() {
         myID = UserManager.getMyUser().getId();
         getChatRooms();
+
+        tgOnOffNotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LogUtils.d(TAG, "tgOnOffNotify : " + tgOnOffNotify.isChecked());
+                updateNofityOnOff(tgOnOffNotify.isChecked());
+            }
+        });
     }
 
     @Override
     protected void resumeData() {
+        getNotifyOnOff();
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_CHAT));
     }
 
@@ -90,6 +109,122 @@ public class ChatFragment extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void getNotifyOnOff() {
+        Call<NotifyChatRoomResponse> callNotify = ApiClient.getApiService().getChatRoomsNotify(UserManager.getUserToken());
+        callNotify.enqueue(new Callback<NotifyChatRoomResponse>() {
+            @Override
+            public void onResponse(Call<NotifyChatRoomResponse> call, Response<NotifyChatRoomResponse> response) {
+                LogUtils.d(TAG, "getNotifyOnOff code : " + response.code());
+                LogUtils.d(TAG, "getNotifyOnOff body : " + response.body());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    NotifyChatRoomResponse notifyChatRoomResponse = response.body();
+                    tgOnOffNotify.setChecked(notifyChatRoomResponse.isNotificationChatGroup());
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            getNotifyOnOff();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getActivity());
+                } else {
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            getNotifyOnOff();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotifyChatRoomResponse> call, Throwable t) {
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getNotifyOnOff();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
+    private void updateNofityOnOff(final boolean isOnOff) {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("notification_chat", isOnOff);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LogUtils.d(TAG, "updateNofityOnOff data request : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+
+        ApiClient.getApiService().updateChatRoomsNotify(UserManager.getUserToken(), body).enqueue(new Callback<NotifyChatRoomResponse>() {
+            @Override
+            public void onResponse(Call<NotifyChatRoomResponse> call, Response<NotifyChatRoomResponse> response) {
+
+                LogUtils.d(TAG, "updateNofityOnOff onResponse : " + response.body());
+                LogUtils.d(TAG, "updateNofityOnOff code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            updateNofityOnOff(isOnOff);
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getActivity());
+                } else {
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            updateNofityOnOff(isOnOff);
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<NotifyChatRoomResponse> call, Throwable t) {
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        updateNofityOnOff(isOnOff);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
     }
 
     private void getChatRooms() {
@@ -345,7 +480,7 @@ public class ChatFragment extends BaseFragment {
         Intent intentNewMsg = new Intent();
         intentNewMsg.setAction(Constants.BROAD_CAST_PUSH_CHAT_COUNT);
         intentNewMsg.putExtra(Constants.COUNT_NEW_CHAT_EXTRA, getCountRoomUnRead());
-       getActivity().sendBroadcast(intentNewMsg);
+        getActivity().sendBroadcast(intentNewMsg);
 
     }
 

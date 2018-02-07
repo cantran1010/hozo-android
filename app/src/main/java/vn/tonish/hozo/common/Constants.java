@@ -216,6 +216,7 @@ public class Constants {
     public static final String PUSH_TYPE_WAGE_RECEIVED = "wage_received";
     public static final String PUSH_TYPE_POSTING_BONUS_RECEIVED = "posting_bonus_received";
     public static final String PUSH_TYPE_REF_BONUS_RECEIVED = "ref_bonus_received";
+    public static final String PUSH_TYPE_TASK_REAPPLIED = "task_reapplied";
 
     public static final String ROLE_EXTRA = "role_extra";
 
