@@ -10,10 +10,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
+        android:layout_marginEnd="@dimen/margin_right_screen"
         android:layout_marginLeft="@dimen/margin_left_screen"
         android:layout_marginRight="@dimen/margin_right_screen"
+        android:layout_marginStart="@dimen/margin_left_screen"
         android:layout_marginTop="10dp"
-        android:gravity="right"
+        android:gravity="end"
         android:orientation="horizontal">
 
         <vn.tonish.hozo.view.TextViewHozo

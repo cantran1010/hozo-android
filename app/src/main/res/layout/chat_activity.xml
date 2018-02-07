@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -38,13 +39,50 @@
             android:scaleType="centerInside"
             android:src="@drawable/ic_back" />
 
+        <RelativeLayout
+            android:id="@+id/notification_layout"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/bell_notify_chat"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/img_delete_notify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/delete_notify_chat"
+                android:visibility="gone"
+                tools:ignore="ContentDescription"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/v1"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@id/notification_layout"
+            android:layout_toStartOf="@id/notification_layout"
+            android:background="@color/white" />
 
         <ImageView
             android:id="@+id/img_sms"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@id/v1"
+            android:layout_toStartOf="@id/v1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/adjust_image"
             android:focusable="true"
@@ -117,8 +155,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:layout_marginStart="2dp"
-                android:textStyle="bold"
-                android:textColor="@color/tv_black_new" />
+                android:textColor="@color/tv_black_new"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

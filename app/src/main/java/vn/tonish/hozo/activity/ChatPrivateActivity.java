@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +25,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -52,6 +56,7 @@ import vn.tonish.hozo.model.Message;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
+import vn.tonish.hozo.rest.responseRes.NotificationResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
@@ -97,6 +102,9 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     private String imgPath = null;
     private File fileAttach;
     private Member ass;
+    private RelativeLayout notifyLayout;
+    private ImageView imgDeleteNotify;
+    private boolean isNotifyOnOff;
 
     @Override
     protected int getLayout() {
@@ -125,6 +133,10 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
 
         imgCall.setOnClickListener(this);
         imgSms.setOnClickListener(this);
+
+        notifyLayout = (RelativeLayout) findViewById(R.id.notification_layout);
+        notifyLayout.setOnClickListener(this);
+        imgDeleteNotify = (ImageView) findViewById(R.id.img_delete_notify);
 
     }
 
@@ -217,15 +229,9 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
         member1CloudEndPoint.addChildEventListener(member1EventListener);
     }
 
-
-    private String sortID(int assID) {
-        if (assID < UserManager.getMyUser().getId())
-            return assID + "-" + UserManager.getMyUser().getId();
-        else return UserManager.getMyUser().getId() + "-" + assID;
-    }
-
     @Override
     protected void resumeData() {
+        getNotificationOnOff();
         PreferUtils.setPushPrivateShow(this, false);
     }
 
@@ -233,6 +239,77 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     protected void onStop() {
         super.onStop();
         PreferUtils.setPushPrivateShow(this, true);
+    }
+
+    private void getNotificationOnOff() {
+        ProgressDialogUtils.showProgressDialog(this);
+
+        Map<String, String> option = new HashMap<>();
+        option.put("chat_id", taskId + "/" + sortID(ass.getId()));
+
+        LogUtils.d(TAG, "getNotificationOnOff option : " + option.toString());
+
+        ApiClient.getApiService().getNotificationChatRoom(UserManager.getUserToken(), option).enqueue(new Callback<NotificationResponse>() {
+            @Override
+            public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
+                LogUtils.d(TAG, "getNotificationOnOff onResponse : " + response.body());
+                LogUtils.d(TAG, "getNotificationOnOff code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    isNotifyOnOff = response.body().isNotification();
+
+                    if (isNotifyOnOff)
+                        imgDeleteNotify.setVisibility(View.GONE);
+                    else
+                        imgDeleteNotify.setVisibility(View.VISIBLE);
+
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(ChatPrivateActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            getNotificationOnOff();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(ChatPrivateActivity.this);
+                } else {
+                    DialogUtils.showRetryDialog(ChatPrivateActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            getNotificationOnOff();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<NotificationResponse> call, Throwable t) {
+                DialogUtils.showRetryDialog(ChatPrivateActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getNotificationOnOff();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
+    }
+
+    private String sortID(int assID) {
+        if (assID < UserManager.getMyUser().getId())
+            return assID + "-" + UserManager.getMyUser().getId();
+        else return UserManager.getMyUser().getId() + "-" + assID;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -680,6 +757,62 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
         popup.show();
     }
 
+    private void updateNotification() {
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("chat_id", taskId + "/" + sortID(ass.getId()));
+            jsonRequest.put("notification", !isNotifyOnOff);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        LogUtils.d(TAG, " updateNotification  jsonRequest : " + jsonRequest.toString());
+
+        ApiClient.getApiService().updateNotificationChatRoom(UserManager.getUserToken(), body).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                LogUtils.d(TAG, "updateNotification onResponse code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    isNotifyOnOff = !isNotifyOnOff;
+
+                    if (isNotifyOnOff)
+                        imgDeleteNotify.setVisibility(View.GONE);
+                    else
+                        imgDeleteNotify.setVisibility(View.VISIBLE);
+
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(ChatPrivateActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            updateNotification();
+                        }
+                    });
+
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(ChatPrivateActivity.this);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                LogUtils.e(TAG, "updateNotification onFailure message : " + t.getMessage());
+                DialogUtils.showRetryDialog(ChatPrivateActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        updateNotification();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
 
     @Override
     public void onClick(View view) {
@@ -718,6 +851,10 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                 Intent intent = new Intent(ChatPrivateActivity.this, DetailTaskActivity.class);
                 intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
                 startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+
+            case R.id.notification_layout:
+                updateNotification();
                 break;
 
         }

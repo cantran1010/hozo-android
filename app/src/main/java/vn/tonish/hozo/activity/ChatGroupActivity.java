@@ -27,6 +27,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,6 +56,7 @@ import vn.tonish.hozo.model.Message;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
+import vn.tonish.hozo.rest.responseRes.NotificationResponse;
 import vn.tonish.hozo.rest.responseRes.TaskResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
@@ -69,8 +73,8 @@ import vn.tonish.hozo.view.TextViewHozo;
  * Created by LongBui on 9/18/17.
  */
 
-public class ChatActivity extends BaseTouchActivity implements View.OnClickListener {
-    private static final String TAG = ChatActivity.class.getSimpleName();
+public class ChatGroupActivity extends BaseTouchActivity implements View.OnClickListener {
+    private static final String TAG = ChatGroupActivity.class.getSimpleName();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private RecyclerView rcvMessage;
     private MessageAdapter messageAdapter;
@@ -96,6 +100,9 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
     private RelativeLayout mainLayout;
     private String imgPath = null;
     private File fileAttach;
+    private RelativeLayout notifyLayout;
+    private ImageView imgDeleteNotify;
+    private boolean isNotifyOnOff;
 
     @Override
     protected int getLayout() {
@@ -124,6 +131,10 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         imgCall.setOnClickListener(this);
         imgSms.setOnClickListener(this);
 
+        notifyLayout = (RelativeLayout) findViewById(R.id.notification_layout);
+        notifyLayout.setOnClickListener(this);
+
+        imgDeleteNotify = (ImageView) findViewById(R.id.img_delete_notify);
     }
 
     @Override
@@ -152,7 +163,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
                 LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
                 if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
-                    Utils.showLongToast(ChatActivity.this, getString(R.string.kick_out_chat_content), true, false);
+                    Utils.showLongToast(ChatGroupActivity.this, getString(R.string.kick_out_chat_content), true, false);
                     finish();
                 }
 
@@ -180,6 +191,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
     @Override
     protected void resumeData() {
+        getNotificationOnOff();
         PreferUtils.setPushShow(this, false);
     }
 
@@ -195,8 +207,73 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         }
     }
 
+    private void getNotificationOnOff() {
+        ProgressDialogUtils.showProgressDialog(this);
+
+        Map<String, String> option = new HashMap<>();
+        option.put("chat_id", String.valueOf(taskId));
+
+        LogUtils.d(TAG, "getNotificationOnOff option : " + option.toString());
+
+        ApiClient.getApiService().getNotificationChatRoom(UserManager.getUserToken(), option).enqueue(new Callback<NotificationResponse>() {
+            @Override
+            public void onResponse(Call<NotificationResponse> call, Response<NotificationResponse> response) {
+                LogUtils.d(TAG, "getNotificationOnOff onResponse : " + response.body());
+                LogUtils.d(TAG, "getNotificationOnOff code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    isNotifyOnOff = response.body().isNotification();
+
+                    if (isNotifyOnOff)
+                        imgDeleteNotify.setVisibility(View.GONE);
+                    else
+                        imgDeleteNotify.setVisibility(View.VISIBLE);
+
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(ChatGroupActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            getNotificationOnOff();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(ChatGroupActivity.this);
+                } else {
+                    DialogUtils.showRetryDialog(ChatGroupActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            getNotificationOnOff();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<NotificationResponse> call, Throwable t) {
+                DialogUtils.showRetryDialog(ChatGroupActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getNotificationOnOff();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
+    }
+
     private void permissionGranted() {
-        PickImageDialog pickImageDialog = new PickImageDialog(ChatActivity.this);
+        PickImageDialog pickImageDialog = new PickImageDialog(ChatGroupActivity.this);
         pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
             @Override
             public void onCamera() {
@@ -207,7 +284,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
             @Override
             public void onGallery() {
-                Intent intent = new Intent(ChatActivity.this, AlbumActivity.class);
+                Intent intent = new Intent(ChatGroupActivity.this, AlbumActivity.class);
                 intent.putExtra(Constants.EXTRA_ONLY_IMAGE, true);
                 startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
             }
@@ -236,19 +313,18 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 LogUtils.d(TAG, "uploadImage code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_CREATED) {
                     doChat(response.body().getUrl(), 1);
-                    ProgressDialogUtils.dismissProgressDialog();
+
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(ChatActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(ChatGroupActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             doAttachImage();
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(ChatActivity.this);
+                    Utils.blockUser(ChatGroupActivity.this);
                 } else {
-                    ProgressDialogUtils.dismissProgressDialog();
-                    DialogUtils.showRetryDialog(ChatActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    DialogUtils.showRetryDialog(ChatGroupActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             doAttachImage();
@@ -261,14 +337,13 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                     });
                 }
                 FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
-
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
             public void onFailure(Call<ImageResponse> call, Throwable t) {
-                ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
-                DialogUtils.showRetryDialog(ChatActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showRetryDialog(ChatGroupActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         doAttachImage();
@@ -279,15 +354,15 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
                     }
                 });
-                ProgressDialogUtils.dismissProgressDialog();
                 FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
 
     private void doChat(String chat, int type) {
         if (chat.equals("")) {
-            Utils.showLongToast(ChatActivity.this, getString(R.string.empty_content_comment_error), true, false);
+            Utils.showLongToast(ChatGroupActivity.this, getString(R.string.empty_content_comment_error), true, false);
             return;
         }
         String key = messageCloudEndPoint.push().getKey();
@@ -303,7 +378,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
                     LogUtils.d(TAG, "onComplete databaseError : " + databaseError.toString());
-                    Utils.showLongToast(ChatActivity.this, getString(R.string.permission_chat_error), true, false);
+                    Utils.showLongToast(ChatGroupActivity.this, getString(R.string.permission_chat_error), true, false);
                     finish();
                 }
             }
@@ -349,7 +424,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     view.performClick();
-                    Utils.hideKeyBoard(ChatActivity.this);
+                    Utils.hideKeyBoard(ChatGroupActivity.this);
                     rcvMessage.requestFocus();
                     return true;
                 }
@@ -363,7 +438,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
 
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     view.performClick();
-                    Utils.hideKeyBoard(ChatActivity.this);
+                    Utils.hideKeyBoard(ChatGroupActivity.this);
                     rcvMessage.requestFocus();
                     return true;
                 }
@@ -520,14 +595,14 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                     case "block":
                         boolean block = (boolean) dataSnapshot.getValue();
                         if (block) {
-                            Utils.showLongToast(ChatActivity.this, getString(R.string.block_task), true, false);
+                            Utils.showLongToast(ChatGroupActivity.this, getString(R.string.block_task), true, false);
                             finish();
                         }
                         break;
                     case "close":
                         boolean close = (boolean) dataSnapshot.getValue();
                         if (close) {
-                            Utils.showLongToast(ChatActivity.this, getString(R.string.close_task), true, false);
+                            Utils.showLongToast(ChatGroupActivity.this, getString(R.string.close_task), true, false);
                             finish();
                         }
                         break;
@@ -542,21 +617,21 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                     case "block":
                         boolean block = (boolean) dataSnapshot.getValue();
                         if (block) {
-                            Utils.showLongToast(ChatActivity.this, getString(R.string.block_task), true, false);
+                            Utils.showLongToast(ChatGroupActivity.this, getString(R.string.block_task), true, false);
                             finish();
                         }
                         break;
                     case "close":
                         boolean close = (boolean) dataSnapshot.getValue();
                         if (close) {
-                            Utils.showLongToast(ChatActivity.this, getString(R.string.close_task), true, false);
+                            Utils.showLongToast(ChatGroupActivity.this, getString(R.string.close_task), true, false);
                             finish();
                         }
                         break;
                     case "members":
                         Map<String, Boolean> members = (Map<String, Boolean>) dataSnapshot.getValue();
                         if (members.containsKey(String.valueOf(taskResponse.getPoster().getId())) && !members.get(String.valueOf(taskResponse.getPoster().getId()))) {
-                            Utils.showLongToast(ChatActivity.this, getString(R.string.kick_out_task_content), true, false);
+                            Utils.showLongToast(ChatGroupActivity.this, getString(R.string.kick_out_task_content), true, false);
                             finish();
                         }
 
@@ -648,7 +723,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 switch (item.getItemId()) {
 
                     case R.id.menu_detail_task:
-                        Intent intent = new Intent(ChatActivity.this, DetailTaskActivity.class);
+                        Intent intent = new Intent(ChatGroupActivity.this, DetailTaskActivity.class);
                         intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
                         startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                         break;
@@ -681,6 +756,63 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
         }
     }
 
+    private void updateNotification() {
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("chat_id", String.valueOf(taskId));
+            jsonRequest.put("notification", !isNotifyOnOff);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        LogUtils.d(TAG, " updateNotification  jsonRequest : " + jsonRequest.toString());
+
+        ApiClient.getApiService().updateNotificationChatRoom(UserManager.getUserToken(), body).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                LogUtils.d(TAG, "updateNotification onResponse code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    isNotifyOnOff = !isNotifyOnOff;
+
+                    if (isNotifyOnOff)
+                        imgDeleteNotify.setVisibility(View.GONE);
+                    else
+                        imgDeleteNotify.setVisibility(View.VISIBLE);
+
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(ChatGroupActivity.this, new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            updateNotification();
+                        }
+                    });
+
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(ChatGroupActivity.this);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                LogUtils.e(TAG, "updateNotification onFailure message : " + t.getMessage());
+                DialogUtils.showRetryDialog(ChatGroupActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        updateNotification();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -701,7 +833,7 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 checkPermission();
                 break;
             case R.id.img_attached:
-                Intent imgIntent = new Intent(ChatActivity.this, PreviewImageActivity.class);
+                Intent imgIntent = new Intent(ChatGroupActivity.this, PreviewImageActivity.class);
                 imgIntent.putExtra(Constants.EXTRA_IMAGE_PATH, imgPath);
                 startActivity(imgIntent, TransitionScreen.RIGHT_TO_LEFT);
                 break;
@@ -714,9 +846,13 @@ public class ChatActivity extends BaseTouchActivity implements View.OnClickListe
                 break;
 
             case R.id.tv_title:
-                Intent intent = new Intent(ChatActivity.this, DetailTaskActivity.class);
+                Intent intent = new Intent(ChatGroupActivity.this, DetailTaskActivity.class);
                 intent.putExtra(Constants.TASK_ID_EXTRA, taskId);
                 startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                break;
+
+            case R.id.notification_layout:
+                updateNotification();
                 break;
 
         }

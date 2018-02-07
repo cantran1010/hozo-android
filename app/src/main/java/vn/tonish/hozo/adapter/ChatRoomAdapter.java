@@ -12,7 +12,7 @@ import java.util.List;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
-import vn.tonish.hozo.activity.ChatActivity;
+import vn.tonish.hozo.activity.ChatGroupActivity;
 import vn.tonish.hozo.activity.ChatPrivateActivity;
 import vn.tonish.hozo.activity.task_detail.DetailTaskActivity;
 import vn.tonish.hozo.common.Constants;
@@ -97,7 +97,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
             @Override
             public void onClick(int position) {
                 if (position == 0) {
-                    Intent intentContact = new Intent(context, ChatActivity.class);
+                    Intent intentContact = new Intent(context, ChatGroupActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, chatRoom.getTaskResponse());
                     ((BaseActivity) context).startActivity(intentContact, TransitionScreen.DOWN_TO_UP);
                 } else {

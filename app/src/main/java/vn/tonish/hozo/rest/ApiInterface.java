@@ -31,6 +31,7 @@ import vn.tonish.hozo.rest.responseRes.DepositResponse;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.rest.responseRes.NewTaskResponse;
 import vn.tonish.hozo.rest.responseRes.NofifySystemResponse;
+import vn.tonish.hozo.rest.responseRes.NotificationResponse;
 import vn.tonish.hozo.rest.responseRes.NotifyChatRoomResponse;
 import vn.tonish.hozo.rest.responseRes.OtpReponse;
 import vn.tonish.hozo.rest.responseRes.PlaceReponse;
@@ -159,7 +160,7 @@ public interface ApiInterface {
     @GET("v1/users/chat-rooms")
     Call<List<TaskResponse>> getChatRooms(@Header("Authorization") String token);
 
-    @GET("v1/users/setting/notification_chat_group")
+    @GET("v1/users/setting/notification_chat")
     Call<NotifyChatRoomResponse> getChatRoomsNotify(@Header("Authorization") String token);
 
     @POST("v1/users/settings")
@@ -239,4 +240,9 @@ public interface ApiInterface {
 
     @GET("v1/users/referral-program")
     Call<ReferralResponse> referralProgram(@Header("Authorization") String token);
+    @GET("v1/users/setting/notification_chat_items")
+    Call<NotificationResponse> getNotificationChatRoom(@Header("Authorization") String token, @QueryMap Map<String, String> params);
+
+    @POST("v1/users/setting/notification_chat_items")
+    Call<Void> updateNotificationChatRoom(@Header("Authorization") String token, @Body RequestBody body);
 }
