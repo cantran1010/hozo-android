@@ -772,5 +772,7 @@
     <string name="nofification_ref_bonus_received_matcher">nhận được</string>
     <string name="out_chat_content">đã rời khỏi nhóm</string>
     <string name="chat_notification_des">Tắt nhận thông báo chat</string>
+    <string name="nofification_task_type_reapplied">Công việc %1$s mà bạn ứng tuyển trước đó đã được mở lại. Bạn đã được tự động ứng tuyển vào vị trí cũ.</string>
+    <string name="nofification_task_type_reapplied_matcher">ứng tuyển</string>
 
 </resources>
