@@ -167,7 +167,7 @@ public class ChatFragment extends BaseFragment {
         ProgressDialogUtils.showProgressDialog(getActivity());
         final JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put("notification_chat_group", isOnOff);
+            jsonRequest.put("notification_chat", isOnOff);
         } catch (JSONException e) {
             e.printStackTrace();
         }

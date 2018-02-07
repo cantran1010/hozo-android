@@ -121,7 +121,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClick(int position) {
                 if (position == 0) {
-                    Intent intentContact = new Intent(ContactsActivity.this, ChatActivity.class);
+                    Intent intentContact = new Intent(ContactsActivity.this, ChatGroupActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
                     startActivity(intentContact, TransitionScreen.DOWN_TO_UP);
                 } else {
@@ -145,7 +145,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClick(int position) {
                 if (chatMembers.get(position).getId() == taskResponse.getId() && chatMembers.get(position).getFull_name().equalsIgnoreCase(getString(R.string.group_chat))) {
-                    Intent intentContact = new Intent(ContactsActivity.this, ChatActivity.class);
+                    Intent intentContact = new Intent(ContactsActivity.this, ChatGroupActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
                     startActivity(intentContact, TransitionScreen.DOWN_TO_UP);
                 } else {

@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class NotifyChatRoomResponse {
-    @SerializedName("notification_chat_group")
+    @SerializedName("notification_chat")
     private boolean notificationChatGroup;
 
     public boolean isNotificationChatGroup() {

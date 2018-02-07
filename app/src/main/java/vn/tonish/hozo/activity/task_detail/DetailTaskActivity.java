@@ -50,7 +50,7 @@ import vn.tonish.hozo.activity.AssignersActivity;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.BiddersActivity;
 import vn.tonish.hozo.activity.BrowserTaskMapActivity;
-import vn.tonish.hozo.activity.ChatActivity;
+import vn.tonish.hozo.activity.ChatGroupActivity;
 import vn.tonish.hozo.activity.ContactsActivity;
 import vn.tonish.hozo.activity.PostTaskActivity;
 import vn.tonish.hozo.activity.RatingActivity;
@@ -1994,7 +1994,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
                     startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
                 } else {
-                    Intent intentContact = new Intent(DetailTaskActivity.this, ChatActivity.class);
+                    Intent intentContact = new Intent(DetailTaskActivity.this, ChatGroupActivity.class);
                     intentContact.putExtra(Constants.TASK_DETAIL_EXTRA, taskResponse);
                     startActivityForResult(intentContact, Constants.REQUEST_CODE_CHAT, TransitionScreen.DOWN_TO_UP);
                 }
