@@ -780,5 +780,7 @@
     <string name="collaborators">Cộng tác viên Hozo</string>
     <string name="invite_click_link">Link giới thiệu</string>
     <string name="chat_notification_des">Tắt nhận thông báo chat</string>
+    <string name="nofification_task_type_reapplied">Công việc %1$s mà bạn ứng tuyển trước đó đã được mở lại. Bạn đã được tự động ứng tuyển vào vị trí cũ.</string>
+    <string name="nofification_task_type_reapplied_matcher">ứng tuyển</string>
 
 </resources>

@@ -531,6 +531,12 @@ public class Utils {
                 matcher = context.getString(R.string.nofification_ref_bonus_received_matcher);
                 matcherColor = context.getString(R.string.notification_await_approval_color);
                 break;
+
+            case Constants.PUSH_TYPE_TASK_REAPPLIED:
+                content = context.getString(R.string.nofification_task_type_reapplied, notification.getTaskName());
+                matcher = context.getString(R.string.nofification_task_type_reapplied_matcher);
+                matcherColor = context.getString(R.string.notification_await_approval_color);
+                break;
         }
 
         tvContent.setText(content);
@@ -659,6 +665,9 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_REF_BONUS_RECEIVED:
                 content = context.getString(R.string.nofification_ref_bonus_received, Utils.formatNumber(notification.getAmount()));
+                break;
+            case Constants.PUSH_TYPE_TASK_REAPPLIED:
+                content = context.getString(R.string.nofification_task_type_reapplied, notification.getTaskName());
                 break;
         }
 
