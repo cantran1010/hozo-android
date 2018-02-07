@@ -36,10 +36,10 @@ public class PickImageDialog extends BaseDialog implements View.OnClickListener 
 
     @Override
     protected void initData() {
-        ButtonHozo btnCamera = (ButtonHozo) findViewById(R.id.btn_camera);
+        ButtonHozo btnCamera = findViewById(R.id.btn_camera);
         btnCamera.setOnClickListener(this);
 
-        ButtonHozo btnGallery = (ButtonHozo) findViewById(R.id.btn_gallery);
+        ButtonHozo btnGallery = findViewById(R.id.btn_gallery);
         btnGallery.setOnClickListener(this);
     }
 

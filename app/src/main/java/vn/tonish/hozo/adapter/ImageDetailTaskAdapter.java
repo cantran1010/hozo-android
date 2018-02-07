@@ -54,7 +54,7 @@ public class ImageDetailTaskAdapter extends android.widget.BaseAdapter {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             convertView = layoutInflater.inflate(R.layout.item_image_detail_task, parent, false);
             holder = new ViewHolder();
-            holder.img = (ImageView) convertView.findViewById(R.id.img_image);
+            holder.img = convertView.findViewById(R.id.img_image);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

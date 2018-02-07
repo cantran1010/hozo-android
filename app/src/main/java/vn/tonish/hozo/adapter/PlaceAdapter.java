@@ -1,6 +1,5 @@
 package vn.tonish.hozo.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,7 @@ import vn.tonish.hozo.view.TextViewHozo;
  */
 
 public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.MyViewHolder> {
-    private Context context;
+
     private List<HozoPlace> places;
     private PlaceAdapterLister placeAdapterLister;
 
@@ -34,8 +33,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.MyViewHolder
     }
 
 
-    public PlaceAdapter(Context context, List<HozoPlace> places) {
-        this.context = context;
+    public PlaceAdapter( List<HozoPlace> places) {
         this.places = places;
     }
 

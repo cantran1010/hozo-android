@@ -117,7 +117,7 @@ public class BankActivity extends BaseActivity implements View.OnClickListener {
 
                     bankResponses = (ArrayList<BankResponse>) response.body();
 
-                    List<String> list = new ArrayList<String>();
+                    List<String> list = new ArrayList<>();
                     for (BankResponse bankResponse : response.body()) {
                         list.add(bankResponse.getName());
                     }

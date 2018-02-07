@@ -50,7 +50,7 @@ public class NotificationFragment extends BaseFragment {
             View v = test.getChildAt(i);
             v.setPadding(0, 0, 0, 0);
         }
-        @SuppressLint("InflateParams") View headerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+        @SuppressLint("InflateParams") View headerView = getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) != null ? ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.custom_tab_notification, null, false) : null;
         tabLayout.getTabAt(0).setCustomView(headerView.findViewById(R.id.ll1));
         tabLayout.getTabAt(1).setCustomView(headerView.findViewById(R.id.ll2));

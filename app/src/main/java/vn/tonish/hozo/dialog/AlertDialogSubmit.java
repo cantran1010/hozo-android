@@ -41,10 +41,10 @@ public class AlertDialogSubmit extends BaseDialog implements View.OnClickListene
     @Override
     protected void initData() {
 
-        TextViewHozo tvSubmit = (TextViewHozo) findViewById(R.id.tv_yes);
+        TextViewHozo tvSubmit = findViewById(R.id.tv_yes);
         tvSubmit.setOnClickListener(this);
-        TextViewHozo tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
-        TextViewHozo tvContent = (TextViewHozo) findViewById(R.id.tv_content);
+        TextViewHozo tvTitle = findViewById(R.id.tv_title);
+        TextViewHozo tvContent = findViewById(R.id.tv_content);
 
         tvTitle.setText(title);
         tvContent.setText(content);

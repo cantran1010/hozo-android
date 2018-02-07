@@ -107,40 +107,40 @@ public class ViewPageAssignAdapter extends PagerAdapter {
         assert inflater != null;
         View itemView = inflater.inflate(R.layout.viewpager_assign_item, container,
                 false);
-        tvAssigner = (TextViewHozo) itemView.findViewById(R.id.tv_assigner);
-        tvWorker = (TextViewHozo) itemView.findViewById(R.id.tv_worker_count);
-        tvBidderCount = (TextViewHozo) itemView.findViewById(R.id.tv_bidder_count);
-        tvAssignerCount = (TextViewHozo) itemView.findViewById(R.id.tv_count_assigner);
-        tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
-        tvDes = (TextViewHozo) itemView.findViewById(R.id.tv_des);
-        tvRatingCount = (TextViewHozo) itemView.findViewById(R.id.tv_rating_count);
-        tvBidsCount = (TextViewHozo) itemView.findViewById(R.id.tv_bids_count);
-        tvComplex = (TextViewHozo) itemView.findViewById(R.id.tv_complex);
-        tv5star = (TextViewHozo) itemView.findViewById(R.id.tv_5star);
-        tv4star = (TextViewHozo) itemView.findViewById(R.id.tv_4star);
-        tv3star = (TextViewHozo) itemView.findViewById(R.id.tv_3star);
-        tv2star = (TextViewHozo) itemView.findViewById(R.id.tv_2star);
-        tv1star = (TextViewHozo) itemView.findViewById(R.id.tv_1star);
-        tvPrice = (TextViewHozo) itemView.findViewById(R.id.tv_price);
-        tvDesMsg = (TextViewHozo) itemView.findViewById(R.id.tv_des_msg);
-        tvShowReviews = (TextViewHozo) itemView.findViewById(R.id.tv_show_reviews);
-        tvMoreReviews = (TextViewHozo) itemView.findViewById(R.id.tv_more_reviews);
-        btnAssiged = (TextViewHozo) itemView.findViewById(R.id.btn_next);
-        assignProgress = (ProgressBar) itemView.findViewById(R.id.assign_progress);
-        reviewsListView = (ReviewsListView) itemView.findViewById(R.id.rcv_reviews);
-        rbRating = (RatingBar) itemView.findViewById(R.id.rb_rating);
-        rbRating5 = (RatingBar) itemView.findViewById(R.id.rb_rating5);
-        rbRating4 = (RatingBar) itemView.findViewById(R.id.rb_rating4);
-        rbRating3 = (RatingBar) itemView.findViewById(R.id.rb_rating3);
-        rbRating2 = (RatingBar) itemView.findViewById(R.id.rb_rating2);
-        rbRating1 = (RatingBar) itemView.findViewById(R.id.rb_rating1);
-        imgAvatarAssign = (CircleImageView) itemView.findViewById(R.id.img_avatar_assign);
-        imgAvatarDes = (CircleImageView) itemView.findViewById(R.id.avatar_des);
-        layoutShowReviews = (RelativeLayout) itemView.findViewById(R.id.layout_show_reviews);
-        layoutExpand = (ExpandableLayout) itemView.findViewById(R.id.layout_expand);
-        imgArrowDown = (ImageView) itemView.findViewById(R.id.img_arrow_down);
-        scrollView = (NestedScrollView) itemView.findViewById(R.id.scroll_View);
-        layoutSms = (RelativeLayout) itemView.findViewById(R.id.layout_sms);
+        tvAssigner = itemView.findViewById(R.id.tv_assigner);
+        tvWorker = itemView.findViewById(R.id.tv_worker_count);
+        tvBidderCount = itemView.findViewById(R.id.tv_bidder_count);
+        tvAssignerCount = itemView.findViewById(R.id.tv_count_assigner);
+        tvName = itemView.findViewById(R.id.tv_name);
+        tvDes = itemView.findViewById(R.id.tv_des);
+        tvRatingCount = itemView.findViewById(R.id.tv_rating_count);
+        tvBidsCount = itemView.findViewById(R.id.tv_bids_count);
+        tvComplex = itemView.findViewById(R.id.tv_complex);
+        tv5star = itemView.findViewById(R.id.tv_5star);
+        tv4star = itemView.findViewById(R.id.tv_4star);
+        tv3star = itemView.findViewById(R.id.tv_3star);
+        tv2star = itemView.findViewById(R.id.tv_2star);
+        tv1star = itemView.findViewById(R.id.tv_1star);
+        tvPrice = itemView.findViewById(R.id.tv_price);
+        tvDesMsg = itemView.findViewById(R.id.tv_des_msg);
+        tvShowReviews = itemView.findViewById(R.id.tv_show_reviews);
+        tvMoreReviews = itemView.findViewById(R.id.tv_more_reviews);
+        btnAssiged = itemView.findViewById(R.id.btn_next);
+        assignProgress = itemView.findViewById(R.id.assign_progress);
+        reviewsListView = itemView.findViewById(R.id.rcv_reviews);
+        rbRating = itemView.findViewById(R.id.rb_rating);
+        rbRating5 = itemView.findViewById(R.id.rb_rating5);
+        rbRating4 = itemView.findViewById(R.id.rb_rating4);
+        rbRating3 = itemView.findViewById(R.id.rb_rating3);
+        rbRating2 = itemView.findViewById(R.id.rb_rating2);
+        rbRating1 = itemView.findViewById(R.id.rb_rating1);
+        imgAvatarAssign = itemView.findViewById(R.id.img_avatar_assign);
+        imgAvatarDes = itemView.findViewById(R.id.avatar_des);
+        layoutShowReviews = itemView.findViewById(R.id.layout_show_reviews);
+        layoutExpand = itemView.findViewById(R.id.layout_expand);
+        imgArrowDown = itemView.findViewById(R.id.img_arrow_down);
+        scrollView = itemView.findViewById(R.id.scroll_View);
+        layoutSms = itemView.findViewById(R.id.layout_sms);
         LogUtils.d(TAG, "assigner adapter" + assignerCount + ":" + workerCount);
         if (!bidResponse.isAccept()) {
             btnAssiged.setEnabled(true);
@@ -274,7 +274,7 @@ public class ViewPageAssignAdapter extends PagerAdapter {
             }
         });
 
-        ((ViewPager) container).addView(itemView);
+        container.addView(itemView);
         return itemView;
     }
 

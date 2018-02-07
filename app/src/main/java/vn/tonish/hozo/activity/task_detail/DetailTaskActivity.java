@@ -175,7 +175,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initView() {
         createSwipeToRefresh();
-        footerView = (View) findViewById(R.id.footer_scoll);
+        footerView = findViewById(R.id.footer_scoll);
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 

@@ -205,7 +205,7 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
                     updateRole();
                     LogUtils.d(TAG, "BiddersActivity broadcastReceiver listen");
                     assigners.clear();
-                    assigners.addAll((ArrayList<Assigner>) taskResponse.getAssignees());
+                    assigners.addAll(taskResponse.getAssignees());
                     assignerAdapter.notifyDataSetChanged();
                     tvTitle.setText(getString(R.string.assigners, taskResponse.getAssigneeCount()));
                     LogUtils.d(TAG, "BiddersActivity broadcastReceiver bidders size : " + assigners.size());

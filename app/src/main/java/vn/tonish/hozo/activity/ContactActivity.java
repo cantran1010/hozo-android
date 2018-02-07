@@ -50,7 +50,7 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
 
     private void setupList() {
         ArrayList<Assigner> assigners = new ArrayList<>();
-        for (Assigner assigner : (ArrayList<Assigner>) taskResponse.getAssignees()
+        for (Assigner assigner : taskResponse.getAssignees()
                 ) {
             if (!assigner.getFullName().equals(getString(R.string.group_chat))) {
                 assigners.add(assigner);

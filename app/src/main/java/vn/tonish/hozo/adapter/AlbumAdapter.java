@@ -42,9 +42,9 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
             convertView = layoutInflater.inflate(R.layout.item_album, parent, false);
             holder = new ViewHolder();
-            holder.imgAlbum = (ImageView) convertView.findViewById(R.id.img_album);
-            holder.tvName = (TextViewHozo) convertView.findViewById(R.id.tv_name);
-            holder.mainLayout = (RelativeLayout) convertView.findViewById(R.id.layout_main);
+            holder.imgAlbum = convertView.findViewById(R.id.img_album);
+            holder.tvName = convertView.findViewById(R.id.tv_name);
+            holder.mainLayout = convertView.findViewById(R.id.layout_main);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -54,7 +54,7 @@ public class AlbumAdapter extends ArrayAdapter<Album> {
 
         holder.tvName.setText(item != null ? item.getName() : null);
 
-        Utils.displayImageCenterCrop(getContext(),holder.imgAlbum,item.getCoverPath());
+        Utils.displayImageCenterCrop(getContext(), holder.imgAlbum, item.getCoverPath());
 
         DeviceUtils.DisplayInfo displayInfo = DeviceUtils.getDisplayInfo(getContext());
         int whImage = displayInfo.getWidth() / 3;

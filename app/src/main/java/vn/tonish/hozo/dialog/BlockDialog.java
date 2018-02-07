@@ -36,8 +36,8 @@ public class BlockDialog extends BaseDialog implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        tvContent = (TextViewHozo) findViewById(R.id.tv_content);
-        ImageView imgClose = (ImageView) findViewById(R.id.img_close);
+        tvContent = findViewById(R.id.tv_content);
+        ImageView imgClose = findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
     }
 

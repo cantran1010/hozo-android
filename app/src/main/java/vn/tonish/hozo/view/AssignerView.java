@@ -58,12 +58,12 @@ public class AssignerView extends LinearLayout implements View.OnClickListener {
     private void initView() {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.view_assigner, this, true);
-        imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
+        imgAvatar = findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
 
-        tvName = (TextViewHozo) findViewById(R.id.tv_name);
-        ratingBar = (RatingBar) findViewById(R.id.rb_rate);
-        tvPrice = (TextViewHozo) findViewById(R.id.tv_price);
+        tvName = findViewById(R.id.tv_name);
+        ratingBar = findViewById(R.id.rb_rate);
+        tvPrice = findViewById(R.id.tv_price);
         btnCancel = findViewById(R.id.btn_cancel);
         tvDoneRate = findViewById(R.id.tv_poster_done_rate);
     }

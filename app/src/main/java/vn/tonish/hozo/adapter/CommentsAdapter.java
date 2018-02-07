@@ -61,7 +61,7 @@ public class CommentsAdapter extends BaseAdapter<Comment, CommentsAdapter.WorkHo
 
         public WorkHolder(View itemView) {
             super(itemView);
-            commentView = (CommentView) itemView.findViewById(R.id.comments_view);
+            commentView = itemView.findViewById(R.id.comments_view);
         }
 
 

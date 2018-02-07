@@ -45,14 +45,14 @@ public class AlertDialogOkAndCancel extends BaseDialog implements View.OnClickLi
     @Override
     protected void initData() {
 
-        TextViewHozo tvSubmit = (TextViewHozo) findViewById(R.id.tv_yes);
+        TextViewHozo tvSubmit = findViewById(R.id.tv_yes);
         tvSubmit.setOnClickListener(this);
 
-        TextViewHozo tvCancel = (TextViewHozo) findViewById(R.id.tv_no);
+        TextViewHozo tvCancel = findViewById(R.id.tv_no);
         tvCancel.setOnClickListener(this);
 
-        TextViewHozo tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
-        TextViewHozo tvContent = (TextViewHozo) findViewById(R.id.tv_content);
+        TextViewHozo tvTitle = findViewById(R.id.tv_title);
+        TextViewHozo tvContent = findViewById(R.id.tv_content);
 
         tvTitle.setText(title);
         tvContent.setText(content);

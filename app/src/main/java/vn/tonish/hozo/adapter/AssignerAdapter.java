@@ -52,7 +52,7 @@ public class AssignerAdapter extends RecyclerView.Adapter<AssignerAdapter.MyView
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            assignerView = (AssignerView) itemView.findViewById(R.id.assign_view);
+            assignerView = itemView.findViewById(R.id.assign_view);
         }
 
     }

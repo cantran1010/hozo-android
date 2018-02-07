@@ -90,7 +90,7 @@ public class HozoPlaceholderFragment extends Fragment {
             }
             final String text = arguments.getString(TEXT_KEY);
             final int textResourceId = arguments.getInt(TEXT_RESOURCE_ID_KEY, -1);
-            final TextView textView = (TextView) view.findViewById(R.id.text_view);
+            final TextView textView = view.findViewById(R.id.text_view);
             if (textView != null) {
                 if (text != null) {
                     textView.setText(text);

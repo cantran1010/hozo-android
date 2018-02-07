@@ -198,6 +198,9 @@
         <activity
             android:name=".activity.GooglePlaceActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.InviteFriendActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

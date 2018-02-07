@@ -73,8 +73,8 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MyViewHold
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            tvName = (TextViewHozo) itemView.findViewById(R.id.tv_name);
-            imgAvatar = (CircleImageView) itemView.findViewById(R.id.img_avatar);
+            tvName = itemView.findViewById(R.id.tv_name);
+            imgAvatar = itemView.findViewById(R.id.img_avatar);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

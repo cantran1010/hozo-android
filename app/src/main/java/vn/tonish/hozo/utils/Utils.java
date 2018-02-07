@@ -934,7 +934,7 @@ public class Utils {
 
     public static Map<String, String> getHashMapFromQuery(String query)
             throws UnsupportedEncodingException {
-        Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+        Map<String, String> query_pairs = new LinkedHashMap<>();
         String[] pairs = query.split("&");
         for (String pair : pairs) {
             int idx = pair.indexOf("=");

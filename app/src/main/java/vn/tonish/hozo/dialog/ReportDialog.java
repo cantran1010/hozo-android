@@ -51,16 +51,16 @@ public class ReportDialog extends BaseDialog implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        TextViewHozo tvCancel = (TextViewHozo) findViewById(R.id.tv_cancel);
+        TextViewHozo tvCancel = findViewById(R.id.tv_cancel);
         tvCancel.setOnClickListener(this);
-        TextViewHozo tvOk = (TextViewHozo) findViewById(R.id.tv_ok);
+        TextViewHozo tvOk = findViewById(R.id.tv_ok);
         tvOk.setOnClickListener(this);
 
-        rgReport = (RadioGroup) findViewById(R.id.rg_report);
-        RadioButton rbSpam = (RadioButton) findViewById(R.id.rb_spam);
-        RadioButton rbLanguage = (RadioButton) findViewById(R.id.rb_language);
-        RadioButton rbPolicy = (RadioButton) findViewById(R.id.rb_policy);
-        RadioButton rbOther = (RadioButton) findViewById(R.id.rb_other);
+        rgReport = findViewById(R.id.rg_report);
+        RadioButton rbSpam = findViewById(R.id.rb_spam);
+        RadioButton rbLanguage = findViewById(R.id.rb_language);
+        RadioButton rbPolicy = findViewById(R.id.rb_policy);
+        RadioButton rbOther = findViewById(R.id.rb_other);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class ReportDialog extends BaseDialog implements View.OnClickListener {
 
     private void doReport() {
         int selectedId = rgReport.getCheckedRadioButtonId();
-        RadioButton radioSelected = (RadioButton) findViewById(selectedId);
+        RadioButton radioSelected = findViewById(selectedId);
 
         switch (selectedId) {
 

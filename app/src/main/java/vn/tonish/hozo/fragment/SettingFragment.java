@@ -7,13 +7,13 @@ import android.view.View;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.GeneralInfoActivity;
+import vn.tonish.hozo.activity.InviteFriendActivity;
 import vn.tonish.hozo.activity.SupportActivity;
 import vn.tonish.hozo.activity.payment.MyWalletActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.utils.TransitionScreen;
-import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -72,7 +72,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 break;
 
             case R.id.layout_share:
-                doShareApp();
+                startActivity(new Intent(getActivity(), InviteFriendActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
 //            case R.id.tv_history:
@@ -102,21 +102,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    private void doShareApp() {
-        try {
-            Intent i = new Intent(Intent.ACTION_SEND);
-            i.setType("text/plain");
-            i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
-            String content = getString(R.string.share_app_content);
-            content = content + "http://hyperurl.co/hozo" + " \n";
-            i.putExtra(Intent.EXTRA_TEXT, content);
-            startActivity(Intent.createChooser(i, getString(R.string.share_app_title)));
-        } catch (Exception e) {
-            e.printStackTrace();
-            Utils.showLongToast(getContext(), getString(R.string.share_app_error), true, false);
-        }
-
-    }
 
     private void openGeneralInfoActivity(String title, String url) {
         Intent intent = new Intent(getActivity(), GeneralInfoActivity.class);

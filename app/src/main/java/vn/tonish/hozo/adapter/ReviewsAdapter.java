@@ -62,7 +62,7 @@ public class ReviewsAdapter extends BaseAdapter<ReviewEntity, ReviewsAdapter.MyV
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            reviewsView = (ReviewsView) itemView.findViewById(R.id.reviews_view);
+            reviewsView = itemView.findViewById(R.id.reviews_view);
         }
     }
 }
