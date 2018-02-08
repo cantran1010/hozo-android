@@ -158,17 +158,25 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
         memberEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
+                if (dataSnapshot.getKey().equalsIgnoreCase("groups")) {
+                    Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
+                    LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
+                    if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
+                        Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.kick_out_chat_content), true, false);
+                        finish();
+                    }
+                }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                LogUtils.d(TAG, "memberEventListener onChildChanged , dataSnapshot : " + dataSnapshot.toString());
-                Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
-                LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
-                if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
-                    Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.kick_out_chat_content), true, false);
-                    finish();
+                if (dataSnapshot.getKey().equalsIgnoreCase("groups")) {
+                    Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
+                    LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
+                    if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
+                        Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.kick_out_chat_content), true, false);
+                        finish();
+                    }
                 }
 
             }
@@ -613,13 +621,18 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                             finish();
                         }
                         break;
+                    case "members":
+                        Map<String, Boolean> members = (Map<String, Boolean>) dataSnapshot.getValue();
+                        if ((members.containsKey(String.valueOf(taskId)) && !members.get(String.valueOf(taskId))) || (members.containsKey(String.valueOf(UserManager.getMyUser().getId())) && !members.get(String.valueOf(UserManager.getMyUser().getId())))) {
+                            Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.kick_out_task_content), true, false);
+                            finish();
+                        }
+                        break;
                 }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                LogUtils.d(TAG, "checkTask members  add, task id : " + dataSnapshot.toString());
                 switch (dataSnapshot.getKey()) {
                     case "block":
                         boolean block = (boolean) dataSnapshot.getValue();
@@ -637,11 +650,10 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
                         break;
                     case "members":
                         Map<String, Boolean> members = (Map<String, Boolean>) dataSnapshot.getValue();
-                        if (members.containsKey(String.valueOf(posterId)) && !members.get(String.valueOf(posterId))) {
+                        if ((members.containsKey(String.valueOf(taskId)) && !members.get(String.valueOf(taskId))) || (members.containsKey(String.valueOf(UserManager.getMyUser().getId())) && !members.get(String.valueOf(UserManager.getMyUser().getId())))) {
                             Utils.showLongToast(ChatPrivateActivity.this, getString(R.string.kick_out_task_content), true, false);
                             finish();
                         }
-
                         break;
 
                 }

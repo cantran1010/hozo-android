@@ -153,18 +153,27 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
         memberEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
+                if (dataSnapshot.getKey().equalsIgnoreCase("groups")) {
+                    Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
+                    LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
+                    if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
+                        Utils.showLongToast(ChatGroupActivity.this, getString(R.string.kick_out_chat_content), true, false);
+                        finish();
+                    }
+                }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 LogUtils.d(TAG, "memberEventListener onChildChanged , dataSnapshot : " + dataSnapshot.toString());
                 //noinspection unchecked
-                Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
-                LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
-                if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
-                    Utils.showLongToast(ChatGroupActivity.this, getString(R.string.kick_out_chat_content), true, false);
-                    finish();
+                if (dataSnapshot.getKey().equalsIgnoreCase("groups")) {
+                    Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
+                    LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
+                    if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
+                        Utils.showLongToast(ChatGroupActivity.this, getString(R.string.kick_out_chat_content), true, false);
+                        finish();
+                    }
                 }
 
             }
@@ -606,6 +615,13 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
                             finish();
                         }
                         break;
+                    case "members":
+                        Map<String, Boolean> members = (Map<String, Boolean>) dataSnapshot.getValue();
+                        if ((members.containsKey(String.valueOf(taskResponse.getPoster().getId())) && !members.get(String.valueOf(taskResponse.getPoster().getId()))) || (members.containsKey(String.valueOf(UserManager.getMyUser().getId())) && !members.get(String.valueOf(UserManager.getMyUser().getId())))) {
+                            Utils.showLongToast(ChatGroupActivity.this, getString(R.string.kick_out_task_content), true, false);
+                            finish();
+                        }
+                        break;
                 }
             }
 
@@ -630,11 +646,10 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
                         break;
                     case "members":
                         Map<String, Boolean> members = (Map<String, Boolean>) dataSnapshot.getValue();
-                        if (members.containsKey(String.valueOf(taskResponse.getPoster().getId())) && !members.get(String.valueOf(taskResponse.getPoster().getId()))) {
+                        if ((members.containsKey(String.valueOf(taskResponse.getPoster().getId())) && !members.get(String.valueOf(taskResponse.getPoster().getId()))) || (members.containsKey(String.valueOf(UserManager.getMyUser().getId())) && !members.get(String.valueOf(UserManager.getMyUser().getId())))) {
                             Utils.showLongToast(ChatGroupActivity.this, getString(R.string.kick_out_task_content), true, false);
                             finish();
                         }
-
                         break;
 
                 }

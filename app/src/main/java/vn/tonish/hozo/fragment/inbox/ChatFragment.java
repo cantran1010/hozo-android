@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ToggleButton;
@@ -32,6 +33,7 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.fragment.BaseFragment;
+import vn.tonish.hozo.fragment.mytask.MyTaskFragment;
 import vn.tonish.hozo.model.ChatRoom;
 import vn.tonish.hozo.model.Member;
 import vn.tonish.hozo.model.Message;
@@ -43,6 +45,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.MyLinearLayoutManager;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -355,24 +358,25 @@ public class ChatFragment extends BaseFragment {
             VerticalListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    LogUtils.d(TAG, "VerticalListener , onChildAdded : " + dataSnapshot.toString());
                     if (dataSnapshot.exists()) {
                         Message message = dataSnapshot.getValue(Message.class);
                         message.setId(dataSnapshot.getKey());
                         list.get(p).setMessage(message);
                         chatRoomAdapter.notifyDataSetChanged();
+                        sendBroasdCast();
                     }
-                    sendBroasdCast();
+
                 }
 
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    LogUtils.d(TAG, "VerticalListener , onChildChanged : " + dataSnapshot.toString());
-                    Message message = dataSnapshot.getValue(Message.class);
-                    message.setId(dataSnapshot.getKey());
-                    list.get(p).setMessage(message);
-                    chatRoomAdapter.notifyDataSetChanged();
-                    sendBroasdCast();
+                    if (dataSnapshot.exists()) {
+                        Message message = dataSnapshot.getValue(Message.class);
+                        message.setId(dataSnapshot.getKey());
+                        list.get(p).setMessage(message);
+                        chatRoomAdapter.notifyDataSetChanged();
+                        sendBroasdCast();
+                    }
                 }
 
                 @Override
@@ -414,11 +418,13 @@ public class ChatFragment extends BaseFragment {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Message message = dataSnapshot.getValue(Message.class);
-                message.setId(dataSnapshot.getKey());
-                list.get(0).setMessage(message);
-                chatRoomAdapter.notifyDataSetChanged();
-                sendBroasdCast();
+                if (dataSnapshot.exists()) {
+                    Message message = dataSnapshot.getValue(Message.class);
+                    message.setId(dataSnapshot.getKey());
+                    list.get(0).setMessage(message);
+                    chatRoomAdapter.notifyDataSetChanged();
+                    sendBroasdCast();
+                }
             }
 
             @Override
@@ -475,6 +481,14 @@ public class ChatFragment extends BaseFragment {
         return count;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            openFragment(R.id.layout_container, MyTaskFragment.class, new Bundle(), false, TransitionScreen.RIGHT_TO_LEFT);
+            updateMenuUi(3);
+        }
+    }
 
     private void sendBroasdCast() {
         Intent intentNewMsg = new Intent();
