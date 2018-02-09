@@ -27,7 +27,7 @@
     <string name="profile_log_out">Thoát tài khoản</string>
     <string name="tv_task_title">Tiêu đề công việc</string>
 
-    <string name="post_a_task_name_error">Tiêu đề công việc phải lớn  10 kí tự \n Vui lòng nhập tiêu đề hợp lệ</string>
+    <string name="post_a_task_name_error">Tiêu đề quá ngắn! \n Vui lòng nhập ít nhất 10 ký tự</string>
     <string name="post_a_task_date_error">Vui lòng nhập \n thời gian bắt đầu làm việc</string>
     <!--<string name="post_a_task_description_error">Mô tả công việc phải trên 25 kí tự</string>-->
 
@@ -221,7 +221,8 @@
     <string name="hozo_all">Tất cả</string>
     <!-- share app -->
     <string name="share_app_title">Chọn ứng dụng bạn muốn chia sẻ</string>
-    <string name="share_app_content">Hãy chia sẻ cho bạn bè ứng dụng tuyệt vời này \n</string>
+    <string name="share_app_content">Đăng tin tuyển người làm thời vụ trên Hozo để nhận ưu đãi với mã giới thiệu</string>
+    <string name="share_app_content2">hoặc tải Hozo ngay tại</string>
     <string name="share_app_error">Rất tiếc,điện thoại bạn không cài đặt ứng dụng có thể chia sẻ</string>
     <string name="gender_vn_any">Bất kỳ</string>
     <string name="gender_vn_mafele">Nữ</string>
@@ -782,5 +783,6 @@
     <string name="chat_notification_des">Tắt nhận thông báo chat</string>
     <string name="nofification_task_type_reapplied">Công việc %1$s mà bạn ứng tuyển trước đó đã được mở lại. Bạn đã được tự động ứng tuyển vào vị trí cũ.</string>
     <string name="nofification_task_type_reapplied_matcher">ứng tuyển</string>
+    <string name="post_a_task_description_error">Mô tả quá ngắn! \n Vui lòng nhập ít nhất 25 ký tự</string>
 
 </resources>

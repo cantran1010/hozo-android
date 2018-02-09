@@ -267,6 +267,9 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
         if (edtWorkName.getText().toString().length() < 10) {
             edtWorkName.requestFocus();
             edtWorkName.setError(getString(R.string.post_a_task_name_error));
+        } else if (edtDescription.getText().toString().length() < 25) {
+            edtDescription.requestFocus();
+            edtDescription.setError(getString(R.string.post_a_task_description_error));
         } else if (!checkBoxHozo.isChecked() && !validAdress()) {
             autocompleteView.requestFocus();
             Utils.showLongToast(getContext(), getString(R.string.post_task_address_error_google), true, false);

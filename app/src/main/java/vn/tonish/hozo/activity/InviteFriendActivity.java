@@ -159,12 +159,14 @@ public class InviteFriendActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void doShareApp() {
+
         try {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
             i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
-            String content = getString(R.string.share_app_content);
-            content = content + referralResponse.getUrl() + " \n";
+            String content = getString(R.string.share_app_content) + " " + tvPromotion.getText().toString().trim() + " " + getString(R.string.share_app_content2) + " \n";
+            i.putExtra(Intent.EXTRA_SUBJECT, content);
+            content = content + referralResponse.getUrl();
             i.putExtra(Intent.EXTRA_TEXT, content);
             startActivity(Intent.createChooser(i, getString(R.string.share_app_title)));
         } catch (Exception e) {

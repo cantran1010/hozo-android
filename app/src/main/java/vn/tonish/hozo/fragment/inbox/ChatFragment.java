@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ToggleButton;
@@ -32,6 +33,7 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.fragment.BaseFragment;
+import vn.tonish.hozo.fragment.mytask.MyTaskFragment;
 import vn.tonish.hozo.model.ChatRoom;
 import vn.tonish.hozo.model.Member;
 import vn.tonish.hozo.model.Message;
@@ -43,6 +45,7 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.MyLinearLayoutManager;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -85,7 +88,6 @@ public class ChatFragment extends BaseFragment {
     protected void initData() {
         myID = UserManager.getMyUser().getId();
         getChatRooms();
-
         tgOnOffNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -286,21 +288,22 @@ public class ChatFragment extends BaseFragment {
     }
 
     private void updateUI() {
-        chatRoomAdapter = new ChatRoomAdapter(getActivity(), chatRooms);
-        lvManager = new MyLinearLayoutManager(getActivity());
-        rcvChatRooms.setLayoutManager(lvManager);
-        rcvChatRooms.setAdapter(chatRoomAdapter);
-        if (taskResponses.size() > 0) {
-            rcvChatRooms.setVisibility(View.VISIBLE);
-            tvNoData.setVisibility(View.GONE);
-        } else {
-            rcvChatRooms.setVisibility(View.GONE);
-            tvNoData.setVisibility(View.VISIBLE);
-        }
-
-        for (int i = 0; i < chatRooms.size(); i++) {
-            memberVerticalListener(chatRooms.get(i), taskResponses.get(i).getPoster().getId());
-            groupListener(chatRooms.get(i));
+        if (chatRoomAdapter == null) {
+            chatRoomAdapter = new ChatRoomAdapter(getActivity(), chatRooms);
+            lvManager = new MyLinearLayoutManager(getActivity());
+            rcvChatRooms.setLayoutManager(lvManager);
+            rcvChatRooms.setAdapter(chatRoomAdapter);
+            if (taskResponses.size() > 0) {
+                rcvChatRooms.setVisibility(View.VISIBLE);
+                tvNoData.setVisibility(View.GONE);
+            } else {
+                rcvChatRooms.setVisibility(View.GONE);
+                tvNoData.setVisibility(View.VISIBLE);
+            }
+            for (int i = 0; i < chatRooms.size(); i++) {
+                memberVerticalListener(chatRooms.get(i), taskResponses.get(i).getPoster().getId());
+                groupListener(chatRooms.get(i));
+            }
         }
 
     }
@@ -355,24 +358,27 @@ public class ChatFragment extends BaseFragment {
             VerticalListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    LogUtils.d(TAG, "VerticalListener , onChildAdded : " + dataSnapshot.toString());
                     if (dataSnapshot.exists()) {
+                        LogUtils.d(TAG, "check onChildAdded" + dataSnapshot.toString());
                         Message message = dataSnapshot.getValue(Message.class);
                         message.setId(dataSnapshot.getKey());
                         list.get(p).setMessage(message);
-                        chatRoomAdapter.notifyDataSetChanged();
+                        if (chatRoomAdapter != null) chatRoomAdapter.notifyDataSetChanged();
+                        sendBroasdCast();
                     }
-                    sendBroasdCast();
+
                 }
 
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    LogUtils.d(TAG, "VerticalListener , onChildChanged : " + dataSnapshot.toString());
-                    Message message = dataSnapshot.getValue(Message.class);
-                    message.setId(dataSnapshot.getKey());
-                    list.get(p).setMessage(message);
-                    chatRoomAdapter.notifyDataSetChanged();
-                    sendBroasdCast();
+                    if (dataSnapshot.exists()) {
+                        LogUtils.d(TAG, "check onChildChanged" + dataSnapshot.toString());
+                        Message message = dataSnapshot.getValue(Message.class);
+                        message.setId(dataSnapshot.getKey());
+                        list.get(p).setMessage(message);
+                        if (chatRoomAdapter != null) chatRoomAdapter.notifyDataSetChanged();
+                        sendBroasdCast();
+                    }
                 }
 
                 @Override
@@ -403,22 +409,26 @@ public class ChatFragment extends BaseFragment {
         HorizotalListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                LogUtils.d(TAG, "check onChildAdded groupListener" + dataSnapshot.toString());
                 if (dataSnapshot.exists()) {
                     Message message = dataSnapshot.getValue(Message.class);
                     message.setId(dataSnapshot.getKey());
                     list.get(0).setMessage(message);
-                    chatRoomAdapter.notifyDataSetChanged();
+                    if (chatRoomAdapter != null) chatRoomAdapter.notifyDataSetChanged();
                     sendBroasdCast();
                 }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Message message = dataSnapshot.getValue(Message.class);
-                message.setId(dataSnapshot.getKey());
-                list.get(0).setMessage(message);
-                chatRoomAdapter.notifyDataSetChanged();
-                sendBroasdCast();
+                LogUtils.d(TAG, "check onChildAdded groupListener" + dataSnapshot.toString());
+                if (dataSnapshot.exists()) {
+                    Message message = dataSnapshot.getValue(Message.class);
+                    message.setId(dataSnapshot.getKey());
+                    list.get(0).setMessage(message);
+                    if (chatRoomAdapter != null) chatRoomAdapter.notifyDataSetChanged();
+                    sendBroasdCast();
+                }
             }
 
             @Override
@@ -454,7 +464,12 @@ public class ChatFragment extends BaseFragment {
     public void onRefresh() {
         super.onRefresh();
         if (call != null) call.cancel();
+        call = null;
         chatRoomAdapter = null;
+        if (HorizotalListener != null && horizotalReference != null)
+            horizotalReference.removeEventListener(HorizotalListener);
+        if (VerticalListener != null && verticalReference != null)
+            verticalReference.removeEventListener(VerticalListener);
         getChatRooms();
     }
 
@@ -475,6 +490,14 @@ public class ChatFragment extends BaseFragment {
         return count;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
+            openFragment(R.id.layout_container, MyTaskFragment.class, new Bundle(), false, TransitionScreen.RIGHT_TO_LEFT);
+            updateMenuUi(3);
+        }
+    }
 
     private void sendBroasdCast() {
         Intent intentNewMsg = new Intent();

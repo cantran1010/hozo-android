@@ -27,6 +27,7 @@ import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -130,6 +131,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private int taskId = 0;
     private ImageView imgMenu;
     private LinearLayout moreDetailLayout, moreFooterLayout, layoutInputComment;
+    private ScrollView scollView;
     private PopupMenu popup;
     private RecyclerView rcvBidder;
     private ArrayList<Bidder> bidders = new ArrayList<>();
@@ -165,7 +167,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private ProgressBar progressBar;
     private Call<TaskResponse> call;
     private TextViewHozo tvMap;
-    private View footerView;
 
     @Override
     protected int getLayout() {
@@ -175,7 +176,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initView() {
         createSwipeToRefresh();
-        footerView = findViewById(R.id.footer_scoll);
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
@@ -186,6 +186,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         tvSeeMoreDetail.setOnClickListener(this);
 
         moreDetailLayout = (LinearLayout) findViewById(R.id.more_detail_layout);
+        scollView = (ScrollView) findViewById(R.id.layout_scollView);
 
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         rbRate = (RatingBar) findViewById(R.id.rb_rate);
@@ -1560,7 +1561,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             moreDetailLayout.setVisibility(View.VISIBLE);
             tvSeeMoreDetail.setText(getString(R.string.advance_more_hide));
             tvSeeMoreDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_up_blue, 0);
-
         }
     }
 
@@ -1573,6 +1573,12 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             moreFooterLayout.setVisibility(View.VISIBLE);
             tvSeeMoreFooter.setText(getString(R.string.advance_more_hide));
             tvSeeMoreFooter.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_up_blue, 0);
+            scollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    scollView.fullScroll(ScrollView.FOCUS_DOWN);
+                }
+            });
         }
     }
 
@@ -1682,7 +1688,12 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else {
             doAttachImage();
         }
-        footerView.getParent().requestChildFocus(footerView, footerView);
+        scollView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                scollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        }, 200);
     }
 
     private void doComment() {

@@ -54,7 +54,6 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
             holder.tvDate.setText(DateTimeUtils.getOnlyDateFromIso(chatRoom.getCreated_at()));
             updateUI(position, holder.rcvAss);
             LogUtils.d(TAG, "onBindViewHolder" + chatRoom.toString());
-//
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +79,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
                 public void onClick(View view) {
                     Intent intent = new Intent(context, DetailTaskActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, chatRooms.get(getAdapterPosition()).getId());
-                    ((BaseActivity) context).startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                    ((BaseActivity) context).startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 }
             });
 

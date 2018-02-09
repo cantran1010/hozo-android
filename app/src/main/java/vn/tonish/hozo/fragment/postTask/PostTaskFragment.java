@@ -36,7 +36,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PostTaskActivity;
-import vn.tonish.hozo.adapter.CustomArrayAdapter;
 import vn.tonish.hozo.adapter.HozoSpinnerAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.PostTaskEntity;
@@ -88,7 +87,6 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
     private static final int MIN_HOUR = 1;
     private static final int MAX_HOUR = 12;
     private final ArrayList<String> vnds = new ArrayList<>();
-    private CustomArrayAdapter adapter;
     private ExpandableLayout advanceExpandableLayout;
     private Spinner spGender;
     private String strGender = "";
@@ -147,7 +145,6 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         edtBudget.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                adapter = null;
                 vnds.clear();
                 if (!edtBudget.getText().toString().equals("") && Long.valueOf(getLongAutoCompleteTextView(edtBudget)) <= MAX_BUGDET)
                     edtBudget.setError(null);
@@ -157,7 +154,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0) {
                     edtBudget.setThreshold(edtBudget.getText().length());
-                    formatMoney(getContext(),vnds,Long.parseLong(edtBudget.getText().toString().trim().replace(",", "").replace(".", "")),edtBudget);
+                    formatMoney(getContext(), vnds, Long.parseLong(edtBudget.getText().toString().trim().replace(",", "").replace(".", "")), edtBudget);
                 }
             }
 
@@ -881,7 +878,6 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         });
 
     }
-
 
 
     private String getLongAutoCompleteTextView(AutoCompleteTextView autoCompleteTextView) {
