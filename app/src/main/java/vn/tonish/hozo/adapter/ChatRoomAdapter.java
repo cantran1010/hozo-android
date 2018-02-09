@@ -54,7 +54,6 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.MyView
             holder.tvDate.setText(DateTimeUtils.getOnlyDateFromIso(chatRoom.getCreated_at()));
             updateUI(position, holder.rcvAss);
             LogUtils.d(TAG, "onBindViewHolder" + chatRoom.toString());
-//
         } catch (Exception e) {
             e.printStackTrace();
         }

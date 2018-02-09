@@ -272,7 +272,6 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         groupTaskListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                LogUtils.d(TAG, "checkTask members  onChildAdded, task id : " + dataSnapshot.toString());
                 switch (dataSnapshot.getKey()) {
                     case "block":
                         boolean block = (boolean) dataSnapshot.getValue();
@@ -288,18 +287,13 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                             finish();
                         }
                         break;
-                    case "members":
-                        Map<String, Boolean> members = (Map<String, Boolean>) dataSnapshot.getValue();
-                        if ((members.containsKey(String.valueOf(posterID)) && !members.get(String.valueOf(posterID))) || (members.containsKey(String.valueOf(UserManager.getMyUser().getId())) && !members.get(String.valueOf(UserManager.getMyUser().getId())))) {
-                            Utils.showLongToast(ContactsActivity.this, getString(R.string.kick_out_task_content), true, false);
-                            finish();
-                        }
                 }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                LogUtils.d(TAG, "checkTask members  onChildChanged, task id : " + dataSnapshot.toString());
+
+                LogUtils.d(TAG, "checkTask members  add, task id : " + dataSnapshot.toString());
                 switch (dataSnapshot.getKey()) {
                     case "block":
                         boolean block = (boolean) dataSnapshot.getValue();
@@ -317,7 +311,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                         break;
                     case "members":
                         Map<String, Boolean> members = (Map<String, Boolean>) dataSnapshot.getValue();
-                        if ((members.containsKey(String.valueOf(posterID)) && !members.get(String.valueOf(posterID))) || (members.containsKey(String.valueOf(UserManager.getMyUser().getId())) && !members.get(String.valueOf(UserManager.getMyUser().getId())))) {
+                        if (members.containsKey(String.valueOf(posterID)) && !members.get(String.valueOf(posterID))) {
                             Utils.showLongToast(ContactsActivity.this, getString(R.string.kick_out_task_content), true, false);
                             finish();
                         }

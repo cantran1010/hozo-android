@@ -153,27 +153,18 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
         memberEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.getKey().equalsIgnoreCase("groups")) {
-                    Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
-                    LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
-                    if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
-                        Utils.showLongToast(ChatGroupActivity.this, getString(R.string.kick_out_chat_content), true, false);
-                        finish();
-                    }
-                }
+
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 LogUtils.d(TAG, "memberEventListener onChildChanged , dataSnapshot : " + dataSnapshot.toString());
                 //noinspection unchecked
-                if (dataSnapshot.getKey().equalsIgnoreCase("groups")) {
-                    Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
-                    LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
-                    if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
-                        Utils.showLongToast(ChatGroupActivity.this, getString(R.string.kick_out_chat_content), true, false);
-                        finish();
-                    }
+                Map<String, Boolean> groups = (Map<String, Boolean>) dataSnapshot.getValue();
+                LogUtils.d(TAG, "memberEventListener onChildChanged , groups : " + groups.toString());
+                if (groups.containsKey(String.valueOf(taskId)) && !groups.get(String.valueOf(taskId))) {
+                    Utils.showLongToast(ChatGroupActivity.this, getString(R.string.kick_out_chat_content), true, false);
+                    finish();
                 }
 
             }
@@ -403,6 +394,14 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
     @Override
     protected void onStop() {
         super.onStop();
+        if (valueEventListener != null)
+            messageCloudEndPoint.removeEventListener(valueEventListener);
+        if (childEventListener != null)
+            messageCloudEndPoint.removeEventListener(childEventListener);
+        if (memberEventListener != null)
+            memberCloudEndPoint.removeEventListener(memberEventListener);
+        if (groupTaskListener != null && groupTaskReference != null)
+            groupTaskReference.removeEventListener(groupTaskListener);
         PreferUtils.setPushShow(this, true);
     }
 
@@ -617,7 +616,7 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
                         break;
                     case "members":
                         Map<String, Boolean> members = (Map<String, Boolean>) dataSnapshot.getValue();
-                        if ((members.containsKey(String.valueOf(taskResponse.getPoster().getId())) && !members.get(String.valueOf(taskResponse.getPoster().getId()))) || (members.containsKey(String.valueOf(UserManager.getMyUser().getId())) && !members.get(String.valueOf(UserManager.getMyUser().getId())))) {
+                        if (members.containsKey(String.valueOf(taskResponse.getPoster().getId())) && !members.get(String.valueOf(taskResponse.getPoster().getId())) || members.containsKey(String.valueOf(UserManager.getMyUser().getId())) && !members.get(String.valueOf(UserManager.getMyUser().getId()))) {
                             Utils.showLongToast(ChatGroupActivity.this, getString(R.string.kick_out_task_content), true, false);
                             finish();
                         }
@@ -627,7 +626,6 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
                 LogUtils.d(TAG, "checkTask members  add, task id : " + dataSnapshot.toString());
                 switch (dataSnapshot.getKey()) {
                     case "block":
@@ -646,10 +644,11 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
                         break;
                     case "members":
                         Map<String, Boolean> members = (Map<String, Boolean>) dataSnapshot.getValue();
-                        if ((members.containsKey(String.valueOf(taskResponse.getPoster().getId())) && !members.get(String.valueOf(taskResponse.getPoster().getId()))) || (members.containsKey(String.valueOf(UserManager.getMyUser().getId())) && !members.get(String.valueOf(UserManager.getMyUser().getId())))) {
+                        if (members.containsKey(String.valueOf(taskResponse.getPoster().getId())) && !members.get(String.valueOf(taskResponse.getPoster().getId())) || members.containsKey(String.valueOf(UserManager.getMyUser().getId())) && !members.get(String.valueOf(UserManager.getMyUser().getId()))) {
                             Utils.showLongToast(ChatGroupActivity.this, getString(R.string.kick_out_task_content), true, false);
                             finish();
                         }
+
                         break;
 
                 }
@@ -715,22 +714,12 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (valueEventListener != null)
-            messageCloudEndPoint.removeEventListener(valueEventListener);
-        if (childEventListener != null)
-            messageCloudEndPoint.removeEventListener(childEventListener);
-        if (memberEventListener != null)
-            memberCloudEndPoint.removeEventListener(memberEventListener);
-        if (groupTaskListener != null && groupTaskReference != null)
-            groupTaskReference.removeEventListener(groupTaskListener);
     }
 
     private void showMenu() {
-
         //Creating the instance of PopupMenu
         PopupMenu popup = new PopupMenu(this, imgMenu);
         popup.getMenuInflater().inflate(R.menu.menu_chat, popup.getMenu());
-
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
