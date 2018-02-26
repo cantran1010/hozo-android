@@ -1003,7 +1003,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 distance = 25;
                 break;
             case R.id.rad_50_km:
-                tvDistance.setText(rad25km.getText().toString().trim());
+                tvDistance.setText(rad50km.getText().toString().trim());
                 distance = 50;
                 break;
             case R.id.rd_notification_yes:
