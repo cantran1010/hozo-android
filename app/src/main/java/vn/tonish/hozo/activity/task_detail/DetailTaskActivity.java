@@ -398,9 +398,13 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                         Intent intent = new Intent(DetailTaskActivity.this, BlockTaskActivity.class);
                         intent.putExtra(Constants.TITLE_INFO_EXTRA, getString(R.string.task_detail_block));
                         String msg = "";
-                        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId())
-                            msg = error.message();
-                        else msg = getString(R.string.term_and_policy);
+
+//                        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId())
+//                            msg = error.message();
+//                        else msg = getString(R.string.term_and_policy);
+
+                        msg = getString(R.string.term_and_policy);
+
                         intent.putExtra(Constants.CONTENT_INFO_EXTRA, getString(R.string.task_detail_block_reasons) + " " + msg);
                         startActivity(intent, TransitionScreen.FADE_IN);
                     } else {

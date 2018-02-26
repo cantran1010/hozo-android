@@ -56,6 +56,8 @@ import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Image;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
+import vn.tonish.hozo.rest.responseRes.APIError;
+import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.rest.responseRes.ImageResponse;
 import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.DialogUtils;
@@ -442,6 +444,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     Utils.blockUser(EditProfileActivity.this);
                     ProgressDialogUtils.dismissProgressDialog();
                 } else {
+
+                    APIError error = ErrorUtils.parseError(response);
+                    LogUtils.e(TAG, "updateBackground errorBody" + error.toString());
+
                     DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
