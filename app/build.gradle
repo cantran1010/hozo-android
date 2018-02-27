@@ -62,6 +62,7 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "BASE_URL", '"https://staging-api.hozo.vn/"'
+//            buildConfigField "String", "BASE_URL", '"http://local.hozo.vn:8080/"'
             buildConfigField "String", "SHARE_URL", '"https://staging.hozo.vn/share/tasks/"'
             debuggable true
             minifyEnabled false

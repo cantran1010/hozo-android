@@ -155,6 +155,13 @@ public class SystemNotificationFragment extends BaseFragment {
                     startActivityForResult(intent, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
                 } else if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_MONEY_RECEIVED)) {
                     startActivity(MyWalletActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+                } else if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_REF_BONUS_RECEIVED)) {
+                    DialogUtils.showOkDialog(getActivity(), getString(R.string.admin_link_title), Utils.getContentFromNotification(getActivity(), notifications.get(position)), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+
+                        }
+                    });
                 } else {
                     Intent intent = new Intent(getActivity(), DetailTaskActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, notifications.get(position).getTaskId());
