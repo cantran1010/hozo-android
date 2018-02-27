@@ -883,6 +883,10 @@ public class Utils {
             return context.getString(R.string.transfer_cash);
         else if (transactionResponse.getMethod().equals("received_cash_account"))
             return context.getString(R.string.received_cash);
+        else if (transactionResponse.getMethod().equals("ins_ref_bonus"))
+            return context.getString(R.string.transaction_ref_bonus);
+        else if (transactionResponse.getMethod().equals("task_ref_bonus"))
+            return context.getString(R.string.transaction_ref_task_bonus);
         else return "Waitting";
     }
 
