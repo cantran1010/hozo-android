@@ -194,7 +194,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         tvFriday = (TextViewHozo) findViewById(R.id.tv_friday);
         tvSaturday = (TextViewHozo) findViewById(R.id.tv_saturday);
         tvSunday = (TextViewHozo) findViewById(R.id.tv_sunday);
-        
+
         autocompleteView.setOnClickListener(this);
         tvMonday.setOnClickListener(this);
         tvTuesday.setOnClickListener(this);
@@ -739,8 +739,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "SettingAdvance activity data response : " + response.body().toString());
                     SettingAdvanceManager.insertSettingAdvanceEntity(converToSettingAdvanceEntity(response.body()));
+                    if (advanceEntity != null)
+                        SettingAdvanceManager.insertOrderBy(advanceEntity, mOrderBy, mOrder);
                     finish();
-                    SettingAdvanceManager.insertOrderBy(advanceEntity, mOrderBy, mOrder);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(SettingActivity.this, new NetworkUtils.RefreshListener() {
                         @Override

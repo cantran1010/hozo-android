@@ -166,10 +166,10 @@ public class RealmDbHelper {
                 oldVersion++;
             }
             if (oldVersion == 4) {
-                oldVersion++;
                 schema.get("UserEntity")
                         .addField("taskerCount", int.class)
                         .addField("posterCount", int.class);
+                oldVersion++;
             }
         }
     };
