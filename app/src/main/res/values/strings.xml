@@ -782,5 +782,6 @@
     <string name="nofification_task_type_reapplied_matcher">ứng tuyển</string>
     <string name="post_a_task_description_error">Vui lòng nhập ít nhất 25 ký tự</string>
     <string name="transaction_ref_task_bonus">Tặng tiền giới thiệu thành viên đăng việc</string>
+    <string name="push_overdue_footer_2">mà bạn tương tác đã quá hạn.</string>
 
 </resources>

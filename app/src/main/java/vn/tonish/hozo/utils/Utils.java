@@ -445,9 +445,15 @@ public class Utils {
                 matcherColor = context.getString(R.string.notification_task_completed_color);
                 break;
             case Constants.PUSH_TYPE_TASK_OVERDUE:
-                content = context.getString(R.string.push_overdue_title) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer);
-                matcher = context.getString(R.string.notification_task_overdue_matcher);
-                matcherColor = context.getString(R.string.notification_task_overdue_color);
+                if (notification.getUserId() == UserManager.getMyUser().getId()) {
+                    content = context.getString(R.string.push_overdue_title) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer);
+                    matcher = context.getString(R.string.notification_task_overdue_matcher);
+                    matcherColor = context.getString(R.string.notification_task_overdue_color);
+                } else {
+                    content = context.getString(R.string.push_overdue_title) + " " + notification.getTaskName() + " " + context.getString(R.string.push_overdue_footer_2);
+                    matcher = context.getString(R.string.notification_task_overdue_matcher);
+                    matcherColor = context.getString(R.string.notification_task_overdue_color);
+                }
                 break;
             case Constants.PUSH_TYPE_BID_MISSED:
                 content = context.getString(R.string.bid_missed_title) + " " + notification.getTaskName() + " " + context.getString(R.string.bid_missed_footer);
@@ -605,7 +611,11 @@ public class Utils {
                 content = context.getString(R.string.push_complete_work) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_task_completed);
                 break;
             case Constants.PUSH_TYPE_TASK_OVERDUE:
-                content = context.getString(R.string.push_overdue_title) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer);
+                if (notification.getUserId() == UserManager.getMyUser().getId()) {
+                    content = context.getString(R.string.push_overdue_title) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer);
+                } else {
+                    content = context.getString(R.string.push_overdue_title) + " " + notification.getTaskName() + " " + context.getString(R.string.push_overdue_footer_2);
+                }
                 break;
             case Constants.PUSH_TYPE_BID_MISSED:
                 content = context.getString(R.string.bid_missed_title) + " " + notification.getTaskName() + " " + context.getString(R.string.bid_missed_footer);
