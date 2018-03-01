@@ -751,7 +751,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         } else if (edtPromotion.length() > 0 && !validatepromotion()) {
             edtPromotion.setError(getActivity().getString(R.string.promotion_error_no));
         } else {
-            if (((PostTaskActivity) getActivity()).images.size() > 1) doAttachFiles();
+            if (((PostTaskActivity) getActivity()).images.size() > 0) doAttachFiles();
             else doPostTask();
         }
 
