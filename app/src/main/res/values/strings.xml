@@ -781,5 +781,6 @@
     <string name="nofification_task_type_reapplied">Công việc %1$s mà bạn ứng tuyển trước đó đã được mở lại. Bạn đã được tự động ứng tuyển vào vị trí cũ.</string>
     <string name="nofification_task_type_reapplied_matcher">ứng tuyển</string>
     <string name="post_a_task_description_error">Vui lòng nhập ít nhất 25 ký tự</string>
+    <string name="transaction_ref_task_bonus">Tặng tiền giới thiệu thành viên đăng việc</string>
 
 </resources>
