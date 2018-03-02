@@ -601,7 +601,7 @@
     <string name="nofification_money_received_matcher">tặng tiền</string>
     <string name="transaction_ref_bonus">Tặng tiền giới thiệu thành viên</string>
     <string name="transaction_promo_posting">Tặng tiền giới thiệu việc đăng</string>
-    <string name="bid_not_enough_money">Để có thể ứng tuyển việc này ví Hozo của bạn cần có số dư ít nhất là %1$s đ. Bạn có muốn thiết lập ví Hozo?</string>
+    <string name="bid_not_enough_money">Để có thể ứng tuyển việc này ví Hozo của bạn cần có số dư ít nhất là %1$s đ.</string>
     <string name="null_recharge_error">Vui lòng nhập số tiền</string>
     <string name="report_null_content">Vui lòng nhập nội dung báo xấu!</string>
     <string name="report_success">Báo xấu thành công.Cảm ơn bạn đã thông báo!</string>
@@ -786,5 +786,8 @@
     <string name="fan_page">Fan page Hozo</string>
     <string name="youtube_hozo">Hozo Channel</string>
     <string name="group_hozo">Thành viên Hozo</string>
+    <string name="recharge_content">Để có thể ứng tuyển việc này ví Hozo của bạn cần có số dư ít nhất là 10.000 đ.</string>
+    <string name="btn_recharge_wallet">Thiết lập ví Hozo</string>
+    <string name="btn_rechager_collaborators">Cộng tác viên Hozo</string>
 
 </resources>
