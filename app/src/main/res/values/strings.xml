@@ -783,5 +783,8 @@
     <string name="post_a_task_description_error">Vui lòng nhập ít nhất 25 ký tự</string>
     <string name="transaction_ref_task_bonus">Tặng tiền giới thiệu thành viên đăng việc</string>
     <string name="push_overdue_footer_2">mà bạn tương tác đã quá hạn.</string>
+    <string name="fan_page">Fan page Hozo</string>
+    <string name="youtube_hozo">Hozo Channel</string>
+    <string name="group_hozo">Thành viên Hozo</string>
 
 </resources>

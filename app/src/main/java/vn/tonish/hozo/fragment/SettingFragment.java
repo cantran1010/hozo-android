@@ -1,8 +1,10 @@
 package vn.tonish.hozo.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.view.View;
 
 import vn.tonish.hozo.R;
@@ -13,6 +15,7 @@ import vn.tonish.hozo.activity.payment.MyWalletActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.TextViewHozo;
 
@@ -20,6 +23,7 @@ import vn.tonish.hozo.view.TextViewHozo;
  * Created by CanTran on 5/17/17.
  */
 public class SettingFragment extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = SettingFragment.class.getSimpleName();
     private TextViewHozo appVersion;
 
     @Override
@@ -37,6 +41,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         findViewById(R.id.layout_share).setOnClickListener(this);
         findViewById(R.id.layout_about).setOnClickListener(this);
         findViewById(R.id.layout_support).setOnClickListener(this);
+        findViewById(R.id.tv_fan_page).setOnClickListener(this);
+        findViewById(R.id.tv_group_hozo).setOnClickListener(this);
+        findViewById(R.id.tv_youtube).setOnClickListener(this);
         appVersion = (TextViewHozo) findViewById(R.id.app_version);
     }
 
@@ -98,10 +105,41 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             case R.id.layout_support:
                 startActivity(SupportActivity.class, TransitionScreen.RIGHT_TO_LEFT);
                 break;
+            case R.id.tv_fan_page:
+                Intent intent1 = new Intent(Intent.ACTION_VIEW);
+                String facebookUrl1 = getFacebookPageURL(getContext(), "https://www.facebook.com/HozoApp", "HozoApp");
+                intent1.setData(Uri.parse(facebookUrl1));
+                startActivity(intent1);
+                break;
+            case R.id.tv_group_hozo:
+                Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
+                String facebookUrl = getFacebookPageURL(getContext(), "https://www.facebook.com/groups/108754503090440", "108754503090440");
+                facebookIntent.setData(Uri.parse(facebookUrl));
+                startActivity(facebookIntent);
+                break;
+            case R.id.tv_youtube:
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("https://www.youtube.com/channel/UC0CbTBZ5Z4PhU85fJQWVEFg"));
+                startActivity(i);
+                break;
 
         }
     }
 
+    private String getFacebookPageURL(Context context, String fb_url, String fb_name) {
+        LogUtils.d(TAG, "check click");
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
+            if (versionCode >= 3002850) { //newer versions of fb app
+                return "fb://facewebmodal/f?href=" + fb_url;
+            } else { //older versions of fb app
+                return "fb://page/" + fb_name;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            return fb_url; //normal web url
+        }
+    }
 
     private void openGeneralInfoActivity(String title, String url) {
         Intent intent = new Intent(getActivity(), GeneralInfoActivity.class);
