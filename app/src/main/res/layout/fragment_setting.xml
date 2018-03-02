@@ -35,7 +35,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -51,6 +51,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
+                    android:scaleType="centerInside"
                     android:src="@drawable/setting_profile"
                     tools:ignore="ContentDescription" />
 
@@ -89,6 +90,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
+                    android:scaleType="centerInside"
                     android:src="@drawable/setting_payment"
                     tools:ignore="ContentDescription" />
 
@@ -165,6 +167,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
+                    android:scaleType="centerInside"
                     android:src="@drawable/setting_support"
                     tools:ignore="ContentDescription" />
 
@@ -203,6 +206,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
+                    android:scaleType="centerInside"
                     android:src="@drawable/setting_share"
                     tools:ignore="ContentDescription" />
 
@@ -241,6 +245,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
+                    android:scaleType="centerInside"
                     android:src="@drawable/setting_policy"
                     tools:ignore="ContentDescription" />
 
@@ -274,11 +279,12 @@
                 android:focusable="true">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
+                    android:scaleType="centerInside"
                     android:src="@drawable/setting_privacy"
                     tools:ignore="ContentDescription" />
 
@@ -317,6 +323,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="22dp"
                     android:layout_marginStart="22dp"
+                    android:scaleType="centerInside"
                     android:src="@drawable/setting_about"
                     tools:ignore="ContentDescription" />
 
@@ -331,30 +338,64 @@
                     android:textSize="@dimen/tv_setting_title" />
 
                 <include layout="@layout/arrow" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="@dimen/setting_margin_left"
-                    android:layout_marginStart="@dimen/setting_margin_left"
-                    android:background="@color/text_line" />
-
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#f3f3f3" />
+                android:layout_height="5dp"
+                android:background="@color/bg" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_fan_page"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/ic_facebook"
+                    android:gravity="center"
+                    android:text="@string/fan_page"
+                    android:textColor="@color/setting_text"
+                    android:textSize="13sp" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_youtube"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/ic_youtube"
+                    android:gravity="center"
+                    android:text="@string/youtube_hozo"
+                    android:textColor="@color/setting_text"
+                    android:textSize="13sp" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_group_hozo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/img_employ"
+                    android:gravity="center"
+                    android:text="@string/group_hozo"
+                    android:textColor="@color/setting_text"
+                    android:textSize="13sp" />
+
+
+            </LinearLayout>
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/app_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:padding="25dp"
-                android:textColor="#696969"
+                android:textColor="@color/setting_text"
                 android:textSize="13sp" />
         </LinearLayout>
     </ScrollView>
