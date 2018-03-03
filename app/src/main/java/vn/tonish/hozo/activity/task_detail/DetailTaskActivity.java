@@ -559,7 +559,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         refreshAssignerList(assigerType);
 
         // comment
-        Utils.displayImageAvatar(this, imgAvatarComment, taskResponse.getPoster().getAvatar());
+        Utils.displayImageAvatar(this, imgAvatarComment, UserManager.getMyUser().getAvatar());
         refreshComment();
 
         tvCommentCount.setText(String.valueOf(taskResponse.getCommentsCount()));

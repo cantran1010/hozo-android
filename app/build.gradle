@@ -36,7 +36,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         versionCode extractVersionCode()
-        versionName "2.2.0"
+        versionName "2.3.0"
         multiDexEnabled true
     }
 
@@ -120,7 +120,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:11.8.0'
     implementation 'com.google.firebase:firebase-database:11.8.0'
     implementation 'com.facebook.android:facebook-android-sdk:4.30.0'
-    implementation 'com.android.support:multidex:1.0.2'
+    implementation 'com.android.support:multidex:1.0.3'
     implementation files('libs/glide-3.8.0.jar')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation('com.squareup.okhttp:okhttp-urlconnection:2.3.0') {
