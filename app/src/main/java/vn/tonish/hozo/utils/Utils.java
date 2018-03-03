@@ -897,6 +897,8 @@ public class Utils {
             return context.getString(R.string.transaction_ref_bonus);
         else if (transactionResponse.getMethod().equals("task_ref_bonus"))
             return context.getString(R.string.transaction_ref_task_bonus);
+        else if (transactionResponse.getMethod().equals("bid_fee"))
+            return context.getString(R.string.transaction_bid_fee, transactionResponse.getTaskName());
         else return "Waitting";
     }
 

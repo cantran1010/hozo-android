@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:background="@drawable/alert_dialog_bg"
@@ -13,11 +14,14 @@
 
         <vn.tonish.hozo.view.TextViewHozo
             style="@style/tv_title"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/notification_title" />
+            android:text="@string/notification_title"
+            android:textColor="@color/tv_black"
+            android:textSize="18sp"
+            tools:ignore="RelativeOverlap" />
 
         <ImageView
             android:id="@+id/img_close"

@@ -68,6 +68,16 @@ public class TaskResponse implements Serializable {
     private int bidDepositAmount;
     @SerializedName("offer_assigned_at")
     private String offerAssignedAt;
+    @SerializedName("bid_fee")
+    private int bidFee;
+
+    public int getBidFee() {
+        return bidFee;
+    }
+
+    public void setBidFee(int bidFee) {
+        this.bidFee = bidFee;
+    }
 
     public String getOfferAssignedAt() {
         return offerAssignedAt;
@@ -405,6 +415,7 @@ public class TaskResponse implements Serializable {
                 ", followed=" + followed +
                 ", bidDepositAmount=" + bidDepositAmount +
                 ", offerAssignedAt='" + offerAssignedAt + '\'' +
+                ", bidFee=" + bidFee +
                 '}';
     }
 }
