@@ -531,7 +531,7 @@
     <string name="cancel_assigner">Hủy giao</string>
     <string name="all_comment">Tất cả bình luận</string>
     <string name="confirm_bid_title">Xác nhận ứng tuyển</string>
-    <string name="bid_des1">Để đảm bảo uy tín ứng tuyển.\nHozo sẽ tạm thu %1$s đ từ ví Hozo của bạn.\nSố tiền sẽ được hoàn trả nếu:</string>
+    <string name="bid_des1">Để đảm bảo uy tín ứng tuyển.\nHozo sẽ tạm thu %1$s đ và thu phí %2$s đ \ntừ ví Hozo của bạn.\nSố tiền tạm thu sẽ được hoàn trả nếu:</string>
     <string name="bid_des2">Bạn hoàn thành công việc có xác nhận từ người thuê.</string>
     <string name="bid_des3">Bạn hủy ứng tuyển trước khi được giao việc hoặc trong vòng 30 phút sau khi được giao việc.</string>
     <string name="bid_confirm_policy">Xem thêm ở Điều khoản sử dụng</string>
@@ -789,5 +789,6 @@
     <string name="recharge_content">Để có thể ứng tuyển việc này ví Hozo của bạn cần có số dư ít nhất là 10.000 đ.</string>
     <string name="btn_recharge_wallet">Thiết lập ví Hozo</string>
     <string name="btn_rechager_collaborators">Cộng tác viên Hozo</string>
+    <string name="transaction_bid_fee">Hệ thống thu phí ứng tuyển việc \"%1$s\"</string>
 
 </resources>

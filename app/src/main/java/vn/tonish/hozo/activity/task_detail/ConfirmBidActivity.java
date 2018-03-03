@@ -107,7 +107,7 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
         }
         edtBudget.addTextChangedListener(new NumberTextWatcher(edtBudget));
         edtBudget.setText(String.valueOf(taskResponse.getWorkerRate()));
-        tvDes.setText(getString(R.string.bid_des1, Utils.formatNumber(taskResponse.getBidDepositAmount())));
+        tvDes.setText(getString(R.string.bid_des1, Utils.formatNumber(taskResponse.getBidDepositAmount()), Utils.formatNumber(taskResponse.getBidFee())));
         edtBudget.setEnabled(false);
         String text = getString(R.string.bid_confirm_policy);
         SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
@@ -221,7 +221,7 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
 
                         RechargeDialog rechargeDialog = new RechargeDialog(ConfirmBidActivity.this);
                         rechargeDialog.showView();
-                        rechargeDialog.updateUi(taskResponse.getBidDepositAmount());
+                        rechargeDialog.updateUi(taskResponse.getBidDepositAmount() + taskResponse.getBidFee());
 
                     } else {
                         DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {

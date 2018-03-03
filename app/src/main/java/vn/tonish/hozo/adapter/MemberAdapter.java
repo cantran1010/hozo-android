@@ -56,7 +56,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MyViewHold
         if (position == 0) {
             holder.imgAvatar.setImageResource(R.mipmap.app_icon);
         } else
-            Utils.displayImage(context, holder.imgAvatar, members.get(position).getAvatar());
+            Utils.displayImageAvatar(context, holder.imgAvatar, members.get(position).getAvatar());
         String[] names = members.get(position).getFull_name().split(" ");
         holder.tvName.setText(names[names.length - 1]);
     }
