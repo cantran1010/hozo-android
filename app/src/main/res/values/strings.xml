@@ -783,9 +783,9 @@
     <string name="post_a_task_description_error">Vui lòng nhập ít nhất 25 ký tự</string>
     <string name="transaction_ref_task_bonus">Tặng tiền giới thiệu thành viên đăng việc</string>
     <string name="push_overdue_footer_2">mà bạn tương tác đã quá hạn.</string>
-    <string name="fan_page">Fan page Hozo</string>
-    <string name="youtube_hozo">Hozo Channel</string>
-    <string name="group_hozo">Thành viên Hozo</string>
+    <string name="fan_page">Fanpage\nHozo</string>
+    <string name="youtube_hozo">Hozo\nChannel</string>
+    <string name="group_hozo">Thành viên\nHozo</string>
     <string name="recharge_content">Để có thể ứng tuyển việc này ví Hozo của bạn cần có số dư ít nhất là 10.000 đ.</string>
     <string name="btn_recharge_wallet">Thiết lập ví Hozo</string>
     <string name="btn_rechager_collaborators">Cộng tác viên Hozo</string>
