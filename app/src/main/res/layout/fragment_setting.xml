@@ -350,8 +350,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                android:orientation="horizontal">
 
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_fan_page"
@@ -364,6 +363,11 @@
                     android:textColor="@color/setting_text"
                     android:textSize="13sp" />
 
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/text_line" />
+
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_youtube"
                     android:layout_width="0dp"
@@ -375,6 +379,11 @@
                     android:textColor="@color/setting_text"
                     android:textSize="13sp" />
 
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/text_line" />
+
                 <vn.tonish.hozo.view.TextViewHozo
                     android:id="@+id/tv_group_hozo"
                     android:layout_width="0dp"
@@ -385,15 +394,13 @@
                     android:text="@string/group_hozo"
                     android:textColor="@color/setting_text"
                     android:textSize="13sp" />
-
-
             </LinearLayout>
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:id="@+id/app_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="center"
                 android:textColor="@color/setting_text"
                 android:textSize="13sp" />
