@@ -15,9 +15,10 @@ import vn.tonish.hozo.activity.payment.MyWalletActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
-import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.TextViewHozo;
+
+import static vn.tonish.hozo.utils.Utils.openBrowser;
 
 /**
  * Created by CanTran on 5/17/17.
@@ -106,28 +107,39 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 startActivity(SupportActivity.class, TransitionScreen.RIGHT_TO_LEFT);
                 break;
             case R.id.tv_fan_page:
-                Intent intent1 = new Intent(Intent.ACTION_VIEW);
-                String facebookUrl1 = getFacebookPageURL(getContext(), "https://www.facebook.com/HozoApp", "HozoApp");
-                intent1.setData(Uri.parse(facebookUrl1));
-                startActivity(intent1);
+                try {
+                    Intent intent1 = new Intent(Intent.ACTION_VIEW);
+                    String facebookUrl1 = getFacebookPageURL(getContext(), "https://www.facebook.com/HozoApp", "HozoApp");
+                    intent1.setData(Uri.parse(facebookUrl1));
+                    startActivity(intent1);
+                } catch (Exception e) {
+                    openBrowser(getContext(), "https://www.facebook.com/HozoApp");
+                }
                 break;
             case R.id.tv_group_hozo:
-                Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
-                String facebookUrl = getFacebookPageURL(getContext(), "https://www.facebook.com/groups/108754503090440", "108754503090440");
-                facebookIntent.setData(Uri.parse(facebookUrl));
-                startActivity(facebookIntent);
+                try {
+                    Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
+                    String facebookUrl = getFacebookPageURL(getContext(), "https://www.facebook.com/groups/108754503090440", "108754503090440");
+                    facebookIntent.setData(Uri.parse(facebookUrl));
+                    startActivity(facebookIntent);
+                } catch (Exception e) {
+                    openBrowser(getContext(), "https://www.facebook.com/HozoApp");
+                }
                 break;
             case R.id.tv_youtube:
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://www.youtube.com/channel/UC0CbTBZ5Z4PhU85fJQWVEFg"));
-                startActivity(i);
+                try {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse("https://www.youtube.com/channel/UC0CbTBZ5Z4PhU85fJQWVEFg"));
+                    startActivity(i);
+                } catch (Exception e) {
+                    openBrowser(getContext(), "https://www.youtube.com/channel/UC0CbTBZ5Z4PhU85fJQWVEFg");
+                }
                 break;
 
         }
     }
 
     private String getFacebookPageURL(Context context, String fb_url, String fb_name) {
-        LogUtils.d(TAG, "check click");
         PackageManager packageManager = context.getPackageManager();
         try {
             int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
