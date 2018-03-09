@@ -86,31 +86,21 @@ public class ChatFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        myID = UserManager.getMyUser().getId();
-        getChatRooms();
-        tgOnOffNotify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LogUtils.d(TAG, "tgOnOffNotify : " + tgOnOffNotify.isChecked());
-                updateNofityOnOff(tgOnOffNotify.isChecked());
-            }
-        });
+//        myID = UserManager.getMyUser().getId();
+//        getChatRooms();
+//        tgOnOffNotify.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                LogUtils.d(TAG, "tgOnOffNotify : " + tgOnOffNotify.isChecked());
+//                updateNofityOnOff(tgOnOffNotify.isChecked());
+//            }
+//        });
     }
 
     @Override
     protected void resumeData() {
         getNotifyOnOff();
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_CHAT));
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        try {
-            getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void getNotifyOnOff() {
@@ -452,13 +442,29 @@ public class ChatFragment extends BaseFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        LogUtils.d(TAG, "onStop()");
+        super.onStop();
+        try {
+            getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (HorizotalListener != null && horizotalReference != null)
             horizotalReference.removeEventListener(HorizotalListener);
         if (VerticalListener != null && verticalReference != null)
             verticalReference.removeEventListener(VerticalListener);
     }
+
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        LogUtils.d(TAG, "onDestroy()");
+//        if (HorizotalListener != null && horizotalReference != null)
+//            horizotalReference.removeEventListener(HorizotalListener);
+//        if (VerticalListener != null && verticalReference != null)
+//            verticalReference.removeEventListener(VerticalListener);
+//    }
 
     @Override
     public void onRefresh() {
@@ -466,10 +472,14 @@ public class ChatFragment extends BaseFragment {
         if (call != null) call.cancel();
         call = null;
         chatRoomAdapter = null;
-        if (HorizotalListener != null && horizotalReference != null)
+        if (HorizotalListener != null && horizotalReference != null) {
+            horizotalReference.removeValue();
             horizotalReference.removeEventListener(HorizotalListener);
-        if (VerticalListener != null && verticalReference != null)
+        }
+        if (VerticalListener != null && verticalReference != null) {
+            verticalReference.removeValue();
             verticalReference.removeEventListener(VerticalListener);
+        }
         getChatRooms();
     }
 
