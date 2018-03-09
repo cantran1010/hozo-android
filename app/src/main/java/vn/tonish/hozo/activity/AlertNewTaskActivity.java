@@ -19,6 +19,8 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -102,6 +104,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     private boolean isNotification = true;
     private LinearLayout layoutContext;
     private NestedScrollView scrollView;
+    private JSONObject originJsonRequest;
 
     @Override
     protected int getLayout() {
@@ -293,6 +296,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 radNotiNo.setChecked(true);
             }
 
+            originJsonRequest = getJsonRequest();
         }
     }
 
@@ -643,47 +647,11 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void postSettingAdvance() {
+        JSONObject jsonRequest = getJsonRequest();
 
-        final JSONObject jsonRequest = new JSONObject();
-        try {
-            jsonRequest.put("notification_nta", isNotification);
-            if (isNotification) {
-                jsonRequest.put("nta_followed", isFollowed);
-                if (catIds != null && catIds.size() > 0) {
-                    JSONArray jsonArray = new JSONArray();
-                    for (int i = 0; i < catIds.size(); i++)
-                        jsonArray.put(catIds.get(i));
-                    jsonRequest.put("nta_categories", jsonArray);
-                } else jsonRequest.put("nta_categories", new JSONArray());
-                jsonRequest.put("nta_worker_rate_min", minPrice);
-                jsonRequest.put("nta_worker_rate_max", maxPrice);
-                if (keywords != null && keywords.size() > 0) {
-                    JSONArray jsonArray = new JSONArray();
-                    for (int i = 0; i < keywords.size(); i++)
-                        jsonArray.put(keywords.get(i));
-                    jsonRequest.put("nta_keywords", jsonArray);
-                } else jsonRequest.put("nta_keywords", new JSONArray());
-
-                if (dayOfWeek != null && dayOfWeek.size() > 0) {
-                    JSONArray jsonArray = new JSONArray();
-                    for (int i = 0; i < dayOfWeek.size(); i++)
-                        jsonArray.put(dayOfWeek.get(i));
-                    jsonRequest.put("nta_worker_days", jsonArray);
-                } else jsonRequest.put("nta_worker_days", new JSONArray());
-
-                JSONArray jsonArray = new JSONArray();
-                if (locations.size() > 0) {
-                    for (int i = 0; i < locations.size(); i++)
-                        jsonArray.put(locations.get(i));
-                }
-                jsonRequest.put("nta_distance", distance);
-                jsonRequest.put("nta_origin_location", jsonArray);
-                jsonRequest.put("nta_origin_address", address);
-            }
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (!jsonRequest.toString().equals(originJsonRequest.toString())) {
+            Answers.getInstance().logCustom(new CustomEvent("FILTER_NOTIFICATION"));
+            LogUtils.d(TAG, "postSettingAdvance logCustom start , data : " + jsonRequest.toString());
         }
 
         LogUtils.d(TAG, "SettingAdvance activity json: " + jsonRequest.toString());
@@ -736,6 +704,51 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 });
             }
         });
+    }
+
+    private JSONObject getJsonRequest() {
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("notification_nta", isNotification);
+            if (isNotification) {
+                jsonRequest.put("nta_followed", isFollowed);
+                if (catIds != null && catIds.size() > 0) {
+                    JSONArray jsonArray = new JSONArray();
+                    for (int i = 0; i < catIds.size(); i++)
+                        jsonArray.put(catIds.get(i));
+                    jsonRequest.put("nta_categories", jsonArray);
+                } else jsonRequest.put("nta_categories", new JSONArray());
+                jsonRequest.put("nta_worker_rate_min", minPrice);
+                jsonRequest.put("nta_worker_rate_max", maxPrice);
+                if (keywords != null && keywords.size() > 0) {
+                    JSONArray jsonArray = new JSONArray();
+                    for (int i = 0; i < keywords.size(); i++)
+                        jsonArray.put(keywords.get(i));
+                    jsonRequest.put("nta_keywords", jsonArray);
+                } else jsonRequest.put("nta_keywords", new JSONArray());
+
+                if (dayOfWeek != null && dayOfWeek.size() > 0) {
+                    JSONArray jsonArray = new JSONArray();
+                    for (int i = 0; i < dayOfWeek.size(); i++)
+                        jsonArray.put(dayOfWeek.get(i));
+                    jsonRequest.put("nta_worker_days", jsonArray);
+                } else jsonRequest.put("nta_worker_days", new JSONArray());
+
+                JSONArray jsonArray = new JSONArray();
+                if (locations.size() > 0) {
+                    for (int i = 0; i < locations.size(); i++)
+                        jsonArray.put(locations.get(i));
+                }
+                jsonRequest.put("nta_distance", distance);
+                jsonRequest.put("nta_origin_location", jsonArray);
+                jsonRequest.put("nta_origin_address", address);
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonRequest;
     }
 
     @Override
