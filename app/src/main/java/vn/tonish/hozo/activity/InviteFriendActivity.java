@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ShareEvent;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
@@ -69,7 +71,7 @@ public class InviteFriendActivity extends BaseActivity implements View.OnClickLi
     protected void initData() {
         getReferralProgram();
         registerForContextMenu(tvPromotion);
-
+        Answers.getInstance().logShare(new ShareEvent());
     }
 
     @Override

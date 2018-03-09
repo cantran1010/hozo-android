@@ -16,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.SearchEvent;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -203,22 +206,21 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             orderBy = settingAdvanceEntity.getOrderBy();
             order = settingAdvanceEntity.getOrder();
         }
-        Map<String, String> option = new HashMap<>();
+        final Map<String, String> option = new HashMap<>();
         option.put("limit", String.valueOf(limit));
         option.put("page", String.valueOf(currentPage));
         if (orderBy != null) option.put("order_by", orderBy);
         if (order != null) option.put("order", order);
         if (query != null) option.put("query", query);
-        LogUtils.d(TAG, "option String : " + option.toString());
+        LogUtils.d(TAG, "getTaskResponse String : " + option.toString());
         call = ApiClient.getApiService().getTasks(UserManager.getUserToken(), option);
         call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
-                LogUtils.d(TAG, "getTaskResponse code : " + response.code());
+                LogUtils.d(TAG, "getTaskResponse code : " + response.code() + " , search key word : " + option.toString());
                 LogUtils.d(TAG, "getTaskResponse body : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     List<TaskResponse> taskResponses = response.body();
-                    LogUtils.d(TAG, "option String : " + taskResponses.toString());
                     LogUtils.d(TAG, "getTaskFromServer taskResponses size : " + (taskResponses != null ? taskResponses.size() : 0));
                     if (currentPage == 1) {
                         taskList.clear();
@@ -310,9 +312,16 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 if (!edtSearch.getText().toString().isEmpty()) {
                     onRefresh();
                 }
+
+                Answers.getInstance().logSearch(new SearchEvent()
+                        .putQuery(edtSearch.getText().toString()));
+
                 edtSearch.setText("");
                 break;
             case R.id.img_clear:
+                Answers.getInstance().logSearch(new SearchEvent()
+                        .putQuery(edtSearch.getText().toString()));
+
                 edtSearch.setText("");
                 break;
             case R.id.img_filter:

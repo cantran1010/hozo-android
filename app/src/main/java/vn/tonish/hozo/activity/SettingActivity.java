@@ -18,11 +18,12 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -107,6 +108,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private String strOrderBy = "";
     private String strOrder = "";
     private NestedScrollView scrollView;
+    private JSONObject originJsonRequest;
 
     @Override
     protected int getLayout() {
@@ -306,7 +308,51 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             // set key word
             setKeyWordForView();
 
+            originJsonRequest = getJsonRequest();
         }
+    }
+
+    private JSONObject getJsonRequest() {
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("filter_task_status", mStatus);
+
+            if (catIds != null && catIds.size() > 0) {
+                JSONArray jsonArray = new JSONArray();
+                for (int i = 0; i < catIds.size(); i++)
+                    jsonArray.put(catIds.get(i));
+                jsonRequest.put("filter_categories", jsonArray);
+            } else jsonRequest.put("filter_categories", new JSONArray());
+
+            jsonRequest.put("filter_worker_rate_min", minPrice);
+            jsonRequest.put("filter_worker_rate_max", maxPrice);
+            if (keywords != null && keywords.size() > 0) {
+                JSONArray jsonArray = new JSONArray();
+                for (int i = 0; i < keywords.size(); i++)
+                    jsonArray.put(keywords.get(i));
+                jsonRequest.put("filter_keywords", jsonArray);
+            } else jsonRequest.put("filter_keywords", new JSONArray());
+
+            if (dayOfWeek != null && dayOfWeek.size() > 0) {
+                JSONArray jsonArray = new JSONArray();
+                for (int i = 0; i < dayOfWeek.size(); i++)
+                    jsonArray.put(dayOfWeek.get(i));
+                jsonRequest.put("filter_worker_days", jsonArray);
+            } else jsonRequest.put("filter_worker_days", new JSONArray());
+
+            JSONArray jsonArray = new JSONArray();
+            if (locations.size() > 0) {
+                for (int i = 0; i < locations.size(); i++)
+                    jsonArray.put(locations.get(i));
+            }
+            jsonRequest.put("filter_distance", distance);
+            jsonRequest.put("filter_original_location", jsonArray);
+            jsonRequest.put("filter_original_address", address);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonRequest;
     }
 
     private void setLocationForView() {
@@ -688,48 +734,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private void postSettingAdvance() {
         ProgressDialogUtils.showProgressDialog(this);
-        final JSONObject jsonRequest = new JSONObject();
-        try {
-            jsonRequest.put("filter_task_status", mStatus);
+        final JSONObject jsonRequest = getJsonRequest();
+        LogUtils.d(TAG, "postSettingAdvance activity json: " + jsonRequest.toString());
 
-            if (catIds != null && catIds.size() > 0) {
-                JSONArray jsonArray = new JSONArray();
-                for (int i = 0; i < catIds.size(); i++)
-                    jsonArray.put(catIds.get(i));
-                jsonRequest.put("filter_categories", jsonArray);
-            } else jsonRequest.put("filter_categories", new JSONArray());
-
-            jsonRequest.put("filter_worker_rate_min", minPrice);
-            jsonRequest.put("filter_worker_rate_max", maxPrice);
-            if (keywords != null && keywords.size() > 0) {
-                JSONArray jsonArray = new JSONArray();
-                for (int i = 0; i < keywords.size(); i++)
-                    jsonArray.put(keywords.get(i));
-                jsonRequest.put("filter_keywords", jsonArray);
-            } else jsonRequest.put("filter_keywords", new JSONArray());
-
-            if (dayOfWeek != null && dayOfWeek.size() > 0) {
-                JSONArray jsonArray = new JSONArray();
-                for (int i = 0; i < dayOfWeek.size(); i++)
-                    jsonArray.put(dayOfWeek.get(i));
-                jsonRequest.put("filter_worker_days", jsonArray);
-            } else jsonRequest.put("filter_worker_days", new JSONArray());
-
-            JSONArray jsonArray = new JSONArray();
-            if (locations.size() > 0) {
-                for (int i = 0; i < locations.size(); i++)
-                    jsonArray.put(locations.get(i));
-            }
-            jsonRequest.put("filter_distance", distance);
-            jsonRequest.put("filter_original_location", jsonArray);
-            jsonRequest.put("filter_original_address", address);
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (!jsonRequest.toString().equals(originJsonRequest.toString())) {
+            Answers.getInstance().logCustom(new CustomEvent("FILTER_TASK"));
+            LogUtils.d(TAG, "postSettingAdvance logCustom start , data : " + jsonRequest.toString());
         }
 
-        LogUtils.d(TAG, "SettingAdvance activity json: " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         ApiClient.getApiService().postSettingAdvance(UserManager.getUserToken(), body).enqueue(new Callback<SettingAdvance>() {
 
@@ -737,7 +749,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             public void onResponse(Call<SettingAdvance> call, Response<SettingAdvance> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "SettingAdvance activity data response : " + response.body().toString());
+                    LogUtils.d(TAG, "postSettingAdvance activity data response : " + response.body().toString());
                     SettingAdvanceManager.insertSettingAdvanceEntity(converToSettingAdvanceEntity(response.body()));
                     if (advanceEntity != null)
                         SettingAdvanceManager.insertOrderBy(advanceEntity, mOrderBy, mOrder);
