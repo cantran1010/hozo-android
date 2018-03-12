@@ -103,16 +103,6 @@ public class ChatFragment extends BaseFragment {
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_CHAT));
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        try {
-            getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void getNotifyOnOff() {
         Call<NotifyChatRoomResponse> callNotify = ApiClient.getApiService().getChatRoomsNotify(UserManager.getUserToken());
         callNotify.enqueue(new Callback<NotifyChatRoomResponse>() {
@@ -452,8 +442,14 @@ public class ChatFragment extends BaseFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        LogUtils.d(TAG, "onStop()");
+        super.onStop();
+        try {
+            getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (HorizotalListener != null && horizotalReference != null)
             horizotalReference.removeEventListener(HorizotalListener);
         if (VerticalListener != null && verticalReference != null)
@@ -466,10 +462,14 @@ public class ChatFragment extends BaseFragment {
         if (call != null) call.cancel();
         call = null;
         chatRoomAdapter = null;
-        if (HorizotalListener != null && horizotalReference != null)
+        if (HorizotalListener != null && horizotalReference != null) {
+            horizotalReference.removeValue();
             horizotalReference.removeEventListener(HorizotalListener);
-        if (VerticalListener != null && verticalReference != null)
+        }
+        if (VerticalListener != null && verticalReference != null) {
+            verticalReference.removeValue();
             verticalReference.removeEventListener(VerticalListener);
+        }
         getChatRooms();
     }
 

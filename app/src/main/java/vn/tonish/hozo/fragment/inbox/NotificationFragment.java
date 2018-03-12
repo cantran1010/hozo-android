@@ -26,7 +26,6 @@ import vn.tonish.hozo.view.TextViewHozo;
  */
 
 public class NotificationFragment extends BaseFragment {
-
     private static final String TAG = NotificationFragment.class.getSimpleName();
     private ViewPager viewPager;
     private TextViewHozo tvTab1, tvTab2, tvTab3, tvCountTab1, tvCountTab2, tvCountTab3;
@@ -145,35 +144,38 @@ public class NotificationFragment extends BaseFragment {
     private final BroadcastReceiver broadcastCountNewMsg = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.hasExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION)) {
-                if (intent.getStringExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION).equalsIgnoreCase(getActivity().getString(R.string.smooth_top))) {
-                    if (position == 0) {
-                        Intent intentAnswer = new Intent();
-                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_SYS_TEM);
-                        getActivity().sendBroadcast(intentAnswer);
-                    } else if (position == 1) {
-                        Intent intentAnswer = new Intent();
-                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_CHAT);
-                        getActivity().sendBroadcast(intentAnswer);
+            try {
+                if (intent.hasExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION)) {
+                    if (intent.getStringExtra(Constants.BROAD_CAST_SMOOTH_TOP_NOTIFICATION).equalsIgnoreCase(getActivity().getString(R.string.smooth_top))) {
+                        if (position == 0) {
+                            Intent intentAnswer = new Intent();
+                            intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_SYS_TEM);
+                            getActivity().sendBroadcast(intentAnswer);
+                        } else if (position == 1) {
+                            Intent intentAnswer = new Intent();
+                            intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_CHAT);
+                            getActivity().sendBroadcast(intentAnswer);
+                        } else {
+                            Intent intentAnswer = new Intent();
+                            intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_NEW_TASK);
+                            getActivity().sendBroadcast(intentAnswer);
+                        }
+                    }
+                } else if (intent.hasExtra(Constants.COUNT_NEW_CHAT_EXTRA)) {
+                    int countChat = intent.getExtras().getInt(Constants.COUNT_NEW_CHAT_EXTRA);
+                    if (countChat > 0) {
+                        tvCountTab2.setVisibility(View.VISIBLE);
+                        tvCountTab2.setText(String.valueOf(countChat));
                     } else {
-                        Intent intentAnswer = new Intent();
-                        intentAnswer.setAction(Constants.BROAD_CAST_SMOOTH_TOP_NEW_TASK);
-                        getActivity().sendBroadcast(intentAnswer);
+                        tvCountTab2.setVisibility(View.GONE);
                     }
                 }
-            } else if (intent.hasExtra(Constants.COUNT_NEW_CHAT_EXTRA)) {
-                int countChat = intent.getExtras().getInt(Constants.COUNT_NEW_CHAT_EXTRA);
-                if (countChat > 0) {
-                    tvCountTab2.setVisibility(View.VISIBLE);
-                    tvCountTab2.setText(String.valueOf(countChat));
-                } else {
-                    tvCountTab2.setVisibility(View.GONE);
-                }
+                Intent intentAnswer = new Intent();
+                intentAnswer.setAction(Constants.BROAD_CAST_PUSH_COUNT);
+                getActivity().sendBroadcast(intentAnswer);
+                updateCountMsg();
+            } catch (Exception e) {
             }
-            Intent intentAnswer = new Intent();
-            intentAnswer.setAction(Constants.BROAD_CAST_PUSH_COUNT);
-            getActivity().sendBroadcast(intentAnswer);
-            updateCountMsg();
         }
     };
 
