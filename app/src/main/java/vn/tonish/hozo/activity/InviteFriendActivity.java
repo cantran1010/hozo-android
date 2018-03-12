@@ -24,6 +24,7 @@ import com.google.i18n.phonenumbers.Phonenumber;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import vn.tonish.hozo.BuildConfig;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -71,7 +72,9 @@ public class InviteFriendActivity extends BaseActivity implements View.OnClickLi
     protected void initData() {
         getReferralProgram();
         registerForContextMenu(tvPromotion);
-        Answers.getInstance().logShare(new ShareEvent());
+
+        if (!BuildConfig.DEBUG)
+            Answers.getInstance().logShare(new ShareEvent());
     }
 
     @Override

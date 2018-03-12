@@ -35,6 +35,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import vn.tonish.hozo.BuildConfig;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.KeyWordAdapter;
 import vn.tonish.hozo.adapter.TaskTypeAdapter;
@@ -649,7 +650,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     private void postSettingAdvance() {
         JSONObject jsonRequest = getJsonRequest();
 
-        if (!jsonRequest.toString().equals(originJsonRequest.toString())) {
+        if (!jsonRequest.toString().equals(originJsonRequest.toString()) && !BuildConfig.DEBUG) {
             Answers.getInstance().logCustom(new CustomEvent("FILTER_NOTIFICATION"));
             LogUtils.d(TAG, "postSettingAdvance logCustom start , data : " + jsonRequest.toString());
         }
