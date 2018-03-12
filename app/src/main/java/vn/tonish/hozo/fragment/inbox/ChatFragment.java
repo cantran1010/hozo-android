@@ -86,15 +86,15 @@ public class ChatFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-//        myID = UserManager.getMyUser().getId();
-//        getChatRooms();
-//        tgOnOffNotify.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                LogUtils.d(TAG, "tgOnOffNotify : " + tgOnOffNotify.isChecked());
-//                updateNofityOnOff(tgOnOffNotify.isChecked());
-//            }
-//        });
+        myID = UserManager.getMyUser().getId();
+        getChatRooms();
+        tgOnOffNotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LogUtils.d(TAG, "tgOnOffNotify : " + tgOnOffNotify.isChecked());
+                updateNofityOnOff(tgOnOffNotify.isChecked());
+            }
+        });
     }
 
     @Override
@@ -455,16 +455,6 @@ public class ChatFragment extends BaseFragment {
         if (VerticalListener != null && verticalReference != null)
             verticalReference.removeEventListener(VerticalListener);
     }
-
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        LogUtils.d(TAG, "onDestroy()");
-//        if (HorizotalListener != null && horizotalReference != null)
-//            horizotalReference.removeEventListener(HorizotalListener);
-//        if (VerticalListener != null && verticalReference != null)
-//            verticalReference.removeEventListener(VerticalListener);
-//    }
 
     @Override
     public void onRefresh() {
