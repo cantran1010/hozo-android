@@ -108,7 +108,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
 
     @Override
     protected int getLayout() {
-        return R.layout.chat_activity;
+        return R.layout.activity_chat;
     }
 
     @Override

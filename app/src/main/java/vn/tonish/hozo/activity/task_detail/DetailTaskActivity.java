@@ -111,6 +111,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private TextViewHozo tvSeeMoreFooter;
     private TextViewHozo tvName;
     private TextViewHozo tvTitle;
+    private TextViewHozo tvPrepay;
     private TextViewHozo tvAddress;
     private TextViewHozo tvDate;
     private TextViewHozo tvTime;
@@ -135,6 +136,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private PopupMenu popup;
     private RecyclerView rcvBidder;
     private ArrayList<Bidder> bidders = new ArrayList<>();
+    private boolean isPrepay = false;
 
     private RecyclerView rcvAssign;
     private ArrayList<Assigner> assigners = new ArrayList<>();
@@ -199,6 +201,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         progressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
 
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
+        tvPrepay = (TextViewHozo) findViewById(R.id.tv_prepay);
         tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
 
         tvDate = (TextViewHozo) findViewById(R.id.tv_date);
@@ -463,15 +466,18 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     }
 
     private void updateUi() {
+        LogUtils.d(TAG, "check taskResponse: " + taskResponse.toString());
         updateByStatus();
         Utils.displayImageAvatar(this, imgAvatar, taskResponse.getPoster().getAvatar());
         tvName.setText(taskResponse.getPoster().getFullName());
         rbRate.setRating(taskResponse.getPoster().getPosterAverageRating());
-
         tvTimeAgo.setText(DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), this));
-
         tvTitle.setText(taskResponse.getTitle());
-
+        if (isPrepay) {
+            tvTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_money, 0, 0, 0);
+            tvTitle.setCompoundDrawablePadding(15);
+            tvPrepay.setVisibility(View.VISIBLE);
+        } else tvPrepay.setVisibility(View.GONE);
         if (taskResponse.isOnline()) {
             tvAddress.setText(getString(R.string.online_task_address));
             tvMap.setVisibility(View.GONE);

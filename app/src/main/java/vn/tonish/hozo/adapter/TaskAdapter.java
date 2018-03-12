@@ -23,6 +23,7 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
     private final static String TAG = TaskAdapter.class.getSimpleName();
     private final List<TaskResponse> taskResponses;
     private final Context context;
+    private boolean isPrepay = false;
 
     public TaskAdapter(Context context, List<TaskResponse> taskResponses) {
         super(context, taskResponses);
@@ -65,10 +66,12 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof WorkHolder) {
             WorkHolder workHolder = ((WorkHolder) holder);
-
             TaskResponse taskResponse = taskResponses.get(position);
-
             workHolder.tvName.setText(taskResponse.getTitle());
+            if (isPrepay) {
+                workHolder.tvName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_money, 0, 0, 0);
+                workHolder.tvName.setCompoundDrawablePadding(10);
+            }
             workHolder.tvPrice.setText(context.getString(R.string.vnd, Utils.formatNumber(taskResponse.getWorkerRate())));
             workHolder.tvStartTime.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
             if (taskResponse.getWorkerCount() == taskResponse.getAssigneeCount())

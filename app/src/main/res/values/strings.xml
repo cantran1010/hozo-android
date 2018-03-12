@@ -790,5 +790,8 @@
     <string name="btn_rechager_collaborators">Cộng tác viên Hozo</string>
     <string name="transaction_bid_fee">Hệ thống thu phí ứng tuyển việc \"%1$s\"</string>
     <string name="block_reasons">%1$s đến %2$s</string>
+    <string name="tv_prepay">Việc trả trước</string>
+    <string name="prepay">Trả trước</string>
+    <string name="prepay_info1">Người đăng việc sẽ phải trả tiền trước cho công việc này thông qua ví tiền Hozo</string>
 
 </resources>

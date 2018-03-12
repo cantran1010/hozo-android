@@ -291,7 +291,6 @@ public class NewTaskAlertNotificationFragment extends BaseFragment implements Vi
 
                         }
                     });
-
                     notificationAdapter.stopLoadMore();
                     onStopRefresh();
                     refreshList();

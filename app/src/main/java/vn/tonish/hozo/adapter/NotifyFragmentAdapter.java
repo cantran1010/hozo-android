@@ -25,22 +25,20 @@ public class NotifyFragmentAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
         switch (position) {
             case 0:
                 if (tab1 == null)
                     tab1 = new SystemNotificationFragment();
                 return tab1;
             case 1:
-                if (tab2 == null)
-                    tab2 = new ChatFragment();
+                tab2 = new ChatFragment();
                 return tab2;
             case 2:
                 if (tab3 == null)
                     tab3 = new NewTaskAlertNotificationFragment();
                 return tab3;
             default:
-                return null;
+                return new SystemNotificationFragment();
         }
     }
 
@@ -50,12 +48,11 @@ public class NotifyFragmentAdapter extends FragmentStatePagerAdapter {
     }
 
     public void onRefreshTab(int pos) {
-        if (pos == 0) {
-            if (tab1 != null)
-                tab1.onRefresh();
-        } else if (pos == 2) {
-            if (tab3 != null) tab3.onRefresh();
-        }
+        if (pos == 0 && tab1 != null) {
+            tab1.onRefresh();
+        } else if (pos == 1 && tab2 != null) {
+            tab2.onRefresh();
+        } else if (pos == 2 && tab3 != null) tab3.onRefresh();
 
     }
 

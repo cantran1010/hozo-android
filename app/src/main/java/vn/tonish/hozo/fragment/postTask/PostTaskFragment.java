@@ -36,6 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PostTaskActivity;
+import vn.tonish.hozo.activity.PrePayInfoActivity;
 import vn.tonish.hozo.adapter.HozoSpinnerAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.PostTaskEntity;
@@ -58,6 +59,7 @@ import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.NumberTextWatcher;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.CheckBoxHozo;
@@ -117,6 +119,8 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         advanceExpandableLayout = (ExpandableLayout) findViewById(R.id.advance_expandable_layout);
         TextViewHozo tvMoreHide = (TextViewHozo) findViewById(R.id.tv_more_hide);
         tvMoreHide.setOnClickListener(this);
+        ImageView imgPrepay = (ImageView) findViewById(R.id.img_prepay);
+        imgPrepay.setOnClickListener(this);
         ImageView imgClose = (ImageView) findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
         spGender = (Spinner) findViewById(R.id.sp_gender);
@@ -839,6 +843,10 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 taskResponse.setStatus(Constants.CREATE_TASK_STATUS_DRAFT);
                 if (((PostTaskActivity) getActivity()).images.size() > 1) doAttachFiles();
                 else doPostTask();
+                break;
+            case R.id.img_prepay:
+                Intent intent = new Intent(getActivity(), PrePayInfoActivity.class);
+                startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }

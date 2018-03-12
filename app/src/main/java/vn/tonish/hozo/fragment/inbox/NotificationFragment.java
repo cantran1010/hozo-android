@@ -72,7 +72,7 @@ public class NotificationFragment extends BaseFragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 position = tab.getPosition();
                 if (viewPager != null)
-                    viewPager.setCurrentItem(tab.getPosition());
+                    viewPager.setCurrentItem(position);
                 if (tab.getPosition() == 0) {
                     LogUtils.d(TAG, "check");
                     if (tvCountTab1.getVisibility() == View.VISIBLE) {
@@ -109,6 +109,7 @@ public class NotificationFragment extends BaseFragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
 
             }
 
