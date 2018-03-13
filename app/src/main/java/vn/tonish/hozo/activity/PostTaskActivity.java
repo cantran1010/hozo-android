@@ -26,10 +26,17 @@ public class PostTaskActivity extends BaseActivity implements View.OnClickListen
     private Category category;
     private TaskResponse taskResponse = new TaskResponse();
     private String taskType = "";
-    private boolean isCopy = false;
     public boolean isExtraTask = false;
-    public boolean isEdit = false;
     public final ArrayList<Image> images = new ArrayList<>();
+    public boolean isBack = false;
+
+    public boolean isBack() {
+        return isBack;
+    }
+
+    public void setBack(boolean back) {
+        isBack = back;
+    }
 
     public String getTaskType() {
         return taskType;
@@ -55,16 +62,6 @@ public class PostTaskActivity extends BaseActivity implements View.OnClickListen
         this.taskResponse = taskResponse;
     }
 
-
-    public boolean isCopy() {
-        return isCopy;
-    }
-
-    public void setCopy(boolean copy) {
-        isCopy = copy;
-    }
-
-
     @Override
     protected int getLayout() {
         return R.layout.activity_post_task;
@@ -82,9 +79,8 @@ public class PostTaskActivity extends BaseActivity implements View.OnClickListen
         if (intent.hasExtra(Constants.EXTRA_TASK)) {
             isExtraTask = true;
             taskResponse = (TaskResponse) intent.getSerializableExtra(Constants.EXTRA_TASK);
-            LogUtils.d(TAG, "PostATaskActivity , taskResponse : " + taskResponse.toString());
+            LogUtils.d(TAG, "PostATaskActivity , taskResponse : " + taskResponse.getStatus());
             if (intent.hasExtra(Constants.TASK_EDIT_EXTRA)) {
-                isEdit = true;
                 taskType = intent.getStringExtra(Constants.TASK_EDIT_EXTRA);
             }
             category = DataParse.convertCatogoryEntityToCategory(CategoryManager.getCategoryById(taskResponse.getCategoryId()));

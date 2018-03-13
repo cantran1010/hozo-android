@@ -214,28 +214,25 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             imgSaveDraf.setVisibility(View.GONE);
             imgMenu.setVisibility(View.VISIBLE);
             showPopup();
-            if (((PostTaskActivity) getActivity()).isEdit) {
-                String mtasktype = ((PostTaskActivity) getActivity()).getTaskType();
-                switch (mtasktype) {
-                    case Constants.TASK_EDIT:
-                        imgSaveDraf.setVisibility(View.GONE);
-                        imgMenu.setVisibility(View.GONE);
-                        btnNext.setText(getString(R.string.btn_edit_task));
-                        popup.getMenu().findItem(R.id.delete_task).setVisible(false);
-                        popup.getMenu().findItem(R.id.save_task).setVisible(true);
-                        break;
-                    case Constants.TASK_COPY:
-                        imgSaveDraf.setVisibility(View.VISIBLE);
-                        imgMenu.setVisibility(View.GONE);
-                        break;
-                    case Constants.TASK_DRAFT:
-                        imgSaveDraf.setVisibility(View.GONE);
-                        imgMenu.setVisibility(View.VISIBLE);
-                        popup.getMenu().findItem(R.id.delete_task).setVisible(true);
-                        popup.getMenu().findItem(R.id.save_task).setVisible(true);
-                        break;
-                }
-
+            String mtasktype = ((PostTaskActivity) getActivity()).getTaskType();
+            switch (mtasktype) {
+                case Constants.TASK_EDIT:
+                    imgSaveDraf.setVisibility(View.GONE);
+                    imgMenu.setVisibility(View.GONE);
+                    btnNext.setText(getString(R.string.btn_edit_task));
+                    popup.getMenu().findItem(R.id.delete_task).setVisible(false);
+                    popup.getMenu().findItem(R.id.save_task).setVisible(true);
+                    break;
+                case Constants.TASK_COPY:
+                    imgSaveDraf.setVisibility(View.VISIBLE);
+                    imgMenu.setVisibility(View.GONE);
+                    break;
+                case Constants.TASK_DRAFT:
+                    imgSaveDraf.setVisibility(View.GONE);
+                    imgMenu.setVisibility(View.VISIBLE);
+                    popup.getMenu().findItem(R.id.delete_task).setVisible(true);
+                    popup.getMenu().findItem(R.id.save_task).setVisible(true);
+                    break;
             }
         } else {
             imgSaveDraf.setVisibility(View.VISIBLE);
@@ -774,6 +771,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_close:
+                ((PostTaskActivity) getActivity()).setBack(true);
                 inserTask(((PostTaskActivity) getActivity()).getTaskResponse());
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;
@@ -840,6 +838,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 popup.show();//showing popup menu
                 break;
             case R.id.tv_save:
+//                ((PostTaskActivity) getActivity()).setTaskType(Constants.TASK_DRAFT);
                 taskResponse.setStatus(Constants.CREATE_TASK_STATUS_DRAFT);
                 if (((PostTaskActivity) getActivity()).images.size() > 1) doAttachFiles();
                 else doPostTask();
@@ -943,6 +942,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         timeEndPickerDialog.setTitle(getString(R.string.post_task_time_picker_title));
         timeEndPickerDialog.show();
     }
+
 
     private void inserTask(TaskResponse response) {
         response.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
