@@ -159,9 +159,9 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call<OtpReponse> call, Response<OtpReponse> response) {
-                LogUtils.d(TAG, "onResponse code : " + response.code());
+                LogUtils.d(TAG, "sendCodeAccountKit onResponse code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "onResponse body : " + response.body());
+                    LogUtils.d(TAG, "sendCodeAccountKit onResponse body : " + response.body());
                     UserEntity user = response.body().getUser();
                     Token token = response.body().getToken();
                     user.setAccessToken(token.getAccessToken());
@@ -192,7 +192,7 @@ public class LoginActivity extends BaseActivity {
                     Utils.blockUser(LoginActivity.this);
                 } else {
                     APIError error = ErrorUtils.parseError(response);
-                    LogUtils.d(TAG, "errorBody" + error.toString());
+                    LogUtils.d(TAG, "sendCodeAccountKit errorBody" + error.toString());
                     Utils.showLongToast(LoginActivity.this, error.message(), true, false);
                 }
 //                ProgressDialogUtils.dismissProgressDialog();
@@ -200,7 +200,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<OtpReponse> call, Throwable t) {
-                LogUtils.e(TAG, "onFailure message : " + t.getMessage());
+                LogUtils.e(TAG, "sendCodeAccountKit onFailure message : " + t.getMessage());
 //                ProgressDialogUtils.dismissProgressDialog();
                 showRetryDialog(LoginActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
