@@ -19,6 +19,24 @@ public class BlockResponse implements Serializable {
     @SerializedName("link_support")
     private String linkSupport;
     private String reason;
+    @SerializedName("block_expired")
+    private String blockExpired;
+
+    public boolean isBlock() {
+        return isBlock;
+    }
+
+    public void setBlock(boolean block) {
+        isBlock = block;
+    }
+
+    public String getBlockExpired() {
+        return blockExpired;
+    }
+
+    public void setBlockExpired(String blockExpired) {
+        this.blockExpired = blockExpired;
+    }
 
     public String getEmailSupport() {
         return emailSupport;
@@ -68,6 +86,7 @@ public class BlockResponse implements Serializable {
                 ", hotlinePhone='" + hotlinePhone + '\'' +
                 ", linkSupport='" + linkSupport + '\'' +
                 ", reason='" + reason + '\'' +
+                ", blockExpired='" + blockExpired + '\'' +
                 '}';
     }
 

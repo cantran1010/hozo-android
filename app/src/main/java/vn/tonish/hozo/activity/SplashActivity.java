@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
+import com.facebook.accountkit.AccountKit;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import io.realm.Realm;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -14,6 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.database.manager.RealmDbHelper;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.AlertDialogOkFullScreen;
@@ -22,6 +26,7 @@ import vn.tonish.hozo.rest.responseRes.BlockResponse;
 import vn.tonish.hozo.rest.responseRes.UpdateResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 
@@ -125,12 +130,38 @@ public class SplashActivity extends BaseActivity {
                         if (updateResponse.isRecommendUpdate()) {
                             showUpdateDialog();
                         } else {
-                            if (UserManager.checkLogin())
-                                checkBlockUser();
-                            else {
-                                startActivity(LoginActivity.class, TransitionScreen.FADE_IN);
-                                finish();
+
+//                            if (UserManager.checkLogin())
+//                                checkBlockUser();
+//                            else {
+//                                startActivity(LoginActivity.class, TransitionScreen.FADE_IN);
+//                                finish();
+//                            }
+
+                            try {
+                                if (UserManager.checkLogin())
+                                    checkBlockUser();
+                                else {
+                                    startActivity(LoginActivity.class, TransitionScreen.FADE_IN);
+                                    finish();
+                                }
+                            } catch (Exception e) {
+                                LogUtils.e(TAG,"checkUpdate ERROR : " + e.getMessage());
+                                // sometimes bug
+                                // io.realm.exceptions.RealmFileException: Unable to open a realm at path '/data/data/vn.tonish.hozo/files/hozo': Realm file decryption failed.
+                                // (Realm file decryption failed) (/data/data/vn.tonish.hozo/files/hozo) in /home/cc/repo/realm/release/realm/realm-library/src/main/cpp/io_realm_internal_SharedRealm.cpp
+                                // line 217 Kind: ACCESS_ERROR.
+                                e.printStackTrace();
+                                Realm.deleteRealm(RealmDbHelper.getRealmConfig(SplashActivity.this));
+
+                                PreferUtils.setNewPushCount(SplashActivity.this, 0);
+                                PreferUtils.setPushNewTaskCount(SplashActivity.this, 0);
+                                AccountKit.cancelLogin();
+                                AccountKit.logOut();
+
+                                checkUpdate();
                             }
+
                         }
                     }
 

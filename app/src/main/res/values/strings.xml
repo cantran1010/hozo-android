@@ -251,7 +251,6 @@
     <string name="offer_error_time">Đề nghị làm việc của bạn không được chấp nhận vì bạn đã ứng tuyển một công việc khác vào thời gian này!</string>
     <string name="code_otp_is_invalid">Lỗi bất ngờ!!!.</string>
     <string name="hot_line">02473004886</string>
-    <string name="block_title">Tài khoản của bạn đã bị khóa vì</string>
     <string name="block_des">Liên hệ với Hozo để được hỗ trợ</string>
     <string name="block_hotline">Hotline : <b> </b></string>
     <string name="block_email">Email : <b> </b></string>
@@ -790,5 +789,6 @@
     <string name="btn_recharge_wallet">Thiết lập ví Hozo</string>
     <string name="btn_rechager_collaborators">Cộng tác viên Hozo</string>
     <string name="transaction_bid_fee">Hệ thống thu phí ứng tuyển việc \"%1$s\"</string>
+    <string name="block_reasons">%1$s đến %2$s</string>
 
 </resources>

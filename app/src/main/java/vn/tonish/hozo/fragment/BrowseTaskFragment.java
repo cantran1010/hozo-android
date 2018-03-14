@@ -28,6 +28,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import vn.tonish.hozo.BuildConfig;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BrowserTaskMapActivity;
 import vn.tonish.hozo.activity.MainActivity;
@@ -313,14 +314,17 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     onRefresh();
                 }
 
-                Answers.getInstance().logSearch(new SearchEvent()
-                        .putQuery(edtSearch.getText().toString()));
+                if (!BuildConfig.DEBUG)
+                    Answers.getInstance().logSearch(new SearchEvent()
+                            .putQuery(edtSearch.getText().toString()));
 
                 edtSearch.setText("");
                 break;
             case R.id.img_clear:
-                Answers.getInstance().logSearch(new SearchEvent()
-                        .putQuery(edtSearch.getText().toString()));
+
+                if (!BuildConfig.DEBUG)
+                    Answers.getInstance().logSearch(new SearchEvent()
+                            .putQuery(edtSearch.getText().toString()));
 
                 edtSearch.setText("");
                 break;

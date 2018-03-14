@@ -33,6 +33,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import vn.tonish.hozo.BuildConfig;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.adapter.KeyWordAdapter;
 import vn.tonish.hozo.adapter.TaskTypeAdapter;
@@ -737,7 +738,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         final JSONObject jsonRequest = getJsonRequest();
         LogUtils.d(TAG, "postSettingAdvance activity json: " + jsonRequest.toString());
 
-        if (!jsonRequest.toString().equals(originJsonRequest.toString())) {
+        if (!jsonRequest.toString().equals(originJsonRequest.toString()) && !BuildConfig.DEBUG) {
             Answers.getInstance().logCustom(new CustomEvent("FILTER_TASK"));
             LogUtils.d(TAG, "postSettingAdvance logCustom start , data : " + jsonRequest.toString());
         }
