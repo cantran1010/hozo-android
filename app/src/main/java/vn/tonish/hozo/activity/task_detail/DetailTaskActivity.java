@@ -136,7 +136,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private PopupMenu popup;
     private RecyclerView rcvBidder;
     private ArrayList<Bidder> bidders = new ArrayList<>();
-    private boolean isPrepay = false;
 
     private RecyclerView rcvAssign;
     private ArrayList<Assigner> assigners = new ArrayList<>();
@@ -473,7 +472,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         rbRate.setRating(taskResponse.getPoster().getPosterAverageRating());
         tvTimeAgo.setText(DateTimeUtils.getTimeAgo(taskResponse.getCreatedAt(), this));
         tvTitle.setText(taskResponse.getTitle());
-        if (isPrepay) {
+        if (taskResponse.isPrepay()) {
             tvTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_money, 0, 0, 0);
             tvTitle.setCompoundDrawablePadding(15);
             tvPrepay.setVisibility(View.VISIBLE);

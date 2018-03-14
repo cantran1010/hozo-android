@@ -68,7 +68,7 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
             WorkHolder workHolder = ((WorkHolder) holder);
             TaskResponse taskResponse = taskResponses.get(position);
             workHolder.tvName.setText(taskResponse.getTitle());
-            if (isPrepay) {
+            if (taskResponse.isPrepay()) {
                 workHolder.tvName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_money, 0, 0, 0);
                 workHolder.tvName.setCompoundDrawablePadding(10);
             }

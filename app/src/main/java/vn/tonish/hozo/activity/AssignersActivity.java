@@ -243,7 +243,6 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void updateRole() {
-
         //fix crash on fabric -> I don't know why crash :(
         if (UserManager.getMyUser() == null) return;
 

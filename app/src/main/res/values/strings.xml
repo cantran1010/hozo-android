@@ -614,6 +614,9 @@
     <string name="notification_bid_received_footer">. Hãy nhanh chóng giao việc</string>
     <string name="push_overdue_title">Rất tiếc việc</string>
     <string name="push_overdue_footer">đã quá hạn. Bạn có muốn đăng lại?</string>
+    <string name="push_overdue_footer1">đã quá hạn.</string>
+    <string name="push_overdue_footer2">Bạn đã được nhận lại </string>
+    <string name="push_overdue_footer3">tiền trả trước. Bạn có muốn đăng lại việc này?</string>
     <string name="notification_review_worker_title">đã gửi yêu cầu xác nhận công việc</string>
     <string name="notification_review_worker_footer">đã hoàn thành</string>
     <string name="bid_missed_title">Rất tiếc bạn đã không được giao việc</string>
@@ -793,5 +796,17 @@
     <string name="tv_prepay">Việc trả trước</string>
     <string name="prepay">Trả trước</string>
     <string name="prepay_info1">Người đăng việc sẽ phải trả tiền trước cho công việc này thông qua ví tiền Hozo</string>
+    <string name="not_enough_balance">Số dư trong ví tiền Hozo của bạn không đủ. Bạn có muốn thiết lập ví không?</string>
+    <string name="notification">Thông báo</string>
+    <string name="not_enough_prepaid">Số tiền bạn đã trả trước không đủ để giao việc. Vui lòng trả thêm tiền</string>
+    <string name="task_refund_prepaid">Bạn đã được hoàn trả 10000đ từ số tiền trả trước đó</string>
+    <string name="bid_payment_received">Bạn đã nhận được thanh toán 10000đ</string>
+    <string name="not_enough_prepaid_start">Số tiền bạn đã trả trước không đủ để giao việc</string>
+    <string name="not_enough_prepaid_end">. Vui lòng trả thêm tiền</string>
+    <string name="task_refund_prepaid_start">Bạn đã được hoàn trả </string>
+    <string name="task_refund_prepaid_end">từ số tiền trả trước cho việc</string>
+    <string name="bid_payment_received_start">Bạn đã nhận được thanh toán</string>
+    <string name="bid_payment_received_end">từ việc</string>
+
 
 </resources>

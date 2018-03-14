@@ -1,6 +1,7 @@
 package vn.tonish.hozo.utils;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -446,7 +447,7 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_TASK_OVERDUE:
                 if (notification.getUserId() == UserManager.getMyUser().getId()) {
-                    content = context.getString(R.string.push_overdue_title) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer);
+                    content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1) + context.getString(R.string.push_overdue_footer2) + " " + Utils.formatNumber(notification.getAmount()) + " " + context.getString(R.string.push_overdue_footer3);
                     matcher = context.getString(R.string.notification_task_overdue_matcher);
                     matcherColor = context.getString(R.string.notification_task_overdue_color);
                 } else {
@@ -456,7 +457,7 @@ public class Utils {
                 }
                 break;
             case Constants.PUSH_TYPE_BID_MISSED:
-                content = context.getString(R.string.bid_missed_title) + " " + notification.getTaskName() + " " + context.getString(R.string.bid_missed_footer);
+                content = context.getString(R.string.bid_missed_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.bid_missed_footer);
                 matcher = context.getString(R.string.notification_bid_missed_matcher);
                 matcherColor = context.getString(R.string.notification_task_overdue_color);
                 break;
@@ -543,6 +544,19 @@ public class Utils {
                 matcher = context.getString(R.string.nofification_task_type_reapplied_matcher);
                 matcherColor = context.getString(R.string.notification_await_approval_color);
                 break;
+            case Constants.NOT_ENOUGH_PREPAID:
+                content = context.getString(R.string.not_enough_prepaid_start) + "\"" + notification.getTaskName() + " " + context.getString(R.string.not_enough_prepaid_end);
+                matcher = notification.getTaskName();
+                matcherColor = context.getString(R.string.notification_await_approval_color);
+                break;
+            case Constants.TASK_REFUND_PREPAID:
+                content = context.getString(R.string.task_refund_prepaid_start) + " " + Utils.formatNumber(notification.getAmount()) + "đ " + context.getString(R.string.task_refund_prepaid_end) + " \"" + notification.getTaskName() + "\" ";
+                matcher = Utils.formatNumber(notification.getAmount()) + "đ ";
+                matcherColor = context.getString(R.string.notification_task_overdue_color);
+                break;
+            case Constants.BID_PAYMENT_RECEIVED:
+                content = context.getString(R.string.bid_payment_received_start) + " " + Utils.formatNumber(notification.getAmount()) + "đ " + context.getString(R.string.bid_payment_received_end) + " " + notification.getTaskName();
+                break;
         }
 
         tvContent.setText(content);
@@ -579,6 +593,7 @@ public class Utils {
         tvContent.setContentDescription(spannable);
     }
 
+    @SuppressLint("StringFormatInvalid")
     public static String getContentFromNotification(Context context, Notification notification) {
         String content = "";
 
@@ -679,6 +694,16 @@ public class Utils {
             case Constants.PUSH_TYPE_TASK_REAPPLIED:
                 content = context.getString(R.string.nofification_task_type_reapplied, notification.getTaskName());
                 break;
+            case Constants.NOT_ENOUGH_PREPAID:
+                content = context.getString(R.string.not_enough_prepaid, notification.getTaskName());
+                break;
+            case Constants.TASK_REFUND_PREPAID:
+                content = context.getString(R.string.task_refund_prepaid, notification.getTaskName());
+                break;
+            case Constants.BID_PAYMENT_RECEIVED:
+                content = context.getString(R.string.bid_payment_received, notification.getTaskName());
+                break;
+
         }
 
         return content;

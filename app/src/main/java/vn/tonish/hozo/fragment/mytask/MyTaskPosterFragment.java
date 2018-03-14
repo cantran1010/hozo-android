@@ -119,7 +119,7 @@ public class MyTaskPosterFragment extends BaseFragment {
                     Intent intentEdit = new Intent(getActivity(), PostTaskActivity.class);
                     intentEdit.putExtra(Constants.EXTRA_TASK, taskResponse);
                     intentEdit.putExtra(Constants.TASK_EDIT_EXTRA, Constants.TASK_DRAFT);
-                    startActivityForResult(intentEdit, Constants.POST_A_TASK_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+                    startActivityForResult(intentEdit, Constants.REQUEST_CODE_TASK_EDIT, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     Intent intent = new Intent(getActivity(), DetailTaskActivity.class);
                     intent.putExtra(Constants.TASK_ID_EXTRA, taskResponse.getId());

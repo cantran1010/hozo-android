@@ -205,8 +205,12 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
                             ((PostTaskActivity) getActivity()).images.add(((PostTaskActivity) getActivity()).images.size(), imageCopy);
                             imageAdapter.notifyDataSetChanged();
                             countImageCopy--;
-                            if (countImageCopy == 0)
+                            if (countImageCopy == 0) {
                                 ProgressDialogUtils.dismissProgressDialog();
+                                taskResponse.setAttachmentsId(new int[]{});
+                                ((PostTaskActivity) getActivity()).setTaskResponse(taskResponse);
+                            }
+
                         }
                     });
 

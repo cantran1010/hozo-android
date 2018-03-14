@@ -77,6 +77,9 @@ public class Constants {
     public static final String NO_USER = "no_user";
     public static final int REQUEST_CODE_GOOGLE_PLACE = 831;
     public static final String NOT_ENOUGH_BALANCE = "not_enough_balance";
+    public static final String NOT_ENOUGH_PREPAID = "not_enough_prepaid";
+    public static final String TASK_REFUND_PREPAID = "task_refund_prepaid";
+    public static final String BID_PAYMENT_RECEIVED = "bid_payment_received";
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
