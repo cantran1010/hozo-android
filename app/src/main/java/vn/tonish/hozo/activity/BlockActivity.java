@@ -7,6 +7,7 @@ import android.view.View;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.rest.responseRes.BlockResponse;
+import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
@@ -48,7 +49,10 @@ public class BlockActivity extends BaseActivity implements View.OnClickListener 
 
         blockResponse = (BlockResponse) getIntent().getSerializableExtra(Constants.BLOCK_EXTRA);
 
-        tvReasons.setText(blockResponse.getReason());
+        if (blockResponse.getBlockExpired().equals("0001-01-01T00:00:00Z"))
+            tvReasons.setText(blockResponse.getReason());
+        else
+            tvReasons.setText(getString(R.string.block_reasons, blockResponse.getReason(), DateTimeUtils.getPaymentTime(blockResponse.getBlockExpired())));
 
         SpannableString content = new SpannableString(blockResponse.getHotlinePhone());
         content.setSpan(new UnderlineSpan(), 0, blockResponse.getHotlinePhone().length(), 0);
