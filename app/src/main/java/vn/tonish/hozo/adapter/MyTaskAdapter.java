@@ -24,7 +24,6 @@ import vn.tonish.hozo.view.TextViewHozo;
 public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkHolder, LoadingHolder> {
     private final List<TaskResponse> taskResponses;
     private final Context context;
-    private boolean isPrepay = false;
 
     public MyTaskAdapter(Context context, List<TaskResponse> taskResponses) {
         super(context, taskResponses);
@@ -71,6 +70,9 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
             if (taskResponse.isPrepay()) {
                 workHolder.tvName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_money, 0, 0, 0);
                 workHolder.tvName.setCompoundDrawablePadding(10);
+            }
+            else {
+                workHolder.tvName.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             }
             if (Utils.formatNumber(taskResponses.get(position).getWorkerRate()).equals("0"))
                 workHolder.tvPrice.setText(context.getString(R.string.non_value));

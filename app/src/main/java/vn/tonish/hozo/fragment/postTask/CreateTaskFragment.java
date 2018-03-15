@@ -351,8 +351,8 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             imageAdapter.notifyDataSetChanged();
         } else if (requestCode == Constants.REQUEST_CODE_GOOGLE_PLACE && resultCode == Constants.RESULT_CODE_ADDRESS && data != null) {
             Bundle bundle = data.getExtras();
-            lat = bundle.getDouble(Constants.LAT_EXTRA);
-            lon = bundle.getDouble(Constants.LON_EXTRA);
+            lat = bundle != null ? bundle.getDouble(Constants.LAT_EXTRA) : 0;
+            lon = bundle != null ? bundle.getDouble(Constants.LON_EXTRA) : 0;
             autocompleteView.setText(bundle.getString(Constants.EXTRA_ADDRESS));
             address = bundle.getString(Constants.EXTRA_ADDRESS);
         }

@@ -11,7 +11,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
 import vn.tonish.hozo.R;
-import vn.tonish.hozo.activity.AssignActivity;
+import vn.tonish.hozo.activity.AcceptBidActivity;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
@@ -90,7 +90,7 @@ public class BidderOpenView extends RelativeLayout implements View.OnClickListen
             btnAssign.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intentAssign = new Intent(getContext(), AssignActivity.class);
+                    Intent intentAssign = new Intent(getContext(), AcceptBidActivity.class);
                     intentAssign.putExtra(Constants.OFFER_TASK_ID, getTaskId());
                     intentAssign.putExtra(Constants.BIDDER_ID, bidder.getId());
                     intentAssign.putExtra(Constants.WORKER_COUNT, getWorkerCount());

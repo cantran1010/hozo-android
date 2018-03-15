@@ -54,6 +54,7 @@ import vn.tonish.hozo.activity.BrowserTaskMapActivity;
 import vn.tonish.hozo.activity.ChatGroupActivity;
 import vn.tonish.hozo.activity.ContactsActivity;
 import vn.tonish.hozo.activity.PostTaskActivity;
+import vn.tonish.hozo.activity.PrePayInfoActivity;
 import vn.tonish.hozo.activity.RatingActivity;
 import vn.tonish.hozo.activity.SupportActivity;
 import vn.tonish.hozo.activity.comment.CommentAllActivity;
@@ -96,7 +97,7 @@ import vn.tonish.hozo.view.MyGridView;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
- * Created by LongBui on 11/11/17.
+ * Created by CanTran on 11/11/17.
  */
 
 public class DetailTaskActivity extends BaseActivity implements View.OnClickListener {
@@ -111,7 +112,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private TextViewHozo tvSeeMoreFooter;
     private TextViewHozo tvName;
     private TextViewHozo tvTitle;
-    private TextViewHozo tvPrepay;
     private TextViewHozo tvAddress;
     private TextViewHozo tvDate;
     private TextViewHozo tvTime;
@@ -168,6 +168,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private ProgressBar progressBar;
     private Call<TaskResponse> call;
     private TextViewHozo tvMap;
+    private LinearLayout layoutPrepay;
+    private ImageView imgQuestion;
 
     @Override
     protected int getLayout() {
@@ -200,7 +202,6 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         progressBar = (ProgressBar) findViewById(R.id.simpleProgressBar);
 
         tvTitle = (TextViewHozo) findViewById(R.id.tv_title);
-        tvPrepay = (TextViewHozo) findViewById(R.id.tv_prepay);
         tvAddress = (TextViewHozo) findViewById(R.id.tv_address);
 
         tvDate = (TextViewHozo) findViewById(R.id.tv_date);
@@ -265,7 +266,8 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         edtComment = (EdittextHozo) findViewById(R.id.edt_comment);
         imgLayout = (RelativeLayout) findViewById(R.id.img_layout);
         imgAttached = (ImageView) findViewById(R.id.img_attached);
-
+        imgQuestion = (ImageView) findViewById(R.id.img_question);
+        imgQuestion.setOnClickListener(this);
         TextViewHozo tvAttach = (TextViewHozo) findViewById(R.id.tv_attach);
         tvAttach.setOnClickListener(this);
 
@@ -278,7 +280,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         tvSeeMoreComment.setOnClickListener(this);
 
         layoutInputComment = (LinearLayout) findViewById(R.id.comment_input_layout);
-
+        layoutPrepay = (LinearLayout) findViewById(R.id.layout_prepay);
         vLineCommentList = findViewById(R.id.v_line_comment_list);
 
         btnContactHozo = (ButtonHozo) findViewById(R.id.btn_contact_hozo);
@@ -399,7 +401,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                         finish();
                         Intent intent = new Intent(DetailTaskActivity.this, BlockTaskActivity.class);
                         intent.putExtra(Constants.TITLE_INFO_EXTRA, getString(R.string.task_detail_block));
-                        String msg = "";
+                        String msg;
 
 //                        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId())
 //                            msg = error.message();
@@ -474,9 +476,9 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         tvTitle.setText(taskResponse.getTitle());
         if (taskResponse.isPrepay()) {
             tvTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_money, 0, 0, 0);
-            tvTitle.setCompoundDrawablePadding(15);
-            tvPrepay.setVisibility(View.VISIBLE);
-        } else tvPrepay.setVisibility(View.GONE);
+            tvTitle.setCompoundDrawablePadding(10);
+            layoutPrepay.setVisibility(View.VISIBLE);
+        } else layoutPrepay.setVisibility(View.GONE);
         if (taskResponse.isOnline()) {
             tvAddress.setText(getString(R.string.online_task_address));
             tvMap.setVisibility(View.GONE);
@@ -1806,7 +1808,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
                 if (response.code() == Constants.HTTP_CODE_CREATED) {
                     ImageResponse imageResponse = response.body();
-                    tempId = imageResponse.getIdTemp();
+                    tempId = imageResponse != null ? imageResponse.getIdTemp() : 0;
                     doComment();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(DetailTaskActivity.this, new NetworkUtils.RefreshListener() {
@@ -1903,19 +1905,14 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             if (cameraPermission && readExternalFile) {
                 permissionGranted();
-            } else {
-                permissionDenied();
             }
         }
-    }
-
-    private void permissionDenied() {
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.d(TAG, "onActivityResult , requestCode : " + requestCode + " , resultCode: " + resultCode);
         if (requestCode == Constants.REQUEST_CODE_PICK_IMAGE
                 && resultCode == Constants.RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
@@ -2071,7 +2068,12 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.btn_contact_hozo:
-                startActivity(SupportActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+                startActivity(new Intent(this, SupportActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+                break;
+            case R.id.img_question:
+                Intent intentPrepay = new Intent(this, PrePayInfoActivity.class);
+                intentPrepay.putExtra(Constants.PREPAY_TYPE_EXTRA, 2);
+                startActivity(intentPrepay, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }

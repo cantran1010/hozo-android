@@ -34,6 +34,8 @@ public class Notification implements Serializable {
     private String taskStartTime;
     private String wallet;
     private int amount;
+    @SerializedName("task_urgency")
+    private boolean urgency;
 
     public String getWallet() {
         return wallet;
@@ -163,6 +165,14 @@ public class Notification implements Serializable {
         this.createdDateAt = createdDateAt;
     }
 
+    public boolean isUrgency() {
+        return urgency;
+    }
+
+    public void setUrgency(boolean urgency) {
+        this.urgency = urgency;
+    }
+
     @Override
     public String toString() {
         return "Notification{" +
@@ -182,6 +192,7 @@ public class Notification implements Serializable {
                 ", taskStartTime='" + taskStartTime + '\'' +
                 ", wallet='" + wallet + '\'' +
                 ", amount=" + amount +
+                ", urgency=" + urgency +
                 '}';
     }
 

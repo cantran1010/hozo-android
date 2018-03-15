@@ -70,6 +70,8 @@ public class TaskAdapter extends BaseAdapter<TaskResponse, TaskAdapter.WorkHolde
             if (taskResponse.isPrepay()) {
                 workHolder.tvName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_money, 0, 0, 0);
                 workHolder.tvName.setCompoundDrawablePadding(10);
+            }  else {
+                workHolder.tvName.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             }
             workHolder.tvPrice.setText(context.getString(R.string.vnd, Utils.formatNumber(taskResponse.getWorkerRate())));
             workHolder.tvStartTime.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));

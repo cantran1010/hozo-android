@@ -28,7 +28,7 @@ public class PostTaskActivity extends BaseActivity implements View.OnClickListen
     private String taskType = "";
     public boolean isExtraTask = false;
     public final ArrayList<Image> images = new ArrayList<>();
-    public boolean isBack = false;
+    private boolean isBack = false;
 
     public boolean isBack() {
         return isBack;

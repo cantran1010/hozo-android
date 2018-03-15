@@ -37,6 +37,7 @@ import vn.tonish.hozo.activity.SplashActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Notification;
+import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.Utils;
@@ -107,8 +108,13 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                 message = notification.getContent();
                 break;
             case Constants.PUSH_TYPE_NEW_TASK_ALERT:
-                title = getString(R.string.push_title);
-                message = notification.getTaskName();
+                if (notification.isUrgency()) {
+                    title = getString(R.string.push_title_urgency, DateTimeUtils.getOnlyDateFromIso(notification.getTaskStartTime()));
+                    message = notification.getTaskName();
+                } else {
+                    title = getString(R.string.push_title);
+                    message = notification.getTaskName();
+                }
                 break;
             case Constants.PUSH_TYPE_MONEY_RECEIVED:
             case Constants.PUSH_TYPE_WAGE_RECEIVED:

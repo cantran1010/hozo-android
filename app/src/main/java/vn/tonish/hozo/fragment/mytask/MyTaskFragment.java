@@ -241,6 +241,10 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         startActivityForResult(intent, Constants.REQUEST_CODE_FILTER_MY_TASK, TransitionScreen.RIGHT_TO_LEFT);
     }
 
+    public void changeTab(int tab) {
+        myTaskTabLayout.getTabAt(tab).select();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

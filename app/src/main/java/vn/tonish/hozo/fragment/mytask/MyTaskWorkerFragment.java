@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -299,7 +300,9 @@ public class MyTaskWorkerFragment extends BaseFragment {
                 }
             }
         } else if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
-            onRefresh();
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.ROLE_EXTRA, Constants.ROLE_POSTER);
+            openFragment(R.id.layout_container, MyTaskFragment.class, bundle, false, TransitionScreen.RIGHT_TO_LEFT);
         } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             onRefresh();
         } else if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.RESULT_CODE_TASK_CANCEL)

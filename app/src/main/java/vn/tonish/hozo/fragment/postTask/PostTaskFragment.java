@@ -869,6 +869,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.img_prepay:
                 Intent intent = new Intent(getActivity(), PrePayInfoActivity.class);
+                intent.putExtra(Constants.PREPAY_TYPE_EXTRA, 1);
                 startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
@@ -978,5 +979,6 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         response.setMaxAge(ageTo);
         response.setGender(strGender);
         response.setAutoAssign(cbAuto.isChecked());
+        response.setPrepay(cbPrepay.isChecked());
     }
 }

@@ -31,8 +31,8 @@ import vn.tonish.hozo.utils.Utils;
  * Created by CanTran on 11/21/17.
  */
 
-public class AssignActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = AssignActivity.class.getSimpleName();
+public class AcceptBidActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = AcceptBidActivity.class.getSimpleName();
     private ViewPager viewPager;
     private ImageView imgNext;
     private ImageView imgBack;
@@ -42,7 +42,7 @@ public class AssignActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected int getLayout() {
-        return R.layout.activity_assign;
+        return R.layout.activity_accept_bid;
     }
 
     @Override
@@ -141,23 +141,23 @@ public class AssignActivity extends BaseActivity implements View.OnClickListener
                     adapter.notifyDataSetChanged();
                     viewPager.setCurrentItem(getPosition(bidderID));
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(AssignActivity.this, new NetworkUtils.RefreshListener() {
+                    NetworkUtils.refreshToken(AcceptBidActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
                             getBidders(id);
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
-                    DialogUtils.showOkDialog(AssignActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                    DialogUtils.showOkDialog(AcceptBidActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
 
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(AssignActivity.this);
+                    Utils.blockUser(AcceptBidActivity.this);
                 } else {
-                    DialogUtils.showOkDialog(AssignActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                    DialogUtils.showOkDialog(AcceptBidActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
 
@@ -171,7 +171,7 @@ public class AssignActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onFailure(Call<List<BidResponse>> call, Throwable t) {
                 LogUtils.e(TAG, "ERROR : " + t.getMessage());
-                DialogUtils.showRetryDialog(AssignActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showRetryDialog(AcceptBidActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         getBidders(id);
