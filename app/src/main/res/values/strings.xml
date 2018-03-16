@@ -822,6 +822,7 @@
     <string name="notification_new_task_alert_title_urgency">Việc gấp</string>
     <string name="notification_new_task_alert_day_urgency">vào ngày</string>
     <string name="notification_new_task_alert_footer_urgency">Ứng tuyển để nhận thêm khuyến mãi từ Hozo</string>
+    <string name="invalid_status">Người này đã được đánh giá.</string>
 
 
 </resources>

@@ -81,8 +81,9 @@ public class Constants {
     public static final String TASK_REFUND_PREPAID = "task_refund_prepaid";
     public static final String BID_PAYMENT_RECEIVED = "bid_payment_received";
     public static final String BID_COMMISSION_RECEIVED = "bid_commission_received";
-    public static final String PARAMETER_ADD_PREPAY ="add_prepay" ;
-    public static final String PREPAY_TYPE_EXTRA ="prepay_type_extra" ;
+    public static final String PARAMETER_ADD_PREPAY = "add_prepay";
+    public static final String PREPAY_TYPE_EXTRA = "prepay_type_extra";
+    public static final String INVALID_STATUS = "invalid_status";
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

@@ -47,7 +47,7 @@ public class RatingActivity extends BaseActivity implements View.OnClickListener
         Intent intent = getIntent();
         if (intent.hasExtra(Constants.TASK_RESPONSE_RATING)) {
             taskResponse = (TaskResponse) intent.getExtras().get(Constants.TASK_RESPONSE_RATING);
-            LogUtils.d(TAG, "check task reponse :" + taskResponse.toString());
+            LogUtils.d(TAG, "check task reponse :" + taskResponse.getAssignees().toString());
         }
         if (taskResponse == null) taskResponse = new TaskResponse();
 

@@ -162,7 +162,6 @@ public class AssignersActivity extends BaseActivity implements View.OnClickListe
                 assignersIdRate = assigner.getId();
                 startActivityForResult(intentRate, Constants.REQUEST_CODE_RATE, TransitionScreen.UP_TO_DOWN);
             }
-
         }
     };
 
