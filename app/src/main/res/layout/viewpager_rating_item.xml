@@ -134,8 +134,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:numStars="5"
-            android:visibility="gone" />
+            android:numStars="5" />
 
         <vn.tonish.hozo.view.EdittextHozo
             android:id="@+id/edt_reviews"
@@ -155,7 +154,6 @@
             android:textColor="@color/setting_text"
             android:textColorHint="@color/color_hint_create_task_lable"
             android:textSize="@dimen/tv_size_medium"
-            android:visibility="gone"
             tools:targetApi="lollipop" />
 
         <vn.tonish.hozo.view.TextViewHozo

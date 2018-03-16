@@ -476,7 +476,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         tvTitle.setText(taskResponse.getTitle());
         if (taskResponse.isPrepay()) {
             tvTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_money, 0, 0, 0);
-            tvTitle.setCompoundDrawablePadding(10);
+            tvTitle.setCompoundDrawablePadding(15);
             layoutPrepay.setVisibility(View.VISIBLE);
         } else layoutPrepay.setVisibility(View.GONE);
         if (taskResponse.isOnline()) {

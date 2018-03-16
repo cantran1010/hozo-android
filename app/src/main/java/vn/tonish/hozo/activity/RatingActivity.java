@@ -64,6 +64,7 @@ public class RatingActivity extends BaseActivity implements View.OnClickListener
             imgNext.setVisibility(View.GONE);
             imgBack.setVisibility(View.GONE);
         }
+        if (viewPager.getCurrentItem() == 0) imgBack.setVisibility(View.GONE);
         ViewPageRatingAdapter adapter = new ViewPageRatingAdapter(this, taskResponse, type);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -73,7 +74,7 @@ public class RatingActivity extends BaseActivity implements View.OnClickListener
 
             @Override
             public void onPageSelected(int position) {
-                LogUtils.d("TAG", "position: " + position);
+                LogUtils.d(TAG, "onPageSelected position: " + position);
                 if (position == 0)
                     imgBack.setVisibility(View.GONE);
                 else imgBack.setVisibility(View.VISIBLE);
