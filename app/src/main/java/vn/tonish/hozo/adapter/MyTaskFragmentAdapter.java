@@ -54,18 +54,15 @@ public class MyTaskFragmentAdapter extends FragmentStatePagerAdapter {
 
 
     public void search(String query, int pos) {
-        if (pos == 0) {
-            if (myTaskPosterFragment != null)
-                myTaskPosterFragment.search(query);
-        } else {
-            if (myTaskWorkerFragment != null)
-                myTaskWorkerFragment.search(query);
-        }
+        if (pos == 0 && myTaskPosterFragment != null) {
+            myTaskPosterFragment.search(query);
+        } else if (pos == 1 && myTaskWorkerFragment != null)
+            myTaskWorkerFragment.search(query);
+
     }
 
     public void resetState(int pos) {
-        if (pos == 0)
-            myTaskPosterFragment.endlessRecyclerViewScrollListener.resetState();
+        if (pos == 0) myTaskPosterFragment.endlessRecyclerViewScrollListener.resetState();
         else myTaskWorkerFragment.endlessRecyclerViewScrollListener.resetState();
 
     }

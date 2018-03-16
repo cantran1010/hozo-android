@@ -446,7 +446,7 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_TASK_OVERDUE:
                 if (notification.getUserId() == UserManager.getMyUser().getId()) {
-                    content = context.getString(R.string.push_overdue_title) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer);
+                    content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1) + " " + context.getString(R.string.push_overdue_footer2) + " " + Utils.formatNumber(notification.getAmount()) + "đ " + context.getString(R.string.push_overdue_footer3);
                     matcher = context.getString(R.string.notification_task_overdue_matcher);
                     matcherColor = context.getString(R.string.notification_task_overdue_color);
                 } else {
@@ -456,7 +456,7 @@ public class Utils {
                 }
                 break;
             case Constants.PUSH_TYPE_BID_MISSED:
-                content = context.getString(R.string.bid_missed_title) + " " + notification.getTaskName() + " " + context.getString(R.string.bid_missed_footer);
+                content = context.getString(R.string.bid_missed_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.bid_missed_footer);
                 matcher = context.getString(R.string.notification_bid_missed_matcher);
                 matcherColor = context.getString(R.string.notification_task_overdue_color);
                 break;
@@ -543,6 +543,26 @@ public class Utils {
                 matcher = context.getString(R.string.nofification_task_type_reapplied_matcher);
                 matcherColor = context.getString(R.string.notification_await_approval_color);
                 break;
+            case Constants.NOT_ENOUGH_PREPAID:
+                content = context.getString(R.string.not_enough_prepaid_start) + "\"" + notification.getTaskName() + " " + context.getString(R.string.not_enough_prepaid_end);
+                matcher = notification.getTaskName();
+                matcherColor = context.getString(R.string.notification_await_approval_color);
+                break;
+            case Constants.TASK_REFUND_PREPAID:
+                content = context.getString(R.string.task_refund_prepaid_start) + " " + Utils.formatNumber(notification.getAmount()) + "đ " + context.getString(R.string.task_refund_prepaid_end) + " \"" + notification.getTaskName() + "\" ";
+                matcher = Utils.formatNumber(notification.getAmount()) + "đ ";
+                matcherColor = context.getString(R.string.notification_task_overdue_color);
+                break;
+            case Constants.BID_PAYMENT_RECEIVED:
+                content = context.getString(R.string.bid_payment_received_start) + " " + Utils.formatNumber(notification.getAmount()) + "đ " + context.getString(R.string.bid_payment_received_end) + " " + notification.getTaskName();
+                matcher = Utils.formatNumber(notification.getAmount()) + "đ ";
+                matcherColor = context.getString(R.string.notification_task_overdue_color);
+                break;
+            case Constants.BID_COMMISSION_RECEIVED:
+                content = context.getString(R.string.bid_commission_received, Utils.formatNumber(notification.getAmount()), notification.getTaskName());
+                matcher = Utils.formatNumber(notification.getAmount()) + "đ ";
+                matcherColor = context.getString(R.string.notification_task_overdue_color);
+                break;
         }
 
         tvContent.setText(content);
@@ -612,7 +632,11 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_TASK_OVERDUE:
                 if (notification.getUserId() == UserManager.getMyUser().getId()) {
-                    content = context.getString(R.string.push_overdue_title) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer);
+                    if (notification.getAmount() > 0)
+                        content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1) + " " + context.getString(R.string.push_overdue_footer2) + " " + Utils.formatNumber(notification.getAmount()) + "đ " + context.getString(R.string.push_overdue_footer3);
+                    else
+                        content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1) + " " + context.getString(R.string.push_overdue_footer3);
+
                 } else {
                     content = context.getString(R.string.push_overdue_title) + " " + notification.getTaskName() + " " + context.getString(R.string.push_overdue_footer_2);
                 }
@@ -679,6 +703,19 @@ public class Utils {
             case Constants.PUSH_TYPE_TASK_REAPPLIED:
                 content = context.getString(R.string.nofification_task_type_reapplied, notification.getTaskName());
                 break;
+            case Constants.NOT_ENOUGH_PREPAID:
+                content = context.getString(R.string.not_enough_prepaid_start) + "\"" + notification.getTaskName() + " " + context.getString(R.string.not_enough_prepaid_end);
+                break;
+            case Constants.TASK_REFUND_PREPAID:
+                content = context.getString(R.string.task_refund_prepaid_start) + " " + Utils.formatNumber(notification.getAmount()) + "đ " + context.getString(R.string.task_refund_prepaid_end) + " \"" + notification.getTaskName() + "\" ";
+                break;
+            case Constants.BID_PAYMENT_RECEIVED:
+                content = context.getString(R.string.bid_payment_received_start) + " " + Utils.formatNumber(notification.getAmount()) + "đ " + context.getString(R.string.bid_payment_received_end) + " " + notification.getTaskName();
+                break;
+            case Constants.BID_COMMISSION_RECEIVED:
+                content = context.getString(R.string.bid_commission_received, Utils.formatNumber(notification.getAmount()), notification.getTaskName());
+                break;
+
         }
 
         return content;
@@ -899,6 +936,14 @@ public class Utils {
             return context.getString(R.string.transaction_ref_task_bonus);
         else if (transactionResponse.getMethod().equals("bid_fee"))
             return context.getString(R.string.transaction_bid_fee, transactionResponse.getTaskName());
+        else if (transactionResponse.getMethod().equals("task_prepay"))
+            return context.getString(R.string.task_prepay, transactionResponse.getTaskName());
+        else if (transactionResponse.getMethod().equals("task_refund_prepaid"))
+            return context.getString(R.string.task_refund_prepaid_transaction, transactionResponse.getTaskName());
+        else if (transactionResponse.getMethod().equals("bid_payment_received"))
+            return context.getString(R.string.bid_payment_received_transaction, transactionResponse.getTaskName());
+        else if (transactionResponse.getMethod().equals("bid_commission_received"))
+            return context.getString(R.string.bid_commission_received_transaction, transactionResponse.getTaskName());
         else return "Waitting";
     }
 

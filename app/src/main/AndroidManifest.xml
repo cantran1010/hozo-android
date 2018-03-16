@@ -53,7 +53,7 @@
             android:name=".activity.task_detail.DetailTaskActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AssignActivity"
+            android:name=".activity.AcceptBidActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.profile.RegisterActivity"
@@ -200,6 +200,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.InviteFriendActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PrePayInfoActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

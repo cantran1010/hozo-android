@@ -123,7 +123,6 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
 
             }
         });
-
     }
 
     @Override
@@ -240,6 +239,10 @@ public class MyTaskFragment extends BaseFragment implements View.OnClickListener
         Intent intent = new Intent(getContext(), FilterMyTaskActivity.class);
         intent.putExtra(Constants.EXTRA_MY_TASK, role);
         startActivityForResult(intent, Constants.REQUEST_CODE_FILTER_MY_TASK, TransitionScreen.RIGHT_TO_LEFT);
+    }
+
+    public void changeTab(int tab) {
+        myTaskTabLayout.getTabAt(tab).select();
     }
 
     @Override

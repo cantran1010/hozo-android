@@ -77,6 +77,7 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
     private EdittextHozo autocompleteView;
     private double lat, lon;
     private String address = "";
+    private String taskType = "";
 
     protected int getLayout() {
         return R.layout.fragment_create_task;
@@ -103,6 +104,8 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
+        taskType = ((PostTaskActivity) getActivity()).getTaskType();
+        LogUtils.d(TAG, "Task type" + taskType + "is back" + ((PostTaskActivity) getActivity()).isBack());
         Constants.MAX_IMAGE_ATTACH = 6;
         taskResponse = ((PostTaskActivity) getActivity()).getTaskResponse();
         imageAdapter = new ImageAdapter(getContext(), ((PostTaskActivity) getActivity()).images);
@@ -143,7 +146,6 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             address = taskResponse.getAddress();
             autocompleteView.setText(address);
             if (taskResponse.getAttachments() != null && taskResponse.getAttachments().size() > 0) {
-                ((PostTaskActivity) getActivity()).setCopy(true);
                 checkPermission();
             }
         }
@@ -171,54 +173,69 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
     }
 
     private void permissionGranted() {
-        if (((PostTaskActivity) getActivity()).isCopy()) {
-            ((PostTaskActivity) getActivity()).setCopy(false);
-            countImageCopy = taskResponse.getAttachments().size();
+        if (!taskType.isEmpty()) {
+            if (!((PostTaskActivity) getActivity()).isBack()) showImage();
+            taskType = "";
+        } else openCamera();
+
+    }
+
+    private void showImage() {
+        countImageCopy = taskResponse.getAttachments().size();
+        if (countImageCopy > 0) {
             ProgressDialogUtils.showProgressDialog(getContext());
-            for (int i = 0; i < taskResponse.getAttachments().size(); i++) {
-                Glide.with(this)
-                        .load(taskResponse.getAttachments().get(i))
-                        .asBitmap()
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                LogUtils.d(TAG, "onResourceReady complete , resource , width : " + resource.getWidth() + " , height : " + resource.getHeight());
-                                resource = resource.copy(resource.getConfig(), true); // safe copy
-                                Glide.clear(this);
-                                @SuppressWarnings("AccessStaticViaInstance") File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
-                                Utils.compressBitmapToFile(resource, fileSave.getPath());
-                                LogUtils.d(TAG, "onResourceReady complete , path : " + fileSave.getPath());
-                                Image imageCopy = new Image();
-                                imageCopy.setAdd(false);
-                                imageCopy.setPath(fileSave.getPath());
-                                ((PostTaskActivity) getActivity()).images.add(0, imageCopy);
-                                imageAdapter.notifyDataSetChanged();
-                                countImageCopy--;
-                                if (countImageCopy == 0)
-                                    ProgressDialogUtils.dismissProgressDialog();
-                            }
-                        });
-            }
-        } else {
-            PickImageDialog pickImageDialog = new PickImageDialog(getContext());
-            pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
-                @Override
-                public void onCamera() {
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
-                    startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
-                }
-
-                @Override
-                public void onGallery() {
-                    Intent intent = new Intent(getContext(), AlbumActivity.class);
-                    intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, ((PostTaskActivity) getActivity()).images.size());
-                    startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
-                }
-            });
-            pickImageDialog.showView();
+            ((PostTaskActivity) getActivity()).images.clear();
         }
+        for (int i = 0; i < taskResponse.getAttachments().size(); i++) {
+            Glide.with(this)
+                    .load(taskResponse.getAttachments().get(i))
+                    .asBitmap()
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            LogUtils.d(TAG, "onResourceReady complete , resource , width : " + resource.getWidth() + " , height : " + resource.getHeight());
+                            resource = resource.copy(resource.getConfig(), true); // safe copy
+                            Glide.clear(this);
+                            @SuppressWarnings("AccessStaticViaInstance") File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+                            Utils.compressBitmapToFile(resource, fileSave.getPath());
+                            LogUtils.d(TAG, "onResourceReady complete , path : " + fileSave.getPath());
+                            Image imageCopy = new Image();
+                            imageCopy.setAdd(false);
+                            imageCopy.setPath(fileSave.getPath());
+                            ((PostTaskActivity) getActivity()).images.add(((PostTaskActivity) getActivity()).images.size(), imageCopy);
+                            imageAdapter.notifyDataSetChanged();
+                            countImageCopy--;
+                            if (countImageCopy == 0) {
+                                ProgressDialogUtils.dismissProgressDialog();
+                                taskResponse.setAttachmentsId(new int[]{});
+                                ((PostTaskActivity) getActivity()).setTaskResponse(taskResponse);
+                            }
 
+                        }
+                    });
+
+        }
+    }
+
+
+    private void openCamera() {
+        PickImageDialog pickImageDialog = new PickImageDialog(getContext());
+        pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
+            @Override
+            public void onCamera() {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+                startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA);
+            }
+
+            @Override
+            public void onGallery() {
+                Intent intent = new Intent(getContext(), AlbumActivity.class);
+                intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, ((PostTaskActivity) getActivity()).images.size());
+                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
+            }
+        });
+        pickImageDialog.showView();
     }
 
     private Uri setImageUri() {
@@ -281,6 +298,7 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
         } else if (!Utils.validateInput(getActivity(), edtDescription.getText().toString().trim())) {
             Utils.showLongToast(getActivity(), getString(R.string.post_a_task_input_error), true, false);
         } else {
+            ((PostTaskActivity) getActivity()).setBack(false);
             inserTask(((PostTaskActivity) getActivity()).getTaskResponse());
             openFragment(R.id.layout_container, PostTaskFragment.class, new Bundle(), true, TransitionScreen.RIGHT_TO_LEFT);
         }
@@ -322,20 +340,19 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
                 && resultCode == RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
-            ((PostTaskActivity) getActivity()).images.addAll(0, imagesSelected);
+            ((PostTaskActivity) getActivity()).images.addAll(((PostTaskActivity) getActivity()).images.size(), imagesSelected);
             imageAdapter.notifyDataSetChanged();
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == RESULT_OK) {
             final String selectedImagePath = getImagePath();
-            LogUtils.d(TAG, "onActivityResult selectedImagePath : " + selectedImagePath);
             Image image = new Image();
             image.setAdd(false);
             image.setPath(selectedImagePath);
-            ((PostTaskActivity) getActivity()).images.add(0, image);
+            ((PostTaskActivity) getActivity()).images.add(((PostTaskActivity) getActivity()).images.size(), image);
             imageAdapter.notifyDataSetChanged();
         } else if (requestCode == Constants.REQUEST_CODE_GOOGLE_PLACE && resultCode == Constants.RESULT_CODE_ADDRESS && data != null) {
             Bundle bundle = data.getExtras();
-            lat = bundle.getDouble(Constants.LAT_EXTRA);
-            lon = bundle.getDouble(Constants.LON_EXTRA);
+            lat = bundle != null ? bundle.getDouble(Constants.LAT_EXTRA) : 0;
+            lon = bundle != null ? bundle.getDouble(Constants.LON_EXTRA) : 0;
             autocompleteView.setText(bundle.getString(Constants.EXTRA_ADDRESS));
             address = bundle.getString(Constants.EXTRA_ADDRESS);
         }

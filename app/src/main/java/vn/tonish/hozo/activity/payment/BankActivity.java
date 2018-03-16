@@ -57,7 +57,7 @@ public class BankActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected int getLayout() {
-        return R.layout.bank_activity;
+        return R.layout.activity_bank;
     }
 
     @Override

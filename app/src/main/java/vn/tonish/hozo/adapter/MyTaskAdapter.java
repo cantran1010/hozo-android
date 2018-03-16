@@ -22,7 +22,6 @@ import vn.tonish.hozo.view.TextViewHozo;
  */
 
 public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkHolder, LoadingHolder> {
-
     private final List<TaskResponse> taskResponses;
     private final Context context;
 
@@ -66,10 +65,15 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof WorkHolder) {
             WorkHolder workHolder = ((WorkHolder) holder);
-
             TaskResponse taskResponse = taskResponses.get(position);
             workHolder.tvName.setText(taskResponse.getTitle());
-
+            if (taskResponse.isPrepay()) {
+                workHolder.tvName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_money, 0, 0, 0);
+                workHolder.tvName.setCompoundDrawablePadding(10);
+            }
+            else {
+                workHolder.tvName.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            }
             if (Utils.formatNumber(taskResponses.get(position).getWorkerRate()).equals("0"))
                 workHolder.tvPrice.setText(context.getString(R.string.non_value));
             else
@@ -126,9 +130,7 @@ public class MyTaskAdapter extends BaseAdapter<TaskResponse, MyTaskAdapter.WorkH
 
                     workHolder.progressBar.setVisibility(View.GONE);
 
-                }
-
-                else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_AWAIT_APPROVAL)) {
+                } else if (taskResponse.getOfferStatus().equals(Constants.TASK_TYPE_BIDDER_ACCEPTED) && taskResponse.getStatus().equals(Constants.TASK_TYPE_POSTER_AWAIT_APPROVAL)) {
                     workHolder.tvStatus.setText(context.getString(R.string.my_task_status_poster_await_approval));
                     Utils.setViewBackground(workHolder.tvStatus, ContextCompat.getDrawable(context, R.drawable.bg_border_await_approval));
 

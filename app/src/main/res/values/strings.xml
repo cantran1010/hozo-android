@@ -614,6 +614,10 @@
     <string name="notification_bid_received_footer">. Hãy nhanh chóng giao việc</string>
     <string name="push_overdue_title">Rất tiếc việc</string>
     <string name="push_overdue_footer">đã quá hạn. Bạn có muốn đăng lại?</string>
+    <string name="push_overdue_footer1">đã quá hạn.</string>
+    <string name="push_overdue_footer2">Bạn đã được nhận lại </string>
+    <string name="push_overdue_footer3">tiền trả trước. Bạn có muốn đăng lại việc này?</string>
+    <string name="push_overdue_footer4">Bạn có muốn đăng lại việc này?</string>
     <string name="notification_review_worker_title">đã gửi yêu cầu xác nhận công việc</string>
     <string name="notification_review_worker_footer">đã hoàn thành</string>
     <string name="bid_missed_title">Rất tiếc bạn đã không được giao việc</string>
@@ -790,5 +794,34 @@
     <string name="btn_rechager_collaborators">Cộng tác viên Hozo</string>
     <string name="transaction_bid_fee">Hệ thống thu phí ứng tuyển việc \"%1$s\"</string>
     <string name="block_reasons">%1$s đến %2$s</string>
+    <string name="task_prepay">Trả trước tiền cho công việc \"%1$s\"</string>
+    <string name="task_refund_prepaid_transaction">Hoàn tiền trả trước công việc \"%1$s\"</string>
+    <string name="bid_payment_received_transaction">Nhận thanh toán từ công việc \"%1$s\"</string>
+    <string name="bid_commission_received_transaction">Nhận tiền thưởng cho việc gấp\"%1$s\"</string>
+    <string name="tv_prepay">Việc trả trước</string>
+    <string name="prepay">Trả trước</string>
+    <string name="prepay_info_poster_1">Để tăng uy tín của bài đăng, tìm người làm nhanh hơn. Bạn có thể trả trước cho người ứng tuyển thông qua chức năng \"Trả trước\" của Hozo.</string>
+    <string name="prepay_info_poster_2">Tiền \"Trả trước\" sẽ được chuyển khoản vào ví Tiền của Người làm sau khi bạn xác nhận hoàn thành công việc.</string>
+    <string name="prepay_info_poster_3">Trong trường hợp \"Hủy việc\", hệ thống sẽ chuyển trả lại số tiền Trả trước vào ví tiền của bạn.</string>
+    <string name="prepay_info_poster_4">Trong trường hợp \"Việc đã giao\" nhưng trong thực tế công việc không được diễn ra, Hoze sẽ kiểm tra và trả lại tiền \"Trả trước\" chậm nhất  trong 24h làm việc tính từ thời điểm công việc được bắt đầu.</string>
+    <string name="prepay_info_tasker_1">Người đăng việc đã trả trước cho công việc này thông qua hệ thống Hozo.</string>
+    <string name="prepay_info_tasker_2">Tiền công sẽ được Hozo chuyển vào ví Tiền của người lao động sau khi Người đăng duyệt hoàn thành công việc.</string>
+    <string name="prepay_info_tasker_3">Mọi thắc mắc, cần hỗ trợ liên hệ Hotline: 024.7300.4886 hoặc nhóm facebook Thành viên Hozo.</string>
+    <string name="not_enough_balance">Số dư trong ví tiền Hozo của bạn không đủ. Bạn có muốn thiết lập ví không?</string>
+    <string name="notification">Thông báo</string>
+    <string name="not_enough_prepaid">Số tiền bạn đã trả trước không đủ để giao việc. Vui lòng trả thêm tiền</string>
+    <string name="not_enough_prepaid_start">Số tiền bạn đã trả trước không đủ để giao việc</string>
+    <string name="not_enough_prepaid_end">. Vui lòng trả thêm tiền</string>
+    <string name="task_refund_prepaid_start">Bạn đã được hoàn trả </string>
+    <string name="task_refund_prepaid_end">từ số tiền trả trước cho việc</string>
+    <string name="bid_payment_received_start">Bạn đã nhận được thanh toán</string>
+    <string name="bid_payment_received_end">từ việc</string>
+    <string name="bid_commission_received">Bạn đã nhận được %1$sđ tiền thưởng cho việc gấp \"%2$s\"</string>
+    <string name="not_enough_prepay">Bạn còn thiếu %1$sđ để giao việc cho ứng viên này. Bạn có muốn trả thêm để tiếp tục?</string>
+    <string name="push_title_urgency">Việc gấp vào ngày %1$s! Ứng tuyển để nhận thêm khuyến mãi từ Hozo.</string>
+    <string name="notification_new_task_alert_title_urgency">Việc gấp</string>
+    <string name="notification_new_task_alert_day_urgency">vào ngày</string>
+    <string name="notification_new_task_alert_footer_urgency">Ứng tuyển để nhận thêm khuyến mãi từ Hozo</string>
+
 
 </resources>

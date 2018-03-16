@@ -113,9 +113,15 @@ public class NotificationAdapter extends BaseAdapter<Notification, NotificationA
 
                     break;
                 case Constants.PUSH_TYPE_NEW_TASK_ALERT:
-                    Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());
-                    String strContent = context.getString(R.string.notification_new_task_alert_title) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_new_task_alert_day) + " " + DateTimeUtils.getOnlyDateFromIso(notification.getTaskStartTime()) + " " + context.getString(R.string.notification_new_task_alert_footer);
+                    String strContent = "";
+                    if (notification.isUrgency()) {
+                        strContent = context.getString(R.string.notification_new_task_alert_title_urgency) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_new_task_alert_day_urgency) + " " + DateTimeUtils.getOnlyDateFromIso(notification.getTaskStartTime()) + "! " + context.getString(R.string.notification_new_task_alert_footer_urgency);
+                    } else {
+                        Utils.displayImageAvatar(context, notificationHolder.imgAvata, notification.getAvatar());
+                        strContent = context.getString(R.string.notification_new_task_alert_title) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_new_task_alert_day) + " " + DateTimeUtils.getOnlyDateFromIso(notification.getTaskStartTime()) + " " + context.getString(R.string.notification_new_task_alert_footer);
+                    }
                     notificationHolder.tvContent.setText(strContent);
+
 
                     SpannableStringBuilder spannable1 = new SpannableStringBuilder(notificationHolder.tvContent.getText().toString());
 

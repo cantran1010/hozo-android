@@ -335,7 +335,7 @@ public class SystemNotificationFragment extends BaseFragment {
     @Override
     public void onRefresh() {
         super.onRefresh();
-        call1 = null;
+        if (call1 != null) call1.cancel();
         if (call != null) call.cancel();
         isLoadingMoreFromServer = true;
         since = null;

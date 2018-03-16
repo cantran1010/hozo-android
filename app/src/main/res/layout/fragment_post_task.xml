@@ -271,8 +271,34 @@
 
             </LinearLayout>
 
-            <include layout="@layout/create_task_more" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
+                <vn.tonish.hozo.view.CheckBoxHozo
+                    android:id="@+id/cb_prepay"
+                    style="@style/tv_style_normal_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox_selector_2"
+                    android:padding="10dp"
+                    android:text="@string/prepay" />
+
+                <ImageView
+                    android:id="@+id/img_prepay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/cb_prepay"
+                    android:layout_toEndOf="@+id/cb_prepay"
+                    android:layout_toRightOf="@+id/cb_prepay"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:padding="10dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_question" />
+            </RelativeLayout>
+
+            <include layout="@layout/create_task_more" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

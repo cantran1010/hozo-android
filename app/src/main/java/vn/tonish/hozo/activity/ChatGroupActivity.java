@@ -106,7 +106,7 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
 
     @Override
     protected int getLayout() {
-        return R.layout.chat_activity;
+        return R.layout.activity_chat;
     }
 
     @Override

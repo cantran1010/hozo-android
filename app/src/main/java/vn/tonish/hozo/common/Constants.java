@@ -75,7 +75,14 @@ public class Constants {
     public static final String PAYMENT_EXTRA = "payment_extra";
     public static final String PARAMETER_REFERRER = "referrer_id";
     public static final String NO_USER = "no_user";
-    public static final int REQUEST_CODE_GOOGLE_PLACE =831 ;
+    public static final int REQUEST_CODE_GOOGLE_PLACE = 831;
+    public static final String NOT_ENOUGH_BALANCE = "not_enough_balance";
+    public static final String NOT_ENOUGH_PREPAID = "not_enough_prepaid";
+    public static final String TASK_REFUND_PREPAID = "task_refund_prepaid";
+    public static final String BID_PAYMENT_RECEIVED = "bid_payment_received";
+    public static final String BID_COMMISSION_RECEIVED = "bid_commission_received";
+    public static final String PARAMETER_ADD_PREPAY ="add_prepay" ;
+    public static final String PREPAY_TYPE_EXTRA ="prepay_type_extra" ;
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
@@ -322,15 +329,9 @@ public class Constants {
     public static final String INVALID_DESCRIPTION = "invalid_description";
     public static final String INVALID_TIME = "invalid_time";
     public static final String INVALID_ADRESS = "invalid_address";
-    public static final String INVALID_WORKER_RATE = "invalid_worker_rate";
-    public static final String INVALID_WORKER_COUNT = "invalid_worker_count";
-    public static final String INVALID_GENDER = "invalid_gender";
-    public static final String INVALID_AGE = "invalid_age_between";
     public static final String INVALID_UPDATE_TASK_FAILED = "update_task_failed";
     public static final String NO_PERMISSION = "no_permission";
-    public static final String NO_TASK = "no_task";
     public static final String EMPTY_PARAMETERS = "empty_parameters";
-    public static final String UPDATE_NOT_ALLOWED = "update_not_allowed";
     public static final String INVALID_DATA = "invalid_data";
     public static final String NO_REFERRER = "no_referrer";
 

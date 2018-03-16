@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +30,7 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.ReviewsActivity;
+import vn.tonish.hozo.activity.payment.MyWalletActivity;
 import vn.tonish.hozo.activity.profile.ProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.ReviewEntity;
@@ -241,7 +241,7 @@ public class ViewPageAssignAdapter extends PagerAdapter {
             @Override
             public void onClick(View view) {
 
-                doAcceptOffer(bidResponse.getId(), assignProgress, btnAssiged, tvAssigner, position);
+                doAcceptOffer(bidResponse.getId(), assignProgress, btnAssiged, tvAssigner, position, false);
             }
         });
         tvMoreReviews.setOnClickListener(new View.OnClickListener() {
@@ -292,15 +292,15 @@ public class ViewPageAssignAdapter extends PagerAdapter {
 
     }
 
-    private void doAcceptOffer(final int bidderID, final ProgressBar progressBar, final TextViewHozo tvAss, final TextViewHozo textViewHozo, final int position) {
+    private void doAcceptOffer(final int bidderID, final ProgressBar progressBar, final TextViewHozo tvAss, final TextViewHozo textViewHozo, final int position, final boolean addPrepay) {
         ProgressDialogUtils.showProgressDialog(context);
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(Constants.PARAMETER_ACCEPTED_OFFER_USER_ID, bidderID);
+            if (addPrepay) jsonRequest.put(Constants.PARAMETER_ADD_PREPAY, true);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         LogUtils.d(TAG, "acceptOffer jsonRequest : " + jsonRequest.toString());
         LogUtils.d(TAG, "acceptOffer jsonRequest task Id : " + taskID);
@@ -325,32 +325,52 @@ public class ViewPageAssignAdapter extends PagerAdapter {
                     NetworkUtils.refreshToken(context, new NetworkUtils.RefreshListener() {
                         @Override
                         public void onRefreshFinish() {
-                            doAcceptOffer(bidderID, progressBar, textViewHozo, tvAss, position);
-                        }
-                    });
-                } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
-                    APIError error = ErrorUtils.parseError(response);
-                    LogUtils.e(TAG, "acceptOffer errorBody" + error.toString());
-                    DialogUtils.showOkDialog(context, context.getString(R.string.error), error.message(), context.getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-
+                            doAcceptOffer(bidderID, progressBar, textViewHozo, tvAss, position, addPrepay);
                         }
                     });
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(context);
                 } else {
-                    DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            doAcceptOffer(bidderID, progressBar, textViewHozo, tvAss, position);
-                        }
+                    APIError error = ErrorUtils.parseError(response);
+                    switch (error.status()) {
+                        case Constants.NOT_ENOUGH_PREPAID:
+                            LogUtils.d(TAG, "error response" + error.toString());
+                            DialogUtils.showOkAndCancelDialog(context, context.getString(R.string.notification), context.getString(R.string.not_enough_prepay, Utils.formatNumber(Integer.parseInt(error.message()))), context.getString(R.string.cancel_task_ok), context.getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+                                    doAcceptOffer(bidderID, progressBar, textViewHozo, tvAss, position, true);
+                                }
 
-                        @Override
-                        public void onCancel() {
+                                @Override
+                                public void onCancel() {
 
-                        }
-                    });
+                                }
+                            });
+                            break;
+                        case Constants.NOT_ENOUGH_BALANCE:
+                            DialogUtils.showOkAndCancelDialog(context, context.getString(R.string.notification), context.getString(R.string.not_enough_balance), context.getString(R.string.cancel_task_ok), context.getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+                                    Intent intentWallet = new Intent(context, MyWalletActivity.class);
+                                    ((BaseActivity) context).startActivity(intentWallet, TransitionScreen.RIGHT_TO_LEFT);
+                                }
+
+                                @Override
+                                public void onCancel() {
+
+                                }
+                            });
+                            break;
+                        default:
+                            DialogUtils.showOkDialog(context, context.getString(R.string.error), error.message(), context.getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                            break;
+
+                    }
                 }
 
                 ProgressDialogUtils.dismissProgressDialog();
@@ -358,10 +378,11 @@ public class ViewPageAssignAdapter extends PagerAdapter {
 
             @Override
             public void onFailure(Call<TaskResponse> call, Throwable t) {
+                LogUtils.d(TAG, "onFailure" + t.getMessage());
                 DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        doAcceptOffer(bidderID, progressBar, textViewHozo, tvAss, position);
+                        doAcceptOffer(bidderID, progressBar, textViewHozo, tvAss, position, addPrepay);
                     }
 
                     @Override

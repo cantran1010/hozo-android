@@ -261,17 +261,18 @@ public class ChatFragment extends BaseFragment {
             @Override
             public void onFailure(Call<List<TaskResponse>> call, Throwable t) {
                 LogUtils.e(TAG, "getChatRooms , onFailure : " + t.getMessage());
-                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        getChatRooms();
-                    }
+                if (!t.getMessage().equalsIgnoreCase("Canceled"))
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            getChatRooms();
+                        }
 
-                    @Override
-                    public void onCancel() {
+                        @Override
+                        public void onCancel() {
 
-                    }
-                });
+                        }
+                    });
                 onStopRefresh();
             }
         });
@@ -471,6 +472,7 @@ public class ChatFragment extends BaseFragment {
             verticalReference.removeEventListener(VerticalListener);
         }
         getChatRooms();
+
     }
 
     private int getCountRoomUnRead() {
@@ -503,7 +505,7 @@ public class ChatFragment extends BaseFragment {
         Intent intentNewMsg = new Intent();
         intentNewMsg.setAction(Constants.BROAD_CAST_PUSH_CHAT_COUNT);
         intentNewMsg.putExtra(Constants.COUNT_NEW_CHAT_EXTRA, getCountRoomUnRead());
-        getActivity().sendBroadcast(intentNewMsg);
+        getContext().sendBroadcast(intentNewMsg);
 
     }
 

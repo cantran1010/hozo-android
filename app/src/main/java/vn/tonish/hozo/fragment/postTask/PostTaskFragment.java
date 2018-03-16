@@ -36,6 +36,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PostTaskActivity;
+import vn.tonish.hozo.activity.PrePayInfoActivity;
+import vn.tonish.hozo.activity.payment.MyWalletActivity;
 import vn.tonish.hozo.adapter.HozoSpinnerAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.PostTaskEntity;
@@ -58,6 +60,7 @@ import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.NumberTextWatcher;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.CheckBoxHozo;
@@ -94,7 +97,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
     private ImageView imgMenu, imgSaveDraf;
     private PopupMenu popup;
     private ButtonHozo btnNext;
-    private CheckBoxHozo cbAuto;
+    private CheckBoxHozo cbAuto, cbPrepay;
     private int imageAttachCount;
     private int[] imagesArr;
 
@@ -117,6 +120,8 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         advanceExpandableLayout = (ExpandableLayout) findViewById(R.id.advance_expandable_layout);
         TextViewHozo tvMoreHide = (TextViewHozo) findViewById(R.id.tv_more_hide);
         tvMoreHide.setOnClickListener(this);
+        ImageView imgPrepay = (ImageView) findViewById(R.id.img_prepay);
+        imgPrepay.setOnClickListener(this);
         ImageView imgClose = (ImageView) findViewById(R.id.img_close);
         imgClose.setOnClickListener(this);
         spGender = (Spinner) findViewById(R.id.sp_gender);
@@ -126,6 +131,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         imgMenu.setOnClickListener(this);
         imgSaveDraf = (ImageView) findViewById(R.id.tv_save);
         cbAuto = (CheckBoxHozo) findViewById(R.id.cb_auto_pick);
+        cbPrepay = (CheckBoxHozo) findViewById(R.id.cb_prepay);
         imgSaveDraf.setOnClickListener(this);
         tvAge.setOnClickListener(this);
         tvDate.setOnClickListener(this);
@@ -140,7 +146,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
     @Override
     protected void initData() {
         taskResponse = ((PostTaskActivity) getActivity()).getTaskResponse();
-        LogUtils.d(TAG, "values taskResponse" + taskResponse.toString() + "check: " + isCheckExpandable());
+        LogUtils.d(TAG, "values taskResponse" + taskResponse.toString() + "check: " + ((PostTaskActivity) getActivity()).getTaskType());
         edtBudget.addTextChangedListener(new NumberTextWatcher(edtBudget));
         edtBudget.addTextChangedListener(new TextWatcher() {
             @Override
@@ -210,28 +216,25 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             imgSaveDraf.setVisibility(View.GONE);
             imgMenu.setVisibility(View.VISIBLE);
             showPopup();
-            if (((PostTaskActivity) getActivity()).isEdit) {
-                String mtasktype = ((PostTaskActivity) getActivity()).getTaskType();
-                switch (mtasktype) {
-                    case Constants.TASK_EDIT:
-                        imgSaveDraf.setVisibility(View.GONE);
-                        imgMenu.setVisibility(View.GONE);
-                        btnNext.setText(getString(R.string.btn_edit_task));
-                        popup.getMenu().findItem(R.id.delete_task).setVisible(false);
-                        popup.getMenu().findItem(R.id.save_task).setVisible(true);
-                        break;
-                    case Constants.TASK_COPY:
-                        imgSaveDraf.setVisibility(View.VISIBLE);
-                        imgMenu.setVisibility(View.GONE);
-                        break;
-                    case Constants.TASK_DRAFT:
-                        imgSaveDraf.setVisibility(View.GONE);
-                        imgMenu.setVisibility(View.VISIBLE);
-                        popup.getMenu().findItem(R.id.delete_task).setVisible(true);
-                        popup.getMenu().findItem(R.id.save_task).setVisible(true);
-                        break;
-                }
-
+            String mtasktype = ((PostTaskActivity) getActivity()).getTaskType();
+            switch (mtasktype) {
+                case Constants.TASK_EDIT:
+                    imgSaveDraf.setVisibility(View.GONE);
+                    imgMenu.setVisibility(View.GONE);
+                    btnNext.setText(getString(R.string.btn_edit_task));
+                    popup.getMenu().findItem(R.id.delete_task).setVisible(false);
+                    popup.getMenu().findItem(R.id.save_task).setVisible(true);
+                    break;
+                case Constants.TASK_COPY:
+                    imgSaveDraf.setVisibility(View.VISIBLE);
+                    imgMenu.setVisibility(View.GONE);
+                    break;
+                case Constants.TASK_DRAFT:
+                    imgSaveDraf.setVisibility(View.GONE);
+                    imgMenu.setVisibility(View.VISIBLE);
+                    popup.getMenu().findItem(R.id.delete_task).setVisible(true);
+                    popup.getMenu().findItem(R.id.save_task).setVisible(true);
+                    break;
             }
         } else {
             imgSaveDraf.setVisibility(View.VISIBLE);
@@ -244,8 +247,10 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             tvMoreShow.setVisibility(View.VISIBLE);
             advanceExpandableLayout.setExpanded(false);
         }
-
-
+        cbPrepay.setChecked(taskResponse.isPrepay());
+        if (taskResponse.isPrepay() && ((PostTaskActivity) getActivity()).getTaskType().equals(Constants.TASK_EDIT))
+            cbPrepay.setEnabled(false);
+        else cbPrepay.setEnabled(true);
     }
 
 
@@ -263,8 +268,10 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.save_task:
+                        LogUtils.d(TAG, " attachAllFile image " + ((PostTaskActivity) getActivity()).images.size());
                         taskResponse.setStatus(Constants.CREATE_TASK_STATUS_DRAFT);
-                        doPostTask();
+                        if (((PostTaskActivity) getActivity()).images.size() > 0) doAttachFiles();
+                        else doPostTask();
                         break;
 
                     case R.id.delete_task:
@@ -368,17 +375,18 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 jsonRequest.put("worker_rate", Integer.valueOf(getLongAutoCompleteTextView(edtBudget)));
             jsonRequest.put("worker_count", Integer.valueOf(tvNumberWorker.getText().toString()));
             jsonRequest.put("status", taskResponse.getStatus());
-            if (taskResponse.getAttachmentsId() != null && (taskResponse.getAttachmentsId().length > 0)) {
+            if (((PostTaskActivity) getActivity()).images.size() > 0) {
                 JSONArray jsonArray = new JSONArray();
                 for (int anImagesArr : (((PostTaskActivity) getActivity()).getTaskResponse().getAttachmentsId()))
                     jsonArray.put(anImagesArr);
                 jsonRequest.put("attachments", jsonArray);
-            }
+            } else jsonRequest.put("attachments", new JSONArray());
             jsonRequest.put("min_age", ageFrom);
             jsonRequest.put("max_age", ageTo);
             jsonRequest.put("gender", strGender);
             jsonRequest.put("online", taskResponse.isOnline());
             jsonRequest.put("auto_assign", cbAuto.isChecked());
+            jsonRequest.put("prepay", cbPrepay.isChecked());
             if (validatepromotion())
                 jsonRequest.put("promo_code", edtPromotion.getText().toString().trim());
         } catch (JSONException e) {
@@ -421,7 +429,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                     imageAttachCount--;
                     if (imageResponse != null)
                         imagesArr[position] = imageResponse.getIdTemp();
-                    ((PostTaskActivity) getActivity()).getTaskResponse().setAttachmentsId(imagesArr);
+                    taskResponse.setAttachmentsId(imagesArr);
                     if (imageAttachCount == 0)
                         doPostTask();
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
@@ -441,22 +449,20 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         });
     }
 
-
     private void doPostTask() {
-        LogUtils.d(TAG, "createNewTask status : " + (taskResponse.getStatus()));
         ProgressDialogUtils.showProgressDialog(getContext());
-        LogUtils.d(TAG, "createNewTask data request : " + validata().toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), validata().toString());
         LogUtils.d(TAG, "request body create task : " + body.toString());
+        LogUtils.d(TAG, "request body create task : " + validata().toString());
         if (taskResponse.getId() != 0 && !((PostTaskActivity) getActivity()).getTaskType().equals(Constants.TASK_COPY)) {
             LogUtils.d(TAG, "createNewTask status task -------> : " + taskResponse.getId());
             ApiClient.getApiService().editTask(UserManager.getUserToken(), taskResponse.getId(), body).enqueue(new Callback<TaskResponse>() {
                 @Override
                 public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
-                    LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
-                    LogUtils.d(TAG, "createNewTask code : " + response.code());
+                    LogUtils.d(TAG, " onResponse body editTask  : " + response.body());
+                    LogUtils.d(TAG, "onResponse code editTask: " + response.code());
                     APIError error = ErrorUtils.parseError(response);
-                    if (response.code() == Constants.HTTP_CODE_CREATED) {
+                    if (response.code() == Constants.HTTP_CODE_CREATED || response.code() == Constants.HTTP_CODE_OK) {
                         if (taskResponse.getStatus().equals(Constants.CREATE_TASK_STATUS_DRAFT))
                             Utils.showLongToast(getContext(), getString(R.string.draft_a_task_complete), false, false);
                         else
@@ -474,121 +480,87 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                     } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                         Utils.blockUser(getContext());
                     } else {
-                        if (error.status().equals(Constants.POST_TASK_DUPLICATE)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.duplicate_task_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                        switch (error.status()) {
+                            case Constants.POST_TASK_DUPLICATE:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.duplicate_task_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.INVALID_CATEGORY)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_category), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.INVALID_CATEGORY:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_category), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.INVALID_TITLE)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_title), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.INVALID_TITLE:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_title), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.INVALID_DESCRIPTION)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_description), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.INVALID_DESCRIPTION:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_description), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.INVALID_TIME)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_time), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.INVALID_TIME:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_time), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.INVALID_ADRESS)) {
-                            Utils.showLongToast(getContext(), getString(R.string.invalid_address), true, false);
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.no_task), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.INVALID_ADRESS:
+                                Utils.showLongToast(getContext(), getString(R.string.invalid_address), true, false);
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.no_task), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.INVALID_WORKER_RATE)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_worker_rate), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.INVALID_UPDATE_TASK_FAILED:
+                                Utils.showLongToast(getContext(), getString(R.string.update_task_failed), true, false);
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.no_task), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.INVALID_WORKER_COUNT)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_worker_count), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.NOT_ENOUGH_BALANCE:
+                                DialogUtils.showOkAndCancelDialog(getContext(), getString(R.string.notification), getString(R.string.not_enough_balance), getString(R.string.cancel_task_ok), getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+                                        Intent intentWallet = new Intent(getContext(), MyWalletActivity.class);
+                                        startActivity(intentWallet, TransitionScreen.RIGHT_TO_LEFT);
+                                    }
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.INVALID_GENDER)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_gender), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    @Override
+                                    public void onCancel() {
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.INVALID_AGE)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_age_between), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            default:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.invalid_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.INVALID_UPDATE_TASK_FAILED)) {
-                            Utils.showLongToast(getContext(), getString(R.string.update_task_failed), true, false);
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.no_task), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
-
-                                }
-                            });
-                        } else if (error.status().equals(Constants.NO_PERMISSION)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.no_permission), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
-
-                                }
-                            });
-                        } else if (error.status().equals(Constants.NO_TASK)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.no_task), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
-
-                                }
-                            });
-                        } else if (error.status().equals(Constants.EMPTY_PARAMETERS)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.empty_parameters), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
-
-                                }
-                            });
-                        } else if (error.status().equals(Constants.UPDATE_NOT_ALLOWED)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.update_not_allowed), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
-
-                                }
-                            });
-                        } else {
-
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.invalid_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
-
-                                }
-                            });
+                                    }
+                                });
+                                break;
 
                         }
                     }
@@ -616,11 +588,11 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             ApiClient.getApiService().createNewTask(UserManager.getUserToken(), body).enqueue(new Callback<TaskResponse>() {
                 @Override
                 public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
-                    LogUtils.d(TAG, "createNewTask onResponse : " + response.body());
-                    LogUtils.d(TAG, "createNewTask code : " + response.code());
-                    LogUtils.d(TAG, "createNewTask task type : " + ((PostTaskActivity) getActivity()).getTaskType());
+                    LogUtils.d(TAG, " onResponse body createNewTask  : " + response.body());
+                    LogUtils.d(TAG, "onResponse code createNewTask: " + response.code());
                     APIError error = ErrorUtils.parseError(response);
-                    if (response.code() == Constants.HTTP_CODE_CREATED) {
+                    LogUtils.d(TAG, "onResponse code error: " + error.toString());
+                    if (response.code() == Constants.HTTP_CODE_CREATED || response.code() == Constants.HTTP_CODE_CREATED) {
                         if (taskResponse.getStatus().equals(Constants.CREATE_TASK_STATUS_DRAFT))
                             Utils.showLongToast(getContext(), getString(R.string.draft_a_task_complete), false, false);
                         else
@@ -639,69 +611,122 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                     } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                         Utils.blockUser(getContext());
                     } else {
-                        if (error.status().equals(Constants.POST_TASK_DUPLICATE)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.duplicate_task_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                        switch (error.status()) {
+                            case Constants.POST_TASK_DUPLICATE:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.duplicate_task_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.INVALID_TITLE)) {
+                                    }
+                                });
+                                break;
+                            case Constants.INVALID_CATEGORY:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_category), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_title), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.INVALID_TITLE:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_title), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.INVALID_TIME)) {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_time), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.INVALID_DESCRIPTION:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_description), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.PROMOTION_ERROR_NO)) {
-                            edtPromotion.setError(getActivity().getString(R.string.promotion_error_no));
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.promotion_error_no), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.INVALID_TIME:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.invalid_time), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.PROMOTION_ERROR_USED)) {
-                            edtPromotion.setError(getActivity().getString(R.string.promotion_error_used));
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.promotion_error_used), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.INVALID_ADRESS:
+                                Utils.showLongToast(getContext(), getString(R.string.invalid_address), true, false);
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.no_task), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                        } else if (error.status().equals(Constants.PROMOTION_ERROR_EXPRIED)) {
-                            edtPromotion.setError(getActivity().getString(R.string.promotion_error_expried));
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.promotion_error_expried), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.PROMOTION_ERROR_NO:
+                                edtPromotion.setError(getActivity().getString(R.string.promotion_error_no));
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.promotion_error_no), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
+                                    }
+                                });
+                                break;
+                            case Constants.PROMOTION_ERROR_USED:
+                                edtPromotion.setError(getActivity().getString(R.string.promotion_error_used));
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.promotion_error_used), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                        } else if (error.status().equals(Constants.PROMOTION_ERROR_LIMITED)) {
-                            edtPromotion.setError(getActivity().getString(R.string.promotion_error_limmited));
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.promotion_error_limmited), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.PROMOTION_ERROR_EXPRIED:
+                                edtPromotion.setError(getActivity().getString(R.string.promotion_error_expried));
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.promotion_error_expried), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
+                                    }
+                                });
+                                break;
+                            case Constants.PROMOTION_ERROR_LIMITED:
+                                edtPromotion.setError(getActivity().getString(R.string.promotion_error_limmited));
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.promotion_error_limmited), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                        } else {
-                            DialogUtils.showOkDialog(getContext(), getString(R.string.invalid_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.INVALID_UPDATE_TASK_FAILED:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.no_task), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
+                                    }
+                                });
+                                break;
+                            case Constants.NOT_ENOUGH_BALANCE:
+                                DialogUtils.showOkAndCancelDialog(getContext(), getString(R.string.notification), getString(R.string.not_enough_balance), getString(R.string.cancel_task_ok), getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+                                        Intent intentWallet = new Intent(getContext(), MyWalletActivity.class);
+                                        startActivity(intentWallet, TransitionScreen.RIGHT_TO_LEFT);
+                                    }
+
+                                    @Override
+                                    public void onCancel() {
+
+                                    }
+                                });
+                                break;
+                            default:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.invalid_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+
+                                    }
+                                });
+                                break;
 
                         }
                     }
@@ -770,6 +795,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_close:
+                ((PostTaskActivity) getActivity()).setBack(true);
                 inserTask(((PostTaskActivity) getActivity()).getTaskResponse());
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;
@@ -836,9 +862,15 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 popup.show();//showing popup menu
                 break;
             case R.id.tv_save:
+//                ((PostTaskActivity) getActivity()).setTaskType(Constants.TASK_DRAFT);
                 taskResponse.setStatus(Constants.CREATE_TASK_STATUS_DRAFT);
                 if (((PostTaskActivity) getActivity()).images.size() > 1) doAttachFiles();
                 else doPostTask();
+                break;
+            case R.id.img_prepay:
+                Intent intent = new Intent(getActivity(), PrePayInfoActivity.class);
+                intent.putExtra(Constants.PREPAY_TYPE_EXTRA, 1);
+                startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }
@@ -936,6 +968,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         timeEndPickerDialog.show();
     }
 
+
     private void inserTask(TaskResponse response) {
         response.setStartTime(DateTimeUtils.fromCalendarIso(calendar));
         response.setEndTime(DateTimeUtils.fromCalendarIso(getEndTime()));
@@ -946,5 +979,6 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
         response.setMaxAge(ageTo);
         response.setGender(strGender);
         response.setAutoAssign(cbAuto.isChecked());
+        response.setPrepay(cbPrepay.isChecked());
     }
 }

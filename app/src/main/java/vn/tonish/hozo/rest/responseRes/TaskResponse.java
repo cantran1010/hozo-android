@@ -70,6 +70,7 @@ public class TaskResponse implements Serializable {
     private String offerAssignedAt;
     @SerializedName("bid_fee")
     private int bidFee;
+    private boolean prepay;
 
     public int getBidFee() {
         return bidFee;
@@ -375,6 +376,14 @@ public class TaskResponse implements Serializable {
         this.comments = comments;
     }
 
+    public boolean isPrepay() {
+        return prepay;
+    }
+
+    public void setPrepay(boolean prepay) {
+        this.prepay = prepay;
+    }
+
     @Override
     public String toString() {
         return "TaskResponse{" +
@@ -416,6 +425,7 @@ public class TaskResponse implements Serializable {
                 ", bidDepositAmount=" + bidDepositAmount +
                 ", offerAssignedAt='" + offerAssignedAt + '\'' +
                 ", bidFee=" + bidFee +
+                ", prepay=" + prepay +
                 '}';
     }
 }
