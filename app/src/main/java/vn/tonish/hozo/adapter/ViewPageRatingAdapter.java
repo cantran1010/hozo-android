@@ -80,7 +80,6 @@ public class ViewPageRatingAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-
         // Declare Variables
         CircleImageView imgAvatar;
         TextViewHozo tvName, tvTitle, tvConfirm;
@@ -109,7 +108,6 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         ckBox = itemView.findViewById(R.id.ckeckbox_confirm);
         group = itemView.findViewById(R.id.rd_group);
 
-
         ratingBar.setStepSize(1.0f);
         // Capture position and set to the TextViews
         if (type.equals(Constants.ROLE_POSTER)) {
@@ -123,6 +121,13 @@ public class ViewPageRatingAdapter extends PagerAdapter {
             Utils.displayImageAvatar(context, imgAvatar, assigner.getAvatar());
             tvName.setText(assigner.getFullName());
             userID = assigner.getId();
+            if (assigner.getAdminCofirm().equals(Constants.TASK_TYPE_BIDDER_COMPLETED) || assigner.getAdminCofirm().equals(Constants.TASK_TYPE_BIDDER_NOT_APPROVED)) {
+                ratingBar.setVisibility(View.GONE);
+                edtReviews.setVisibility(View.GONE);
+            } else {
+                ratingBar.setVisibility(View.VISIBLE);
+                edtReviews.setVisibility(View.VISIBLE);
+            }
             if (assigner.isRatingConfirm()) {
                 ckDone.setChecked(true);
                 ckNotDone.setChecked(false);
@@ -217,23 +222,11 @@ public class ViewPageRatingAdapter extends PagerAdapter {
         ApiClient.getApiService().rateTask(UserManager.getUserToken(), taskResponse.getId(), body).enqueue(new Callback<RateResponse>() {
             @Override
             public void onResponse(Call<RateResponse> call, Response<RateResponse> response) {
-                APIError error = ErrorUtils.parseError(response);
                 LogUtils.d(TAG, "doRate code : " + response.code());
-                LogUtils.d(TAG, "doRate : " + error.status() + "sms" + error.message() + "task iD" + taskResponse.getId());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taskResponse.getAssignees().get(position).setRating(response.body().getRating());
                     updateUI(true, tvHozo, edHozo, rbBar, response.body().getBody(), response.body().getRating());
                     ratingListener.success();
-                } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
-                    if (error.status().equals(Constants.INVALID_DATA)) {
-                        Utils.showLongToast(context, context.getString(R.string.rating_invalid_data), true, false);
-                    } else if (error.status().equals(Constants.NO_EXIST)) {
-                        Utils.showLongToast(context, context.getString(R.string.task_no_exist), true, false);
-                    } else if (error.status().equals(Constants.NO_PERMISSION)) {
-                        Utils.showLongToast(context, context.getString(R.string.rating_no_permission), true, false);
-                    } else if (error.status().equals(Constants.SYSTEM_ERROR)) {
-                        Utils.showLongToast(context, context.getString(R.string.rating_system_error), true, false);
-                    }
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(context, new NetworkUtils.RefreshListener() {
                         @Override
@@ -244,17 +237,38 @@ public class ViewPageRatingAdapter extends PagerAdapter {
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(context);
                 } else {
-                    DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            doRate(position, userId, rb, reviews, confirm, tvHozo, edHozo, rbBar);
-                        }
+                    APIError error = ErrorUtils.parseError(response);
+                    switch (error.status()) {
+                        case Constants.INVALID_DATA:
+                            Utils.showLongToast(context, context.getString(R.string.rating_invalid_data), true, false);
+                            break;
+                        case Constants.NO_EXIST:
+                            Utils.showLongToast(context, context.getString(R.string.task_no_exist), true, false);
+                            break;
+                        case Constants.NO_PERMISSION:
+                            Utils.showLongToast(context, context.getString(R.string.rating_no_permission), true, false);
+                            break;
+                        case Constants.SYSTEM_ERROR:
+                            Utils.showLongToast(context, context.getString(R.string.rating_system_error), true, false);
+                            break;
+                        case Constants.INVALID_STATUS:
+                            Utils.showLongToast(context, context.getString(R.string.invalid_status), true, false);
+                            break;
+                        default:
+                            DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+                                    doRate(position, userId, rb, reviews, confirm, tvHozo, edHozo, rbBar);
+                                }
 
-                        @Override
-                        public void onCancel() {
+                                @Override
+                                public void onCancel() {
 
-                        }
-                    });
+                                }
+                            });
+                            break;
+                    }
+
                 }
                 ProgressDialogUtils.dismissProgressDialog();
             }

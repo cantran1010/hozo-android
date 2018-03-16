@@ -617,7 +617,6 @@
     <string name="push_overdue_footer1">đã quá hạn.</string>
     <string name="push_overdue_footer2">Bạn đã được nhận lại </string>
     <string name="push_overdue_footer3">tiền trả trước. Bạn có muốn đăng lại việc này?</string>
-    <string name="push_overdue_footer4">Bạn có muốn đăng lại việc này?</string>
     <string name="notification_review_worker_title">đã gửi yêu cầu xác nhận công việc</string>
     <string name="notification_review_worker_footer">đã hoàn thành</string>
     <string name="bid_missed_title">Rất tiếc bạn đã không được giao việc</string>
@@ -809,7 +808,6 @@
     <string name="prepay_info_tasker_3">Mọi thắc mắc, cần hỗ trợ liên hệ Hotline: 024.7300.4886 hoặc nhóm facebook Thành viên Hozo.</string>
     <string name="not_enough_balance">Số dư trong ví tiền Hozo của bạn không đủ. Bạn có muốn thiết lập ví không?</string>
     <string name="notification">Thông báo</string>
-    <string name="not_enough_prepaid">Số tiền bạn đã trả trước không đủ để giao việc. Vui lòng trả thêm tiền</string>
     <string name="not_enough_prepaid_start">Số tiền bạn đã trả trước không đủ để giao việc</string>
     <string name="not_enough_prepaid_end">. Vui lòng trả thêm tiền</string>
     <string name="task_refund_prepaid_start">Bạn đã được hoàn trả </string>
@@ -822,6 +820,7 @@
     <string name="notification_new_task_alert_title_urgency">Việc gấp</string>
     <string name="notification_new_task_alert_day_urgency">vào ngày</string>
     <string name="notification_new_task_alert_footer_urgency">Ứng tuyển để nhận thêm khuyến mãi từ Hozo</string>
+    <string name="invalid_status">Người này đã được đánh giá.</string>
 
 
 </resources>

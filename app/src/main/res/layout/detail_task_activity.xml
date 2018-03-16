@@ -218,6 +218,8 @@
                             android:layout_height="wrap_content"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:clickable="true"
+                            android:contentDescription="@string/prepay"
+                            android:focusable="true"
                             android:padding="5dp"
                             android:scaleType="centerInside"
                             android:src="@drawable/ic_question" />

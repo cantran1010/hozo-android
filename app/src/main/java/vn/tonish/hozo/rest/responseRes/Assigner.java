@@ -42,6 +42,8 @@ public class Assigner implements Serializable {
     private boolean read;
     @SerializedName("tasker_count")
     private int taskerCount;
+    @SerializedName("admin_confirm")
+    private String adminCofirm;
 
     public int getTaskerCount() {
         return taskerCount;
@@ -212,6 +214,14 @@ public class Assigner implements Serializable {
         this.read = read;
     }
 
+    public String getAdminCofirm() {
+        return adminCofirm;
+    }
+
+    public void setAdminCofirm(String adminCofirm) {
+        this.adminCofirm = adminCofirm;
+    }
+
     @Override
     public String toString() {
         return "Assigner{" +
@@ -236,6 +246,7 @@ public class Assigner implements Serializable {
                 ", price=" + price +
                 ", read=" + read +
                 ", taskerCount=" + taskerCount +
+                ", adminCofirm='" + adminCofirm + '\'' +
                 '}';
     }
 }
