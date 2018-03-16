@@ -293,6 +293,8 @@
                     android:layout_toRightOf="@+id/cb_prepay"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
+                    android:contentDescription="@string/prepay"
+                    android:focusable="true"
                     android:padding="10dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_question" />
