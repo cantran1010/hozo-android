@@ -464,11 +464,9 @@ public class ChatFragment extends BaseFragment {
         call = null;
         chatRoomAdapter = null;
         if (HorizotalListener != null && horizotalReference != null) {
-            horizotalReference.removeValue();
             horizotalReference.removeEventListener(HorizotalListener);
         }
         if (VerticalListener != null && verticalReference != null) {
-            verticalReference.removeValue();
             verticalReference.removeEventListener(VerticalListener);
         }
         getChatRooms();
