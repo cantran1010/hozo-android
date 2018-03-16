@@ -19,6 +19,7 @@ import vn.tonish.hozo.rest.responseRes.TransactionResponse;
 import vn.tonish.hozo.rest.responseRes.WalletResponse;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
@@ -119,6 +120,7 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
 //    }
 
     private void getWalletInfo() {
+        ProgressDialogUtils.showProgressDialog(this);
         ApiClient.getApiService().getWalletInfo(UserManager.getUserToken()).enqueue(new Callback<WalletResponse>() {
             @Override
             public void onResponse(Call<WalletResponse> call, Response<WalletResponse> response) {
@@ -142,7 +144,7 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
                         }
                     });
                 }
-
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -159,6 +161,7 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
 
                     }
                 });
+                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }

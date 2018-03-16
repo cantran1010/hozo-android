@@ -87,7 +87,6 @@ public class ChatFragment extends BaseFragment {
     @Override
     protected void initData() {
         myID = UserManager.getMyUser().getId();
-        getChatRooms();
         tgOnOffNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,6 +98,7 @@ public class ChatFragment extends BaseFragment {
 
     @Override
     protected void resumeData() {
+        getChatRooms();
         getNotifyOnOff();
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_CHAT));
     }
@@ -224,8 +224,8 @@ public class ChatFragment extends BaseFragment {
         call.enqueue(new Callback<List<TaskResponse>>() {
             @Override
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
-                LogUtils.d(TAG, "getChatRooms code : " + response.code());
-                LogUtils.d(TAG, "getChatRooms body : " + response.body().size());
+//                LogUtils.d(TAG, "getChatRooms code : " + response.code());
+//                LogUtils.d(TAG, "getChatRooms body : " + response.body());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taskResponses.clear();
                     chatRooms.clear();
@@ -505,8 +505,7 @@ public class ChatFragment extends BaseFragment {
         Intent intentNewMsg = new Intent();
         intentNewMsg.setAction(Constants.BROAD_CAST_PUSH_CHAT_COUNT);
         intentNewMsg.putExtra(Constants.COUNT_NEW_CHAT_EXTRA, getCountRoomUnRead());
-        getContext().sendBroadcast(intentNewMsg);
-
+        if (getActivity() != null) getActivity().sendBroadcast(intentNewMsg);
     }
 
     private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
