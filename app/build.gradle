@@ -36,7 +36,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         versionCode extractVersionCode()
-        versionName "2.3.0"
+        versionName "2.4.0"
         multiDexEnabled true
     }
 
@@ -61,8 +61,8 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "BASE_URL", '"https://staging-api.hozo.vn/"'
-//            buildConfigField "String", "BASE_URL", '"http://local.hozo.vn:8080/"'
+//            buildConfigField "String", "BASE_URL", '"https://staging-api.hozo.vn/"'
+            buildConfigField "String", "BASE_URL", '"http://local.hozo.vn:8080/"'
             buildConfigField "String", "SHARE_URL", '"https://staging.hozo.vn/share/tasks/"'
             debuggable true
             minifyEnabled false

@@ -121,36 +121,43 @@ public class ViewPageRatingAdapter extends PagerAdapter {
             Utils.displayImageAvatar(context, imgAvatar, assigner.getAvatar());
             tvName.setText(assigner.getFullName());
             userID = assigner.getId();
-            if (assigner.getAdminCofirm().equals(Constants.TASK_TYPE_BIDDER_COMPLETED) || assigner.getAdminCofirm().equals(Constants.TASK_TYPE_BIDDER_NOT_APPROVED)) {
+            LogUtils.d(TAG, "getAdminCofirm" + assigner.toString());
+            if (assigner.getAdminCofirm() != null) {
                 ratingBar.setVisibility(View.GONE);
                 edtReviews.setVisibility(View.GONE);
+                btnSend.setEnabled(false);
+                btnSend.setText(context.getString(R.string.send_done));
+                Utils.setViewBackground(btnSend, ContextCompat.getDrawable(context, R.drawable.bg_border_done));
             } else {
                 ratingBar.setVisibility(View.VISIBLE);
                 edtReviews.setVisibility(View.VISIBLE);
-            }
-            if (assigner.isRatingConfirm()) {
-                ckDone.setChecked(true);
-                ckNotDone.setChecked(false);
-            } else {
-                if (assigner.getRating() != 0) {
-                    ckDone.setChecked(false);
-                    ckNotDone.setChecked(true);
-                } else {
+                btnSend.setEnabled(true);
+                btnSend.setText(context.getString(R.string.send));
+                Utils.setViewBackground(btnSend, ContextCompat.getDrawable(context, R.drawable.btn_new_selector));
+                if (assigner.isRatingConfirm()) {
                     ckDone.setChecked(true);
                     ckNotDone.setChecked(false);
+                } else {
+                    if (assigner.getRating() != 0) {
+                        ckDone.setChecked(false);
+                        ckNotDone.setChecked(true);
+                    } else {
+                        ckDone.setChecked(true);
+                        ckNotDone.setChecked(false);
+                    }
                 }
-            }
 
-            if (assigner.getRating() != 0) {
-                ckDone.setEnabled(false);
-                ckNotDone.setEnabled(false);
-                updateUI(true, btnSend, edtReviews, ratingBar, assigner.getRatingBody(), assigner.getRating());
-            } else {
-                ckDone.setEnabled(true);
-                ckNotDone.setEnabled(true);
-                updateUI(false, btnSend, edtReviews, ratingBar, "", assigner.getRating());
-            }
+                if (assigner.getRating() != 0) {
+                    ckDone.setEnabled(false);
+                    ckNotDone.setEnabled(false);
+                    updateUI(true, btnSend, edtReviews, ratingBar, assigner.getRatingBody(), assigner.getRating());
+                } else {
+                    ckDone.setEnabled(true);
+                    ckNotDone.setEnabled(true);
+                    updateUI(false, btnSend, edtReviews, ratingBar, "", assigner.getRating());
+                }
 
+            }
         } else {
             group.setVisibility(View.GONE);
             Poster poster = taskResponse.getPoster();
