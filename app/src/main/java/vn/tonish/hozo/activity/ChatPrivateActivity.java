@@ -229,6 +229,7 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
         member1CloudEndPoint.addChildEventListener(member1EventListener);
     }
 
+
     @Override
     protected void resumeData() {
         getNotificationOnOff();
@@ -238,16 +239,6 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
     @Override
     protected void onStop() {
         super.onStop();
-        if (valueEventListener != null)
-            messageCloudEndPoint.removeEventListener(valueEventListener);
-        if (childEventListener != null)
-            messageCloudEndPoint.removeEventListener(childEventListener);
-        if (memberEventListener != null)
-            memberCloudEndPoint.removeEventListener(memberEventListener);
-        if (groupTaskListener != null && groupTaskReference != null)
-            groupTaskReference.removeEventListener(groupTaskListener);
-        if (member1EventListener != null)
-            member1CloudEndPoint.removeEventListener(member1EventListener);
         PreferUtils.setPushPrivateShow(this, true);
     }
 
@@ -861,4 +852,16 @@ public class ChatPrivateActivity extends BaseTouchActivity implements View.OnCli
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (valueEventListener != null)
+            messageCloudEndPoint.removeEventListener(valueEventListener);
+        if (childEventListener != null)
+            messageCloudEndPoint.removeEventListener(childEventListener);
+        if (memberEventListener != null)
+            memberCloudEndPoint.removeEventListener(memberEventListener);
+        if (groupTaskListener != null && groupTaskReference != null)
+            groupTaskReference.removeEventListener(groupTaskListener);
+    }
 }

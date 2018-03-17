@@ -313,7 +313,7 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
                 LogUtils.d(TAG, "uploadImage code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_CREATED) {
                     doChat(response.body().getUrl(), 1);
-
+                    ProgressDialogUtils.dismissProgressDialog();
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(ChatGroupActivity.this, new NetworkUtils.RefreshListener() {
                         @Override
@@ -324,6 +324,7 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(ChatGroupActivity.this);
                 } else {
+                    ProgressDialogUtils.dismissProgressDialog();
                     DialogUtils.showRetryDialog(ChatGroupActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
@@ -337,11 +338,12 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
                     });
                 }
                 FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
-                ProgressDialogUtils.dismissProgressDialog();
+
             }
 
             @Override
             public void onFailure(Call<ImageResponse> call, Throwable t) {
+                ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.e(TAG, "uploadImage onFailure : " + t.getMessage());
                 DialogUtils.showRetryDialog(ChatGroupActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
@@ -354,8 +356,8 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
 
                     }
                 });
-                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 ProgressDialogUtils.dismissProgressDialog();
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
             }
         });
     }
@@ -394,14 +396,6 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
     @Override
     protected void onStop() {
         super.onStop();
-        if (valueEventListener != null)
-            messageCloudEndPoint.removeEventListener(valueEventListener);
-        if (childEventListener != null)
-            messageCloudEndPoint.removeEventListener(childEventListener);
-        if (memberEventListener != null)
-            memberCloudEndPoint.removeEventListener(memberEventListener);
-        if (groupTaskListener != null && groupTaskReference != null)
-            groupTaskReference.removeEventListener(groupTaskListener);
         PreferUtils.setPushShow(this, true);
     }
 
@@ -626,6 +620,7 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
                 LogUtils.d(TAG, "checkTask members  add, task id : " + dataSnapshot.toString());
                 switch (dataSnapshot.getKey()) {
                     case "block":
@@ -714,12 +709,22 @@ public class ChatGroupActivity extends BaseTouchActivity implements View.OnClick
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (valueEventListener != null)
+            messageCloudEndPoint.removeEventListener(valueEventListener);
+        if (childEventListener != null)
+            messageCloudEndPoint.removeEventListener(childEventListener);
+        if (memberEventListener != null)
+            memberCloudEndPoint.removeEventListener(memberEventListener);
+        if (groupTaskListener != null && groupTaskReference != null)
+            groupTaskReference.removeEventListener(groupTaskListener);
     }
 
     private void showMenu() {
+
         //Creating the instance of PopupMenu
         PopupMenu popup = new PopupMenu(this, imgMenu);
         popup.getMenuInflater().inflate(R.menu.menu_chat, popup.getMenu());
+
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {

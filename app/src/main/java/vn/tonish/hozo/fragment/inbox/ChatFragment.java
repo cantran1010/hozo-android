@@ -87,6 +87,7 @@ public class ChatFragment extends BaseFragment {
     @Override
     protected void initData() {
         myID = UserManager.getMyUser().getId();
+        getChatRooms();
         tgOnOffNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,7 +99,6 @@ public class ChatFragment extends BaseFragment {
 
     @Override
     protected void resumeData() {
-        getChatRooms();
         getNotifyOnOff();
         getActivity().registerReceiver(broadcastReceiverSmoothToTop, new IntentFilter(Constants.BROAD_CAST_SMOOTH_TOP_CHAT));
     }
@@ -443,14 +443,18 @@ public class ChatFragment extends BaseFragment {
     }
 
     @Override
-    public void onStop() {
-        LogUtils.d(TAG, "onStop()");
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         try {
             getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         if (HorizotalListener != null && horizotalReference != null)
             horizotalReference.removeEventListener(HorizotalListener);
         if (VerticalListener != null && verticalReference != null)
