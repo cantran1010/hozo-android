@@ -377,7 +377,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             jsonRequest.put("status", taskResponse.getStatus());
             if (((PostTaskActivity) getActivity()).images.size() > 0) {
                 JSONArray jsonArray = new JSONArray();
-                for (int anImagesArr : (((PostTaskActivity) getActivity()).getTaskResponse().getAttachmentsId()))
+                for (int anImagesArr : taskResponse.getAttachmentsId())
                     jsonArray.put(anImagesArr);
                 jsonRequest.put("attachments", jsonArray);
             } else jsonRequest.put("attachments", new JSONArray());
@@ -864,7 +864,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
             case R.id.tv_save:
 //                ((PostTaskActivity) getActivity()).setTaskType(Constants.TASK_DRAFT);
                 taskResponse.setStatus(Constants.CREATE_TASK_STATUS_DRAFT);
-                if (((PostTaskActivity) getActivity()).images.size() > 1) doAttachFiles();
+                if (((PostTaskActivity) getActivity()).images.size() > 0) doAttachFiles();
                 else doPostTask();
                 break;
             case R.id.img_prepay:
