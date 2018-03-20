@@ -69,11 +69,13 @@ public class PaymentHistoryActivity extends BaseActivity implements View.OnClick
         }
 
         tvCount.setText(getString(R.string.count_history, getIntent().getIntExtra(Constants.WALLET_COUNT_HISTORY_EXTRA, 0)));
+
+        setUpList();
     }
 
     @Override
     protected void resumeData() {
-        setUpList();
+
     }
 
     private void setUpList() {
