@@ -39,4 +39,6 @@
     <color name="tv_green_new_3">#d8ed97</color>
     <color name="bg_tab_mytask">#e8f0f0</color>
     <color name="received_color">#80c0d3</color>
+    <color name="count_color">#d23176</color>
+    <color name="edit_color">#33000000</color>
 </resources>

@@ -84,6 +84,7 @@ public class Constants {
     public static final String PARAMETER_ADD_PREPAY = "add_prepay";
     public static final String PREPAY_TYPE_EXTRA = "prepay_type_extra";
     public static final String INVALID_STATUS = "invalid_status";
+    public static final String DISCOUNT_TYPE_EXTRA ="discount_extra" ;
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

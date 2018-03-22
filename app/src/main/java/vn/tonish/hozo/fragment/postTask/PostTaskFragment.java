@@ -36,7 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.PostTaskActivity;
-import vn.tonish.hozo.activity.PrePayInfoActivity;
+import vn.tonish.hozo.activity.NoteActivity;
 import vn.tonish.hozo.activity.payment.MyWalletActivity;
 import vn.tonish.hozo.adapter.HozoSpinnerAdapter;
 import vn.tonish.hozo.common.Constants;
@@ -868,7 +868,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                 else doPostTask();
                 break;
             case R.id.img_prepay:
-                Intent intent = new Intent(getActivity(), PrePayInfoActivity.class);
+                Intent intent = new Intent(getActivity(), NoteActivity.class);
                 intent.putExtra(Constants.PREPAY_TYPE_EXTRA, 1);
                 startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 break;

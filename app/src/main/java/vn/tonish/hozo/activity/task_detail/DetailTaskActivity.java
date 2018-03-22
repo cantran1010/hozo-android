@@ -54,7 +54,7 @@ import vn.tonish.hozo.activity.BrowserTaskMapActivity;
 import vn.tonish.hozo.activity.ChatGroupActivity;
 import vn.tonish.hozo.activity.ContactsActivity;
 import vn.tonish.hozo.activity.PostTaskActivity;
-import vn.tonish.hozo.activity.PrePayInfoActivity;
+import vn.tonish.hozo.activity.NoteActivity;
 import vn.tonish.hozo.activity.RatingActivity;
 import vn.tonish.hozo.activity.SupportActivity;
 import vn.tonish.hozo.activity.comment.CommentAllActivity;
@@ -2071,7 +2071,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 startActivity(new Intent(this, SupportActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 break;
             case R.id.img_question:
-                Intent intentPrepay = new Intent(this, PrePayInfoActivity.class);
+                Intent intentPrepay = new Intent(this, NoteActivity.class);
                 intentPrepay.putExtra(Constants.PREPAY_TYPE_EXTRA, 2);
                 startActivity(intentPrepay, TransitionScreen.RIGHT_TO_LEFT);
                 break;

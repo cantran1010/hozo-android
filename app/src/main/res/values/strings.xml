@@ -821,6 +821,10 @@
     <string name="notification_new_task_alert_day_urgency">vào ngày</string>
     <string name="notification_new_task_alert_footer_urgency">Ứng tuyển để nhận thêm khuyến mãi từ Hozo</string>
     <string name="invalid_status">Người này đã được đánh giá.</string>
+    <string name="prepay_note">*Hozo chiết khấu %1$d%2$s với công việc được trả trước</string>
+    <string name="discount">Thu phí</string>
+    <string name="discount_info_1">Từ ngày 30/03/2018 Hozo chiết khấu %1$d%2$s trên số tiền người đăng việc trả trước qua ví tiền Hozo.</string>
+    <string name="discount_info_2">Số tiền chiết khấu được trừ chỉ khi người đăng xác nhận hoàn thành đăng việc qua hệ thống Hozo</string>
 
 
 </resources>

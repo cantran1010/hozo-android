@@ -55,8 +55,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:textColor="@color/hozo_bg"
                 android:textSize="@dimen/tv_size_lager"
                 android:textStyle="bold" />
@@ -64,8 +63,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginTop="15dp"
-                android:background="#c8d6da" />
+                android:layout_marginTop="5dp"
+                android:background="@color/color_edt_border" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,6 +87,7 @@
                         android:gravity="center"
                         android:text="@string/task_date"
                         android:textColor="@color/tv_gray_title"
+                        android:textSize="@dimen/tv_size_xtiny"
                         android:textStyle="bold" />
 
                     <vn.tonish.hozo.view.TextViewHozo
@@ -105,7 +105,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
-                    android:background="#bcccd2" />
+                    android:background="@color/color_edt_border" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -122,6 +122,7 @@
                         android:drawableStart="@drawable/detail_start_time"
                         android:text="@string/task_time"
                         android:textColor="@color/tv_gray_title"
+                        android:textSize="@dimen/tv_size_xtiny"
                         android:textStyle="bold" />
 
                     <vn.tonish.hozo.view.TextViewHozo
@@ -138,7 +139,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
-                    android:background="@color/gray" />
+                    android:background="@color/color_edt_border" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -155,6 +156,7 @@
                         android:drawableStart="@drawable/detail_hours"
                         android:text="@string/task_hour"
                         android:textColor="@color/tv_gray_title"
+                        android:textSize="@dimen/tv_size_xtiny"
                         android:textStyle="bold" />
 
                     <vn.tonish.hozo.view.TextViewHozo
@@ -181,7 +183,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:background="#33000000"
+                    android:background="@color/edit_color"
                     android:contentDescription="@string/just_image"
                     android:padding="10dp"
                     android:src="@drawable/edit_profile" />
@@ -220,15 +222,51 @@
                 </RelativeLayout>
 
                 <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_note_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/layout_price"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginTop="5dp"
                     android:text="@string/confrim_price"
                     android:textColor="@color/color_count_word"
                     android:textSize="@dimen/tv_size_tiny" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_note_price"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center">
+
+                    <vn.tonish.hozo.view.TextViewHozo
+                        android:id="@+id/tv_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:layout_toLeftOf="@+id/img_discount_question"
+                        android:layout_toStartOf="@+id/img_discount_question"
+                        android:text="@string/prepay_note"
+                        android:textColor="@color/hozo_red"
+                        android:textSize="@dimen/tv_size_tiny" />
+
+                    <ImageView
+                        android:id="@+id/img_discount_question"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:contentDescription="@string/prepay_note"
+                        android:focusable="true"
+                        android:padding="5dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_question" />
+                </RelativeLayout>
 
             </RelativeLayout>
 
@@ -237,7 +275,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="@string/bid_des1"
                 android:textColor="@color/tv_gray_new"
@@ -303,7 +341,7 @@
         android:layout_marginLeft="@dimen/title_margin_left"
         android:layout_marginRight="@dimen/title_margin_left"
         android:layout_marginStart="@dimen/title_margin_left"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/btn_new_selector"
         android:text="@string/confirm"
         android:textAllCaps="false"

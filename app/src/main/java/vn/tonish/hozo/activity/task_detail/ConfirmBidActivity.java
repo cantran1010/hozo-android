@@ -24,6 +24,7 @@ import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.GeneralInfoActivity;
+import vn.tonish.hozo.activity.NoteActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
@@ -49,7 +50,7 @@ import vn.tonish.hozo.view.TextViewHozo;
 import static vn.tonish.hozo.utils.Utils.showSoftKeyboard;
 
 /**
- * Created by LongBui on 11/15/17.
+ * Created by CanTran on 11/15/17.
  */
 
 public class ConfirmBidActivity extends BaseActivity implements View.OnClickListener {
@@ -83,6 +84,8 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
         imgBack.setOnClickListener(this);
         ImageView imgEdit = (ImageView) findViewById(R.id.img_edit);
         imgEdit.setOnClickListener(this);
+        ImageView imgDiscount = (ImageView) findViewById(R.id.img_discount_question);
+        imgDiscount.setOnClickListener(this);
 
         tvDes = (TextViewHozo) findViewById(R.id.tv_des);
     }
@@ -136,6 +139,9 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
         tvPolicy.setText(ssBuilder);
         tvPolicy.setMovementMethod(LinkMovementMethod.getInstance());
         tvPolicy.setHighlightColor(Color.TRANSPARENT);
+        TextViewHozo tvDiscount = (TextViewHozo) findViewById(R.id.tv_discount);
+        String strDiscount = getString(R.string.prepay_note, 10, "%");
+        tvDiscount.setText(strDiscount);
     }
 
     private void openGeneralInfoActivity(String title, String url) {
@@ -172,87 +178,74 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
             public void onResponse(Call<TaskResponse> call, final Response<TaskResponse> response) {
                 LogUtils.d(TAG, "bidsTask status code : " + response.code());
                 LogUtils.d(TAG, "bidsTask body : " + response.body());
-
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    DialogUtils.showOkDialogNonTouch(ConfirmBidActivity.this, getString(R.string.create_task_title), getString(R.string.bid_success), getString(R.string.create_task_ok), new AlertDialogOkNonTouch.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            setResult(Constants.BID_RESPONSE_CODE);
-                            finish();
-                        }
-                    });
-                } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
-                    APIError error = ErrorUtils.parseError(response);
-                    LogUtils.e(TAG, "bidsTask errorBody : " + error.toString());
-                    if (error.status().equals(Constants.BID_ERROR_SAME_TIME)) {
-                        DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.error), getString(R.string.offer_error_time), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                switch (response.code()) {
+                    case Constants.HTTP_CODE_OK:
+                        DialogUtils.showOkDialogNonTouch(ConfirmBidActivity.this, getString(R.string.create_task_title), getString(R.string.bid_success), getString(R.string.create_task_ok), new AlertDialogOkNonTouch.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
-
+                                setResult(Constants.BID_RESPONSE_CODE);
+                                finish();
                             }
                         });
-                    } else if (error.status().equals(Constants.BID_LIMIT_OFFER)) {
-                        DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.bid_limmit_title), getString(R.string.bid_limmit_offer_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        break;
+                    case Constants.HTTP_CODE_UNAUTHORIZED:
+                        NetworkUtils.refreshToken(ConfirmBidActivity.this, new NetworkUtils.RefreshListener() {
                             @Override
-                            public void onSubmit() {
-
+                            public void onRefreshFinish() {
+                                doOffer();
                             }
                         });
-                    } else if (error.status().equals(Constants.BID_ERROR_INVALID_DATA)) {
-                        DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.app_name), getString(R.string.offer_invalid_data), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
 
-                            }
-                        });
-                    } else if (error.status().equals(Constants.BID_NOT_ENOUGH_BALANCE)) {
+                        break;
+                    case Constants.HTTP_CODE_BLOCK_USER:
+                        Utils.blockUser(ConfirmBidActivity.this);
+                        break;
 
-//                        DialogUtils.showOkAndCancelDialog(ConfirmBidActivity.this, getString(R.string.app_name), getString(R.string.bid_not_enough_money, Utils.formatNumber(taskResponse.getBidDepositAmount())), getString(R.string.cancel_task_ok), getString(R.string.cancel_task_cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
-//                            @Override
-//                            public void onSubmit() {
-//                                startActivity(MyWalletActivity.class, TransitionScreen.RIGHT_TO_LEFT);
-//                            }
-//
-//                            @Override
-//                            public void onCancel() {
-//
-//                            }
-//                        });
+                    default:
+                        APIError error = ErrorUtils.parseError(response);
+                        switch (error.status()) {
+                            case Constants.BID_ERROR_SAME_TIME:
+                                DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.error), getString(R.string.offer_error_time), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                        RechargeDialog rechargeDialog = new RechargeDialog(ConfirmBidActivity.this);
-                        rechargeDialog.showView();
-                        rechargeDialog.updateUi(taskResponse.getBidDepositAmount() + taskResponse.getBidFee());
+                                    }
+                                });
+                                break;
+                            case Constants.BID_LIMIT_OFFER:
+                                DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.bid_limmit_title), getString(R.string.bid_limmit_offer_error), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                    } else {
-                        DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
+                                    }
+                                });
+                                break;
+                            case Constants.BID_ERROR_INVALID_DATA:
+                                DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.app_name), getString(R.string.offer_invalid_data), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                            }
-                        });
-                    }
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(ConfirmBidActivity.this, new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            doOffer();
+                                    }
+                                });
+                                break;
+                            case Constants.BID_NOT_ENOUGH_BALANCE:
+                                RechargeDialog rechargeDialog = new RechargeDialog(ConfirmBidActivity.this);
+                                rechargeDialog.showView();
+                                rechargeDialog.updateUi(taskResponse.getBidDepositAmount() + taskResponse.getBidFee());
+                                break;
+                            default:
+                                DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+
+                                    }
+                                });
+                                break;
                         }
-                    });
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(ConfirmBidActivity.this);
-                } else {
-                    DialogUtils.showRetryDialog(ConfirmBidActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            doOffer();
-                        }
 
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
+                        break;
                 }
+
                 ProgressDialogUtils.dismissProgressDialog();
             }
 
@@ -302,7 +295,12 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
                 edtBudget.setSelection(edtBudget.length());
                 showSoftKeyboard(this, edtBudget);
                 break;
-
+            case R.id.img_discount_question:
+                Intent intentPrepay = new Intent(this, NoteActivity.class);
+                intentPrepay.putExtra(Constants.PREPAY_TYPE_EXTRA, 3);
+                intentPrepay.putExtra(Constants.DISCOUNT_TYPE_EXTRA, 10);
+                startActivity(intentPrepay, TransitionScreen.RIGHT_TO_LEFT);
+                break;
         }
     }
 }
