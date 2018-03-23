@@ -156,7 +156,7 @@ public class SystemNotificationFragment extends BaseFragment {
                 } else if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_MONEY_RECEIVED)) {
                     startActivity(MyWalletActivity.class, TransitionScreen.RIGHT_TO_LEFT);
                 } else if (notifications.get(position).getEvent().equals(Constants.PUSH_TYPE_REF_BONUS_RECEIVED)) {
-                    DialogUtils.showOkDialog(getActivity(), getString(R.string.admin_link_title), Utils.getContentFromNotification(getActivity(), notifications.get(position)), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                    DialogUtils.showOkDialog(getActivity(), getString(R.string.admin_link_title), notifications.get(position).getBody(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
 

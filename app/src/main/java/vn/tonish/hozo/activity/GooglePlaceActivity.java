@@ -91,7 +91,7 @@ public class GooglePlaceActivity extends BaseActivity implements View.OnClickLis
 
         final AutocompleteFilter autocompleteFilter = new AutocompleteFilter.Builder()
                 .setTypeFilter(Place.TYPE_COUNTRY)
-//                .setCountry("VN")
+                .setCountry("VN")
                 .build();
 
         // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover

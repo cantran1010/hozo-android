@@ -80,7 +80,6 @@ public class PaymentAdapter extends BaseAdapter<TransactionResponse, PaymentAdap
                 myViewHolder.tvPrice.setTextColor(ContextCompat.getColor(context, R.color.hozo_red));
                 myViewHolder.tvUnit.setTextColor(ContextCompat.getColor(context, R.color.hozo_red));
             }
-
             myViewHolder.tvPrice.setText(myPrice);
             myViewHolder.tvDate.setText(DateTimeUtils.getPaymentTime(payment.getCreatedAt()));
             myViewHolder.tvContent.setText(Utils.getContentTransaction(context, payment));

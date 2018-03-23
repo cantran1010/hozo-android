@@ -64,7 +64,7 @@
                     tools:ignore="ContentDescription" />
 
                 <vn.tonish.hozo.view.TextViewHozo
-                    android:id="@+id/tv_discount"
+                    android:id="@+id/tv_note_discount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"

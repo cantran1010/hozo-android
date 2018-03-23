@@ -71,6 +71,10 @@ public class TaskResponse implements Serializable {
     @SerializedName("bid_fee")
     private int bidFee;
     private boolean prepay;
+    private int deduction;
+    @SerializedName("deduction_percent")
+    private boolean deductionPercent;
+
 
     public int getBidFee() {
         return bidFee;
@@ -384,6 +388,22 @@ public class TaskResponse implements Serializable {
         this.prepay = prepay;
     }
 
+    public int getDeduction() {
+        return deduction;
+    }
+
+    public void setDeduction(int deduction) {
+        this.deduction = deduction;
+    }
+
+    public boolean isDeductionPercent() {
+        return deductionPercent;
+    }
+
+    public void setDeductionPercent(boolean deductionPercent) {
+        this.deductionPercent = deductionPercent;
+    }
+
     @Override
     public String toString() {
         return "TaskResponse{" +
@@ -426,6 +446,8 @@ public class TaskResponse implements Serializable {
                 ", offerAssignedAt='" + offerAssignedAt + '\'' +
                 ", bidFee=" + bidFee +
                 ", prepay=" + prepay +
+                ", deduction=" + deduction +
+                ", deductionPercent=" + deductionPercent +
                 '}';
     }
 }

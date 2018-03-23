@@ -37,10 +37,8 @@ import vn.tonish.hozo.activity.SplashActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.model.Notification;
-import vn.tonish.hozo.utils.DateTimeUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
-import vn.tonish.hozo.utils.Utils;
 
 /**
  * When implement FCM, add project on fire base console, and change google-service.json
@@ -83,8 +81,8 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             return;
         if (notification.getEvent().equals(Constants.PUSH_TYPE_PRIVATE_CHAT) && !PreferUtils.isPushPrivateShow(getApplicationContext()))
             return;
-        String title;
-        String message;
+//        String title;
+//        String message;
         Intent intent;
 
         if (notification.getEvent().equals(Constants.PUSH_TYPE_BLOCK_USER)) {
@@ -95,43 +93,43 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             intent.putExtra(Constants.NOTIFICATION_EXTRA, notification);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         }
-        switch (notification.getEvent()) {
-            case Constants.PUSH_TYPE_ADMIN_PUSH:
-            case Constants.PUSH_TYPE_BLOCK_USER:
-            case Constants.PUSH_TYPE_ACTIVE_USER:
-            case Constants.PUSH_TYPE_ACTIVE_TASK:
-            case Constants.PUSH_TYPE_ACTIVE_COMMENT:
-            case Constants.PUSH_TYPE_BLOCK_TASK:
-            case Constants.PUSH_TYPE_BLOCK_COMMENT:
-            case Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT:
-                title = getString(R.string.app_name);
-                message = notification.getContent();
-                break;
-            case Constants.PUSH_TYPE_NEW_TASK_ALERT:
-                if (notification.isUrgency()) {
-                    title = getString(R.string.push_title_urgency, DateTimeUtils.getOnlyDateFromIso(notification.getTaskStartTime()));
-                    message = notification.getTaskName();
-                } else {
-                    title = getString(R.string.push_title);
-                    message = notification.getTaskName();
-                }
-                break;
-            case Constants.PUSH_TYPE_MONEY_RECEIVED:
-            case Constants.PUSH_TYPE_WAGE_RECEIVED:
-            case Constants.PUSH_TYPE_POSTING_BONUS_RECEIVED:
-            case Constants.PUSH_TYPE_REF_BONUS_RECEIVED:
-                title = getString(R.string.app_name);
-                message = Utils.getContentFromNotification(getApplicationContext(), notification);
-                break;
-//            case Constants.PUSH_TYPE_PRIVATE_CHAT:
-//                title = getString(R.string.notification_private_chat);
+//        switch (notification.getEvent()) {
+//            case Constants.PUSH_TYPE_ADMIN_PUSH:
+//            case Constants.PUSH_TYPE_BLOCK_USER:
+//            case Constants.PUSH_TYPE_ACTIVE_USER:
+//            case Constants.PUSH_TYPE_ACTIVE_TASK:
+//            case Constants.PUSH_TYPE_ACTIVE_COMMENT:
+//            case Constants.PUSH_TYPE_BLOCK_TASK:
+//            case Constants.PUSH_TYPE_BLOCK_COMMENT:
+//            case Constants.PUSH_TYPE_ADMIN_NEW_TASK_ALERT:
+//                title = getString(R.string.app_name);
+//                message = notification.getContent();
+//                break;
+//            case Constants.PUSH_TYPE_NEW_TASK_ALERT:
+//                if (notification.isUrgency()) {
+//                    title = getString(R.string.push_title_urgency, DateTimeUtils.getOnlyDateFromIso(notification.getTaskStartTime()));
+//                    message = notification.getTaskName();
+//                } else {
+//                    title = getString(R.string.push_title);
+//                    message = notification.getTaskName();
+//                }
+//                break;
+//            case Constants.PUSH_TYPE_MONEY_RECEIVED:
+//            case Constants.PUSH_TYPE_WAGE_RECEIVED:
+//            case Constants.PUSH_TYPE_POSTING_BONUS_RECEIVED:
+//            case Constants.PUSH_TYPE_REF_BONUS_RECEIVED:
+//                title = getString(R.string.app_name);
 //                message = Utils.getContentFromNotification(getApplicationContext(), notification);
 //                break;
-            default:
-                title = notification.getTaskName();
-                message = Utils.getContentFromNotification(getApplicationContext(), notification);
-                break;
-        }
+////            case Constants.PUSH_TYPE_PRIVATE_CHAT:
+////                title = getString(R.string.notification_private_chat);
+////                message = Utils.getContentFromNotification(getApplicationContext(), notification);
+////                break;
+//            default:
+//                title = notification.getTaskName();
+//                message = Utils.getContentFromNotification(getApplicationContext(), notification);
+//                break;
+//        }
 
 //        if (!notification.getEvent().equals(Constants.PUSH_TYPE_CHAT) || !notification.getEvent().equals(Constants.PUSH_TYPE_PRIVATE_CHAT)) {
 //            // vibrator when receive push notification from server
@@ -147,8 +145,8 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
 //                .setSmallIcon(R.mipmap.app_icon)
-                .setContentTitle(title)
-                .setContentText(message)
+                .setContentTitle(notification.getTitle())
+                .setContentText(notification.getBody())
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);

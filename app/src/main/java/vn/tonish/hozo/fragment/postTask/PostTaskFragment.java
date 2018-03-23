@@ -553,6 +553,14 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                                     }
                                 });
                                 break;
+                            case Constants.POST_TASK_NOT_ALLOWED:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.post_task_not_allowed), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+
+                                    }
+                                });
+                                break;
                             default:
                                 DialogUtils.showOkDialog(getContext(), getString(R.string.invalid_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                                     @Override
@@ -715,6 +723,14 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
 
                                     @Override
                                     public void onCancel() {
+
+                                    }
+                                });
+                                break;
+                            case Constants.POST_TASK_NOT_ALLOWED:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.post_task_not_allowed), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
                                     }
                                 });

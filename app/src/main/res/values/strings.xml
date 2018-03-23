@@ -629,7 +629,8 @@
     <string name="notification_new_task_alert_footer">phù hợp với bạn</string>
     <string name="notification_review_received_title">đã xác nhận bạn không hoàn thành công việc</string>
     <string name="notification_review_received_footer">được giao. Tiền đặt cọc ứng tuyển không được trả lại. Hãy liên hệ Hozo nếu bạn cần hỗ trợ thêm.</string>
-    <string name="notification_review_worker_done_title">đã xác nhận bạn đã hoàn thành công việc</string>
+    <string name="notification_review_worker_done_title">%1$s xác nhận bạn đã hoàn thành công việc \" %2$s\". Bạn đã được hoàn trả tiền cọc ứng tuyển </string>
+    <string name="notification_review_worker_done_title_bonus">%1$s xác nhận bạn đã hoàn thành công việc \" %2$s\". Bạn đã được hoàn trả tiền cọc ứng tuyển %3$sđ.</string>
     <string name="notification_review_worker_done_footer">được giao. Hozo đã hoàn trả tiền đặt cọc ứng tuyển cho bạn.</string>
     <string name="notification_bid_accepted_title">Chúc mừng bạn đã được giao việc</string>
     <string name="notification_bid_accepted_footer">. Hãy nhanh chóng liên hệ với người đăng. Nếu bạn hủy việc sau đó 30 phút thì bạn sẽ không lấy lại được tiền đặt cọc.</string>
@@ -791,7 +792,8 @@
     <string name="recharge_content">Để có thể ứng tuyển việc này ví Hozo của bạn cần có số dư ít nhất là 10.000 đ.</string>
     <string name="btn_recharge_wallet">Thiết lập ví Hozo</string>
     <string name="btn_rechager_collaborators">Cộng tác viên Hozo</string>
-    <string name="transaction_bid_fee">Hệ thống thu phí ứng tuyển việc \"%1$s\"</string>
+    <string name="transaction_bid_fee_in">Hệ thống hoàn trả phí ứng tuyển việc  \"%1$s\"</string>
+    <string name="transaction_bid_fee_out">Hệ thống thu phí ứng tuyển việc \"%1$s\"</string>
     <string name="block_reasons">%1$s đến %2$s</string>
     <string name="task_prepay">Trả trước tiền cho công việc \"%1$s\"</string>
     <string name="task_refund_prepaid_transaction">Hoàn tiền trả trước công việc \"%1$s\"</string>
@@ -821,10 +823,14 @@
     <string name="notification_new_task_alert_day_urgency">vào ngày</string>
     <string name="notification_new_task_alert_footer_urgency">Ứng tuyển để nhận thêm khuyến mãi từ Hozo</string>
     <string name="invalid_status">Người này đã được đánh giá.</string>
-    <string name="prepay_note">*Hozo chiết khấu %1$d%2$s với công việc được trả trước</string>
+    <string name="prepay_note">*Hozo chiết khấu %1$s%2$s với công việc được trả trước</string>
     <string name="discount">Thu phí</string>
-    <string name="discount_info_1">Từ ngày 30/03/2018 Hozo chiết khấu %1$d%2$s trên số tiền người đăng việc trả trước qua ví tiền Hozo.</string>
+    <string name="discount_info_1">Từ ngày 30/03/2018 Hozo chiết khấu %1$s%2$s trên số tiền người đăng việc trả trước qua ví tiền Hozo.</string>
     <string name="discount_info_2">Số tiền chiết khấu được trừ chỉ khi người đăng xác nhận hoàn thành đăng việc qua hệ thống Hozo</string>
-
-
+    <string name="work_deduction_transaction">Hệ thống khấu trừ tiền từ công việc %1$s</string>
+    <string name="work_deducted">Hệ thống đã khấu trừ %1$s cho việc \"%2$s\"</string>
+    <string name="bid_input_error">Hozo không cho phép gửi email hay số điện thoại khi chưa được giao việc. \nTrường hợp cố tình vi phạm sẽ có nguy cơ bị khóa tài khoản vĩnh viễn!</string>
+    <string name="post_task_not_allowed">Không thể đăng việc vào thời điểm này. Vui lòng thử lại sau.</string>
+    <string name="notification_review_worker_done_footer2">Bạn đã được hoàn trả tiền cọc ứng tuyển và được thưởng thêm %2$s</string>
+    <string name="rating_bonus">Nhận tiền thưởng hoàn thành xuất sắc công việc \"%1$s\".</string>
 </resources>

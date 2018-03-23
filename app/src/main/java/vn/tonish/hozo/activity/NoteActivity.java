@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.common.Constants;
+import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
@@ -32,10 +33,15 @@ public class NoteActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        TextViewHozo textViewHozo = (TextViewHozo) findViewById(R.id.tv_discount);
-        String content = getString(R.string.discount_info_1, getIntent().getIntExtra(Constants.DISCOUNT_TYPE_EXTRA, 0), "%");
-        textViewHozo.setText(content);
-
+        if (getIntent().hasExtra(Constants.DISCOUNT_TYPE_EXTRA)) {
+            String content;
+            TextViewHozo textViewHozo = (TextViewHozo) findViewById(R.id.tv_note_discount);
+            if (getIntent().getBooleanExtra(Constants.PREPAY_TYPE_DEDUCTION, false))
+                content = getString(R.string.discount_info_1, String.valueOf(getIntent().getIntExtra(Constants.DISCOUNT_TYPE_EXTRA, 0)), "%");
+            else
+                content = getString(R.string.discount_info_1, Utils.formatNumber(getIntent().getIntExtra(Constants.DISCOUNT_TYPE_EXTRA, 0)), "đ");
+            textViewHozo.setText(content);
+        }
     }
 
     @Override

@@ -93,7 +93,6 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initData() {
         taskResponse = (TaskResponse) getIntent().getSerializableExtra(Constants.TASK_DETAIL_EXTRA);
-
         tvTitle.setText(taskResponse.getTitle());
         if (taskResponse.getStartTime() != null)
             tvDate.setText(DateTimeUtils.getOnlyDateFromIso(taskResponse.getStartTime()));
@@ -140,7 +139,11 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
         tvPolicy.setMovementMethod(LinkMovementMethod.getInstance());
         tvPolicy.setHighlightColor(Color.TRANSPARENT);
         TextViewHozo tvDiscount = (TextViewHozo) findViewById(R.id.tv_discount);
-        String strDiscount = getString(R.string.prepay_note, 10, "%");
+        String strDiscount = "";
+        if (taskResponse.isDeductionPercent())
+            strDiscount = getString(R.string.prepay_note, String.valueOf(taskResponse.getDeduction()), "%");
+        else
+            strDiscount = getString(R.string.prepay_note, Utils.formatNumber(taskResponse.getDeduction()), "đ");
         tvDiscount.setText(strDiscount);
     }
 
@@ -162,6 +165,10 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
 
     private void doOffer() {
         ProgressDialogUtils.showProgressDialog(this);
+        if (!Utils.validateInput(this, edtSms.getText().toString().trim())) {
+            Utils.showLongToast(this, getString(R.string.bid_input_error), true, false);
+            return;
+        }
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(Constants.PARAMETER_OFFER_PRICE, Utils.getLongEdittext(edtBudget));
@@ -271,7 +278,6 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.btn_bid:
                 if (edtBudget.getText().toString().trim().isEmpty()) {
                     edtBudget.requestFocus();
@@ -298,7 +304,8 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
             case R.id.img_discount_question:
                 Intent intentPrepay = new Intent(this, NoteActivity.class);
                 intentPrepay.putExtra(Constants.PREPAY_TYPE_EXTRA, 3);
-                intentPrepay.putExtra(Constants.DISCOUNT_TYPE_EXTRA, 10);
+                intentPrepay.putExtra(Constants.PREPAY_TYPE_DEDUCTION, taskResponse.isDeductionPercent());
+                intentPrepay.putExtra(Constants.DISCOUNT_TYPE_EXTRA, taskResponse.getDeduction());
                 startActivity(intentPrepay, TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
