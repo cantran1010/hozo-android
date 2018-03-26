@@ -36,6 +36,10 @@ public class Notification implements Serializable {
     private int amount;
     @SerializedName("task_urgency")
     private boolean urgency;
+    @SerializedName("notification_title")
+    private String title;
+    @SerializedName("notification_body")
+    private String body;
 
     public String getWallet() {
         return wallet;
@@ -173,6 +177,22 @@ public class Notification implements Serializable {
         this.urgency = urgency;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
     @Override
     public String toString() {
         return "Notification{" +
@@ -193,6 +213,8 @@ public class Notification implements Serializable {
                 ", wallet='" + wallet + '\'' +
                 ", amount=" + amount +
                 ", urgency=" + urgency +
+                ", title='" + title + '\'' +
+                ", body='" + body + '\'' +
                 '}';
     }
 

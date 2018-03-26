@@ -51,13 +51,6 @@ import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
 public class LoginActivity extends BaseActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private int nextPermissionsRequestCode = 4000;
-//    @SuppressLint("UseSparseArrays")
-//    private final Map<Integer, OnCompleteListener> permissionsListeners = new HashMap<>();
-
-//    private interface OnCompleteListener {
-//        void onComplete();
-//    }
 
     @Override
     protected int getLayout() {
@@ -100,6 +93,7 @@ public class LoginActivity extends BaseActivity {
         configurationBuilder
                 .setUIManager(uiManager)
                 .setDefaultCountryCode("VN")
+                .setSMSWhitelist(new String[]{"VN"})
                 .setReadPhoneStateEnabled(false)
                 .setReceiveSMS(false)
                 .setFacebookNotificationsEnabled(true)
@@ -108,45 +102,11 @@ public class LoginActivity extends BaseActivity {
         intent.putExtra(
                 AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
                 configuration);
-//        OnCompleteListener completeListener = new OnCompleteListener() {
-//            @Override
-//            public void onComplete() {
-                startActivityForResult(intent, ACCOUNT_KIT_REQUEST_CODE);
-//            }
-//        };
-//        if (configuration.isReceiveSMSEnabled() && !canReadSmsWithoutPermission()) {
-//            final OnCompleteListener receiveSMSCompleteListener = completeListener;
-//            completeListener = new OnCompleteListener() {
-//                @Override
-//                public void onComplete() {
-//                    requestPermissions(
-//                            Manifest.permission.RECEIVE_SMS,
-//                            R.string.permissions_receive_sms_title,
-//                            R.string.permissions_receive_sms_message,
-//                            receiveSMSCompleteListener);
-//                }
-//            };
-//        }
-//        if (configuration.isReadPhoneStateEnabled() && !isGooglePlayServicesAvailable()) {
-//            final OnCompleteListener readPhoneStateCompleteListener = completeListener;
-//            completeListener = new OnCompleteListener() {
-//                @Override
-//                public void onComplete() {
-//                    requestPermissions(
-//                            Manifest.permission.READ_PHONE_STATE,
-//                            R.string.permissions_read_phone_state_title,
-//                            R.string.permissions_read_phone_state_message,
-//                            readPhoneStateCompleteListener);
-//                }
-//            };
-//        }
-//
-//        completeListener.onComplete();
+        startActivityForResult(intent, ACCOUNT_KIT_REQUEST_CODE);
     }
 
 
     private void sendCodeAccountKit(final String account_code) {
-//        ProgressDialogUtils.showProgressDialog(this);
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(ACCOUNT_CODE, account_code);
@@ -195,13 +155,11 @@ public class LoginActivity extends BaseActivity {
                     LogUtils.d(TAG, "sendCodeAccountKit errorBody" + error.toString());
                     Utils.showLongToast(LoginActivity.this, error.message(), true, false);
                 }
-//                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
             public void onFailure(Call<OtpReponse> call, Throwable t) {
                 LogUtils.e(TAG, "sendCodeAccountKit onFailure message : " + t.getMessage());
-//                ProgressDialogUtils.dismissProgressDialog();
                 showRetryDialog(LoginActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
@@ -274,7 +232,7 @@ public class LoginActivity extends BaseActivity {
             if (accessToken != null) {
                 sendCodeAccountKit(accessToken.getToken());
             } else {
-                toastMessage = "Unknown response type";
+                toastMessage = getString(R.string.error_message);
                 Toast.makeText(
                         this,
                         toastMessage,
@@ -285,96 +243,4 @@ public class LoginActivity extends BaseActivity {
 
 
     }
-
-
-//    private boolean isGooglePlayServicesAvailable() {
-//        final GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-//        int googlePlayServicesAvailable = apiAvailability.isGooglePlayServicesAvailable(this);
-//        return googlePlayServicesAvailable == ConnectionResult.SUCCESS;
-//    }
-//
-//    private boolean canReadSmsWithoutPermission() {
-//        final GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-//        int googlePlayServicesAvailable = apiAvailability.isGooglePlayServicesAvailable(this);
-//        if (googlePlayServicesAvailable == ConnectionResult.SUCCESS) {
-//            return true;
-//        }
-//        //TODO we should also check for Android O here t18761104
-//
-//        return false;
-//    }
-//
-//    private void requestPermissions(
-//            final String permission,
-//            final int rationaleTitleResourceId,
-//            final int rationaleMessageResourceId,
-//            final OnCompleteListener listener) {
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-//            if (listener != null) {
-//                listener.onComplete();
-//            }
-//            return;
-//        }
-//
-//        checkRequestPermissions(
-//                permission,
-//                rationaleTitleResourceId,
-//                rationaleMessageResourceId,
-//                listener);
-//    }
-//
-//    @TargetApi(23)
-//    private void checkRequestPermissions(
-//            final String permission,
-//            final int rationaleTitleResourceId,
-//            final int rationaleMessageResourceId,
-//            final OnCompleteListener listener) {
-//        if (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
-//            if (listener != null) {
-//                listener.onComplete();
-//            }
-//            return;
-//        }
-//
-//        final int requestCode = nextPermissionsRequestCode++;
-//        permissionsListeners.put(requestCode, listener);
-//
-//        if (shouldShowRequestPermissionRationale(permission)) {
-//            new AlertDialog.Builder(this)
-//                    .setTitle(rationaleTitleResourceId)
-//                    .setMessage(rationaleMessageResourceId)
-//                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(final DialogInterface dialog, final int which) {
-//                            requestPermissions(new String[]{permission}, requestCode);
-//                        }
-//                    })
-//                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(final DialogInterface dialog, final int which) {
-//                            // ignore and clean up the listener
-//                            permissionsListeners.remove(requestCode);
-//                        }
-//                    })
-//                    .setIcon(android.R.drawable.ic_dialog_alert)
-//                    .show();
-//        } else {
-//            requestPermissions(new String[]{permission}, requestCode);
-//        }
-//    }
-//
-//    @TargetApi(23)
-//    @SuppressWarnings("unused")
-//    @Override
-//    public void onRequestPermissionsResult(final int requestCode,
-//                                           final @NonNull String permissions[],
-//                                           final @NonNull int[] grantResults) {
-//        final OnCompleteListener permissionsListener = permissionsListeners.remove(requestCode);
-//        if (permissionsListener != null
-//                && grantResults.length > 0
-//                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//            permissionsListener.onComplete();
-//        }
-//    }
-
 }

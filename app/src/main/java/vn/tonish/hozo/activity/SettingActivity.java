@@ -737,7 +737,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         ProgressDialogUtils.showProgressDialog(this);
         final JSONObject jsonRequest = getJsonRequest();
         LogUtils.d(TAG, "postSettingAdvance activity json: " + jsonRequest.toString());
-
         if (!jsonRequest.toString().equals(originJsonRequest.toString()) && !BuildConfig.DEBUG) {
             Answers.getInstance().logCustom(new CustomEvent("FILTER_TASK"));
             LogUtils.d(TAG, "postSettingAdvance logCustom start , data : " + jsonRequest.toString());

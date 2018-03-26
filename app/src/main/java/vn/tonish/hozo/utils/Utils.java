@@ -66,7 +66,7 @@ import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
 /**
- * Created by LongBui on 4/12/17.
+ * Created by CanTran on 4/12/17.
  */
 public class Utils {
 
@@ -389,7 +389,7 @@ public class Utils {
     private static final int MAX_LENGTH_TASK_NAME = 80;
 
     public static void setContentMessage(Context context, TextViewHozo tvContent, Notification notification) {
-        String content = "";
+        String content;
         String matcher = "";
         String matcherColor = "#00A2E5";
 
@@ -446,7 +446,10 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_TASK_OVERDUE:
                 if (notification.getUserId() == UserManager.getMyUser().getId()) {
-                    content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1) + " " + context.getString(R.string.push_overdue_footer2) + " " + Utils.formatNumber(notification.getAmount()) + "đ " + context.getString(R.string.push_overdue_footer3);
+                    if (notification.getAmount() > 0)
+                        content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1) + " " + context.getString(R.string.push_overdue_footer2) + " " + Utils.formatNumber(notification.getAmount()) + "đ " + context.getString(R.string.push_overdue_footer3);
+                    else
+                        content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1);
                     matcher = context.getString(R.string.notification_task_overdue_matcher);
                     matcherColor = context.getString(R.string.notification_task_overdue_color);
                 } else {
@@ -502,7 +505,10 @@ public class Utils {
                 matcherColor = context.getString(R.string.notification_review_received_color);
                 break;
             case Constants.PUSH_TYPE_REVIEW_WORKER_DONE:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_review_worker_done_title) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_review_worker_done_footer);
+                if (notification.getAmount() > 0)
+                    content = context.getString(R.string.notification_review_worker_done_title_bonus, notification.getFullName(), notification.getTaskName(), Utils.formatNumber(notification.getAmount()));
+                else
+                    content = context.getString(R.string.notification_review_worker_done_title, notification.getFullName(), notification.getTaskName());
                 matcher = context.getString(R.string.notification_review_worker_matcher);
                 matcherColor = context.getString(R.string.notification_review_worker_color);
                 break;
@@ -562,6 +568,23 @@ public class Utils {
                 content = context.getString(R.string.bid_commission_received, Utils.formatNumber(notification.getAmount()), notification.getTaskName());
                 matcher = Utils.formatNumber(notification.getAmount()) + "đ ";
                 matcherColor = context.getString(R.string.notification_task_overdue_color);
+                break;
+            case Constants.WORK_DEDUCTED:
+                content = context.getString(R.string.work_deducted, Utils.formatNumber(notification.getAmount()), notification.getTaskName());
+                matcher = Utils.formatNumber(notification.getAmount()) + "đ ";
+                matcherColor = context.getString(R.string.notification_task_overdue_color);
+                break;
+            case Constants.TASK_CONFIRMATION_PENALIZED:
+                String wayllet;
+                if (notification.getWallet().equals("cash"))
+                    wayllet = "ví tiền";
+                else wayllet = "ví tài khoản";
+                content = context.getString(R.string.task_confirmation_penalized_event, Utils.formatNumber(notification.getAmount()), wayllet, notification.getTaskName());
+                matcher = Utils.formatNumber(notification.getAmount()) + "đ ";
+                matcherColor = context.getString(R.string.notification_task_overdue_color);
+                break;
+            default:
+                content = notification.getEvent();
                 break;
         }
 
@@ -635,7 +658,7 @@ public class Utils {
                     if (notification.getAmount() > 0)
                         content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1) + " " + context.getString(R.string.push_overdue_footer2) + " " + Utils.formatNumber(notification.getAmount()) + "đ " + context.getString(R.string.push_overdue_footer3);
                     else
-                        content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1) + " " + context.getString(R.string.push_overdue_footer3);
+                        content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1);
 
                 } else {
                     content = context.getString(R.string.push_overdue_title) + " " + notification.getTaskName() + " " + context.getString(R.string.push_overdue_footer_2);
@@ -669,7 +692,10 @@ public class Utils {
                 content = notification.getFullName() + " " + context.getString(R.string.notification_review_received_title) + " " + notification.getTaskName() + context.getString(R.string.notification_review_received_footer);
                 break;
             case Constants.PUSH_TYPE_REVIEW_WORKER_DONE:
-                content = notification.getFullName() + " " + context.getString(R.string.notification_review_worker_done_title) + " " + notification.getTaskName() + " " + context.getString(R.string.notification_review_worker_done_footer);
+                if (notification.getAmount() > 0)
+                    content = context.getString(R.string.notification_review_worker_done_title_bonus, notification.getFullName(), notification.getTaskName(), Utils.formatNumber(notification.getAmount()));
+                else
+                    content = context.getString(R.string.notification_review_worker_done_title, notification.getFullName(), notification.getTaskName());
                 break;
             case Constants.PUSH_TYPE_AWAIT_APPROVAL:
                 content = context.getString(R.string.nofification_enouth_bidder_title) + " " + notification.getTaskName() + " " + context.getString(R.string.your_task)
@@ -714,6 +740,9 @@ public class Utils {
                 break;
             case Constants.BID_COMMISSION_RECEIVED:
                 content = context.getString(R.string.bid_commission_received, Utils.formatNumber(notification.getAmount()), notification.getTaskName());
+                break;
+            case Constants.WORK_DEDUCTED:
+                content = context.getString(R.string.work_deducted, Utils.formatNumber(notification.getAmount()), notification.getTaskName());
                 break;
 
         }
@@ -901,54 +930,67 @@ public class Utils {
     }
 
     public static String getContentTransaction(Context context, TransactionResponse transactionResponse) {
-        if (transactionResponse.getMethod().equals("promotion"))
-            return context.getString(R.string.transaction_promotion);
-        else if (transactionResponse.getProvider().equals("1pay"))
-            return context.getString(R.string.transaction_1pay);
-        else if (transactionResponse.getMethod().equals("bid_deposit")) {
-            if (transactionResponse.getType().equals("in"))
-                return context.getString(R.string.transaction_bid_deposit_in, transactionResponse.getTaskName());
-            else
-                return context.getString(R.string.transaction_bid_deposit_out, transactionResponse.getTaskName());
-        } else if (transactionResponse.getMethod().equals("reg_awarded"))
-            return context.getString(R.string.transaction_reg_awarded);
-        else if (transactionResponse.getMethod().equals("sys_donated"))
-            return context.getString(R.string.transaction_sys_donated, transactionResponse.getMessage());
-        else if (transactionResponse.getMethod().equals("ref_bonus"))
-            return context.getString(R.string.transaction_ref_bonus);
-        else if (transactionResponse.getMethod().equals("promo_posting"))
-            return context.getString(R.string.transaction_promo_posting);
-        else if (transactionResponse.getMethod().equals("wage_transfer"))
-            return context.getString(R.string.wage_transfer, transactionResponse.getTaskName(), transactionResponse.getFullName());
-        else if (transactionResponse.getMethod().equals("wage_received"))
-            return context.getString(R.string.wage_received, transactionResponse.getTaskName());
-        else if (transactionResponse.getMethod().equals("withdraw_bank"))
-            return context.getString(R.string.withdraw_bank);
-        else if (transactionResponse.getMethod().equals("refund_withdraw_bank"))
-            return context.getString(R.string.refund_withdraw_bank);
-        else if (transactionResponse.getMethod().equals("transfer_cash_account"))
-            return context.getString(R.string.transfer_cash);
-        else if (transactionResponse.getMethod().equals("received_cash_account"))
-            return context.getString(R.string.received_cash);
-        else if (transactionResponse.getMethod().equals("ins_ref_bonus"))
-            return context.getString(R.string.transaction_ref_bonus);
-        else if (transactionResponse.getMethod().equals("task_ref_bonus"))
-            return context.getString(R.string.transaction_ref_task_bonus);
-        else if (transactionResponse.getMethod().equals("bid_fee"))
-            return context.getString(R.string.transaction_bid_fee, transactionResponse.getTaskName());
-        else if (transactionResponse.getMethod().equals("task_prepay"))
-            return context.getString(R.string.task_prepay, transactionResponse.getTaskName());
-        else if (transactionResponse.getMethod().equals("task_refund_prepaid"))
-            return context.getString(R.string.task_refund_prepaid_transaction, transactionResponse.getTaskName());
-        else if (transactionResponse.getMethod().equals("bid_payment_received"))
-            return context.getString(R.string.bid_payment_received_transaction, transactionResponse.getTaskName());
-        else if (transactionResponse.getMethod().equals("bid_commission_received"))
-            return context.getString(R.string.bid_commission_received_transaction, transactionResponse.getTaskName());
-        else return "Waitting";
+        switch (transactionResponse.getMethod()) {
+            case "promotion":
+                return context.getString(R.string.transaction_promotion);
+            case "bid_deposit":
+                if (transactionResponse.getType().equals("in"))
+                    return context.getString(R.string.transaction_bid_deposit_in, transactionResponse.getTaskName());
+                else
+                    return context.getString(R.string.transaction_bid_deposit_out, transactionResponse.getTaskName());
+            case "reg_awarded":
+                return context.getString(R.string.transaction_reg_awarded);
+            case "sys_donated":
+                return context.getString(R.string.transaction_sys_donated, transactionResponse.getMessage());
+            case "ref_bonus":
+                return context.getString(R.string.transaction_ref_bonus);
+            case "promo_posting":
+                return context.getString(R.string.transaction_promo_posting);
+            case "wage_transfer":
+                return context.getString(R.string.wage_transfer, transactionResponse.getTaskName(), transactionResponse.getFullName());
+            case "wage_received":
+                return context.getString(R.string.wage_received, transactionResponse.getTaskName());
+            case "withdraw_bank":
+                return context.getString(R.string.withdraw_bank);
+            case "refund_withdraw_bank":
+                return context.getString(R.string.refund_withdraw_bank);
+            case "transfer_cash_account":
+                return context.getString(R.string.transfer_cash);
+            case "received_cash_account":
+                return context.getString(R.string.received_cash);
+            case "ins_ref_bonus":
+                return context.getString(R.string.transaction_ref_bonus);
+            case "task_ref_bonus":
+                return context.getString(R.string.transaction_ref_task_bonus);
+            case "bid_fee":
+                if (transactionResponse.getType().equalsIgnoreCase("in"))
+                    return context.getString(R.string.transaction_bid_fee_in, transactionResponse.getTaskName());
+                else
+                    return context.getString(R.string.transaction_bid_fee_out, transactionResponse.getTaskName());
+            case "task_prepay":
+                return context.getString(R.string.task_prepay, transactionResponse.getTaskName());
+            case "task_refund_prepaid":
+                return context.getString(R.string.task_refund_prepaid_transaction, transactionResponse.getTaskName());
+            case "bid_payment_received":
+                return context.getString(R.string.bid_payment_received_transaction, transactionResponse.getTaskName());
+            case "bid_commission_received":
+                return context.getString(R.string.bid_commission_received_transaction, transactionResponse.getTaskName());
+            case "work_deduction":
+                return context.getString(R.string.work_deduction_transaction, transactionResponse.getTaskName());
+            case "rating_bonus":
+                return context.getString(R.string.rating_bonus, transactionResponse.getTaskName());
+            case "task_confirmation_penalized":
+                return context.getString(R.string.task_confirmation_penalized, transactionResponse.getTaskName());
+            default:
+                if (transactionResponse.getProvider().equals("1pay"))
+                    return context.getString(R.string.transaction_1pay);
+                else
+                    return transactionResponse.getMethod();
+        }
     }
 
     public static String getMemberChat(Context context, TaskResponse taskResponse) {
-        String result = "";
+        String result;
         if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId()) {
             if (taskResponse.getAssigneeCount() == 1) {
                 result = context.getString(R.string.you) + " " + taskResponse.getAssignees().get(0).getFullName();

@@ -301,10 +301,10 @@ public class ChatFragment extends BaseFragment {
 
     private List<ChatRoom> coverTasksToChatRooms(List<TaskResponse> taskResponses) {
         List<ChatRoom> chatRooms = new ArrayList<>();
-        for (TaskResponse taskResponse : taskResponses
-                ) {
-            chatRooms.add(coverTasksToChatRoom(taskResponse));
-        }
+            for (TaskResponse taskResponse : taskResponses
+                    ) {
+                chatRooms.add(coverTasksToChatRoom(taskResponse));
+            }
         return chatRooms;
 
     }

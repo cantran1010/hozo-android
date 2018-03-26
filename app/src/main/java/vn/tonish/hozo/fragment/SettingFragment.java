@@ -17,7 +17,6 @@ import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.view.TextViewHozo;
-
 import static vn.tonish.hozo.utils.Utils.openBrowser;
 
 /**
