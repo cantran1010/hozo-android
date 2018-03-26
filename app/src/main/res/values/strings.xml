@@ -831,7 +831,6 @@
     <string name="work_deducted">Hệ thống đã khấu trừ %1$s cho việc \"%2$s\"</string>
     <string name="bid_input_error">Hozo không cho phép gửi email hay số điện thoại khi chưa được giao việc. \nTrường hợp cố tình vi phạm sẽ có nguy cơ bị khóa tài khoản vĩnh viễn!</string>
     <string name="post_task_not_allowed">Không thể đăng việc vào thời điểm này. Vui lòng thử lại sau.</string>
-    <string name="notification_review_worker_done_footer2">Bạn đã được hoàn trả tiền cọc ứng tuyển và được thưởng thêm %2$s</string>
     <string name="rating_bonus">Nhận tiền thưởng hoàn thành xuất sắc công việc \"%1$s\".</string>
     <string name="min_amount_required">Bạn cần tối thiểu %1$sđ trong ví tài khoản để đăng việc.</string>
     <string name="task_confirmation_penalized">Tiền phạt vì không phê duyệt công việc \"%1$s\"</string>
