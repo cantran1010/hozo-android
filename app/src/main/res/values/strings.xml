@@ -833,4 +833,7 @@
     <string name="post_task_not_allowed">Không thể đăng việc vào thời điểm này. Vui lòng thử lại sau.</string>
     <string name="notification_review_worker_done_footer2">Bạn đã được hoàn trả tiền cọc ứng tuyển và được thưởng thêm %2$s</string>
     <string name="rating_bonus">Nhận tiền thưởng hoàn thành xuất sắc công việc \"%1$s\".</string>
+    <string name="min_amount_required">Bạn cần tối thiểu %1$sđ trong ví tài khoản để đăng việc.</string>
+    <string name="task_confirmation_penalized">Tiền phạt vì không phê duyệt công việc \"%1$s\"</string>
+    <string name="task_confirmation_penalized_event">Bạn đã bị trừ %1$sđ từ %2$s vì không phê duyệt công việc \"%3$s\"</string>
 </resources>

@@ -146,6 +146,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
 //                .setSmallIcon(R.mipmap.app_icon)
                 .setContentTitle(notification.getTitle())
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(notification.getBody()))
                 .setContentText(notification.getBody())
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)

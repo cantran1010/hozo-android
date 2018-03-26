@@ -561,6 +561,15 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                                     }
                                 });
                                 break;
+                            case Constants.MIN_AMOUNT_REQUIRED:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.min_amount_required, Utils.formatNumber(Integer.parseInt(error.message()))), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+                                        startActivity(new Intent(getContext(), MyWalletActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+
+                                    }
+                                });
+                                break;
                             default:
                                 DialogUtils.showOkDialog(getContext(), getString(R.string.invalid_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                                     @Override

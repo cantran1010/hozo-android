@@ -389,7 +389,7 @@ public class Utils {
     private static final int MAX_LENGTH_TASK_NAME = 80;
 
     public static void setContentMessage(Context context, TextViewHozo tvContent, Notification notification) {
-        String content = "";
+        String content;
         String matcher = "";
         String matcherColor = "#00A2E5";
 
@@ -446,7 +446,10 @@ public class Utils {
                 break;
             case Constants.PUSH_TYPE_TASK_OVERDUE:
                 if (notification.getUserId() == UserManager.getMyUser().getId()) {
-                    content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1) + " " + context.getString(R.string.push_overdue_footer2) + " " + Utils.formatNumber(notification.getAmount()) + "đ " + context.getString(R.string.push_overdue_footer3);
+                    if (notification.getAmount() > 0)
+                        content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1) + " " + context.getString(R.string.push_overdue_footer2) + " " + Utils.formatNumber(notification.getAmount()) + "đ " + context.getString(R.string.push_overdue_footer3);
+                    else
+                        content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1);
                     matcher = context.getString(R.string.notification_task_overdue_matcher);
                     matcherColor = context.getString(R.string.notification_task_overdue_color);
                 } else {
@@ -571,6 +574,18 @@ public class Utils {
                 matcher = Utils.formatNumber(notification.getAmount()) + "đ ";
                 matcherColor = context.getString(R.string.notification_task_overdue_color);
                 break;
+            case Constants.TASK_CONFIRMATION_PENALIZED:
+                String wayllet;
+                if (notification.getWallet().equals("cash"))
+                    wayllet = "ví tiền";
+                else wayllet = "ví tài khoản";
+                content = context.getString(R.string.task_confirmation_penalized_event, Utils.formatNumber(notification.getAmount()), wayllet, notification.getTaskName());
+                matcher = Utils.formatNumber(notification.getAmount()) + "đ ";
+                matcherColor = context.getString(R.string.notification_task_overdue_color);
+                break;
+            default:
+                content = notification.getEvent();
+                break;
         }
 
         tvContent.setText(content);
@@ -643,7 +658,7 @@ public class Utils {
                     if (notification.getAmount() > 0)
                         content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1) + " " + context.getString(R.string.push_overdue_footer2) + " " + Utils.formatNumber(notification.getAmount()) + "đ " + context.getString(R.string.push_overdue_footer3);
                     else
-                        content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1) + " " + context.getString(R.string.push_overdue_footer3);
+                        content = context.getString(R.string.push_overdue_title) + " \"" + notification.getTaskName() + "\" " + context.getString(R.string.your_task) + " " + context.getString(R.string.push_overdue_footer1);
 
                 } else {
                     content = context.getString(R.string.push_overdue_title) + " " + notification.getTaskName() + " " + context.getString(R.string.push_overdue_footer_2);
@@ -964,6 +979,8 @@ public class Utils {
                 return context.getString(R.string.work_deduction_transaction, transactionResponse.getTaskName());
             case "rating_bonus":
                 return context.getString(R.string.rating_bonus, transactionResponse.getTaskName());
+            case "task_confirmation_penalized":
+                return context.getString(R.string.task_confirmation_penalized, transactionResponse.getTaskName());
             default:
                 if (transactionResponse.getProvider().equals("1pay"))
                     return context.getString(R.string.transaction_1pay);
