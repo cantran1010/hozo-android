@@ -562,7 +562,7 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                                 });
                                 break;
                             case Constants.MIN_AMOUNT_REQUIRED:
-                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.min_amount_required, Utils.formatNumber(Integer.parseInt(error.message()))), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.notification), getString(R.string.min_amount_required, Utils.formatNumber(Integer.parseInt(error.message()))), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                                     @Override
                                     public void onSubmit() {
                                         startActivity(new Intent(getContext(), MyWalletActivity.class), TransitionScreen.RIGHT_TO_LEFT);
@@ -740,6 +740,15 @@ public class PostTaskFragment extends BaseFragment implements View.OnClickListen
                                 DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.post_task_not_allowed), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                                     @Override
                                     public void onSubmit() {
+
+                                    }
+                                });
+                                break;
+                            case Constants.MIN_AMOUNT_REQUIRED:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.notification), getString(R.string.min_amount_required, Utils.formatNumber(Integer.parseInt(error.message()))), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+                                        startActivity(new Intent(getContext(), MyWalletActivity.class), TransitionScreen.RIGHT_TO_LEFT);
 
                                     }
                                 });

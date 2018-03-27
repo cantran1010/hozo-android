@@ -36,7 +36,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         versionCode extractVersionCode()
-        versionName "2.4.0"
+        versionName "2.5.0"
         multiDexEnabled true
     }
 
