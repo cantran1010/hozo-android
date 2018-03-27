@@ -5,11 +5,11 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
+
 /**
  * Created by LongBui.
  */
 public class DeviceUtils {
-
     public static DisplayInfo getDisplayInfo(Context context) {
         DisplayInfo sDisplayInfo = new DisplayInfo();
         WindowManager wm = (WindowManager) context
@@ -63,7 +63,6 @@ public class DeviceUtils {
         public void setDensity(int density) {
             this.density = density;
         }
-
     }
 
     public static String getModel() {

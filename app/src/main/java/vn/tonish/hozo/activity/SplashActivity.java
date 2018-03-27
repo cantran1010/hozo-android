@@ -3,6 +3,7 @@ package vn.tonish.hozo.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.facebook.accountkit.AccountKit;
 
@@ -25,6 +26,7 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.BlockResponse;
 import vn.tonish.hozo.rest.responseRes.UpdateResponse;
 import vn.tonish.hozo.utils.DialogUtils;
+import vn.tonish.hozo.utils.EmulatorDetector;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
@@ -63,10 +65,8 @@ public class SplashActivity extends BaseActivity {
             Log.d(TAG, data.toString());
             String scheme = data.getScheme(); // "http"
             String host = data.getHost(); // "twitter.com"
-
             if (data.getQueryParameter("task_id") != null && !data.getQueryParameter("task_id").trim().equals("") && !data.getQueryParameter("task_id").equals("null") && data.getQueryParameter("task_id").length() > 0)
                 taskId = Integer.valueOf(data.getQueryParameter("task_id"));
-
             LogUtils.d(TAG, "schema : " + scheme);
             LogUtils.d(TAG, "schema , host : " + host);
             LogUtils.d(TAG, "schema , url : " + data.toString());
@@ -77,15 +77,32 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void resumeData() {
-        checkUpdate();
+        EmulatorDetector.with(this)
+                .addPackageName("com.bluestacks")
+                .detect(new EmulatorDetector.OnEmulatorDetectorListener() {
+                    @Override
+                    public void onResult(final boolean isEmulator) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                LogUtils.d(TAG, "isEmulator: " + isEmulator);
+                                if (isEmulator) {
+                                    finish();
+                                    Toast.makeText(SplashActivity.this, "Máy của bạn không tương thích!", Toast.LENGTH_LONG).show();
+                                } else {
+                                    checkUpdate();
+                                }
+                            }
+                        });
+                    }
+                });
+
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-
         Uri data = intent.getData();
-
         if (data != null) {
             Log.d(TAG, data.toString());
             String scheme = data.getScheme(); // "http"
@@ -146,7 +163,7 @@ public class SplashActivity extends BaseActivity {
                                     finish();
                                 }
                             } catch (Exception e) {
-                                LogUtils.e(TAG,"checkUpdate ERROR : " + e.getMessage());
+                                LogUtils.e(TAG, "checkUpdate ERROR : " + e.getMessage());
                                 // sometimes bug
                                 // io.realm.exceptions.RealmFileException: Unable to open a realm at path '/data/data/vn.tonish.hozo/files/hozo': Realm file decryption failed.
                                 // (Realm file decryption failed) (/data/data/vn.tonish.hozo/files/hozo) in /home/cc/repo/realm/release/realm/realm-library/src/main/cpp/io_realm_internal_SharedRealm.cpp
