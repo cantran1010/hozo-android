@@ -170,6 +170,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
     private TextViewHozo tvMap;
     private LinearLayout layoutPrepay;
     private ImageView imgQuestion;
+    private boolean isMyViewer;
 
     @Override
     protected int getLayout() {
@@ -316,11 +317,15 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
 
             }
         });
+        isMyViewer = true;
+        getData(isMyViewer);
     }
 
     @Override
     protected void resumeData() {
-        getData();
+        if (!isMyViewer)
+            getData(isMyViewer);
+        isMyViewer = false;
         registerReceiver(broadcastReceiver, new IntentFilter("MyBroadcast"));
     }
 
@@ -349,7 +354,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
         } else
             moreDFooterVisibility = View.GONE;
 
-        getData();
+        getData(isMyViewer);
     }
 
     @Override
@@ -367,79 +372,70 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             moreDFooterVisibility = View.GONE;
     }
 
-    private void getData() {
+    private void getData(final boolean isViewer) {
         ProgressDialogUtils.showProgressDialog(this);
+        LogUtils.d(TAG, "getDetailTask , isViewer : " + isViewer);
         LogUtils.d(TAG, "getDetailTask , taskId : " + taskId);
         LogUtils.d(TAG, "getDetailTask , UserManager.getUserToken() : " + UserManager.getUserToken());
-
         Map<String, Boolean> option = new HashMap<>();
-        option.put("viewer", true);
-
+        option.put("viewer", isViewer);
         call = ApiClient.getApiService().getDetailTask(UserManager.getUserToken(), taskId, option);
         call.enqueue(new Callback<TaskResponse>() {
             @Override
             public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
                 LogUtils.d(TAG, "getDetailTask , status code : " + response.code());
                 LogUtils.d(TAG, "getDetailTask , body : " + response.body());
-
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    imgMenu.setVisibility(View.VISIBLE);
-                    taskResponse = response.body();
-                    Utils.updateRole(taskResponse);
-                    updateUi();
-                } else if (response.code() == Constants.HTTP_CODE_BAD_REQUEST) {
-                    APIError error = ErrorUtils.parseError(response);
-                    LogUtils.e(TAG, "getDetailTask errorBody" + error.toString());
-                    if (error.status().equals(Constants.TASK_DETAIL_INPUT_REQUIRE) || error.status().equals(Constants.TASK_DETAIL_NO_EXIT)) {
-                        DialogUtils.showOkDialog(DetailTaskActivity.this, getString(R.string.task_detail_no_exit), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                switch (response.code()) {
+                    case Constants.HTTP_CODE_OK:
+                        imgMenu.setVisibility(View.VISIBLE);
+                        taskResponse = response.body();
+                        Utils.updateRole(taskResponse);
+                        updateUi();
+                        break;
+                    case Constants.HTTP_CODE_UNAUTHORIZED:
+                        NetworkUtils.refreshToken(DetailTaskActivity.this, new NetworkUtils.RefreshListener() {
                             @Override
-                            public void onSubmit() {
-
+                            public void onRefreshFinish() {
+                                getData(isViewer);
                             }
                         });
-                    } else if (error.status().equals(Constants.TASK_DETAIL_BLOCK)) {
-                        finish();
-                        Intent intent = new Intent(DetailTaskActivity.this, BlockTaskActivity.class);
-                        intent.putExtra(Constants.TITLE_INFO_EXTRA, getString(R.string.task_detail_block));
-                        String msg;
+                        break;
+                    case Constants.HTTP_CODE_BLOCK_USER:
+                        Utils.blockUser(DetailTaskActivity.this);
+                        break;
+                    default:
+                        APIError error = ErrorUtils.parseError(response);
+                        LogUtils.e(TAG, "getDetailTask errorBody" + error.toString());
+                        switch (error.status()) {
+                            case Constants.TASK_DETAIL_NO_EXIT:
+                            case Constants.TASK_DETAIL_INPUT_REQUIRE:
+                                DialogUtils.showOkDialog(DetailTaskActivity.this, getString(R.string.task_detail_no_exit), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-//                        if (taskResponse.getPoster().getId() == UserManager.getMyUser().getId())
-//                            msg = error.message();
-//                        else msg = getString(R.string.term_and_policy);
+                                    }
+                                });
+                                break;
+                            case Constants.TASK_DETAIL_BLOCK:
+                                finish();
+                                Intent intent = new Intent(DetailTaskActivity.this, BlockTaskActivity.class);
+                                intent.putExtra(Constants.TITLE_INFO_EXTRA, getString(R.string.task_detail_block));
+                                String msg;
+                                msg = getString(R.string.term_and_policy);
+                                intent.putExtra(Constants.CONTENT_INFO_EXTRA, getString(R.string.task_detail_block_reasons) + " " + msg);
+                                startActivity(intent, TransitionScreen.FADE_IN);
+                                break;
+                            default:
+                                DialogUtils.showOkDialog(DetailTaskActivity.this, getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                        msg = getString(R.string.term_and_policy);
-
-                        intent.putExtra(Constants.CONTENT_INFO_EXTRA, getString(R.string.task_detail_block_reasons) + " " + msg);
-                        startActivity(intent, TransitionScreen.FADE_IN);
-                    } else {
-                        DialogUtils.showOkDialog(DetailTaskActivity.this, getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
-
-                            }
-                        });
-                    }
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(DetailTaskActivity.this, new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            getData();
-                        }
-                    });
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(DetailTaskActivity.this);
-                } else {
-                    DialogUtils.showRetryDialog(DetailTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            getData();
+                                    }
+                                });
+                                break;
                         }
 
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
+                        break;
                 }
                 onStopRefresh();
                 ProgressDialogUtils.dismissProgressDialog();
@@ -451,7 +447,7 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
                 DialogUtils.showRetryDialog(DetailTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        getData();
+                        getData(isViewer);
                     }
 
                     @Override
@@ -1726,13 +1722,11 @@ public class DetailTaskActivity extends BaseActivity implements View.OnClickList
             public void onResponse(Call<Comment> call, Response<Comment> response) {
                 LogUtils.d(TAG, "commentTask , code : " + response.code());
                 LogUtils.d(TAG, "commentTask , body : " + response.body());
-
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     imgPath = null;
                     edtComment.setText(getString(R.string.empty));
                     imgLayout.setVisibility(View.GONE);
-
-                    getData();
+                    getData(isMyViewer);
                 } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
                     NetworkUtils.refreshToken(DetailTaskActivity.this, new NetworkUtils.RefreshListener() {
                         @Override

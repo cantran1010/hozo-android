@@ -25,6 +25,7 @@ import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.BaseActivity;
 import vn.tonish.hozo.activity.GeneralInfoActivity;
 import vn.tonish.hozo.activity.NoteActivity;
+import vn.tonish.hozo.activity.profile.EditProfileActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOk;
@@ -239,6 +240,21 @@ public class ConfirmBidActivity extends BaseActivity implements View.OnClickList
                                 RechargeDialog rechargeDialog = new RechargeDialog(ConfirmBidActivity.this);
                                 rechargeDialog.showView();
                                 rechargeDialog.updateUi(taskResponse.getBidDepositAmount() + taskResponse.getBidFee());
+                                break;
+                            case Constants.MISSING_PROFILE_INFO:
+                                DialogUtils.showOkAndCancelDialog(ConfirmBidActivity.this, getString(R.string.notification),
+                                        getString(R.string.add_your_profile), getString(R.string.confirm), getString(R.string.cancel), new AlertDialogOkAndCancel.AlertDialogListener() {
+                                            @Override
+                                            public void onSubmit() {
+                                                Intent intentBid = new Intent(ConfirmBidActivity.this, EditProfileActivity.class);
+                                                startActivityForResult(intentBid, Constants.BID_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+                                            }
+
+                                            @Override
+                                            public void onCancel() {
+
+                                            }
+                                        });
                                 break;
                             default:
                                 DialogUtils.showOkDialog(ConfirmBidActivity.this, getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {

@@ -265,6 +265,7 @@
     <string name="update_content">Bạn có muốn cập nhật phiên bản mới nhất?</string>
     <string name="update_force_content">Bạn phải cập nhật phiên bản mới nhất để tiếp tục sử dụng!</string>
     <string name="erro_empty_name">Bắt buộc phải nhập họ tên.</string>
+    <string name="error_empty_des">Giới thiệu bản thân không được để trống.</string>
     <string name="share">Chia sẻ việc</string>
     <string name="min_budget_error">Số tiền tối thiểu \n là %1$s</string>
     <string name="notification_title">Thông báo</string>
@@ -835,4 +836,8 @@
     <string name="min_amount_required">Bạn cần tối thiểu %1$sđ trong ví tài khoản để đăng việc.</string>
     <string name="task_confirmation_penalized">Tiền phạt vì không phê duyệt công việc \"%1$s\"</string>
     <string name="task_confirmation_penalized_event">Bạn đã bị trừ %1$sđ từ %2$s vì không phê duyệt công việc \"%3$s\"</string>
+    <string name="add_your_profile">Để ứng tuyển công việc này. Bạn vui lòng hoàn thiện hồ sơ cá nhân.</string>
+    <string name="cancel">Huỷ</string>
+    <string name="avatar_empty">Bạn cần cập nhật hình đại diện để hoàn thành xác thực thông tin.</string>
+    <string name="not_update_profile">Bạn chưa hoàn thành bổ sung thông tin cá nhân!</string>
 </resources>
