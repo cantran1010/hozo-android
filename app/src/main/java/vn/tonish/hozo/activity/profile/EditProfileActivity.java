@@ -12,7 +12,9 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,10 +22,6 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +49,7 @@ import vn.tonish.hozo.adapter.ImageAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.dialog.PickImageDialog;
 import vn.tonish.hozo.model.Image;
@@ -80,13 +79,14 @@ import static vn.tonish.hozo.common.Constants.REQUEST_CODE_PICK_IMAGE_BACKGROUND
 import static vn.tonish.hozo.common.Constants.RESPONSE_CODE_PICK_IMAGE;
 import static vn.tonish.hozo.utils.DateTimeUtils.getDateBirthDayFromIso;
 import static vn.tonish.hozo.utils.DateTimeUtils.getOnlyIsoFromDate;
+import static vn.tonish.hozo.utils.DialogUtils.showRetryDialog;
 
 
 /**
  * Created by LongBui on 4/21/2017.
  */
 
-public class EditProfileActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class EditProfileActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
     private static final String TAG = EditProfileActivity.class.getSimpleName();
 
     private CircleImageView imgAvatar;
@@ -103,7 +103,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private String gender;
     private double lat, lon;
     private String address = "";
-    private EdittextHozo autocompleteView;
+    private EdittextHozo edtAddress;
     private RadioButtonHozo rbMale, rbFemale, rbAny;
     private CheckBoxHozo cbHideGender, cbHideBirth;
     private MyGridView grImage;
@@ -114,6 +114,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     private RadioButtonHozo rbPoster, rbWorker, rbBoth;
     private ImageView imgBackground;
     private final String DATE_DEFAULT = "01/01/1990";
+    private TextViewHozo tvNoteName, tvNoteDes, tvNoteAddress;
 
     @Override
     protected int getLayout() {
@@ -125,8 +126,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         imgAvatar = (CircleImageView) findViewById(R.id.img_avatar);
         imgAvatar.setOnClickListener(this);
 
-//        ButtonHozo btnSave = findViewById(R.id.btn_save);
-//        btnSave.setOnClickListener(this);
+        ImageView imgSave = (ImageView) findViewById(R.id.img_save);
+        imgSave.setOnClickListener(this);
 
         ImageView imgCancel = (ImageView) findViewById(R.id.img_cancel);
         imgCancel.setOnClickListener(this);
@@ -143,7 +144,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
 
         edtDes = (EdittextHozo) findViewById(R.id.edt_description);
-        autocompleteView = (EdittextHozo) findViewById(R.id.edt_address);
+        edtAddress = (EdittextHozo) findViewById(R.id.edt_address);
 
         rbMale = (RadioButtonHozo) findViewById(R.id.rd_male);
         rbFemale = (RadioButtonHozo) findViewById(R.id.rd_female);
@@ -171,29 +172,111 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
         imgBackground = (ImageView) findViewById(R.id.img_background);
         imgBackground.setOnClickListener(this);
-        autocompleteView.setOnClickListener(this);
+        edtAddress.setOnClickListener(this);
+        tvNoteName = (TextViewHozo) findViewById(R.id.note_name);
+        tvNoteAddress = (TextViewHozo) findViewById(R.id.note_address);
+        tvNoteDes = (TextViewHozo) findViewById(R.id.note_des);
+        edtName.addTextChangedListener(this);
+        edtDes.addTextChangedListener(this);
+        edtAddress.addTextChangedListener(this);
+
     }
 
     @Override
     protected void initData() {
         Constants.MAX_IMAGE_ATTACH = 9;
         userEntity = UserManager.getMyUser();
+        updateUi();
+        getUserFromServer();
+        grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (images.get(position).isAdd) {
+                    if (images.size() >= 10) {
+                        Utils.showLongToast(EditProfileActivity.this, getString(R.string.max_image_attach_err, 9), true, false);
+                    } else {
+                        checkPermissionImageAttach();
+                    }
+                } else {
+                    Intent intent = new Intent(EditProfileActivity.this, PreviewImageActivity.class);
+                    intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
+                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                }
+            }
+        });
 
+
+    }
+
+    private void getUserFromServer() {
+        ApiClient.getApiService().getUser(UserManager.getUserToken(), userEntity.getId()).enqueue(new Callback<UserEntity>() {
+            @Override
+            public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
+                LogUtils.d(TAG, "onResponse getUserFromServer status code : " + response.code());
+                LogUtils.d(TAG, "onResponse getUserFromServer body : " + response.body());
+                switch (response.code()) {
+                    case Constants.HTTP_CODE_OK:
+                        UserEntity userEntity = response.body();
+                        userEntity.setAccessToken(UserManager.getMyUser().getAccessToken());
+                        userEntity.setTokenExp(UserManager.getMyUser().getTokenExp());
+                        userEntity.setRefreshToken(UserManager.getMyUser().getRefreshToken());
+                        UserManager.insertUser(response.body(), true);
+                        updateUi();
+                        break;
+                    case Constants.HTTP_CODE_BLOCK_USER:
+                        Utils.blockUser(EditProfileActivity.this);
+                        break;
+                    case Constants.HTTP_CODE_UNAUTHORIZED:
+                        NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
+                            @Override
+                            public void onRefreshFinish() {
+                                getUserFromServer();
+                            }
+                        });
+                        break;
+                    default:
+                        APIError error = ErrorUtils.parseError(response);
+                        DialogUtils.showOkDialog(EditProfileActivity.this, getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserEntity> call, Throwable t) {
+                LogUtils.e(TAG, "onFailure message : " + t.getMessage());
+                if (isFinishing()) return;
+                showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getUserFromServer();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+
+            }
+        });
+    }
+
+    private void updateUi() {
         LogUtils.d(TAG, "EditProfileActivity userEntity : " + userEntity.toString());
-
         if (userEntity.getAvatar() != null)
             Utils.displayImageAvatar(this, imgAvatar, userEntity.getAvatar());
-
         edtName.setText(userEntity.getFullName());
-
         if (!TextUtils.isEmpty(userEntity.getBackground()))
             Utils.displayImage(this, imgBackground, userEntity.getBackground());
-
         if (userEntity.getGender() != null) {
             gender = userEntity.getGender();
             updateGender(gender);
         }
-
         rbMale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -228,9 +311,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         address = userEntity.getAddress();
         lat = userEntity.getLatitude();
         lon = userEntity.getLongitude();
-        autocompleteView.setText(userEntity.getAddress());
+        edtAddress.setText(userEntity.getAddress());
         edtDes.setText(userEntity.getDescription());
-
+        images.clear();
         for (int i = 0; i < userEntity.getImages().size(); i++) {
             Image image1 = new Image();
             image1.setId(userEntity.getImages().get(i).getId());
@@ -241,27 +324,8 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         final Image image = new Image();
         image.setAdd(true);
         images.add(image);
-
         imageAdapter = new ImageAdapter(this, images);
         grImage.setAdapter(imageAdapter);
-
-        grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (images.get(position).isAdd) {
-                    if (images.size() >= 10) {
-                        Utils.showLongToast(EditProfileActivity.this, getString(R.string.max_image_attach_err, 9), true, false);
-                    } else {
-                        checkPermissionImageAttach();
-                    }
-                } else {
-                    Intent intent = new Intent(EditProfileActivity.this, PreviewImageActivity.class);
-                    intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
-                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                }
-            }
-        });
-
         edtExperience.setText(userEntity.getExperiences());
 
         switch (userEntity.getRole()) {
@@ -304,14 +368,17 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void doSave() {
-
-        if (edtName.getText().toString().trim().equals("")) {
+        if (edtName.getText().toString().trim().isEmpty()) {
             edtName.requestFocus();
             edtName.setError(getString(R.string.erro_empty_name));
             return;
         } else if (!Utils.validateInput(this, edtName.getText().toString().trim())) {
             edtName.requestFocus();
             edtName.setError(getString(R.string.name_error));
+            return;
+        } else if (edtDes.getText().toString().trim().isEmpty()) {
+            edtDes.requestFocus();
+            edtDes.setError(getString(R.string.error_empty_des));
             return;
         } else if (edtDes.getText().toString().trim().length() > 500) {
             edtDes.requestFocus();
@@ -323,18 +390,22 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             return;
         } else if (lat == 0 && lon == 0) {
             Log.d(TAG, "lat +long" + lat + " : " + lon);
-            autocompleteView.requestFocus();
-            autocompleteView.setError(getString(R.string.post_task_address_error_google));
+            edtAddress.requestFocus();
+            edtAddress.setError(getString(R.string.post_task_address_error_google));
             return;
         } else if (TextUtils.isEmpty(address)) {
-            autocompleteView.requestFocus();
-            autocompleteView.setError(getString(R.string.post_task_address_error));
+            edtAddress.requestFocus();
+            edtAddress.setError(getString(R.string.post_task_address_error));
             return;
         } else if (!Utils.validateInput(this, edtExperience.getText().toString().trim())) {
             edtExperience.requestFocus();
             edtExperience.setError(getString(R.string.name_error));
             return;
+        } else if (avataId == 0 && userEntity.getAvatar().isEmpty()) {
+            Utils.showLongToast(this, getString(R.string.avatar_empty), true, false);
+            return;
         }
+
 
         if (isUpdateAvata) {
             updateAvata();
@@ -373,7 +444,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     Utils.blockUser(EditProfileActivity.this);
                     ProgressDialogUtils.dismissProgressDialog();
                 } else {
-                    DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             updateAvata();
@@ -393,7 +464,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onFailure(Call<ImageResponse> call, Throwable t) {
                 LogUtils.e(TAG, "updateAvata onFailure : " + t.getMessage());
-                DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         updateAvata();
@@ -448,7 +519,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     APIError error = ErrorUtils.parseError(response);
                     LogUtils.e(TAG, "updateBackground errorBody" + error.toString());
 
-                    DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             updateBackground();
@@ -468,7 +539,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onFailure(Call<ImageResponse> call, Throwable t) {
                 LogUtils.e(TAG, "updateBackground onFailure : " + t.getMessage());
-                DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         updateBackground();
@@ -486,12 +557,10 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void updateImageAttach() {
-        LogUtils.d(TAG, " updateImageAttach start images : " + images.toString());
-
+        LogUtils.d(TAG, " updateImageAttach start images aa: " + images.size());
         if (images.size() > 1) {
             for (int i = 0; i < images.size() - 1; i++)
                 if (images.get(i).getId() == 0) imageAttachCount++;
-
             if (imageAttachCount == 0) {
                 updateProfile();
                 return;
@@ -640,7 +709,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
                     Utils.blockUser(EditProfileActivity.this);
                 } else {
-                    DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             updateProfile();
@@ -658,7 +727,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onFailure(Call<UserEntity> call, Throwable t) {
                 LogUtils.e(TAG, "onFailure error : " + t.getMessage());
-                DialogUtils.showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         updateProfile();
@@ -779,7 +848,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             Bundle bundle = data.getExtras();
             lat = bundle.getDouble(Constants.LAT_EXTRA);
             lon = bundle.getDouble(Constants.LON_EXTRA);
-            autocompleteView.setText(bundle.getString(Constants.EXTRA_ADDRESS));
+            edtAddress.setText(bundle.getString(Constants.EXTRA_ADDRESS));
             address = bundle.getString(Constants.EXTRA_ADDRESS);
 
         }
@@ -941,16 +1010,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        LogUtils.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
-                + connectionResult.getErrorCode());
-        Toast.makeText(this,
-                getString(R.string.gg_api_error),
-                Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_camera:
@@ -958,6 +1017,12 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.img_cancel:
+                if (userEntity.getAvatar().isEmpty() || userEntity.getDescription().isEmpty() || userEntity.getAddress().isEmpty()) {
+                    Utils.showLongToast(this, getString(R.string.not_update_profile), true, false);
+                }
+                finish();
+                break;
+            case R.id.img_save:
                 doSave();
                 break;
             case R.id.edt_address:
@@ -966,16 +1031,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             case R.id.layout_birthday:
                 openDatePicker();
                 break;
-
-//            case R.id.layout_male:
-//                gender = getString(R.string.gender_male);
-//                updateGender(getString(R.string.gender_male));
-//                break;
-//
-//            case R.id.layout_female:
-//                gender = getString(R.string.gender_female);
-//                updateGender(getString(R.string.gender_female));
-//                break;
 
             case img_avatar:
                 if (!UserManager.getMyUser().getAvatar().trim().equals("")) {
@@ -1011,5 +1066,25 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 break;
 
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        if (edtName.length() > 0) tvNoteName.setVisibility(View.GONE);
+        else tvNoteName.setVisibility(View.VISIBLE);
+        if (edtDes.length() > 0) tvNoteDes.setVisibility(View.GONE);
+        else tvNoteDes.setVisibility(View.VISIBLE);
+        if (edtAddress.length() > 0) tvNoteAddress.setVisibility(View.GONE);
+        else tvNoteAddress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
     }
 }

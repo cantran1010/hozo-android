@@ -10,60 +10,63 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:text="@string/alert_dialog_title"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="@dimen/tv_size_xlager"
         android:textStyle="bold" />
 
     <vn.tonish.hozo.view.TextViewHozo
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="5dp"
+        android:layout_margin="10dp"
+        android:gravity="center"
         android:text="@string/alert_dialog_content"
         android:textColor="@color/tv_gray"
         android:textSize="16sp" />
 
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginBottom="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
-        android:layout_marginTop="5dp"
-        android:gravity="end">
+        android:layout_height="1px"
+        android:background="@color/border_gray" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/line"
+            android:layout_toStartOf="@+id/line"
+            android:background="?attr/selectableItemBackground"
             android:focusable="true"
-            android:padding="10dp"
+            android:gravity="center"
             android:text="@string/alert_dialog_no"
             android:textColor="@color/hozo_bg"
-            android:textSize="14sp"
             android:textStyle="bold" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@color/border_gray" />
 
         <vn.tonish.hozo.view.TextViewHozo
             android:id="@+id/tv_yes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/line"
+            android:layout_toRightOf="@+id/line"
+            android:background="?attr/selectableItemBackground"
             android:focusable="true"
-            android:paddingBottom="10dp"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            android:paddingTop="10dp"
+            android:gravity="center"
             android:text="@string/alert_dialog_yes"
             android:textColor="@color/hozo_red"
-            android:textSize="14sp"
             android:textStyle="bold" />
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

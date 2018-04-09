@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,8 +20,6 @@ import android.widget.Toast;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,12 +38,9 @@ import vn.tonish.hozo.adapter.KeyWordAdapter;
 import vn.tonish.hozo.adapter.TaskTypeAdapter;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.common.DataParse;
-import vn.tonish.hozo.database.entity.RealmInt;
-import vn.tonish.hozo.database.entity.RealmString;
-import vn.tonish.hozo.database.entity.SettingAdvanceEntity;
 import vn.tonish.hozo.database.manager.CategoryManager;
-import vn.tonish.hozo.database.manager.SettingAdvanceManager;
 import vn.tonish.hozo.database.manager.UserManager;
+import vn.tonish.hozo.dialog.AlertDialogOk;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
 import vn.tonish.hozo.model.Category;
 import vn.tonish.hozo.model.SettingAdvance;
@@ -64,8 +58,6 @@ import vn.tonish.hozo.view.ExpandableLayout;
 import vn.tonish.hozo.view.RadioButtonHozo;
 import vn.tonish.hozo.view.TextViewHozo;
 
-import static vn.tonish.hozo.database.manager.SettingAdvanceManager.converToSettingAdvanceEntity;
-import static vn.tonish.hozo.database.manager.SettingAdvanceManager.getSettingAdvace;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
 
@@ -73,7 +65,7 @@ import static vn.tonish.hozo.utils.Utils.hideSoftKeyboard;
  * Created by CanTran on 11/15/17.
  */
 
-public class AlertNewTaskActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, GoogleApiClient.OnConnectionFailedListener {
+public class AlertNewTaskActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     private static final String TAG = SettingActivity.class.getSimpleName();
     private ImageView imgFollowArrow, imgCategoryArrow, imgTimeArrow, imgDistance, imgKeyword, imgPrice, imgLocation;
     private TextViewHozo tvFolowed, tvCategory, tvDateTime, tvDistance, tvPrice;
@@ -84,7 +76,6 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     private ExpandableLayout followExpandableLayout, categoryExpandableLayout, timeExpandableLayout, distanceExpandableLayout, locationExpandableLayout, priceExpandableLayout, keywordExpandableLayout;
     private TaskTypeAdapter mAdapter;
     private ArrayList<Category> categories;
-    private SettingAdvanceEntity newTaskAlertEntity;
     private TextViewHozo tvMonday, tvTuesday, tvWednesday, tvThursday, tvFriday, tvSaturday, tvSunday, tvKeyword, tvLocation;
     private int count = 0;
     private String address = "";
@@ -106,6 +97,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     private LinearLayout layoutContext;
     private NestedScrollView scrollView;
     private JSONObject originJsonRequest;
+    private SettingAdvance settingAdvance = new SettingAdvance();
 
     @Override
     protected int getLayout() {
@@ -222,23 +214,13 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initData() {
-        LogUtils.d(TAG, "get setting from realm" + getSettingAdvace());
         anim_down = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.rotate_down);
         anim_up = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.rotate_up);
         autocompleteView = (TextViewHozo) findViewById(R.id.edt_address);
         createListCategory();
-        getDataforView();
-    }
-
-    private void getDataforView() {
-        if (getSettingAdvace() == null) {
-            getSettingAdvanceFromeServer();
-        } else {
-            newTaskAlertEntity = getSettingAdvace();
-            setDataForView();
-        }
+        getSettingAdvanceFromeServer();
     }
 
     private void createListCategory() {
@@ -255,39 +237,13 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 ) {
             category.setSelected(false);
         }
-        mAdapter = new TaskTypeAdapter(categories);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        rcvCategory.setLayoutManager(layoutManager);
-        rcvCategory.setAdapter(mAdapter);
-        mAdapter.setListener(new TaskTypeAdapter.CategoryListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                catIds = new ArrayList<>();
-                if (buttonView.getText().equals(getString(R.string.hozo_all))) {
-                    categoryName = getString(R.string.hozo_all);
-                } else categoryName = getCategoryName();
-                tvCategory.setText(categoryName);
-                if (categories.size() > 0) {
-                    for (Category cat : categories
-                            ) {
-
-                        if (cat.getId() != 0 && cat.isSelected()) {
-                            catIds.add(cat.getId());
-                            if (catIds.size() == categories.size() - 1) catIds.clear();
-                        }
-                    }
-                }
-
-
-            }
-        });
         LogUtils.d(TAG, "categorys get 1 :" + categories.toString());
 
     }
 
     private void setDataForView() {
-        if (newTaskAlertEntity != null) {
-            isNotification = newTaskAlertEntity.isNtaNotification();
+        if (settingAdvance != null) {
+            isNotification = settingAdvance.isNtaNotification();
             if (isNotification) {
                 radNotiYes.setChecked(true);
                 layoutContext.setVisibility(View.VISIBLE);
@@ -321,10 +277,10 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     private void setLocationView() {
         hideKeyBoard(this);
         locations = new ArrayList<>();
-        if (newTaskAlertEntity.getNtaLatlon() != null && newTaskAlertEntity.getNtaLatlon().size() > 0) {
-            locations.add(0, newTaskAlertEntity.getNtaLatlon().get(0).getVal());
-            locations.add(1, newTaskAlertEntity.getNtaLatlon().get(1).getVal());
-            address = newTaskAlertEntity.getNtaAddress();
+        if (settingAdvance.getNtaLatlon() != null && settingAdvance.getNtaLatlon().size() > 0) {
+            locations.add(0, settingAdvance.getNtaLatlon().get(0));
+            locations.add(1, settingAdvance.getNtaLatlon().get(1));
+            address = settingAdvance.getNtaAddress();
         } else {
             locations = new ArrayList<>();
             if (UserManager.getMyUser().getLatitude() != 0 && UserManager.getMyUser().getLongitude() != 0) {
@@ -344,11 +300,11 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
 
     private void setKeyWordForView() {
         keywords = new ArrayList<>();
-        if (newTaskAlertEntity.getNtaKeywords() != null && newTaskAlertEntity.getNtaKeywords().size() > 0) {
-            LogUtils.d(TAG, "keyword" + newTaskAlertEntity.getNtaKeywords().size());
-            for (RealmString realmString : newTaskAlertEntity.getNtaKeywords()
+        if (settingAdvance.getNtaKeywords() != null && settingAdvance.getNtaKeywords().size() > 0) {
+            LogUtils.d(TAG, "keyword" + settingAdvance.getNtaKeywords().size());
+            for (String realmString : settingAdvance.getNtaKeywords()
                     ) {
-                keywords.add(realmString.getValue());
+                keywords.add(realmString);
             }
         }
         keyWordAdapter = new KeyWordAdapter(this, keywords);
@@ -368,17 +324,17 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
 
 
     private void setPriceForView() {
-        if (newTaskAlertEntity.getNtaMinWorkerRate() == 10000 && newTaskAlertEntity.getNtaMaxWorkerRate() == 100000) {
+        if (settingAdvance.getNtaMinWorkerRate() == 10000 && settingAdvance.getNtaMaxWorkerRate() == 100000) {
             minPrice = 10000;
             maxPrice = 100000;
             rad10.setChecked(true);
             tvPrice.setText(rad10.getText());
-        } else if (newTaskAlertEntity.getNtaMinWorkerRate() == 100000 && newTaskAlertEntity.getNtaMaxWorkerRate() == 500000) {
+        } else if (settingAdvance.getNtaMinWorkerRate() == 100000 && settingAdvance.getNtaMaxWorkerRate() == 500000) {
             minPrice = 100000;
             maxPrice = 500000;
             rad100.setChecked(true);
             tvPrice.setText(rad100.getText());
-        } else if (newTaskAlertEntity.getNtaMinWorkerRate() == 500000) {
+        } else if (settingAdvance.getNtaMinWorkerRate() == 500000) {
             maxPrice = 0;
             minPrice = 500000;
             rad500.setChecked(true);
@@ -393,7 +349,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void setDistanceForView() {
-        distance = newTaskAlertEntity.getNtaDistance();
+        distance = settingAdvance.getNtaDistance();
         switch (distance) {
             case 5:
                 rad5km.setChecked(true);
@@ -421,7 +377,7 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
 
 
     private void setFollowForView() {
-        if (newTaskAlertEntity.isNtaFollowed()) {
+        if (settingAdvance.isNtaFollowed()) {
             rdFolowedYes.setChecked(true);
             tvFolowed.setText(getString(R.string.yes_all));
             isFollowed = true;
@@ -435,11 +391,11 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
 
     private void setDateTime() {
         strTime = "";
-        if (newTaskAlertEntity.getNtaDays() != null && newTaskAlertEntity.getNtaDays().size() > 0) {
+        if (settingAdvance.getNtaDays() != null && settingAdvance.getNtaDays().size() > 0) {
             radDate.setChecked(true);
-            for (RealmInt anInt : newTaskAlertEntity.getNtaDays()
+            for (Integer anInt : settingAdvance.getNtaDays()
                     ) {
-                switch (anInt.getVal()) {
+                switch (anInt) {
 
                     case 1:
                         dayOfWeek.add(1);
@@ -526,29 +482,53 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void setCategoryForView() {
-        if (newTaskAlertEntity.getNtaCategory() != null && newTaskAlertEntity.getNtaCategory().size() > 0) {
-            LogUtils.d(TAG, "categories size" + newTaskAlertEntity.getNtaCategory().size());
+        if (settingAdvance.getNtaCategory() != null && settingAdvance.getNtaCategory().size() > 0) {
+            LogUtils.d(TAG, "categories size" + settingAdvance.getNtaCategory().size());
             LogUtils.d(TAG, "categorys get 2:" + categories.toString());
-            for (RealmInt realmInt : newTaskAlertEntity.getNtaCategory()
+            for (Integer realmInt : settingAdvance.getNtaCategory()
                     ) {
                 for (Category category : categories
                         ) {
-                    LogUtils.d(TAG, "categories id" + realmInt.getVal());
-                    if (category.getId() == realmInt.getVal()) {
+                    LogUtils.d(TAG, "categories id" + realmInt);
+                    if (category.getId() == realmInt) {
                         catIds.add(category.getId());
                         category.setSelected(true);
+                        LogUtils.d(TAG, "catIds: " + catIds.toString());
                     }
-
                 }
             }
-
-
         } else {
             catIds = new ArrayList<>();
             categories.get(0).setSelected(true);
 
         }
         LogUtils.d(TAG, "categorys get 3:" + categories.toString());
+        mAdapter = new TaskTypeAdapter(categories);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        rcvCategory.setLayoutManager(layoutManager);
+        rcvCategory.setAdapter(mAdapter);
+        mAdapter.setListener(new TaskTypeAdapter.CategoryListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                catIds = new ArrayList<>();
+                if (buttonView.getText().equals(getString(R.string.hozo_all))) {
+                    categoryName = getString(R.string.hozo_all);
+                } else categoryName = getCategoryName();
+                tvCategory.setText(categoryName);
+                if (categories.size() > 0) {
+                    for (Category cat : categories
+                            ) {
+
+                        if (cat.getId() != 0 && cat.isSelected()) {
+                            catIds.add(cat.getId());
+                            if (catIds.size() == categories.size() - 1) catIds.clear();
+                        }
+                    }
+                }
+
+
+            }
+        });
         tvCategory.setText(getCategoryName());
     }
 
@@ -607,30 +587,46 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void getSettingAdvanceFromeServer() {
+        ProgressDialogUtils.showProgressDialog(this);
         ApiClient.getApiService().getSettingAdvance(UserManager.getUserToken()).enqueue(new Callback<SettingAdvance>() {
             @Override
             public void onResponse(Call<SettingAdvance> call, Response<SettingAdvance> response) {
                 LogUtils.d(TAG, "getSettingAdvaceFromeServer code : " + response.code());
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    //noinspection ConstantConditions
-                    LogUtils.d(TAG, "newTaskAlert activity onResponse : " + response.body().toString());
-                    SettingAdvanceManager.insertSettingAdvanceEntity(converToSettingAdvanceEntity(response.body()));
-                    newTaskAlertEntity = getSettingAdvace();
-                    setDataForView();
-                    LogUtils.d(TAG, "data setting: " + newTaskAlertEntity.toString());
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(AlertNewTaskActivity.this);
-                } else {
-                    APIError error = ErrorUtils.parseError(response);
-                    if (error.status().equalsIgnoreCase(getString(R.string.system_error)))
-                        Utils.showLongToast(AlertNewTaskActivity.this, getString(R.string.invalid_error), true, false);
-                    else
-                        Utils.showLongToast(AlertNewTaskActivity.this, error.message(), true, false);
+                LogUtils.d(TAG, "getSettingAdvaceFromeServer body : " + response.body().toString());
+                switch (response.code()) {
+                    case Constants.HTTP_CODE_OK:
+                        LogUtils.d(TAG, "newTaskAlert activity onResponse : " + response.body().toString());
+                        settingAdvance = response.body();
+                        setDataForView();
+                        LogUtils.d(TAG, "data setting: " + settingAdvance.toString());
+                        break;
+                    case Constants.HTTP_CODE_BLOCK_USER:
+                        Utils.blockUser(AlertNewTaskActivity.this);
+                        break;
+                    case Constants.HTTP_CODE_UNAUTHORIZED:
+                        NetworkUtils.refreshToken(AlertNewTaskActivity.this, new NetworkUtils.RefreshListener() {
+                            @Override
+                            public void onRefreshFinish() {
+                                getSettingAdvanceFromeServer();
+                            }
+                        });
+                        break;
+                    default:
+                        APIError error = ErrorUtils.parseError(response);
+                        DialogUtils.showOkDialog(AlertNewTaskActivity.this, getString(R.string.offer_system_error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                        break;
                 }
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
             public void onFailure(Call<SettingAdvance> call, Throwable t) {
+                ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.e(TAG, "getSettingAdvaceFromeServer onFailure status code : " + t.getMessage());
                 DialogUtils.showRetryDialog(AlertNewTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
@@ -648,43 +644,48 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void postSettingAdvance() {
+        ProgressDialogUtils.showProgressDialog(this);
         JSONObject jsonRequest = getJsonRequest();
-
         if (!jsonRequest.toString().equals(originJsonRequest.toString()) && !BuildConfig.DEBUG) {
             Answers.getInstance().logCustom(new CustomEvent("FILTER_NOTIFICATION"));
             LogUtils.d(TAG, "postSettingAdvance logCustom start , data : " + jsonRequest.toString());
         }
-
         LogUtils.d(TAG, "SettingAdvance activity json: " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         ApiClient.getApiService().postSettingAdvance(UserManager.getUserToken(), body).enqueue(new Callback<SettingAdvance>() {
             @Override
             public void onResponse(Call<SettingAdvance> call, Response<SettingAdvance> response) {
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    //noinspection ConstantConditions
-                    LogUtils.d(TAG, "SettingAdvance activity data response : " + response.body().toString());
-                    SettingAdvanceManager.insertSettingAdvanceEntity(converToSettingAdvanceEntity(response.body()));
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(AlertNewTaskActivity.this, new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            postSettingAdvance();
-                        }
-                    });
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(AlertNewTaskActivity.this);
-                } else {
-                    DialogUtils.showRetryDialog(AlertNewTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            postSettingAdvance();
-                        }
+                ProgressDialogUtils.dismissProgressDialog();
+                switch (response.code()) {
+                    case Constants.HTTP_CODE_OK:
+                        LogUtils.d(TAG, "SettingAdvance activity data response : " + response.body().toString());
+                        hideKeyBoard(AlertNewTaskActivity.this);
+                        finish();
+                        break;
+                    case Constants.HTTP_CODE_UNAUTHORIZED:
+                        NetworkUtils.refreshToken(AlertNewTaskActivity.this, new NetworkUtils.RefreshListener() {
+                            @Override
+                            public void onRefreshFinish() {
+                                postSettingAdvance();
+                            }
+                        });
+                        break;
+                    case Constants.HTTP_CODE_BLOCK_USER:
+                        Utils.blockUser(AlertNewTaskActivity.this);
+                        break;
+                    default:
+                        DialogUtils.showRetryDialog(AlertNewTaskActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                postSettingAdvance();
+                            }
 
-                        @Override
-                        public void onCancel() {
+                            @Override
+                            public void onCancel() {
 
-                        }
-                    });
+                            }
+                        });
+                        break;
                 }
             }
 
@@ -782,8 +783,6 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         switch (view.getId()) {
             case R.id.img_back:
                 postSettingAdvance();
-                hideKeyBoard(this);
-                finish();
                 break;
 //            case R.id.layout_follow:
 //                expandableLayout(followExpandableLayout, imgFollowArrow);
@@ -1056,9 +1055,5 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
         objectAnimator.start();
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 }
 
