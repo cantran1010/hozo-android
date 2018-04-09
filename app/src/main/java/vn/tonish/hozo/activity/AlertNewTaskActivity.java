@@ -237,32 +237,6 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                 ) {
             category.setSelected(false);
         }
-        mAdapter = new TaskTypeAdapter(categories);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        rcvCategory.setLayoutManager(layoutManager);
-        rcvCategory.setAdapter(mAdapter);
-        mAdapter.setListener(new TaskTypeAdapter.CategoryListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                catIds = new ArrayList<>();
-                if (buttonView.getText().equals(getString(R.string.hozo_all))) {
-                    categoryName = getString(R.string.hozo_all);
-                } else categoryName = getCategoryName();
-                tvCategory.setText(categoryName);
-                if (categories.size() > 0) {
-                    for (Category cat : categories
-                            ) {
-
-                        if (cat.getId() != 0 && cat.isSelected()) {
-                            catIds.add(cat.getId());
-                            if (catIds.size() == categories.size() - 1) catIds.clear();
-                        }
-                    }
-                }
-
-
-            }
-        });
         LogUtils.d(TAG, "categorys get 1 :" + categories.toString());
 
     }
@@ -519,19 +493,42 @@ public class AlertNewTaskActivity extends BaseActivity implements View.OnClickLi
                     if (category.getId() == realmInt) {
                         catIds.add(category.getId());
                         category.setSelected(true);
+                        LogUtils.d(TAG, "catIds: " + catIds.toString());
                     }
-
                 }
             }
-
-
         } else {
             catIds = new ArrayList<>();
             categories.get(0).setSelected(true);
 
         }
-        mAdapter.notifyDataSetChanged();
         LogUtils.d(TAG, "categorys get 3:" + categories.toString());
+        mAdapter = new TaskTypeAdapter(categories);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        rcvCategory.setLayoutManager(layoutManager);
+        rcvCategory.setAdapter(mAdapter);
+        mAdapter.setListener(new TaskTypeAdapter.CategoryListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                catIds = new ArrayList<>();
+                if (buttonView.getText().equals(getString(R.string.hozo_all))) {
+                    categoryName = getString(R.string.hozo_all);
+                } else categoryName = getCategoryName();
+                tvCategory.setText(categoryName);
+                if (categories.size() > 0) {
+                    for (Category cat : categories
+                            ) {
+
+                        if (cat.getId() != 0 && cat.isSelected()) {
+                            catIds.add(cat.getId());
+                            if (catIds.size() == categories.size() - 1) catIds.clear();
+                        }
+                    }
+                }
+
+
+            }
+        });
         tvCategory.setText(getCategoryName());
     }
 
