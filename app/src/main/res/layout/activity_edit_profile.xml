@@ -167,7 +167,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_toEndOf="@+id/lb_name"
                             android:layout_toRightOf="@+id/lb_name"
-                            android:text="*"
+                            android:text="@string/stars"
                             android:textColor="@color/hozo_red"
                             android:textSize="@dimen/tv_size_xlager"
                             android:textStyle="bold" />
@@ -354,7 +354,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_toEndOf="@+id/lb_address"
                             android:layout_toRightOf="@+id/lb_address"
-                            android:text="*"
+                            android:text="@string/stars"
                             android:textColor="@color/hozo_red"
                             android:textSize="@dimen/tv_size_xlager"
                             android:textStyle="bold" />
@@ -402,7 +402,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_toEndOf="@+id/lb_des"
                             android:layout_toRightOf="@+id/lb_des"
-                            android:text="*"
+                            android:text="@string/stars"
                             android:textColor="@color/hozo_red"
                             android:textSize="@dimen/tv_size_xlager"
                             android:textStyle="bold" />

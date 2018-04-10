@@ -840,4 +840,5 @@
     <string name="cancel">Huỷ</string>
     <string name="avatar_empty">Bạn cần cập nhật hình đại diện để hoàn thành xác thực thông tin.</string>
     <string name="not_update_profile">Bạn chưa hoàn thành bổ sung thông tin cá nhân!</string>
+    <string name="stars">*</string>
 </resources>
