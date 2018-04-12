@@ -428,34 +428,39 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 LogUtils.d(TAG, "updateAvata onResponse : " + response.body());
                 LogUtils.d(TAG, "updateAvata code : " + response.code());
 
-                if (response.code() == Constants.HTTP_CODE_CREATED) {
-                    ImageResponse imageResponse = response.body();
-                    avataId = imageResponse != null ? imageResponse.getIdTemp() : 0;
-                    updateBackground();
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            updateAvata();
-                        }
-                    });
-                    ProgressDialogUtils.dismissProgressDialog();
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(EditProfileActivity.this);
-                    ProgressDialogUtils.dismissProgressDialog();
-                } else {
-                    showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            updateAvata();
-                        }
+                switch (response.code()) {
+                    case Constants.HTTP_CODE_CREATED:
+                        ImageResponse imageResponse = response.body();
+                        avataId = imageResponse != null ? imageResponse.getIdTemp() : 0;
+                        updateBackground();
+                        break;
+                    case Constants.HTTP_CODE_UNAUTHORIZED:
+                        NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
+                            @Override
+                            public void onRefreshFinish() {
+                                updateAvata();
+                            }
+                        });
+                        ProgressDialogUtils.dismissProgressDialog();
+                        break;
+                    case Constants.HTTP_CODE_BLOCK_USER:
+                        Utils.blockUser(EditProfileActivity.this);
+                        ProgressDialogUtils.dismissProgressDialog();
+                        break;
+                    default:
+                        showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                updateAvata();
+                            }
 
-                        @Override
-                        public void onCancel() {
+                            @Override
+                            public void onCancel() {
 
-                        }
-                    });
-                    ProgressDialogUtils.dismissProgressDialog();
+                            }
+                        });
+                        ProgressDialogUtils.dismissProgressDialog();
+                        break;
                 }
                 FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
 //                ProgressDialogUtils.dismissProgressDialog();
@@ -499,38 +504,43 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 LogUtils.d(TAG, "updateBackground onResponse : " + response.body());
                 LogUtils.d(TAG, "updateBackground code : " + response.code());
 
-                if (response.code() == Constants.HTTP_CODE_CREATED) {
-                    ImageResponse imageResponse = response.body();
-                    backgroundId = imageResponse != null ? imageResponse.getIdTemp() : 0;
-                    updateImageAttach();
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            updateBackground();
-                        }
-                    });
-                    ProgressDialogUtils.dismissProgressDialog();
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(EditProfileActivity.this);
-                    ProgressDialogUtils.dismissProgressDialog();
-                } else {
+                switch (response.code()) {
+                    case Constants.HTTP_CODE_CREATED:
+                        ImageResponse imageResponse = response.body();
+                        backgroundId = imageResponse != null ? imageResponse.getIdTemp() : 0;
+                        updateImageAttach();
+                        break;
+                    case Constants.HTTP_CODE_UNAUTHORIZED:
+                        NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
+                            @Override
+                            public void onRefreshFinish() {
+                                updateBackground();
+                            }
+                        });
+                        ProgressDialogUtils.dismissProgressDialog();
+                        break;
+                    case Constants.HTTP_CODE_BLOCK_USER:
+                        Utils.blockUser(EditProfileActivity.this);
+                        ProgressDialogUtils.dismissProgressDialog();
+                        break;
+                    default:
 
-                    APIError error = ErrorUtils.parseError(response);
-                    LogUtils.e(TAG, "updateBackground errorBody" + error.toString());
+                        APIError error = ErrorUtils.parseError(response);
+                        LogUtils.e(TAG, "updateBackground errorBody" + error.toString());
 
-                    showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            updateBackground();
-                        }
+                        showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                updateBackground();
+                            }
 
-                        @Override
-                        public void onCancel() {
+                            @Override
+                            public void onCancel() {
 
-                        }
-                    });
-                    ProgressDialogUtils.dismissProgressDialog();
+                            }
+                        });
+                        ProgressDialogUtils.dismissProgressDialog();
+                        break;
                 }
                 FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
 //                ProgressDialogUtils.dismissProgressDialog();
@@ -687,39 +697,44 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 LogUtils.d(TAG, "updateUser onResponse : " + response.body());
                 LogUtils.d(TAG, "updateUser code : " + response.code());
 
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    userEntity = response.body();
-                    assert userEntity != null;
-                    userEntity.setAccessToken(UserManager.getMyUser().getAccessToken());
-                    userEntity.setTokenExp(UserManager.getMyUser().getTokenExp());
-                    userEntity.setRefreshToken(UserManager.getMyUser().getRefreshToken());
-                    UserManager.insertUser(response.body(), true);
+                switch (response.code()) {
+                    case Constants.HTTP_CODE_OK:
+                        userEntity = response.body();
+                        assert userEntity != null;
+                        userEntity.setAccessToken(UserManager.getMyUser().getAccessToken());
+                        userEntity.setTokenExp(UserManager.getMyUser().getTokenExp());
+                        userEntity.setRefreshToken(UserManager.getMyUser().getRefreshToken());
+                        UserManager.insertUser(response.body(), true);
 
-                    //set return
-                    Intent intent = new Intent();
-                    setResult(Constants.RESULT_CODE_UPDATE_PROFILE, intent);
-                    finish();
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            updateProfile();
-                        }
-                    });
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(EditProfileActivity.this);
-                } else {
-                    showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            updateProfile();
-                        }
+                        //set return
+                        Intent intent = new Intent();
+                        setResult(Constants.RESULT_CODE_UPDATE_PROFILE, intent);
+                        finish();
+                        break;
+                    case Constants.HTTP_CODE_UNAUTHORIZED:
+                        NetworkUtils.refreshToken(EditProfileActivity.this, new NetworkUtils.RefreshListener() {
+                            @Override
+                            public void onRefreshFinish() {
+                                updateProfile();
+                            }
+                        });
+                        break;
+                    case Constants.HTTP_CODE_BLOCK_USER:
+                        Utils.blockUser(EditProfileActivity.this);
+                        break;
+                    default:
+                        showRetryDialog(EditProfileActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                updateProfile();
+                            }
 
-                        @Override
-                        public void onCancel() {
+                            @Override
+                            public void onCancel() {
 
-                        }
-                    });
+                            }
+                        });
+                        break;
                 }
                 ProgressDialogUtils.dismissProgressDialog();
             }
