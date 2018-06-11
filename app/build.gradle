@@ -30,7 +30,7 @@ int extractVersionCode() {
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "vn.tonish.hozo"
         minSdkVersion 15
