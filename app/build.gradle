@@ -105,7 +105,9 @@ dependencies {
         transitive = true
     }
 
-    implementation 'com.facebook.android:account-kit-sdk:4.28.0'
+    implementation ('com.facebook.android:account-kit-sdk:4.28.0'){
+        exclude group:"com.google.android.gms"
+    }
     implementation 'com.facebook.android:facebook-android-sdk:4.32.0'
 
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.9.4'
