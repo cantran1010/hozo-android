@@ -113,12 +113,7 @@ dependencies {
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.4.2'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation 'com.google.android.gms:play-services-maps:15.0.1'
-    implementation 'com.google.android.gms:play-services-auth:15.0.1'
-    implementation 'com.google.android.gms:play-services-places:15.0.1'
-    //    implementation 'com.google.android.gms:play-services-location:11.8.0'
-    implementation 'com.google.firebase:firebase-messaging:17.0.0'
-    implementation 'com.google.firebase:firebase-database:16.0.1'
+
     implementation 'com.facebook.android:facebook-android-sdk:4.32.0'
     implementation 'com.android.support:multidex:1.0.3'
     implementation files('libs/glide-3.8.0.jar')
@@ -131,7 +126,15 @@ dependencies {
     }
     implementation 'me.relex:circleindicator:1.2.2@aar'
     implementation 'com.android.support:exifinterface:27.1.1'
+
+
+
     implementation 'com.google.android.gms:play-services-analytics:16.0.0'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation 'com.google.android.gms:play-services-places:15.0.1'
+    implementation 'com.google.firebase:firebase-messaging:17.0.0'
+    implementation 'com.google.firebase:firebase-database:16.0.1'
 }
 apply plugin: 'com.google.gms.google-services'
 
