@@ -44,6 +44,8 @@ platform :android do
   desc "Download configuration files"
   lane :download_configs do
     s3_download(
+      access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+      secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
       bucket: "hozo-configs",
       file_name: "android/secrets.zip",
       output_path: "secrets.zip"
