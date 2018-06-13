@@ -1,14 +1,22 @@
 package vn.tonish.hozo.fragment;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -18,6 +26,20 @@ import android.widget.TextView;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.SearchEvent;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -84,6 +106,9 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private int currentPage = 1;
     private String orderBy = "";
     private String order = Constants.ORDER_DESC;
+    private GoogleApiClient mGoogleApiClient;
+    private Location mylocation;
+    ;
 
     @Override
     protected int getLayout() {
@@ -144,7 +169,108 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
             }
         });
+        checkPermissions();
+//        getGoogleApiClient();
         setUpRecyclerView();
+    }
+
+
+    private void getGoogleApiClient() {
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                        @Override
+                        public void onConnected(@Nullable Bundle bundle) {
+                            LogUtils.d(TAG, "onConnected");
+                            FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+                            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                Log.e(getClass().getName(), "Location permission not granted");
+                                return;
+                            }
+                            LocationSettingsRequest settingsRequest = new LocationSettingsRequest.Builder()
+                                    .addLocationRequest(getLocationRequest()).build();
+                            SettingsClient client = LocationServices.getSettingsClient(getActivity());
+                            Task<LocationSettingsResponse> task = client
+                                    .checkLocationSettings(settingsRequest);
+                            task.addOnFailureListener(getActivity(), new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    int statusCode = ((ApiException) e).getStatusCode();
+                                    if (statusCode
+                                            == LocationSettingsStatusCodes
+                                            .RESOLUTION_REQUIRED) {
+                                        // Location settings are not satisfied, but this can
+                                        // be fixed by showing the user a dialog
+                                        try {
+                                            // Show the dialog by calling
+                                            // startResolutionForResult(), and check the
+                                            // result in onActivityResult()
+                                            ResolvableApiException resolvable =
+                                                    (ResolvableApiException) e;
+                                            resolvable.startResolutionForResult
+                                                    (getActivity(), Constants.REQUEST_CHECK_SETTINGS);
+                                        } catch (IntentSender.SendIntentException sendEx) {
+                                            // Ignore the error
+                                        }
+                                    }
+                                }
+                            });
+
+                            mFusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                                @Override
+                                public void onSuccess(Location location) {
+                                    // Got last known location. In some rare situations this can be null.
+                                    if (location != null) {
+                                        mylocation = location;
+                                    }
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onConnectionSuspended(int i) {
+                            Log.e(getClass().getName(), "onConnectionSuspended() ");
+                        }
+                    })
+                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                        @Override
+                        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                            Log.e(getClass().getName(), "Get location failure : " + connectionResult.getErrorMessage());
+                        }
+                    })
+                    .build();
+        }
+        mGoogleApiClient.connect();
+    }
+
+
+
+    private LocationRequest getLocationRequest() {
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(5000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        return locationRequest;
+    }
+
+    private void checkPermissions() {
+        int permissionLocation = ActivityCompat.checkSelfPermission(getActivity(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (permissionLocation != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+            if (!listPermissionsNeeded.isEmpty()) {
+                LogUtils.d(TAG, "checkPermissions" + "!isEmpty");
+                requestPermissions(listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), Constants.REQUEST_ID_MULTIPLE_PERMISSIONS);
+
+            } else {
+                LogUtils.d(TAG, "checkPermissions" + "isEmpty");
+            }
+        } else {
+            getGoogleApiClient();
+        }
+
     }
 
     private void setUpRecyclerView() {
@@ -198,6 +324,11 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             getActivity().unregisterReceiver(broadcastReceiverSmoothToTop);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (mGoogleApiClient != null) {
+            if (mGoogleApiClient.isConnected()) {
+                mGoogleApiClient.disconnect();
+            }
         }
     }
 
@@ -371,10 +502,46 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        int permissionLocation = ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
+//            getMyLocation();
+        } else
+            for (int i = 0, len = permissions.length; i < len; i++) {
+                String permission = permissions[i];
+                if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                    // user rejected the permission
+                    boolean showRationale = shouldShowRequestPermissionRationale(permission);
+                    if (!showRationale) {
+                        LogUtils.d(TAG, "location" + "check not");
+//                        displayPromptForEnablingGPS(getActivity());
+                        // user also CHECKED "never ask again"
+                        // you can either enable some fall back,
+                        // disable features of your app
+                        // or open another dialog explaining
+                        // again the permission and directing to
+                        // the app setting
+                    } else if (Manifest.permission.ACCESS_FINE_LOCATION.equals(permission)) {
+                        LogUtils.d(TAG, "location" + "no check");
+//                    showRationale(permission, R.string.permission_denied_contacts);
+                        // user did NOT check "never ask again"
+                        // this is a good place to explain the user
+                        // why you need the permission and ask if he wants
+                        // to accept it (the rationale)
+                    }
+                }
+            }
+
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.d(TAG,"requestCode fragment"+requestCode);
+        LogUtils.d(TAG,"resultCode fragment"+resultCode);
         if (requestCode == Constants.REQUEST_CODE_SETTING && resultCode == Constants.RESULT_CODE_SETTING) {
             onRefresh();
         } else if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.RESULT_CODE_TASK_EDIT) {

@@ -501,6 +501,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==Constants.REQUEST_CHECK_SETTINGS_GPS)
         LogUtils.d(TAG, "onActivityResult , requestCode : " + requestCode + " , resultCode: " + resultCode);
         if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             openFragment(R.id.layout_container, MyTaskFragment.class, new Bundle(), false, TransitionScreen.FADE_IN);
