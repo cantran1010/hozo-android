@@ -841,4 +841,15 @@
     <string name="avatar_empty">Bạn cần cập nhật hình đại diện để hoàn thành xác thực thông tin.</string>
     <string name="not_update_profile">Bạn chưa hoàn thành bổ sung thông tin cá nhân!</string>
     <string name="stars">*</string>
+
+    <!-- Nạp tiền stripe-->
+    <string name="recharge_stripe_title">Nạp tiền</string>
+    <string name="btn_recharge_stripe">Nạp tiền</string>
+    <string name="amount_recharge">Số tiền cần nạp %1$s VNĐ</string>
+    <string name="name_visa">Tên chủ thẻ</string>
+    <string name="number_visa">Số thẻ</string>
+    <string name="cvn_visa">CVN</string>
+    <string name="date_visa">Ngày hết hạn</string>
+
+
 </resources>

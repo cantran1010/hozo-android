@@ -981,6 +981,8 @@ public class Utils {
                 return context.getString(R.string.rating_bonus, transactionResponse.getTaskName());
             case "task_confirmation_penalized":
                 return context.getString(R.string.task_confirmation_penalized, transactionResponse.getTaskName());
+            case "visa":
+                return context.getString(R.string.transaction_1pay);
             default:
                 if (transactionResponse.getProvider().equals("1pay"))
                     return context.getString(R.string.transaction_1pay);

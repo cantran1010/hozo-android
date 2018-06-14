@@ -204,6 +204,9 @@
         <activity
             android:name=".activity.NoteActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.payment.RechargeStripeActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

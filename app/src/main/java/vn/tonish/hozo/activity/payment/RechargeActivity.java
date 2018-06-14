@@ -252,70 +252,74 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
             return;
         }
 
-        ProgressDialogUtils.showProgressDialog(this);
-        final JSONObject jsonRequest = new JSONObject();
-        try {
-            jsonRequest.put("amount", Integer.valueOf(getLongEdittext(edtVisa)));
-            jsonRequest.put("provider", "1pay");
-            jsonRequest.put("method", "visa");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Intent intent = new Intent(RechargeActivity.this,RechargeStripeActivity.class);
+        intent.putExtra(Constants.AMOUNT_EXTRA,Integer.valueOf(getLongEdittext(edtVisa)));
+        startActivityForResult(intent, Constants.PROMOTION_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
 
-        LogUtils.d(TAG, "doVisa data request : " + jsonRequest.toString());
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-
-        ApiClient.getApiService().deposit(UserManager.getUserToken(), body).enqueue(new Callback<DepositResponse>() {
-            @Override
-            public void onResponse(Call<DepositResponse> call, Response<DepositResponse> response) {
-
-                LogUtils.d(TAG, "doVisa onResponse : " + response.body());
-                LogUtils.d(TAG, "doVisa code : " + response.code());
-
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    Intent intent = new Intent(RechargeActivity.this, BankRechargeActivity.class);
-                    intent.putExtra(Constants.URL_EXTRA, response.body().getPaymentUrl());
-                    startActivityForResult(intent, Constants.PROMOTION_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
-                } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
-                    APIError error = ErrorUtils.parseError(response);
-                    DialogUtils.showOkDialog(RechargeActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-
-                        }
-                    });
-                } else {
-                    DialogUtils.showRetryDialog(RechargeActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            doAtm();
-                        }
-
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
-                }
-                ProgressDialogUtils.dismissProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<DepositResponse> call, Throwable t) {
-                DialogUtils.showRetryDialog(RechargeActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        doAtm();
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
-                ProgressDialogUtils.dismissProgressDialog();
-            }
-        });
+//        ProgressDialogUtils.showProgressDialog(this);
+//        final JSONObject jsonRequest = new JSONObject();
+//        try {
+//            jsonRequest.put("amount", Integer.valueOf(getLongEdittext(edtVisa)));
+//            jsonRequest.put("provider", "1pay");
+//            jsonRequest.put("method", "visa");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        LogUtils.d(TAG, "doVisa data request : " + jsonRequest.toString());
+//        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+//
+//        ApiClient.getApiService().deposit(UserManager.getUserToken(), body).enqueue(new Callback<DepositResponse>() {
+//            @Override
+//            public void onResponse(Call<DepositResponse> call, Response<DepositResponse> response) {
+//
+//                LogUtils.d(TAG, "doVisa onResponse : " + response.body());
+//                LogUtils.d(TAG, "doVisa code : " + response.code());
+//
+//                if (response.code() == Constants.HTTP_CODE_OK) {
+//                    Intent intent = new Intent(RechargeActivity.this, BankRechargeActivity.class);
+//                    intent.putExtra(Constants.URL_EXTRA, response.body().getPaymentUrl());
+//                    startActivityForResult(intent, Constants.PROMOTION_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
+//                } else if (response.code() == Constants.HTTP_CODE_UNPROCESSABLE_ENTITY) {
+//                    APIError error = ErrorUtils.parseError(response);
+//                    DialogUtils.showOkDialog(RechargeActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+//                        @Override
+//                        public void onSubmit() {
+//
+//                        }
+//                    });
+//                } else {
+//                    DialogUtils.showRetryDialog(RechargeActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+//                        @Override
+//                        public void onSubmit() {
+//                            doAtm();
+//                        }
+//
+//                        @Override
+//                        public void onCancel() {
+//
+//                        }
+//                    });
+//                }
+//                ProgressDialogUtils.dismissProgressDialog();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<DepositResponse> call, Throwable t) {
+//                DialogUtils.showRetryDialog(RechargeActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+//                    @Override
+//                    public void onSubmit() {
+//                        doAtm();
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//
+//                    }
+//                });
+//                ProgressDialogUtils.dismissProgressDialog();
+//            }
+//        });
     }
 
     @Override
