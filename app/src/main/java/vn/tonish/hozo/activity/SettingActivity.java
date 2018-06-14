@@ -1,10 +1,14 @@
 package vn.tonish.hozo.activity;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -54,9 +59,11 @@ import vn.tonish.hozo.rest.responseRes.APIError;
 import vn.tonish.hozo.rest.responseRes.ErrorUtils;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
+import vn.tonish.hozo.utils.PreferUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.CheckBoxHozo;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.ExpandableLayout;
 import vn.tonish.hozo.view.RadioButtonHozo;
@@ -110,6 +117,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private String strOrder = "";
     private NestedScrollView scrollView;
     private JSONObject originJsonRequest;
+    private CheckBoxHozo checkBoxGps;
 
     @Override
     protected int getLayout() {
@@ -198,6 +206,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         tvSaturday = (TextViewHozo) findViewById(R.id.tv_saturday);
         tvSunday = (TextViewHozo) findViewById(R.id.tv_sunday);
 
+        checkBoxGps = (CheckBoxHozo) findViewById(R.id.ckBox_gps);
+
         autocompleteView.setOnClickListener(this);
         tvMonday.setOnClickListener(this);
         tvTuesday.setOnClickListener(this);
@@ -228,6 +238,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initData() {
+
         LogUtils.d(TAG, "get setting from realm" + getSettingAdvace());
         anim_down = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.rotate_down);
@@ -235,6 +246,25 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 R.anim.rotate_up);
         createListCategory();
         getDataforView();
+        checkBoxGps.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (checkBoxGps.isChecked()) checkPermissions();
+            }
+        });
+    }
+
+    private void checkPermissions() {
+        int permissionLocation = ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (permissionLocation != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+            if (!listPermissionsNeeded.isEmpty()) {
+                requestPermissions(listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), Constants.REQUEST_ID_MULTIPLE_PERMISSIONS);
+            }
+        }
+
     }
 
     private void getDataforView() {
@@ -287,6 +317,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             }
         });
         LogUtils.d(TAG, "categorys get 1 :" + categories.toString());
+        checkBoxGps.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+            }
+        });
 
     }
 
@@ -798,6 +834,50 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        int permissionLocation = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
+            checkBoxGps.setChecked(true);
+        } else {
+            checkBoxGps.setChecked(false);
+            for (int i = 0, len = permissions.length; i < len; i++) {
+                String permission = permissions[i];
+                if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                    // user rejected the permission
+                    boolean showRationale = shouldShowRequestPermissionRationale(permission);
+                    if (!showRationale) {
+                        DialogUtils.showOkAndCancelDialog(SettingActivity.this, getString(R.string.app_name), getString(R.string.permission_gps), getString(R.string.yes_all), getString(R.string.no_all), new AlertDialogOkAndCancel.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
+                    } else if (Manifest.permission.ACCESS_FINE_LOCATION.equals(permission)) {
+                        DialogUtils.showOkAndCancelDialog(SettingActivity.this, getString(R.string.app_name), getString(R.string.permission_gps), getString(R.string.yes_all), getString(R.string.no_all), new AlertDialogOkAndCancel.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                checkPermissions();
+                            }
+
+                            @Override
+                            public void onCancel() {
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_GOOGLE_PLACE && resultCode == Constants.RESULT_CODE_ADDRESS && data != null) {
@@ -828,6 +908,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         switch (view.getId()) {
             case R.id.img_back:
                 setResult(RESULT_CODE_SETTING, new Intent());
+                PreferUtils.setAutoGps(SettingActivity.this, checkBoxGps.isChecked());
                 postSettingAdvance();
                 Utils.hideKeyBoard(this);
                 break;
@@ -1136,7 +1217,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             mKeyWord = strKeyWord.substring(2, strKeyWord.length());
         if (keywords == null || keywords.size() == 0) mKeyWord = "";
         tvKeyword.setText(mKeyWord);
-
     }
 
     @Override

@@ -1,12 +1,16 @@
 package vn.tonish.hozo.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,12 +45,18 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -62,8 +72,10 @@ import vn.tonish.hozo.database.entity.SettingAdvanceEntity;
 import vn.tonish.hozo.database.manager.SettingAdvanceManager;
 import vn.tonish.hozo.database.manager.UserManager;
 import vn.tonish.hozo.dialog.AlertDialogOkAndCancel;
+import vn.tonish.hozo.dialog.ConfirmGpsDialog;
 import vn.tonish.hozo.fragment.mytask.MyTaskFragment;
 import vn.tonish.hozo.model.MiniTask;
+import vn.tonish.hozo.model.SettingAdvance;
 import vn.tonish.hozo.network.NetworkUtils;
 import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.rest.responseRes.APIError;
@@ -74,12 +86,14 @@ import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.EndlessRecyclerViewScrollListener;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.PreferUtils;
+import vn.tonish.hozo.utils.ProgressDialogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.EdittextHozo;
 import vn.tonish.hozo.view.SpeedyLinearLayoutManager;
 import vn.tonish.hozo.view.TextViewHozo;
 
+import static vn.tonish.hozo.database.manager.SettingAdvanceManager.converToSettingAdvanceEntity;
 import static vn.tonish.hozo.utils.Utils.hideKeyBoard;
 import static vn.tonish.hozo.utils.Utils.showSearch;
 
@@ -108,7 +122,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private String order = Constants.ORDER_DESC;
     private GoogleApiClient mGoogleApiClient;
     private Location mylocation;
-    ;
+
 
     @Override
     protected int getLayout() {
@@ -169,11 +183,30 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
             }
         });
-        checkPermissions();
-//        getGoogleApiClient();
+
+
+        if (PreferUtils.isUpDateGps(getActivity())) showDialogGps();
+        else {
+            if (PreferUtils.isAutoGps(getActivity()))
+                checkPermissions();
+        }
         setUpRecyclerView();
     }
 
+    public BrowseTaskFragment() {
+        // Required empty public constructor
+    }
+
+    private void showDialogGps() {
+        ConfirmGpsDialog confirmGpsDialog = new ConfirmGpsDialog(getActivity());
+        confirmGpsDialog.setConfirmGpsListener(new ConfirmGpsDialog.ConfirmGpsListener() {
+            @Override
+            public void onConfirm() {
+                checkPermissions();
+            }
+        });
+        confirmGpsDialog.showView();
+    }
 
     private void getGoogleApiClient() {
         if (mGoogleApiClient == null) {
@@ -184,15 +217,25 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                         public void onConnected(@Nullable Bundle bundle) {
                             LogUtils.d(TAG, "onConnected");
                             FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
                             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                 Log.e(getClass().getName(), "Location permission not granted");
                                 return;
                             }
+                            mFusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                                @Override
+                                public void onSuccess(Location location) {
+                                    // Got last known location. In some rare situations this can be null.
+                                    if (location != null) {
+                                        mylocation = location;
+                                        postSettingAdvance();
+                                    }
+                                }
+                            });
                             LocationSettingsRequest settingsRequest = new LocationSettingsRequest.Builder()
                                     .addLocationRequest(getLocationRequest()).build();
                             SettingsClient client = LocationServices.getSettingsClient(getActivity());
-                            Task<LocationSettingsResponse> task = client
-                                    .checkLocationSettings(settingsRequest);
+                            Task<LocationSettingsResponse> task = client.checkLocationSettings(settingsRequest);
                             task.addOnFailureListener(getActivity(), new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
@@ -209,20 +252,10 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                                             ResolvableApiException resolvable =
                                                     (ResolvableApiException) e;
                                             resolvable.startResolutionForResult
-                                                    (getActivity(), Constants.REQUEST_CHECK_SETTINGS);
+                                                    (getActivity(), Constants.REQUEST_CHECK_SETTINGS_GPS);
                                         } catch (IntentSender.SendIntentException sendEx) {
                                             // Ignore the error
                                         }
-                                    }
-                                }
-                            });
-
-                            mFusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                                @Override
-                                public void onSuccess(Location location) {
-                                    // Got last known location. In some rare situations this can be null.
-                                    if (location != null) {
-                                        mylocation = location;
                                     }
                                 }
                             });
@@ -245,7 +278,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     }
 
 
-
     private LocationRequest getLocationRequest() {
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(10000);
@@ -263,9 +295,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             if (!listPermissionsNeeded.isEmpty()) {
                 LogUtils.d(TAG, "checkPermissions" + "!isEmpty");
                 requestPermissions(listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), Constants.REQUEST_ID_MULTIPLE_PERMISSIONS);
-
-            } else {
-                LogUtils.d(TAG, "checkPermissions" + "isEmpty");
             }
         } else {
             getGoogleApiClient();
@@ -469,6 +498,87 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     }
 
+    private JSONObject getJsonRequest() {
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            JSONArray jsonArray = new JSONArray();
+            ArrayList<Double> locations = new ArrayList<>();
+            locations.add(0, mylocation.getLatitude());
+            locations.add(1, mylocation.getLongitude());
+            if (locations.size() > 0) {
+                for (int i = 0; i < locations.size(); i++)
+                    jsonArray.put(locations.get(i));
+            }
+            jsonRequest.put("filter_original_location", jsonArray);
+            Geocoder geocoder;
+            List<Address> addresses;
+            geocoder = new Geocoder(getActivity(), Locale.getDefault());
+            addresses = geocoder.getFromLocation(mylocation.getLatitude(), mylocation.getLongitude(), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            String address = addresses.get(0).getAddressLine(0);
+            jsonRequest.put("filter_original_address", address);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonRequest;
+    }
+
+    private void postSettingAdvance() {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        final JSONObject jsonRequest = getJsonRequest();
+        LogUtils.d(TAG, "postSettingAdvance activity json: " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        ApiClient.getApiService().postSettingAdvance(UserManager.getUserToken(), body).enqueue(new Callback<SettingAdvance>() {
+
+            @Override
+            public void onResponse(Call<SettingAdvance> call, Response<SettingAdvance> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    SettingAdvanceManager.insertSettingAdvanceEntity(converToSettingAdvanceEntity(response.body()));
+                    rcvTask.smoothScrollToPosition(0);
+                    onRefresh();
+                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
+                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                        @Override
+                        public void onRefreshFinish() {
+                            postSettingAdvance();
+                        }
+                    });
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
+                    Utils.blockUser(getActivity());
+                } else {
+                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            postSettingAdvance();
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SettingAdvance> call, Throwable t) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.e(TAG, "postSettingAdvance onFailure status code : " + t.getMessage());
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        postSettingAdvance();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
     private void search() {
         if (call != null) call.cancel();
         currentPage = 1;
@@ -488,7 +598,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                 miniTask.setAddress(taskList.get(i).getAddress());
                 miniTask.setLat(taskList.get(i).getLatitude());
                 miniTask.setLon(taskList.get(i).getLongitude());
-
                 miniTasks.add(miniTask);
             }
 
@@ -508,7 +617,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         int permissionLocation = ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
-//            getMyLocation();
+            getGoogleApiClient();
         } else
             for (int i = 0, len = permissions.length; i < len; i++) {
                 String permission = permissions[i];
@@ -537,11 +646,12 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LogUtils.d(TAG,"requestCode fragment"+requestCode);
-        LogUtils.d(TAG,"resultCode fragment"+resultCode);
+        LogUtils.d(TAG, "requestCode fragment" + requestCode);
+        LogUtils.d(TAG, "resultCode fragment" + resultCode);
         if (requestCode == Constants.REQUEST_CODE_SETTING && resultCode == Constants.RESULT_CODE_SETTING) {
             onRefresh();
         } else if (requestCode == Constants.REQUEST_CODE_TASK_EDIT && resultCode == Constants.RESULT_CODE_TASK_EDIT) {
@@ -561,6 +671,14 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             openFragment(R.id.layout_container, MyTaskFragment.class, new Bundle(), false, TransitionScreen.RIGHT_TO_LEFT);
             updateMenuUi(3);
+        } else if (requestCode == Constants.REQUEST_CHECK_SETTINGS_GPS) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    mGoogleApiClient.disconnect();
+                    mGoogleApiClient = null;
+                    getGoogleApiClient();
+                    break;
+            }
         }
     }
 
@@ -582,12 +700,10 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private final BroadcastReceiver broadcastReceiverSmoothToTop = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            LogUtils.d(TAG, "BroadcastReceiver start" + intent.getBooleanExtra(Constants.BROAD_CAST_RESULT_GPS, false));
             if (intent.hasExtra(Constants.COUNT_NEW_TASK_EXTRA)) {
                 int count = intent.getIntExtra(Constants.COUNT_NEW_TASK_EXTRA, 0);
                 updateCountNewTask(count);
-            } else {
-                rcvTask.smoothScrollToPosition(0);
-                if (linearLayoutManager.findFirstVisibleItemPosition() == 0) onRefresh();
             }
         }
     };
