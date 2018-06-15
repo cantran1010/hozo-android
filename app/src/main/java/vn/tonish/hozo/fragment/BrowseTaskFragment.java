@@ -2,7 +2,6 @@ package vn.tonish.hozo.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +13,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -35,15 +35,15 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -103,6 +103,9 @@ import static vn.tonish.hozo.utils.Utils.showSearch;
 
 public class BrowseTaskFragment extends BaseFragment implements View.OnClickListener {
     private final static String TAG = BrowseTaskFragment.class.getSimpleName();
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 100000;
+    private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
+            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     private final static int limit = 20;
     private ImageView imgSearch, imgLocation, imgBack, imgClear;
     private RelativeLayout layoutHeader, layoutSearch;
@@ -115,13 +118,18 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
     private boolean isLoadingMoreFromServer = true;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
     private Call<List<TaskResponse>> call;
-    private SpeedyLinearLayoutManager linearLayoutManager;
     private TextViewHozo tvCountNewTask;
     private int currentPage = 1;
     private String orderBy = "";
     private String order = Constants.ORDER_DESC;
     private GoogleApiClient mGoogleApiClient;
     private Location mylocation;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private SettingsClient mSettingsClient;
+    private LocationRequest mLocationRequest;
+    private LocationCallback mLocationCallback;
+    private LocationSettingsRequest mLocationSettingsRequest;
+    private boolean isUpdateGps = true;
 
 
     @Override
@@ -184,17 +192,17 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             }
         });
 
-
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        mSettingsClient = LocationServices.getSettingsClient(getActivity());
+        createLocationRequest();
+        createLocationCallback();
+        buildLocationSettingsRequest();
         if (PreferUtils.isUpDateGps(getActivity())) showDialogGps();
         else {
             if (PreferUtils.isAutoGps(getActivity()))
                 checkPermissions();
         }
         setUpRecyclerView();
-    }
-
-    public BrowseTaskFragment() {
-        // Required empty public constructor
     }
 
     private void showDialogGps() {
@@ -208,6 +216,13 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         confirmGpsDialog.showView();
     }
 
+    private void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
     private void getGoogleApiClient() {
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
@@ -215,50 +230,43 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                         @Override
                         public void onConnected(@Nullable Bundle bundle) {
-                            LogUtils.d(TAG, "onConnected");
-                            FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
-
                             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                                Log.e(getClass().getName(), "Location permission not granted");
                                 return;
                             }
                             mFusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                                @SuppressLint("MissingPermission")
                                 @Override
                                 public void onSuccess(Location location) {
-                                    // Got last known location. In some rare situations this can be null.
-                                    if (location != null) {
-                                        mylocation = location;
-                                        postSettingAdvance();
-                                    }
+                                    mFusedLocationClient.requestLocationUpdates(mLocationRequest,
+                                            mLocationCallback, Looper.myLooper());
+
                                 }
                             });
-                            LocationSettingsRequest settingsRequest = new LocationSettingsRequest.Builder()
-                                    .addLocationRequest(getLocationRequest()).build();
-                            SettingsClient client = LocationServices.getSettingsClient(getActivity());
-                            Task<LocationSettingsResponse> task = client.checkLocationSettings(settingsRequest);
-                            task.addOnFailureListener(getActivity(), new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    int statusCode = ((ApiException) e).getStatusCode();
-                                    if (statusCode
-                                            == LocationSettingsStatusCodes
-                                            .RESOLUTION_REQUIRED) {
-                                        // Location settings are not satisfied, but this can
-                                        // be fixed by showing the user a dialog
-                                        try {
-                                            // Show the dialog by calling
-                                            // startResolutionForResult(), and check the
-                                            // result in onActivityResult()
-                                            ResolvableApiException resolvable =
-                                                    (ResolvableApiException) e;
-                                            resolvable.startResolutionForResult
-                                                    (getActivity(), Constants.REQUEST_CHECK_SETTINGS_GPS);
-                                        } catch (IntentSender.SendIntentException sendEx) {
-                                            // Ignore the error
+
+                            mSettingsClient.checkLocationSettings(mLocationSettingsRequest)
+                                    .addOnFailureListener(getActivity(), new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            int statusCode = ((ApiException) e).getStatusCode();
+                                            if (statusCode
+                                                    == LocationSettingsStatusCodes
+                                                    .RESOLUTION_REQUIRED) {
+                                                // Location settings are not satisfied, but this can
+                                                // be fixed by showing the user a dialog
+                                                try {
+                                                    // Show the dialog by calling
+                                                    // startResolutionForResult(), and check the
+                                                    // result in onActivityResult()
+                                                    ResolvableApiException resolvable =
+                                                            (ResolvableApiException) e;
+                                                    resolvable.startResolutionForResult
+                                                            (getActivity(), Constants.REQUEST_CHECK_SETTINGS_GPS);
+                                                } catch (IntentSender.SendIntentException sendEx) {
+                                                    // Ignore the error
+                                                }
+                                            }
                                         }
-                                    }
-                                }
-                            });
+                                    });
                         }
 
                         @Override
@@ -277,13 +285,26 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         mGoogleApiClient.connect();
     }
 
+    private void createLocationCallback() {
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                if (locationResult != null && locationResult.getLastLocation() != null) {
+                    mylocation = locationResult.getLastLocation();
+                    if (isUpdateGps) {
+                        postSettingAdvance();
+                        isUpdateGps = false;
+                    }
+                }
+            }
+        };
+    }
 
-    private LocationRequest getLocationRequest() {
-        LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(5000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        return locationRequest;
+    private void buildLocationSettingsRequest() {
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(mLocationRequest);
+        mLocationSettingsRequest = builder.build();
     }
 
     private void checkPermissions() {
@@ -304,7 +325,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
 
     private void setUpRecyclerView() {
         taskAdapter = new TaskAdapter(getActivity(), taskList);
-        linearLayoutManager = new SpeedyLinearLayoutManager(getActivity());
+        SpeedyLinearLayoutManager linearLayoutManager = new SpeedyLinearLayoutManager(getActivity());
         rcvTask.setLayoutManager(linearLayoutManager);
         rcvTask.setAdapter(taskAdapter);
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -356,6 +377,7 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         }
         if (mGoogleApiClient != null) {
             if (mGoogleApiClient.isConnected()) {
+                mFusedLocationClient.removeLocationUpdates(new LocationCallback());
                 mGoogleApiClient.disconnect();
             }
         }
@@ -380,37 +402,42 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             public void onResponse(Call<List<TaskResponse>> call, Response<List<TaskResponse>> response) {
                 LogUtils.d(TAG, "getTaskResponse code : " + response.code() + " , search key word : " + option.toString());
                 LogUtils.d(TAG, "getTaskResponse body : " + response.body());
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    List<TaskResponse> taskResponses = response.body();
-                    LogUtils.d(TAG, "getTaskFromServer taskResponses size : " + (taskResponses != null ? taskResponses.size() : 0));
-                    if (currentPage == 1) {
-                        taskList.clear();
-                        endlessRecyclerViewScrollListener.resetState();
-                    }
-                    currentPage++;
-                    taskList.addAll(taskResponses);
-                    taskAdapter.notifyDataSetChanged();
-                    LogUtils.d(TAG, "getTaskResponse size : " + taskList.size());
+                switch (response.code()) {
+                    case Constants.HTTP_CODE_OK:
+                        List<TaskResponse> taskResponses = response.body();
+                        LogUtils.d(TAG, "getTaskFromServer taskResponses size : " + (taskResponses != null ? taskResponses.size() : 0));
+                        if (currentPage == 1) {
+                            taskList.clear();
+                            endlessRecyclerViewScrollListener.resetState();
+                        }
+                        currentPage++;
+                        taskList.addAll(taskResponses);
+                        taskAdapter.notifyDataSetChanged();
+                        LogUtils.d(TAG, "getTaskResponse size : " + taskList.size());
 //                    TaskManager.insertTasks(DataParse.convertListTaskResponseToTaskEntity(taskResponses));
 
-                    if (taskResponses.size() < limit) {
-                        isLoadingMoreFromServer = false;
-                        taskAdapter.stopLoadMore();
-                    }
-
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            getTaskResponse(query);
+                        if (taskResponses.size() < limit) {
+                            isLoadingMoreFromServer = false;
+                            taskAdapter.stopLoadMore();
                         }
-                    });
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(getActivity());
-                } else {
-                    APIError error = ErrorUtils.parseError(response);
-                    LogUtils.d(TAG, "errorBody" + error.toString());
-                    Utils.showLongToast(getActivity(), error.message(), true, false);
+
+                        break;
+                    case Constants.HTTP_CODE_UNAUTHORIZED:
+                        NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                            @Override
+                            public void onRefreshFinish() {
+                                getTaskResponse(query);
+                            }
+                        });
+                        break;
+                    case Constants.HTTP_CODE_BLOCK_USER:
+                        Utils.blockUser(getActivity());
+                        break;
+                    default:
+                        APIError error = ErrorUtils.parseError(response);
+                        LogUtils.d(TAG, "errorBody" + error.toString());
+                        Utils.showLongToast(getActivity(), error.message(), true, false);
+                        break;
                 }
 
 
@@ -532,31 +559,36 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onResponse(Call<SettingAdvance> call, Response<SettingAdvance> response) {
                 ProgressDialogUtils.dismissProgressDialog();
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    SettingAdvanceManager.insertSettingAdvanceEntity(converToSettingAdvanceEntity(response.body()));
-                    rcvTask.smoothScrollToPosition(0);
-                    onRefresh();
-                } else if (response.code() == Constants.HTTP_CODE_UNAUTHORIZED) {
-                    NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
-                        @Override
-                        public void onRefreshFinish() {
-                            postSettingAdvance();
-                        }
-                    });
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK_USER) {
-                    Utils.blockUser(getActivity());
-                } else {
-                    DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            postSettingAdvance();
-                        }
+                switch (response.code()) {
+                    case Constants.HTTP_CODE_OK:
+                        SettingAdvanceManager.insertSettingAdvanceEntity(converToSettingAdvanceEntity(response.body()));
+                        rcvTask.smoothScrollToPosition(0);
+                        onRefresh();
+                        break;
+                    case Constants.HTTP_CODE_UNAUTHORIZED:
+                        NetworkUtils.refreshToken(getActivity(), new NetworkUtils.RefreshListener() {
+                            @Override
+                            public void onRefreshFinish() {
+                                postSettingAdvance();
+                            }
+                        });
+                        break;
+                    case Constants.HTTP_CODE_BLOCK_USER:
+                        Utils.blockUser(getActivity());
+                        break;
+                    default:
+                        DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                postSettingAdvance();
+                            }
 
-                        @Override
-                        public void onCancel() {
+                            @Override
+                            public void onCancel() {
 
-                        }
-                    });
+                            }
+                        });
+                        break;
                 }
             }
 
@@ -671,14 +703,6 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
         } else if (requestCode == Constants.POST_A_TASK_REQUEST_CODE && resultCode == Constants.POST_A_TASK_RESPONSE_CODE) {
             openFragment(R.id.layout_container, MyTaskFragment.class, new Bundle(), false, TransitionScreen.RIGHT_TO_LEFT);
             updateMenuUi(3);
-        } else if (requestCode == Constants.REQUEST_CHECK_SETTINGS_GPS) {
-            switch (resultCode) {
-                case Activity.RESULT_OK:
-                    mGoogleApiClient.disconnect();
-                    mGoogleApiClient = null;
-                    getGoogleApiClient();
-                    break;
-            }
         }
     }
 

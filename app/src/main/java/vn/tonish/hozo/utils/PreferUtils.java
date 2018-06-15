@@ -226,7 +226,7 @@ public class PreferUtils {
 
     public static boolean isAutoGps(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
-        return preferences.getBoolean(PREFER_UPDATE_GPS, true);
+        return preferences.getBoolean(PREFER_AUTO_GPS, false);
     }
 
     public static void setAutoGps(Context context, boolean isPush) {

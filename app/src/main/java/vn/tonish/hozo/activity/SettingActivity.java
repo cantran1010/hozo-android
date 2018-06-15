@@ -246,6 +246,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 R.anim.rotate_up);
         createListCategory();
         getDataforView();
+        LogUtils.d(TAG,"checkBoxGps initData"+PreferUtils.isAutoGps(this));
+        checkBoxGps.setChecked(PreferUtils.isAutoGps(this));
         checkBoxGps.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -313,13 +315,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     }
                 }
 
-
-            }
-        });
-        LogUtils.d(TAG, "categorys get 1 :" + categories.toString());
-        checkBoxGps.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
             }
         });
@@ -907,8 +902,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
-                setResult(RESULT_CODE_SETTING, new Intent());
+                LogUtils.d(TAG,"checkBoxGps onClick"+checkBoxGps.isChecked());
                 PreferUtils.setAutoGps(SettingActivity.this, checkBoxGps.isChecked());
+                setResult(RESULT_CODE_SETTING, new Intent());
                 postSettingAdvance();
                 Utils.hideKeyBoard(this);
                 break;

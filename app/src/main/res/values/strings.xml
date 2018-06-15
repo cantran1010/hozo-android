@@ -841,8 +841,6 @@
     <string name="avatar_empty">Bạn cần cập nhật hình đại diện để hoàn thành xác thực thông tin.</string>
     <string name="not_update_profile">Bạn chưa hoàn thành bổ sung thông tin cá nhân!</string>
     <string name="stars">*</string>
-<<<<<<< HEAD
-
     <!-- Nạp tiền stripe-->
     <string name="recharge_stripe_title">Nạp tiền</string>
     <string name="btn_recharge_stripe">Nạp tiền</string>
@@ -851,12 +849,11 @@
     <string name="number_visa">Số thẻ</string>
     <string name="cvn_visa">CVN</string>
     <string name="date_visa">Ngày hết hạn</string>
-
-
-=======
     <string name="confirm_gps">Bạn có muốn cập nhập vị trí hiện tại không ?</string>
     <string name="gps_ask">Không hỏi lại</string>
     <string name="update_gps">Cập nhật vị trí khi mở ứng dụng</string>
     <string name="permission_gps">Bạn chưa cấp quyền truy cập GPS cho Hozo.\nBạn có muốn cấp quyền không?</string>
->>>>>>> fix update gps
+    <string name="verify_cmnd">CMND</string>
+    <string name="cmnd_before">Mặt trước</string>
+    <string name="edit">Chỉnh Sửa</string>
 </resources>

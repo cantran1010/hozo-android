@@ -207,6 +207,9 @@
             android:name=".activity.NoteActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.VerifyCMNDActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.payment.RechargeStripeActivity"
             android:screenOrientation="portrait" />
 
