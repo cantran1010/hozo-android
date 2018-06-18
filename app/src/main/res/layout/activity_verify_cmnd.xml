@@ -34,45 +34,35 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/img_back"
+                android:layout_toLeftOf="@+id/img_save"
                 android:layout_toRightOf="@+id/img_back"
-                android:text="@string/give_info" />
+                android:layout_toStartOf="@+id/img_save"
+                android:text="@string/give_cmnd" />
+
+            <ImageView
+                android:id="@+id/img_save"
+                android:layout_width="?android:attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/content_description_back"
+                android:focusable="true"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_save" />
         </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginStart="20dp"
-            android:gravity="end"
-            android:orientation="horizontal"
-            android:visibility="visible">
-
-            <vn.tonish.hozo.view.ButtonHozo
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:text="@string/edit"
-                android:textColor="@color/hozo_bg"
-                android:textSize="12sp" />
-
-            <vn.tonish.hozo.view.ButtonHozo
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:text="@string/delete"
-                android:textColor="@color/hozo_red"
-                android:textSize="12sp" />
-        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="250dp"
             android:layout_marginEnd="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bg_cmnd"
             android:minHeight="250dp">
 
@@ -95,10 +85,136 @@
             <ImageView
                 android:id="@+id/img_show_before"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
                 android:scaleType="centerCrop" />
         </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/layout_before"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginStart="20dp"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/btn_edit_before"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:padding="10dp"
+                android:text="@string/edit"
+                android:textColor="@color/hozo_bg"
+                android:textSize="12sp" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/btn_delete_before"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:padding="10dp"
+                android:text="@string/delete"
+                android:textColor="@color/hozo_red"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_cmnd"
+            android:minHeight="250dp">
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@string/cmnd_after"
+                android:textColor="@color/tv_gray_new"
+                android:textSize="@dimen/tv_size_medium" />
+
+            <ImageView
+                android:id="@+id/img_add_after"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="30dp"
+                android:src="@drawable/ic_add" />
+
+            <ImageView
+                android:id="@+id/img_show_after"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:scaleType="centerCrop" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_after"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginStart="20dp"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/btn_edit_after"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:padding="10dp"
+                android:text="@string/edit"
+                android:textColor="@color/hozo_bg"
+                android:textSize="12sp" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/btn_delete_after"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:padding="10dp"
+                android:text="@string/delete"
+                android:textColor="@color/hozo_red"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/wallet_info" />
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="@string/info_cmnd"
+            android:textColor="@color/tv_gray_new"
+            android:textSize="@dimen/tv_size_xxtiny" />
 
     </LinearLayout>
 

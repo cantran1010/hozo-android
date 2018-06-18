@@ -855,5 +855,8 @@
     <string name="permission_gps">Bạn chưa cấp quyền truy cập GPS cho Hozo.\nBạn có muốn cấp quyền không?</string>
     <string name="verify_cmnd">CMND</string>
     <string name="cmnd_before">Mặt trước</string>
-    <string name="edit">Chỉnh Sửa</string>
+    <string name="edit">Đổi</string>
+    <string name="give_cmnd">Xác thực CMND</string>
+    <string name="cmnd_after">Mặt sau</string>
+    <string name="info_cmnd">Hozo không cung cấp thông tin này cho bất kì bên thứ 3 nào. Thông tin xác thực này nhằm nâng cao độ tin cậy của bạn khi tham gia tìm việc hoặc tìm người lao động trên Hozo.</string>
 </resources>

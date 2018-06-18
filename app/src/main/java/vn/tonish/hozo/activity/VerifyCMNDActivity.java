@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import vn.tonish.hozo.utils.FileUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
+import vn.tonish.hozo.view.TextViewHozo;
 
 /**
  * Created by CanTran on 11/21/17.
@@ -32,10 +34,15 @@ import vn.tonish.hozo.utils.Utils;
 public class VerifyCMNDActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = VerifyCMNDActivity.class.getSimpleName();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private ImageView imgAddBefore;
-    private ImageView imgShowBefore;
-    private String imgPath, imgPathBackground;
-    private File file, fileBackground;
+    private ImageView imgAddBefore, imgAddAfter;
+    private ImageView imgShowBefore, imgShowAfter;
+    private String imgPathBefore = "";
+    private String imgPathAfter = "";
+    private File fileAfter, fileBefore;
+    private LinearLayout layoutBefore, layoutAfter;
+    private TextViewHozo btnEditbf, btnDeletebf;
+    private TextViewHozo btnEditAf, btnDeleteAf;
+    private boolean isBf;
 
 
     @Override
@@ -47,20 +54,43 @@ public class VerifyCMNDActivity extends BaseActivity implements View.OnClickList
     protected void initView() {
         imgAddBefore = (ImageView) findViewById(R.id.img_add_before);
         imgAddBefore.setOnClickListener(this);
+        imgAddAfter = (ImageView) findViewById(R.id.img_add_after);
+        imgAddAfter.setOnClickListener(this);
         imgShowBefore = (ImageView) findViewById(R.id.img_show_before);
+        imgShowAfter = (ImageView) findViewById(R.id.img_show_after);
+        layoutBefore = (LinearLayout) findViewById(R.id.layout_before);
+        layoutAfter = (LinearLayout) findViewById(R.id.layout_after);
+        btnEditbf = (TextViewHozo) findViewById(R.id.btn_edit_before);
+        btnDeletebf = (TextViewHozo) findViewById(R.id.btn_delete_before);
+        btnEditAf = (TextViewHozo) findViewById(R.id.btn_edit_after);
+        btnDeleteAf = (TextViewHozo) findViewById(R.id.btn_delete_after);
+        findViewById(R.id.img_back).setOnClickListener(this);
+        findViewById(R.id.img_save).setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-
+        btnEditbf.setOnClickListener(this);
+        btnDeletebf.setOnClickListener(this);
+        btnEditAf.setOnClickListener(this);
+        btnDeleteAf.setOnClickListener(this);
+        if (imgPathBefore.isEmpty()) {
+            layoutBefore.setVisibility(View.GONE);
+            imgAddBefore.setEnabled(true);
+        }
+        if (imgPathAfter.isEmpty()) {
+            layoutAfter.setVisibility(View.GONE);
+            imgAddAfter.setEnabled(true);
+        }
     }
 
 
     @Override
     protected void resumeData() {
+
     }
 
-    private void checkPermissionBackground() {
+    private void checkPermissionBackground(boolean isBefore) {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) + ContextCompat
                 .checkSelfPermission(this,
@@ -68,17 +98,17 @@ public class VerifyCMNDActivity extends BaseActivity implements View.OnClickList
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, permissions, Constants.PERMISSION_REQUEST_CODE_BACKGROUND);
         } else {
-            permissionGrantedBackground();
+            permissionGrantedBackground(isBefore);
         }
     }
 
-    private void permissionGrantedBackground() {
+    private void permissionGrantedBackground(final boolean isBefore) {
         PickImageDialog pickImageDialog = new PickImageDialog(VerifyCMNDActivity.this);
         pickImageDialog.setPickImageListener(new PickImageDialog.PickImageListener() {
             @Override
             public void onCamera() {
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUriBackground());
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUriBackground(isBefore));
                 startActivityForResult(cameraIntent, Constants.REQUEST_CODE_CAMERA_BACKGROUND);
             }
 
@@ -93,10 +123,13 @@ public class VerifyCMNDActivity extends BaseActivity implements View.OnClickList
 
     }
 
-    private Uri setImageUriBackground() {
+    private Uri setImageUriBackground(boolean isBefore) {
         File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
         Uri imgUri = Uri.fromFile(file);
-        this.imgPathBackground = file.getAbsolutePath();
+        if (isBefore)
+            this.imgPathBefore = file.getAbsolutePath();
+        else
+            this.imgPathAfter = file.getAbsolutePath();
         return imgUri;
     }
 
@@ -107,7 +140,7 @@ public class VerifyCMNDActivity extends BaseActivity implements View.OnClickList
         if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
             permissionDenied();
         } else if (requestCode == Constants.PERMISSION_REQUEST_CODE_BACKGROUND) {
-            permissionGrantedBackground();
+            permissionGrantedBackground(isBf);
         }
     }
 
@@ -118,38 +151,77 @@ public class VerifyCMNDActivity extends BaseActivity implements View.OnClickList
                 && resultCode == Constants.RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
-            String imgPath = imagesSelected.get(0).getPath();
-            Utils.displayImage(VerifyCMNDActivity.this, imgShowBefore, imgPath);
-            LogUtils.d(TAG, "imgPath background : " + imgPath);
-            fileBackground = new File(imgPath);
-//            Realm.getDefaultInstance().beginTransaction();
-//            userEntity.setBackground(imgPath);
-//            Realm.getDefaultInstance().commitTransaction();
+            if (isBf) {
+                imgPathBefore = imagesSelected.get(0).getPath();
+                fileBefore = new File(imgPathBefore);
+            } else {
+                imgPathAfter = imagesSelected.get(0).getPath();
+                fileAfter = new File(imgPathAfter);
+            }
+        } else if (requestCode == Constants.REQUEST_CODE_CAMERA_BACKGROUND && resultCode == Activity.RESULT_OK) {
+            if (isBf)
+                fileBefore = new File(imgPathBefore);
+            else
+                fileAfter = new File(imgPathAfter);
         }
-        else
-            if (requestCode == Constants.REQUEST_CODE_CAMERA_BACKGROUND && resultCode == Activity.RESULT_OK) {
-            String selectedImagePath = getImagePathBackground();
-                Utils.displayImage(VerifyCMNDActivity.this, imgShowBefore, selectedImagePath);
-            fileBackground = new File(selectedImagePath);
-//            Realm.getDefaultInstance().beginTransaction();
-//            userEntity.setBackground(imgPath);
-//            Realm.getDefaultInstance().commitTransaction();
+        if (!imgPathBefore.isEmpty()) {
+            layoutBefore.setVisibility(View.VISIBLE);
+            imgShowBefore.setVisibility(View.VISIBLE);
+            Utils.displayImage(VerifyCMNDActivity.this, imgShowBefore, imgPathBefore);
+            imgAddBefore.setEnabled(false);
+        }
+        if (!imgPathAfter.isEmpty()) {
+            layoutAfter.setVisibility(View.VISIBLE);
+            imgShowAfter.setVisibility(View.VISIBLE);
+            Utils.displayImage(VerifyCMNDActivity.this, imgShowAfter, imgPathAfter);
+            imgAddAfter.setEnabled(false);
         }
     }
 
     private void permissionDenied() {
         LogUtils.d(TAG, "permissionDenied camera");
     }
-    private String getImagePathBackground() {
-        return imgPathBackground;
-    }
 
+    private void doSave() {
+    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_add_before:
-                checkPermissionBackground();
+                isBf = true;
+                checkPermissionBackground(isBf);
+                break;
+            case R.id.img_add_after:
+                isBf = false;
+                checkPermissionBackground(isBf);
+                break;
+            case R.id.img_back:
+                finish();
+                break;
+            case R.id.btn_edit_before:
+                isBf = true;
+                checkPermissionBackground(isBf);
+                break;
+            case R.id.btn_delete_before:
+                imgPathBefore = "";
+                imgShowBefore.setVisibility(View.GONE);
+                imgAddBefore.setEnabled(true);
+                layoutBefore.setVisibility(View.GONE);
+                break;
+
+            case R.id.btn_edit_after:
+                isBf = false;
+                checkPermissionBackground(isBf);
+                break;
+            case R.id.btn_delete_after:
+                imgPathAfter = "";
+                imgShowAfter.setVisibility(View.GONE);
+                imgAddAfter.setEnabled(true);
+                layoutAfter.setVisibility(View.GONE);
+                break;
+            case R.id.img_save:
+                doSave();
                 break;
 
         }
