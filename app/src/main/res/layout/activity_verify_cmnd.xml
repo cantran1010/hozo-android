@@ -200,11 +200,87 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_cmnd"
+            android:minHeight="250dp">
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@string/portrait"
+                android:textColor="@color/tv_gray_new"
+                android:textSize="@dimen/tv_size_medium" />
+
+            <ImageView
+                android:id="@+id/img_add_portrait"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="30dp"
+                android:src="@drawable/ic_add" />
+
+            <ImageView
+                android:id="@+id/img_show_portrait"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:scaleType="centerCrop" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_portrait"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginStart="20dp"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/btn_edit_portrait"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:padding="10dp"
+                android:text="@string/edit"
+                android:textColor="@color/hozo_bg"
+                android:textSize="12sp" />
+
+            <vn.tonish.hozo.view.TextViewHozo
+                android:id="@+id/btn_delete_portrait"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:padding="10dp"
+                android:text="@string/delete"
+                android:textColor="@color/hozo_red"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
+            android:contentDescription="@string/just_image"
             android:src="@drawable/wallet_info" />
 
         <vn.tonish.hozo.view.TextViewHozo
