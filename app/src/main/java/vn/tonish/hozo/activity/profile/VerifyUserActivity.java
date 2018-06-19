@@ -38,6 +38,7 @@ import vn.tonish.hozo.rest.ApiClient;
 import vn.tonish.hozo.utils.DialogUtils;
 import vn.tonish.hozo.utils.LogUtils;
 import vn.tonish.hozo.utils.ProgressDialogUtils;
+import vn.tonish.hozo.utils.TransitionScreen;
 import vn.tonish.hozo.utils.Utils;
 import vn.tonish.hozo.view.ButtonHozo;
 import vn.tonish.hozo.view.EdittextHozo;
@@ -89,6 +90,7 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
         String mEmail = mUserEntity.getEmail();
         String mFacebookID = mUserEntity.getFacebookId();
         boolean isCMND = mUserEntity.isIdentityVerified();
+        boolean iswaiting = mUserEntity.isWaitingIdentityVerify();
 
         if (!(mFacebookID.equalsIgnoreCase("") || mFacebookID == null)) {
             tvVerifyFaceBook.setText(R.string.verified);
@@ -110,10 +112,18 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
             tvVerifyCMND.setPadding(0, 0, 0, 0);
             Utils.setViewBackground(tvVerifyCMND, ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
         } else {
-            tvVerifyCMND.setText(R.string.verify);
-            tvVerifyCMND.setTextColor(ContextCompat.getColor(this, R.color.tv_black_new));
-            tvVerifyCMND.setEnabled(true);
-            Utils.setViewBackground(tvVerifyCMND, ContextCompat.getDrawable(this, R.drawable.btn_green_selector_new));
+            if (iswaiting) {
+                tvVerifyCMND.setText(R.string.verified_watting);
+                tvVerifyCMND.setTextColor(ContextCompat.getColor(this, R.color.hozo_red));
+                tvVerifyCMND.setEnabled(true);
+                tvVerifyCMND.setPadding(0, 0, 0, 0);
+                Utils.setViewBackground(tvVerifyEmail, ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
+            } else {
+                tvVerifyCMND.setText(R.string.verify);
+                tvVerifyCMND.setTextColor(ContextCompat.getColor(this, R.color.tv_black_new));
+                tvVerifyCMND.setEnabled(true);
+                Utils.setViewBackground(tvVerifyCMND, ContextCompat.getDrawable(this, R.drawable.btn_green_selector_new));
+            }
         }
 
         if (!(mEmail.equalsIgnoreCase("") || mEmail == null) && mUserEntity.isEmailActive()) {
@@ -128,52 +138,37 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
 
             if (TextUtils.isEmpty(mUserEntity.getEmail())) {
                 tvWaittingEmail.setVisibility(View.GONE);
+                tvVerifyEmail.setText(R.string.verify);
+                tvVerifyEmail.setTextColor(ContextCompat.getColor(this, R.color.tv_black_new));
+                Utils.setViewBackground(tvVerifyEmail, ContextCompat.getDrawable(this, R.drawable.btn_green_selector_new));
+                layoutVerifyEmail.setEnabled(true);
             } else {
                 tvWaittingEmail.setVisibility(View.VISIBLE);
+                tvVerifyEmail.setText(R.string.verified_watting);
+                tvVerifyEmail.setTextColor(ContextCompat.getColor(this, R.color.hozo_red));
+                layoutVerifyEmail.setEnabled(true);
+                tvVerifyEmail.setPadding(0, 0, 0, 0);
+                Utils.setViewBackground(tvVerifyEmail, ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
             }
-
-            tvVerifyEmail.setText(R.string.verify);
-            tvVerifyEmail.setTextColor(ContextCompat.getColor(this, R.color.tv_black_new));
-            Utils.setViewBackground(tvVerifyEmail, ContextCompat.getDrawable(this, R.drawable.btn_green_selector_new));
-            layoutVerifyEmail.setEnabled(true);
         }
-
-//        edtEmail.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                validateEmail();
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//            }
-//        });
 
     }
 
     @Override
     protected void resumeData() {
+        UserEntity mUserEntity = UserManager.getMyUser();
+        if (mUserEntity != null) {
+            if (mUserEntity.isWaitingIdentityVerify()) {
+                tvVerifyEmail.setText(R.string.verified_watting);
+                tvVerifyEmail.setTextColor(ContextCompat.getColor(this, R.color.hozo_red));
+                layoutVerifyEmail.setEnabled(true);
+                tvVerifyEmail.setPadding(0, 0, 0, 0);
+                Utils.setViewBackground(tvVerifyEmail, ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
+            }
+        }
 
     }
 
-//    private void validateEmail() {
-//        String email = edtEmail.getText().toString().trim();
-//        if (isValidEmail(email) && !email.equalsIgnoreCase(mEmail)) {
-//            tvVerifyEmail.setAlpha(1f);
-//            tvVerifyEmail.setEnabled(true);
-//        } else {
-//            tvVerifyEmail.setAlpha(0.5f);
-//            tvVerifyEmail.setEnabled(false);
-//
-//        }
-//    }
 
     // Private method to handle Facebook login and callback
     private void onFblogin() {
@@ -308,7 +303,7 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.tv_verifyCMND:
-                startActivity(new Intent(this, VerifyCMNDActivity.class));
+                startActivity(new Intent(this, VerifyCMNDActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.img_back:
