@@ -23,7 +23,7 @@ GEM
       open4 (~> 1.3)
     colored (1.2)
     colored2 (3.1.2)
-    commander-fastlane (4.4.5)
+    commander-fastlane (< 5.0.0, >= 4.4.6)
       highline (~> 1.7.2)
     cork (0.3.0)
       colored2 (~> 3.1)
