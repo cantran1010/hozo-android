@@ -74,22 +74,23 @@
                 android:textColor="@color/tv_gray_new"
                 android:textSize="@dimen/tv_size_medium" />
 
-            <ImageView
-                android:id="@+id/img_add_before"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:padding="30dp"
-                android:src="@drawable/ic_add" />
 
             <ImageView
                 android:id="@+id/img_show_before"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/img_add_before"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:focusable="true"
-                android:scaleType="centerCrop" />
+                android:padding="30dp"
+                android:src="@drawable/ic_add" />
         </RelativeLayout>
 
         <LinearLayout
@@ -148,14 +149,6 @@
                 android:textSize="@dimen/tv_size_medium" />
 
             <ImageView
-                android:id="@+id/img_add_after"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:padding="30dp"
-                android:src="@drawable/ic_add" />
-
-            <ImageView
                 android:id="@+id/img_show_after"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -163,6 +156,16 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:focusable="true"
                 android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/img_add_after"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:padding="30dp"
+                android:src="@drawable/ic_add" />
         </RelativeLayout>
 
         <LinearLayout
@@ -220,13 +223,6 @@
                 android:textColor="@color/tv_gray_new"
                 android:textSize="@dimen/tv_size_medium" />
 
-            <ImageView
-                android:id="@+id/img_add_portrait"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:padding="30dp"
-                android:src="@drawable/ic_add" />
 
             <ImageView
                 android:id="@+id/img_show_portrait"
@@ -236,6 +232,14 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:focusable="true"
                 android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/img_add_portrait"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="30dp"
+                android:src="@drawable/ic_add" />
         </RelativeLayout>
 
         <LinearLayout
@@ -272,7 +276,6 @@
                 android:textColor="@color/hozo_red"
                 android:textSize="12sp" />
         </LinearLayout>
-
 
 
         <ImageView

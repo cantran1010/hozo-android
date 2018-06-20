@@ -27,6 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.tonish.hozo.R;
 import vn.tonish.hozo.activity.image.AlbumActivity;
+import vn.tonish.hozo.activity.image.PreviewImageActivity;
 import vn.tonish.hozo.common.Constants;
 import vn.tonish.hozo.database.entity.UserEntity;
 import vn.tonish.hozo.database.manager.UserManager;
@@ -98,6 +99,9 @@ public class VerifyCMNDActivity extends BaseActivity implements View.OnClickList
         btnDeletePt = (TextViewHozo) findViewById(R.id.btn_delete_portrait);
         findViewById(R.id.img_back).setOnClickListener(this);
         findViewById(R.id.img_save).setOnClickListener(this);
+        imgShowBefore.setOnClickListener(this);
+        imgShowAfter.setOnClickListener(this);
+        getImgShowPortrait.setOnClickListener(this);
     }
 
     @Override
@@ -204,9 +208,9 @@ public class VerifyCMNDActivity extends BaseActivity implements View.OnClickList
             if (countImage == 0)
                 files.add(0, new File(imgPathBefore));
             else if (countImage == 1)
-                files.add(0, new File(imgPathAfter));
+                files.add(1, new File(imgPathAfter));
             else
-                files.add(0, new File(imgPathPortrait));
+                files.add(2, new File(imgPathPortrait));
         }
         if (!imgPathBefore.isEmpty()) {
             layoutBefore.setVisibility(View.VISIBLE);
@@ -424,6 +428,28 @@ public class VerifyCMNDActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.img_save:
                 doSave();
+                break;
+
+            case R.id.img_show_before:
+                if (!imgPathBefore.isEmpty()) {
+                    Intent intentView = new Intent(VerifyCMNDActivity.this, PreviewImageActivity.class);
+                    intentView.putExtra(Constants.EXTRA_IMAGE_PATH, imgPathBefore);
+                    startActivity(intentView, TransitionScreen.RIGHT_TO_LEFT);
+                }
+                break;
+            case R.id.img_show_after:
+                if (!imgPathAfter.isEmpty()) {
+                    Intent intentaf = new Intent(VerifyCMNDActivity.this, PreviewImageActivity.class);
+                    intentaf.putExtra(Constants.EXTRA_IMAGE_PATH, imgPathAfter);
+                    startActivity(intentaf, TransitionScreen.RIGHT_TO_LEFT);
+                }
+                break;
+            case R.id.img_show_portrait:
+                if (!imgPathPortrait.isEmpty()) {
+                    Intent intentpt = new Intent(VerifyCMNDActivity.this, PreviewImageActivity.class);
+                    intentpt.putExtra(Constants.EXTRA_IMAGE_PATH, imgPathPortrait);
+                    startActivity(intentpt, TransitionScreen.RIGHT_TO_LEFT);
+                }
                 break;
         }
     }

@@ -537,12 +537,14 @@ public class BrowseTaskFragment extends BaseFragment implements View.OnClickList
                     jsonArray.put(locations.get(i));
             }
             jsonRequest.put("filter_original_location", jsonArray);
+            jsonRequest.put("nta_origin_location", jsonArray);
             Geocoder geocoder;
             List<Address> addresses;
             geocoder = new Geocoder(getActivity(), Locale.getDefault());
             addresses = geocoder.getFromLocation(mylocation.getLatitude(), mylocation.getLongitude(), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
             String address = addresses.get(0).getAddressLine(0);
             jsonRequest.put("filter_original_address", address);
+            jsonRequest.put("nta_origin_address", address);
         } catch (Exception e) {
             e.printStackTrace();
         }
