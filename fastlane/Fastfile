@@ -51,7 +51,8 @@ platform :android do
       output_path: "secrets.zip"
     )
     unzip file: "secrets.zip"
-    echo "===> List dir"
+    desc "====> pwd and ls"
+    pwd
     ls
   end
 
