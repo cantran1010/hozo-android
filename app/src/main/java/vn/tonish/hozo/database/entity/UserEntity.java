@@ -76,6 +76,11 @@ public class UserEntity extends RealmObject implements Serializable {
     private int taskerCount;
     @SerializedName("poster_count")
     private int posterCount;
+    @SerializedName("identity_verified")
+    private boolean identityVerified;
+  @SerializedName("waiting_identity_verify")
+    private boolean waitingIdentityVerify;
+
 
     public int getTaskerCount() {
         return taskerCount;
@@ -393,6 +398,13 @@ public class UserEntity extends RealmObject implements Serializable {
         this.languages = languages;
     }
 
+    public boolean isIdentityVerified() {
+        return identityVerified;
+    }
+
+    public void setIdentityVerified(boolean identityVerified) {
+        this.identityVerified = identityVerified;
+    }
 
     public String getReferrerPhone() {
         return referrerPhone;
@@ -400,6 +412,14 @@ public class UserEntity extends RealmObject implements Serializable {
 
     public void setReferrerPhone(String referrerPhone) {
         this.referrerPhone = referrerPhone;
+    }
+
+    public boolean isWaitingIdentityVerify() {
+        return waitingIdentityVerify;
+    }
+
+    public void setWaitingIdentityVerify(boolean waitingIdentityVerify) {
+        this.waitingIdentityVerify = waitingIdentityVerify;
     }
 
     @Override
@@ -445,6 +465,8 @@ public class UserEntity extends RealmObject implements Serializable {
                 ", referrerPhone='" + referrerPhone + '\'' +
                 ", taskerCount=" + taskerCount +
                 ", posterCount=" + posterCount +
+                ", identityVerified=" + identityVerified +
+                ", waitingIdentityVerify=" + waitingIdentityVerify +
                 '}';
     }
 }

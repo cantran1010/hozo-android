@@ -12,7 +12,6 @@ import vn.tonish.hozo.common.Constants;
 public class PreferUtils {
 
     private static final String PREFER_NAME = "hozo";
-
     private static final String PREFER_USER_ID = "user_id";
     private static final String PREFER_HOME_LIST = "home_list";
     private static final String PREFER_SESSION = "session";
@@ -23,20 +22,14 @@ public class PreferUtils {
     private static final String PREFER_NEW_PUSH_COUNT = "new_push_count";
     private static final String PREFER_NEW_PUSH_CHAT_COUNT = "new_push_chat_count";
     private static final String PREFER_PUSH_NEW_TASK_COUNT = "new_task_push_count";
-
     private static final String PREFER_PUSH_ACCEPT = "push_accept";
     private static final String PREFER_PUSH_DENY = "push_deny";
     private static final String PREFER_PUSH_SHOW = "push_show_notification_chat";
     private static final String KEY_ENCRYPTION = "key";
     private static final String LAST_TIME_COUNT_TASK = "last_time";
     private static final String REFERRER_ID = "referrer_id";
-
-    public SharedPreferences preferences;
-
-    // just example method
-    public static void setMessage() {
-
-    }
+    private static final String PREFER_UPDATE_GPS = "prefer_update_gps";
+    private static final String PREFER_AUTO_GPS = "prefer_auto_gps";
 
     public static boolean isPushShow(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
@@ -59,6 +52,7 @@ public class PreferUtils {
         editor.putBoolean(PREFER_PUSH_SHOW, isPush);
         editor.apply();
     }
+
     public static boolean isPushDeny(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
         return preferences.getBoolean(PREFER_PUSH_DENY, false);
@@ -122,17 +116,6 @@ public class PreferUtils {
     public static void setStoreDb(Context context, boolean isStore) {
         Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
         editor.putBoolean(PREFER_STORE_DB, isStore);
-        editor.apply();
-    }
-
-    public static boolean isPushChat(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
-        return preferences.getBoolean(PREFER_PUSH_CHAT, true);
-    }
-
-    public static void setPushChat(Context context, boolean isPush) {
-        Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
-        editor.putBoolean(PREFER_PUSH_CHAT, isPush);
         editor.apply();
     }
 
@@ -228,6 +211,28 @@ public class PreferUtils {
     public static int getReferrerId(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
         return preferences.getInt(REFERRER_ID, 0);
+    }
+
+    public static boolean isUpDateGps(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
+        return preferences.getBoolean(PREFER_UPDATE_GPS, true);
+    }
+
+    public static void setUpDateGps(Context context, boolean isPush) {
+        Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(PREFER_UPDATE_GPS, isPush);
+        editor.apply();
+    }
+
+    public static boolean isAutoGps(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
+        return preferences.getBoolean(PREFER_AUTO_GPS, false);
+    }
+
+    public static void setAutoGps(Context context, boolean isPush) {
+        Editor editor = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(PREFER_AUTO_GPS, isPush);
+        editor.apply();
     }
 
 }

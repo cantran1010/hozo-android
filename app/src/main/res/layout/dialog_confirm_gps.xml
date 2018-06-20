@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="#AA000000"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginStart="30dp"
+        android:background="@drawable/bg_border_confirm_tranfer"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/img_close_black"
+            tools:contentDescription="@string/just_image" />
+
+        <vn.tonish.hozo.view.TextViewHozo
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginStart="50dp"
+            android:gravity="center"
+            android:text="@string/confirm_gps"
+            android:textColor="@color/tv_nomal"
+            android:textSize="@dimen/tv_size_medium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <vn.tonish.hozo.view.ButtonHozo
+                android:id="@+id/btn_oke"
+                style="@style/btn_style_hozo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:minHeight="40dp"
+                android:text="@string/yes_all"
+                android:textSize="14sp"
+                tools:ignore="NestedWeights" />
+
+            <vn.tonish.hozo.view.ButtonHozo
+                android:id="@+id/btn_cancel"
+                style="@style/btn_style_hozo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_gps_selector"
+                android:minHeight="40dp"
+                android:text="@string/no_all"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_margin="10dp"
+            android:background="@color/gray" />
+
+        <vn.tonish.hozo.view.CheckBoxHozo
+            android:id="@+id/ckBox_gps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginStart="20dp"
+            android:button="@drawable/checkbox_selector_2"
+            android:padding="10dp"
+            android:text="@string/gps_ask"
+            android:textColor="@color/tv_nomal" />
+    </LinearLayout>
+</LinearLayout>

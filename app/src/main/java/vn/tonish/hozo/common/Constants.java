@@ -91,7 +91,15 @@ public class Constants {
     public static final String MIN_AMOUNT_REQUIRED = "min_amount_required";
     public static final String TASK_CONFIRMATION_PENALIZED = "task_confirmation_penalized";
     public static final String MISSING_PROFILE_INFO = "missing_profile_info";
+    public static final int REQUEST_CHECK_SETTINGS_GPS = 127;
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 138;
+    public static final int REQUEST_CHECK_SETTINGS = 153 ;
     public static final String AMOUNT_EXTRA = "amount_extra";
+    public static final String BROAD_CAST_RESULT_GPS = "gps_result";
+    public static final String PARAMETER_USE_IDENTITY_FRONT_ID = "identity_image_front_id";
+    public static final String PARAMETER_USE_IDENTITY_BACK_ID = "identity_image_back_id";
+    public static final String PARAMETER_USE_PORTRAIN_IMAGE_ID = "portrait_image_id";
+    public static final String WAITING_IDENTITY = "waiting_identity_verify";
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

@@ -3,12 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="vn.tonish.hozo">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -203,6 +205,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.NoteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.VerifyCMNDActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.payment.RechargeStripeActivity"
