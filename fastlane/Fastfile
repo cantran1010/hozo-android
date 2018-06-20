@@ -51,9 +51,6 @@ platform :android do
       output_path: "secrets.zip"
     )
     unzip file: "secrets.zip"
-    desc "====> pwd and ls"
-    pwd
-    ls
   end
 
   error do |lane, exception|
