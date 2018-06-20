@@ -12,8 +12,6 @@
     <dimen name="tv_size_lager">17sp</dimen>
     <dimen name="tv_size_xlager">18sp</dimen>
     <dimen name="tv_size_medium">15sp</dimen>
-
-
     <dimen name="margin_left_screen">20dp</dimen>
     <dimen name="margin_right_screen">20dp</dimen>
     <dimen name="title_margin_left">16dp</dimen>

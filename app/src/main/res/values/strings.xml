@@ -841,7 +841,6 @@
     <string name="avatar_empty">Bạn cần cập nhật hình đại diện để hoàn thành xác thực thông tin.</string>
     <string name="not_update_profile">Bạn chưa hoàn thành bổ sung thông tin cá nhân!</string>
     <string name="stars">*</string>
-
     <!-- Nạp tiền stripe-->
     <string name="recharge_stripe_title">Nạp tiền</string>
     <string name="btn_recharge_stripe">Nạp tiền</string>
@@ -850,6 +849,18 @@
     <string name="number_visa">Số thẻ</string>
     <string name="cvn_visa">CVN</string>
     <string name="date_visa">Ngày hết hạn</string>
-
-
+    <string name="confirm_gps">Bạn có muốn cập nhập vị trí hiện tại không ?</string>
+    <string name="gps_ask">Không hỏi lại</string>
+    <string name="update_gps">Cập nhật vị trí khi mở ứng dụng</string>
+    <string name="permission_gps">Bạn chưa cấp quyền truy cập GPS cho Hozo.\nBạn có muốn cấp quyền không?</string>
+    <string name="verify_cmnd">CMND</string>
+    <string name="cmnd_before">Mặt trước CMND</string>
+    <string name="edit">Đổi</string>
+    <string name="give_cmnd">Xác thực CMND</string>
+    <string name="cmnd_after">Mặt sau CMND</string>
+    <string name="info_cmnd">Hozo không cung cấp thông tin này cho bất kì bên thứ 3 nào. Thông tin xác thực này nhằm nâng cao độ tin cậy của bạn khi tham gia tìm việc hoặc tìm người lao động trên Hozo.</string>
+    <string name="no_cmnd_before">Vui lòng cung cấp mặt trước CMND của bạn!</string>
+    <string name="no_cmnd_after">Vui lòng cung cấp ảnh mặt sau CMND của bạn!</string>
+    <string name="portrait">Ảnh chân dung</string>
+    <string name="no_portrait_after">Vui lòng cung cấp ảnh chân dung của bạn!</string>
 </resources>

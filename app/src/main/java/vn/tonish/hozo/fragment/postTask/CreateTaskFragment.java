@@ -145,9 +145,6 @@ public class CreateTaskFragment extends BaseFragment implements View.OnClickList
             lon = taskResponse.getLongitude();
             address = taskResponse.getAddress();
             autocompleteView.setText(address);
-            if (taskResponse.getAttachments() != null && taskResponse.getAttachments().size() > 0) {
-                checkPermission();
-            }
         }
         edtWorkName.setHint(((PostTaskActivity) getActivity()).getCategory().getSuggestTitle());
         edtDescription.setHint(((PostTaskActivity) getActivity()).getCategory().getDescription());
