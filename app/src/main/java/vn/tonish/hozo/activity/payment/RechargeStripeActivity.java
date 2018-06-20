@@ -1,5 +1,6 @@
 package vn.tonish.hozo.activity.payment;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Spinner;
@@ -68,6 +69,7 @@ public class RechargeStripeActivity extends BaseActivity implements View.OnClick
         tvAmount = (TextViewHozo) findViewById(R.id.tv_amount);
 
         findViewById(R.id.btn_recharge).setOnClickListener(this);
+        findViewById(R.id.img_back).setOnClickListener(this);
 
     }
 
@@ -103,6 +105,25 @@ public class RechargeStripeActivity extends BaseActivity implements View.OnClick
     }
 
     private void doNext() {
+
+        if (TextUtils.isEmpty(edtName.getText().toString())) {
+            edtName.requestFocus();
+            edtName.setError(getString(R.string.name_visa_error));
+            return;
+        }
+
+        if (TextUtils.isEmpty(edtNumber.getText().toString())) {
+            edtNumber.requestFocus();
+            edtNumber.setError(getString(R.string.number_visa_error));
+            return;
+        }
+
+        if (TextUtils.isEmpty(edtCvn.getText().toString())) {
+            edtCvn.requestFocus();
+            edtCvn.setError(getString(R.string.cvn_visa_error));
+            return;
+        }
+
         ProgressDialogUtils.showProgressDialog(this);
 //        final Card cardToSave = new Card("4242424242424242", 12, 2019, "369");
         final Card cardToSave = new Card(edtNumber.getText().toString(), Integer.valueOf(spMonth.getSelectedItem().toString()), Integer.valueOf(spYear.getSelectedItem().toString()), edtCvn.getText().toString(),
@@ -214,6 +235,10 @@ public class RechargeStripeActivity extends BaseActivity implements View.OnClick
 
             case R.id.btn_recharge:
                 doNext();
+                break;
+
+            case R.id.img_back:
+                finish();
                 break;
 
         }

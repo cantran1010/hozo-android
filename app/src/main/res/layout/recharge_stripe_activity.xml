@@ -48,20 +48,39 @@
             android:layout_above="@+id/btn_confirm"
             android:orientation="vertical">
 
-            <vn.tonish.hozo.view.TextViewHozo
-                android:id="@+id/tv_amount"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/amount_recharge"
-                android:textColor="@color/tv_gray" />
+                android:orientation="horizontal">
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/amount_recharge_header"
+                    android:textColor="@color/tv_black"
+                    android:textSize="15sp" />
+
+                <vn.tonish.hozo.view.TextViewHozo
+                    android:id="@+id/tv_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/amount_recharge"
+                    android:textColor="@color/tv_black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
             <vn.tonish.hozo.view.TextViewHozo
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/name_visa"
-                android:textColor="@color/tv_gray" />
+                android:textColor="@color/tv_black" />
 
             <vn.tonish.hozo.view.EdittextHozo
                 android:id="@+id/edt_visa_name"
@@ -78,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/number_visa"
-                android:textColor="@color/tv_gray" />
+                android:textColor="@color/tv_black" />
 
             <vn.tonish.hozo.view.EdittextHozo
                 android:id="@+id/edt_number_visa"
@@ -95,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/cvn_visa"
-                android:textColor="@color/tv_gray" />
+                android:textColor="@color/tv_black" />
 
             <vn.tonish.hozo.view.EdittextHozo
                 android:id="@+id/edt_cvn_visa"
@@ -112,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/date_visa"
-                android:textColor="@color/tv_gray" />
+                android:textColor="@color/tv_black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
