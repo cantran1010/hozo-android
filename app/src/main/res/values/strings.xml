@@ -844,11 +844,15 @@
     <!-- Nạp tiền stripe-->
     <string name="recharge_stripe_title">Nạp tiền</string>
     <string name="btn_recharge_stripe">Nạp tiền</string>
-    <string name="amount_recharge">Số tiền cần nạp %1$s VNĐ</string>
+    <string name="amount_recharge_header">Số tiền nạp : </string>
+    <string name="amount_recharge">%1$s VNĐ</string>
     <string name="name_visa">Tên chủ thẻ</string>
     <string name="number_visa">Số thẻ</string>
-    <string name="cvn_visa">CVN</string>
+    <string name="cvn_visa">CVN(Mã này là số có 3 chữ số được in ở mặt sau của thẻ tín dụng)</string>
     <string name="date_visa">Ngày hết hạn</string>
+    <string name="name_visa_error">Vui lòng nhập tên chủ thẻ</string>
+    <string name="number_visa_error">Vui lòng nhập số thẻ</string>
+    <string name="cvn_visa_error">Vui lòng nhập mã CVN</string>
     <string name="confirm_gps">Bạn có muốn cập nhập vị trí hiện tại không ?</string>
     <string name="gps_ask">Không hỏi lại</string>
     <string name="update_gps">Cập nhật vị trí khi mở ứng dụng</string>
