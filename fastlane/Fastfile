@@ -51,6 +51,8 @@ platform :android do
       output_path: "secrets.zip"
     )
     unzip file: "secrets.zip"
+    echo "===> List dir"
+    ls
   end
 
   error do |lane, exception|
