@@ -246,4 +246,7 @@ public interface ApiInterface {
 
     @POST("v1/users/setting/notification_chat_items")
     Call<Void> updateNotificationChatRoom(@Header("Authorization") String token, @Body RequestBody body);
+
+    @POST("v1/wallet/deposit")
+    Call<Void> depositStripe(@Header("Authorization") String token, @Body RequestBody body);
 }
