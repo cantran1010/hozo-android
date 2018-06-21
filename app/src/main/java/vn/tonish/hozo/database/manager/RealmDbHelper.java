@@ -39,7 +39,7 @@ public class RealmDbHelper {
         if (realmConfiguration == null)
             realmConfiguration = new RealmConfiguration.Builder()
                     .name(Constants.DB_NAME)
-                    .schemaVersion(5)
+                    .schemaVersion(6)
                     .migration(migration)
 //                    .deleteRealmIfMigrationNeeded()
                     .encryptionKey(Base64.decode(key, Base64.DEFAULT))
@@ -169,6 +169,12 @@ public class RealmDbHelper {
                 schema.get("UserEntity")
                         .addField("taskerCount", int.class)
                         .addField("posterCount", int.class);
+                oldVersion++;
+            }
+            if (oldVersion == 5) {
+                schema.get("UserEntity")
+                        .addField("identityVerified", boolean.class)
+                        .addField("waitingIdentityVerify", boolean.class);
                 oldVersion++;
             }
         }
