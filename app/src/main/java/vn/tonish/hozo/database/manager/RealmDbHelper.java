@@ -39,7 +39,7 @@ public class RealmDbHelper {
         if (realmConfiguration == null)
             realmConfiguration = new RealmConfiguration.Builder()
                     .name(Constants.DB_NAME)
-                    .schemaVersion(5)
+                    .schemaVersion(6)
                     .migration(migration)
 //                    .deleteRealmIfMigrationNeeded()
                     .encryptionKey(Base64.decode(key, Base64.DEFAULT))
