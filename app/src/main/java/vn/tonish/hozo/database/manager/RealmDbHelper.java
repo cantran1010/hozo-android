@@ -171,6 +171,12 @@ public class RealmDbHelper {
                         .addField("posterCount", int.class);
                 oldVersion++;
             }
+            if (oldVersion == 5) {
+                schema.get("UserEntity")
+                        .addField("identityVerified", boolean.class)
+                        .addField("waitingIdentityVerify", boolean.class);
+                oldVersion++;
+            }
         }
     };
 
