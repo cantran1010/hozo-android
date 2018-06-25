@@ -86,11 +86,8 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
     protected void initData() {
         UserEntity mUserEntity = UserManager.getMyUser();
         LogUtils.d(TAG, "user info: " + mUserEntity.toString());
-
         String mEmail = mUserEntity.getEmail();
         String mFacebookID = mUserEntity.getFacebookId();
-        boolean isCMND = mUserEntity.isIdentityVerified();
-        boolean iswaiting = mUserEntity.isWaitingIdentityVerify();
 
         if (!(mFacebookID.equalsIgnoreCase("") || mFacebookID == null)) {
             tvVerifyFaceBook.setText(R.string.verified);
@@ -105,26 +102,6 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
             Utils.setViewBackground(tvVerifyFaceBook, ContextCompat.getDrawable(this, R.drawable.btn_green_selector_new));
         }
 
-        if (isCMND) {
-            tvVerifyCMND.setText(R.string.verified);
-            tvVerifyCMND.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
-            tvVerifyCMND.setEnabled(false);
-            tvVerifyCMND.setPadding(0, 0, 0, 0);
-            Utils.setViewBackground(tvVerifyCMND, ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
-        } else {
-            if (iswaiting) {
-                tvVerifyCMND.setText(R.string.verified_watting);
-                tvVerifyCMND.setTextColor(ContextCompat.getColor(this, R.color.hozo_red));
-                tvVerifyCMND.setEnabled(true);
-                tvVerifyCMND.setPadding(0, 0, 0, 0);
-                Utils.setViewBackground(tvVerifyEmail, ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
-            } else {
-                tvVerifyCMND.setText(R.string.verify);
-                tvVerifyCMND.setTextColor(ContextCompat.getColor(this, R.color.tv_black_new));
-                tvVerifyCMND.setEnabled(true);
-                Utils.setViewBackground(tvVerifyCMND, ContextCompat.getDrawable(this, R.drawable.btn_green_selector_new));
-            }
-        }
 
         if (!(mEmail.equalsIgnoreCase("") || mEmail == null) && mUserEntity.isEmailActive()) {
             tvVerifyEmail.setText(R.string.verified);
@@ -164,6 +141,28 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
                 layoutVerifyEmail.setEnabled(true);
                 tvVerifyEmail.setPadding(0, 0, 0, 0);
                 Utils.setViewBackground(tvVerifyEmail, ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
+            }
+        }
+        boolean isCMND = mUserEntity.isIdentityVerified();
+        boolean iswaiting = mUserEntity.isWaitingIdentityVerify();
+        if (isCMND) {
+            tvVerifyCMND.setText(R.string.verified);
+            tvVerifyCMND.setTextColor(ContextCompat.getColor(this, R.color.hozo_bg));
+            tvVerifyCMND.setEnabled(false);
+            tvVerifyCMND.setPadding(0, 0, 0, 0);
+            Utils.setViewBackground(tvVerifyCMND, ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
+        } else {
+            if (iswaiting) {
+                tvVerifyCMND.setText(R.string.verified_watting);
+                tvVerifyCMND.setTextColor(ContextCompat.getColor(this, R.color.hozo_red));
+                tvVerifyCMND.setEnabled(true);
+                tvVerifyCMND.setPadding(0, 0, 0, 0);
+                Utils.setViewBackground(tvVerifyEmail, ContextCompat.getDrawable(this, R.drawable.bg_border_transparent));
+            } else {
+                tvVerifyCMND.setText(R.string.verify);
+                tvVerifyCMND.setTextColor(ContextCompat.getColor(this, R.color.tv_black_new));
+                tvVerifyCMND.setEnabled(true);
+                Utils.setViewBackground(tvVerifyCMND, ContextCompat.getDrawable(this, R.drawable.btn_green_selector_new));
             }
         }
 

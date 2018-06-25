@@ -291,10 +291,26 @@
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/checked"
                                 tools:ignore="ContentDescription" />
+
+                            <ImageView
+                                android:id="@+id/cmnd_verify"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginStart="5dp"
+                                android:contentDescription="@string/just_image"
+                                android:src="@drawable/ic_cmnd" />
+
+                            <ImageView
+                                android:id="@+id/img_checked_cmnd"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/checked"
+                                tools:ignore="ContentDescription" />
                         </LinearLayout>
 
                         <vn.tonish.hozo.view.ButtonHozo
-                            android:textSize="@dimen/tv_size_tiny"
                             android:id="@+id/btn_verify"
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
@@ -307,6 +323,7 @@
                             android:text="@string/add_verify"
                             android:textAllCaps="false"
                             android:textColor="@color/tv_black_new"
+                            android:textSize="@dimen/tv_size_tiny"
                             tools:ignore="RelativeOverlap" />
 
                     </RelativeLayout>

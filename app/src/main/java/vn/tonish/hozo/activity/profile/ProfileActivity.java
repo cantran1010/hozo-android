@@ -75,7 +75,7 @@ import static vn.tonish.hozo.utils.Utils.setViewBackground;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = ProfileActivity.class.getSimpleName();
-    private ImageView imgback, imgEdit, imgCheckedFb, imgCheckedEmail, imgBackground;
+    private ImageView imgback, imgEdit, imgCheckedFb, imgCheckedEmail, imgCheckedCmnd, imgBackground;
     private TextView btnWorker, btnPoster;
     private CircleImageView imgAvatar;
     private TextViewHozo tvName, tvDateOfBirth, tvAddress, tvMobile, tvRateLbl, btnMoreReview, btnLogOut, tvAbout, tvCountActivity, tvCountFollow, tvMobileLbl, tvExperience;
@@ -94,7 +94,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private final List<ReviewEntity> reviewEntities = new ArrayList<>();
     private final List<ReviewEntity> posterReviewEntity = new ArrayList<>();
     private final List<ReviewEntity> taskerReviewEntity = new ArrayList<>();
-    private ImageView imgFbVerify, imgEmailVerify;
+    private ImageView imgFbVerify, imgEmailVerify, imgCmndVerify;
 
     private RecyclerView rcvSkills, rcvLanguages;
     private ButtonHozo btnVerify;
@@ -133,6 +133,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         scrollView = (NestedScrollView) findViewById(R.id.scroll_view);
         imgFbVerify = (ImageView) findViewById(R.id.fb_verify);
         imgEmailVerify = (ImageView) findViewById(R.id.email_verify);
+        imgCmndVerify = (ImageView) findViewById(R.id.cmnd_verify);
         ratingPoster = 0f;
         ratingTasker = 0f;
         imgBackground = (ImageView) findViewById(R.id.img_background);
@@ -151,6 +152,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         imgCheckedFb = (ImageView) findViewById(R.id.img_checked_fb);
         imgCheckedEmail = (ImageView) findViewById(R.id.img_checked_email);
+        imgCheckedCmnd = (ImageView) findViewById(R.id.img_checked_cmnd);
         myGridView = (MyGridView) findViewById(R.id.gr_image);
 
         tvExperience = (TextViewHozo) findViewById(R.id.tv_experience);
@@ -323,6 +325,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             } else {
                 imgEmailVerify.setImageResource(R.drawable.email_off);
                 imgCheckedEmail.setVisibility(View.GONE);
+            }
+            if (mUserEntity.isIdentityVerified()) {
+                imgCmndVerify.setImageResource(R.drawable.ic_cmnd_active);
+                imgCheckedCmnd.setVisibility(View.VISIBLE);
+            } else {
+                imgCmndVerify.setImageResource(R.drawable.ic_cmnd);
+                imgCheckedCmnd.setVisibility(View.GONE);
             }
 
             tvAddress.setText(mUserEntity.getAddress());
