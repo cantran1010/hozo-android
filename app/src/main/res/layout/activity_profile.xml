@@ -299,6 +299,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginStart="5dp"
+                                android:scaleType="centerInside"
                                 android:contentDescription="@string/just_image"
                                 android:src="@drawable/ic_cmnd" />
 

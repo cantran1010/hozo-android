@@ -302,7 +302,8 @@ public class VerifyUserActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.tv_verifyCMND:
-                startActivity(new Intent(this, VerifyCMNDActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+                if (!UserManager.getMyUser().isWaitingIdentityVerify())
+                    startActivity(new Intent(this, VerifyCMNDActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.img_back:
